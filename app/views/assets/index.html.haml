@@ -2,4 +2,5 @@
 
 - @assets.each do |asset|
   .asset
-    %p "Asset #{asset}"
+    %p= asset.title
+    %img{src: "/assets/#{asset.url}", alt: asset.alt}
