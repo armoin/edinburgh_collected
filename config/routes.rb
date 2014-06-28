@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  get 'assets' => 'assets#index'
+  get 'assets'         => 'assets#index'
+  get 'assets/new'     => 'assets#new'
+  post 'assets'        => 'assets#create'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

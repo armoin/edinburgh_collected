@@ -10,6 +10,10 @@ class Asset
     AssetWrapper.fetchAll.map{|attrs| Asset.new(attrs)}
   end
 
+  def self.create(attrs={})
+    AssetWrapper.create(attrs)
+  end
+
   def initialize(attrs={})
     attrs.each do |k,v|
       method = "#{k}=".to_sym

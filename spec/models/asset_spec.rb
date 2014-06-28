@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Asset do
+describe 'Asset' do
   describe 'fetching assets' do
     let(:assets) {
       [

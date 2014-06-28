@@ -31,6 +31,8 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'capybara-rails'
+  gem 'launchy'
+  gem 'webmock', '1.18.0'
 end
 
 # Use ActiveModel has_secure_password
