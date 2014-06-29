@@ -99,6 +99,7 @@ GEM
     multipart-post (2.0.0)
     nokogiri (1.6.2.1)
       mini_portile (= 0.6.0)
+    pg (0.17.1)
     polyglot (0.3.5)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -191,6 +192,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   launchy
+  pg
   rails (= 4.1.2)
   rspec-rails
   sass-rails (~> 4.0.3)

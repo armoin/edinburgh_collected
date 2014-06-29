@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 ruby '2.1.2'
 
 gem 'rails', '4.1.2'
+gem 'pg'
 
 gem 'haml-rails'
 gem 'bootstrap-sass', '~> 3.2.0'
