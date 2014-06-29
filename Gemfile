@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 ruby '2.1.2'
 
 gem 'rails', '4.1.2'
-gem 'pg'
 
 gem 'haml-rails'
 gem 'bootstrap-sass', '~> 3.2.0'
@@ -38,6 +37,11 @@ end
 group :test do
   gem 'webmock', '1.18.0'
   gem 'sqlite3'
+end
+
+group :production do
+  gem 'pg'
+  gem 'rails_12factor'
 end
 
 # Use ActiveModel has_secure_password
