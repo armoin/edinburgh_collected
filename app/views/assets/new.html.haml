@@ -1,12 +1,12 @@
 .col-xs-1
 .col-xs-10
   .jumbotron
-    %form#add-asset.form-horizontal(action="/assets" method="POST" enctype="multipart/form-data" role="form")
+    =form_tag('/assets', multipart: true, id: "add-asset", class: "form-horizontal", role: "form") do
       .form-group
         .col-xs-4
-          %label(for="file") Please select a file
+          = label_tag "asset[file]", "Please select a file"
         .col-xs-8
-          %input(type="file" name="file")
+          = file_field_tag "asset[file]"
       .form-group
         .col-xs-4
           %label(for="asset[title]") Title

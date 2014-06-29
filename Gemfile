@@ -19,6 +19,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 
 gem 'faraday'
+gem 'carrierwave'
 
 group :doc do
   gem 'sdoc', '~> 0.4.0'
@@ -32,6 +33,9 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'capybara-rails'
   gem 'launchy'
+end
+
+group :test do
   gem 'webmock', '1.18.0'
 end
 

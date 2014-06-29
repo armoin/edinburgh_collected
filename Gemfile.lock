@@ -48,6 +48,11 @@ GEM
       capybara-console
       database_cleaner
       exception_notification
+    carrierwave (0.10.0)
+      activemodel (>= 3.2.0)
+      activesupport (>= 3.2.0)
+      json (>= 1.7)
+      mime-types (>= 1.16)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -179,6 +184,7 @@ DEPENDENCIES
   autoprefixer-rails
   bootstrap-sass (~> 3.2.0)
   capybara-rails
+  carrierwave
   coffee-rails (~> 4.0.0)
   faraday
   haml-rails

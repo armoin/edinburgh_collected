@@ -1,4 +1,10 @@
+require 'carrierwave/mount'
+
 class Asset
+  extend CarrierWave::Mount
+
+  mount_uploader :source, AssetUploader
+
   attr_accessor :title, :file_type, :url, :alt, :description,
                 :width, :height, :resolution, :device, :length,
                 :is_readable, :created_at, :updated_at, :_id
@@ -11,7 +17,11 @@ class Asset
   end
 
   def self.create(attrs={})
-    AssetWrapper.create(attrs)
+    file = attrs.delete(:file)
+    asset = Asset.new(attrs)
+    asset.source = file.open if file
+    asset.url = asset.source.try(:url)
+    AssetWrapper.create(asset.instance_values)
   end
 
   def initialize(attrs={})
