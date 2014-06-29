@@ -18,6 +18,7 @@ require 'webmock/rspec'
 
 RSpec.configure do |config|
   config.before(:each) do
+    @host = "http://memphis-mock-api.herokuapp.com"
     @sample_request = [
       {
         title: "Arthur's Seat",
@@ -110,7 +111,7 @@ RSpec.configure do |config|
         type: "Asset"
       }
     ]
-    stub_request(:get, "localhost:9393/assets").
+    stub_request(:get, "#{@host}/assets").
       to_return(:body => @sample_request.to_json)
   end
 # The settings below are suggested to provide a good initial experience

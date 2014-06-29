@@ -1,6 +1,8 @@
 class AssetWrapper
+  HOST = 'http://memphis-mock-api.herokuapp.com/'
+
   def self.fetchAll
-    conn = Faraday.new(:url => 'http://localhost:9393') do |faraday|
+    conn = Faraday.new(:url => HOST) do |faraday|
       faraday.request  :url_encoded
       faraday.adapter  Faraday.default_adapter
     end
@@ -11,7 +13,7 @@ class AssetWrapper
   end
 
   def self.create(attrs)
-    conn = Faraday.new(:url => 'http://localhost:9393') do |faraday|
+    conn = Faraday.new(:url => HOST) do |faraday|
       faraday.request  :url_encoded
       faraday.adapter  Faraday.default_adapter
     end
