@@ -4,15 +4,31 @@
     =form_tag('/assets', multipart: true, id: "add-asset", class: "form-horizontal", role: "form") do
       .form-group
         .col-xs-4
+          = label_tag "asset[file_type]", "What type of file would you like to upload?"
+        .col-xs-8
+          = select_tag "asset[file_type]", options_for_select(Asset.file_types), class: "form-control"
+      .form-group
+        .col-xs-4
           = label_tag "asset[file]", "Please select a file"
         .col-xs-8
           = file_field_tag "asset[file]"
       .form-group
         .col-xs-4
-          %label(for="asset[title]") Title
+          = label_tag "asset[title]", "Title"
         .col-xs-8
-          %input.form-control(type="text" name="asset[title]")
+          = text_field_tag "asset[title]", nil, class: "form-control"
       .form-group
-        %input.btn.btn-primary(type="submit" value="Add Asset")
+        .col-xs-4
+          = label_tag "asset[date]", "What date does this asset represent?"
+        .col-xs-8
+          = date_field_tag "asset[date]", Date.today, class: "form-control"
+      .form-group
+        .col-xs-4
+          = label_tag "asset[description]", "What does this remind you of?"
+        .col-xs-8
+          = text_area_tag "asset[description]", nil, class: "form-control"
+      .form-group
+        = link_to "Cancel", assets_path, class: "btn btn-default"
+        = submit_tag "Save", class: "btn btn-primary"
   .col-xs-1
 

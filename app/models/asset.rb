@@ -9,6 +9,10 @@ class Asset
                 :width, :height, :resolution, :device, :length,
                 :is_readable, :created_at, :updated_at
 
+  def self.file_types
+    ["image"]
+  end
+
   def self.all
     AssetWrapper.fetchAll.map{|attrs| Asset.new(attrs)}
   end
