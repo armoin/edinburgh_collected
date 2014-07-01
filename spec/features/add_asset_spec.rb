@@ -20,10 +20,10 @@ feature 'adding new assets' do
       _rev: "1-1bce9054a6a74f7fd2d7ed2c5f2b855e",
       type: "Asset"
     }
-    stub_request(:post, "#{@host}/assets").
+    stub_request(:post, "#{HOST}/assets").
       to_return(:body => @new_asset.to_json)
     @sample_request << @new_asset
-    stub_request(:get, "#{@host}/assets").
+    stub_request(:get, "#{HOST}/assets").
       to_return(:body => @sample_request.to_json)
   end
 

@@ -27,12 +27,12 @@ describe 'AssetWrapper' do
         _rev: "1-1bce9054a6a74f7fd2d7ed2c5f2b855e",
         type: "Asset"
       }
-      stub_request(:post, "#{@host}/assets").
+      stub_request(:post, "#{HOST}/assets").
          with(:body => {"asset"=>{"title"=>"A Test"}},
               :headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.9.0'}).
          to_return(:status => 200, :body => @new_asset.to_json, :headers => {})
       @sample_request << @new_asset
-      stub_request(:get, "#{@host}/assets").
+      stub_request(:get, "#{HOST}/assets").
         to_return(:body => @sample_request.to_json)
     end
 
