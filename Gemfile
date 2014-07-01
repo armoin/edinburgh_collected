@@ -37,6 +37,7 @@ end
 group :test do
   gem 'webmock', '1.18.0'
   gem 'sqlite3'
+  gem "codeclimate-test-reporter", require: nil
 end
 
 group :production do
