@@ -1,6 +1,4 @@
 class AssetWrapper
-  HOST = 'http://memphis-mock-api.herokuapp.com/'
-
   def self.fetchAll
     conn = Faraday.new(:url => HOST) do |faraday|
       faraday.request  :url_encoded
