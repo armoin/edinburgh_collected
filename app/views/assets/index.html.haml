@@ -9,7 +9,7 @@
     - @assets.each do |asset|
       .asset.col-6.col-sm-6.col-lg-4
         %h2.title= asset.title
-        %p.img
-          %img{src: "#{asset.url}", alt: asset.alt}
-        %p
+        %div.img
+          %img{src: "#{asset.thumb}", alt: asset.alt}
+        %div.footer
           %a.details.btn.btn-default(href="#" role="button") View details &raquo;

@@ -45,4 +45,22 @@ describe 'Asset' do
       expect(Asset.new(id: 123).id).to eql(123)
     end
   end
+
+  describe "thumb" do
+    subject { Asset.new }
+
+    it "returns an empty string if there is no URL" do
+      expect(subject.thumb).to eq('')
+    end
+
+    it "returns the thumb version of the URL if there is a URL" do
+      subject.url = "test.jpg"
+      expect(subject.thumb).to eq('thumb_test.jpg')
+    end
+
+    it "takes the path into account" do
+      subject.url = "/path/to/test.jpg"
+      expect(subject.thumb).to eq('/path/to/thumb_test.jpg')
+    end
+  end
 end

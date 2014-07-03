@@ -32,6 +32,7 @@ feature 'adding new assets' do
     attach_file :file, File.join(File.dirname(__FILE__), '../fixtures/files/test.jpg')
     fill_in 'asset[title]', with: 'A Test'
     click_button 'Add Asset'
+    # puts page.html
     expect(current_path).to eq('/assets')
     expect(page).to have_selector('.title', text: 'A Test')
   end

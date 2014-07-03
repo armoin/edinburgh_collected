@@ -3,7 +3,7 @@ require 'carrierwave/mount'
 class Asset
   extend CarrierWave::Mount
 
-  mount_uploader :source, AssetUploader
+  mount_uploader :source, ImageUploader
 
   attr_accessor :title, :file_type, :url, :alt, :description,
                 :width, :height, :resolution, :device, :length,
@@ -29,5 +29,13 @@ class Asset
       method = "#{k}=".to_sym
       send(method, v) if respond_to? method
     end
+  end
+
+  def thumb
+    return '' unless url
+    parts = url.split('/')
+    file_name = parts.pop
+    parts.push "thumb_#{file_name}"
+    parts.join('/')
   end
 end
