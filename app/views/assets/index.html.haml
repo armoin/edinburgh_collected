@@ -8,7 +8,7 @@
   .assets
     - @assets.each do |asset|
       .asset.col-6.col-sm-6.col-lg-4
-        %h2.title= asset.title
+        %h2.title= truncate(asset.title, length: 20, omission: '...')
         %div.img
           %img{src: "#{asset.thumb}", alt: asset.title}
         %div.footer
