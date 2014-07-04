@@ -18,6 +18,7 @@ deploy:
   provider: heroku
   api_key:
     secure: MvTVF+oKaRHNUcsSelRVIqBh8G+tmTkYZJHGWRP3ASOVctr7Vk2c7fVG4Jz8+o8ciwhmu85FoHu4Q5TRa1I7Dg61uH+EORuWi6/mpcE58J/kp+PKc4szL8xHL89YLAjHzIR4GZ+EJxOM6rv4gZ/JVRe4Eq3wbwNHivrlrRJp2eo=
+  strategy: git
   app: edinburgh-stories
   on:
     repo: urfolomeus/edinburgh_stories
