@@ -7,3 +7,5 @@ addons:
 notifications:
   slack:
     secure: OrOoKov2hdIVoN/EGsRlJaJ/Hb7O6sEYTZwS9hhGxTh+9f55X0UUyuLheNXSRfZH7NH0bCUiRuaq9NYL3dfW+SI8yL/sYApvsMGnoVeKQrTyFomIR1NNRdFn1XqP0kIz3mgGfXoJ8OfnfdV4VbXucTo3m4miMx8it58flWkSY3A=
+env:
+  api_host: http://localhost:9393
