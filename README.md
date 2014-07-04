@@ -1,5 +1,5 @@
-[![Code Climate](https://codeclimate.com/github/urfolomeus/memphis.png)](https://codeclimate.com/github/urfolomeus/memphis)
-[![Build Status](https://travis-ci.org/urfolomeus/memphis.svg?branch=master)](https://travis-ci.org/urfolomeus/memphis)
+[![Code Climate](https://codeclimate.com/github/urfolomeus/edinburgh_stories.png)](https://codeclimate.com/github/urfolomeus/edinburgh_stories)
+[![Build Status](https://travis-ci.org/urfolomeus/edinburgh_stories.svg?branch=master)](https://travis-ci.org/urfolomeus/edinburgh_stories)
 
 # Edinburgh Stories
 
