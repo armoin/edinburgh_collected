@@ -16,8 +16,14 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   ## PROCESSING
-  process :set_content_type
+  def fix_exif_rotation #this is my attempted solution
+    manipulate! do |img|
+      img.tap(&:auto_orient)
+    end
+  end
 
+  process :fix_exif_rotation
+  process :set_content_type
   version :thumb do
     process :resize_to_fit => [200, 200]
   end
