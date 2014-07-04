@@ -21,12 +21,12 @@ feature 'adding new assets' do
       _rev: "1-1bce9054a6a74f7fd2d7ed2c5f2b855e",
       type: "Asset"
     }
-    stub_request(:post, "#{ENV['HOST']}/assets").
+    stub_request(:post, "#{ENV['API_HOST']}/assets").
       to_return(:body => @new_asset.to_json)
-    stub_request(:put, "#{ENV['HOST']}/assets/#{id}").
+    stub_request(:put, "#{ENV['API_HOST']}/assets/#{id}").
       to_return(:body => @new_asset.to_json)
     @sample_request << @new_asset
-    stub_request(:get, "#{ENV['HOST']}/assets").
+    stub_request(:get, "#{ENV['API_HOST']}/assets").
       to_return(:body => @sample_request.to_json)
   end
 

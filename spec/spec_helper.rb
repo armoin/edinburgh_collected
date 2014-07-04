@@ -115,7 +115,7 @@ RSpec.configure do |config|
         type: "Asset"
       }
     ]
-    stub_request(:get, "#{ENV['HOST']}/assets").
+    stub_request(:get, "#{ENV['API_HOST']}/assets").
       to_return(:body => @sample_request.to_json)
   end
 # The settings below are suggested to provide a good initial experience

@@ -25,7 +25,7 @@ class AssetWrapper
   end
 
   def self.conn
-    Faraday.new(:url => ENV['HOST']) do |faraday|
+    Faraday.new(:url => ENV['API_HOST']) do |faraday|
       faraday.request  :url_encoded
       faraday.adapter  Faraday.default_adapter
     end
