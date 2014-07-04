@@ -9,6 +9,9 @@ notifications:
     secure: OrOoKov2hdIVoN/EGsRlJaJ/Hb7O6sEYTZwS9hhGxTh+9f55X0UUyuLheNXSRfZH7NH0bCUiRuaq9NYL3dfW+SI8yL/sYApvsMGnoVeKQrTyFomIR1NNRdFn1XqP0kIz3mgGfXoJ8OfnfdV4VbXucTo3m4miMx8it58flWkSY3A=
 env:
   API_HOST: http://localhost:9393
+  global:
+  - secure: laSfzHnQl7fNqU5Dusbo4e83lVyN5Ir4oAhudy38EmZj/SzVg27LRLRDTZrQLsh1vhanT/ovq9WMrv3jiZX2oZi5AVWfDwaeF/pnbUrf0Rm5GgWYzPyfP1M7jXLHhIpa3LiRNfiQWksNrknL3gdDz/rT/z5LxKTGrFs8y9Ic5WU=
+  - secure: iPScpPZXd2bKQts5xFqKRDsxjwpIZB6F7wtljFKPaevQZdgdrn3UJm1uzSRf9FGMSeuRGzrE4QdX3XQdT1ivbwS0wuqXMrcPSfRJoUXa9N3rUEh+k2L/kqQ5PISphs60lQOxOMsxkpX1vtQeALP+hv12tTNu4s6xmSYYIL9U63k=
 deploy:
   provider: heroku
   api_key:
