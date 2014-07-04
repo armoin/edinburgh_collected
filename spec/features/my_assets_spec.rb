@@ -16,7 +16,7 @@ feature 'As a user I want to be able to manage my assets' do
       it 'has an image' do
         img = asset.find('img')
         expect(img['src']).to have_content("meadows.jpg")
-        expect(img['alt']).to have_content("Arthur's Seat from the Meadows")
+        expect(img['alt']).to have_content("Arthur's Seat")
       end
 
       it 'has a link to more details' do

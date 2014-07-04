@@ -2,6 +2,7 @@ require 'rails_helper'
 
 feature 'adding new assets' do
   before :each do
+    id = "72712d823c14dd7982909d5fbbd3cbec"
     @new_asset = {
       title: "A Test",
       file_type: nil,
@@ -16,14 +17,16 @@ feature 'adding new assets' do
       is_readable: false,
       updated_at: nil,
       created_at: nil,
-      _id: "72712d823c14dd7982909d5fbbd3cbec",
+      _id: id,
       _rev: "1-1bce9054a6a74f7fd2d7ed2c5f2b855e",
       type: "Asset"
     }
-    stub_request(:post, "#{HOST}/assets").
+    stub_request(:post, "#{ENV['HOST']}/assets").
+      to_return(:body => @new_asset.to_json)
+    stub_request(:put, "#{ENV['HOST']}/assets/#{id}").
       to_return(:body => @new_asset.to_json)
     @sample_request << @new_asset
-    stub_request(:get, "#{HOST}/assets").
+    stub_request(:get, "#{ENV['HOST']}/assets").
       to_return(:body => @sample_request.to_json)
   end
 

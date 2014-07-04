@@ -1,23 +1,33 @@
 class AssetWrapper
   def self.fetchAll
-    conn = Faraday.new(:url => HOST) do |faraday|
-      faraday.request  :url_encoded
-      faraday.adapter  Faraday.default_adapter
-    end
-
-    ## GET ##
     response = conn.get '/assets'
-    JSON.parse(response.body)
+    parse(response.body)
   end
 
   def self.create(attrs)
-    conn = Faraday.new(:url => HOST) do |faraday|
+    response = conn.post '/assets', asset: attrs
+    parse(response.body)
+  end
+
+  def self.update(asset)
+    response = conn.put "/assets/#{asset.id}", asset: asset.instance_values
+    parse(response.body)
+  end
+
+  def self.parse(body)
+    attrs = JSON.parse(body)
+    if attrs.is_a?(Array)
+      attrs.map!{|a| a['id'] = a['_id']; a}
+    else
+      attrs['id'] = attrs['_id']
+    end
+    attrs
+  end
+
+  def self.conn
+    Faraday.new(:url => ENV['HOST']) do |faraday|
       faraday.request  :url_encoded
       faraday.adapter  Faraday.default_adapter
     end
-
-    ## POST ##
-    response = conn.post '/assets', asset: attrs
-    JSON.parse(response.body)
   end
 end

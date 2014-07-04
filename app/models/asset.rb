@@ -5,12 +5,9 @@ class Asset
 
   mount_uploader :source, ImageUploader
 
-  attr_accessor :title, :file_type, :url, :alt, :description,
+  attr_accessor :id, :title, :file_type, :url, :description,
                 :width, :height, :resolution, :device, :length,
-                :is_readable, :created_at, :updated_at, :_id
-
-  alias :id :_id
-  alias :id= :_id=
+                :is_readable, :created_at, :updated_at
 
   def self.all
     AssetWrapper.fetchAll.map{|attrs| Asset.new(attrs)}
@@ -18,10 +15,10 @@ class Asset
 
   def self.create(attrs={})
     file = attrs.delete(:file)
-    asset = Asset.new(attrs)
-    asset.source = file.open if file
+    asset = Asset.new( AssetWrapper.create(attrs) )
+    asset.source.store!(file) if file
     asset.url = asset.source.try(:url)
-    AssetWrapper.create(asset.instance_values)
+    AssetWrapper.update(asset)
   end
 
   def initialize(attrs={})

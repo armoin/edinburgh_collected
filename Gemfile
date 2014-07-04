@@ -20,6 +20,8 @@ gem 'jbuilder', '~> 2.0'
 gem 'faraday'
 gem 'carrierwave'
 gem 'mini_magick'
+gem 'fog'
+gem 'figaro'
 
 group :doc do
   gem 'sdoc', '~> 0.4.0'
