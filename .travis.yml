@@ -9,3 +9,10 @@ notifications:
     secure: OrOoKov2hdIVoN/EGsRlJaJ/Hb7O6sEYTZwS9hhGxTh+9f55X0UUyuLheNXSRfZH7NH0bCUiRuaq9NYL3dfW+SI8yL/sYApvsMGnoVeKQrTyFomIR1NNRdFn1XqP0kIz3mgGfXoJ8OfnfdV4VbXucTo3m4miMx8it58flWkSY3A=
 env:
   API_HOST: http://localhost:9393
+deploy:
+  provider: heroku
+  api_key:
+    secure: MvTVF+oKaRHNUcsSelRVIqBh8G+tmTkYZJHGWRP3ASOVctr7Vk2c7fVG4Jz8+o8ciwhmu85FoHu4Q5TRa1I7Dg61uH+EORuWi6/mpcE58J/kp+PKc4szL8xHL89YLAjHzIR4GZ+EJxOM6rv4gZ/JVRe4Eq3wbwNHivrlrRJp2eo=
+  app: edinburgh-stories
+  on:
+    repo: urfolomeus/edinburgh_stories
