@@ -4,7 +4,7 @@ require File.join(File.dirname(__FILE__), '../..', 'app', 'models', 'asset_wrapp
 describe AssetWrapper do
   describe 'fetching assets' do
     it 'fetches all assets' do
-      expect(AssetWrapper.fetchAll.count).to eql(5)
+      expect(AssetWrapper.fetchAll.count).to eql(3)
     end
   end
 
@@ -40,15 +40,15 @@ describe AssetWrapper do
          with(:body => {"asset"=>{"title"=>"A Test"}},
               :headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Content-Type'=>'application/x-www-form-urlencoded', 'User-Agent'=>'Faraday v0.9.0'}).
          to_return(:status => 200, :body => @new_asset.to_json, :headers => {})
-      @sample_request << @new_asset
+      @assets << @new_asset
       stub_request(:get, "#{ENV['API_HOST']}/assets").
-        to_return(:body => @sample_request.to_json)
+        to_return(:body => @assets.to_json)
     end
 
     it 'creates a new asset' do
       asset = AssetWrapper.create(title: 'A Test')
       expect(asset['title']).to eq('A Test')
-      expect(AssetWrapper.fetchAll.count).to eql(6)
+      expect(AssetWrapper.fetchAll.count).to eql(4)
     end
   end
 

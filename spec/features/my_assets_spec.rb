@@ -26,7 +26,7 @@ feature 'As a user I want to be able to manage my assets' do
 
     scenario 'displays all existing assets' do
       visit '/assets'
-      expect(page).to have_css('.asset', count: 5)
+      expect(page).to have_css('.asset', count: 3)
     end
   end
 

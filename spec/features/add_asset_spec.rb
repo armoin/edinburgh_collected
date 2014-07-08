@@ -25,9 +25,9 @@ feature 'adding new assets' do
       to_return(:body => @new_asset.to_json)
     stub_request(:put, "#{ENV['API_HOST']}/assets/#{id}").
       to_return(:body => @new_asset.to_json)
-    @sample_request << @new_asset
+    @assets << @new_asset
     stub_request(:get, "#{ENV['API_HOST']}/assets").
-      to_return(:body => @sample_request.to_json)
+      to_return(:body => @assets.to_json)
   end
 
   scenario 'adding a new asset adds it to the users assets' do
