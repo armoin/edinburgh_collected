@@ -23,6 +23,24 @@ WebMock.disable_net_connect!(:allow => "codeclimate.com")
 
 RSpec.configure do |config|
   config.before(:each) do
+    @sample_single_request = {
+      title: "Arthur's Seat",
+      file_type: "img",
+      url: "/meadows.jpg",
+      alt: "Arthur's Seat from the Meadows",
+      description: "Arthur's Seat is the plug of a long extinct volcano.",
+      width: 1280,
+      height: 878,
+      resolution: 72,
+      device: "iphone",
+      length: nil,
+      is_readable: false,
+      updated_at: "2014-06-24T09 : 55 : 58.874Z",
+      created_at: "2014-06-24T09 : 55 : 58.874Z",
+      _id: "986ff7a7b23bed8283dfc4b979f89b99",
+      _rev: "3-818a609da8da9d9296d787b5a78fc01e",
+      type: "Asset"
+    }
     @sample_request = [
       {
         title: "Arthur's Seat",
@@ -117,6 +135,9 @@ RSpec.configure do |config|
     ]
     stub_request(:get, "#{ENV['API_HOST']}/assets").
       to_return(:body => @sample_request.to_json)
+    stub_request(:get, "#{ENV['API_HOST']}/assets/986ff7a7b23bed8283dfc4b979f89b99").
+         with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Faraday v0.9.0'}).
+         to_return(:status => 200, :body => @sample_single_request.to_json, :headers => {})
   end
 # The settings below are suggested to provide a good initial experience
 # with RSpec, but feel free to customize to your heart's content.

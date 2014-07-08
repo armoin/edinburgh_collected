@@ -25,6 +25,42 @@ describe AssetsController do
     end
   end
 
+  describe 'GET show' do
+    let(:asset) { Asset.new }
+
+    before :each do
+      allow(Asset).to receive(:find) { asset }
+      get :show, id: '123'
+    end
+
+    it "is successful" do
+      expect(response).to be_success
+      expect(response.status).to eql(200)
+    end
+
+    it "fetches the requested asset" do
+      expect(Asset).to have_received(:find).with('123')
+    end
+
+    context "fetch is successful" do
+      it "assigns fetched asset" do
+        expect(assigns(:asset)).to eql(asset)
+      end
+
+      it "renders the show page" do
+        expect(response).to render_template(:show)
+      end
+    end
+
+    context "fetch is not successful" do
+      it "renders the not found page" do
+        allow(Asset).to receive(:find).and_raise('error')
+        get :show, id: '123'
+        expect(response).to render_template('assets/not_found')
+      end
+    end
+  end
+
   describe 'GET new' do
     it "is successful" do
       get :new
@@ -50,7 +86,7 @@ describe AssetsController do
 
     it "redirects to the /assets page" do
       post :create
-      expect(response).to redirect_to('/assets')
+      expect(response).to redirect_to(assets_url)
     end
   end
 end

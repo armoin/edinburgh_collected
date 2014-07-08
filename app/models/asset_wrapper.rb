@@ -4,6 +4,12 @@ class AssetWrapper
     parse(response.body)
   end
 
+  def self.fetch(id)
+    response = conn.get "/assets/#{id}"
+    raise 'Asset not found' if response.status == 404
+    parse(response.body)
+  end
+
   def self.create(attrs)
     response = conn.post '/assets', asset: attrs
     parse(response.body)

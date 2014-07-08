@@ -1,9 +1,18 @@
 require 'spec_helper'
+require File.join(File.dirname(__FILE__), '../..', 'app', 'models', 'asset_wrapper')
 
-describe 'AssetWrapper' do
+describe AssetWrapper do
   describe 'fetching assets' do
     it 'fetches all assets' do
       expect(AssetWrapper.fetchAll.count).to eql(5)
+    end
+  end
+
+  describe 'fetching a single asset' do
+    let(:id) { "986ff7a7b23bed8283dfc4b979f89b99" }
+
+    it 'fetches the requested asset' do
+      expect(AssetWrapper.fetch(id)['id']).to eql(id)
     end
   end
 

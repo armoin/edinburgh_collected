@@ -5,7 +5,7 @@ class Asset
 
   mount_uploader :source, ImageUploader
 
-  attr_accessor :id, :title, :file_type, :url, :description,
+  attr_accessor :id, :title, :file_type, :url, :description, :date,
                 :width, :height, :resolution, :device, :length,
                 :is_readable, :created_at, :updated_at
 
@@ -15,6 +15,11 @@ class Asset
 
   def self.all
     AssetWrapper.fetchAll.map{|attrs| Asset.new(attrs)}
+  end
+
+  def self.find(id)
+    attrs = AssetWrapper.fetch(id)
+    Asset.new attrs
   end
 
   def self.create(attrs={})

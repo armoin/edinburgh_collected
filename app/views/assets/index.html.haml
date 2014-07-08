@@ -7,9 +7,9 @@
 
   .assets
     - @assets.each do |asset|
-      .asset.col-6.col-sm-6.col-lg-4
+      .asset.thumb.col-6.col-sm-6.col-lg-4(data-id="#{asset.id}")
         %h2.title= truncate(asset.title, length: 20, omission: '...')
         %div.img
           %img{src: "#{asset.thumb}", alt: asset.title}
         %div.footer
-          %a.details.btn.btn-default(href="#" role="button") View details &raquo;
+          %a.details.btn.btn-default{href: asset_url(asset.id), role: "button"} View details &raquo;

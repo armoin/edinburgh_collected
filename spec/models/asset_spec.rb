@@ -1,54 +1,65 @@
-require 'spec_helper'
+require 'rails_helper'
 
-describe 'Asset' do
-  describe 'fetching assets' do
-    let(:assets) {
-      [
-        {
-          "title"       => "Arthur's Seat",
-          "file_type"   => "img",
-          "url"         => "/images/meadows.jpg",
-          "alt"         => "Arthur's Seat from the Meadows",
-          "description" => "Arthur's Seat is the plug of a long extinct volcano.",
-          "width"       => 1280,
-          "height"      => 878,
-          "resolution"  => 72,
-          "device"      => "iphone",
-          "length"      => nil,
-          "is_readable" => false,
-          "updated_at"  => "2014-06-24T09:55:58.874Z",
-          "created_at"  => "2014-06-24T09:55:58.874Z",
-          "_id"         => "986ff7a7b23bed8283dfc4b979f89b99",
-          "_rev"        => "2-ba56ad0bc1bc907ea02d7afe50563586",
-          "type"        => "Asset"
-        }
-      ]
+describe Asset do
+  let(:id) { "986ff7a7b23bed8283dfc4b979f89b99" }
+  let(:asset) {
+    {
+      "title"       => "Arthur's Seat",
+      "file_type"   => "img",
+      "url"         => "/images/meadows.jpg",
+      "alt"         => "Arthur's Seat from the Meadows",
+      "description" => "Arthur's Seat is the plug of a long extinct volcano.",
+      "width"       => 1280,
+      "height"      => 878,
+      "resolution"  => 72,
+      "device"      => "iphone",
+      "length"      => nil,
+      "is_readable" => false,
+      "updated_at"  => "2014-06-24T09:55:58.874Z",
+      "created_at"  => "2014-06-24T09:55:58.874Z",
+      "id"          => id,
+      "_rev"        => "2-ba56ad0bc1bc907ea02d7afe50563586",
+      "type"        => "Asset"
     }
+  }
+  let(:assets) { [asset] }
 
-    before(:each) do
-      allow(AssetWrapper).to receive(:fetchAll) { assets }
+  describe 'fetching assets' do
+    context 'fetch all' do
+      before(:each) do
+        allow(AssetWrapper).to receive(:fetchAll) { assets }
+      end
+
+      it 'fetches all assets' do
+        Asset.all
+        expect(AssetWrapper).to have_received(:fetchAll)
+      end
+
+      it 'converts them to Assets' do
+        assets = Asset.all
+        expect(assets.first).to be_a(Asset)
+      end
     end
 
-    it 'fetches all assets' do
-      Asset.all
-      expect(AssetWrapper).to have_received(:fetchAll)
-    end
+    context 'fetch one' do
+      before(:each) do
+        allow(AssetWrapper).to receive(:fetch) { asset }
+      end
 
-    it 'converts them to Assets' do
-      assets = Asset.all
-      expect(assets.first).to be_a(Asset)
-    end
-  end
+      it 'fetches the requested asset' do
+        Asset.find(id)
+        expect(AssetWrapper).to have_received(:fetch).with(id)
+      end
 
-  describe "id" do
-    it "allows the getting/setting of the id" do
-      expect(Asset.new(id: 123).id).to eql(123)
+      it 'converts it into an Asset' do
+        asset = Asset.find(id)
+        expect(asset).to be_a(Asset)
+        expect(asset.id).to eql(id)
+      end
     end
   end
 
   describe "thumb" do
-    subject { Asset.new }
-
     it "returns an empty string if there is no URL" do
       expect(subject.thumb).to eq('')
     end

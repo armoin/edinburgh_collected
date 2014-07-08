@@ -1,0 +1,19 @@
+= link_to "Back", assets_path
+
+.asset.full
+  %h1.title= @asset.title
+
+  %img{src: @asset.url, alt: @asset.title, title: @asset.title}
+
+  %h2 Details
+
+  %ul
+    %li.file_type
+      %strong File Type:
+      =@asset.file_type
+    %li.date
+      %strong Date:
+      = @asset.date
+    %li.description
+      %strong Description:
+      = @asset.description

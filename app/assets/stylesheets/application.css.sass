@@ -36,23 +36,28 @@ a.btn.btn-default.glyphicon.glyphicon-plus
   margin-top: 62px
 
 .asset
-  text-align: center
+  &.thumb
+    text-align: center
 
-  h2
-    overflow: hidden
-    height: 35px
+    h2
+      overflow: hidden
+      height: 35px
 
-  div
-    &.img
-      height: 220px
-      text-align: center
-      line-height: 220px
+    div
+      &.img
+        height: 220px
+        text-align: center
+        line-height: 220px
 
-      img
-        vertical-align: middle
+        img
+          vertical-align: middle
 
-    &.footer
-      margin: 10px 0
+      &.footer
+        margin: 10px 0
+
+  &.full
+    img
+      max-width: 100%
 
 input.btn.btn-primary
   float: right
