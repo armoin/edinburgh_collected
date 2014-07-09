@@ -24,10 +24,12 @@ class Asset
 
   def self.create(attrs={})
     file = attrs.delete(:file)
-    asset = Asset.new( AssetWrapper.create(attrs) )
-    asset.source.store!(file) if file
-    asset.url = asset.source.try(:url)
-    AssetWrapper.update(asset)
+    asset = Asset.new(attrs)
+    if file
+      asset.source.store!(file)
+      asset.url = asset.source.try(:url)
+    end
+    AssetWrapper.create(asset)
   end
 
   def initialize(attrs={})

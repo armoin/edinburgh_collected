@@ -7,14 +7,7 @@ describe Asset do
       "title"       => "Arthur's Seat",
       "file_type"   => "img",
       "url"         => "/images/meadows.jpg",
-      "alt"         => "Arthur's Seat from the Meadows",
       "description" => "Arthur's Seat is the plug of a long extinct volcano.",
-      "width"       => 1280,
-      "height"      => 878,
-      "resolution"  => 72,
-      "device"      => "iphone",
-      "length"      => nil,
-      "is_readable" => false,
       "updated_at"  => "2014-06-24T09:55:58.874Z",
       "created_at"  => "2014-06-24T09:55:58.874Z",
       "id"          => id,
@@ -56,6 +49,49 @@ describe Asset do
         expect(asset).to be_a(Asset)
         expect(asset.id).to eql(id)
       end
+    end
+  end
+
+  describe "creating" do
+    let(:attrs) { { } }
+    let(:mock_source) { double('source', store!: true, url: 'thingy') }
+    let(:mock_asset)  { double('asset', source: mock_source, 'url=' => true) }
+
+    before :each do
+      allow_any_instance_of(Asset).to receive(:source).and_return(mock_source)
+      allow(Asset).to receive(:new).and_return(mock_asset)
+      allow(AssetWrapper).to receive(:create)
+      Asset.create(attrs)
+    end
+
+    it "builds a new asset" do
+      expect(Asset).to have_received(:new)
+    end
+
+    context "when a file is attached" do
+      let(:attrs) { { file: "test.jpg" } }
+
+      it "stores the file" do
+        expect(mock_source).to have_received(:store!).with('test.jpg')
+      end
+
+      it "attaches the URL to the asset" do
+        expect(mock_asset).to have_received(:url=).with('thingy')
+      end
+    end
+
+    context "when a file is not attached" do
+      it "does not try to store a file" do
+        expect(mock_source).not_to have_received(:store!)
+      end
+
+      it "does not attach a URL to the asset" do
+        expect(mock_asset).not_to have_received(:url=)
+      end
+    end
+
+    it "creates the file" do
+      expect(AssetWrapper).to have_received(:create).with(mock_asset)
     end
   end
 

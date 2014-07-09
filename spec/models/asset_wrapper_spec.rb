@@ -51,8 +51,8 @@ describe AssetWrapper do
     let(:mock_conn)     { double('conn', post: mock_response) }
 
     it 'creates a new asset' do
-      AssetWrapper.create(asset_attrs)
-      expect(mock_conn).to have_received(:post).with('/assets', asset: asset_attrs)
+      AssetWrapper.create(asset)
+      expect(mock_conn).to have_received(:post).with('/assets', asset: asset.instance_values)
     end
   end
 

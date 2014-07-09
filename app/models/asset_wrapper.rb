@@ -10,8 +10,8 @@ class AssetWrapper
     parse(response.body)
   end
 
-  def self.create(attrs)
-    response = conn.post '/assets', asset: attrs
+  def self.create(asset)
+    response = conn.post '/assets', asset: asset.instance_values
     parse(response.body)
   end
 
