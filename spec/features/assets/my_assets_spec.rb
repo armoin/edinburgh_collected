@@ -1,4 +1,5 @@
 require 'rails_helper'
+require File.join(File.dirname(__FILE__), '..', 'web_mocks')
 
 feature 'As a user I want to be able to manage my assets' do
   feature 'So that I can view my existing assets' do
@@ -48,3 +49,4 @@ feature 'As a user I want to be able to manage my assets' do
     end
   end
 end
+
