@@ -15,7 +15,7 @@ class AssetWrapper
   def self.create(asset)
     response = conn.post '/assets', asset: asset.instance_values
     attrs = JSON.parse(response.body)
-    parse(attrs)
+    attrs['_id']
   end
 
   def self.update(asset)

@@ -47,12 +47,16 @@ describe AssetWrapper do
     end
 
     describe 'creating an asset' do
-      let(:mock_response) { double('response', body: asset.to_json) }
+      let(:mock_response) { double('response', body: asset_attrs.to_json) }
       let(:mock_conn)     { double('conn', post: mock_response) }
 
       it 'creates a new asset' do
         AssetWrapper.create(asset)
         expect(mock_conn).to have_received(:post).with('/assets', asset: asset.instance_values)
+      end
+
+      it 'returns the id' do
+        expect(AssetWrapper.create(asset)).to eql(id)
       end
     end
 

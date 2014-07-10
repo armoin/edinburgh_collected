@@ -51,38 +51,51 @@ describe Asset do
   end
 
   describe "saving" do
-    # let(:attrs) { { } }
-    # let(:mock_source) { double('source', store!: true, url: 'thingy') }
-    # let(:mock_asset)  { double('asset', source: mock_source, 'url=' => true) }
-
     before :each do
-      # allow_any_instance_of(Asset).to receive(:source).and_return(mock_source)
-      # allow(Asset).to receive(:new).and_return(mock_asset)
-      allow(AssetWrapper).to receive(:create)
-      # Asset.create(attrs)
+      allow(AssetWrapper).to receive(:create).and_return('123')
     end
 
-    context "when a file is attached" do
-      let(:mock_source) { double('source', store!: true, url: 'thingy') }
-
+    context "when valid" do
       before :each do
-        allow(subject).to receive(:source).and_return(mock_source)
+        allow(subject).to receive(:valid?).and_return(true)
+      end
+
+      it "returns true" do
+        expect(subject.save).to be_truthy
+      end
+
+      context "when a file is attached" do
+        let(:mock_source) { double('source', store!: true, url: 'thingy') }
+
+        before :each do
+          allow(subject).to receive(:source).and_return(mock_source)
+          subject.save
+        end
+
+        it "stores the file" do
+          expect(mock_source).to have_received(:store!)
+        end
+
+        it "attaches the URL to the asset" do
+          expect(subject.url).to eql('thingy')
+        end
+      end
+
+      it "saves the asset data via the API" do
         subject.save
+        expect(AssetWrapper).to have_received(:create).with(subject)
       end
 
-      it "stores the file" do
-        expect(mock_source).to have_received(:store!)
-      end
-
-      it "attaches the URL to the asset" do
-        expect(subject.url).to eql('thingy')
+      it "assigns the returned id" do
+        subject.save
+        expect(subject.id).to eql('123')
       end
     end
 
-    it "saves the asset data via the API" do
-      asset = Asset.new
-      asset.save
-      expect(AssetWrapper).to have_received(:create).with(asset)
+    context "when invalid" do
+      it "returns false" do
+        expect(subject.save).to be_falsy
+      end
     end
   end
 
@@ -91,6 +104,12 @@ describe Asset do
     attrs = %w(id title file_type url description created_at updated_at)
     attrs.each do |attr|
       expect(asset.send(attr)).to eql(asset_data[attr])
+    end
+  end
+
+  describe 'validation' do
+    it "needs a title" do
+      expect(Asset.new).not_to be_valid
     end
   end
 

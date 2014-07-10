@@ -10,6 +10,8 @@ class Asset
                 :width, :height, :resolution, :device, :length,
                 :is_readable, :created_at, :updated_at
 
+  validates :title, presence: true
+
   def self.file_types
     ["image"]
   end
@@ -24,9 +26,10 @@ class Asset
   end
 
   def save
+    return false unless valid?
     source.store!
     self.url = source.try(:url)
-    AssetWrapper.create(self)
+    self.id = AssetWrapper.create(self)
   end
 
   def thumb
