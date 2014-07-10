@@ -62,14 +62,20 @@ describe AssetsController do
   end
 
   describe 'GET new' do
-    it "is successful" do
+    before :each do
       get :new
+    end
+
+    it "assigns a new Asset" do
+      expect(assigns(:asset)).to be_a(Asset)
+    end
+
+    it "is successful" do
       expect(response).to be_success
       expect(response.status).to eql(200)
     end
 
     it "renders the new page" do
-      get :new
       expect(response).to render_template(:new)
     end
   end

@@ -10,6 +10,7 @@ class AssetsController < ApplicationController
   end
 
   def new
+    @asset = Asset.new
   end
 
   def create
