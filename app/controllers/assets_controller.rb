@@ -14,7 +14,11 @@ class AssetsController < ApplicationController
   end
 
   def create
-    Asset.create(params[:asset])
-    redirect_to assets_url
+    @asset = Asset.new(params[:asset])
+    if @asset.save
+      redirect_to assets_url
+    else
+      render :new
+    end
   end
 end

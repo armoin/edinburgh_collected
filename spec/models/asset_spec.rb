@@ -50,46 +50,39 @@ describe Asset do
     end
   end
 
-  describe "creating" do
-    let(:attrs) { { } }
-    let(:mock_source) { double('source', store!: true, url: 'thingy') }
-    let(:mock_asset)  { double('asset', source: mock_source, 'url=' => true) }
+  describe "saving" do
+    # let(:attrs) { { } }
+    # let(:mock_source) { double('source', store!: true, url: 'thingy') }
+    # let(:mock_asset)  { double('asset', source: mock_source, 'url=' => true) }
 
     before :each do
-      allow_any_instance_of(Asset).to receive(:source).and_return(mock_source)
-      allow(Asset).to receive(:new).and_return(mock_asset)
+      # allow_any_instance_of(Asset).to receive(:source).and_return(mock_source)
+      # allow(Asset).to receive(:new).and_return(mock_asset)
       allow(AssetWrapper).to receive(:create)
-      Asset.create(attrs)
-    end
-
-    it "builds a new asset" do
-      expect(Asset).to have_received(:new)
+      # Asset.create(attrs)
     end
 
     context "when a file is attached" do
-      let(:attrs) { { file: "test.jpg" } }
+      let(:mock_source) { double('source', store!: true, url: 'thingy') }
+
+      before :each do
+        allow(subject).to receive(:source).and_return(mock_source)
+        subject.save
+      end
 
       it "stores the file" do
-        expect(mock_source).to have_received(:store!).with('test.jpg')
+        expect(mock_source).to have_received(:store!)
       end
 
       it "attaches the URL to the asset" do
-        expect(mock_asset).to have_received(:url=).with('thingy')
+        expect(subject.url).to eql('thingy')
       end
     end
 
-    context "when a file is not attached" do
-      it "does not try to store a file" do
-        expect(mock_source).not_to have_received(:store!)
-      end
-
-      it "does not attach a URL to the asset" do
-        expect(mock_asset).not_to have_received(:url=)
-      end
-    end
-
-    it "creates the file" do
-      expect(AssetWrapper).to have_received(:create).with(mock_asset)
+    it "saves the asset data via the API" do
+      asset = Asset.new
+      asset.save
+      expect(AssetWrapper).to have_received(:create).with(asset)
     end
   end
 

@@ -23,14 +23,10 @@ class Asset
     Asset.new attrs
   end
 
-  def self.create(attrs={})
-    file = attrs.delete(:file)
-    asset = Asset.new(attrs)
-    if file
-      asset.source.store!(file)
-      asset.url = asset.source.try(:url)
-    end
-    AssetWrapper.create(asset)
+  def save
+    source.store!
+    self.url = source.try(:url)
+    AssetWrapper.create(self)
   end
 
   def thumb
