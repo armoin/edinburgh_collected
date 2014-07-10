@@ -5,18 +5,11 @@ class ImageUploader < CarrierWave::Uploader::Base
   include CarrierWave::MimeTypes
 
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
-  end
-
-  def filename
-    if original_filename
-      extension = File.extname(original_filename)
-      "original#{extension}"
-    end
+    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{secure_token}"
   end
 
   ## PROCESSING
-  def fix_exif_rotation #this is my attempted solution
+  def fix_exif_rotation
     manipulate! do |img|
       img.tap(&:auto_orient)
     end
@@ -34,5 +27,12 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def extension_white_list
   #   %w(jpg jpeg gif png)
   # end
+
+  protected
+
+  def secure_token
+    var = :"@#{mounted_as}_secure_token"
+    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.uuid)
+  end
 end
 
