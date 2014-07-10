@@ -1,5 +1,4 @@
-require 'spec_helper'
-require File.join(File.dirname(__FILE__), '../..', 'app', 'models', 'asset_wrapper')
+require 'rails_helper'
 
 describe AssetWrapper do
   let(:assets)      { AssetFactory.assets_data }

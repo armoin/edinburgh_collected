@@ -1,10 +1,23 @@
 require 'rails_helper'
-require File.join(File.dirname(__FILE__), '..', 'web_mocks')
 
 feature 'As a user I want to be able to view one of my assets' do
+  let(:asset_data)    { AssetFactory.asset_data }
+  let(:mock_response) { double('response', status: 200, body: asset_data.to_json) }
+  let(:mock_conn)     { double('conn', get: mock_response) }
+
+  before :each do
+    allow(Faraday).to receive(:new).and_return(mock_conn)
+  end
+
   feature 'So that I can view its details' do
+    let(:url) { '/assets/986ff7a7b23bed8283dfc4b979f89b99' }
+
     before :each do
-      visit '/assets/986ff7a7b23bed8283dfc4b979f89b99'
+      visit url
+    end
+
+    scenario 'fetches the requested asset data' do
+      expect(mock_conn).to have_received(:get).with(url)
     end
 
     context 'an asset' do

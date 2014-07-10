@@ -8,15 +8,8 @@ class ImageUploader < CarrierWave::Uploader::Base
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{secure_token}"
   end
 
-  def filename
-    if original_filename
-      extension = File.extname(original_filename)
-      "original#{extension}"
-    end
-  end
-
   ## PROCESSING
-  def fix_exif_rotation #this is my attempted solution
+  def fix_exif_rotation
     manipulate! do |img|
       img.tap(&:auto_orient)
     end
