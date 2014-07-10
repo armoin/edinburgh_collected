@@ -13,3 +13,9 @@ en:
           attributes:
             title:
               blank: "Please let us know what you would like to call this."
+            file_type:
+              inclusion: "You can only add image files."
+            date:
+              blank: "Please tell us when this dates from."
+            source:
+              blank: "You need to choose a file to upload."

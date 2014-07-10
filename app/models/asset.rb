@@ -10,11 +10,12 @@ class Asset
                 :width, :height, :resolution, :device, :length,
                 :is_readable, :created_at, :updated_at
 
-  validates :title, presence: true
-
   def self.file_types
     ["image"]
   end
+
+  validates_presence_of :date, :source, :title
+  validates :file_type, inclusion: { in: Asset.file_types }
 
   def self.all
     AssetWrapper.fetchAll.map{|attrs| Asset.new(attrs)}

@@ -108,8 +108,51 @@ describe Asset do
   end
 
   describe 'validation' do
-    it "needs a title" do
-      expect(Asset.new).not_to be_valid
+    let(:valid_attrs) {{
+      date: "2014-05-04",
+      file_type: "image",
+      title: "A test"
+    }}
+    let(:asset) { Asset.new(valid_attrs) }
+
+    before :each do
+      allow(asset.source).to receive(:blank?).and_return(false)
+    end
+
+    it "is valid with valid attributes" do
+      expect(asset).to be_valid
+    end
+
+    it "date can't be blank" do
+      asset.date = ""
+      expect(asset).to be_invalid
+      expect(asset.errors.messages.values.first).to include("Please tell us when this dates from.")
+    end
+
+    it "source can't be blank" do
+      allow(asset.source).to receive(:blank?).and_return(true)
+      expect(asset).to be_invalid
+      expect(asset.errors.messages.values.first).to include("You need to choose a file to upload.")
+    end
+
+    context "file type" do
+      it "can't be blank" do
+        asset.file_type = ''
+        expect(asset).to be_invalid
+        expect(asset.errors.messages.values.first).to include('You can only add image files.')
+      end
+
+      it "must be an allowed file type" do
+        asset.file_type = 'doodah'
+        expect(asset).to be_invalid
+        expect(asset.errors.messages.values.first).to include('You can only add image files.')
+      end
+    end
+
+    it "title can't be blank" do
+      asset.title = ""
+      expect(asset).to be_invalid
+      expect(asset.errors.messages.values.first).to include("Please let us know what you would like to call this.")
     end
   end
 
