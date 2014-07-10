@@ -6,32 +6,32 @@
         #error_explanation
           %h2 Please correct the following ...
           %ul
-            - @asset.errors.full_messages.each do |msg|
-              %li= msg
+            - @asset.errors.messages.values.each do |msg|
+              %li= msg.join(', ')
 
       .form-group
         .col-xs-4
-          = f.label :file_type, "What would you like to add?"
+          = f.label :file_type
         .col-xs-8
           = f.select :file_type, Asset.file_types, {}, {class: "form-control"}
       .form-group
         .col-xs-4
-          = f.label :source, "Please select a file"
+          = f.label :source
         .col-xs-8
           = f.file_field :source
       .form-group
         .col-xs-4
-          = f.label :title, "What would you like to call this?"
+          = f.label :title
         .col-xs-8
           = f.text_field :title, class: "form-control"
       .form-group
         .col-xs-4
-          = f.label :date, "When does this date from?"
+          = f.label :date
         .col-xs-8
           = f.date_field :date, class: "form-control"
       .form-group
         .col-xs-4
-          = f.label :description, "Tell us about what you have added"
+          = f.label :description
         .col-xs-8
           = f.text_area :description, class: "form-control"
       .form-group
