@@ -1,6 +1,7 @@
 require 'carrierwave/mount'
 
 class Asset
+  include ActiveModel::Model
   extend CarrierWave::Mount
 
   mount_uploader :source, ImageUploader
@@ -30,13 +31,6 @@ class Asset
       asset.url = asset.source.try(:url)
     end
     AssetWrapper.create(asset)
-  end
-
-  def initialize(attrs={})
-    attrs.each do |k,v|
-      method = "#{k}=".to_sym
-      send(method, v) if respond_to? method
-    end
   end
 
   def thumb

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Asset do
   let(:id) { "986ff7a7b23bed8283dfc4b979f89b99" }
-  let(:asset) {
+  let(:asset_data) {
     {
       "title"       => "Arthur's Seat",
       "file_type"   => "img",
@@ -10,12 +10,10 @@ describe Asset do
       "description" => "Arthur's Seat is the plug of a long extinct volcano.",
       "updated_at"  => "2014-06-24T09:55:58.874Z",
       "created_at"  => "2014-06-24T09:55:58.874Z",
-      "id"          => id,
-      "_rev"        => "2-ba56ad0bc1bc907ea02d7afe50563586",
-      "type"        => "Asset"
+      "id"          => id
     }
   }
-  let(:assets) { [asset] }
+  let(:assets) { [asset_data] }
 
   describe 'fetching assets' do
     context 'fetch all' do
@@ -36,7 +34,7 @@ describe Asset do
 
     context 'fetch one' do
       before(:each) do
-        allow(AssetWrapper).to receive(:fetch) { asset }
+        allow(AssetWrapper).to receive(:fetch) { asset_data }
       end
 
       it 'fetches the requested asset' do
@@ -92,6 +90,14 @@ describe Asset do
 
     it "creates the file" do
       expect(AssetWrapper).to have_received(:create).with(mock_asset)
+    end
+  end
+
+  it "allows instantiation with attributes" do
+    asset = Asset.new(asset_data)
+    attrs = %w(id title file_type url description created_at updated_at)
+    attrs.each do |attr|
+      expect(asset.send(attr)).to eql(asset_data[attr])
     end
   end
 
