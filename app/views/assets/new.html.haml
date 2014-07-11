@@ -39,3 +39,7 @@
         = f.submit "Save", class: "btn btn-primary", disabled: true
   .col-xs-1
 
+:javascript
+    $(document).ready(function () {
+      new Validator().validate()
+    });

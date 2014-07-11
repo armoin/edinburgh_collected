@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'adding new assets' do
+feature 'adding new assets', js: true do
   let(:asset_attrs) {{
     file_type:   "image",
     title:       "Arthur's Seat",
