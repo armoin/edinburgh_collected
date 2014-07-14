@@ -35,12 +35,14 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'capybara-rails'
   gem 'launchy'
+  gem "jasminerice", :git => 'https://github.com/bradphelan/jasminerice.git'
 end
 
 group :test do
   gem 'webmock', '1.18.0'
   gem 'sqlite3'
   gem "codeclimate-test-reporter", require: nil
+  gem "poltergeist"
 end
 
 group :production do

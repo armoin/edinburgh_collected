@@ -62,31 +62,57 @@ describe AssetsController do
   end
 
   describe 'GET new' do
-    it "is successful" do
+    before :each do
       get :new
+    end
+
+    it "assigns a new Asset" do
+      expect(assigns(:asset)).to be_a(Asset)
+    end
+
+    it "is successful" do
       expect(response).to be_success
       expect(response.status).to eql(200)
     end
 
     it "renders the new page" do
-      get :new
       expect(response).to render_template(:new)
     end
   end
 
   describe 'POST create' do
+    let(:asset_stub)   { double('asset', save: true) }
+    let(:asset_params) {{ title: 'A title' }}
+
     before :each do
-      allow(Asset).to receive(:create) { true }
+      allow(Asset).to receive(:new) { asset_stub }
+      post :create, asset: asset_params
     end
 
-    it "creates a new Asset" do
-      post :create, asset: {title: 'Test'}
-      expect(Asset).to have_received(:create).with(title: 'Test')
+    it "builds a new Asset with the given params" do
+      expect(Asset).to have_received(:new).with(asset_params)
     end
 
-    it "redirects to the /assets page" do
-      post :create
-      expect(response).to redirect_to(assets_url)
+    it "saves the Asset" do
+      expect(asset_stub).to have_received(:save)
+    end
+
+    context "save is successful" do
+      it "redirects to the /assets page" do
+        expect(response).to redirect_to(assets_url)
+      end
+    end
+
+    context "save is not successful" do
+      let(:asset_stub) { double('asset', save: false) }
+
+      it "assigns the asset" do
+        expect(assigns(:asset)).to eql(asset_stub)
+      end
+
+      it "re-renders the new form" do
+        expect(response).to render_template(:new)
+      end
     end
   end
 end
