@@ -113,10 +113,11 @@ describe Asset do
       file_type: "image",
       title: "A test"
     }}
-    let(:asset) { Asset.new(valid_attrs) }
+    let(:file_name) { 'test.jpg' }
+    let(:asset)    { Asset.new(valid_attrs) }
 
     before :each do
-      allow(asset.source).to receive(:blank?).and_return(false)
+      asset.source = Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec', 'fixtures', 'files', file_name))
     end
 
     it "is valid with valid attributes" do
@@ -129,10 +130,55 @@ describe Asset do
       expect(asset.errors.messages.values.first).to include("Please tell us when this dates from.")
     end
 
-    it "source can't be blank" do
-      allow(asset.source).to receive(:blank?).and_return(true)
-      expect(asset).to be_invalid
-      expect(asset.errors.messages.values.first).to include("You need to choose a file to upload.")
+    context "source" do
+      it "can't be blank" do
+        asset.source.remove!
+        expect(asset).to be_invalid
+        expect(asset.errors.messages.values.first).to include("You need to choose a file to upload.")
+      end
+
+      context "when file type is image" do
+        context "and file is a .jpg" do
+          let(:file_name) { 'test.jpg' }
+
+          it "is valid" do
+            expect(asset).to be_valid
+          end
+        end
+
+        context "and file is a .jpeg" do
+          let(:file_name) { 'test.jpeg' }
+
+          it "is valid" do
+            expect(asset).to be_valid
+          end
+        end
+
+        context "and file is a .png" do
+          let(:file_name) { 'test.png' }
+
+          it "is valid" do
+            expect(asset).to be_valid
+          end
+        end
+
+        context "and file is a .gif" do
+          let(:file_name) { 'test.gif' }
+
+          it "is valid" do
+            expect(asset).to be_valid
+          end
+        end
+
+        context "and file is a .txt" do
+          let(:file_name) { 'test.txt' }
+
+          it "is invalid" do
+            expect(asset).to be_invalid
+            expect(asset.errors.messages.values.first).to include('must be of type .jpg, .jpeg, .png, .gif')
+          end
+        end
+      end
     end
 
     context "file type" do
