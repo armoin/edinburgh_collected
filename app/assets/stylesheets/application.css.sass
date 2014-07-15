@@ -23,34 +23,36 @@ html, body
 
 body
   padding-top: 70px
+  background-color: #ccc
 
 footer
   padding: 10px 0
   text-align: center
 
-a.btn.btn-default.glyphicon.glyphicon-plus
-  width: 167px
-  height: 167px
-  font-size: 48px
-  padding-top: 55px
-  margin-top: 62px
+.col-xs-12#add-asset
+  a
+    width: 150px
+    margin-bottom: 10px
+
 
 .asset
   &.thumb
     text-align: center
-
-    h2
-      overflow: hidden
-      height: 35px
+    margin: 10px
+    background-color: white
+    padding: 10px
+    display: inline-block
+    width: 220px
 
     div
       &.img
-        height: 220px
         text-align: center
-        line-height: 220px
+        background-color: black
+        line-height: 200px
 
         img
           vertical-align: middle
+          max-width: 200px
 
       &.footer
         margin: 10px 0
@@ -59,11 +61,22 @@ a.btn.btn-default.glyphicon.glyphicon-plus
     img
       max-width: 100%
 
-input.btn.btn-primary
-  float: right
-  margin: 0 15px
-
 form
+  max-width: 750px
+  margin: 0 auto
+  background-color: white
+  padding: 1em
+
+  label
+    min-width: 230px
+
+  .actions
+    padding-right: 15px
+    float: right
+
+    input[type="submit"]
+      margin-left: 10px
+
   .required label:after
     content: "*"
     color: red
@@ -89,39 +102,20 @@ form
     color: white
     padding: 2px
     background-color: red
-/*
- * Off Canvas
- * --------------------------------------------------
- */
+
 @media screen and (max-width: 767px)
-  .row-offcanvas
-    position: relative
-    -webkit-transition: all .25s ease-out
-    -moz-transition: all .25s ease-out
-    transition: all .25s ease-out
+  form
+    background-color: #ccc
+    .actions
+      width: 100%
+      text-align: center
 
-  .row-offcanvas-right
-    right: 0
+  .col-xs-12#add-asset
+    text-align: center
 
-  .row-offcanvas-left
-    left: 0
-
-  .row-offcanvas-right
-  .sidebar-offcanvas
-    right: -50% /* 6 columns */
-
-  .row-offcanvas-left
-  .sidebar-offcanvas
-    left: -50% /* 6 columns */
-
-  .row-offcanvas-right.active
-    right: 50% /* 6 columns */
-
-  .row-offcanvas-left.active
-    left: 50% /* 6 columns */
-
-  .sidebar-offcanvas
-    position: absolute
-    top: 0
-    width: 50% /* 6 columns */
-
+  .asset
+    &.thumb
+      margin-left: 50px
+      div
+        &.img
+          line-height: 100%

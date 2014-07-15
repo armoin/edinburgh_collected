@@ -1,15 +1,13 @@
-%h1 My Assets
-
-.row
-  .col-6.col-sm-6.col-lg-4
-    %p
-      %a#add-asset.btn.btn-default.glyphicon.glyphicon-plus(href="/assets/new" role="button")
-
-  .assets
-    - @assets.each do |asset|
-      .asset.thumb.col-6.col-sm-6.col-lg-4(data-id="#{asset.id}")
-        %h2.title= truncate(asset.title, length: 20, omission: '...')
-        %div.img
-          %img{src: "#{asset.thumb}", alt: asset.title}
-        %div.footer
-          %a.details.btn.btn-default{href: asset_url(asset.id), role: "button"} View details &raquo;
+.container-fluid
+  .row
+    .col-xs-12#add-asset
+      %a.btn.btn-primary(href="/assets/new" role="button") Add New
+  .row
+    .assets
+      - @assets.each do |asset|
+        .asset.thumb(data-id="#{asset.id}")
+          %div.img
+            %a{href: asset_url(asset.id), role: "button"}
+              %img{src: "#{asset.thumb}", alt: asset.title}
+          %div.footer
+            %p.title= asset.title

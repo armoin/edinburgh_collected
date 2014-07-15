@@ -1,6 +1,5 @@
-.col-xs-1
-.col-xs-10
-  .jumbotron
+.container
+  .col-xs-12
     =form_for @asset, html: {id: "add-asset", class: "form-horizontal", role: "form"} do |f|
       -if @asset.errors.any?
         #error_explanation
@@ -10,36 +9,36 @@
               %li= msg.join(', ')
 
       .form-group.required
-        .col-xs-4
+        .col-xs-12.col-sm-4
           = f.label :file_type
-        .col-xs-8
+        .col-xs-12.col-sm-8
           = f.select :file_type, Asset.file_types, {}, {class: "form-control"}
       .form-group.required
-        .col-xs-4
+        .col-xs-12.col-sm-4
           = f.label :source
-        .col-xs-8
+        .col-xs-12.col-sm-8
           = f.file_field :source
       .form-group.required
-        .col-xs-4
+        .col-xs-12.col-sm-4
           = f.label :title
-        .col-xs-8
+        .col-xs-12.col-sm-8
           = f.text_field :title, class: "form-control"
       .form-group.required
-        .col-xs-4
+        .col-xs-12.col-sm-4
           = f.label :date
-        .col-xs-8
+        .col-xs-12.col-sm-8
           = f.date_field :date, class: "form-control"
       .form-group
-        .col-xs-4
+        .col-xs-12.col-sm-4
           = f.label :description
-        .col-xs-8
+        .col-xs-12.col-sm-8
           = f.text_area :description, class: "form-control"
       .form-group
-        = link_to "Cancel", assets_path, class: "btn btn-default"
-        = f.submit "Save", class: "btn btn-primary", disabled: true
-  .col-xs-1
+        .actions.col-xs-sm-12
+          = link_to "Cancel", assets_path, class: "btn btn-default"
+          = f.submit "Save", class: "btn btn-primary", disabled: true
 
-:javascript
-    $(document).ready(function () {
-      new Validator().validate()
-    });
+  :javascript
+      $(document).ready(function () {
+        new Validator().validate()
+      });
