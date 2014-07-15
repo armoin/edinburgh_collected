@@ -1,13 +1,13 @@
 .container-fluid
   .row
-    .col-xs-12#add-asset
-      %a.btn.btn-primary(href="/assets/new" role="button") Add New
+    .col-xs-12.global-asset-actions
+      %a#add-asset.btn.btn-primary(href="/assets/new" role="button") Add New
   .row
     .assets
       - @assets.each do |asset|
         .asset.thumb(data-id="#{asset.id}")
           %div.img
-            %a{href: asset_url(asset.id), role: "button"}
+            %a.view-details{href: asset_url(asset.id), title: 'View details', role: "button"}
               %img{src: "#{asset.thumb}", alt: asset.title}
           %div.footer
             %p.title= asset.title
