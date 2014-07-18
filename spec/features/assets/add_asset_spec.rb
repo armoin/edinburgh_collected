@@ -4,7 +4,7 @@ feature 'adding new assets', js: true do
   let(:asset_attrs) {{
     file_type:   "image",
     title:       "Arthur's Seat",
-    date:        "2014-05-04",
+    year:        "2014",
     description: "Arthur's Seat is the plug of a long extinct volcano."
   }}
   let(:mock_response) { double('response', body: asset_attrs.to_json) }
@@ -20,7 +20,7 @@ feature 'adding new assets', js: true do
     select asset_attrs[:file_type], from: 'asset[file_type]'
     attach_file :file, File.join(File.dirname(__FILE__), '../../fixtures/files/test.jpg')
     fill_in 'asset[title]', with: asset_attrs[:title]
-    fill_in 'asset[date]', with: asset_attrs[:date]
+    select asset_attrs[:year], from: 'asset[year]'
     fill_in 'asset[description]', with: asset_attrs[:description]
 
     click_button 'Save'

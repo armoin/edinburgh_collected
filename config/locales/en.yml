@@ -2,7 +2,9 @@ en:
   activemodel:
     attributes:
       asset:
-        date: "When does this date from?"
+        year:  "What year does this date from?"
+        month: "Do you know the month too?"
+        day:   "How about the day?"
         description: "Tell us about what you have added"
         file_type: "What would you like to add?"
         source: "Please select a file"
@@ -15,7 +17,7 @@ en:
               blank: "Please let us know what you would like to call this."
             file_type:
               inclusion: "You can only add image files."
-            date:
+            year:
               blank: "Please tell us when this dates from."
             source:
               blank: "You need to choose a file to upload."

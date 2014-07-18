@@ -42,7 +42,7 @@ feature 'As a user I want to be able to view one of my assets' do
       end
 
       it 'has a date' do
-        expect(asset.find('.date')).to have_text("2014-05-04")
+        expect(asset.find('.year')).to have_text("2014")
       end
     end
 

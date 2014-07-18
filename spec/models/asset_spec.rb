@@ -109,7 +109,7 @@ describe Asset do
 
   describe 'validation' do
     let(:valid_attrs) {{
-      date: "2014-05-04",
+      year: "2014",
       file_type: "image",
       title: "A test"
     }}
@@ -124,8 +124,8 @@ describe Asset do
       expect(asset).to be_valid
     end
 
-    it "date can't be blank" do
-      asset.date = ""
+    it "year can't be blank" do
+      asset.year = ""
       expect(asset).to be_invalid
       expect(asset.errors.messages.values.first).to include("Please tell us when this dates from.")
     end

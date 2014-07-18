@@ -25,9 +25,19 @@
           = f.text_field :title, class: "form-control"
       .form-group.required
         .col-xs-12.col-sm-4
-          = f.label :date
+          = f.label :year
         .col-xs-12.col-sm-8
-          = f.date_field :date, class: "form-control"
+          = f.select :year, (1900..2014).to_a.reverse, include_blank: true, class: "form-control"
+      .form-group
+        .col-xs-12.col-sm-4
+          = f.label :month
+        .col-xs-12.col-sm-8
+          = f.select :month, (1..12).to_a, include_blank: true, class: "form-control"
+      .form-group
+        .col-xs-12.col-sm-4
+          = f.label :day
+        .col-xs-12.col-sm-8
+          = f.select :day, (1..31).to_a, include_blank: true, class: "form-control"
       .form-group
         .col-xs-12.col-sm-4
           = f.label :description

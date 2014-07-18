@@ -6,7 +6,8 @@ class Asset
 
   mount_uploader :source, ImageUploader
 
-  attr_accessor :id, :title, :file_type, :url, :description, :date,
+  attr_accessor :id, :title, :file_type, :url, :description,
+                :year, :month, :day,
                 :width, :height, :resolution, :device, :length,
                 :is_readable, :created_at, :updated_at
 
@@ -14,7 +15,7 @@ class Asset
     ["image"]
   end
 
-  validates_presence_of :date, :source, :title
+  validates_presence_of :year, :source, :title
   validates :file_type, inclusion: { in: Asset.file_types }
   validate :file_is_of_correct_type
 
