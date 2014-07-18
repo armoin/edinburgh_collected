@@ -6,8 +6,6 @@
     %meta(name="viewport" content="width=device-width, initial-scale=1")
 
     = stylesheet_link_tag('application', media: 'all', 'data-turbolinks-track' => true)
-    = surround '<!--[if !IE]> -->'.html_safe, '<!-- <![endif]-->'.html_safe do
-      = stylesheet_link_tag 'temporary.css', media: 'all', 'data-turbolinks-track' => true
 
     = javascript_include_tag('application', 'data-turbolinks-track' => true)
     = csrf_meta_tags
