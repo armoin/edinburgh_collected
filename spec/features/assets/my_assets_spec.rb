@@ -30,10 +30,6 @@ feature 'As a user I want to be able to manage my assets' do
         expect(img['src']).to have_content("meadows.jpg")
         expect(img['alt']).to have_content("Arthur's Seat")
       end
-
-      it 'has a link to more details' do
-        expect(asset).to have_link('View details')
-      end
     end
 
     scenario 'displays all existing assets' do
@@ -53,9 +49,7 @@ feature 'As a user I want to be able to manage my assets' do
   feature 'So that I can view details on a selected asset' do
     scenario 'clicking on the View details link' do
       visit '/assets'
-      within '.asset[data-id="986ff7a7b23bed8283dfc4b979f89b99"]' do
-        click_link 'View details'
-      end
+      find('.asset[data-id="986ff7a7b23bed8283dfc4b979f89b99"]').click
       expect(current_path).to eql('/assets/986ff7a7b23bed8283dfc4b979f89b99')
     end
   end

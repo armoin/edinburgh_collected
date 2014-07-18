@@ -5,9 +5,8 @@
   .row
     .assets
       - @assets.each do |asset|
-        .asset.thumb(data-id="#{asset.id}")
+        %a.asset.thumb(data-id="#{asset.id}" href="#{asset_url(asset.id)}" title="View details" role="button")
           %div.img
-            %a.view-details{href: asset_url(asset.id), title: 'View details', role: "button"}
-              %img{src: "#{asset.thumb}", alt: asset.title}
+            %img{src: "#{asset.thumb}", alt: asset.title}
           %div.footer
             %p.title= asset.title
