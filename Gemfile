@@ -18,7 +18,7 @@ gem 'jbuilder',                     '~> 2.0'
 gem 'faraday',                      '~> 0.9.0'
 gem 'carrierwave',                  '~> 0.10.0'
 gem 'mini_magick',                  '~> 3.7.0'
-gem 'fog',                          '~> 1.22.1'
+gem 'fog',                          '~> 1.23.0'
 gem 'figaro',                       '~> 0.7.0'
 
 group :doc do
