@@ -32,7 +32,7 @@
         .col-xs-12.col-sm-4
           = f.label :month
         .col-xs-12.col-sm-8
-          = f.select :month, (1..12).to_a, include_blank: true, class: "form-control"
+          = f.select :month, Date::MONTHNAMES.map.with_index{|m,i| [m,i]}, class: "form-control"
       .form-group
         .col-xs-12.col-sm-4
           = f.label :day

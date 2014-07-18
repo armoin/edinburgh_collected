@@ -43,6 +43,17 @@ class Asset
     parts.join('/')
   end
 
+  def date
+    if self.day.present? && self.month.present?
+      day = ActiveSupport::Inflector.ordinalize(self.day.to_i)
+      Time.new(self.year, self.month).strftime("#{day} %B %Y")
+    elsif self.month.present?
+      Time.new(self.year, self.month).strftime('%B %Y')
+    else
+      self.year
+    end
+  end
+
   private
 
   def file_is_of_correct_type

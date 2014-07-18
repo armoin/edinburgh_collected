@@ -41,8 +41,39 @@ feature 'As a user I want to be able to view one of my assets' do
         expect(asset.find('.description')).to have_text("Arthur's Seat is the plug of a long extinct volcano.")
       end
 
-      it 'has a date' do
-        expect(asset.find('.year')).to have_text("2014")
+      describe 'date' do
+        let(:date_text) { asset.find('.date').native.text }
+
+        context 'when only a year is given' do
+          let(:asset_data) {
+            data = AssetFactory.asset_data
+            data.delete("month")
+            data.delete("day")
+            data
+          }
+
+          it "has a year" do
+            expect(date_text).to eql("\nDates from:\n2014\n")
+          end
+        end
+
+        context 'when month and year are given' do
+          let(:asset_data) {
+            data = AssetFactory.asset_data
+            data.delete("day")
+            data
+          }
+
+          it "has a month and a year" do
+            expect(date_text).to eql("\nDates from:\nMay 2014\n")
+          end
+        end
+
+        context 'when day, month and year are given' do
+          it "has a day a month and a year" do
+            expect(date_text).to eql("\nDates from:\n4th May 2014\n")
+          end
+        end
       end
     end
 

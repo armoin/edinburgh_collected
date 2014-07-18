@@ -217,4 +217,24 @@ describe Asset do
       expect(subject.thumb).to eq('/path/to/thumb_test.jpg')
     end
   end
+
+  describe "date" do
+    it "provides the year when asset only has a year" do
+      expect(Asset.new(year: "2014").date).to eql("2014")
+    end
+
+    it "provides the month and year when asset has a month" do
+      expect(Asset.new(year: "2014", month: "05").date).to eql("May 2014")
+    end
+
+    it "provides the day, month and year when asset has a month and a day" do
+      expect(Asset.new(year: "2014", month: "05", day: "04").date).to eql("4th May 2014")
+    end
+
+    it "handles blanks" do
+      expect(Asset.new(year: "2014", month: "", day: "").date).to eql("2014")
+      expect(Asset.new(year: "2014", month: "05", day: "").date).to eql("May 2014")
+      expect(Asset.new(year: "2014", month: "", day: "04").date).to eql("2014")
+    end
+  end
 end
