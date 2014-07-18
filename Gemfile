@@ -4,58 +4,47 @@ ruby '2.1.2'
 
 gem 'rails', '~> 4.1.2'
 
-gem 'haml-rails'
-gem 'bootstrap-sass', '~> 3.2.0'
-gem 'sass-rails', '~> 4.0.3'
-gem 'autoprefixer-rails'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer',  platforms: :ruby
+gem 'haml-rails',                   '~> 0.5.3'
+gem 'bootstrap-sass',               '~> 3.2.0'
+gem 'sass-rails',                   '~> 4.0.3'
+gem 'autoprefixer-rails',           '~> 2.1.1.20140710'
+gem 'uglifier',                     '>= 1.3.0'
+gem 'coffee-rails',                 '~> 4.0.0'
 
-gem 'jquery-rails'
-gem 'turbolinks'
-gem 'jbuilder', '~> 2.0'
+gem 'jquery-rails',                 '~> 3.1.1'
+gem 'turbolinks',                   '~> 2.2.0'
+gem 'jbuilder',                     '~> 2.0'
 
-gem 'faraday'
-gem 'carrierwave'
-gem 'mini_magick'
-gem 'fog'
-gem 'figaro'
+gem 'faraday',                      '~> 0.9.0'
+gem 'carrierwave',                  '~> 0.10.0'
+gem 'mini_magick',                  '~> 3.7.0'
+gem 'fog',                          '~> 1.22.1'
+gem 'figaro',                       '~> 0.7.0'
 
 group :doc do
-  gem 'sdoc', '~> 0.4.0'
+  gem 'sdoc',                       '~> 0.4.0'
 end
 
 group :development do
-  gem 'spring'
+  gem 'spring',                     '~> 1.1.3'
 end
 
 group :development, :test do
-  gem 'rspec-rails'
-  gem 'capybara-rails'
-  gem 'launchy'
-  gem "jasminerice", :git => 'https://github.com/bradphelan/jasminerice.git'
+  gem 'rspec-rails',                '~> 3.0.1'
+  gem 'capybara-rails',             '~> 0.0.2'
+  gem 'launchy',                    '~>2.4.2'
+  gem "jasminerice",                :git => 'https://github.com/bradphelan/jasminerice.git'
 end
 
 group :test do
-  gem 'webmock', '1.18.0'
-  gem 'sqlite3'
-  gem "codeclimate-test-reporter", require: nil
-  gem "poltergeist"
+  gem 'webmock',                    '1.18.0'
+  gem 'sqlite3',                    '1.3.9'
+  gem "codeclimate-test-reporter",  require: nil
+  gem "poltergeist",                '1.5.1'
 end
 
 group :production do
-  gem 'pg'
-  gem 'rails_12factor'
+  gem 'pg',                         '0.17.1'
+  gem 'rails_12factor',             '0.0.2'
 end
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
 
