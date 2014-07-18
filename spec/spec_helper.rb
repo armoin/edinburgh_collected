@@ -19,7 +19,7 @@ require "codeclimate-test-reporter"
 CodeClimate::TestReporter.start
 
 require 'webmock/rspec'
-WebMock.disable_net_connect!(:allow => ["codeclimate.com", /127\.0\.0\.1:5/])
+WebMock.disable_net_connect!(:allow => ["codeclimate.com", /127\.0\.0\.1:[^9]/])
 
 RSpec.configure do |config|
 # The settings below are suggested to provide a good initial experience
