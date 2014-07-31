@@ -1,2 +1,19 @@
-%h1 Login
+.container
+  .col-xs-12
+    %h1 Login
 
+    = form_tag '/login', class: 'form-horizontal', role: 'form' do
+      .form-group
+        .col-xs-12.col-sm-4
+          = label_tag :username
+        .col-xs-12.col-sm-8
+          = text_field_tag 'username', nil, class: 'form-control'
+      .form-group
+        .col-xs-12.col-sm-4
+          = label_tag :password
+        .col-xs-12.col-sm-8
+          = password_field_tag 'password', nil, class: 'form-control'
+      .form-group
+        .actions.col-xs-sm-12
+          = link_to "Cancel", root_path, class: "btn btn-default"
+          = submit_tag "Save", class: "btn btn-primary"
