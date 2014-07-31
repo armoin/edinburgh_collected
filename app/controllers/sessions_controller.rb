@@ -3,7 +3,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    token = SessionWrapper.create(params[:username], params[:password])
+    token = SessionWrapper.create(params[:login])
     session[:auth_token] = token
     if token.present?
       redirect_to :root, notice: 'Successfully logged in'

@@ -17,11 +17,11 @@ describe SessionsController do
 
     before :each do
       allow(SessionWrapper).to receive(:create).and_return(token)
-      post :create, login_params
+      post :create, login: login_params
     end
 
     it 'logs the user in' do
-      expect(SessionWrapper).to have_received(:create).with('bobby', 's3cr3t')
+      expect(SessionWrapper).to have_received(:create).with(login_params)
     end
 
     context 'when successful' do
