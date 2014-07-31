@@ -1,0 +1,39 @@
+.container
+  .col-xs-12
+    %h1 Signup
+
+    = form_tag '/signup', class: 'form-horizontal', role: 'form' do
+      .form-group
+        .col-xs-12.col-sm-4
+          = label_tag :first_name
+        .col-xs-12.col-sm-8
+          = text_field_tag 'user[first_name]', nil, class: 'form-control'
+      .form-group
+        .col-xs-12.col-sm-4
+          = label_tag :last_name
+        .col-xs-12.col-sm-8
+          = text_field_tag 'user[last_name]', nil, class: 'form-control'
+      .form-group
+        .col-xs-12.col-sm-4
+          = label_tag :email
+        .col-xs-12.col-sm-8
+          = text_field_tag 'user[email]', nil, class: 'form-control'
+      .form-group
+        .col-xs-12.col-sm-4
+          = label_tag :username
+        .col-xs-12.col-sm-8
+          = text_field_tag 'user[username]', nil, class: 'form-control'
+      .form-group
+        .col-xs-12.col-sm-4
+          = label_tag :password
+        .col-xs-12.col-sm-8
+          = password_field_tag 'user[password]', nil, class: 'form-control'
+      .form-group
+        .col-xs-12.col-sm-4
+          = label_tag :password_confirmation
+        .col-xs-12.col-sm-8
+          = password_field_tag 'user[password_confirmation]', nil, class: 'form-control'
+      .form-group
+        .actions.col-xs-sm-12
+          = link_to "Cancel", root_path, class: "btn btn-default"
+          = submit_tag "Save", class: "btn btn-primary"
