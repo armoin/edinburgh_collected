@@ -36,6 +36,9 @@
               %li
                 %a(href="/login") Login
 
+    - flash.each do |class_name, message|
+      %div{class: class_name}= message
+
     = yield
 
     .container-fluid
