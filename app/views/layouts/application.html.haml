@@ -27,6 +27,14 @@
               %a(href="#about") About
             %li
               %a(href="#contact") Help & Tutorials
+            - if logged_in?
+              %li
+                %a(href="/logout") Logout
+            - else
+              %li
+                %a(href="/signup") Signup
+              %li
+                %a(href="/login") Login
 
     = yield
 
