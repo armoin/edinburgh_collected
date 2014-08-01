@@ -10,13 +10,11 @@ class AssetFactory
       "day"         => "04",
       "updated_at"  => "2014-06-24T09:55:58.874Z",
       "created_at"  => "2014-06-24T09:55:58.874Z",
-      "_id"         => "986ff7a7b23bed8283dfc4b979f89b99",
-      "_rev"        => "3-818a609da8da9d9296d787b5a78fc01e",
-      "type"        => "Asset"
+      "id"          => "1"
     }
   end
 
-  def self.parsed_asset_data
+  def self.new_asset_data
     {
       "title"       => "Arthur's Seat",
       "file_type"   => "image",
@@ -26,8 +24,7 @@ class AssetFactory
       "month"       => "05",
       "day"         => "04",
       "updated_at"  => "2014-06-24T09:55:58.874Z",
-      "created_at"  => "2014-06-24T09:55:58.874Z",
-      "id"          => "986ff7a7b23bed8283dfc4b979f89b99",
+      "created_at"  => "2014-06-24T09:55:58.874Z"
     }
   end
 
@@ -44,9 +41,7 @@ class AssetFactory
         "day"         => "04",
         "updated_at"  => "2014-06-24T09:55:58.871Z",
         "created_at"  => "2014-06-24T09:55:58.871Z",
-        "_id"         => "986ff7a7b23bed8283dfc4b979f8aad9",
-        "_rev"        => "2-acf04fed22f9fd9d42dc9ba6edbc059c",
-        "type"        => "Asset"
+        "id"         => "2"
       },
       {
         "title"       => "Cathedral",
@@ -58,9 +53,7 @@ class AssetFactory
         "day"         => "04",
         "updated_at"  => "2014-06-24T09:55:58.851Z",
         "created_at"  => "2014-06-24T09:55:58.853Z",
-        "_id"         => "986ff7a7b23bed8283dfc4b979f8b8cc",
-        "_rev"        => "2-eda16fc8cca927ae37a8780119cd586f",
-        "type"        => "Asset"
+        "id"         => "3"
       }
     ]
   end

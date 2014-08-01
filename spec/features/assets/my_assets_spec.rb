@@ -49,8 +49,8 @@ feature 'As a user I want to be able to manage my assets' do
   feature 'So that I can view details on a selected asset' do
     scenario 'clicking on the View details link' do
       visit '/assets'
-      find('.asset[data-id="986ff7a7b23bed8283dfc4b979f89b99"]').click
-      expect(current_path).to eql('/assets/986ff7a7b23bed8283dfc4b979f89b99')
+      find('.asset[data-id="1"]').click
+      expect(current_path).to eql('/assets/1')
     end
   end
 end

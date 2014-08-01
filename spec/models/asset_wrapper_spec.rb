@@ -3,8 +3,8 @@ require 'rails_helper'
 describe AssetWrapper do
   let(:assets)      { AssetFactory.assets_data }
   let(:asset_attrs) { AssetFactory.asset_data }
-  let(:asset)       { Asset.new(AssetFactory.parsed_asset_data) }
-  let(:id)          { asset_attrs['_id'] }
+  let(:asset)       { Asset.new(AssetFactory.new_asset_data) }
+  let(:id)          { asset_attrs['id'] }
 
   describe 'talking to the API' do
     before :each do
@@ -70,25 +70,5 @@ describe AssetWrapper do
       end
     end
   end
-
-  describe 'parsing the returned data into a format usable by the Asset model' do
-    let(:parsed_data) { AssetWrapper.parse(AssetFactory.asset_data) }
-
-    it 'renames _id to id' do
-      expect(parsed_data['_id']).to be_nil
-      expect(parsed_data['id']).to eql(AssetFactory.asset_data['_id'])
-    end
-
-    it 'removes the revision' do
-      expect(parsed_data['_rev']).to be_nil
-    end
-
-    it 'removes the type' do
-      expect(parsed_data['type']).to be_nil
-    end
-
-    it 'can be used to instantiate an Asset' do
-      expect{ Asset.new(parsed_data) }.not_to raise_error
-    end
-  end
 end
+

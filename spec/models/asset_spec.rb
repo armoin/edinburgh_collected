@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Asset do
-  let(:id) { "986ff7a7b23bed8283dfc4b979f89b99" }
+  let(:id) { "1" }
   let(:asset_data) {
     {
       "title"       => "Arthur's Seat",
