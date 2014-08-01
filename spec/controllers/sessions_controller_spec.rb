@@ -36,7 +36,7 @@ describe SessionsController do
       end
 
       it 'displays a success notice' do
-        expect(flash[:notice]).to eql('Successfully logged in')
+        expect(flash[:notice]).to eql('Successfully signed in')
       end
     end
 
@@ -52,7 +52,7 @@ describe SessionsController do
       end
 
       it 'displays a failure alert' do
-        expect(flash[:alert]).to eql('Could not log in')
+        expect(flash[:alert]).to eql('Could not sign in')
       end
     end
   end
@@ -79,7 +79,7 @@ describe SessionsController do
     end
 
     it 'displays a success notice' do
-      expect(flash[:notice]).to eql('Logged out')
+      expect(flash[:notice]).to eql('Signed out')
     end
   end
 end
