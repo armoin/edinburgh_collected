@@ -29,12 +29,12 @@
               %a(href="#contact") Help & Tutorials
             - if logged_in?
               %li
-                = link_to 'Logout', '/logout', method: :delete
+                = link_to 'Sign Out', '/logout', method: :delete
             - else
               %li
-                %a(href="/signup") Signup
+                %a(href="/signup") Sign Up
               %li
-                %a(href="/login") Login
+                %a(href="/login") Sign In
 
     .flashes
       - flash.each do |class_name, message|
