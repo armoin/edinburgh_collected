@@ -5,6 +5,10 @@ class SessionWrapper
     JSON.parse(response.body)['token']
   end
 
+  def self.delete(token)
+    true
+  end
+
   def self.conn
     Faraday.new(:url => ENV['API_HOST']) do |faraday|
       faraday.request  :url_encoded

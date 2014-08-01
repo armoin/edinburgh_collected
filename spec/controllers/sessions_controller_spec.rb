@@ -56,4 +56,51 @@ describe SessionsController do
       end
     end
   end
+
+  describe 'DELETE destroy' do
+    let(:token)  { 't0k3n' }
+    let(:result) { true }
+
+    before :each do
+      session[:auth_token] = token
+      allow(SessionWrapper).to receive(:delete).and_return(result)
+      delete :destroy
+    end
+
+    it 'logs the user out' do
+      expect(SessionWrapper).to have_received(:delete).with(token)
+    end
+
+    context 'when successful' do
+      let(:result) { true }
+
+      it 'removes the session token' do
+        expect(session[:auth_token]).to be_nil
+      end
+
+      it 'redirects to the root page' do
+        expect(response).to redirect_to(:root)
+      end
+
+      it 'displays a success notice' do
+        expect(flash[:notice]).to eql('Successfully logged out')
+      end
+    end
+
+    context 'when unsuccessful' do
+      let(:result) { false }
+
+      it 'does not remove the session token' do
+        expect(session[:auth_token]).to eql(token)
+      end
+
+      it 'redirects to the root page' do
+        expect(response).to redirect_to(:root)
+      end
+
+      it 'displays a failure alert' do
+        expect(flash[:alert]).to eql('Could not log out')
+      end
+    end
+  end
 end
