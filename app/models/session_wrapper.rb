@@ -6,7 +6,10 @@ class SessionWrapper
   end
 
   def self.delete(token)
-    true
+    connect = conn
+    connect.token_auth token
+    response = connect.post '/logout'
+    response.status == 200
   end
 
   def self.conn

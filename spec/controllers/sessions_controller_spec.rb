@@ -58,12 +58,11 @@ describe SessionsController do
   end
 
   describe 'DELETE destroy' do
-    let(:token)  { 't0k3n' }
-    let(:result) { true }
+    let(:token) { 't0k3n' }
 
     before :each do
       session[:auth_token] = token
-      allow(SessionWrapper).to receive(:delete).and_return(result)
+      allow(SessionWrapper).to receive(:delete)
       delete :destroy
     end
 
@@ -71,36 +70,16 @@ describe SessionsController do
       expect(SessionWrapper).to have_received(:delete).with(token)
     end
 
-    context 'when successful' do
-      let(:result) { true }
-
-      it 'removes the session token' do
-        expect(session[:auth_token]).to be_nil
-      end
-
-      it 'redirects to the root page' do
-        expect(response).to redirect_to(:root)
-      end
-
-      it 'displays a success notice' do
-        expect(flash[:notice]).to eql('Successfully logged out')
-      end
+    it 'removes the session token' do
+      expect(session[:auth_token]).to be_nil
     end
 
-    context 'when unsuccessful' do
-      let(:result) { false }
+    it 'redirects to the root page' do
+      expect(response).to redirect_to(:root)
+    end
 
-      it 'does not remove the session token' do
-        expect(session[:auth_token]).to eql(token)
-      end
-
-      it 'redirects to the root page' do
-        expect(response).to redirect_to(:root)
-      end
-
-      it 'displays a failure alert' do
-        expect(flash[:alert]).to eql('Could not log out')
-      end
+    it 'displays a success notice' do
+      expect(flash[:notice]).to eql('Logged out')
     end
   end
 end

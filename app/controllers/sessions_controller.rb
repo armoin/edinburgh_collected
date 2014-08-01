@@ -13,12 +13,9 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    if SessionWrapper.delete(session[:auth_token])
-      session.delete(:auth_token)
-      redirect_to :root, notice: 'Successfully logged out'
-    else
-      redirect_to :root, alert: 'Could not log out'
-    end
+    SessionWrapper.delete(session[:auth_token])
+    session.delete(:auth_token)
+    redirect_to :root, notice: 'Logged out'
   end
 end
 
