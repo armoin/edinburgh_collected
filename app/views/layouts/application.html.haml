@@ -29,7 +29,7 @@
               %a(href="#contact") Help & Tutorials
             - if logged_in?
               %li
-                %a(href="/logout") Logout
+                = link_to 'Logout', '/logout', method: :delete
             - else
               %li
                 %a(href="/signup") Signup

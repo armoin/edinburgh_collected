@@ -11,5 +11,11 @@ class SessionsController < ApplicationController
       redirect_to :login, alert: 'Could not log in'
     end
   end
+
+  def destroy
+    SessionWrapper.delete(session[:auth_token])
+    session.delete(:auth_token)
+    redirect_to :root, notice: 'Logged out'
+  end
 end
 

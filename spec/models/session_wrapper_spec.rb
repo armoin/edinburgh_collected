@@ -35,4 +35,41 @@ describe SessionWrapper do
       end
     end
   end
+
+  describe 'deleting a session' do
+    let(:token) { 't0k3n' }
+
+    before :each do
+      allow(Faraday).to receive(:new).and_return(mock_conn)
+    end
+
+    let(:mock_response) { double('response', status: 200) }
+    let(:mock_conn)     { double('conn', post: mock_response, token_auth: "") }
+
+    it 'appends the token to the header' do
+      SessionWrapper.delete(token)
+      expect(mock_conn).to have_received(:token_auth).with(token)
+    end
+
+    it 'deletes the session' do
+      SessionWrapper.delete(token)
+      expect(mock_conn).to have_received(:post).with('/logout')
+    end
+
+    context 'when successful' do
+      let(:mock_response) { double('response', status: 200) }
+
+      it 'returns true' do
+        expect(SessionWrapper.delete(token)).to be_truthy
+      end
+    end
+
+    context 'when unsuccessful' do
+      let(:mock_response) { double('response', status: 403) }
+
+      it 'returns false' do
+        expect(SessionWrapper.delete(token)).to be_falsy
+      end
+    end
+  end
 end
