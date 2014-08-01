@@ -6,16 +6,16 @@ class SessionsController < ApplicationController
     token = SessionWrapper.create(params[:login])
     session[:auth_token] = token
     if token.present?
-      redirect_to :root, notice: 'Successfully logged in'
+      redirect_to :root, notice: 'Successfully signed in'
     else
-      redirect_to :login, alert: 'Could not log in'
+      redirect_to :login, alert: 'Could not sign in'
     end
   end
 
   def destroy
     SessionWrapper.delete(session[:auth_token])
     session.delete(:auth_token)
-    redirect_to :root, notice: 'Logged out'
+    redirect_to :root, notice: 'Signed out'
   end
 end
 
