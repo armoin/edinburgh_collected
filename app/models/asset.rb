@@ -4,6 +4,8 @@ class Asset
   include ActiveModel::Model
   extend CarrierWave::Mount
 
+  MAX_YEAR_RANGE = 120
+
   mount_uploader :source, ImageUploader
 
   attr_accessor :id, :title, :file_type, :url, :description,
@@ -15,7 +17,16 @@ class Asset
     ["image"]
   end
 
-  validates_presence_of :year, :source, :title
+  def self.furthest_year
+    current_year - MAX_YEAR_RANGE
+  end
+
+  def self.current_year
+    Time.now.year
+  end
+
+  validates_presence_of :source, :title
+  validates :year, presence: true, inclusion: { in: (furthest_year..current_year).map(&:to_s), message: 'must be within the last 120 years.' }
   validates :file_type, inclusion: { in: Asset.file_types }
   validate :file_is_of_correct_type
 

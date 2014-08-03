@@ -50,6 +50,28 @@ describe Asset do
     end
   end
 
+  describe 'year calculators' do
+    before :each do
+      Timecop.freeze('2014-01-01')
+    end
+
+    after :each do
+      Timecop.return
+    end
+
+    describe 'current_year' do
+      it 'returns the current year' do
+        expect(Asset.current_year).to eql(2014)
+      end
+    end
+
+    describe 'furthest_year' do
+      it 'returns the year 120 years before the current year' do
+        expect(Asset.furthest_year).to eql(1894)
+      end
+    end
+  end
+
   describe "saving" do
     before :each do
       allow(AssetWrapper).to receive(:create).and_return('123')
@@ -124,10 +146,36 @@ describe Asset do
       expect(asset).to be_valid
     end
 
-    it "year can't be blank" do
-      asset.year = ""
-      expect(asset).to be_invalid
-      expect(asset.errors.messages.values.first).to include("Please tell us when this dates from.")
+    describe "year" do
+      it "can't be blank" do
+        asset.year = ""
+        expect(asset).to be_invalid
+        expect(asset.errors.messages.values.first).to include("Please tell us when this dates from.")
+      end
+
+      it "is invalid if in the future" do
+        asset.year = 1.year.from_now.year.to_s
+        expect(asset).to be_invalid
+        expect(asset.errors.messages.values.first).to include("must be within the last 120 years.")
+      end
+
+      it "is invalid if too far in the past" do
+        asset.year = (Asset::MAX_YEAR_RANGE+1).years.ago.year.to_s
+        expect(asset).to be_invalid
+        expect(asset.errors.messages.values.first).to include("must be within the last 120 years.")
+      end
+
+      it "is valid at earliest boundary" do
+        asset.year = Asset::MAX_YEAR_RANGE.years.ago.year.to_s
+        expect(asset).to be_valid
+        expect(asset.errors.messages.values.first).to be_nil
+      end
+
+      it "is valid at latest boundary" do
+        asset.year = Time.now.year.to_s
+        expect(asset).to be_valid
+        expect(asset.errors.messages.values.first).to be_nil
+      end
     end
 
     context "source" do

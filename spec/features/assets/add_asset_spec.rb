@@ -20,7 +20,7 @@ feature 'adding new assets', js: true do
     select asset_attrs[:file_type], from: 'asset[file_type]'
     attach_file :file, File.join(File.dirname(__FILE__), '../../fixtures/files/test.jpg')
     fill_in 'asset[title]', with: asset_attrs[:title]
-    select asset_attrs[:year], from: 'asset[year]'
+    fill_in 'asset[year]', with: asset_attrs[:year]
     fill_in 'asset[description]', with: asset_attrs[:description]
 
     click_button 'Save'

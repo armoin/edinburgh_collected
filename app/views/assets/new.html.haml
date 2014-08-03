@@ -27,7 +27,7 @@
         .col-xs-12.col-sm-4
           = f.label :year
         .col-xs-12.col-sm-8
-          = f.select :year, (1900..2014).to_a.reverse, include_blank: true, class: "form-control"
+          = f.text_field :year, class: "form-control"
       .form-group
         .col-xs-12.col-sm-4
           = f.label :month
