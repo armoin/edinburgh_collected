@@ -27,6 +27,8 @@
               %a(href="#about") About
             %li
               %a(href="#contact") Help & Tutorials
+            %li
+              %a(href="mailto:edinburgh-stories@armoin.com?subject=Feedback") Feedback
             - if logged_in?
               %li
                 = link_to 'Sign Out', '/logout', method: :delete
@@ -46,4 +48,8 @@
       %footer
         %p &copy; The City of Edinburgh Council 2014
 
+
+    %script(type="text/javascript" src="//cdn.mailto.ninja/js/v0/mailto.ninja.js")
+    %script(type="text/javascript")
+      mailto.ninja()
 
