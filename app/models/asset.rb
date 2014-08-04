@@ -9,7 +9,7 @@ class Asset
   mount_uploader :source, ImageUploader
 
   attr_accessor :id, :title, :file_type, :url, :description,
-                :year, :month, :day,
+                :user_id, :year, :month, :day,
                 :width, :height, :resolution, :device, :length,
                 :is_readable, :created_at, :updated_at
 
