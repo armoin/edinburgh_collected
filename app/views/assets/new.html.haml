@@ -27,7 +27,7 @@
         .col-xs-12.col-sm-4
           = f.label :year
         .col-xs-12.col-sm-8
-          = f.text_field :year, class: "form-control", placeholder: 'must be within your lifetime please'
+          = f.text_field :year, class: "form-control", placeholder: "no earlier than #{Asset.furthest_year} please"
       .form-group
         .col-xs-12.col-sm-4
           = f.label :month
