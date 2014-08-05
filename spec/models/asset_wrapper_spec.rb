@@ -21,6 +21,39 @@ describe AssetWrapper do
       end
     end
 
+    describe "fetching a user's assets" do
+      let(:mock_response) { double('response', body: asset_attrs.to_json, status: status) }
+      let(:mock_conn)     { double('conn', get: mock_response, token_auth: true) }
+      let(:status)        { 200 }
+
+      it "fetches the user's assets" do
+        AssetWrapper.fetchUser(auth_token)
+        expect(mock_conn).to have_received(:get).with("/assets/user")
+      end
+
+      context 'when status == 200' do
+        it "provides the data for the user's assets" do
+          expect(AssetWrapper.fetchUser(auth_token)).to eql(asset_attrs)
+        end
+      end
+
+      context 'when status == 400' do
+        let(:status) { 400 }
+
+        it 'raises an Invalid authentication token error' do
+          expect {AssetWrapper.fetchUser(auth_token)}.to raise_error('Invalid authentication token')
+        end
+      end
+
+      context 'when status == 403' do
+        let(:status) { 403 }
+
+        it 'raises a Forbidden error' do
+          expect {AssetWrapper.fetchUser(auth_token)}.to raise_error('Forbidden')
+        end
+      end
+    end
+
     describe 'fetching a single asset' do
       let(:mock_response) { double('response', body: asset_attrs.to_json, status: status) }
       let(:mock_conn)     { double('conn', get: mock_response) }

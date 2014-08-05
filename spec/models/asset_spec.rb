@@ -32,6 +32,22 @@ describe Asset do
       end
     end
 
+    context "fetch user's assets" do
+      before(:each) do
+        allow(AssetWrapper).to receive(:fetchUser) { assets }
+      end
+
+      it "fetches user's assets" do
+        Asset.user(auth_token)
+        expect(AssetWrapper).to have_received(:fetchUser).with(auth_token)
+      end
+
+      it 'converts them to Assets' do
+        assets = Asset.user(auth_token)
+        expect(assets.first).to be_a(Asset)
+      end
+    end
+
     context 'fetch one' do
       before(:each) do
         allow(AssetWrapper).to receive(:fetch) { asset_data }

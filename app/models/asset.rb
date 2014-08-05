@@ -34,6 +34,10 @@ class Asset
     AssetWrapper.fetchAll.map{|attrs| Asset.new(attrs)}
   end
 
+  def self.user(token)
+    AssetWrapper.fetchUser(token).map{|attrs| Asset.new(attrs)}
+  end
+
   def self.find(id)
     attrs = AssetWrapper.fetch(id)
     Asset.new attrs

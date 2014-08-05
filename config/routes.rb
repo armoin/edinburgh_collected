@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
+  namespace :user do
+    resources :assets
+  end
+
   resources :assets
+
   get '/signup' => 'users#new'
   post '/signup' => 'users#create'
   get '/login' => 'sessions#new'
