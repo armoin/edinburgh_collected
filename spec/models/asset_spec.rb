@@ -242,6 +242,15 @@ describe Asset do
             expect(asset.errors.messages.values.first).to include('must be of type .jpg, .jpeg, .png, .gif')
           end
         end
+
+        context "and remote_source_url is given instead of file" do
+          let(:file_name) { 'test.txt' }
+
+          it "is ignores validation for just now" do
+            asset.remote_source_url = 'test/url'
+            expect(asset).to be_valid
+          end
+        end
       end
     end
 

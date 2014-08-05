@@ -73,6 +73,7 @@ class Asset
 
   def file_is_of_correct_type
     return false unless Asset.file_types.include?(self.file_type) # file_type validation will catch
+    return true if remote_source_url
     valid_exts_list = {
       'image' => %w(.jpg .jpeg .png .gif)
     }
