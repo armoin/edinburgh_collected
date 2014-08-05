@@ -38,14 +38,6 @@ feature 'As a user I want to be able to manage my assets' do
     end
   end
 
-  feature 'So that I can add new assets' do
-    scenario 'allows the user to add a new asset' do
-      visit '/assets'
-      click_link('add-asset')
-      expect(current_path).to eql('/assets/new')
-    end
-  end
-
   feature 'So that I can view details on a selected asset' do
     scenario 'clicking on the View details link' do
       visit '/assets'

@@ -20,16 +20,10 @@ class AssetWrapper
     attrs
   end
 
-  def self.create(asset)
-    response = conn.post '/assets', asset: asset.instance_values
+  def self.create(asset, auth_token)
+    response = authenticated_conn(auth_token).post '/assets', asset: asset.instance_values
     attrs = JSON.parse(response.body)
     attrs['id']
-  end
-
-  def self.update(asset)
-    response = conn.put "/assets/#{asset.id}", asset: asset.instance_values
-    attrs = JSON.parse(response.body)
-    attrs
   end
 
   def self.conn

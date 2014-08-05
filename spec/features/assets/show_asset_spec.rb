@@ -10,9 +10,11 @@ feature 'As a user I want to be able to view one of my assets' do
   end
 
   feature 'So that I can view its details' do
-    let(:url) { '/assets/986ff7a7b23bed8283dfc4b979f89b99' }
+    let(:url)     { '/assets/986ff7a7b23bed8283dfc4b979f89b99' }
+    let(:referer) { '/test/refer' }
 
     before :each do
+      Capybara.current_session.driver.header 'Referer', referer
       visit url
     end
 
@@ -77,8 +79,8 @@ feature 'As a user I want to be able to view one of my assets' do
       end
     end
 
-    scenario 'lets me go back to the index page' do
-      expect(page).to have_css("a[href=\"#{assets_path}\"]", count: 1)
+    scenario 'lets me go back to the previous page' do
+      expect(page).to have_css("a[href=\"#{referer}\"]", count: 1)
     end
   end
 end

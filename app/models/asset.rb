@@ -43,11 +43,11 @@ class Asset
     Asset.new attrs
   end
 
-  def save
+  def save(auth_token)
     return false unless valid?
     source.store!
     self.url = source.try(:url)
-    self.id = AssetWrapper.create(self)
+    self.id = AssetWrapper.create(self, auth_token)
   end
 
   def thumb
