@@ -32,6 +32,22 @@ describe Asset do
       end
     end
 
+    context "fetch user's assets" do
+      before(:each) do
+        allow(AssetWrapper).to receive(:fetchUser) { assets }
+      end
+
+      it "fetches user's assets" do
+        Asset.user(auth_token)
+        expect(AssetWrapper).to have_received(:fetchUser).with(auth_token)
+      end
+
+      it 'converts them to Assets' do
+        assets = Asset.user(auth_token)
+        expect(assets.first).to be_a(Asset)
+      end
+    end
+
     context 'fetch one' do
       before(:each) do
         allow(AssetWrapper).to receive(:fetch) { asset_data }
@@ -83,7 +99,7 @@ describe Asset do
       end
 
       it "returns true" do
-        expect(subject.save).to be_truthy
+        expect(subject.save(auth_token)).to be_truthy
       end
 
       context "when a file is attached" do
@@ -91,7 +107,7 @@ describe Asset do
 
         before :each do
           allow(subject).to receive(:source).and_return(mock_source)
-          subject.save
+          subject.save(auth_token)
         end
 
         it "stores the file" do
@@ -104,19 +120,19 @@ describe Asset do
       end
 
       it "saves the asset data via the API" do
-        subject.save
-        expect(AssetWrapper).to have_received(:create).with(subject)
+        subject.save(auth_token)
+        expect(AssetWrapper).to have_received(:create).with(subject, auth_token)
       end
 
       it "assigns the returned id" do
-        subject.save
+        subject.save(auth_token)
         expect(subject.id).to eql('123')
       end
     end
 
     context "when invalid" do
       it "returns false" do
-        expect(subject.save).to be_falsy
+        expect(subject.save(auth_token)).to be_falsy
       end
     end
   end

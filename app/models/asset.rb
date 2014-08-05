@@ -9,7 +9,7 @@ class Asset
   mount_uploader :source, ImageUploader
 
   attr_accessor :id, :title, :file_type, :url, :description,
-                :year, :month, :day,
+                :user_id, :year, :month, :day,
                 :width, :height, :resolution, :device, :length,
                 :is_readable, :created_at, :updated_at
 
@@ -34,16 +34,20 @@ class Asset
     AssetWrapper.fetchAll.map{|attrs| Asset.new(attrs)}
   end
 
+  def self.user(token)
+    AssetWrapper.fetchUser(token).map{|attrs| Asset.new(attrs)}
+  end
+
   def self.find(id)
     attrs = AssetWrapper.fetch(id)
     Asset.new attrs
   end
 
-  def save
+  def save(auth_token)
     return false unless valid?
     source.store!
     self.url = source.try(:url)
-    self.id = AssetWrapper.create(self)
+    self.id = AssetWrapper.create(self, auth_token)
   end
 
   def thumb

@@ -1,5 +1,8 @@
 .container-fluid
   .row
+    .col-xs-12.global-asset-actions
+      %a#add-asset.btn.btn-primary(href="/user/assets/new" role="button") Add New
+  .row
     .assets
       - @assets.each do |asset|
         %a.asset.thumb(data-id="#{asset.id}" href="#{asset_url(asset.id)}" title="View details" role="button")
