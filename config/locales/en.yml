@@ -9,6 +9,7 @@ en:
         file_type: "What would you like to add?"
         source: "Please select a file"
         title: "What would you like to call this?"
+        attribution: "Would you like to attribute this to another person?"
     errors:
       models:
         asset:

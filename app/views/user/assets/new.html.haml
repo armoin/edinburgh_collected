@@ -44,6 +44,11 @@
         .col-xs-12.col-sm-8
           = f.text_area :description, class: "form-control"
       .form-group
+        .col-xs-12.col-sm-4
+          = f.label :attribution
+        .col-xs-12.col-sm-8
+          = f.text_field :attribution, class: "form-control"
+      .form-group
         .actions.col-xs-sm-12
           = link_to "Cancel", user_assets_path, class: "btn btn-default"
           = f.submit "Save", class: "btn btn-primary", disabled: true

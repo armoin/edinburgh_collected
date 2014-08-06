@@ -77,6 +77,10 @@ feature 'As a user I want to be able to view one of my assets' do
           end
         end
       end
+
+      it 'has an attribution' do
+        expect(asset.find('.attribution')).to have_text("Bobby Tables")
+      end
     end
 
     scenario 'lets me go back to the previous page' do

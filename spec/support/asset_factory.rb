@@ -8,6 +8,7 @@ class AssetFactory
       "year"        => "2014",
       "month"       => "05",
       "day"         => "04",
+      "attribution" => "Bobby Tables",
       "updated_at"  => "2014-06-24T09:55:58.874Z",
       "created_at"  => "2014-06-24T09:55:58.874Z",
       "id"          => "1"
