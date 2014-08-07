@@ -31,16 +31,22 @@ class Asset
   validate :file_is_of_correct_type
 
   def self.all
-    AssetWrapper.fetchAll.map{|attrs| Asset.new(attrs)}
+    prep AssetWrapper.fetchAll
   end
 
   def self.user(token)
-    AssetWrapper.fetchUser(token).map{|attrs| Asset.new(attrs)}
+    prep AssetWrapper.fetchUser(token)
   end
 
   def self.find(id)
     attrs = AssetWrapper.fetch(id)
     Asset.new attrs
+  end
+
+  def self.prep(list)
+    list
+      .map{|attrs| Asset.new(attrs)}
+      .sort{|a,b| b.created_at <=> a.created_at}
   end
 
   def save(auth_token)

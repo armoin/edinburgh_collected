@@ -2,18 +2,33 @@ require 'rails_helper'
 
 describe Asset do
   let(:id) { "1" }
+  let(:earlier_date) { "2014-06-24T09:55:58.874Z" }
+  let(:later_date)   { "2014-06-25T09:55:58.874Z" }
   let(:asset_data) {
     {
       "title"       => "Arthur's Seat",
       "file_type"   => "img",
       "url"         => "/images/meadows.jpg",
       "description" => "Arthur's Seat is the plug of a long extinct volcano.",
-      "updated_at"  => "2014-06-24T09:55:58.874Z",
-      "created_at"  => "2014-06-24T09:55:58.874Z",
+      "updated_at"  => earlier_date,
+      "created_at"  => earlier_date,
       "id"          => id
     }
   }
-  let(:assets) { [asset_data] }
+  let(:later_asset_data) {
+    {
+      "title"       => "Arthur's Seat",
+      "file_type"   => "img",
+      "url"         => "/images/meadows.jpg",
+      "description" => "Arthur's Seat is the plug of a long extinct volcano.",
+      "updated_at"  => later_date,
+      "created_at"  => later_date,
+      "id"          => "2"
+    }
+  }
+  let(:assets) {
+    [ asset_data, later_asset_data ]
+  }
 
   describe 'fetching assets' do
     context 'fetch all' do
@@ -30,6 +45,11 @@ describe Asset do
         assets = Asset.all
         expect(assets.first).to be_a(Asset)
       end
+
+      it 'sorts them by reverse created at date' do
+        assets = Asset.all
+        expect(assets.map(&:id)).to be_eql(['2', '1'])
+      end
     end
 
     context "fetch user's assets" do
@@ -45,6 +65,11 @@ describe Asset do
       it 'converts them to Assets' do
         assets = Asset.user(auth_token)
         expect(assets.first).to be_a(Asset)
+      end
+
+      it 'sorts them by reverse created at date' do
+        assets = Asset.user(auth_token)
+        expect(assets.map(&:id)).to be_eql(['2', '1'])
       end
     end
 
