@@ -1,17 +1,15 @@
 require 'carrierwave/mount'
 
-class Asset
-  include ActiveModel::Model
+class Asset < ActiveRecord::Base
+  belongs_to :user
+
   extend CarrierWave::Mount
 
   MAX_YEAR_RANGE = 120
 
   mount_uploader :source, ImageUploader
 
-  attr_accessor :id, :title, :file_type, :url, :description,
-                :attribution, :user_id, :year, :month, :day,
-                :width, :height, :resolution, :device, :length,
-                :is_readable, :created_at, :updated_at
+  default_scope { order('created_at DESC') }
 
   def self.file_types
     ["image"]
@@ -25,44 +23,10 @@ class Asset
     Time.now.year
   end
 
-  validates_presence_of :source, :title
+  validates_presence_of :title, :source
   validates :year, presence: true, inclusion: { in: (furthest_year..current_year).map(&:to_s), message: 'must be within the last 120 years.' }
   validates :file_type, inclusion: { in: Asset.file_types }
   validate :file_is_of_correct_type
-
-  def self.all
-    prep AssetWrapper.fetchAll
-  end
-
-  def self.user(token)
-    prep AssetWrapper.fetchUser(token)
-  end
-
-  def self.find(id)
-    attrs = AssetWrapper.fetch(id)
-    Asset.new attrs
-  end
-
-  def self.prep(list)
-    list
-      .map{|attrs| Asset.new(attrs)}
-      .sort{|a,b| b.created_at <=> a.created_at}
-  end
-
-  def save(auth_token)
-    return false unless valid?
-    source.store!
-    self.url = source.try(:url)
-    self.id = AssetWrapper.create(self, auth_token)
-  end
-
-  def thumb
-    return '' unless url
-    parts = url.split('/')
-    file_name = parts.pop
-    parts.push "thumb_#{file_name}"
-    parts.join('/')
-  end
 
   def date
     if self.day.present? && self.month.present?
@@ -79,7 +43,6 @@ class Asset
 
   def file_is_of_correct_type
     return false unless Asset.file_types.include?(self.file_type) # file_type validation will catch
-    return true if remote_source_url
     valid_exts_list = {
       'image' => %w(.jpg .jpeg .png .gif)
     }

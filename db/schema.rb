@@ -11,7 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140808093947) do
+ActiveRecord::Schema.define(version: 20140808144751) do
+
+  create_table "assets", force: true do |t|
+    t.integer  "user_id"
+    t.string   "title"
+    t.string   "file_type"
+    t.string   "source"
+    t.text     "description"
+    t.string   "year"
+    t.string   "month"
+    t.string   "day"
+    t.integer  "width"
+    t.integer  "height"
+    t.integer  "resolution"
+    t.string   "device"
+    t.float    "length"
+    t.boolean  "is_readable"
+    t.string   "attribution"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "first_name",       null: false

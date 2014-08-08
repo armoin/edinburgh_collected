@@ -1,9 +1,23 @@
 class AssetFactory
-  def self.asset_data
+  def self.assets
+    %w(1 2 3).map{|id| build_asset( asset_data(id) )}
+  end
+
+  def self.build_asset(asset_data)
+    Asset.new(asset_data)
+  end
+
+  def self.file
+    file_path = File.join(Rails.root, 'spec', 'fixtures', 'files')
+    file_name = 'test.jpg'
+    Rack::Test::UploadedFile.new(File.join(file_path, file_name))
+  end
+
+  def self.asset_data(id="1")
     {
       "title"       => "Arthur's Seat",
       "file_type"   => "image",
-      "url"         => "/meadows.jpg",
+      "source"      => file,
       "description" => "Arthur's Seat is the plug of a long extinct volcano.",
       "year"        => "2014",
       "month"       => "05",
@@ -11,7 +25,7 @@ class AssetFactory
       "attribution" => "Bobby Tables",
       "updated_at"  => "2014-06-24T09:55:58.874Z",
       "created_at"  => "2014-06-24T09:55:58.874Z",
-      "id"          => "1"
+      "id"          => id
     }
   end
 
@@ -19,7 +33,6 @@ class AssetFactory
     {
       "title"       => "Arthur's Seat",
       "file_type"   => "image",
-      "url"         => "/meadows.jpg",
       "description" => "Arthur's Seat is the plug of a long extinct volcano.",
       "year"        => "2014",
       "month"       => "05",
@@ -35,7 +48,6 @@ class AssetFactory
       {
         "title"       => "Castle",
         "file_type"   => "image",
-        "url"         => "/castle.jpg",
         "description" => "Edinburgh Castle is still in active use. Situated on the Royal Mile it is very much part of the tourist trail.",
         "year"        => "2014",
         "month"       => "05",
@@ -47,7 +59,6 @@ class AssetFactory
       {
         "title"       => "Cathedral",
         "file_type"   => "image",
-        "url"         => "/st_giles.jpg",
         "description" => "St Giles is Edinburgh's Cathedral. Situated on the Royal Mile it is very much part of the tourist trail.",
         "year"        => "2014",
         "month"       => "05",

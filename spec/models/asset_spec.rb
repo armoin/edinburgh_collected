@@ -1,93 +1,25 @@
 require 'rails_helper'
 
 describe Asset do
-  let(:id) { "1" }
-  let(:earlier_date) { "2014-06-24T09:55:58.874Z" }
-  let(:later_date)   { "2014-06-25T09:55:58.874Z" }
+  let(:file_path)  { File.join(Rails.root, 'spec', 'fixtures', 'files') }
+  let(:file_name)  { 'test.jpg' }
+  let(:source)     { Rack::Test::UploadedFile.new(File.join(file_path, file_name)) }
   let(:asset_data) {
     {
-      "title"       => "Arthur's Seat",
-      "file_type"   => "img",
-      "url"         => "/images/meadows.jpg",
-      "description" => "Arthur's Seat is the plug of a long extinct volcano.",
-      "updated_at"  => earlier_date,
-      "created_at"  => earlier_date,
-      "id"          => id
+      title:       "Arthur's Seat",
+      file_type:   "image",
+      year:        "2014",
+      description: "Arthur's Seat is the plug of a long extinct volcano.",
+      source:      source
     }
   }
-  let(:later_asset_data) {
-    {
-      "title"       => "Arthur's Seat",
-      "file_type"   => "img",
-      "url"         => "/images/meadows.jpg",
-      "description" => "Arthur's Seat is the plug of a long extinct volcano.",
-      "updated_at"  => later_date,
-      "created_at"  => later_date,
-      "id"          => "2"
-    }
-  }
-  let(:assets) {
-    [ asset_data, later_asset_data ]
-  }
 
-  describe 'fetching assets' do
-    context 'fetch all' do
-      before(:each) do
-        allow(AssetWrapper).to receive(:fetchAll) { assets }
-      end
-
-      it 'fetches all assets' do
-        Asset.all
-        expect(AssetWrapper).to have_received(:fetchAll)
-      end
-
-      it 'converts them to Assets' do
-        assets = Asset.all
-        expect(assets.first).to be_a(Asset)
-      end
-
-      it 'sorts them by reverse created at date' do
-        assets = Asset.all
-        expect(assets.map(&:id)).to be_eql(['2', '1'])
-      end
-    end
-
-    context "fetch user's assets" do
-      before(:each) do
-        allow(AssetWrapper).to receive(:fetchUser) { assets }
-      end
-
-      it "fetches user's assets" do
-        Asset.user(auth_token)
-        expect(AssetWrapper).to have_received(:fetchUser).with(auth_token)
-      end
-
-      it 'converts them to Assets' do
-        assets = Asset.user(auth_token)
-        expect(assets.first).to be_a(Asset)
-      end
-
-      it 'sorts them by reverse created at date' do
-        assets = Asset.user(auth_token)
-        expect(assets.map(&:id)).to be_eql(['2', '1'])
-      end
-    end
-
-    context 'fetch one' do
-      before(:each) do
-        allow(AssetWrapper).to receive(:fetch) { asset_data }
-      end
-
-      it 'fetches the requested asset' do
-        Asset.find(id)
-        expect(AssetWrapper).to have_received(:fetch).with(id)
-      end
-
-      it 'converts it into an Asset' do
-        asset = Asset.find(id)
-        expect(asset).to be_a(Asset)
-        expect(asset.id).to eql(id)
-      end
+  describe 'ordering' do
+    it 'sorts them by reverse created at date' do
+      asset1 = Asset.create(asset_data)
+      asset2 = Asset.create(asset_data)
+      expect(Asset.first).to eql(asset2)
+      expect(Asset.last).to eql(asset1)
     end
   end
 
@@ -113,74 +45,16 @@ describe Asset do
     end
   end
 
-  describe "saving" do
-    before :each do
-      allow(AssetWrapper).to receive(:create).and_return('123')
-    end
-
-    context "when valid" do
-      before :each do
-        allow(subject).to receive(:valid?).and_return(true)
-      end
-
-      it "returns true" do
-        expect(subject.save(auth_token)).to be_truthy
-      end
-
-      context "when a file is attached" do
-        let(:mock_source) { double('source', store!: true, url: 'thingy') }
-
-        before :each do
-          allow(subject).to receive(:source).and_return(mock_source)
-          subject.save(auth_token)
-        end
-
-        it "stores the file" do
-          expect(mock_source).to have_received(:store!)
-        end
-
-        it "attaches the URL to the asset" do
-          expect(subject.url).to eql('thingy')
-        end
-      end
-
-      it "saves the asset data via the API" do
-        subject.save(auth_token)
-        expect(AssetWrapper).to have_received(:create).with(subject, auth_token)
-      end
-
-      it "assigns the returned id" do
-        subject.save(auth_token)
-        expect(subject.id).to eql('123')
-      end
-    end
-
-    context "when invalid" do
-      it "returns false" do
-        expect(subject.save(auth_token)).to be_falsy
-      end
-    end
-  end
-
-  it "allows instantiation with attributes" do
-    asset = Asset.new(asset_data)
-    attrs = %w(id title file_type url description created_at updated_at)
-    attrs.each do |attr|
-      expect(asset.send(attr)).to eql(asset_data[attr])
-    end
-  end
-
   describe 'validation' do
     let(:valid_attrs) {{
       year: "2014",
       file_type: "image",
       title: "A test"
     }}
-    let(:file_name) { 'test.jpg' }
     let(:asset)    { Asset.new(valid_attrs) }
 
     before :each do
-      asset.source = Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec', 'fixtures', 'files', file_name))
+      asset.source = source
     end
 
     it "is valid with valid attributes" do
@@ -268,14 +142,14 @@ describe Asset do
           end
         end
 
-        context "and remote_source_url is given instead of file" do
-          let(:file_name) { 'test.txt' }
-
-          it "is ignores validation for just now" do
-            asset.remote_source_url = 'test/url'
-            expect(asset).to be_valid
-          end
-        end
+        # context "and remote_source_url is given instead of file" do
+        #   let(:file_name) { 'test.txt' }
+        #
+        #   it "is ignores validation for just now" do
+        #     asset.remote_source_url = 'test/url'
+        #     expect(asset).to be_valid
+        #   end
+        # end
       end
     end
 
@@ -297,22 +171,6 @@ describe Asset do
       asset.title = ""
       expect(asset).to be_invalid
       expect(asset.errors.messages.values.first).to include("Please let us know what you would like to call this.")
-    end
-  end
-
-  describe "thumb" do
-    it "returns an empty string if there is no URL" do
-      expect(subject.thumb).to eq('')
-    end
-
-    it "returns the thumb version of the URL if there is a URL" do
-      subject.url = "test.jpg"
-      expect(subject.thumb).to eq('thumb_test.jpg')
-    end
-
-    it "takes the path into account" do
-      subject.url = "/path/to/test.jpg"
-      expect(subject.thumb).to eq('/path/to/thumb_test.jpg')
     end
   end
 

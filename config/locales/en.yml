@@ -1,5 +1,5 @@
 en:
-  activemodel:
+  activerecord:
     attributes:
       asset:
         year:  "What year does this date from?"

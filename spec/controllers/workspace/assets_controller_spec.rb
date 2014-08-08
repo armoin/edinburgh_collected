@@ -22,7 +22,7 @@ describe Workspace::AssetsController do
 
       before :each do
         login_user
-        allow(Asset).to receive(:user).and_return(stub_assets)
+        allow(@user).to receive(:assets).and_return(stub_assets)
         get :index
       end
 
@@ -31,7 +31,7 @@ describe Workspace::AssetsController do
       end
 
       it "fetches the user's assets" do
-        expect(Asset).to have_received(:user)
+        expect(@user).to have_received(:assets)
       end
 
       it "assigns the returned assets" do
@@ -84,16 +84,25 @@ describe Workspace::AssetsController do
     end
 
     context 'when logged in' do
-      let(:asset_stub)   { double('asset', save: true) }
+      let(:asset_stub)  { double('asset', 'user=' => true) }
 
       before :each do
         login_user
-        allow(Asset).to receive(:new) { asset_stub }
+        allow(Asset).to receive(:new).and_return(asset_stub)
+        allow(asset_stub).to receive(:save).and_return(true)
         post :create, asset: asset_params
       end
 
       it "builds a new Asset with the given params" do
         expect(Asset).to have_received(:new).with(asset_params)
+      end
+
+      it "assigns the asset" do
+        expect(assigns(:asset)).to eql(asset_stub)
+      end
+
+      it "assigns the current user" do
+        expect(asset_stub).to have_received('user=').with(@user)
       end
 
       it "saves the Asset" do
@@ -107,13 +116,9 @@ describe Workspace::AssetsController do
       end
 
       context "save is not successful" do
-        let(:asset_stub) { double('asset', save: false) }
-
-        it "assigns the asset" do
-          expect(assigns(:asset)).to eql(asset_stub)
-        end
-
         it "re-renders the new form" do
+          allow(asset_stub).to receive(:save).and_return(false)
+          post :create, asset: asset_params
           expect(response).to render_template(:new)
         end
       end

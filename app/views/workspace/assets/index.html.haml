@@ -1,12 +1,12 @@
 .container-fluid
   .row
     .col-xs-12.global-asset-actions
-      %a#add-asset.btn.btn-primary(href="/user/assets/new" role="button") Add New
+      = link_to 'Add New', new_workspace_asset_path, id: 'add-asset', class: 'btn btn-primary', role: 'button'
   .row
     .assets
       - @assets.each do |asset|
         %a.asset.thumb(data-id="#{asset.id}" href="#{asset_url(asset.id)}" title="View details" role="button")
           %div.img
-            %img{src: "#{asset.thumb}", alt: asset.title}
+            %img{src: "#{asset.source_url(:thumb)}", alt: asset.title}
           %div.footer
             %p.title= asset.title

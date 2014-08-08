@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 feature 'As a user I want to be able to view one of my assets' do
-  let(:asset_data)    { AssetFactory.asset_data }
-  let(:mock_response) { double('response', status: 200, body: asset_data.to_json) }
-  let(:mock_conn)     { double('conn', get: mock_response) }
+  let(:id)         { "1" }
+  let(:asset_data) { AssetFactory.asset_data(id) }
+  let(:asset)      { AssetFactory.build_asset(asset_data) }
 
   before :each do
-    allow(Faraday).to receive(:new).and_return(mock_conn)
+    allow(Asset).to receive(:find).and_return(asset)
   end
 
   feature 'So that I can view its details' do
-    let(:url)     { '/assets/986ff7a7b23bed8283dfc4b979f89b99' }
+    let(:url)     { "/assets/#{id}" }
     let(:referer) { '/test/refer' }
 
     before :each do
@@ -19,36 +19,36 @@ feature 'As a user I want to be able to view one of my assets' do
     end
 
     scenario 'fetches the requested asset data' do
-      expect(mock_conn).to have_received(:get).with(url)
+      expect(Asset).to have_received(:find).with(id)
     end
 
     context 'an asset' do
-      let(:asset) { find('.asset') }
+      let(:asset_class) { find('.asset') }
 
       it 'has a title' do
-        expect(asset.find('.title')).to have_text("Arthur's Seat")
+        expect(asset_class.find('.title')).to have_text("Arthur's Seat")
       end
 
       it 'has an image' do
-        img = asset.find('img')
-        expect(img['src']).to have_content("meadows.jpg")
+        img = asset_class.find('img')
+        expect(img['src']).to have_content("test.jpg")
         expect(img['alt']).to have_content("Arthur's Seat")
       end
 
       it 'has a file_type' do
-        expect(asset.find('.file_type')).to have_text("image")
+        expect(asset_class.find('.file_type')).to have_text("image")
       end
 
       it 'has a description' do
-        expect(asset.find('.description')).to have_text("Arthur's Seat is the plug of a long extinct volcano.")
+        expect(asset_class.find('.description')).to have_text("Arthur's Seat is the plug of a long extinct volcano.")
       end
 
       describe 'date' do
-        let(:date_text) { asset.find('.date').native.text }
+        let(:date_text) { asset_class.find('.date').native.text }
 
         context 'when only a year is given' do
           let(:asset_data) {
-            data = AssetFactory.asset_data
+            data = AssetFactory.asset_data(id)
             data.delete("month")
             data.delete("day")
             data
@@ -79,7 +79,7 @@ feature 'As a user I want to be able to view one of my assets' do
       end
 
       it 'has an attribution' do
-        expect(asset.find('.attribution')).to have_text("Bobby Tables")
+        expect(asset_class.find('.attribution')).to have_text("Bobby Tables")
       end
     end
 
