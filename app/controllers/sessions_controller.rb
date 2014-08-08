@@ -1,20 +1,19 @@
 class SessionsController < ApplicationController
   def new
+    @user = User.new
   end
 
   def create
-    token = SessionWrapper.create(params[:login])
-    session[:auth_token] = token
-    if token.present?
-      redirect_to :root, notice: 'Successfully signed in'
+    if @user = login(params[:email], params[:password])
+      redirect_back_or_to :root, notice: 'Successfully signed in'
     else
-      redirect_to :login, alert: 'Could not sign in'
+      flash[:alert] = 'Could not sign in'
+      render :new
     end
   end
 
   def destroy
-    SessionWrapper.delete(session[:auth_token])
-    session.delete(:auth_token)
+    logout
     redirect_to :root, notice: 'Signed out'
   end
 end

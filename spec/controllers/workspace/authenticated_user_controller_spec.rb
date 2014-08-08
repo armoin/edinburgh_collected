@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-class ProtectedController < User::AuthenticatedUserController; end
+class ProtectedController < Workspace::AuthenticatedUserController; end
 
-describe User::AuthenticatedUserController do
+describe Workspace::AuthenticatedUserController do
   controller ProtectedController do
-    skip_before_filter :authenticate!, only: [:index]
+    skip_before_filter :require_login, only: [:index]
 
     def index
       render text: 'index'
@@ -27,7 +27,7 @@ describe User::AuthenticatedUserController do
       end
 
       it "alerts the user to log in" do
-        expect(flash[:alert]).to eql('You must be logged in to access that.')
+        expect(flash[:alert]).to eql('Please login first')
       end
     end
 

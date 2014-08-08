@@ -6,6 +6,11 @@ describe UsersController do
       get :new
     end
 
+    it 'assigns a new user' do
+      expect(assigns[:user]).to be_a(User)
+      expect(assigns[:user]).to be_new_record
+    end
+
     it 'renders the signup page' do
       expect(response).to render_template(:new)
     end
@@ -16,18 +21,22 @@ describe UsersController do
       first_name: 'Bobby',
       last_name: 'Tables',
       email: 'bobby@example.com',
-      username: 'bobbyt',
       password: 'password',
       password_confirmation: 'password'
     }}
+    let(:stub_user) { double('user', save: true) }
 
     before :each do
-      allow(UserWrapper).to receive(:create).and_return(true)
+      allow(User).to receive(:new).and_return(stub_user)
       post :create, user: user_params
     end
 
-    it 'creates a new user' do
-      expect(UserWrapper).to have_received(:create).with(user_params)
+    it 'builds a new user' do
+      expect(User).to have_received(:new).with(user_params)
+    end
+
+    it 'saves the user' do
+      expect(stub_user).to have_received(:save)
     end
 
     context 'when successful' do
@@ -41,17 +50,11 @@ describe UsersController do
     end
 
     context 'when unsuccessful' do
-      before :each do
-        allow(UserWrapper).to receive(:create).and_return(false)
+      let(:stub_user) { double('user', save: false) }
+
+      it 'renders the new page' do
         post :create, user: user_params
-      end
-
-      it 'sets a flash alert' do
-        expect(flash[:alert]).to eql('Could not sign up new user')
-      end
-
-      it 'redirects to the root page' do
-        expect(response).to redirect_to(:root)
+        expect(response).to render_template(:new)
       end
     end
   end

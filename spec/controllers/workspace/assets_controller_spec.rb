@@ -1,6 +1,14 @@
 require 'rails_helper'
 
-describe User::AssetsController do
+describe Workspace::AssetsController do
+  before { @user = User.create(
+    first_name: 'Bobby',
+    last_name: 'Tables',
+    email: 'bobby@example.com',
+    password: 'foo',
+    password_confirmation: 'foo'
+  )}
+
   describe 'GET index' do
     context 'when not logged in' do
       it 'asks user to login' do
@@ -13,7 +21,7 @@ describe User::AssetsController do
       let(:stub_assets) { double('assets') }
 
       before :each do
-        login!
+        login_user
         allow(Asset).to receive(:user).and_return(stub_assets)
         get :index
       end
@@ -23,7 +31,7 @@ describe User::AssetsController do
       end
 
       it "fetches the user's assets" do
-        expect(Asset).to have_received(:user).with(auth_token)
+        expect(Asset).to have_received(:user)
       end
 
       it "assigns the returned assets" do
@@ -46,7 +54,7 @@ describe User::AssetsController do
 
     context 'when logged in' do
       before :each do
-        login!
+        login_user
         get :new
       end
 
@@ -79,7 +87,7 @@ describe User::AssetsController do
       let(:asset_stub)   { double('asset', save: true) }
 
       before :each do
-        login!
+        login_user
         allow(Asset).to receive(:new) { asset_stub }
         post :create, asset: asset_params
       end
@@ -89,12 +97,12 @@ describe User::AssetsController do
       end
 
       it "saves the Asset" do
-        expect(asset_stub).to have_received(:save).with(auth_token)
+        expect(asset_stub).to have_received(:save)
       end
 
       context "save is successful" do
         it "redirects to the user's assets page" do
-          expect(response).to redirect_to(user_assets_url)
+          expect(response).to redirect_to(workspace_assets_url)
         end
       end
 

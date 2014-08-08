@@ -2,35 +2,36 @@ require 'rails_helper'
 
 describe SessionsController do
   describe 'GET new' do
-    it 'renders the login page' do
+    before :each do
       get :new
+    end
+
+    it 'assigns a new user' do
+      expect(assigns[:user]).to be_a(User)
+      expect(assigns[:user]).to be_new_record
+    end
+
+    it 'renders the login page' do
       expect(response).to render_template(:new)
     end
   end
 
   describe 'POST create' do
-    let(:token) { 't0k3n' }
     let(:login_params) {{
-      username: 'bobby',
+      email: 'bobby@example.com',
       password: 's3cr3t'
     }}
 
     before :each do
-      allow(SessionWrapper).to receive(:create).and_return(token)
-      post :create, login: login_params
+      allow(controller).to receive(:login).and_return(true)
+      post :create, login_params
     end
 
     it 'logs the user in' do
-      expect(SessionWrapper).to have_received(:create).with(login_params)
+      expect(controller).to have_received(:login).with('bobby@example.com', 's3cr3t')
     end
 
     context 'when successful' do
-      let(:token) { 't0k3n' }
-
-      it 'has a session token' do
-        expect(session[:auth_token]).to eql(token)
-      end
-
       it 'redirects to the root page' do
         expect(response).to redirect_to(:root)
       end
@@ -41,14 +42,13 @@ describe SessionsController do
     end
 
     context 'when unsuccessful' do
-      let(:token) { '' }
-
-      it 'does not have a session token' do
-        expect(session[:auth_token]).to be_blank
+      before :each do
+        allow(controller).to receive(:login).and_return(false)
+        post :create, login_params
       end
 
-      it 'redirects to the login page' do
-        expect(response).to redirect_to(:login)
+      it 'renders the login page' do
+        expect(response).to render_template(:new)
       end
 
       it 'displays a failure alert' do
@@ -58,20 +58,13 @@ describe SessionsController do
   end
 
   describe 'DELETE destroy' do
-    let(:token) { 't0k3n' }
-
     before :each do
-      session[:auth_token] = token
-      allow(SessionWrapper).to receive(:delete)
+      allow(controller).to receive(:logout)
       delete :destroy
     end
 
     it 'logs the user out' do
-      expect(SessionWrapper).to have_received(:delete).with(token)
-    end
-
-    it 'removes the session token' do
-      expect(session[:auth_token]).to be_nil
+      expect(controller).to have_received(:logout)
     end
 
     it 'redirects to the root page' do

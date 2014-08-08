@@ -1,13 +1,27 @@
 class UsersController < ApplicationController
   def new
+    @user = User.new
   end
 
   def create
-    if UserWrapper.create(params[:user])
+    @user = User.new(user_params)
+    if @user.save
       redirect_to :login, notice: 'Successfully signed up'
     else
-      redirect_to :root, alert: 'Could not sign up new user'
+      render :new
     end
+  end
+
+  private
+
+  def user_params
+    params.require(:user).permit(
+      :first_name,
+      :last_name,
+      :email,
+      :password,
+      :password_confirmation
+    )
   end
 end
 
