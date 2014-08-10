@@ -11,12 +11,11 @@ feature 'adding new assets' do # REMEMBER: add js:true again if this test is rei
   let(:mock_conn)     { double('conn', post: mock_response) }
 
   before :each do
+    pending 'Need to work out proper end to end testing strategy'
     allow(Faraday).to receive(:new).and_return(mock_conn)
   end
 
   scenario 'adding a new asset creates it' do
-    pending "I'm not sure how much value this is currently giving. Removing until I sort out how to best deal with authentication"
-
     visit 'user/assets/new'
 
     select asset_attrs[:file_type], from: 'asset[file_type]'

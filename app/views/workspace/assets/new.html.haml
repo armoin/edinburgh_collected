@@ -25,6 +25,11 @@
           = f.text_field :title, class: "form-control"
       .form-group.required
         .col-xs-12.col-sm-4
+          = f.label :area_id
+        .col-xs-12.col-sm-8
+          = f.select :area_id, options_from_collection_for_select(Area.all, 'id', 'name'), {}, {class: "form-control"}
+      .form-group.required
+        .col-xs-12.col-sm-4
           = f.label :year
         .col-xs-12.col-sm-8
           = f.text_field :year, class: "form-control", placeholder: "no earlier than #{Asset.furthest_year} please"

@@ -1,24 +1,29 @@
 require 'rails_helper'
 
 describe Asset do
-  let(:file_path)  { File.join(Rails.root, 'spec', 'fixtures', 'files') }
-  let(:file_name)  { 'test.jpg' }
-  let(:source)     { Rack::Test::UploadedFile.new(File.join(file_path, file_name)) }
-  let(:asset_data) {
-    {
-      title:       "Arthur's Seat",
-      file_type:   "image",
-      year:        "2014",
-      description: "Arthur's Seat is the plug of a long extinct volcano.",
-      source:      source,
-      user:        User.new
-    }
-  }
+  let(:file_path)     { File.join(Rails.root, 'spec', 'fixtures', 'files') }
+  let(:file_name)     { 'test.jpg' }
+  let(:source)        { Rack::Test::UploadedFile.new(File.join(file_path, file_name)) }
+  let(:test_user)     { User.new(id: 456) }
+  let(:valid_area_id) { 1 }
+  let(:valid_attrs) {{
+    year:      "2014",
+    file_type: "image",
+    title:     "A test",
+    source:    source,
+    user:      test_user,
+    area_id:   valid_area_id,
+  }}
+  let(:asset)    { Asset.new(valid_attrs) }
+
+  before :each do
+    allow(Area).to receive(:all).and_return([Area.new(id: valid_area_id)])
+  end
 
   describe 'ordering' do
     it 'sorts them by reverse created at date' do
-      asset1 = Asset.create(asset_data)
-      asset2 = Asset.create(asset_data)
+      asset1 = Asset.create(valid_attrs)
+      asset2 = Asset.create(valid_attrs)
       expect(Asset.first).to eql(asset2)
       expect(Asset.last).to eql(asset1)
     end
@@ -47,18 +52,6 @@ describe Asset do
   end
 
   describe 'validation' do
-    let(:valid_attrs) {{
-      year: "2014",
-      file_type: "image",
-      title: "A test"
-    }}
-    let(:asset)    { Asset.new(valid_attrs) }
-
-    before :each do
-      asset.user = User.new
-      asset.source = source
-    end
-
     it "is valid with valid attributes" do
       expect(asset).to be_valid
     end
@@ -179,6 +172,20 @@ describe Asset do
       asset.user = nil
       expect(asset).to be_invalid
       expect(asset.errors[:user]).to include("can't be blank")
+    end
+
+    context "area_id" do
+      it "can't be blank" do
+        asset.area_id = nil
+        expect(asset).to be_invalid
+        expect(asset.errors[:area_id]).to include("is not included in the list")
+      end
+
+      it "must be valid" do
+        asset.area_id = 2
+        expect(asset).to be_invalid
+        expect(asset.errors[:area_id]).to include("is not included in the list")
+      end
     end
   end
 

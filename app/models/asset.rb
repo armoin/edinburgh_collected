@@ -2,6 +2,7 @@ require 'carrierwave/mount'
 
 class Asset < ActiveRecord::Base
   belongs_to :user
+  belongs_to :area
 
   extend CarrierWave::Mount
 
@@ -26,6 +27,7 @@ class Asset < ActiveRecord::Base
   validates_presence_of :title, :source, :user
   validates :year, presence: true, inclusion: { in: (furthest_year..current_year).map(&:to_s), message: 'must be within the last 120 years.' }
   validates :file_type, inclusion: { in: Asset.file_types }
+  validates :area_id, inclusion: { in: [1] } #Area.all.map(&:id) }
   validate :file_is_of_correct_type
 
   def date
