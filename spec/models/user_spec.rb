@@ -18,13 +18,7 @@ RSpec.describe User, type: :model do
   end
 
   it 'needs a unique email' do
-    User.create(
-      first_name: 'Bobby',
-      last_name: 'Tables',
-      email: 'bobby@example.com',
-      password: 'foo',
-      password_confirmation: 'foo'
-    )
+    Fabricate(:user, email: 'bobby@example.com')
     subject.email = 'bobby@example.com'
     subject.valid?
     expect(subject.errors[:email]).to include("has already been taken")

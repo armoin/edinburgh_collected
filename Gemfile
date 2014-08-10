@@ -33,9 +33,11 @@ end
 group :development, :test do
   gem 'rspec-rails',                '~> 3.0.1'
   gem 'capybara-rails',             '~> 0.0.2'
-  gem 'launchy',                    '~>2.4.2'
+  gem 'launchy',                    '~> 2.4.2'
   gem "jasminerice",                :git => 'https://github.com/bradphelan/jasminerice.git'
-  gem 'timecop'
+  gem 'timecop',                    '~> 0.7.1'
+  gem 'fabrication',                '~> 2.11.3'
+  gem 'ffaker',                     '~> 1.24.0'
 end
 
 group :test do

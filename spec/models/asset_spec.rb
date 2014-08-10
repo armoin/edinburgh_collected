@@ -1,29 +1,20 @@
 require 'rails_helper'
 
 describe Asset do
-  let(:file_path)     { File.join(Rails.root, 'spec', 'fixtures', 'files') }
-  let(:file_name)     { 'test.jpg' }
-  let(:source)        { Rack::Test::UploadedFile.new(File.join(file_path, file_name)) }
-  let(:test_user)     { User.new(id: 456) }
-  let(:valid_area_id) { 1 }
-  let(:valid_attrs) {{
-    year:      "2014",
-    file_type: "image",
-    title:     "A test",
-    source:    source,
-    user:      test_user,
-    area_id:   valid_area_id,
-  }}
-  let(:asset)    { Asset.new(valid_attrs) }
+  let(:file_path) { File.join(Rails.root, 'spec', 'fixtures', 'files') }
+  let(:file_name) { 'test.jpg' }
+  let(:source)    { Rack::Test::UploadedFile.new(File.join(file_path, file_name)) }
+  let(:test_user) { Fabricate.build(:user) }
+  let(:asset)     { Fabricate.build(:asset, user: test_user, source: source) }
 
   before :each do
-    allow(Area).to receive(:all).and_return([Area.new(id: valid_area_id)])
+    allow(Area).to receive(:all).and_return([asset.area])
   end
 
   describe 'ordering' do
     it 'sorts them by reverse created at date' do
-      asset1 = Asset.create(valid_attrs)
-      asset2 = Asset.create(valid_attrs)
+      asset1 = Fabricate(:asset, user: test_user)
+      asset2 = Fabricate(:asset, user: test_user)
       expect(Asset.first).to eql(asset2)
       expect(Asset.last).to eql(asset1)
     end

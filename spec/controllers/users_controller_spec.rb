@@ -17,13 +17,7 @@ describe UsersController do
   end
 
   describe 'POST create' do
-    let(:user_params) {{
-      first_name: 'Bobby',
-      last_name: 'Tables',
-      email: 'bobby@example.com',
-      password: 'password',
-      password_confirmation: 'password'
-    }}
+    let(:user_params) { Fabricate.attributes_for(:user) }
     let(:stub_user) { double('user', save: true) }
 
     before :each do
