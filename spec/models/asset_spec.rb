@@ -10,7 +10,8 @@ describe Asset do
       file_type:   "image",
       year:        "2014",
       description: "Arthur's Seat is the plug of a long extinct volcano.",
-      source:      source
+      source:      source,
+      user:        User.new
     }
   }
 
@@ -54,6 +55,7 @@ describe Asset do
     let(:asset)    { Asset.new(valid_attrs) }
 
     before :each do
+      asset.user = User.new
       asset.source = source
     end
 
@@ -65,31 +67,31 @@ describe Asset do
       it "can't be blank" do
         asset.year = ""
         expect(asset).to be_invalid
-        expect(asset.errors.messages.values.first).to include("Please tell us when this dates from.")
+        expect(asset.errors[:year]).to include("Please tell us when this dates from.")
       end
 
       it "is invalid if in the future" do
         asset.year = 1.year.from_now.year.to_s
         expect(asset).to be_invalid
-        expect(asset.errors.messages.values.first).to include("must be within the last 120 years.")
+        expect(asset.errors[:year]).to include("must be within the last 120 years.")
       end
 
       it "is invalid if too far in the past" do
         asset.year = (Asset::MAX_YEAR_RANGE+1).years.ago.year.to_s
         expect(asset).to be_invalid
-        expect(asset.errors.messages.values.first).to include("must be within the last 120 years.")
+        expect(asset.errors[:year]).to include("must be within the last 120 years.")
       end
 
       it "is valid at earliest boundary" do
         asset.year = Asset::MAX_YEAR_RANGE.years.ago.year.to_s
         expect(asset).to be_valid
-        expect(asset.errors.messages.values.first).to be_nil
+        expect(asset.errors[:year]).to be_empty
       end
 
       it "is valid at latest boundary" do
         asset.year = Time.now.year.to_s
         expect(asset).to be_valid
-        expect(asset.errors.messages.values.first).to be_nil
+        expect(asset.errors[:year]).to be_empty
       end
     end
 
@@ -97,7 +99,7 @@ describe Asset do
       it "can't be blank" do
         asset.source.remove!
         expect(asset).to be_invalid
-        expect(asset.errors.messages.values.first).to include("You need to choose a file to upload.")
+        expect(asset.errors[:source]).to include("You need to choose a file to upload.")
       end
 
       context "when file type is image" do
@@ -138,7 +140,7 @@ describe Asset do
 
           it "is invalid" do
             expect(asset).to be_invalid
-            expect(asset.errors.messages.values.first).to include('must be of type .jpg, .jpeg, .png, .gif')
+            expect(asset.errors[:source]).to include('must be of type .jpg, .jpeg, .png, .gif')
           end
         end
 
@@ -157,20 +159,26 @@ describe Asset do
       it "can't be blank" do
         asset.file_type = ''
         expect(asset).to be_invalid
-        expect(asset.errors.messages.values.first).to include('You can only add image files.')
+        expect(asset.errors[:file_type]).to include('You can only add image files.')
       end
 
       it "must be an allowed file type" do
         asset.file_type = 'doodah'
         expect(asset).to be_invalid
-        expect(asset.errors.messages.values.first).to include('You can only add image files.')
+        expect(asset.errors[:file_type]).to include('You can only add image files.')
       end
     end
 
     it "title can't be blank" do
       asset.title = ""
       expect(asset).to be_invalid
-      expect(asset.errors.messages.values.first).to include("Please let us know what you would like to call this.")
+      expect(asset.errors[:title]).to include("Please let us know what you would like to call this.")
+    end
+
+    it "must have a user" do
+      asset.user = nil
+      expect(asset).to be_invalid
+      expect(asset.errors[:user]).to include("can't be blank")
     end
   end
 
