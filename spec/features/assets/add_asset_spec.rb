@@ -28,6 +28,7 @@ feature 'adding new assets', slow: true, js:true do # REMEMBER: add js:true agai
     fill_in 'asset[title]', with: asset_attrs[:title]
     fill_in 'asset[year]', with: asset_attrs[:year]
     fill_in 'asset[description]', with: asset_attrs[:description]
+    fill_in 'asset[location]', with: '10 Bath Street'
     select Area.first.name, from: 'asset[area_id]'
 
     click_button 'Save'

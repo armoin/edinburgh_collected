@@ -7,11 +7,7 @@ describe Asset do
   let(:test_user) { Fabricate.build(:user) }
   let(:asset)     { Fabricate.build(:asset, user: test_user, source: source, area: area) }
 
-  let(:area) { Fabricate(:area) }
-
-  before :each do
-    allow(Area).to receive(:all).and_return([@area])
-  end
+  let!(:area) { Fabricate(:area) }
 
   describe 'ordering' do
     it 'sorts them by reverse created at date' do
@@ -180,6 +176,23 @@ describe Asset do
         expect(asset.errors[:area_id]).to include("is not included in the list")
       end
     end
+
+    context "location" do
+      before :each do
+        allow(subject).to receive(:geocode).and_return(true)
+      end
+
+      it "fetches the lat and long after validation if a location is given" do
+        subject.location = 'test street'
+        subject.valid?
+        expect(subject).to have_received(:geocode)
+      end
+
+      it "does not fetch the lat and long after validation if no location is given" do
+        subject.valid?
+        expect(subject).not_to have_received(:geocode)
+      end
+    end
   end
 
   describe "date" do
@@ -199,6 +212,27 @@ describe Asset do
       expect(Asset.new(year: "2014", month: "", day: "").date).to eql("2014")
       expect(Asset.new(year: "2014", month: "05", day: "").date).to eql("May 2014")
       expect(Asset.new(year: "2014", month: "", day: "04").date).to eql("2014")
+    end
+  end
+
+  describe "address" do
+    it "provides an empty string if there is no area" do
+      asset.area = nil
+      expect(asset.address).to eql('')
+    end
+
+    it "provides the area name if there is an area but no location" do
+      asset.location = nil
+      expect(asset.address).to eql('Portobello')
+    end
+
+    it "provides the area name if there is an area but blank location" do
+      asset.location = ""
+      expect(asset.address).to eql('Portobello')
+    end
+
+    it "provides the location and area name if there is an area and location" do
+      expect(asset.address).to eql('Kings Road, Portobello')
     end
   end
 end

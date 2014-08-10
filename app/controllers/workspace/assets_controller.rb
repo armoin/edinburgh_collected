@@ -35,7 +35,8 @@ class Workspace::AssetsController < Workspace::AuthenticatedUserController
       :length,
       :is_readable,
       :attribution,
-      :area_id
+      :area_id,
+      :location
     )
   end
 end

@@ -6,6 +6,9 @@ class Asset < ActiveRecord::Base
 
   extend CarrierWave::Mount
 
+  geocoded_by :address
+  after_validation :geocode, if: :location_changed? or :area_id_changed?
+
   MAX_YEAR_RANGE = 120
 
   mount_uploader :source, ImageUploader
@@ -39,6 +42,12 @@ class Asset < ActiveRecord::Base
     else
       self.year
     end
+  end
+
+  def address
+    return "" if area.blank?
+    return area.name if location.blank?
+    "#{location}, #{area.name}"
   end
 
   private

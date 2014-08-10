@@ -21,6 +21,7 @@ gem 'mini_magick',                  '~> 3.8.0'
 gem 'fog',                          '~> 1.23.0'
 gem 'figaro',                       '~> 0.7.0'
 gem 'sorcery',                      '~> 0.8.6'
+gem 'geocoder',                     '~> 1.2.3'
 
 group :doc do
   gem 'sdoc',                       '~> 0.4.0'

@@ -42,8 +42,18 @@ feature 'As a user I want to be able to view one of my assets', slow: true do
         expect(asset_class.find('.attribution')).to have_text("Bobby Tables")
       end
 
-      it 'has an area' do
-        expect(asset_class.find('.area')).to have_text("Portobello")
+      it 'has an address' do
+        expect(asset_class.find('.address')).to have_text("Kings Road, Portobello")
+      end
+
+      # lat and long come from spec/support/geocoder.rb default stub
+      it 'has a longitude' do
+        expect(asset_class.find('.longitude')).to have_text("55.9578751")
+      end
+
+      # lat and long come from spec/support/geocoder.rb default stub
+      it 'has a latitude' do
+        expect(asset_class.find('.latitude')).to have_text("-3.1196158")
       end
     end
 
