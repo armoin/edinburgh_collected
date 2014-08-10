@@ -1,9 +1,13 @@
 Fabricator(:asset) do
   user
-  year      "2014"
-  file_type "image"
-  title     "A test"
-  source    Rack::Test::UploadedFile.new(File.join(File.join(Rails.root, 'spec', 'fixtures', 'files'), 'test.jpg'))
-  area_id   1
+  area
+  year        "2014"
+  month       "5"
+  day         "4"
+  file_type   "image"
+  title       "A test"
+  description "This is a test."
+  attribution "Bobby Tables"
+  source      Rack::Test::UploadedFile.new(File.join(File.join(Rails.root, 'spec', 'fixtures', 'files'), 'test.jpg'))
 end
 

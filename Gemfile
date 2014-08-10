@@ -45,6 +45,7 @@ group :test do
   gem 'sqlite3',                    '1.3.9'
   gem "codeclimate-test-reporter",  require: nil
   gem "poltergeist",                '1.5.1'
+  gem 'database_cleaner',           '~> 1.3.0'
 end
 
 group :production do

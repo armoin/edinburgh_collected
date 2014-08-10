@@ -5,16 +5,18 @@ describe Asset do
   let(:file_name) { 'test.jpg' }
   let(:source)    { Rack::Test::UploadedFile.new(File.join(file_path, file_name)) }
   let(:test_user) { Fabricate.build(:user) }
-  let(:asset)     { Fabricate.build(:asset, user: test_user, source: source) }
+  let(:asset)     { Fabricate.build(:asset, user: test_user, source: source, area: area) }
+
+  let(:area) { Fabricate(:area) }
 
   before :each do
-    allow(Area).to receive(:all).and_return([asset.area])
+    allow(Area).to receive(:all).and_return([@area])
   end
 
   describe 'ordering' do
     it 'sorts them by reverse created at date' do
-      asset1 = Fabricate(:asset, user: test_user)
-      asset2 = Fabricate(:asset, user: test_user)
+      asset1 = Fabricate(:asset, user: test_user, area: area)
+      asset2 = Fabricate(:asset, user: test_user, area: area)
       expect(Asset.first).to eql(asset2)
       expect(Asset.last).to eql(asset1)
     end
