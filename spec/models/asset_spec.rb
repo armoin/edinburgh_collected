@@ -1,24 +1,18 @@
 require 'rails_helper'
 
 describe Asset do
-  let(:file_path)  { File.join(Rails.root, 'spec', 'fixtures', 'files') }
-  let(:file_name)  { 'test.jpg' }
-  let(:source)     { Rack::Test::UploadedFile.new(File.join(file_path, file_name)) }
-  let(:asset_data) {
-    {
-      title:       "Arthur's Seat",
-      file_type:   "image",
-      year:        "2014",
-      description: "Arthur's Seat is the plug of a long extinct volcano.",
-      source:      source,
-      user:        User.new
-    }
-  }
+  let(:file_path) { File.join(Rails.root, 'spec', 'fixtures', 'files') }
+  let(:file_name) { 'test.jpg' }
+  let(:source)    { Rack::Test::UploadedFile.new(File.join(file_path, file_name)) }
+  let(:test_user) { Fabricate.build(:user) }
+  let(:asset)     { Fabricate.build(:asset, user: test_user, source: source, area: area) }
+
+  let!(:area) { Fabricate(:area) }
 
   describe 'ordering' do
     it 'sorts them by reverse created at date' do
-      asset1 = Asset.create(asset_data)
-      asset2 = Asset.create(asset_data)
+      asset1 = Fabricate(:asset, user: test_user, area: area)
+      asset2 = Fabricate(:asset, user: test_user, area: area)
       expect(Asset.first).to eql(asset2)
       expect(Asset.last).to eql(asset1)
     end
@@ -47,18 +41,6 @@ describe Asset do
   end
 
   describe 'validation' do
-    let(:valid_attrs) {{
-      year: "2014",
-      file_type: "image",
-      title: "A test"
-    }}
-    let(:asset)    { Asset.new(valid_attrs) }
-
-    before :each do
-      asset.user = User.new
-      asset.source = source
-    end
-
     it "is valid with valid attributes" do
       expect(asset).to be_valid
     end
@@ -180,6 +162,37 @@ describe Asset do
       expect(asset).to be_invalid
       expect(asset.errors[:user]).to include("can't be blank")
     end
+
+    context "area_id" do
+      it "can't be blank" do
+        asset.area_id = nil
+        expect(asset).to be_invalid
+        expect(asset.errors[:area_id]).to include("is not included in the list")
+      end
+
+      it "must be valid" do
+        asset.area_id = 2
+        expect(asset).to be_invalid
+        expect(asset.errors[:area_id]).to include("is not included in the list")
+      end
+    end
+
+    context "location" do
+      before :each do
+        allow(subject).to receive(:geocode).and_return(true)
+      end
+
+      it "fetches the lat and long after validation if a location is given" do
+        subject.location = 'test street'
+        subject.valid?
+        expect(subject).to have_received(:geocode)
+      end
+
+      it "does not fetch the lat and long after validation if no location is given" do
+        subject.valid?
+        expect(subject).not_to have_received(:geocode)
+      end
+    end
   end
 
   describe "date" do
@@ -199,6 +212,27 @@ describe Asset do
       expect(Asset.new(year: "2014", month: "", day: "").date).to eql("2014")
       expect(Asset.new(year: "2014", month: "05", day: "").date).to eql("May 2014")
       expect(Asset.new(year: "2014", month: "", day: "04").date).to eql("2014")
+    end
+  end
+
+  describe "address" do
+    it "provides an empty string if there is no area" do
+      asset.area = nil
+      expect(asset.address).to eql('')
+    end
+
+    it "provides the area name if there is an area but no location" do
+      asset.location = nil
+      expect(asset.address).to eql('Portobello')
+    end
+
+    it "provides the area name if there is an area but blank location" do
+      asset.location = ""
+      expect(asset.address).to eql('Portobello')
+    end
+
+    it "provides the location and area name if there is an area and location" do
+      expect(asset.address).to eql('Kings Road, Portobello')
     end
   end
 end

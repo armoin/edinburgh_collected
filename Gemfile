@@ -21,6 +21,7 @@ gem 'mini_magick',                  '~> 3.8.0'
 gem 'fog',                          '~> 1.23.0'
 gem 'figaro',                       '~> 0.7.0'
 gem 'sorcery',                      '~> 0.8.6'
+gem 'geocoder',                     '~> 1.2.3'
 
 group :doc do
   gem 'sdoc',                       '~> 0.4.0'
@@ -33,9 +34,11 @@ end
 group :development, :test do
   gem 'rspec-rails',                '~> 3.0.1'
   gem 'capybara-rails',             '~> 0.0.2'
-  gem 'launchy',                    '~>2.4.2'
+  gem 'launchy',                    '~> 2.4.2'
   gem "jasminerice",                :git => 'https://github.com/bradphelan/jasminerice.git'
-  gem 'timecop'
+  gem 'timecop',                    '~> 0.7.1'
+  gem 'fabrication',                '~> 2.11.3'
+  gem 'ffaker',                     '~> 1.24.0'
 end
 
 group :test do
@@ -43,6 +46,7 @@ group :test do
   gem 'sqlite3',                    '1.3.9'
   gem "codeclimate-test-reporter",  require: nil
   gem "poltergeist",                '1.5.1'
+  gem 'database_cleaner',           '~> 1.3.0'
 end
 
 group :production do

@@ -34,7 +34,9 @@ class Workspace::AssetsController < Workspace::AuthenticatedUserController
       :device,
       :length,
       :is_readable,
-      :attribution
+      :attribution,
+      :area_id,
+      :location
     )
   end
 end

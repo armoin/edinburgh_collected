@@ -1,13 +1,7 @@
 require 'rails_helper'
 
 describe Workspace::AssetsController do
-  before { @user = User.create(
-    first_name: 'Bobby',
-    last_name: 'Tables',
-    email: 'bobby@example.com',
-    password: 'foo',
-    password_confirmation: 'foo'
-  )}
+  before { @user = Fabricate.build(:user) }
 
   describe 'GET index' do
     context 'when not logged in' do
