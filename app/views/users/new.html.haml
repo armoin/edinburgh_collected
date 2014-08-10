@@ -2,38 +2,40 @@
   .col-xs-12
     %h1 Sign Up
 
-    = form_tag '/signup', class: 'form-horizontal', role: 'form' do
+    = form_for @user, html: {class: 'form-horizontal', role: 'form'} do |f|
+      -if @user.errors.any?
+        #error_explanation
+          %h2 Please correct the following ...
+          %ul
+            - @user.errors.full_messages.each do |msg|
+              %li= msg
+
       .form-group
         .col-xs-12.col-sm-4
-          = label_tag :first_name
+          = f.label :first_name
         .col-xs-12.col-sm-8
-          = text_field_tag 'user[first_name]', nil, class: 'form-control'
+          = f.text_field :first_name, class: 'form-control'
       .form-group
         .col-xs-12.col-sm-4
-          = label_tag :last_name
+          = f.label :last_name
         .col-xs-12.col-sm-8
-          = text_field_tag 'user[last_name]', nil, class: 'form-control'
+          = f.text_field :last_name, class: 'form-control'
       .form-group
         .col-xs-12.col-sm-4
-          = label_tag :email
+          = f.label :email
         .col-xs-12.col-sm-8
-          = email_field_tag 'user[email]', nil, class: 'form-control'
+          = f.email_field :email, class: 'form-control'
       .form-group
         .col-xs-12.col-sm-4
-          = label_tag :username
+          = f.label :password
         .col-xs-12.col-sm-8
-          = text_field_tag 'user[username]', nil, class: 'form-control'
+          = f.password_field :password, class: 'form-control'
       .form-group
         .col-xs-12.col-sm-4
-          = label_tag :password
+          = f.label :password_confirmation
         .col-xs-12.col-sm-8
-          = password_field_tag 'user[password]', nil, class: 'form-control'
-      .form-group
-        .col-xs-12.col-sm-4
-          = label_tag :password_confirmation
-        .col-xs-12.col-sm-8
-          = password_field_tag 'user[password_confirmation]', nil, class: 'form-control'
+          = f.password_field :password_confirmation, class: 'form-control'
       .form-group
         .actions.col-xs-sm-12
           = link_to "Cancel", root_path, class: "btn btn-default"
-          = submit_tag "Sign Up", class: "btn btn-primary"
+          = f.submit "Sign Up", class: "btn btn-primary"

@@ -31,7 +31,7 @@
               %a(href="mailto:edinburgh-stories@armoin.com?subject=Feedback") Feedback
             - if logged_in?
               %li
-                %a(href="/user/assets") My stuff
+                = link_to 'My Stuff', workspace_assets_path
               %li
                 = link_to 'Sign Out', '/logout', method: :delete
             - else

@@ -1,12 +1,10 @@
 require 'rails_helper'
 
 feature 'As a user I want to be able to manage my assets' do
-  let(:assets_data)   { AssetFactory.assets_data }
-  let(:mock_response) { double('response', status: 200, body: assets_data.to_json) }
-  let(:mock_conn)     { double('conn', get: mock_response) }
+  let(:assets)  { AssetFactory.assets }
 
   before :each do
-    allow(Faraday).to receive(:new).and_return(mock_conn)
+    allow(Asset).to receive(:all).and_return(assets)
   end
 
   feature 'So that I can view my existing assets' do
@@ -17,8 +15,8 @@ feature 'As a user I want to be able to manage my assets' do
         visit '/assets'
       end
 
-      scenario 'fetches the requested asset data' do
-        expect(mock_conn).to have_received(:get).with('/assets')
+      scenario 'fetches the requested assets' do
+        expect(Asset).to have_received(:all)
       end
 
       it 'has a title' do
@@ -27,7 +25,7 @@ feature 'As a user I want to be able to manage my assets' do
 
       it 'has an image' do
         img = asset.find('img')
-        expect(img['src']).to have_content("meadows.jpg")
+        expect(img['src']).to have_content("test.jpg")
         expect(img['alt']).to have_content("Arthur's Seat")
       end
     end

@@ -5,7 +5,7 @@ describe AssetsController do
     let(:expected) { [Asset.new, Asset.new] }
 
     before(:each) do
-      allow(Asset).to receive(:all) { expected }
+      allow(Asset).to receive(:all).and_return(expected)
     end
 
     it "is successful" do

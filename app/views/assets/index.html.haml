@@ -4,6 +4,6 @@
       - @assets.each do |asset|
         %a.asset.thumb(data-id="#{asset.id}" href="#{asset_url(asset.id)}" title="View details" role="button")
           %div.img
-            %img{src: "#{asset.thumb}", alt: asset.title}
+            %img{src: "#{asset.source_url(:thumb).to_s}", alt: asset.title}
           %div.footer
             %p.title= asset.title

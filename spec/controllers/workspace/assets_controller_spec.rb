@@ -1,6 +1,14 @@
 require 'rails_helper'
 
-describe User::AssetsController do
+describe Workspace::AssetsController do
+  before { @user = User.create(
+    first_name: 'Bobby',
+    last_name: 'Tables',
+    email: 'bobby@example.com',
+    password: 'foo',
+    password_confirmation: 'foo'
+  )}
+
   describe 'GET index' do
     context 'when not logged in' do
       it 'asks user to login' do
@@ -13,8 +21,8 @@ describe User::AssetsController do
       let(:stub_assets) { double('assets') }
 
       before :each do
-        login!
-        allow(Asset).to receive(:user).and_return(stub_assets)
+        login_user
+        allow(@user).to receive(:assets).and_return(stub_assets)
         get :index
       end
 
@@ -23,7 +31,7 @@ describe User::AssetsController do
       end
 
       it "fetches the user's assets" do
-        expect(Asset).to have_received(:user).with(auth_token)
+        expect(@user).to have_received(:assets)
       end
 
       it "assigns the returned assets" do
@@ -46,7 +54,7 @@ describe User::AssetsController do
 
     context 'when logged in' do
       before :each do
-        login!
+        login_user
         get :new
       end
 
@@ -76,11 +84,12 @@ describe User::AssetsController do
     end
 
     context 'when logged in' do
-      let(:asset_stub)   { double('asset', save: true) }
+      let(:asset_stub)  { double('asset', 'user=' => true) }
 
       before :each do
-        login!
-        allow(Asset).to receive(:new) { asset_stub }
+        login_user
+        allow(Asset).to receive(:new).and_return(asset_stub)
+        allow(asset_stub).to receive(:save).and_return(true)
         post :create, asset: asset_params
       end
 
@@ -88,24 +97,28 @@ describe User::AssetsController do
         expect(Asset).to have_received(:new).with(asset_params)
       end
 
+      it "assigns the asset" do
+        expect(assigns(:asset)).to eql(asset_stub)
+      end
+
+      it "assigns the current user" do
+        expect(asset_stub).to have_received('user=').with(@user)
+      end
+
       it "saves the Asset" do
-        expect(asset_stub).to have_received(:save).with(auth_token)
+        expect(asset_stub).to have_received(:save)
       end
 
       context "save is successful" do
         it "redirects to the user's assets page" do
-          expect(response).to redirect_to(user_assets_url)
+          expect(response).to redirect_to(workspace_assets_url)
         end
       end
 
       context "save is not successful" do
-        let(:asset_stub) { double('asset', save: false) }
-
-        it "assigns the asset" do
-          expect(assigns(:asset)).to eql(asset_stub)
-        end
-
         it "re-renders the new form" do
+          allow(asset_stub).to receive(:save).and_return(false)
+          post :create, asset: asset_params
           expect(response).to render_template(:new)
         end
       end
