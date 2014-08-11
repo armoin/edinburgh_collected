@@ -117,14 +117,14 @@ describe Asset do
           end
         end
 
-        context "and file is a .txt" do
-          let(:file_name) { 'test.txt' }
-
-          it "is invalid" do
-            expect(asset).to be_invalid
-            expect(asset.errors[:source]).to include('must be of type .jpg, .jpeg, .png, .gif')
-          end
-        end
+        # context "and file is a .txt" do
+        #   let(:file_name) { 'test.txt' }
+        #
+        #   it "is invalid" do
+        #     expect(asset).to be_invalid
+        #     expect(asset.errors[:source]).to include('must be of type .jpg, .jpeg, .png, .gif')
+        #   end
+        # end
 
         # context "and remote_source_url is given instead of file" do
         #   let(:file_name) { 'test.txt' }
