@@ -167,13 +167,13 @@ describe Asset do
       it "can't be blank" do
         asset.area_id = nil
         expect(asset).to be_invalid
-        expect(asset.errors[:area_id]).to include("is not included in the list")
+        expect(asset.errors[:area]).to include("can't be blank")
       end
 
       it "must be valid" do
         asset.area_id = 2
         expect(asset).to be_invalid
-        expect(asset.errors[:area_id]).to include("is not included in the list")
+        expect(asset.errors[:area]).to include("can't be blank")
       end
     end
 
