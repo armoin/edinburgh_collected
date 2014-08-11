@@ -31,7 +31,7 @@
               %a(href="mailto:edinburgh-stories@armoin.com?subject=Feedback") Feedback
             - if logged_in?
               %li
-                = link_to 'My Stuff', my_memories_path
+                = link_to 'My Memories', my_memories_path
               %li
                 = link_to 'Sign Out', '/logout', method: :delete
             - else
