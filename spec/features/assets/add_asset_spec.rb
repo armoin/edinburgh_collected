@@ -21,7 +21,7 @@ feature 'adding new assets', slow: true, js:true do # REMEMBER: add js:true agai
     fill_in 'password', with: 's3cr3t'
     click_button 'Sign In'
 
-    visit '/workspace/assets/new'
+    visit '/my/assets/new'
 
     select asset_attrs[:file_type], from: 'asset[file_type]'
     attach_file :file, File.join(File.dirname(__FILE__), '../../fixtures/files/test.jpg')
@@ -34,7 +34,7 @@ feature 'adding new assets', slow: true, js:true do # REMEMBER: add js:true agai
     click_button 'Save'
 
     expect(Asset.count).to eql(pre_count + 1)
-    expect(current_path).to eq('/workspace/assets')
+    expect(current_path).to eq('/my/assets')
   end
 end
 

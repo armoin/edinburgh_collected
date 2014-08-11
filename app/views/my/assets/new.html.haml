@@ -1,6 +1,6 @@
 .container
   .col-xs-12
-    =form_for @asset, url: workspace_assets_url, html: {id: "add-asset", class: "form-horizontal", role: "form"} do |f|
+    =form_for @asset, url: my_assets_url, html: {id: "add-asset", class: "form-horizontal", role: "form"} do |f|
       -if @asset.errors.any?
         #error_explanation
           %h2 Please correct the following ...
@@ -60,7 +60,7 @@
           = f.text_field :attribution, class: "form-control"
       .form-group
         .actions.col-xs-sm-12
-          = link_to "Cancel", workspace_assets_path, class: "btn btn-default"
+          = link_to "Cancel", my_assets_path, class: "btn btn-default"
           = f.submit "Save", class: "btn btn-primary", disabled: true
 
   :javascript

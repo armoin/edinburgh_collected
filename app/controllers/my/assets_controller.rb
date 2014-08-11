@@ -1,4 +1,4 @@
-class Workspace::AssetsController < Workspace::AuthenticatedUserController
+class My::AssetsController < My::AuthenticatedUserController
   def index
     @assets = current_user.assets
   end
@@ -11,7 +11,7 @@ class Workspace::AssetsController < Workspace::AuthenticatedUserController
     @asset = Asset.new(asset_params)
     @asset.user = current_user
     if @asset.save
-      redirect_to workspace_assets_url
+      redirect_to my_assets_url
     else
       render :new
     end

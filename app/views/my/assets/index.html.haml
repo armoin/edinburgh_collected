@@ -1,7 +1,7 @@
 .container-fluid
   .row
     .col-xs-12.global-asset-actions
-      = link_to 'Add New', new_workspace_asset_path, id: 'add-asset', class: 'btn btn-primary', role: 'button'
+      = link_to 'Add New', new_my_asset_path, id: 'add-asset', class: 'btn btn-primary', role: 'button'
   .row
     .assets
       - @assets.each do |asset|

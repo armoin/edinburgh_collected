@@ -1,4 +1,4 @@
-class Workspace::AuthenticatedUserController < ApplicationController
+class My::AuthenticatedUserController < ApplicationController
   before_filter :require_login
 
   private

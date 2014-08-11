@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Workspace::AssetsController do
+describe My::AssetsController do
   before { @user = Fabricate.build(:user) }
 
   describe 'GET index' do
@@ -105,7 +105,7 @@ describe Workspace::AssetsController do
 
       context "save is successful" do
         it "redirects to the user's assets page" do
-          expect(response).to redirect_to(workspace_assets_url)
+          expect(response).to redirect_to(my_assets_url)
         end
       end
 

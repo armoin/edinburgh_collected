@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-class ProtectedController < Workspace::AuthenticatedUserController; end
+class ProtectedController < My::AuthenticatedUserController; end
 
-describe Workspace::AuthenticatedUserController do
+describe My::AuthenticatedUserController do
   controller ProtectedController do
     skip_before_filter :require_login, only: [:index]
 

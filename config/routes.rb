@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  namespace :workspace do
+  namespace :my do
     resources :assets
   end
 
