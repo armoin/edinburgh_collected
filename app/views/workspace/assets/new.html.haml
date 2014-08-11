@@ -27,8 +27,8 @@
         .col-xs-12.col-sm-4
           = f.label :area_id
         .col-xs-12.col-sm-8
-          = f.select :area_id, options_from_collection_for_select(Area.all, 'id', 'name'), {}, {class: "form-control"}
-      .form-group.required
+          = f.select :area_id, options_from_collection_for_select(Area.all, 'id', 'name'), include_blank: true, class: "form-control"
+      .form-group
         .col-xs-12.col-sm-4
           = f.label :location
         .col-xs-12.col-sm-8
