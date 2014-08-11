@@ -3,7 +3,7 @@ data_string = '[{"id":19,"title":"Orientation test 2","file_type":"image","url":
 task :data_transfer => :environment do |t, args|
   assets = JSON.parse(data_string)
   assets.each do |asset|
-    new_asset = Asset.new(
+    new_memory = Memory.new(
       title:             asset["title"],
       file_type:         asset["file_type"] || "image",
       description:       asset["description"],
@@ -12,20 +12,18 @@ task :data_transfer => :environment do |t, args|
       day:               asset["day"],
       attribution:       asset["attribution"]
     )
-    new_asset.area = Area.where(name: 'Portobello').first
-    new_asset.remote_source_url = asset["url"]
+    new_memory.area = Area.where(name: 'Portobello').first
+    new_memory.remote_source_url = asset["url"]
     case asset["user_id"]
     when 4
-      new_asset.user_id = 3
+      new_memory.user_id = 3
     when 5
-      new_asset.user_id = 2
+      new_memory.user_id = 2
     else
-      new_asset.user_id = 1
+      new_memory.user_id = 1
     end
-    if new_asset.valid?
-      p valid?: new_asset.valid?
-      p asset:  new_asset.errors.full_messages
-      new_asset.save!
-    end
+    p valid?: new_memory.valid?
+    p asset:  new_memory.errors.full_messages
+    new_memory.save! if new_memory.valid?
   end
 end

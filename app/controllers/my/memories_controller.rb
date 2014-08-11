@@ -1,17 +1,17 @@
-class My::AssetsController < My::AuthenticatedUserController
+class My::MemoriesController < My::AuthenticatedUserController
   def index
-    @assets = current_user.assets
+    @memories = current_user.memories
   end
 
   def new
-    @asset = Asset.new
+    @memory = Memory.new
   end
 
   def create
-    @asset = Asset.new(asset_params)
-    @asset.user = current_user
-    if @asset.save
-      redirect_to my_assets_url
+    @memory = Memory.new(memory_params)
+    @memory.user = current_user
+    if @memory.save
+      redirect_to my_memories_url
     else
       render :new
     end
@@ -19,8 +19,8 @@ class My::AssetsController < My::AuthenticatedUserController
 
   private
 
-  def asset_params
-    params.require(:asset).permit(
+  def memory_params
+    params.require(:memory).permit(
       :title,
       :file_type,
       :source,

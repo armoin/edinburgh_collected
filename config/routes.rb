@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
   namespace :my do
-    resources :assets
+    resources :memories
   end
 
   resources :users, only: [:new, :create]
   resources :sessions, only: [:new, :create, :destroy]
-  resources :assets
+  resources :memories
 
   get '/signup' => 'users#new'
   post '/signup' => 'users#create'
@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'assets#index'
+  root 'memories#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

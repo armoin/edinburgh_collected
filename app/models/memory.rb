@@ -1,6 +1,6 @@
 require 'carrierwave/mount'
 
-class Asset < ActiveRecord::Base
+class Memory < ActiveRecord::Base
   belongs_to :user
   belongs_to :area
 
@@ -29,7 +29,7 @@ class Asset < ActiveRecord::Base
 
   validates_presence_of :title, :source, :user, :area
   validates :year, presence: true, inclusion: { in: (furthest_year..current_year).map(&:to_s), message: 'must be within the last 120 years.' }
-  validates :file_type, inclusion: { in: Asset.file_types }
+  validates :file_type, inclusion: { in: Memory.file_types }
   validate :file_is_of_correct_type
 
   def date
@@ -52,7 +52,7 @@ class Asset < ActiveRecord::Base
   private
 
   def file_is_of_correct_type
-    return false unless Asset.file_types.include?(self.file_type) # file_type validation will catch
+    return false unless Memory.file_types.include?(self.file_type) # file_type validation will catch
     valid_exts_list = {
       'image' => %w(.jpg .jpeg .png .gif)
     }

@@ -1,0 +1,9 @@
+.container-fluid
+  .row
+    .memories
+      - @memories.each do |memory|
+        %a.memory.thumb(data-id="#{memory.id}" href="#{memory_url(memory.id)}" title="View details" role="button")
+          %div.img
+            %img{src: "#{memory.source_url(:thumb).to_s}", alt: memory.title}
+          %div.footer
+            %p.title= memory.title

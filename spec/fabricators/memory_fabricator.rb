@@ -1,4 +1,4 @@
-Fabricator(:asset) do
+Fabricator(:memory) do
   user
   area
   year        "2014"

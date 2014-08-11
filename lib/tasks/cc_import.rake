@@ -58,7 +58,7 @@ task :cc_import => :environment do |t, args|
   abort unless ENV.has_key?('TOKEN')
   IDs.each do |id|
     doc = CCAsset.new(id)
-    asset = Asset.new(
+    memory = Memory.new(
       file_type: 'image',
       title: doc.title,
       year: doc.year,
@@ -66,11 +66,11 @@ task :cc_import => :environment do |t, args|
       width: doc.width,
       height: doc.height
     )
-    asset.remote_source_url = doc.remote_source_url
-    if asset.save(ENV['TOKEN'])
+    memory.remote_source_url = doc.remote_source_url
+    if memory.save(ENV['TOKEN'])
       puts "#{id} (success)"
     else
-      puts "#{id} (failed) #{asset.errors.full_messages}"
+      puts "#{id} (failed) #{memory.errors.full_messages}"
     end
   end
 end

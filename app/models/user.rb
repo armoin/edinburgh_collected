@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
 
-  has_many :assets
+  has_many :memories
 
   attr_accessor :password, :password_confirmation
 

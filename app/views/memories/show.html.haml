@@ -1,32 +1,32 @@
 .container
   = link_to "Back", :back
 
-  .asset.full
-    %h1.title= @asset.title
+  .memory.full
+    %h1.title= @memory.title
 
-    %img{src: @asset.source_url, alt: @asset.title, title: @asset.title}
+    %img{src: @memory.source_url, alt: @memory.title, title: @memory.title}
 
     %h2 Details
 
     %ul
       %li.file_type
         %strong File Type:
-        =@asset.file_type
+        =@memory.file_type
       %li.date
         %strong Dates from:
-        = @asset.date
+        = @memory.date
       %li.address
         %strong Address:
-        = @asset.address
+        = @memory.address
       %li.longitude
         %strong Longitude:
-        = @asset.longitude
+        = @memory.longitude
       %li.latitude
         %strong Latitude:
-        = @asset.latitude
+        = @memory.latitude
       %li.description
         %strong Description:
-        = @asset.description
+        = @memory.description
       %li.attribution
         %strong Attribution:
-        = @asset.attribution
+        = @memory.attribution

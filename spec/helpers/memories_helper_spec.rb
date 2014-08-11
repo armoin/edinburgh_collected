@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe AssetsHelper do
+describe MemoriesHelper do
   describe "#month_names" do
     it "provides an array of the month names prepended with a blank" do
       expected = [

@@ -1,7 +1,7 @@
 en:
   activerecord:
     attributes:
-      asset:
+      memory:
         year:  "What year does this date from?"
         month: "Do you know the month too?"
         day:   "How about the day?"
@@ -12,7 +12,7 @@ en:
         attribution: "Would you like to attribute this to another person?"
     errors:
       models:
-        asset:
+        memory:
           attributes:
             title:
               blank: "Please let us know what you would like to call this."

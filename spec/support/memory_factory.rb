@@ -1,10 +1,10 @@
-class AssetFactory
-  def self.assets
-    %w(1 2 3).map{|id| build_asset( asset_data(id) )}
+class MemoryFactory
+  def self.memories
+    %w(1 2 3).map{|id| build_memory( memory_data(id) )}
   end
 
-  def self.build_asset(asset_data)
-    Asset.new(asset_data)
+  def self.build_memory(memory_data)
+    Memory.new(memory_data)
   end
 
   def self.file
@@ -13,7 +13,7 @@ class AssetFactory
     Rack::Test::UploadedFile.new(File.join(file_path, file_name))
   end
 
-  def self.asset_data(id="1")
+  def self.memory_data(id="1")
     {
       "title"       => "Arthur's Seat",
       "file_type"   => "image",
@@ -29,7 +29,7 @@ class AssetFactory
     }
   end
 
-  def self.new_asset_data
+  def self.new_memory_data
     {
       "title"       => "Arthur's Seat",
       "file_type"   => "image",
@@ -42,9 +42,9 @@ class AssetFactory
     }
   end
 
-  def self.assets_data
+  def self.memories_data
     [
-      asset_data,
+      memory_data,
       {
         "title"       => "Castle",
         "file_type"   => "image",

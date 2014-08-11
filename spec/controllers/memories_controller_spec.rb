@@ -1,11 +1,11 @@
 require 'rails_helper'
 
-describe AssetsController do
+describe MemoriesController do
   describe 'GET index' do
-    let(:expected) { [Asset.new, Asset.new] }
+    let(:expected) { [Memory.new, Memory.new] }
 
     before(:each) do
-      allow(Asset).to receive(:all).and_return(expected)
+      allow(Memory).to receive(:all).and_return(expected)
     end
 
     it "is successful" do
@@ -19,17 +19,17 @@ describe AssetsController do
       expect(response).to render_template(:index)
     end
 
-    it "fetches the assets and assigns them" do
+    it "fetches the memories and assigns them" do
       get :index
-      expect(assigns(:assets)).to eql(expected)
+      expect(assigns(:memories)).to eql(expected)
     end
   end
 
   describe 'GET show' do
-    let(:asset) { Asset.new }
+    let(:memory) { Memory.new }
 
     before :each do
-      allow(Asset).to receive(:find) { asset }
+      allow(Memory).to receive(:find) { memory }
       get :show, id: '123'
     end
 
@@ -38,13 +38,13 @@ describe AssetsController do
       expect(response.status).to eql(200)
     end
 
-    it "fetches the requested asset" do
-      expect(Asset).to have_received(:find).with('123')
+    it "fetches the requested memory" do
+      expect(Memory).to have_received(:find).with('123')
     end
 
     context "fetch is successful" do
-      it "assigns fetched asset" do
-        expect(assigns(:asset)).to eql(asset)
+      it "assigns fetched memory" do
+        expect(assigns(:memory)).to eql(memory)
       end
 
       it "renders the show page" do
@@ -54,9 +54,9 @@ describe AssetsController do
 
     context "fetch is not successful" do
       it "renders the not found page" do
-        allow(Asset).to receive(:find).and_raise('error')
+        allow(Memory).to receive(:find).and_raise('error')
         get :show, id: '123'
-        expect(response).to render_template('assets/not_found')
+        expect(response).to render_template('memories/not_found')
       end
     end
   end

@@ -1,4 +1,4 @@
-module AssetsHelper
+module MemoriesHelper
   # returns the list of month names with a blank at the start
   # for use in dropdowns
   def month_names
