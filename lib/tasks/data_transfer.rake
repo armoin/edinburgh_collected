@@ -13,7 +13,7 @@ task :data_transfer => :environment do |t, args|
       attribution:       asset["attribution"]
     )
     new_asset.area = Area.where(name: 'Portobello').first
-    new_asset.raw_write_attribute(:source, asset["url"].split('/').last)
+    new_asset.remote_source_url = asset["url"]
     case asset["user_id"]
     when 4
       new_asset.user_id = 3
@@ -22,8 +22,10 @@ task :data_transfer => :environment do |t, args|
     else
       new_asset.user_id = 1
     end
-    p valid?: new_asset.valid?
-    p asset:  new_asset.errors.full_messages
-    new_asset.save!
+    if new_asset.valid?
+      p valid?: new_asset.valid?
+      p asset:  new_asset.errors.full_messages
+      new_asset.save!
+    end
   end
 end
