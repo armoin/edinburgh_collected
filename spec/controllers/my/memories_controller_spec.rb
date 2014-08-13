@@ -38,6 +38,54 @@ describe My::MemoriesController do
     end
   end
 
+  describe 'GET show' do
+    let(:memory) { Fabricate.build(:memory, id: 123) }
+
+    context 'when not logged in' do
+      it 'asks user to login' do
+        get :show, id: 123
+        expect(response).to redirect_to(:login)
+      end
+    end
+
+    context "when logged in" do
+      let(:stub_memories) { double('memories', find: memory) }
+
+      before :each do
+        login_user
+        allow(@user).to receive(:memories).and_return(stub_memories)
+        get :show, id: 123
+      end
+
+      it "is successful" do
+        expect(response).to be_success
+        expect(response.status).to eql(200)
+      end
+
+      it "fetches the requested memory" do
+        expect(stub_memories).to have_received(:find).with('123')
+      end
+
+      it "assigns fetched memory" do
+        expect(assigns(:memory)).to eql(memory)
+      end
+
+      context "fetch is successful" do
+        it "renders the show page" do
+          expect(response).to render_template(:show)
+        end
+      end
+
+      context "fetch is not successful" do
+        it "renders the not found page" do
+          allow(stub_memories).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+          get :show, id: '123'
+          expect(response).to render_template('exceptions/not_found')
+        end
+      end
+    end
+  end
+
   describe 'GET new' do
     context 'when not logged in' do
       it 'asks user to login' do

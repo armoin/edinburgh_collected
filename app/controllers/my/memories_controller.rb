@@ -3,6 +3,10 @@ class My::MemoriesController < My::AuthenticatedUserController
     @memories = current_user.memories
   end
 
+  def show
+    @memory = current_user.memories.find(params[:id])
+  end
+
   def new
     @memory = Memory.new
   end

@@ -1,32 +1,4 @@
 .container
-  = link_to "Back", :back
+  = link_to "Back", root_url
 
-  .memory.full
-    %h1.title= @memory.title
-
-    %img{src: @memory.source_url, alt: @memory.title, title: @memory.title}
-
-    %h2 Details
-
-    %ul
-      %li.file_type
-        %strong File Type:
-        =@memory.file_type
-      %li.date
-        %strong Dates from:
-        = @memory.date
-      %li.address
-        %strong Address:
-        = @memory.address
-      %li.longitude
-        %strong Longitude:
-        = @memory.longitude
-      %li.latitude
-        %strong Latitude:
-        = @memory.latitude
-      %li.description
-        %strong Description:
-        = @memory.description
-      %li.attribution
-        %strong Attribution:
-        = @memory.attribution
+  = render @memory

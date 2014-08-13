@@ -54,9 +54,9 @@ describe MemoriesController do
 
     context "fetch is not successful" do
       it "renders the not found page" do
-        allow(Memory).to receive(:find).and_raise('error')
+        allow(Memory).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
         get :show, id: '123'
-        expect(response).to render_template('memories/not_found')
+        expect(response).to render_template('exceptions/not_found')
       end
     end
   end
