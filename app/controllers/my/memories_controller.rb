@@ -16,7 +16,11 @@ class My::MemoriesController < My::AuthenticatedUserController
     @memory = Memory.new(memory_params)
     @memory.user = current_user
     if @memory.save
-      redirect_to my_memories_url
+      if params[:commit] == 'Save And Add Another'
+        redirect_to new_my_memory_url
+      else
+        redirect_to my_memories_url
+      end
     else
       render :new
     end

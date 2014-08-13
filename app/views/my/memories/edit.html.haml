@@ -10,6 +10,11 @@
 
       = render partial: 'details_form', object: @memory, locals: { form: f }
 
+      .form-group
+        .actions.col-xs-sm-12
+          = link_to "Cancel", my_memories_path, class: "btn btn-default"
+          = f.submit "Save", class: "btn btn-primary", disabled: true
+
 :javascript
   $(document).ready(function () {
     new Validator($('#edit-memory')).validate()
