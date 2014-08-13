@@ -1,7 +1,7 @@
 describe "Validator", ->
   beforeEach ->
     loadFixtures 'validation'
-    @validator = new Validator()
+    @validator = new Validator($('form'))
 
   describe "checking that the form is valid", ->
     it "returns false if a required text field is null", ->
@@ -38,9 +38,15 @@ describe "Validator", ->
 
   describe "toggling the submit button", ->
     describe "the submit button", ->
-      it "should be disabled at the start", ->
+      it "should be disabled at the start if invalid", ->
+        $('.required input[type="text"]').val('')
+        @validator = new Validator($('form'))
         submit_button = $('input[type="submit"]')
         expect(submit_button).toBeDisabled()
+
+      it "should be enabled at the start if valid", ->
+        submit_button = $('input[type="submit"]')
+        expect(submit_button).not.toBeDisabled()
 
       describe "once a required text field has been typed in", ->
         it "should be enabled if the field is valid", ->

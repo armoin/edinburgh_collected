@@ -19,3 +19,8 @@
 
       = render partial: 'details_form', object: @memory, locals: { form: f }
 
+:javascript
+  $(document).ready(function () {
+    new Validator($('#add-memory')).validate()
+  });
+
