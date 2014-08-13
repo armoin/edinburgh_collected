@@ -1,0 +1,49 @@
+.form-group.required
+  .col-xs-12.col-sm-4
+    = form.label :title
+  .col-xs-12.col-sm-8
+    = form.text_field :title, class: "form-control"
+.form-group.required
+  .col-xs-12.col-sm-4
+    = form.label :area
+  .col-xs-12.col-sm-8
+    = form.collection_select :area_id, Area.all, :id, :name, {include_blank: true}, {class: "form-control"}
+.form-group
+  .col-xs-12.col-sm-4
+    = form.label :location
+  .col-xs-12.col-sm-8
+    = form.text_field :location, class: "form-control"
+.form-group.required
+  .col-xs-12.col-sm-4
+    = form.label :year
+  .col-xs-12.col-sm-8
+    = form.text_field :year, class: "form-control", placeholder: "no earlier than #{Memory.furthest_year} please"
+.form-group
+  .col-xs-12.col-sm-4
+    = form.label :month
+  .col-xs-12.col-sm-8
+    = form.select :month, month_names, {}, {class: "form-control"}
+.form-group
+  .col-xs-12.col-sm-4
+    = form.label :day
+  .col-xs-12.col-sm-8
+    = form.select :day, (1..31).to_a, {include_blank: true}, {class: "form-control"}
+.form-group
+  .col-xs-12.col-sm-4
+    = form.label :description
+  .col-xs-12.col-sm-8
+    = form.text_area :description, class: "form-control"
+.form-group
+  .col-xs-12.col-sm-4
+    = form.label :attribution
+  .col-xs-12.col-sm-8
+    = form.text_field :attribution, class: "form-control"
+.form-group
+  .actions.col-xs-sm-12
+    = link_to "Cancel", my_memories_path, class: "btn btn-default"
+    = form.submit "Save", class: "btn btn-primary", disabled: true
+
+:javascript
+  $(document).ready(function () {
+    new Validator().validate()
+  });

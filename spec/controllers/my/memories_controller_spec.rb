@@ -1,7 +1,13 @@
 require 'rails_helper'
 
 describe My::MemoriesController do
-  before { @user = Fabricate.build(:user) }
+  let(:stub_memories) { double('memories', find: memory) }
+  let(:memory)        { Fabricate.build(:memory, id: 123, user: @user) }
+
+  before :each do
+    @user = Fabricate.build(:user)
+    allow(@user).to receive(:memories).and_return(stub_memories)
+  end
 
   describe 'GET index' do
     context 'when not logged in' do
@@ -12,11 +18,8 @@ describe My::MemoriesController do
     end
 
     context 'when logged in' do
-      let(:stub_memories) { double('memories') }
-
       before :each do
         login_user
-        allow(@user).to receive(:memories).and_return(stub_memories)
         get :index
       end
 
@@ -39,8 +42,6 @@ describe My::MemoriesController do
   end
 
   describe 'GET show' do
-    let(:memory) { Fabricate.build(:memory, id: 123) }
-
     context 'when not logged in' do
       it 'asks user to login' do
         get :show, id: 123
@@ -49,11 +50,8 @@ describe My::MemoriesController do
     end
 
     context "when logged in" do
-      let(:stub_memories) { double('memories', find: memory) }
-
       before :each do
         login_user
-        allow(@user).to receive(:memories).and_return(stub_memories)
         get :show, id: 123
       end
 
@@ -126,12 +124,11 @@ describe My::MemoriesController do
     end
 
     context 'when logged in' do
-      let(:memory_stub)  { double('memory', 'user=' => true) }
-
       before :each do
         login_user
-        allow(Memory).to receive(:new).and_return(memory_stub)
-        allow(memory_stub).to receive(:save).and_return(true)
+        allow(Memory).to receive(:new).and_return(memory)
+        allow(memory).to receive(:user=)
+        allow(memory).to receive(:save).and_return(true)
         post :create, memory: memory_params
       end
 
@@ -140,15 +137,15 @@ describe My::MemoriesController do
       end
 
       it "assigns the memory" do
-        expect(assigns(:memory)).to eql(memory_stub)
+        expect(assigns(:memory)).to eql(memory)
       end
 
       it "assigns the current user" do
-        expect(memory_stub).to have_received('user=').with(@user)
+        expect(memory).to have_received('user=').with(@user)
       end
 
       it "saves the Memory" do
-        expect(memory_stub).to have_received(:save)
+        expect(memory).to have_received(:save)
       end
 
       context "save is successful" do
@@ -159,9 +156,98 @@ describe My::MemoriesController do
 
       context "save is not successful" do
         it "re-renders the new form" do
-          allow(memory_stub).to receive(:save).and_return(false)
+          allow(memory).to receive(:save).and_return(false)
           post :create, memory: memory_params
           expect(response).to render_template(:new)
+        end
+      end
+    end
+  end
+
+  describe 'GET edit' do
+    context 'when not logged in' do
+      it 'asks user to login' do
+        get :edit, id: 123
+        expect(response).to redirect_to(:login)
+      end
+    end
+
+    context "when logged in" do
+      before :each do
+        login_user
+        get :edit, id: 123
+      end
+
+      it "is successful" do
+        expect(response).to be_success
+        expect(response.status).to eql(200)
+      end
+
+      it "fetches the requested memory" do
+        expect(stub_memories).to have_received(:find).with('123')
+      end
+
+      it "assigns fetched memory" do
+        expect(assigns(:memory)).to eql(memory)
+      end
+
+      context "fetch is successful" do
+        it "renders the edit page" do
+          expect(response).to render_template(:edit)
+        end
+      end
+
+      context "fetch is not successful" do
+        it "renders the not found page" do
+          allow(stub_memories).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+          get :show, id: '123'
+          expect(response).to render_template('exceptions/not_found')
+        end
+      end
+    end
+  end
+
+  describe 'PUT upate' do
+    let(:memory_params) {{ title: 'New title' }}
+
+    context 'when not logged in' do
+      it 'asks user to login' do
+        put :update, id: '123', memory: memory_params
+        expect(response).to redirect_to(:login)
+      end
+    end
+
+    context 'when logged in' do
+      before :each do
+        login_user
+        allow(stub_memories).to receive(:find).and_return(memory)
+        allow(memory).to receive(:update_attributes).and_return(true)
+        put :update, id: '123', memory: memory_params
+      end
+
+      it "finds the Memory with the given id" do
+        expect(stub_memories).to have_received(:find).with('123')
+      end
+
+      it "assigns the memory" do
+        expect(assigns(:memory)).to eql(memory)
+      end
+
+      it "updates the given attributes" do
+        expect(memory).to have_received('update_attributes').with(memory_params)
+      end
+
+      context "update is successful" do
+        it "redirects to the user's memories page" do
+          expect(response).to redirect_to(my_memories_url)
+        end
+      end
+
+      context "update is not successful" do
+        it "re-renders the edit form" do
+          allow(memory).to receive(:update_attributes).and_return(false)
+          put :update, id: '123', memory: memory_params
+          expect(response).to render_template(:edit)
         end
       end
     end
