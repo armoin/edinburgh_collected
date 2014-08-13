@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 feature 'As a user I want to be able to view one of my memories', slow: true do
-  let(:memory) { Fabricate(:memory) }
+  let(:user)   { Fabricate(:user, email: 'bobby@example.com') }
+  let(:memory) { Fabricate(:memory, user: user) }
 
   feature 'So that I can view its details' do
     let(:url)     { "/memories/#{memory.id}" }
@@ -12,7 +13,7 @@ feature 'As a user I want to be able to view one of my memories', slow: true do
       visit url
     end
 
-    context 'an memory' do
+    context 'a memory' do
       let(:memory_class) { find('.memory') }
 
       it 'has a title' do
@@ -58,7 +59,15 @@ feature 'As a user I want to be able to view one of my memories', slow: true do
     end
 
     scenario 'lets me go back to the previous page' do
-      expect(page).to have_css("a[href=\"#{referer}\"]", count: 1)
+      expect(page).to have_link('Back')
+    end
+
+    scenario "does not let me edit" do
+      expect(page).not_to have_link('Edit')
+    end
+
+    scenario "does not let me delete" do
+      expect(page).not_to have_link('Delete')
     end
   end
 end

@@ -1,21 +1,21 @@
 %form
   .row.required
     %label Text Test
-    %input{type: "text", value: "Filled in"}
+    %input.form-control{type: "text", value: "Filled in"}
   .row.required
     %label Date Test
-    %input{type: "date", value: "2014-05-04"}
+    %input.form-control{type: "date", value: "2014-05-04"}
   .row.required
     %label Select Test
-    %select
+    %select.form-control
       %option
       %option{selected: true} Hello
       %option World
   .row.required
     %label Textarea Test
-    %textarea I am filled in
+    %textarea.form-control I am filled in
   .row
     %label Not Required Test
-    %input{type: "text"}
+    %input.form-control{type: "text"}
   .row
     %input{type: "submit", disabled: true}

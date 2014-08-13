@@ -1,12 +1,10 @@
 .container
   .col-xs-12
     =form_for @memory, url: my_memories_url, html: {id: "add-memory", class: "form-horizontal", role: "form"} do |f|
-      -if @memory.errors.any?
-        #error_explanation
-          %h2 Please correct the following ...
-          %ul
-            - @memory.errors.messages.values.each do |msg|
-              %li= msg.join(', ')
+
+      %h2 Add new
+
+      = render partial: 'form_errors', object: @memory
 
       .form-group.required
         .col-xs-12.col-sm-4
@@ -18,52 +16,11 @@
           = f.label :source
         .col-xs-12.col-sm-8
           = f.file_field :source
-      .form-group.required
-        .col-xs-12.col-sm-4
-          = f.label :title
-        .col-xs-12.col-sm-8
-          = f.text_field :title, class: "form-control"
-      .form-group.required
-        .col-xs-12.col-sm-4
-          = f.label :area_id
-        .col-xs-12.col-sm-8
-          = f.select :area_id, options_from_collection_for_select(Area.all, 'id', 'name'), include_blank: true, class: "form-control"
-      .form-group
-        .col-xs-12.col-sm-4
-          = f.label :location
-        .col-xs-12.col-sm-8
-          = f.text_field :location, class: "form-control"
-      .form-group.required
-        .col-xs-12.col-sm-4
-          = f.label :year
-        .col-xs-12.col-sm-8
-          = f.text_field :year, class: "form-control", placeholder: "no earlier than #{Memory.furthest_year} please"
-      .form-group
-        .col-xs-12.col-sm-4
-          = f.label :month
-        .col-xs-12.col-sm-8
-          = f.select :month, month_names, class: "form-control"
-      .form-group
-        .col-xs-12.col-sm-4
-          = f.label :day
-        .col-xs-12.col-sm-8
-          = f.select :day, (1..31).to_a, include_blank: true, class: "form-control"
-      .form-group
-        .col-xs-12.col-sm-4
-          = f.label :description
-        .col-xs-12.col-sm-8
-          = f.text_area :description, class: "form-control"
-      .form-group
-        .col-xs-12.col-sm-4
-          = f.label :attribution
-        .col-xs-12.col-sm-8
-          = f.text_field :attribution, class: "form-control"
-      .form-group
-        .actions.col-xs-sm-12
-          = link_to "Cancel", my_memories_path, class: "btn btn-default"
-          = f.submit "Save", class: "btn btn-primary", disabled: true
 
-  :javascript
-      $(document).ready(function () {
-        new Validator().validate()
-      });
+      = render partial: 'details_form', object: @memory, locals: { form: f }
+
+:javascript
+  $(document).ready(function () {
+    new Validator($('#add-memory')).validate()
+  });
+
