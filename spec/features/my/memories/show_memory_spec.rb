@@ -15,11 +15,7 @@ feature 'As a user I want to be able to view one of my memories', slow: true do
 
     context 'when logged in' do
       before :each do
-        visit '/login'
-        fill_in 'email', with: 'bobby@example.com'
-        fill_in 'password', with: 's3cr3t'
-        click_button 'Sign In'
-
+        login('bobby@example.com', 's3cr3t')
         visit url
       end
 
