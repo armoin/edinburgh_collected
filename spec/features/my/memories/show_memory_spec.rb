@@ -84,6 +84,10 @@ feature 'As a user I want to be able to view one of my memories', slow: true do
       scenario "let's me edit" do
         expect(page).to have_link('Edit')
       end
+
+      scenario "let's me delete" do
+        expect(page).to have_link('Delete')
+      end
     end
   end
 end

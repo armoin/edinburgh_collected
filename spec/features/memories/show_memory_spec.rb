@@ -61,6 +61,14 @@ feature 'As a user I want to be able to view one of my memories', slow: true do
     scenario 'lets me go back to the previous page' do
       expect(page).to have_link('Back')
     end
+
+    scenario "does not let me edit" do
+      expect(page).not_to have_link('Edit')
+    end
+
+    scenario "does not let me delete" do
+      expect(page).not_to have_link('Delete')
+    end
   end
 end
 

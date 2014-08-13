@@ -252,5 +252,49 @@ describe My::MemoriesController do
       end
     end
   end
+
+  describe 'DELETE destroy' do
+    context 'when not logged in' do
+      it 'asks user to login' do
+        delete :destroy, id: '123'
+        expect(response).to redirect_to(:login)
+      end
+    end
+
+    context 'when logged in' do
+      before :each do
+        login_user
+        allow(stub_memories).to receive(:find).and_return(memory)
+        allow(memory).to receive(:destroy).and_return(true)
+        delete :destroy, id: '123'
+      end
+
+      it "finds the Memory with the given id" do
+        expect(stub_memories).to have_received(:find).with('123')
+      end
+
+      it "destroys the given attributes" do
+        expect(memory).to have_received('destroy')
+      end
+
+      it "redirects to the user's memories page" do
+        expect(response).to redirect_to(my_memories_url)
+      end
+
+      context "destroy is successful" do
+        it "shows a success notice" do
+          expect(flash[:notice]).to eql('Successfully deleted')
+        end
+      end
+
+      context "destroy is not successful" do
+        it "shows an alert" do
+          allow(memory).to receive(:destroy).and_return(false)
+          delete :destroy, id: '123'
+          expect(flash[:alert]).to eql('Could not delete')
+        end
+      end
+    end
+  end
 end
 

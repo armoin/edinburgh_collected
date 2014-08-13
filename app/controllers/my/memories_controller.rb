@@ -1,6 +1,6 @@
 class My::MemoriesController < My::AuthenticatedUserController
   before_filter :assign_memories, only: :index
-  before_filter :assign_memory, only: [:show, :edit, :update]
+  before_filter :assign_memory, only: [:show, :edit, :update, :destroy]
 
   def index
   end
@@ -30,6 +30,14 @@ class My::MemoriesController < My::AuthenticatedUserController
       redirect_to my_memories_url
     else
       render :edit
+    end
+  end
+
+  def destroy
+    if @memory.destroy
+      redirect_to my_memories_url, notice: 'Successfully deleted'
+    else
+      redirect_to my_memories_url, alert: 'Could not delete'
     end
   end
 
