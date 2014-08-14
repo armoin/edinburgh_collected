@@ -9,10 +9,9 @@ This is the working title for a city-wide shared memory app developed for City o
 
 # Running Edinburgh Stories
 
-* Installing edinburgh-stories-api
-* Running edinburgh-stories-api
 * Installing edinburgh-stories
 * Running edinburgh-stories-api
+
 
 ## Pre-requisities
 
@@ -20,26 +19,14 @@ This is the working title for a city-wide shared memory app developed for City o
 * ruby 2.1.2 (optional: rvm or rbenv)
 
 
-## Installing edinburgh-stories-api
-
-* `git clone git@github.com:urfolomeus/edinburgh-stories-api.git`
-* `cd edinburgh-stories-api`
-* `bundle install`
-* `rake db:migrate`
-
-
-## Running edinburgh-stories-api
-
-* `shotgun`
-* The Edinburgh Stories API should now be available at [http://localhost:9393](http://localhost:9393) (although you shouldn't need to run it directly).
-
-
 ## Installing edinburgh-stories
 
-* `git clone git@github.com:urfolomeus/edinburgh-stories.git`
-* `cd edinburgh-stories`
-* `bundle install`
-
+```bash
+  git clone git@github.com:urfolomeus/edinburgh-stories.git
+  cd edinburgh-stories
+  bundle install
+  rake db:migrate
+```
 
 ## Running edinburgh-stories-api
 
