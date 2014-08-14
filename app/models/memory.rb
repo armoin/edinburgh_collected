@@ -33,14 +33,9 @@ class Memory < ActiveRecord::Base
   validate :file_is_of_correct_type
 
   def date
-    if self.day.present? && self.month.present?
-      day = ActiveSupport::Inflector.ordinalize(self.day.to_i)
-      Time.new(self.year, self.month).strftime("#{day} %B %Y")
-    elsif self.month.present?
-      Time.new(self.year, self.month).strftime('%B %Y')
-    else
-      self.year
-    end
+    return year unless month.present?
+    return month_string unless day.present?
+    day_string
   end
 
   def address
@@ -50,6 +45,15 @@ class Memory < ActiveRecord::Base
   end
 
   private
+
+  def month_string
+    Time.new(year, month).strftime('%B %Y')
+  end
+
+  def day_string
+    day_ord = ActiveSupport::Inflector.ordinalize(day.to_i)
+    Time.new(year, month).strftime("#{day_ord} %B %Y")
+  end
 
   def file_is_of_correct_type
     return false unless Memory.file_types.include?(self.file_type) # file_type validation will catch
