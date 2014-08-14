@@ -27,8 +27,10 @@ class Memory < ActiveRecord::Base
     Time.now.year
   end
 
-  validates_presence_of :title, :source, :user, :area
-  validates :year, presence: true, inclusion: { in: (furthest_year..current_year).map(&:to_s), message: 'must be within the last 120 years.' }
+  validates_presence_of :title, :source, :user, :area, :year
+  validates :year,
+            inclusion: { in: (furthest_year..current_year).map(&:to_s), message: 'must be within the last 120 years.' },
+            if: :year_changed?
   validates :file_type, inclusion: { in: Memory.file_types }
   validate :file_is_of_correct_type
 

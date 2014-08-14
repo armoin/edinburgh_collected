@@ -58,10 +58,30 @@ describe Memory do
         expect(memory.errors[:year]).to include("must be within the last 120 years.")
       end
 
-      it "is invalid if too far in the past" do
-        memory.year = (Memory::MAX_YEAR_RANGE+1).years.ago.year.to_s
-        expect(memory).to be_invalid
-        expect(memory.errors[:year]).to include("must be within the last 120 years.")
+      context "when in the past" do
+        it "is invalid on create" do
+          memory.year = (Memory::MAX_YEAR_RANGE+1).years.ago.year.to_s
+          expect(memory).to be_invalid
+          expect(memory.errors[:year]).to include("must be within the last 120 years.")
+        end
+
+        it "is invalid on update if changed" do
+          memory.save!
+          memory.year = (Memory::MAX_YEAR_RANGE+1).years.ago.year.to_s
+          expect(memory).to be_invalid
+          expect(memory.errors[:year]).to include("must be within the last 120 years.")
+        end
+
+        # this is to protect against future changes when
+        # a date in the past is now invalid even though
+        # it was valid on creation
+        it "is valid on update if not changed" do
+          memory.year = Memory::MAX_YEAR_RANGE.years.ago.year.to_s
+          memory.save!
+          Timecop.freeze(12.years.from_now) do
+            expect(memory).to be_valid
+          end
+        end
       end
 
       it "is valid at earliest boundary" do
