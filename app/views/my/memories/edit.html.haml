@@ -1,6 +1,10 @@
 .container
   .col-xs-12
-    =form_for @memory, url: my_memory_url(@memory.id), method: :put, html: {id: "edit-memory", class: "form-horizontal", role: "form"} do |f|
+    =simple_form_for @memory,
+      url: my_memory_url(@memory.id),
+      wrapper: :horizontal_form,
+      method: :put,
+      html: {id: "edit-memory", class: "form-horizontal", role: "form"} do |f|
 
       %h2 Edit details
 

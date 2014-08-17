@@ -1,29 +1,23 @@
 .container
   .col-xs-12
-    =form_for @memory, url: my_memories_url, html: {id: "add-memory", class: "form-horizontal", role: "form"} do |f|
-
-      %h2 Add new
+    =simple_form_for @memory,
+      url: my_memories_url,
+      wrapper: :horizontal_form,
+      wrapper_mappings: { file: :horizontal_file_input },
+      html: {id: "add-memory", class: "form-horizontal", role: "form"} do |f|
 
       = render partial: 'form_errors', object: @memory
 
-      .form-group.required
-        .col-xs-12.col-sm-4
-          = f.label :file_type
-        .col-xs-12.col-sm-8
-          = f.select :file_type, Memory.file_types, {}, {class: "form-control"}
-      .form-group.required
-        .col-xs-12.col-sm-4
-          = f.label :source
-        .col-xs-12.col-sm-8
-          = f.file_field :source
+      = f.input :file_type, as: :select, collection: Memory.file_types, wrapper_html: {class: 'required'}, input_html: {class: 'form-control'}
+      = f.input :source, as: :file
 
       = render partial: 'details_form', object: @memory, locals: { form: f }
 
       .form-group
         .actions.col-xs-sm-12
           = link_to "Cancel", my_memories_path, class: "btn btn-default"
-          = f.submit "Save And Add Another", class: "btn btn-primary", disabled: true
-          = f.submit "Save", class: "btn btn-primary", disabled: true
+          = f.button :submit, "Save And Add Another", class: "btn btn-primary", disabled: true
+          = f.button :submit, "Save", class: "btn btn-primary", disabled: true
 
 :javascript
   $(document).ready(function () {

@@ -217,6 +217,9 @@ GEM
     sdoc (0.4.0)
       json (~> 1.8)
       rdoc (~> 4.0, < 5.0)
+    simple_form (3.0.2)
+      actionpack (~> 4.0)
+      activemodel (~> 4.0)
     simplecov (0.9.0)
       docile (~> 1.1.0)
       multi_json
@@ -289,6 +292,7 @@ DEPENDENCIES
   rspec-rails (~> 3.0.1)
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
+  simple_form
   sorcery (~> 0.8.6)
   spring (~> 1.1.3)
   sqlite3 (= 1.3.9)
