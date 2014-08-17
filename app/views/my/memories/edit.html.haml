@@ -1,19 +1,23 @@
 .container
   .col-xs-12
-    =form_for @memory, url: my_memory_url(@memory.id), method: :put, html: {id: "edit-memory", class: "form-horizontal", role: "form"} do |f|
+    =simple_form_for @memory,
+      url: my_memory_url(@memory.id),
+      wrapper: :horizontal_form,
+      method: :put,
+      html: {id: "edit-memory", class: "form-horizontal", role: "form"} do |form|
 
       %h2 Edit details
 
       %img{src: @memory.source_url, alt: @memory.title, title: @memory.title}
 
-      = render partial: 'form_errors', object: @memory
+      = form.error_notification
 
-      = render partial: 'details_form', object: @memory, locals: { form: f }
+      = render partial: 'details_form', object: @memory, locals: { form: form }
 
       .form-group
         .actions.col-xs-sm-12
           = link_to "Cancel", my_memories_path, class: "btn btn-default"
-          = f.submit "Save", class: "btn btn-primary", disabled: true
+          = form.submit "Save", class: "btn btn-primary", disabled: true
 
 :javascript
   $(document).ready(function () {

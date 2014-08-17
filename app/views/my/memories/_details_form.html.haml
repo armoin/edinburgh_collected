@@ -1,41 +1,9 @@
-.form-group.required
-  .col-xs-12.col-sm-4
-    = form.label :title
-  .col-xs-12.col-sm-8
-    = form.text_field :title, class: "form-control"
-.form-group.required
-  .col-xs-12.col-sm-4
-    = form.label :area
-  .col-xs-12.col-sm-8
-    = form.collection_select :area_id, Area.all, :id, :name, {include_blank: true}, {class: "form-control"}
-.form-group
-  .col-xs-12.col-sm-4
-    = form.label :location
-  .col-xs-12.col-sm-8
-    = form.text_field :location, class: "form-control"
-.form-group.required
-  .col-xs-12.col-sm-4
-    = form.label :year
-  .col-xs-12.col-sm-8
-    = form.text_field :year, class: "form-control", placeholder: "no earlier than #{Memory.furthest_year} please"
-.form-group
-  .col-xs-12.col-sm-4
-    = form.label :month
-  .col-xs-12.col-sm-8
-    = form.select :month, month_names, {}, {class: "form-control"}
-.form-group
-  .col-xs-12.col-sm-4
-    = form.label :day
-  .col-xs-12.col-sm-8
-    = form.select :day, (1..31).to_a, {include_blank: true}, {class: "form-control"}
-.form-group
-  .col-xs-12.col-sm-4
-    = form.label :description
-  .col-xs-12.col-sm-8
-    = form.text_area :description, class: "form-control"
-.form-group
-  .col-xs-12.col-sm-4
-    = form.label :attribution
-  .col-xs-12.col-sm-8
-    = form.text_field :attribution, class: "form-control"
+= form.input :title, input_html: {class: 'form-control'}
+= form.input :area_id, as: :select, collection: Area.all, required: true, input_html: {class: 'form-control'}
+= form.input :location, input_html: {class: 'form-control'}
+= form.input :year, input_html: {class: 'form-control', placeholder: "no earlier than #{Memory.furthest_year} please"}
+= form.input :month, as: :select, collection: month_names, include_blank: false, input_html: {class: 'form-control'}
+= form.input :day, as: :select, collection: (1..31).to_a, input_html: {class: 'form-control'}
+= form.input :description, as: :text, input_html: {class: 'form-control'}
+= form.input :attribution, input_html: {class: 'form-control'}
 
