@@ -4,6 +4,7 @@ feature 'adding new memories', slow: true, js:true do # REMEMBER: add js:true ag
   before do
     Fabricate(:user, email: 'bobby@example.com')
     Fabricate(:area)
+    Fabricate.times(4, :category)
   end
 
   let(:memory_attrs) {{
@@ -45,5 +46,6 @@ def fill_in_form
   fill_in 'memory[year]', with: memory_attrs[:year]
   fill_in 'memory[description]', with: memory_attrs[:description]
   fill_in 'memory[location]', with: '10 Bath Street'
+  find(:css, ".memory_categories label:nth-child(2) input[type='checkbox']").click
   select Area.first.name, from: 'memory[area_id]'
 end

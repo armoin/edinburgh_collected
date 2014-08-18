@@ -3,6 +3,7 @@ require 'carrierwave/mount'
 class Memory < ActiveRecord::Base
   belongs_to :user
   belongs_to :area
+  has_and_belongs_to_many :categories
 
   extend CarrierWave::Mount
 
@@ -28,6 +29,7 @@ class Memory < ActiveRecord::Base
   end
 
   validates_presence_of :title, :source, :user, :area, :year
+  validates_presence_of :categories, message: 'must have at least one'
   validates :year,
             inclusion: { in: (furthest_year..current_year).map(&:to_s), message: 'must be within the last 120 years.' },
             if: :year_changed?
@@ -44,6 +46,10 @@ class Memory < ActiveRecord::Base
     return "" if area.blank?
     return area.name if location.blank?
     "#{location}, #{area.name}"
+  end
+
+  def category_list
+    categories.map(&:name).join(', ')
   end
 
   private

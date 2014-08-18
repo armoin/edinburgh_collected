@@ -10,5 +10,6 @@ Fabricator(:memory) do
   attribution "Bobby Tables"
   location    "Kings Road"
   source      Rack::Test::UploadedFile.new(File.join(File.join(Rails.root, 'spec', 'fixtures', 'files'), 'test.jpg'))
+  categories(rand: 3) { |attrs, i| Fabricate(:category) }
 end
 

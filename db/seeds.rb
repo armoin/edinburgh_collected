@@ -47,6 +47,26 @@ areas   = [
 ]
 
 areas.each do |area|
-  p area: area
   Area.create_with(city: city, country: country).find_or_create_by(name: area)
+end
+
+categories = [
+  "Animals",
+  "Architecture",
+  "Childhood",
+  "Education",
+  "Environment",
+  "Events",
+  "Fashion",
+  "Health and Welfare",
+  "Homes",
+  "Leisure",
+  "Sport",
+  "Technology",
+  "Transport",
+  "Work"
+]
+
+categories.each do |c|
+  Category.find_or_create_by(name: c)
 end

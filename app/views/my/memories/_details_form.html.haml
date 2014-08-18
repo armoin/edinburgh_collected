@@ -6,4 +6,4 @@
 = form.input :day, as: :select, collection: (1..31).to_a, input_html: {class: 'form-control'}
 = form.input :description, as: :text, input_html: {class: 'form-control'}
 = form.input :attribution, input_html: {class: 'form-control'}
-
+= form.association :categories, as: :check_boxes
