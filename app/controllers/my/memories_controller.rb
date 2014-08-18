@@ -76,7 +76,8 @@ class My::MemoriesController < My::AuthenticatedUserController
       :is_readable,
       :attribution,
       :area_id,
-      :location
+      :location,
+      :category_ids => [],
     )
   end
 end

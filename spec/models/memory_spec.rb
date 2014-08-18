@@ -213,6 +213,24 @@ describe Memory do
         expect(subject).not_to have_received(:geocode)
       end
     end
+
+    context "categories" do
+      it "is invalid with no categories" do
+        memory = Fabricate.build(:memory, categories: [])
+        expect(memory).to be_invalid
+        expect(memory.errors[:categories]).to include("must have at least one")
+      end
+
+      it "is valid with one category" do
+        memory = Fabricate.build(:memory, categories: Fabricate.times(1, :category))
+        expect(memory).to be_valid
+      end
+
+      it "is valid with multiple categories" do
+        memory = Fabricate.build(:memory, categories: Fabricate.times(2, :category))
+        expect(memory).to be_valid
+      end
+    end
   end
 
   describe "date" do
@@ -253,6 +271,27 @@ describe Memory do
 
     it "provides the location and area name if there is an area and location" do
       expect(memory.address).to eql('Kings Road, Portobello')
+    end
+  end
+
+  describe "#category_list" do
+    before :each do
+      memory.categories.destroy_all
+    end
+
+    it "provides an empty string if there are no categories" do
+      expect(memory.category_list).to eql('')
+    end
+
+    it "provides a single category string if there is one category" do
+      memory.categories.build(name: 'Home')
+      expect(memory.category_list).to eql('Home')
+    end
+
+    it "provides a comma separated list of categories if there are two categories" do
+      memory.categories.build(name: 'Home')
+      memory.categories.build(name: 'Transport')
+      expect(memory.category_list).to eql('Home, Transport')
     end
   end
 end

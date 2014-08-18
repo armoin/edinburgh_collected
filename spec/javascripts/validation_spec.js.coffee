@@ -28,6 +28,19 @@ describe "Validator", ->
       $('.required textarea').text('')
       expect(@validator.form_valid()).toBe(false)
 
+    it "returns false if no required checkboxes are checked", ->
+      $('.required input[type="checkbox"]:checked').attr('checked', false)
+      expect(@validator.form_valid()).toBe(false)
+
+    it "returns true if one required checkbox is checked", ->
+      expect($('.required input[type="checkbox"]:checked').length).toEqual(1)
+      expect(@validator.form_valid()).toBe(true)
+
+    it "returns true if two required checkboxes are checked", ->
+      $('.required input[type="checkbox"]').not(':checked').attr('checked', true)
+      expect($('.required input[type="checkbox"]:checked').length).toEqual(2)
+      expect(@validator.form_valid()).toBe(true)
+
     it "returns false when two required fields are incomplete", ->
       $('.required input[type="text"]').val('')
       $('.required input[type="date"]').val('')
@@ -98,6 +111,19 @@ describe "Validator", ->
         it "should be disabled if the textarea does not have any text in it", ->
           @validator.validate()
           $('.required textarea').val('').trigger('keyup')
+          submit_button = $('input[type="submit"]')
+          expect(submit_button).toBeDisabled()
+
+      describe "once at least one required checkbox has been checked", ->
+        it "should be enabled if the checkbox was checked", ->
+          @validator.validate()
+          $('.required input[type="checkbox"]').trigger('change')
+          submit_button = $('input[type="submit"]')
+          expect(submit_button).not.toBeDisabled()
+
+        it "should be disabled if the checkbox has not been checked", ->
+          @validator.validate()
+          $('.required input[type="checkbox"]').attr('checked', false).trigger('change')
           submit_button = $('input[type="submit"]')
           expect(submit_button).toBeDisabled()
 
