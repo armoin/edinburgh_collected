@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  # styleguide
+  get 'styleguide' => 'styleguide#blocks'
+  get 'styleguide/blocks' => 'styleguide#blocks'
+  get 'styleguide/elements' => 'styleguide#elements'
+
   namespace :my do
     resources :memories
   end
