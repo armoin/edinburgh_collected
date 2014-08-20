@@ -17,7 +17,7 @@ class Memory < ActiveRecord::Base
   default_scope { order('created_at DESC') }
 
   def self.file_types
-    ["image"]
+    ["Image"]
   end
 
   def self.furthest_year
@@ -66,7 +66,7 @@ class Memory < ActiveRecord::Base
   def file_is_of_correct_type
     return false unless Memory.file_types.include?(self.file_type) # file_type validation will catch
     valid_exts_list = {
-      'image' => %w(.jpg .jpeg .png .gif)
+      'Image' => %w(.jpg .jpeg .png .gif)
     }
     valid_exts = valid_exts_list[self.file_type]
     unless source.file && valid_exts.include?(File.extname(source.file.filename))

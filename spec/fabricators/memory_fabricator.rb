@@ -4,7 +4,7 @@ Fabricator(:memory) do
   year        "2014"
   month       "5"
   day         "4"
-  file_type   "image"
+  file_type   "Image"
   title       "A test"
   description "This is a test."
   attribution "Bobby Tables"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140817144109) do
+ActiveRecord::Schema.define(version: 20140820072228) do
 
   create_table "areas", force: true do |t|
     t.string   "name",       null: false
@@ -43,12 +43,6 @@ ActiveRecord::Schema.define(version: 20140817144109) do
     t.string   "year"
     t.string   "month"
     t.string   "day"
-    t.integer  "width"
-    t.integer  "height"
-    t.integer  "resolution"
-    t.string   "device"
-    t.float    "length"
-    t.boolean  "is_readable"
     t.string   "attribution"
     t.datetime "created_at"
     t.datetime "updated_at"

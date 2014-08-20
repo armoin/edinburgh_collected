@@ -59,7 +59,7 @@ task :cc_import => :environment do |t, args|
   IDs.each do |id|
     doc = CCAsset.new(id)
     memory = Memory.new(
-      file_type: 'image',
+      file_type: 'Image',
       title: doc.title,
       year: doc.year,
       description: doc.description,
