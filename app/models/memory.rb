@@ -1,18 +1,16 @@
 require 'carrierwave/mount'
 
 class Memory < ActiveRecord::Base
+  extend CarrierWave::Mount
+
   belongs_to :user
   belongs_to :area
   has_and_belongs_to_many :categories
-
-  extend CarrierWave::Mount
 
   geocoded_by :address
   after_validation :geocode, if: :location_changed? or :area_id_changed?
 
   MAX_YEAR_RANGE = 120
-
-  mount_uploader :source, ImageUploader
 
   default_scope { order('created_at DESC') }
 
@@ -33,8 +31,7 @@ class Memory < ActiveRecord::Base
   validates :year,
             inclusion: { in: (furthest_year..current_year).map(&:to_s), message: 'must be within the last 120 years.' },
             if: :year_changed?
-  validates :file_type, inclusion: { in: Memory.file_types }
-  validate :file_is_of_correct_type
+  validates :type, inclusion: { in: Memory.file_types }
 
   def date
     return year unless month.present?
@@ -61,16 +58,5 @@ class Memory < ActiveRecord::Base
   def day_string
     day_ord = ActiveSupport::Inflector.ordinalize(day.to_i)
     Time.new(year, month).strftime("#{day_ord} %B %Y")
-  end
-
-  def file_is_of_correct_type
-    return false unless Memory.file_types.include?(self.file_type) # file_type validation will catch
-    valid_exts_list = {
-      'Image' => %w(.jpg .jpeg .png .gif)
-    }
-    valid_exts = valid_exts_list[self.file_type]
-    unless source.file && valid_exts.include?(File.extname(source.file.filename))
-      errors.add(:source, "must be of type #{valid_exts.join(', ')}")
-    end
   end
 end

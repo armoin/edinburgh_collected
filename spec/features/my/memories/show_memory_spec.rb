@@ -41,8 +41,8 @@ feature 'As a user I want to be able to view one of my memories', slow: true do
           expect(img['alt']).to have_content("A test")
         end
 
-        it 'has a file_type' do
-          expect(memory_class.find('.file_type')).to have_text("Image")
+        it 'has a type' do
+          expect(memory_class.find('.type')).to have_text("Image")
         end
 
         it 'has a description' do

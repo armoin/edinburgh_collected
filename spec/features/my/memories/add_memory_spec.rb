@@ -8,7 +8,7 @@ feature 'adding new memories', slow: true, js:true do # REMEMBER: add js:true ag
   end
 
   let(:memory_attrs) {{
-    file_type:   "Image",
+    type:   "Image",
     title:       "Arthur's Seat",
     year:        "2014",
     description: "Arthur's Seat is the plug of a long extinct volcano."
@@ -40,7 +40,7 @@ feature 'adding new memories', slow: true, js:true do # REMEMBER: add js:true ag
 end
 
 def fill_in_form
-  select memory_attrs[:file_type], from: 'memory[file_type]'
+  select memory_attrs[:type], from: 'memory[type]'
   attach_file :file, File.join(File.dirname(__FILE__), '../../../fixtures/files/test.jpg')
   fill_in 'memory[title]', with: memory_attrs[:title]
   fill_in 'memory[year]', with: memory_attrs[:year]

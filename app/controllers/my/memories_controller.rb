@@ -62,7 +62,7 @@ class My::MemoriesController < My::AuthenticatedUserController
   def memory_params
     params.require(:memory).permit(
       :title,
-      :file_type,
+      :type,
       :source,
       :description,
       :year,
