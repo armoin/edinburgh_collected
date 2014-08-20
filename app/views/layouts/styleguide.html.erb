@@ -3,29 +3,10 @@
 <head>
   <title>Edinburgh Stories</title>
   <meta content='width=device-width, initial-scale=1' name='viewport'>
-  <link data-turbolinks-track="true" href="/assets/application.css?body=1" media="all" rel="stylesheet" />
-  <link data-turbolinks-track="true" href="/assets/temporary.css?body=1" media="all" rel="stylesheet" />
-  <script data-turbolinks-track="true" src="/assets/jquery.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/jquery_ujs.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/turbolinks.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/bootstrap/affix.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/bootstrap/alert.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/bootstrap/button.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/bootstrap/carousel.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/bootstrap/collapse.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/bootstrap/dropdown.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/bootstrap/tab.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/bootstrap/transition.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/bootstrap/scrollspy.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/bootstrap/modal.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/bootstrap/tooltip.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/bootstrap/popover.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/bootstrap-sprockets.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/flashes.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/validation.js?body=1"></script>
-  <script data-turbolinks-track="true" src="/assets/application.js?body=1"></script>
-  <meta content="authenticity_token" name="csrf-param" />
-  <meta content="OnQDiOEZ0Z6er+urKbYKinyEuX8DRgR9OUGGfOK84gI=" name="csrf-token" />
+  <%= stylesheet_link_tag('application', media: 'all', 'data-turbolinks-track' => true) %>
+
+  <%= javascript_include_tag('application', 'data-turbolinks-track' => true) %>
+  <%= csrf_meta_tags %>
 </head>
 <body class="styleguide">
   <h1 class="header">Styleguide</h1>
