@@ -1,4 +1,4 @@
-Fabricator(:memory, from: :image) do
+Fabricator(:memory, from: :photo) do
   user
   area
   year        "2014"
@@ -12,7 +12,7 @@ Fabricator(:memory, from: :image) do
   categories(rand: 3) { |attrs, i| Fabricate(:category) }
 end
 
-Fabricator(:image_memory, from: :image) do
+Fabricator(:photo_memory, from: :photo) do
   user
   area
   year        "2014"

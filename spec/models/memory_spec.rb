@@ -5,14 +5,14 @@ describe Memory do
   let(:file_name) { 'test.jpg' }
   let(:source)    { Rack::Test::UploadedFile.new(File.join(file_path, file_name)) }
   let(:test_user) { Fabricate.build(:user) }
-  let(:memory)     { Fabricate.build(:image_memory, user: test_user, source: source, area: area) }
+  let(:memory)     { Fabricate.build(:photo_memory, user: test_user, source: source, area: area) }
 
   let!(:area) { Fabricate(:area) }
 
   describe 'ordering' do
     it 'sorts them by reverse created at date' do
-      memory1 = Fabricate(:image_memory, user: test_user, area: area)
-      memory2 = Fabricate(:image_memory, user: test_user, area: area)
+      memory1 = Fabricate(:photo_memory, user: test_user, area: area)
+      memory2 = Fabricate(:photo_memory, user: test_user, area: area)
       expect(Memory.first).to eql(memory2)
       expect(Memory.last).to eql(memory1)
     end

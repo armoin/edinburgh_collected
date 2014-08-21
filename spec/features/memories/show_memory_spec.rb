@@ -27,7 +27,7 @@ feature 'As a user I want to be able to view one of my memories', slow: true do
       end
 
       it 'has a type' do
-        expect(memory_class.find('.type')).to have_text("Image")
+        expect(memory_class.find('.type')).to have_text("Photo")
       end
 
       it 'has a description' do

@@ -8,7 +8,7 @@ feature 'adding new memories', slow: true, js:true do # REMEMBER: add js:true ag
   end
 
   let(:memory_attrs) {{
-    type:   "Image",
+    type:        "Photo",
     title:       "Arthur's Seat",
     year:        "2014",
     description: "Arthur's Seat is the plug of a long extinct volcano."
