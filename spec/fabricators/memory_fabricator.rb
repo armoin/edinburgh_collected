@@ -1,10 +1,9 @@
-Fabricator(:memory) do
+Fabricator(:photo_memory, from: :photo) do
   user
   area
   year        "2014"
   month       "5"
   day         "4"
-  file_type   "Image"
   title       "A test"
   description "This is a test."
   attribution "Bobby Tables"

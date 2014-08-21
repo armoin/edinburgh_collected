@@ -6,7 +6,7 @@ en:
         month: "Do you know the month too?"
         day:   "How about the day?"
         description: "Tell us about what you have added"
-        file_type: "What would you like to add?"
+        type: "What would you like to add?"
         source: "Please select a file"
         title: "What would you like to call this?"
         attribution: "Would you like to attribute this to another person?"
@@ -16,7 +16,7 @@ en:
           attributes:
             title:
               blank: "Please let us know what you would like to call this."
-            file_type:
+            type:
               inclusion: "You can only add image files."
             year:
               blank: "Please tell us when this dates from."

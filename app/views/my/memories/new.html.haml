@@ -8,7 +8,7 @@
 
       = form.error_notification
 
-      = form.input :file_type, as: :select, collection: Memory.file_types, required: true, input_html: {class: 'form-control'}
+      = form.input :type, as: :select, collection: Memory.file_types, required: true, input_html: {class: 'form-control'}
       = form.input :source, as: :file
 
       = render partial: 'details_form', object: @memory, locals: { form: form }

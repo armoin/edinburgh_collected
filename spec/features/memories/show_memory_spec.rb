@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'As a user I want to be able to view one of my memories', slow: true do
   let(:user)   { Fabricate(:user, email: 'bobby@example.com') }
-  let(:memory) { Fabricate(:memory, user: user) }
+  let(:memory) { Fabricate(:photo_memory, user: user) }
 
   feature 'So that I can view its details' do
     let(:url)     { "/memories/#{memory.id}" }
@@ -26,8 +26,8 @@ feature 'As a user I want to be able to view one of my memories', slow: true do
         expect(img['alt']).to have_content("A test")
       end
 
-      it 'has a file_type' do
-        expect(memory_class.find('.file_type')).to have_text("Image")
+      it 'has a type' do
+        expect(memory_class.find('.type')).to have_text("Photo")
       end
 
       it 'has a description' do

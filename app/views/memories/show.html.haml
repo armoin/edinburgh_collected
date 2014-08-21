@@ -1,4 +1,4 @@
 .container
   = link_to "Back", root_url
 
-  = render @memory
+  = render partial: 'memories/memory', object: @memory

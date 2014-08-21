@@ -1,6 +1,6 @@
 class Memory < ActiveRecord::Base; end
 
-class ConvertImageToImage < ActiveRecord::Migration
+class CapitalizeFileType < ActiveRecord::Migration
   def up
     Memory.all.each {|m| m.update_attribute(:file_type, m.file_type.capitalize)}
   end

@@ -3,7 +3,7 @@ require 'rails_helper'
 feature 'As a user I want to be able to manage my memories', slow: true do
   let(:user)    { Fabricate(:user) }
   let(:area)    { Fabricate(:area) }
-  let(:memories)  { Fabricate.times(3, :memory, user: user, area: area) }
+  let(:memories)  { Fabricate.times(3, :photo_memory, user: user, area: area) }
 
   before :each do
     allow(Memory).to receive(:all).and_return(memories)

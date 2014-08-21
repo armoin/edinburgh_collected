@@ -5,7 +5,7 @@ task :data_transfer => :environment do |t, args|
   assets.each do |asset|
     new_memory = Memory.new(
       title:             asset["title"],
-      file_type:         asset["file_type"].capitalize || "Image",
+      type:              asset["file_type"] || "image",
       description:       asset["description"],
       year:              asset["year"] || "2014",
       month:             asset["month"],
