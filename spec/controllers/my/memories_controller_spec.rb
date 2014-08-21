@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe My::MemoriesController do
   let(:stub_memories) { double('memories', find: memory) }
-  let(:memory)        { Fabricate.build(:memory, id: 123, user: @user) }
+  let(:memory)        { Fabricate.build(:photo_memory, id: 123, user: @user) }
 
   before :each do
     @user = Fabricate.build(:user)
