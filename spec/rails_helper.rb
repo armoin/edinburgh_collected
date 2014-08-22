@@ -19,6 +19,10 @@ ActiveRecord::Migration.maintain_test_schema!
 
 require 'capybara/poltergeist'
 Capybara.javascript_driver = :poltergeist
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, js_errors: false)
+end
+Fog.mock!
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
