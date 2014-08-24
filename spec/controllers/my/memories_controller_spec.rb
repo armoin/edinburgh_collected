@@ -114,11 +114,16 @@ describe My::MemoriesController do
   end
 
   describe 'POST create' do
-    let(:memory_params) {{ title: 'A title' }}
+    let(:strong_params) {{ title: 'A title' }}
+    let(:given_params) {{
+      memory: strong_params,
+      controller: "my/memories",
+      action: "create"
+    }}
 
     context 'when not logged in' do
       it 'asks user to login' do
-        post :create, memory: memory_params
+        post :create, given_params
         expect(response).to redirect_to(:login)
       end
     end
@@ -126,14 +131,19 @@ describe My::MemoriesController do
     context 'when logged in' do
       before :each do
         login_user
+        allow(MemoryParamCleaner).to receive(:clean).and_return(strong_params)
         allow(Memory).to receive(:new).and_return(memory)
         allow(memory).to receive(:user=)
         allow(memory).to receive(:save).and_return(true)
-        post :create, memory: memory_params
+        post :create, given_params
+      end
+
+      it "cleans the given params" do
+        expect(MemoryParamCleaner).to have_received(:clean).with(given_params)
       end
 
       it "builds a new Memory with the given params" do
-        expect(Memory).to have_received(:new).with(memory_params)
+        expect(Memory).to have_received(:new).with(strong_params)
       end
 
       it "assigns the memory" do
@@ -151,14 +161,14 @@ describe My::MemoriesController do
       context "save is successful" do
         context "when save and add another" do
           it "redirects to the new page" do
-            post :create, memory: memory_params, commit: 'Save And Add Another'
+            post :create, given_params.merge(commit: 'Save And Add Another')
             expect(response).to redirect_to(new_my_memory_url)
           end
         end
 
         context "when save" do
           it "redirects to the user's memories page" do
-            post :create, memory: memory_params, commit: 'Save'
+            post :create, given_params.merge(commit: 'Save')
             expect(response).to redirect_to(my_memories_url)
           end
         end
@@ -167,7 +177,7 @@ describe My::MemoriesController do
       context "save is not successful" do
         it "re-renders the new form" do
           allow(memory).to receive(:save).and_return(false)
-          post :create, memory: memory_params
+          post :create, given_params
           expect(response).to render_template(:new)
         end
       end
@@ -218,11 +228,18 @@ describe My::MemoriesController do
   end
 
   describe 'PUT upate' do
-    let(:memory_params) {{ title: 'New title' }}
+    let(:strong_params) {{ title: 'New title' }}
+    let(:given_params) {{
+      memory: strong_params,
+      id: '123',
+      controller: "my/memories",
+      action: "update"
+    }}
+
 
     context 'when not logged in' do
       it 'asks user to login' do
-        put :update, id: '123', memory: memory_params
+        put :update, given_params
         expect(response).to redirect_to(:login)
       end
     end
@@ -230,9 +247,14 @@ describe My::MemoriesController do
     context 'when logged in' do
       before :each do
         login_user
+        allow(MemoryParamCleaner).to receive(:clean).and_return(strong_params)
         allow(stub_memories).to receive(:find).and_return(memory)
         allow(memory).to receive(:update_attributes).and_return(true)
-        put :update, id: '123', memory: memory_params
+        put :update, given_params
+      end
+
+      it "cleans the given params" do
+        expect(MemoryParamCleaner).to have_received(:clean).with(given_params)
       end
 
       it "finds the Memory with the given id" do
@@ -244,7 +266,7 @@ describe My::MemoriesController do
       end
 
       it "updates the given attributes" do
-        expect(memory).to have_received('update_attributes').with(memory_params)
+        expect(memory).to have_received('update_attributes').with(strong_params)
       end
 
       context "update is successful" do
@@ -256,7 +278,7 @@ describe My::MemoriesController do
       context "update is not successful" do
         it "re-renders the edit form" do
           allow(memory).to receive(:update_attributes).and_return(false)
-          put :update, id: '123', memory: memory_params
+          put :update, given_params
           expect(response).to render_template(:edit)
         end
       end
