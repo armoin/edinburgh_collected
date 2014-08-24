@@ -40,6 +40,34 @@ describe Memory do
     end
   end
 
+  describe "rotation" do
+    describe "when setting" do
+      it "provides an integer when given a string" do
+        subject.rotation = "90"
+        expect(subject.rotation).to eql(90)
+      end
+
+      it "provides an integer when given an integer" do
+        subject.rotation = 90
+        expect(subject.rotation).to eql(90)
+      end
+
+      it "provides an integer when given a float" do
+        subject.rotation = "90.2"
+        expect(subject.rotation).to eql(90)
+      end
+
+      it "provides 0 when given nil" do
+        subject.rotation = nil
+        expect(subject.rotation).to eql(0)
+      end
+
+      it "provides nil when not set" do
+        expect(subject.rotation).to be_nil
+      end
+    end
+  end
+
   describe "date" do
     it "provides the year when memory only has a year" do
       expect(Memory.new(year: "2014").date).to eql("2014")

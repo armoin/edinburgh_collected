@@ -7,6 +7,8 @@ class Memory < ActiveRecord::Base
   belongs_to :area
   has_and_belongs_to_many :categories
 
+  attr_reader :rotation
+
   geocoded_by :address
   after_validation :geocode, if: :location_changed? or :area_id_changed?
 
@@ -32,6 +34,10 @@ class Memory < ActiveRecord::Base
             inclusion: { in: (furthest_year..current_year).map(&:to_s), message: 'must be within the last 120 years.' },
             if: :year_changed?
   validates :type, inclusion: { in: Memory.file_types }
+
+  def rotation=(degrees_string)
+    @rotation = degrees_string.to_i
+  end
 
   def date
     return year unless month.present?
