@@ -4,6 +4,7 @@ def allowed_params
   {
     title:        'A test',
     type:         'Photo',
+    rotation:     '90',
     source:       'test.jpg',
     description:  'This is a test description',
     year:         '2014',

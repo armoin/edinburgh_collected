@@ -3,6 +3,7 @@ class MemoryParamCleaner
     params.require(:memory).permit(
       :title,
       :type,
+      :rotation,
       :source,
       :description,
       :year,
