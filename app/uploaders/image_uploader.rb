@@ -15,8 +15,21 @@ class ImageUploader < CarrierWave::Uploader::Base
     end
   end
 
+  def manual_rotation
+    manipulate! do |img|
+      img.rotate(model.rotation)
+      img = yield(img) if block_given?
+      img
+    end
+  end
+
+  def is_rotated?(file)
+    model.rotation.present? && model.rotation > 0
+  end
+
   process :fix_exif_rotation
   process :set_content_type
+  process :manual_rotation, if: :is_rotated?
   version :thumb do
     process :resize_to_fit => [200, 200]
   end
