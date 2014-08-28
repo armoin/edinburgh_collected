@@ -9,9 +9,16 @@
       = form.error_notification
 
       = form.input :type, as: :select, collection: Memory.file_types, required: true, input_html: {class: 'form-control'}
-      = form.input :source, as: :file
 
-      = render partial: 'details_form', object: @memory, locals: { form: form }
+      .form-group.required
+        .col-sm-4
+          = form.label :source
+        .col-sm-8
+          .hide-whilst-enabled= form.file_field :source
+          %button#select-file Select file
+      = render partial: 'image_editor', locals: {form: form}
+
+      = render partial: 'details_form', object: @memory, locals: {form: form}
 
       .form-group
         .actions.col-xs-sm-12
@@ -21,6 +28,10 @@
 
 :javascript
   $(document).ready(function () {
-    new Validator($('#add-memory')).validate()
+    new Validator($('#add-memory')).validate();
+    fileInputEl = $('#memory_source')[0]
+    editorEl    = $('#image-editor')[0]
+    rotationEl  = $('#memory_rotation')[0]
+    new UploadedImageEditor(fileInputEl, editorEl, rotationEl);
   });
 

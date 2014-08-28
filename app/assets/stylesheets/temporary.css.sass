@@ -112,6 +112,27 @@ form
   label.checkbox
     margin-left: 1.3em
 
+  #image-editor
+    display: none
+    text-align: center
+    padding: 10px
+    margin-bottom: 0.6em
+    background: lightgrey
+
+    .rotate img
+      width: 25px
+      margin-bottom: 0
+
+/* hides and disables the element */
+.hide
+  display: none
+
+/* hides the element without disabling it */
+.hide-whilst-enabled
+  width: 0
+  height: 0
+  overflow: hidden
+
 @media screen and (max-width: 767px)
   form
     background-color: #ccc
