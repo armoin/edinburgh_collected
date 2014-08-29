@@ -19,6 +19,11 @@ feature 'adding new memories', slow: true, js:true do # REMEMBER: add js:true ag
     visit '/my/memories/new'
   end
 
+  scenario "when I attach an image file the image editor is shown" do
+    attach_file :file, File.join(File.dirname(__FILE__), '../../../fixtures/files/test.jpg')
+    expect(page).to have_css('#image-editor')
+  end
+
   scenario 'adding a new memory creates it' do
     pre_count = Memory.count
     fill_in_form

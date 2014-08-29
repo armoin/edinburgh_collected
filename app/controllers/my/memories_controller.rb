@@ -60,19 +60,7 @@ class My::MemoriesController < My::AuthenticatedUserController
   end
 
   def memory_params
-    params.require(:memory).permit(
-      :title,
-      :type,
-      :source,
-      :description,
-      :year,
-      :month,
-      :day,
-      :attribution,
-      :area_id,
-      :location,
-      :category_ids => [],
-    )
+    MemoryParamCleaner.clean(params)
   end
 end
 

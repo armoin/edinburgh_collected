@@ -5,7 +5,7 @@ describe Memory do
   let(:file_name) { 'test.jpg' }
   let(:source)    { Rack::Test::UploadedFile.new(File.join(file_path, file_name)) }
   let(:test_user) { Fabricate.build(:user) }
-  let(:memory)     { Fabricate.build(:photo_memory, user: test_user, source: source, area: area) }
+  let(:memory)    { Fabricate.build(:photo_memory, user: test_user, source: source, area: area) }
 
   let!(:area) { Fabricate(:area) }
 

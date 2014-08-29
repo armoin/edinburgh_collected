@@ -1,6 +1,7 @@
 .container
   .col-xs-12
     =simple_form_for @memory,
+      as: 'memory',
       url: my_memory_url(@memory.id),
       wrapper: :horizontal_form,
       method: :put,
@@ -8,9 +9,10 @@
 
       %h2 Edit details
 
-      %img{src: @memory.source_url, alt: @memory.title, title: @memory.title}
-
       = form.error_notification
+
+      %img.hide{id: 'memory_source', src: cache_busted_url(@memory), alt: @memory.title, title: @memory.title}
+      = render partial: 'image_editor', locals: {form: form}
 
       = render partial: 'details_form', object: @memory, locals: { form: form }
 
@@ -22,5 +24,9 @@
 :javascript
   $(document).ready(function () {
     new Validator($('#edit-memory')).validate()
+    src        = $('#memory_source').attr('src')
+    editorEl   = $('#image-editor')[0]
+    rotationEl = $('#memory_rotation')[0]
+    new ImageEditor(editorEl, src, rotationEl)
   });
 

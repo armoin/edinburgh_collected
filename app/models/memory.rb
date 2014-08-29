@@ -7,6 +7,8 @@ class Memory < ActiveRecord::Base
   belongs_to :area
   has_and_belongs_to_many :categories
 
+  attr_reader :rotation
+
   geocoded_by :address
   after_validation :geocode, if: :location_changed? or :area_id_changed?
 

@@ -1,0 +1,11 @@
+.form-group
+  .col-sm-4
+  .col-sm-8
+    = form.hidden_field :rotation
+    #image-editor
+      .controls
+        %button.rotate#rotate-left
+          = image_tag 'rotate_ac.png'
+        %button.rotate#rotate-right
+          = image_tag 'rotate_c.png'
+

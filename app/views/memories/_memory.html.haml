@@ -1,7 +1,7 @@
 .memory.full
   %h1.title= @memory.title
 
-  %img{src: @memory.source_url, alt: @memory.title, title: @memory.title}
+  %img{src: cache_busted_url(@memory), alt: @memory.title, title: @memory.title}
 
   %h2 Details
 
