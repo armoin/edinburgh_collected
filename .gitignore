@@ -21,3 +21,4 @@
 
 # Ignore todo scratch
 .todo
+.DS_Store
