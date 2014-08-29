@@ -35,10 +35,6 @@ class Memory < ActiveRecord::Base
             if: :year_changed?
   validates :type, inclusion: { in: Memory.file_types }
 
-  def rotation=(degrees_string)
-    @rotation = degrees_string.to_i
-  end
-
   def date
     return year unless month.present?
     return month_string unless day.present?

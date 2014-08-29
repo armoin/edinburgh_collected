@@ -24,7 +24,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   def is_rotated?(file)
-    model.rotation.present? && model.rotation > 0
+    model.rotated?
   end
 
   process :fix_exif_rotation

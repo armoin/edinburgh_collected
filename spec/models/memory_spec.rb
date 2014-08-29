@@ -5,7 +5,7 @@ describe Memory do
   let(:file_name) { 'test.jpg' }
   let(:source)    { Rack::Test::UploadedFile.new(File.join(file_path, file_name)) }
   let(:test_user) { Fabricate.build(:user) }
-  let(:memory)     { Fabricate.build(:photo_memory, user: test_user, source: source, area: area) }
+  let(:memory)    { Fabricate.build(:photo_memory, user: test_user, source: source, area: area) }
 
   let!(:area) { Fabricate(:area) }
 
@@ -36,34 +36,6 @@ describe Memory do
     describe 'furthest_year' do
       it 'returns the year 120 years before the current year' do
         expect(Memory.furthest_year).to eql(1894)
-      end
-    end
-  end
-
-  describe "rotation" do
-    describe "when setting" do
-      it "provides an integer when given a string" do
-        subject.rotation = "90"
-        expect(subject.rotation).to eql(90)
-      end
-
-      it "provides an integer when given an integer" do
-        subject.rotation = 90
-        expect(subject.rotation).to eql(90)
-      end
-
-      it "provides an integer when given a float" do
-        subject.rotation = "90.2"
-        expect(subject.rotation).to eql(90)
-      end
-
-      it "provides 0 when given nil" do
-        subject.rotation = nil
-        expect(subject.rotation).to eql(0)
-      end
-
-      it "provides nil when not set" do
-        expect(subject.rotation).to be_nil
       end
     end
   end

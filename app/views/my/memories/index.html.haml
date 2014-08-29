@@ -7,6 +7,6 @@
       - @memories.each do |memory|
         %a.memory.thumb(data-id="#{memory.id}" href="#{my_memory_url(memory.id)}" title="View details" role="button")
           %div.img
-            %img{src: "#{memory.source_url(:thumb)}", alt: memory.title}
+            %img{src: cache_busted_url(memory, :thumb), alt: memory.title}
           %div.footer
             %p.title= memory.title
