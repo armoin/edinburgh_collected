@@ -1,33 +1,41 @@
 .memory.full
   %h1.title= @memory.title
+  %h2.sub= "#{@memory.address}, #{@memory.date}"
 
-  %img{src: cache_busted_url(@memory), alt: @memory.title, title: @memory.title}
+  .row
 
-  %h2 Details
+    .col-xs-6
+      %img{src: cache_busted_url(@memory), alt: @memory.title, title: @memory.title}
 
-  %ul
-    %li.type
-      %strong Type:
-      = @memory.type
-    %li.date
-      %strong Dates from:
-      = @memory.date
-    %li.address
-      %strong Address:
-      = @memory.address
-    %li.longitude
-      %strong Longitude:
-      = @memory.longitude
-    %li.latitude
-      %strong Latitude:
-      = @memory.latitude
-    %li.description
-      %strong Description:
-      = @memory.description
-    %li.attribution
-      %strong Attribution:
-      = @memory.attribution
-    %li.categories
-      %strong Categories:
-      = @memory.category_list
+      %p= @memory.description
+      %p= @memory.attribution
+
+    .col-xs-6
+
+      .memory-meta
+
+        %p.views This photo has been viewed XX times
+        %p.saved This photo has been saved to XX scrapbooks
+
+        = link_to "Add to a scrapbook +", '#', class: "btn btn-default not-implemented"
+        = link_to "Share this photo", '#', class: "btn btn-default not-implemented"
+
+
+        %h3 Categories
+        %p= @memory.category_list
+
+        %h3 Tags
+
+        %ul
+          %li
+            tag
+
+          %li
+            tag
+
+          %li
+            tag
+
+          %li
+            tag
 
