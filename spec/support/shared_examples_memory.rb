@@ -109,7 +109,7 @@ RSpec.shared_examples "a memory" do
 
           it "is invalid" do
             expect(memory).to be_invalid
-            expect(memory.errors[:source]).to include("You are not allowed to upload \"txt\" files, allowed types: jpg, jpeg, gif, png")
+            expect(memory.errors[:source]).to include("You are not allowed to upload \"txt\" files, allowed types: JPG, JPEG, GIF, PNG, jpg, jpeg, gif, png")
           end
         end
 
