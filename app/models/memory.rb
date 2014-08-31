@@ -28,7 +28,7 @@ class Memory < ActiveRecord::Base
     Time.now.year
   end
 
-  validates_presence_of :title, :source, :user, :area, :year
+  validates_presence_of :title, :source, :user, :year
   validates_presence_of :categories, message: 'must have at least one'
   validates :year,
             inclusion: { in: (furthest_year..current_year).map(&:to_s), message: 'must be within the last 120 years.' },
@@ -42,9 +42,7 @@ class Memory < ActiveRecord::Base
   end
 
   def address
-    return "" if area.blank?
-    return area.name if location.blank?
-    "#{location}, #{area.name}"
+    [location, area.try(:name)].reject{|s| s.blank?}.join(', ')
   end
 
   def category_list

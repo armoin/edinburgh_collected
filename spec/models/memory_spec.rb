@@ -9,6 +9,8 @@ describe Memory do
 
   let!(:area) { Fabricate(:area) }
 
+  it_behaves_like 'a memory'
+
   describe 'ordering' do
     it 'sorts them by reverse created at date' do
       memory1 = Fabricate(:photo_memory, user: test_user, area: area)
@@ -61,8 +63,9 @@ describe Memory do
   end
 
   describe "address" do
-    it "provides an empty string if there is no area" do
+    it "is blank if there is no area and no location" do
       memory.area = nil
+      memory.location = nil
       expect(memory.address).to eql('')
     end
 
