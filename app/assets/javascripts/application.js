@@ -15,4 +15,6 @@
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require raphael
+//= require binaryajax
+//= require exif
 //= require_tree .
