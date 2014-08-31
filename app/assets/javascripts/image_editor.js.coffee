@@ -1,5 +1,5 @@
 class @ImageEditor
-  constructor: (@editorEl, src, @rotationEl) ->
+  constructor: (@editorEl, src, @rotationEl, @exifRotation) ->
     @reset()
     img = new Image()
     img.src = src
@@ -15,7 +15,9 @@ class @ImageEditor
     h = imageMeasurements.hypoteneus
     p = imageMeasurements.position
     paper = new Raphael($(@editorEl)[0], h, h)
-    paper.image(img.src, p.x, p.y, d.width, d.height)
+    image = paper.image(img.src, p.x, p.y, d.width, d.height)
+    image.transform('r'+@exifRotation)
+    image
 
   createRotateEvent: (image, direction, amount) =>
     $("#rotate-#{direction}").on 'click', (e) =>
