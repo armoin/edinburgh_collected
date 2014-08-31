@@ -150,20 +150,6 @@ RSpec.shared_examples "a memory" do
       expect(memory.errors[:user]).to include("can't be blank")
     end
 
-    context "area_id" do
-      it "can't be blank" do
-        memory.area_id = nil
-        expect(memory).to be_invalid
-        expect(memory.errors[:area]).to include("can't be blank")
-      end
-
-      it "must be valid" do
-        memory.area_id = 2
-        expect(memory).to be_invalid
-        expect(memory.errors[:area]).to include("can't be blank")
-      end
-    end
-
     context "location" do
       before :each do
         allow(subject).to receive(:geocode).and_return(true)
