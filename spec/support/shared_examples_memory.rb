@@ -151,19 +151,146 @@ RSpec.shared_examples "a memory" do
     end
 
     context "location" do
-      before :each do
-        allow(subject).to receive(:geocode).and_return(true)
+      let(:memory) { Fabricate.build(:photo_memory, area: area, location: location) }
+
+      context "when memory has no area or location" do
+        let(:area)     { nil }
+        let(:location) { nil }
+
+        context "on create" do
+          it "does not fetch lat long" do
+            allow(memory).to receive(:geocode).and_return(true)
+            memory.valid?
+            expect(memory).not_to have_received(:geocode)
+          end
+        end
+
+        context "on update" do
+          before :each do
+            memory.save!
+            allow(memory).to receive(:geocode).and_return(true)
+          end
+
+          it "does not fetch lat long if area has been added" do
+            memory.area = Fabricate.build(:area)
+            memory.valid?
+            expect(memory).not_to have_received(:geocode)
+          end
+
+          it "fetches lat long if location has been added" do
+            memory.location = 'new street'
+            memory.valid?
+            expect(memory).to have_received(:geocode)
+          end
+        end
       end
 
-      it "fetches the lat and long after validation if a location is given" do
-        subject.location = 'test street'
-        subject.valid?
-        expect(subject).to have_received(:geocode)
+      context "when memory has area but no location" do
+        let(:area)     { Fabricate.build(:area) }
+        let(:location) { nil }
+
+        context "on create" do
+          it "does not fetch lat long" do
+            allow(memory).to receive(:geocode).and_return(true)
+            memory.valid?
+            expect(memory).not_to have_received(:geocode)
+          end
+        end
+
+        context "on update" do
+          before :each do
+            memory.save!
+            allow(memory).to receive(:geocode).and_return(true)
+          end
+
+          it "does not fetch lat long if area has been changed" do
+            memory.area = Fabricate(:area)
+            memory.valid?
+            expect(memory).not_to have_received(:geocode)
+          end
+
+          it "fetches lat long if location has been added" do
+            memory.location = 'new street'
+            memory.valid?
+            expect(memory).to have_received(:geocode)
+          end
+        end
       end
 
-      it "does not fetch the lat and long after validation if no location is given" do
-        subject.valid?
-        expect(subject).not_to have_received(:geocode)
+      context "when memory has location but no area" do
+        let(:area)     { nil }
+        let(:location) { 'old street' }
+
+        context "on create" do
+          it "fetches lat long" do
+            allow(memory).to receive(:geocode).and_return(true)
+            memory.valid?
+            expect(memory).to have_received(:geocode)
+          end
+        end
+
+        context "on update" do
+          before :each do
+            memory.save!
+            allow(memory).to receive(:geocode).and_return(true)
+          end
+
+          it "fetches lat long if area has been added" do
+            memory.area = Fabricate(:area)
+            memory.valid?
+            expect(memory).to have_received(:geocode)
+          end
+
+          it "fetches lat long if location has been changed" do
+            memory.location = 'new street'
+            memory.valid?
+            expect(memory).to have_received(:geocode)
+          end
+
+          it "does not fetch lat long if location has been removed" do
+            memory.location = nil
+            memory.valid?
+            expect(memory).not_to have_received(:geocode)
+          end
+        end
+      end
+
+      context "when memory has location and area" do
+        let(:area)     { Fabricate.build(:area) }
+        let(:location) { 'old street' }
+
+        context "on create" do
+          it "fetches lat long" do
+            allow(memory).to receive(:geocode).and_return(true)
+            memory.valid?
+            expect(memory).to have_received(:geocode)
+          end
+        end
+
+        context "on update" do
+          before :each do
+            memory.save!
+            allow(memory).to receive(:geocode).and_return(true)
+          end
+
+          it "fetches lat long if area has been changed" do
+            memory.area = Fabricate.build(:area)
+            memory.valid?
+            expect(memory).to have_received(:geocode)
+          end
+
+          it "fetches lat long if location has been changed" do
+            memory.location = 'new street'
+            memory.valid?
+            expect(memory).to have_received(:geocode)
+          end
+
+          it "does not fetch lat long if location has been removed" do
+            memory.location = nil
+            memory.valid?
+            expect(memory).not_to have_received(:geocode)
+          end
+        end
       end
     end
 

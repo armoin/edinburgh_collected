@@ -10,7 +10,9 @@ class Memory < ActiveRecord::Base
   attr_reader :rotation
 
   geocoded_by :address
-  after_validation :geocode, if: :location_changed? or :area_id_changed?
+  after_validation :geocode, if: ->(obj){
+    obj.location.present? && (obj.location_changed? || obj.area_id_changed?)
+  }
 
   MAX_YEAR_RANGE = 120
 
