@@ -9,6 +9,7 @@ describe Photo do
   let(:memory)    { Fabricate.build(:photo_memory, user: test_user, source: source, area: area) }
 
   it_behaves_like "a memory"
+  it_behaves_like "locatable"
 
   describe 'updating' do
     before :each do

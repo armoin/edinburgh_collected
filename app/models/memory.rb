@@ -2,18 +2,13 @@ require 'carrierwave/mount'
 
 class Memory < ActiveRecord::Base
   extend CarrierWave::Mount
+  include Locatable
 
   belongs_to :user
   belongs_to :area
   has_and_belongs_to_many :categories
 
   attr_reader :rotation
-
-  geocoded_by :address
-  after_validation :geocode, if: ->(obj){
-    obj.location.present? && (obj.location_changed? || obj.area_id_changed?)
-  }
-  after_validation :blank_coords, unless: :location?
 
   MAX_YEAR_RANGE = 120
 
@@ -44,10 +39,6 @@ class Memory < ActiveRecord::Base
     day_string
   end
 
-  def address
-    [location, area.try(:name)].reject{|s| s.blank?}.join(', ')
-  end
-
   def category_list
     categories.map(&:name).join(', ')
   end
@@ -61,10 +52,5 @@ class Memory < ActiveRecord::Base
   def day_string
     day_ord = ActiveSupport::Inflector.ordinalize(day.to_i)
     Time.new(year, month).strftime("#{day_ord} %B %Y")
-  end
-
-  def blank_coords
-    self.latitude = nil
-    self.longitude = nil
   end
 end
