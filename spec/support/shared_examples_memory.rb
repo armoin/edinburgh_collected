@@ -231,6 +231,8 @@ RSpec.shared_examples "a memory" do
 
         context "on update" do
           before :each do
+            memory.latitude = 1.23
+            memory.longitude = 3.21
             memory.save!
             allow(memory).to receive(:geocode).and_return(true)
           end
@@ -241,16 +243,36 @@ RSpec.shared_examples "a memory" do
             expect(memory).to have_received(:geocode)
           end
 
-          it "fetches lat long if location has been changed" do
-            memory.location = 'new street'
-            memory.valid?
-            expect(memory).to have_received(:geocode)
+          context "when location has been changed" do
+            before :each do
+              memory.location = 'new street'
+              memory.valid?
+            end
+
+            it "fetches lat long" do
+              expect(memory).to have_received(:geocode)
+            end
+
+            it "does not blank latitude and longitude" do
+              expect(memory.latitude).not_to be_nil
+              expect(memory.longitude).not_to be_nil
+            end
           end
 
-          it "does not fetch lat long if location has been removed" do
-            memory.location = nil
-            memory.valid?
-            expect(memory).not_to have_received(:geocode)
+          context "when location has been removed" do
+            before :each do
+              memory.location = nil
+              memory.valid?
+            end
+
+            it "does not fetch lat long" do
+              expect(memory).not_to have_received(:geocode)
+            end
+
+            it "blanks latitude and longitude" do
+              expect(memory.latitude).to be_nil
+              expect(memory.longitude).to be_nil
+            end
           end
         end
       end
@@ -269,26 +291,48 @@ RSpec.shared_examples "a memory" do
 
         context "on update" do
           before :each do
+            memory.latitude = 1.23
+            memory.longitude = 3.21
             memory.save!
             allow(memory).to receive(:geocode).and_return(true)
           end
 
           it "fetches lat long if area has been changed" do
-            memory.area = Fabricate.build(:area)
+            memory.area = Fabricate(:area)
             memory.valid?
             expect(memory).to have_received(:geocode)
           end
 
-          it "fetches lat long if location has been changed" do
-            memory.location = 'new street'
-            memory.valid?
-            expect(memory).to have_received(:geocode)
+          context "when location has been changed" do
+            before :each do
+              memory.location = 'new street'
+              memory.valid?
+            end
+
+            it "fetches lat long" do
+              expect(memory).to have_received(:geocode)
+            end
+
+            it "does not blank latitude and longitude" do
+              expect(memory.latitude).not_to be_nil
+              expect(memory.longitude).not_to be_nil
+            end
           end
 
-          it "does not fetch lat long if location has been removed" do
-            memory.location = nil
-            memory.valid?
-            expect(memory).not_to have_received(:geocode)
+          context "when location has been removed" do
+            before :each do
+              memory.location = nil
+              memory.valid?
+            end
+
+            it "does not fetch lat long" do
+              expect(memory).not_to have_received(:geocode)
+            end
+
+            it "blanks latitude and longitude" do
+              expect(memory.latitude).to be_nil
+              expect(memory.longitude).to be_nil
+            end
           end
         end
       end

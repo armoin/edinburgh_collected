@@ -13,6 +13,7 @@ class Memory < ActiveRecord::Base
   after_validation :geocode, if: ->(obj){
     obj.location.present? && (obj.location_changed? || obj.area_id_changed?)
   }
+  after_validation :blank_coords, unless: :location?
 
   MAX_YEAR_RANGE = 120
 
@@ -60,5 +61,10 @@ class Memory < ActiveRecord::Base
   def day_string
     day_ord = ActiveSupport::Inflector.ordinalize(day.to_i)
     Time.new(year, month).strftime("#{day_ord} %B %Y")
+  end
+
+  def blank_coords
+    self.latitude = nil
+    self.longitude = nil
   end
 end
