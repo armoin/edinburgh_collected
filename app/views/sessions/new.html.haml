@@ -15,5 +15,6 @@
           = password_field_tag :password, nil, class: 'form-control'
       .form-group
         .actions.col-xs-sm-12
+          = link_to "Forgot Password?", new_password_reset_path, class: "btn btn-default"
           = link_to "Cancel", root_path, class: "btn btn-default"
           = submit_tag "Sign In", class: "btn btn-primary"
