@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140821123948) do
+ActiveRecord::Schema.define(version: 20140902094235) do
 
   create_table "areas", force: true do |t|
     t.string   "name",       null: false
@@ -50,6 +50,22 @@ ActiveRecord::Schema.define(version: 20140821123948) do
     t.string   "location"
     t.float    "latitude"
     t.float    "longitude"
+  end
+
+  create_table "taggings", force: true do |t|
+    t.integer  "tag_id"
+    t.integer  "memory_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "taggings", ["memory_id"], name: "index_taggings_on_memory_id"
+  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id"
+
+  create_table "tags", force: true do |t|
+    t.string   "name",       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
