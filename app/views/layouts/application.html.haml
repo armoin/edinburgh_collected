@@ -34,6 +34,8 @@
                 = link_to 'My Memories', my_memories_path
               %li
                 = link_to 'Sign Out', '/logout', method: :delete
+              %li.greeting
+                = "Welcome, #{current_user.screen_name}"
             - else
               %li
                 %a(href="/signup") Sign Up
