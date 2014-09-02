@@ -12,6 +12,7 @@ class MemoryParamCleaner
       :attribution,
       :area_id,
       :location,
+      :tag_list,
       :category_ids => [],
     )
   end

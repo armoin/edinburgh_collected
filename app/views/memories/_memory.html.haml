@@ -27,15 +27,6 @@
         %h3 Tags
 
         %ul
-          %li
-            tag
-
-          %li
-            tag
-
-          %li
-            tag
-
-          %li
-            tag
+          -@memory.tags.each do |tag|
+            %li=tag.name
 

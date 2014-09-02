@@ -3,9 +3,11 @@ require 'carrierwave/mount'
 class Memory < ActiveRecord::Base
   extend CarrierWave::Mount
   include Locatable
+  include Taggable
 
   belongs_to :user
   belongs_to :area
+
   has_and_belongs_to_many :categories
 
   attr_reader :rotation

@@ -11,6 +11,7 @@ describe Memory do
 
   it_behaves_like 'a memory'
   it_behaves_like 'locatable'
+  it_behaves_like 'taggable'
 
   describe 'ordering' do
     it 'sorts them by reverse created at date' do
