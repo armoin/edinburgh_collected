@@ -25,6 +25,33 @@ describe User do
       expect(subject.errors[:email]).to include("has already been taken")
     end
 
+    context 'needs a valid email' do
+      let(:user) { Fabricate.build(:user) }
+
+      it "needs an @" do
+        user.email = 'bobby'
+        expect(user).to be_invalid
+        expect(user.errors[:email]).to include("is invalid")
+      end
+
+      it "needs a domain" do
+        user.email = 'bobby@'
+        expect(user).to be_invalid
+        expect(user.errors[:email]).to include("is invalid")
+      end
+
+      it "needs a TLD" do
+        user.email = 'bobby@example'
+        expect(user).to be_invalid
+        expect(user.errors[:email]).to include("is invalid")
+      end
+
+      it "is valid with valid email address" do
+        user.email = 'bobby@example.com'
+        expect(user).to be_valid
+      end
+    end
+
     it 'needs a password_confirmation' do
       expect(subject.errors[:password_confirmation]).to include("can't be blank")
     end
