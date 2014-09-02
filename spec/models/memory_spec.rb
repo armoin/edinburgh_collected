@@ -10,6 +10,7 @@ describe Memory do
   let!(:area) { Fabricate(:area) }
 
   it_behaves_like 'a memory'
+  it_behaves_like 'locatable'
 
   describe 'ordering' do
     it 'sorts them by reverse created at date' do

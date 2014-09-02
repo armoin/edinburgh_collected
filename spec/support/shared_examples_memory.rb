@@ -150,23 +150,6 @@ RSpec.shared_examples "a memory" do
       expect(memory.errors[:user]).to include("can't be blank")
     end
 
-    context "location" do
-      before :each do
-        allow(subject).to receive(:geocode).and_return(true)
-      end
-
-      it "fetches the lat and long after validation if a location is given" do
-        subject.location = 'test street'
-        subject.valid?
-        expect(subject).to have_received(:geocode)
-      end
-
-      it "does not fetch the lat and long after validation if no location is given" do
-        subject.valid?
-        expect(subject).not_to have_received(:geocode)
-      end
-    end
-
     context "categories" do
       it "is invalid with no categories" do
         memory.categories = []
