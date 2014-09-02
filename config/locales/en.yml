@@ -10,6 +10,8 @@ en:
         source: "Please select a file"
         title: "What would you like to call this?"
         attribution: "Would you like to attribute this to another person?"
+      user:
+        screen_name: 'What should we call you?'
     errors:
       models:
         memory:
