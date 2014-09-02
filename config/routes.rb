@@ -7,10 +7,11 @@ Rails.application.routes.draw do
   namespace :my do
     resources :memories
   end
+  resources :memories
 
   resources :users, only: [:new, :create]
   resources :sessions, only: [:new, :create, :destroy]
-  resources :memories
+  resources :password_resets
 
   get '/signup' => 'users#new'
   post '/signup' => 'users#create'

@@ -31,6 +31,7 @@ end
 
 group :development do
   gem 'spring',                     '~> 1.1.3'
+  gem 'letter_opener',              '~> 1.2.0'
 end
 
 group :development, :test do
