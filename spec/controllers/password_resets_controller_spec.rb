@@ -99,7 +99,7 @@ describe PasswordResetsController do
       allow(User).to receive(:load_from_reset_password_token).and_return(user)
       allow(user).to receive(:password_confirmation=)
       allow(user).to receive(:change_password!).and_return(true)
-      put :update, token: token, user: {password: 'newpass', password_confirmation: 'newpass'}
+      put :update, id: token, user: {password: 'newpass', password_confirmation: 'newpass'}
     end
 
     it "finds the user by the given token" do
@@ -128,7 +128,7 @@ describe PasswordResetsController do
       context "when the password is successfully changed" do
         before :each do
           allow(user).to receive(:change_password!).and_return(true)
-          put :update, token: token, user: {password: 'newpass', password_confirmation: 'newpass'}
+          put :update, id: token, user: {password: 'newpass', password_confirmation: 'newpass'}
         end
 
         it "redirects to the login path" do
@@ -143,7 +143,7 @@ describe PasswordResetsController do
       context "when the password is not successfully changed" do
         before :each do
           allow(user).to receive(:change_password!).and_return(false)
-          put :update, token: token, user: {password: 'newpass', password_confirmation: 'newpass'}
+          put :update, id: token, user: {password: 'newpass', password_confirmation: 'newpass'}
         end
 
         it "renders the password reset page again" do

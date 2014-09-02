@@ -21,8 +21,8 @@ class PasswordResetsController < ApplicationController
   end
 
   def update
-    @token = params[:token]
-    @user = User.load_from_reset_password_token(params[:token])
+    @user = User.load_from_reset_password_token(params[:id])
+    @token = params[:id]
 
     if @user.blank?
       not_authenticated
