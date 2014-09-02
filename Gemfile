@@ -23,6 +23,7 @@ gem 'figaro',                       '~> 0.7.0'
 gem 'sorcery',                      '~> 0.8.6'
 gem 'geocoder',                     '~> 1.2.3'
 gem 'simple_form',                  '~> 3.0.2'
+gem 'email_validator',              '~> 1.4.0'
 
 group :doc do
   gem 'sdoc',                       '~> 0.4.0'
