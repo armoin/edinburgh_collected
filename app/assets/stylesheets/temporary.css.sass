@@ -1,3 +1,5 @@
+@import "bourbon"
+
 html, body
   overflow-x: hidden
   background-color: #ccc
@@ -28,6 +30,17 @@ footer
 li.greeting
   padding-top: 15px
   color: white
+
+a.rotate
+  text-decoration: none
+
+  &#rotate-left:hover
+    @include transform(rotate(-30deg))
+    @include transition(all 0.5s)
+
+  &#rotate-right:hover
+    @include transform(rotate(30deg))
+    @include transition(all 0.5s)
 
 /* ==================================== LAYOUT */
 

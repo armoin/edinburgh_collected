@@ -51,6 +51,9 @@ GEM
     bcrypt (3.1.7)
     bootstrap-sass (3.2.0.1)
       sass (~> 3.2)
+    bourbon (3.2.3)
+      sass (~> 3.2)
+      thor
     builder (3.2.2)
     capybara (2.4.1)
       mime-types (>= 1.16)
@@ -277,6 +280,7 @@ PLATFORMS
 DEPENDENCIES
   autoprefixer-rails (~> 2.1.1.20140710)
   bootstrap-sass (~> 3.2.0)
+  bourbon
   capybara-rails (~> 0.0.2)
   carrierwave (~> 0.10.0)!
   codeclimate-test-reporter
