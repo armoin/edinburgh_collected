@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature 'As a user I want to be able to view one of my memories', slow: true do
-  let!(:user)   { Fabricate(:user, email: 'bobby@example.com') }
+  let!(:user)   { Fabricate(:active_user, email: 'bobby@example.com') }
   let!(:memory) { Fabricate(:photo_memory, user: user) }
   let(:url) { "/my/memories/#{memory.id}" }
 

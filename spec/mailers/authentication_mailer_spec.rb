@@ -1,8 +1,9 @@
 require "rails_helper"
 
 describe AuthenticationMailer do
+  let(:user) { Fabricate.build(:user, reset_password_token: '123abc', activation_token: '456def') }
+
   describe "reset_password_email" do
-    let(:user) { Fabricate.build(:user, reset_password_token: '123abc') }
     let(:mail) { AuthenticationMailer.reset_password_email(user) }
 
     it "renders the headers" do
@@ -26,4 +27,51 @@ describe AuthenticationMailer do
     end
   end
 
+  describe "activation_needed_email" do
+    let(:mail) { AuthenticationMailer.activation_needed_email(user) }
+
+    it "renders the headers" do
+      expect(mail.subject).to eq("Please activate your account")
+      expect(mail.to).to eq([user.email])
+      expect(mail.from).to eq(["edinburgh-stories@armoin.com"])
+    end
+
+    EMAIL_PARTS.each do |content_type|
+      context "#{content_type}" do
+        let(:body) { get_body_for(mail, content_type) }
+
+        it "greets the user" do
+          expect(body).to match("Hi #{user.screen_name}")
+        end
+
+        it "provides the activation URL" do
+          expect(body).to match(activate_user_url(user.activation_token))
+        end
+      end
+    end
+  end
+
+  describe "activation_success_email" do
+    let(:mail) { AuthenticationMailer.activation_success_email(user) }
+
+    it "renders the headers" do
+      expect(mail.subject).to eq("Welcome to Edinburgh Stories")
+      expect(mail.to).to eq([user.email])
+      expect(mail.from).to eq(["edinburgh-stories@armoin.com"])
+    end
+
+    EMAIL_PARTS.each do |content_type|
+      context "#{content_type}" do
+        let(:body) { get_body_for(mail, content_type) }
+
+        it "greets the user" do
+          expect(body).to match("Hi #{user.screen_name}")
+        end
+
+        it "provides the sign in URL" do
+          expect(body).to match(login_url)
+        end
+      end
+    end
+  end
 end
