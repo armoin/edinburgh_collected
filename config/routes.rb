@@ -9,7 +9,11 @@ Rails.application.routes.draw do
   end
   resources :memories
 
-  resources :users, only: [:new, :create]
+  resources :users, only: [:new, :create] do
+    member do
+      get :activate
+    end
+  end
   resources :sessions, only: [:new, :create, :destroy]
   resources :password_resets
 
