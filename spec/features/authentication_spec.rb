@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 feature 'As a user who wants to add content to the site' do
-  scenario 'I can sign up for an account' do
+  scenario 'I can sign up for an individual account', js:true do
     visit '/signup'
 
+    choose  'An individual'
     fill_in 'First name',                    with: 'Bobby'
     fill_in 'Last name',                     with: 'Tables'
     fill_in 'What should we call you?',      with: 'Bob'
@@ -18,6 +19,28 @@ feature 'As a user who wants to add content to the site' do
     expect(user.last_name).to eql('Tables')
     expect(user.screen_name).to eql('Bob')
     expect(user.email).to eql('bobby@example.com')
+    expect(user.is_group).to eql(false)
+
+    expect(current_path).to eql(root_path)
+  end
+
+  scenario 'I can sign up for a group account', js:true do
+    visit '/signup'
+
+    choose  'A group'
+    fill_in 'Group name',                    with: 'Fight Club'
+    fill_in 'What should we call you?',      with: 'Fight Club'
+    fill_in 'Email',                         with: 'fight_club@example.com'
+    fill_in 'user_password',                 with: 's3cr3t'
+    fill_in 'user_password_confirmation',    with: 's3cr3t'
+
+    click_button 'Sign Up'
+
+    user = User.find_by(email: 'fight_club@example.com')
+    expect(user.first_name).to eql('Fight Club')
+    expect(user.screen_name).to eql('Fight Club')
+    expect(user.email).to eql('fight_club@example.com')
+    expect(user.is_group).to eql(true)
 
     expect(current_path).to eql(root_path)
   end

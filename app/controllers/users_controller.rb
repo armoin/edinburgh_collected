@@ -28,6 +28,7 @@ class UsersController < ApplicationController
       :first_name,
       :last_name,
       :screen_name,
+      :is_group,
       :email,
       :password,
       :password_confirmation

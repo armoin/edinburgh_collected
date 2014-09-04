@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140904110041) do
+ActiveRecord::Schema.define(version: 20140904130031) do
 
   create_table "areas", force: true do |t|
     t.string   "name",       null: false
@@ -69,11 +69,11 @@ ActiveRecord::Schema.define(version: 20140904110041) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "first_name",                      null: false
-    t.string   "last_name",                       null: false
-    t.string   "email",                           null: false
-    t.string   "crypted_password",                null: false
-    t.string   "salt",                            null: false
+    t.string   "first_name",                                      null: false
+    t.string   "last_name",                                       null: false
+    t.string   "email",                                           null: false
+    t.string   "crypted_password",                                null: false
+    t.string   "salt",                                            null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "screen_name"
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(version: 20140904110041) do
     t.string   "activation_state"
     t.string   "activation_token"
     t.datetime "activation_token_expires_at"
+    t.boolean  "is_group",                        default: false
   end
 
   add_index "users", ["activation_token"], name: "index_users_on_activation_token"
