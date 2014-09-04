@@ -15,7 +15,7 @@
           = form.label :source
         .col-sm-8
           .hide-whilst-enabled= form.file_field :source
-          %button#select-file Select file
+          %a#select-file.btn.btn-primary Select file
       = render partial: 'image_editor', locals: {form: form}
 
       = render partial: 'details_form', object: @memory, locals: {form: form}
