@@ -1,6 +1,15 @@
 require 'rails_helper'
 
 describe AuthorizationHelper do
+  describe '#greet' do
+    let(:user) { Fabricate.build(:user, id: 123, screen_name: 'bob') }
+
+    it 'provides a welcome link' do
+      expected = "<a href=\"#{user_path(user)}\">Welcome, #{user.screen_name}</a>"
+      expect(helper.greet(user)).to eql(expected)
+    end
+  end
+
   describe '#belongs_to_user' do
     let(:thing) { double('thing', user_id: @user.id) }
 

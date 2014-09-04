@@ -58,4 +58,20 @@ feature 'As a user who wants to add content to the site' do
     expect(current_path).to eql(root_path)
     expect(page).to have_content('Welcome, bob')
   end
+
+  scenario "I can view my details" do
+    user = Fabricate(:active_user)
+
+    login(user.email, 's3cr3t')
+
+    visit '/'
+
+    click_link user.screen_name
+
+    expect(current_path).to eql(user_path(user.id))
+    expect(page).to have_content("First name: #{user.first_name}")
+    expect(page).to have_content("Last name: #{user.last_name}")
+    expect(page).to have_content("Email: #{user.email}")
+    expect(page).to have_content("Group account? #{user.is_group?}")
+  end
 end

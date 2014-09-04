@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   end
   resources :memories
 
-  resources :users, only: [:new, :create] do
+  resources :users, only: [:show, :new, :create] do
     member do
       get :activate
     end
