@@ -14,6 +14,17 @@ describe User do
       expect(subject.errors[:last_name]).to include("can't be blank")
     end
 
+    it 'needs a screen_name' do
+      expect(subject.errors[:screen_name]).to include("can't be blank")
+    end
+
+    it 'needs a unique screen_name' do
+      Fabricate(:user, screen_name: 'bobby')
+      subject.screen_name = 'bobby'
+      subject.valid?
+      expect(subject.errors[:screen_name]).to include("has already been taken")
+    end
+
     it 'needs an email' do
       expect(subject.errors[:email]).to include("can't be blank")
     end
@@ -66,18 +77,6 @@ describe User do
       user = User.new(password: 'foo', password_confirmation: 'bar')
       user.valid?
       expect(user.errors[:password_confirmation]).to include("doesn't match Password")
-    end
-  end
-
-  describe '#screen_name' do
-    it 'returns the screen name if one is set' do
-      user = User.new(first_name: 'Bobby', screen_name: 'Bob')
-      expect(user.screen_name).to eql('Bob')
-    end
-
-    it 'returns the first name if screen name is not set' do
-      user = User.new(first_name: 'Bobby', screen_name: nil)
-      expect(user.screen_name).to eql('Bobby')
     end
   end
 end
