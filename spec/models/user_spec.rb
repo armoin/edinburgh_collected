@@ -10,10 +10,6 @@ describe User do
       expect(subject.errors[:first_name]).to include("can't be blank")
     end
 
-    it 'needs a last_name' do
-      expect(subject.errors[:last_name]).to include("can't be blank")
-    end
-
     it 'needs a screen_name' do
       expect(subject.errors[:screen_name]).to include("can't be blank")
     end
