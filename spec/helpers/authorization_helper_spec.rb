@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 describe AuthorizationHelper do
+  describe '#greet' do
+    it 'provides a welcome link' do
+      expected = "<a href=\"#{my_profile_path}\">Welcome, bob</a>"
+      expect(helper.greet('bob')).to eql(expected)
+    end
+  end
+
   describe '#belongs_to_user' do
     let(:thing) { double('thing', user_id: @user.id) }
 

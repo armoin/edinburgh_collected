@@ -6,6 +6,10 @@ Rails.application.routes.draw do
 
   namespace :my do
     resources :memories
+
+    get '/profile' => 'profile#show'
+    get '/profile/edit' => 'profile#edit'
+    put '/profile' => 'profile#update'
   end
   resources :memories
 
