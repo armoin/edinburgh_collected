@@ -5,6 +5,8 @@ class User < ActiveRecord::Base
 
   attr_accessor :password, :password_confirmation
 
+  before_update :send_activation, if: :email_changed?
+
   validates :first_name, presence: true
   validates :screen_name, uniqueness: true, presence: true
   validates :email, uniqueness: true, presence: true, email: true
@@ -15,5 +17,10 @@ class User < ActiveRecord::Base
   def password_changed?
     self.crypted_password.blank? ||
       (self.password.present? || self.password_confirmation.present?)
+  end
+
+  def send_activation
+    send(:setup_activation)
+    send(:send_activation_needed_email!)
   end
 end

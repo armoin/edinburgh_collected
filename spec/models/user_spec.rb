@@ -116,4 +116,71 @@ describe User do
       end
     end
   end
+
+  describe 'activation' do
+    context 'when a new user is created' do
+      let(:stub_mailer) { double('mailer', deliver: true) }
+
+      before :each do
+        allow(AuthenticationMailer).to receive(:activation_needed_email).and_return(stub_mailer)
+        @user = Fabricate(:user)
+      end
+
+      it 'has an activation state of "pending"' do
+        expect(@user.activation_state).to eql('pending')
+      end
+
+      it 'builds an activation needed email' do
+        expect(AuthenticationMailer).to have_received(:activation_needed_email)
+      end
+
+      it 'sends the activation needed email' do
+        expect(stub_mailer).to have_received(:deliver)
+      end
+    end
+
+    context 'when an existing user changes their email' do
+      let(:stub_mailer) { double('mailer', deliver: true) }
+
+      before :each do
+        @user = Fabricate(:active_user)
+        allow(AuthenticationMailer).to receive(:activation_needed_email).and_return(stub_mailer)
+        @user.update_attribute(:email, 'mary@example.com')
+      end
+
+      it 'changes the activation state to "pending"' do
+        expect(@user.activation_state).to eql('pending')
+      end
+
+      it 'builds an activation needed email' do
+        expect(AuthenticationMailer).to have_received(:activation_needed_email)
+      end
+
+      it 'sends the activation needed email' do
+        expect(stub_mailer).to have_received(:deliver)
+      end
+    end
+
+    context 'when an existing user changes something other than their email' do
+      let(:stub_mailer) { double('mailer', deliver: true) }
+
+      before :each do
+        @user = Fabricate(:active_user)
+        allow(AuthenticationMailer).to receive(:activation_needed_email).and_return(stub_mailer)
+        @user.update_attribute(:first_name, 'mary')
+      end
+
+      it 'does not change the activation state to "pending"' do
+        expect(@user.activation_state).not_to eql('pending')
+      end
+
+      it 'does not build an activation needed email' do
+        expect(AuthenticationMailer).not_to have_received(:activation_needed_email)
+      end
+
+      it 'does not send the activation needed email' do
+        expect(stub_mailer).not_to have_received(:deliver)
+      end
+    end
+  end
 end
