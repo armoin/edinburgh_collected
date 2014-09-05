@@ -4,7 +4,7 @@ class ProtectedController < My::AuthenticatedUserController; end
 
 describe My::AuthenticatedUserController do
   controller ProtectedController do
-    skip_before_filter :require_login, only: [:index]
+    skip_before_action :require_login, only: [:index]
 
     def index
       render text: 'index'

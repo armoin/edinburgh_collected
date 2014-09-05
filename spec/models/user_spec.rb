@@ -59,20 +59,61 @@ describe User do
       end
     end
 
-    it 'needs a password_confirmation' do
-      expect(subject.errors[:password_confirmation]).to include("can't be blank")
+    context "if password has not yet been set" do
+      context "and password has not been given" do
+        it 'must have at least 3 characters' do
+          subject.password = ''
+          subject.valid?
+          expect(subject.errors[:password]).to include("is too short (minimum is 3 characters)")
+        end
+      end
+
+      context "and password has been given" do
+        it 'must have at least 3 characters' do
+          subject.password = 'oo'
+          subject.valid?
+          expect(subject.errors[:password]).to include("is too short (minimum is 3 characters)")
+        end
+
+        it 'must match confirmation' do
+          user = User.new(password: 'foo', password_confirmation: 'bar')
+          user.valid?
+          expect(user.errors[:password_confirmation]).to include("doesn't match Password")
+        end
+      end
     end
 
-    it 'must have a password with at least 3 characters' do
-      subject.password = 'oo'
-      subject.valid?
-      expect(subject.errors[:password]).to include("is too short (minimum is 3 characters)")
-    end
+    context "if password has been set" do
+      let(:user) { Fabricate(:user) }
 
-    it 'must have a password that matches confirmation' do
-      user = User.new(password: 'foo', password_confirmation: 'bar')
-      user.valid?
-      expect(user.errors[:password_confirmation]).to include("doesn't match Password")
+      context "and password has been changed" do
+        it 'must have at least 3 characters' do
+          user.password = 'oo'
+          user.valid?
+          expect(user.errors[:password]).to include("is too short (minimum is 3 characters)")
+        end
+
+        it 'must match confirmation' do
+          user.password = 'foo'
+          user.password_confirmation = 'bar'
+          user.valid?
+          expect(user.errors[:password_confirmation]).to include("doesn't match Password")
+        end
+      end
+
+      context "and password has not been changed" do
+        let(:user) { Fabricate(:user) }
+
+        it 'does not check password length' do
+          user.valid?
+          expect(user.errors[:password]).to be_empty
+        end
+
+        it 'does not check password confirmation' do
+          user.valid?
+          expect(user.errors[:password_confirmation]).to be_empty
+        end
+      end
     end
   end
 end

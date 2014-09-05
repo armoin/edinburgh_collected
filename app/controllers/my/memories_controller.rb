@@ -1,6 +1,6 @@
 class My::MemoriesController < My::AuthenticatedUserController
-  before_filter :assign_memories, only: :index
-  before_filter :assign_memory, only: [:show, :edit, :update, :destroy]
+  before_action :assign_memories, only: :index
+  before_action :assign_memory, only: [:show, :edit, :update, :destroy]
 
   def index
   end

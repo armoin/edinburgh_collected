@@ -8,6 +8,8 @@ Rails.application.routes.draw do
     resources :memories
 
     get '/profile' => 'profile#show'
+    get '/profile/edit' => 'profile#edit'
+    put '/profile' => 'profile#update'
   end
   resources :memories
 

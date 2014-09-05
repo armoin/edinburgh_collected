@@ -74,4 +74,22 @@ feature 'As a user who wants to add content to the site' do
     expect(page).to have_content("Email: #{user.email}")
     expect(page).to have_content("Group account? #{user.is_group?}")
   end
+
+  scenario "I can change my details" do
+    user = Fabricate(:active_user)
+
+    login(user.email, 's3cr3t')
+
+    visit '/my/profile'
+
+    click_link 'Edit'
+
+    expect(current_path).to eql(my_profile_edit_path)
+
+    fill_in 'First name', with: 'Bobby'
+
+    click_button 'Save Changes'
+
+    expect(user.reload.first_name).to eql('Bobby')
+  end
 end
