@@ -6,10 +6,12 @@ Rails.application.routes.draw do
 
   namespace :my do
     resources :memories
+
+    get '/profile' => 'profile#show'
   end
   resources :memories
 
-  resources :users, only: [:show, :new, :create] do
+  resources :users, only: [:new, :create] do
     member do
       get :activate
     end

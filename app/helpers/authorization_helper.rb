@@ -4,8 +4,8 @@ module AuthorizationHelper
     logged_in? && thing.user_id == current_user.try(:id)
   end
 
-  def greet(user)
-    link_to "Welcome, #{user.screen_name}", user_path(user.id)
+  def greet(name)
+    link_to "Welcome, #{name}", my_profile_path
   end
 end
 

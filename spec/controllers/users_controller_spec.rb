@@ -16,23 +16,6 @@ describe UsersController do
     end
   end
 
-  describe 'GET show' do
-    let(:user) { Fabricate.build(:user, id: 123) }
-
-    before :each do
-      allow(controller).to receive(:current_user).and_return(user)
-      get :show, id: 123
-    end
-
-    it 'assigns the current user' do
-      expect(assigns[:user]).to eql(user)
-    end
-
-    it 'renders the show page' do
-      expect(response).to render_template(:show)
-    end
-  end
-
   describe 'POST create' do
     let(:user_params) { Fabricate.attributes_for(:user) }
     let(:stub_user) { double('user', save: true) }
