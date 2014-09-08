@@ -12,7 +12,7 @@ gem 'autoprefixer-rails',           '~> 3.0.1.20140826'
 gem 'uglifier',                     '>= 1.3.0'
 gem 'coffee-rails',                 '~> 4.0.0'
 
-gem 'jquery-rails',                 '~> 3.1.1'
+gem 'jquery-rails',                 '~> 3.1.2'
 gem 'turbolinks',                   '~> 2.3.0'
 gem 'jbuilder',                     '~> 2.0'
 
@@ -36,7 +36,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'rspec-rails',                '~> 3.0.1'
+  gem 'rspec-rails',                '~> 3.1.0'
   gem 'capybara-rails',             '~> 0.0.2'
   gem 'launchy',                    '~> 2.4.2'
   gem "jasminerice",                :git => 'https://github.com/bradphelan/jasminerice.git'
