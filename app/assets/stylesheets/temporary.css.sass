@@ -188,15 +188,46 @@ form
   .info
     font-style: italic
 
-/* hides and disables the element */
-.hide
-  display: none
-
 /* hides the element without disabling it */
 .hide-whilst-enabled
   width: 0
   height: 0
   overflow: hidden
+
+
+/* SCRAPBOOK MODAL */
+.scrapbooks
+  margin-bottom: 30px
+
+  .scrapbook
+    margin-bottom: 10px
+    padding: 0.4em
+    height: 78px
+
+    &.selected
+      background-color: black
+      background-image: url('/assets/white-tick.png')
+      background-position: right 20px center
+      background-repeat: no-repeat
+      background-size: 50px
+      color: white
+
+    .picture
+      float: left
+      width: 100px
+      height: 67px
+      background: lightgrey
+
+      img
+        width: 100px
+        margin-right: 1em
+
+    .details
+      display: inline-block
+      margin-left: 10px
+
+      .title
+        font-weight: bold
 
 
 /* ==================================== STYLEGUIDE */

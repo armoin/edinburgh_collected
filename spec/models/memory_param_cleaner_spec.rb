@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-def allowed_params
+def memory_allowed_params
   {
     title:        'A test',
     type:         'Photo',
@@ -22,14 +22,14 @@ describe MemoryParamCleaner do
 
   context 'when params are allowed' do
     let(:params) { ActionController::Parameters.new({
-      memory: allowed_params
+      memory: memory_allowed_params
     })}
 
     it "keeps allowed params" do
-      expect(subject.length).to eql(allowed_params.length)
+      expect(subject.length).to eql(memory_allowed_params.length)
     end
 
-    allowed_params.each do |key,value|
+    memory_allowed_params.each do |key,value|
       it "allows #{key}" do
         expect(subject).to have_key(key)
       end
