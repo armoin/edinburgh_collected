@@ -17,7 +17,7 @@
       <p class="views">This photo has been viewed XX times</p>
       <p class="saved">This photo has been saved to XX scrapbooks</p>
 
-      <%= link_to "Add to scrapbook +", '#', class: "btn btn-default not-implemented" %>
+      <%= link_to "Add to scrapbook +", '#', class: "btn btn-default not-implemented", data: {toggle: 'modal', target: '#add-to-scrapbook-modal'} %>
       <%= link_to "Share this photo", '#', class: "btn btn-default not-implemented" %>
 
 
@@ -34,3 +34,103 @@
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="add-to-scrapbook-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="add-to-scrapbook" class="form-horizontal" method="PUT" action="#">
+        <div class="modal-header">
+          <h4 class="modal-title">Add <%= @memory.title %> to a scrapbook</h4>
+        </div>
+        <div class="modal-body">
+          <h4>Select scrapbook</h4>
+          <div class="scrapbooks">
+            <div class="scrapbook selected">
+              <div class="picture">
+                <p>&nbsp;</p>
+              </div>
+              <div class="details">
+                <div class="title">The 1960s</div>
+                <div class="count">0 memories</div>
+                <div class="updates">updated yesterday</div>
+              </div>
+            </div>
+            <div class="scrapbook">
+              <div class="picture">
+                <%= image_tag 'test.jpg' %>
+              </div>
+              <div class="details">
+                <div class="title">Castles</div>
+                <div class="count">12 memories</div>
+                <div class="updates">updated over 3 days ago</div>
+              </div>
+            </div>
+          </div>
+          or
+          <button id="create-scrapbook" class="btn btn-primary" data-toggle="modal" data-target="#create-scrapbook-modal">
+            Create a new scrapbook
+          </button>
+        </div>
+        <div class="modal-footer">
+          <button id="cancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button class="save btn btn-primary">Add to scrapbook</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="create-scrapbook-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <%= form_for :scrapbook, url: my_scrapbooks_path, remote: true, html: {class: 'form-horizontal', id: 'create-scrapbook'} do |f| %>
+        <div class="modal-header">
+          <h4 class="modal-title">Create a new scrapbook</div>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="col-sm-4">
+              <%= f.label :title %>
+            </div>
+            <div class="col-sm-8">
+              <%= f.text_field :title, class: 'form-control' %>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-sm-4">
+              <%= f.label :description %>
+            </div>
+            <div class="col-sm-8">
+              <%= f.text_area :description, class: 'form-control' %>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="cancel-create-scrapbook" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button class="save btn btn-primary">Create scrapbook</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script type="text/css">
+  $(document).ready(function () {
+    $('#create-scrapbook').on('click', function (e) {
+      e.preventDefault();
+      $('#add-to-scrapbook-modal').modal('hide');
+    });
+
+    $(' #create-scrapbook-modal button.save').on('click', function (e) {
+      $('#create-scrapbook-modal').modal('hide');
+      $('#add-to-scrapbook-modal').modal('show');
+    });
+
+    $('#cancel-create-scrapbook').on('click', function (e) {
+      $('#add-to-scrapbook-modal').modal('show');
+    });
+  });
+</script>
+
