@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
 
   attr_accessor :password, :password_confirmation
 
+  before_validation :downcase_email
   before_update :send_activation, if: :email_changed?
 
   validates :first_name, presence: true
@@ -13,6 +14,10 @@ class User < ActiveRecord::Base
   validates :password, length: { minimum: 3 }, confirmation: true, if: :password_changed?
 
   private
+
+  def downcase_email
+    self.email = self.email.try(:downcase)
+  end
 
   def password_changed?
     self.crypted_password.blank? ||

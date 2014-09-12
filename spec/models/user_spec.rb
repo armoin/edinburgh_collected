@@ -32,6 +32,12 @@ describe User do
       expect(subject.errors[:email]).to include("has already been taken")
     end
 
+    it 'downcases the email before validating' do
+      subject.email = 'Bobby@example.com'
+      subject.valid?
+      expect(subject.email).to eql('bobby@example.com')
+    end
+
     context 'needs a valid email' do
       let(:user) { Fabricate.build(:user) }
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140904130031) do
+ActiveRecord::Schema.define(version: 20140912133117) do
 
   create_table "areas", force: true do |t|
     t.string   "name",       null: false
@@ -51,6 +51,14 @@ ActiveRecord::Schema.define(version: 20140904130031) do
     t.float    "latitude"
     t.float    "longitude"
   end
+
+  create_table "scrapbooks", force: true do |t|
+    t.integer "user_id"
+    t.string  "title",       null: false
+    t.text    "description"
+  end
+
+  add_index "scrapbooks", ["user_id"], name: "index_scrapbooks_on_user_id"
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
