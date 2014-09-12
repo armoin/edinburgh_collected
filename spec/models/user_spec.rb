@@ -189,4 +189,33 @@ describe User do
       end
     end
   end
+
+  describe 'find_by_email' do
+    let!(:user) { Fabricate(:user, email: 'bobby@example.com') }
+
+    it 'provides the user if a lower case email is given' do
+      email = 'bobby@example.com'
+      expect(User.find_by_email(email)).to eql(user)
+    end
+
+    it 'provides the user if a capitalised email is given' do
+      email = 'Bobby@example.com'
+      expect(User.find_by_email(email)).to eql(user)
+    end
+
+    it 'provides the user if an upper case email is given' do
+      email = 'BOBBY@EXAMPLE.COM'
+      expect(User.find_by_email(email)).to eql(user)
+    end
+
+    it 'does not provide the user if an incorrect email is given' do
+      email = 'mary@example.com'
+      expect(User.find_by_email(email)).to be_nil
+    end
+
+    it 'does not provide the user if no email is given' do
+      email = ''
+      expect(User.find_by_email(email)).to be_nil
+    end
+  end
 end

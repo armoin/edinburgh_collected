@@ -14,7 +14,7 @@ feature 'As a user who wants to add content to the site' do
 
     click_button 'Sign Up'
 
-    user = User.find_by(email: 'bobby@example.com')
+    user = User.find_by_email('bobby@example.com')
     expect(user.first_name).to eql('Bobby')
     expect(user.last_name).to eql('Tables')
     expect(user.screen_name).to eql('Bob')
@@ -36,7 +36,7 @@ feature 'As a user who wants to add content to the site' do
 
     click_button 'Sign Up'
 
-    user = User.find_by(email: 'fight_club@example.com')
+    user = User.find_by_email('fight_club@example.com')
     expect(user.first_name).to eql('Fight Club')
     expect(user.screen_name).to eql('Fight Club')
     expect(user.email).to eql('fight_club@example.com')

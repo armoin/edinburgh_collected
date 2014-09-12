@@ -13,6 +13,11 @@ class User < ActiveRecord::Base
   validates :email, uniqueness: true, presence: true, email: true
   validates :password, length: { minimum: 3 }, confirmation: true, if: :password_changed?
 
+  # Email is downcased before validating so always check for downcased email
+  def self.find_by_email(email)
+    where('LOWER(email) = ?', email.downcase).first
+  end
+
   private
 
   def downcase_email

@@ -14,13 +14,13 @@ describe PasswordResetsController do
 
     before :each do
       allow_message_expectations_on_nil
-      allow(User).to receive(:find_by).and_return(user)
+      allow(User).to receive(:find_by_email).and_return(user)
       allow(user).to receive(:deliver_reset_password_instructions!)
       post :create, email: email
     end
 
     it "finds the user by the given email" do
-      expect(User).to have_received(:find_by).with(email: email)
+      expect(User).to have_received(:find_by_email).with(email)
     end
 
     it "assigns the user" do
