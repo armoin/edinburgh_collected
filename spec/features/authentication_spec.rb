@@ -59,6 +59,20 @@ feature 'As a user who wants to add content to the site' do
     expect(page).to have_content('Welcome, bob')
   end
 
+  scenario "I can sign in to my account with a capitalised email address" do
+    Fabricate(:active_user, email: 'bobby@example.com', screen_name: 'bob')
+
+    visit '/login'
+
+    fill_in 'Email',    with: 'Bobby@example.com'
+    fill_in 'Password', with: 's3cr3t'
+
+    click_button 'Sign In'
+
+    expect(current_path).to eql(root_path)
+    expect(page).to have_content('Welcome, bob')
+  end
+
   scenario "I can view my details" do
     user = Fabricate(:active_user)
 
