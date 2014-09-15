@@ -12,6 +12,7 @@ feature 'As a user I want to be able to create a scrapbook', js:true do
 
   feature 'adding a memory to a scrapbook' do
     before :each do
+      Fabricate.times(1, :scrapbook, user: user)
       click_link 'Add to a scrapbook +'
       @add_modal = find('#add-to-scrapbook-modal')
     end
@@ -21,7 +22,8 @@ feature 'As a user I want to be able to create a scrapbook', js:true do
     end
 
     scenario 'allows the user to select an existing scrapbook' do
-      expect(@add_modal).to have_css('.scrapbooks .scrapbook', count: 2)
+      save_and_open_page
+      expect(@add_modal).to have_css('.scrapbooks .scrapbook', count: 1)
     end
 
     scenario 'allows the user to create a new scrapbook' do
@@ -70,7 +72,7 @@ feature 'As a user I want to be able to create a scrapbook', js:true do
       expect(@create_modal).to have_css('form#create-scrapbook #cancel-create-scrapbook')
     end
 
-    scenario 'allows the user to add the memory to a scrapbook' do
+    scenario 'allows the user to create a new scrapbook' do
       expect(@create_modal).to have_css('form#create-scrapbook button.save')
     end
 
