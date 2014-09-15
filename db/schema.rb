@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140912133117) do
+ActiveRecord::Schema.define(version: 20140915135250) do
 
   create_table "areas", force: true do |t|
     t.string   "name",       null: false
@@ -52,10 +52,22 @@ ActiveRecord::Schema.define(version: 20140912133117) do
     t.float    "longitude"
   end
 
+  create_table "scrapbook_memories", force: true do |t|
+    t.integer  "scrapbook_id"
+    t.integer  "memory_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "scrapbook_memories", ["memory_id"], name: "index_scrapbook_memories_on_memory_id"
+  add_index "scrapbook_memories", ["scrapbook_id"], name: "index_scrapbook_memories_on_scrapbook_id"
+
   create_table "scrapbooks", force: true do |t|
-    t.integer "user_id"
-    t.string  "title",       null: false
-    t.text    "description"
+    t.integer  "user_id"
+    t.string   "title",       null: false
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "scrapbooks", ["user_id"], name: "index_scrapbooks_on_user_id"

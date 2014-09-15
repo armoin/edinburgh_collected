@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   namespace :my do
     resources :memories
     resources :scrapbooks
+    resources :scrapbook_memories
 
     get '/profile' => 'profile#show'
     get '/profile/edit' => 'profile#edit'
