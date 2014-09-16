@@ -70,8 +70,8 @@
         </div>
         <div class="modal-footer">
           <%= form_tag my_scrapbook_memories_path, remote: true, id: 'add-to-scrapbook', class: 'minimal' do %>
-            <%= hidden_field_tag :scrapbook_id %>
-            <%= hidden_field_tag :memory_id, @memory.id %>
+            <%= hidden_field_tag "scrapbook_memory[scrapbook_id]" %>
+            <%= hidden_field_tag "scrapbook_memory[memory_id]", @memory.id %>
           <button class="cancel btn btn-default" data-dismiss="modal">Cancel</button>
           <button class="save btn btn-primary">Add to scrapbook</button>
         </div>
@@ -86,7 +86,7 @@
     <div class="modal-content">
       <%= form_for :scrapbook, url: my_scrapbooks_path, remote: true, html: {class: 'form-horizontal', id: 'create-scrapbook'} do |f| %>
         <div class="modal-header">
-          <h4 class="modal-title">Create a new scrapbook</div>
+          <h4 class="modal-title">Create a new scrapbook</h4>
         </div>
         <div class="modal-body">
           <div class="form-group">
@@ -132,7 +132,7 @@
       html    += '    <div class="updates"></div>';
       html    += '  </div>';
       html    += '</div>';
-      scrapbook = $.parseHTML(html);
+      var scrapbook = $.parseHTML(html);
       $(scrapbook).attr('data-id', data.id);
       $(scrapbook).find('.title').text(data.title);
       $(scrapbook).find('.updates').text('Updated ' + data.updated_at);
@@ -140,6 +140,16 @@
       $('.scrapbooks .scrapbook').first().trigger('click');
       $('#create-scrapbook-modal').modal('hide');
       $('#add-to-scrapbook-modal').modal('show');
+    }).on("ajax:error", function (e, data, status, xhr) {
+      console.log("event: ", e);
+      console.log("data: ", data);
+      console.log("status: ", status);
+    });
+
+    $("form#add-to-scrapbook").on("ajax:success", function (e, data, status, xhr) {
+      var html = '<div class="notice">This photo was added to your scrapbook "' + data.title + '" <a class="btn btn-default" href="/my/scrapbooks/' + data.id + '">View your scrapbook</a></div>';
+      $('#add-to-scrapbook-modal').modal('hide');
+      $('.flashes').html(html).show();
     }).on("ajax:error", function (e, data, status, xhr) {
       console.log("event: ", e);
       console.log("data: ", data);
@@ -157,7 +167,7 @@
     $('.scrapbooks').on('click', '.scrapbook', function (e) {
       $('.scrapbook').removeClass('selected')
       $(e.currentTarget).addClass('selected')
-      $('form#add-to-scrapbook #scrapbook_id').val($(e.currentTarget).data('id'))
+      $('form#add-to-scrapbook #scrapbook_memory_scrapbook_id').val($(e.currentTarget).data('id'))
     });
   });
 </script>

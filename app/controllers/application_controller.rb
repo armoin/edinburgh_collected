@@ -8,8 +8,8 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound do
     respond_with do |format|
       format.html    { render 'exceptions/not_found', :status => :not_found }
-      format.json    { head status: :not_found }
-      format.geojson { head status: :not_found }
+      format.json    { head :not_found }
+      format.geojson { head :not_found }
     end
   end
 end
