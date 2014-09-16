@@ -15,7 +15,15 @@
       %p.views This photo has been viewed XX times
       %p.saved This photo has been saved to XX scrapbooks
 
-      = link_to "Add to scrapbook +", '#', class: "btn btn-default", data: {toggle: 'modal', target: '#add-to-scrapbook-modal'}
+      - if logged_in?
+        = link_to "Add to scrapbook +", '#', class: "btn btn-default", data: {toggle: 'modal', target: '#add-to-scrapbook-modal'}
+      - else
+        %p If you'd like to add this photo to a scrapbook, please
+        %p
+          = link_to 'Sign Up', signup_path, class: 'btn btn-primary'
+          or
+          = link_to 'Sign In', signin_path, class: 'btn btn-primary'
+
       = link_to "Share this photo", '#', class: "btn btn-default not-implemented"
 
       %h3 Categories
