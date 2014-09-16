@@ -1,4 +1,8 @@
 class My::ScrapbooksController < My::AuthenticatedUserController
+  def show
+    @scrapbook = current_user.scrapbooks.find(params[:id])
+  end
+
   def create
     @scrapbook = Scrapbook.new(scrapbook_params)
     @scrapbook.user = current_user
