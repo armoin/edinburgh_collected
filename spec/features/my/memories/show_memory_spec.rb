@@ -7,9 +7,9 @@ feature 'As a user I want to be able to view one of my memories', slow: true do
 
   feature 'So that I can view its details' do
     context 'when not logged in' do
-      it 'asks me to login' do
+      it 'asks me to sign in' do
         visit url
-        expect(page).to have_content("Please login")
+        expect(page).to have_content("Please sign in")
       end
     end
 

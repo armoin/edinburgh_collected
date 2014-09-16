@@ -131,8 +131,8 @@ describe PasswordResetsController do
           put :update, id: token, user: {password: 'newpass', password_confirmation: 'newpass'}
         end
 
-        it "redirects to the login path" do
-          expect(response).to redirect_to(:login)
+        it "redirects to the signin path" do
+          expect(response).to redirect_to(:signin)
         end
 
         it "notifies the user that the password has been reset" do

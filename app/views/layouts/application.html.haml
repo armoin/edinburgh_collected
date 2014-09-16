@@ -33,12 +33,12 @@
               %li
                 = link_to 'My Scrapbooks', my_scrapbooks_path
               %li
-                = link_to 'Sign Out', '/logout', method: :delete
+                = link_to 'Sign Out', signout_path, method: :delete
             - else
               %li{class: active_if_controller_path('users') }
-                %a(href="/signup") Sign Up
+                = link_to 'Sign Up', signup_path
               %li{class: active_if_controller_path('sessions') }
-                %a(href="/login") Sign In
+                = link_to 'Sign In', signin_path
           %a.feedback.btn.btn-primary(href="mailto:edinburgh-stories@armoin.com?subject=Feedback") Feedback
 
     .flashes

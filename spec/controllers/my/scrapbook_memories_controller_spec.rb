@@ -21,9 +21,9 @@ describe My::ScrapbookMemoriesController do
     }}
 
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to signin' do
         post :create, given_params
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 
