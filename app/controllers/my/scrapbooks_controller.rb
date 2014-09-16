@@ -19,6 +19,28 @@ class My::ScrapbooksController < My::AuthenticatedUserController
     end
   end
 
+  def edit
+    @scrapbook = current_user.scrapbooks.find(params[:id])
+  end
+
+  def update
+    @scrapbook = current_user.scrapbooks.find(params[:id])
+    if @scrapbook.update_attributes(scrapbook_params)
+      redirect_to my_scrapbook_path(@scrapbook)
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @scrapbook = current_user.scrapbooks.find(params[:id])
+    if @scrapbook.destroy
+      redirect_to my_scrapbooks_url, notice: 'Successfully deleted'
+    else
+      redirect_to my_scrapbooks_url, alert: 'Could not delete'
+    end
+  end
+
   private
 
   def scrapbook_params

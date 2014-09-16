@@ -1,0 +1,18 @@
+.container
+  %h1 Edit
+  = form_for @scrapbook, url: my_scrapbook_path(@scrapbook), html: {class: 'form-horizontal'} do |form|
+    .form-group
+      .col-sm-4
+        = form.label :title, class: 'control-label'
+      .col-sm-8
+        = form.text_field :title, class: 'form-control'
+    .form-group
+      .col-sm-4
+        = form.label :description, class: 'control-label'
+      .col-sm-8
+        = form.text_area :description, class: 'form-control'
+    .form-group
+      .actions.col-xs-sm-12
+        = link_to "Cancel", my_scrapbook_path(@scrapbook), class: "btn btn-default"
+        = form.submit "Update scrapbook", class: "btn btn-primary"
+

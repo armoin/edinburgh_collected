@@ -157,4 +157,147 @@ describe My::ScrapbooksController do
       end
     end
   end
+
+  describe 'GET edit' do
+    context 'when not logged in' do
+      it 'asks user to login' do
+        get :edit, id: '123'
+        expect(response).to redirect_to(:login)
+      end
+    end
+
+    context 'when logged in' do
+      let(:stub_scrapbooks) { double('scrapbooks', find: scrapbook) }
+
+      before :each do
+        login_user
+        allow(stub_scrapbooks).to receive(:find).and_return(scrapbook)
+        get :edit, id: 123
+      end
+
+      it "looks for the requested scrapbook" do
+        expect(stub_scrapbooks).to have_received(:find).with('123')
+      end
+
+      context "if the scrapbook is found" do
+        it "assigns the scrapbook" do
+          expect(assigns[:scrapbook]).to eql(scrapbook)
+        end
+
+        it "renders the edit page" do
+          expect(response).to render_template(:edit)
+        end
+      end
+
+      context "if the scrapbook is not found" do
+        it "returns a Not Found" do
+          allow(stub_scrapbooks).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+          get :edit, id: '123'
+          expect(response).to render_template('exceptions/not_found')
+        end
+      end
+    end
+  end
+
+  describe 'PUT upate' do
+    let(:strong_params) {{ title: 'New title' }}
+    let(:given_params) {{
+      scrapbook: strong_params,
+      id: '123',
+      controller: "my/scrapbooks",
+      action: "update"
+    }}
+
+
+    context 'when not logged in' do
+      it 'asks user to login' do
+        put :update, given_params
+        expect(response).to redirect_to(:login)
+      end
+    end
+
+    context 'when logged in' do
+      before :each do
+        login_user
+        allow(ScrapbookParamCleaner).to receive(:clean).and_return(strong_params)
+        allow(stub_scrapbooks).to receive(:find).and_return(scrapbook)
+        allow(scrapbook).to receive(:update_attributes).and_return(true)
+        put :update, given_params
+      end
+
+      it "cleans the given params" do
+        expect(ScrapbookParamCleaner).to have_received(:clean).with(given_params)
+      end
+
+      it "finds the Scrapbook with the given id" do
+        expect(stub_scrapbooks).to have_received(:find).with('123')
+      end
+
+      it "assigns the scrapbook" do
+        expect(assigns(:scrapbook)).to eql(scrapbook)
+      end
+
+      it "updates the given attributes" do
+        expect(scrapbook).to have_received('update_attributes').with(strong_params)
+      end
+
+      context "update is successful" do
+        it "redirects to the scrapbook page" do
+          expect(response).to redirect_to(my_scrapbook_path('123'))
+        end
+      end
+
+      context "update is not successful" do
+        it "re-renders the edit form" do
+          allow(scrapbook).to receive(:update_attributes).and_return(false)
+          put :update, given_params
+          expect(response).to render_template(:edit)
+        end
+      end
+    end
+  end
+
+  describe 'DELETE destroy' do
+    context 'when not logged in' do
+      it 'asks user to login' do
+        delete :destroy, id: '123'
+        expect(response).to redirect_to(:login)
+      end
+    end
+
+    context 'when logged in' do
+      before :each do
+        login_user
+        allow(stub_scrapbooks).to receive(:find).and_return(scrapbook)
+        allow(scrapbook).to receive(:destroy).and_return(true)
+        delete :destroy, id: '123'
+      end
+
+      it "finds the Scrapbook with the given id" do
+        expect(stub_scrapbooks).to have_received(:find).with('123')
+      end
+
+      it "destroys the given attributes" do
+        expect(scrapbook).to have_received('destroy')
+      end
+
+      it "redirects to the user's scrapbooks page" do
+        expect(response).to redirect_to(my_scrapbooks_url)
+      end
+
+      context "destroy is successful" do
+        it "shows a success notice" do
+          expect(flash[:notice]).to eql('Successfully deleted')
+        end
+      end
+
+      context "destroy is not successful" do
+        it "shows an alert" do
+          allow(scrapbook).to receive(:destroy).and_return(false)
+          delete :destroy, id: '123'
+          expect(flash[:alert]).to eql('Could not delete')
+        end
+      end
+    end
+  end
 end
