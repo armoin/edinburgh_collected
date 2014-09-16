@@ -1,4 +1,8 @@
 class My::ScrapbooksController < My::AuthenticatedUserController
+  def index
+    @scrapbooks = current_user.scrapbooks
+  end
+
   def show
     @scrapbook = current_user.scrapbooks.find(params[:id])
   end

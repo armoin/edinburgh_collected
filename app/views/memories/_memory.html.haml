@@ -34,7 +34,7 @@
         %h4.modal-title= "Add #{@memory.title} to a scrapbook"
       .modal-body
         %h4 Select scrapbook
-        .scrapbooks
+        .scrapbooks.select
           - if current_user
             - current_user.scrapbooks.sort{|a,b| b.updated_at<=>a.updated_at}.each do |scrapbook|
               .scrapbook(data-id="#{scrapbook.id}")
