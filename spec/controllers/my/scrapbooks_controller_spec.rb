@@ -2,9 +2,43 @@ require 'rails_helper'
 
 describe My::ScrapbooksController do
   let(:scrapbook) { Fabricate.build(:scrapbook, id: 123, user: @user) }
+  let(:stub_scrapbooks) { double('scrapbooks', find: scrapbook) }
 
   before :each do
     @user = Fabricate.build(:user)
+    allow(@user).to receive(:scrapbooks).and_return(stub_scrapbooks)
+  end
+
+  describe 'GET index' do
+    context 'when not logged in' do
+      it 'asks user to login' do
+        get :index
+        expect(response).to redirect_to(:login)
+      end
+    end
+
+    context 'when logged in' do
+      before :each do
+        login_user
+        get :index
+      end
+
+      it 'is successful' do
+        expect(response).to be_success
+      end
+
+      it "fetches the user's scrapbooks" do
+        expect(@user).to have_received(:scrapbooks)
+      end
+
+      it "assigns the returned scrapbooks" do
+        expect(assigns[:scrapbooks]).to eql(stub_scrapbooks)
+      end
+
+      it "renders the index page" do
+        expect(response).to render_template(:index)
+      end
+    end
   end
 
   describe 'GET show' do
@@ -20,7 +54,6 @@ describe My::ScrapbooksController do
 
       before :each do
         login_user
-        allow(@user).to receive(:scrapbooks).and_return(stub_scrapbooks)
         allow(stub_scrapbooks).to receive(:find).and_return(scrapbook)
         get :show, id: 123
       end
