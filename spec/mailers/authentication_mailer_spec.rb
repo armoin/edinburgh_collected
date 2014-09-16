@@ -69,7 +69,7 @@ describe AuthenticationMailer do
         end
 
         it "provides the sign in URL" do
-          expect(body).to match(login_url)
+          expect(body).to match(signin_url)
         end
       end
     end

@@ -48,7 +48,7 @@ feature 'As a user who wants to add content to the site' do
   scenario "I can sign in to my account" do
     Fabricate(:active_user, email: 'bobby@example.com', screen_name: 'bob')
 
-    visit '/login'
+    visit '/signin'
 
     fill_in 'Email',    with: 'bobby@example.com'
     fill_in 'Password', with: 's3cr3t'
@@ -62,7 +62,7 @@ feature 'As a user who wants to add content to the site' do
   scenario "I can sign in to my account with a capitalised email address" do
     Fabricate(:active_user, email: 'bobby@example.com', screen_name: 'bob')
 
-    visit '/login'
+    visit '/signin'
 
     fill_in 'Email',    with: 'Bobby@example.com'
     fill_in 'Password', with: 's3cr3t'

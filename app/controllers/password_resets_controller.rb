@@ -29,7 +29,7 @@ class PasswordResetsController < ApplicationController
 
     @user.password_confirmation = params[:user][:password_confirmation]
     if @user.change_password!(params[:user][:password])
-      redirect_to login_path, notice: 'Password was successfully updated.'
+      redirect_to signin_path, notice: 'Password was successfully updated.'
     else
       render :edit
     end

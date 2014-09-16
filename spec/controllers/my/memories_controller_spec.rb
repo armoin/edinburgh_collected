@@ -11,9 +11,9 @@ describe My::MemoriesController do
 
   describe 'GET index' do
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to signin' do
         get :index
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 
@@ -43,9 +43,9 @@ describe My::MemoriesController do
 
   describe 'GET show' do
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to sign in' do
         get :show, id: 123
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 
@@ -86,9 +86,9 @@ describe My::MemoriesController do
 
   describe 'GET new' do
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to sign in' do
         get :new
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 
@@ -122,9 +122,9 @@ describe My::MemoriesController do
     }}
 
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to signin' do
         post :create, given_params
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 
@@ -186,9 +186,9 @@ describe My::MemoriesController do
 
   describe 'GET edit' do
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to signin' do
         get :edit, id: 123
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 
@@ -238,9 +238,9 @@ describe My::MemoriesController do
 
 
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to signin' do
         put :update, given_params
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 
@@ -287,9 +287,9 @@ describe My::MemoriesController do
 
   describe 'DELETE destroy' do
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to signin' do
         delete :destroy, id: '123'
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 
