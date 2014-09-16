@@ -1,0 +1,14 @@
+.container-fluid
+  %h1= @scrapbook.title
+
+  %p= @scrapbook.description
+
+  .row
+    .memories
+      - @scrapbook.memories.each do |memory|
+        %a.memory.thumb(data-id="#{memory.id}" href="#{memory_url(memory.id)}" title="View details" role="button")
+          %div.img
+            %img{src: cache_busted_url(memory, :thumb), alt: memory.title}
+          %div.footer
+            %p.title= memory.title
+
