@@ -11,7 +11,7 @@ en:
         title: "What would you like to call this?"
         attribution: "Would you like to attribute this to another person?"
       user:
-        screen_name: 'What should we call you?'
+        screen_name: 'Username'
         is_group: 'Who is this account for?'
     errors:
       models:

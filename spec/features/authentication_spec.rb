@@ -5,12 +5,12 @@ feature 'As a user who wants to add content to the site' do
     visit '/signup'
 
     choose  'An individual'
-    fill_in 'First name',                    with: 'Bobby'
-    fill_in 'Last name',                     with: 'Tables'
-    fill_in 'What should we call you?',      with: 'Bob'
-    fill_in 'Email',                         with: 'bobby@example.com'
-    fill_in 'user_password',                 with: 's3cr3t'
-    fill_in 'user_password_confirmation',    with: 's3cr3t'
+    fill_in 'First name',                 with: 'Bobby'
+    fill_in 'Last name',                  with: 'Tables'
+    fill_in 'Email',                      with: 'bobby@example.com'
+    fill_in 'Username',                   with: 'Bob'
+    fill_in 'user_password',              with: 's3cr3t'
+    fill_in 'user_password_confirmation', with: 's3cr3t'
 
     click_button 'Sign Up'
 
@@ -28,11 +28,11 @@ feature 'As a user who wants to add content to the site' do
     visit '/signup'
 
     choose  'A group'
-    fill_in 'Group name',                    with: 'Fight Club'
-    fill_in 'What should we call you?',      with: 'Fight Club'
-    fill_in 'Email',                         with: 'fight_club@example.com'
-    fill_in 'user_password',                 with: 's3cr3t'
-    fill_in 'user_password_confirmation',    with: 's3cr3t'
+    fill_in 'Group name',                 with: 'Fight Club'
+    fill_in 'Email',                      with: 'fight_club@example.com'
+    fill_in 'Username',                   with: 'Fight Club'
+    fill_in 'user_password',              with: 's3cr3t'
+    fill_in 'user_password_confirmation', with: 's3cr3t'
 
     click_button 'Sign Up'
 
