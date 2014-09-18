@@ -17,4 +17,5 @@
 //= require raphael
 //= require binaryajax
 //= require exif
+//= require jquery.placeholder
 //= require_tree .
