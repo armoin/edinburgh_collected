@@ -83,7 +83,7 @@ describe UsersController do
       end
 
       it 'displays a success notice' do
-        expect(flash[:notice]).to eq('User was successfully activated.')
+        expect(flash[:notice]).to eq('You have successfully activated your account. Please sign in.')
       end
     end
 
