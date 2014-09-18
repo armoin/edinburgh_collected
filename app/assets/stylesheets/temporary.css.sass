@@ -21,11 +21,28 @@ footer
   color: white
   margin: 0 16px 20px 16px
 
+  .close
+    text-shadow: 0 0 0 #fff
+    margin-top: -2px
+    opacity: 1
+
 .alert
   background: red
 
+  .close
+    color: tan
+
+    &:hover
+      color: lighten(tan, 15)
+
 .notice
   background: green
+
+  .close
+    color: lighten(green, 10)
+
+    &:hover
+      color: lighten(green, 20)
 
 li.greeting
   padding-top: 15px

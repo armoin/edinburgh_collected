@@ -43,7 +43,9 @@
 
     .flashes
       - flash.each do |class_name, message|
-        %div{class: class_name}= message
+        %div{class: class_name}
+          = message
+          %span.close &times;
 
     = yield
 
