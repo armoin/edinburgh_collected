@@ -1,6 +1,7 @@
 .container
   .col-xs-12
     =simple_form_for @memory,
+      as: :memory,
       url: my_memories_url,
       wrapper: :horizontal_form,
       wrapper_mappings: { file: :horizontal_file_input },
@@ -10,12 +11,8 @@
 
       = form.input :type, as: :select, collection: Memory.file_types, required: true, input_html: {class: 'form-control'}
 
-      .form-group.required
-        .col-sm-4
-          = form.label :source
-        .col-sm-8
-          .hide-whilst-enabled= form.file_field :source
-          %a#select-file.btn.btn-primary Select file
+      = form.input :source, as: :file
+      -# %a#select-file.btn.btn-primary Select file
       = render partial: 'image_editor', locals: {form: form}
 
       = render partial: 'details_form', object: @memory, locals: {form: form}

@@ -3,7 +3,7 @@ class @UploadedImageEditor
     @redirectEvent('click', '#select-file', fileInputEl)
     imageEditor = undefined
     $(fileInputEl).on 'change', =>
-      if fileInputEl.files.length
+      if fileInputEl.files != undefined && fileInputEl.files.length
         imageFile = fileInputEl.files[0]
 
         fr = new FileReader;
@@ -24,9 +24,10 @@ class @UploadedImageEditor
           imageEditor = new ImageEditor(editorEl, src, rotationEl, exifRotation)
 
         fr.readAsBinaryString(imageFile) # read the file
+        $(editorEl).closest('.form-group').show()
       else
         imageEditor.reset() if imageEditor
-        $(editorEl).hide()
+        $(editorEl).closest('.form-group').hide()
 
   redirectEvent: (event, source, destination) ->
     $(source).on event, (e) ->
