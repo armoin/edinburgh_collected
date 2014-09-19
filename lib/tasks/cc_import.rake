@@ -55,19 +55,22 @@ class CCAsset
 end
 
 task :cc_import => :environment do |t, args|
-  abort unless ENV.has_key?('TOKEN')
+  # abort unless ENV.has_key?('TOKEN')
   IDs.each do |id|
     doc = CCAsset.new(id)
     memory = Memory.new(
-      type: 'Image',
+      type: 'Photo',
       title: doc.title,
       year: doc.year,
       description: doc.description,
       width: doc.width,
       height: doc.height
     )
+    memory.categories << Category.first
+    memory.user = User.find_by_email('alan+capcollect@armoin.com')
     memory.remote_source_url = doc.remote_source_url
-    if memory.save(ENV['TOKEN'])
+    # if memory.save(ENV['TOKEN'])
+    if memory.save
       puts "#{id} (success)"
     else
       puts "#{id} (failed) #{memory.errors.full_messages}"
