@@ -1,7 +1,7 @@
 !!! 5
 %html
   %head
-    %title Edinburgh Stories
+    %title Edinburgh Stories - beta
 
     %meta(name="viewport" content="width=device-width, initial-scale=1")
 
@@ -18,10 +18,12 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          %a.navbar-brand(href="/") Edinburgh Stories
+          %a.navbar-brand(href="/")
+            Edinburgh Stories
+            %span.beta beta
         .collapse.navbar-collapse
           %ul.nav.navbar-nav
-            %li.active
+            %li{class: active_if_controller_path('memories') }
               %a(href="/") Home
             %li
               %a.not-implemented(href="#about") About
@@ -30,15 +32,15 @@
             %li
               %a(href="mailto:edinburgh-stories@armoin.com?subject=Feedback") Feedback
             - if logged_in?
-              %li
+              %li{class: active_if_controller_path('my/memories') }
                 = link_to 'My Memories', my_memories_path
               %li
                 = link_to 'Sign Out', '/logout', method: :delete
               %li.greeting= greet(current_user.screen_name).html_safe
             - else
-              %li
+              %li{class: active_if_controller_path('users') }
                 %a(href="/signup") Sign Up
-              %li
+              %li{class: active_if_controller_path('sessions') }
                 %a(href="/login") Sign In
 
     .flashes
