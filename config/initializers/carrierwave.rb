@@ -6,7 +6,7 @@ CarrierWave.configure do |config|
     config.fog_public = true
 
     config.fog_credentials = {
-      :provider           => ENV['FILE_SERVER_PROVIDER'],
+      :provider           => 'Rackspace',
 
       :rackspace_username => 'nestaproject',
       :rackspace_api_key  => '53e214a49cfc444a827212b6b0b7e9db',
@@ -29,7 +29,7 @@ CarrierWave.configure do |config|
       :aws_secret_access_key  => ENV['AWS_SECRET_ACCESS_KEY'],
       :region                 => 'eu-west-1',
     }
-    config.fog_directory = ENV['BUCKET_NAME']
+    config.fog_directory = ENV['S3_BUCKET_NAME']
 
     # To let CarrierWave work on heroku
     config.cache_dir = "#{Rails.root}/tmp/uploads"
