@@ -7,7 +7,7 @@ class @ImageEditor
       svg = @buildSVG(img)
       @createRotateEvent(svg, 'left', -90)
       @createRotateEvent(svg, 'right', 90)
-    $(@editorEl).show()
+    $(editorEl).closest('.form-group').show()
 
   buildSVG: (img) ->
     imageMeasurements = ImageCalculator.calculateMeasurements(img)
