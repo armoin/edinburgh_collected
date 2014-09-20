@@ -13,7 +13,7 @@ feature 'As a user I want to be able to create a scrapbook', js:true do
   feature 'adding a memory to a scrapbook' do
     before :each do
       Fabricate.times(1, :scrapbook, user: user)
-      click_link 'Add to a scrapbook +'
+      click_link 'Add to scrapbook +'
       @add_modal = find('#add-to-scrapbook-modal')
     end
 
@@ -54,7 +54,7 @@ feature 'As a user I want to be able to create a scrapbook', js:true do
 
   feature 'creating a new scrapbook' do
     before :each do
-      click_link 'Add to a scrapbook +'
+      click_link 'Add to scrapbook +'
       click_button 'Create a new scrapbook'
       @create_modal = find('#create-scrapbook-modal')
     end
