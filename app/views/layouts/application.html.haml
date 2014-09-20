@@ -39,12 +39,6 @@
                 %a(href="/login") Sign In
           %a.feedback.btn.btn-primary(href="mailto:edinburgh-stories@armoin.com?subject=Feedback") Feedback
 
-    - unless Rails.env.test?
-      %script(type="text/javascript" src="//cdn.mailto.ninja/js/v0/mailto.ninja.js")
-      :javascript
-        mailto.ninja({ showOnMobile: true })
-    = javascript_include_tag('feature_switch', 'data-turbolinks-track' => true)
-
     .flashes
       - flash.each do |class_name, message|
         %div{class: class_name}
@@ -57,5 +51,8 @@
       %footer
         %p &copy; The City of Edinburgh Council 2014
 
-
+    - unless Rails.env.test?
+      %script(type="text/javascript" src="//cdn.mailto.ninja/js/v0/mailto.ninja.js")
+      :javascript
+        mailto.ninja({ showOnMobile: true })
 
