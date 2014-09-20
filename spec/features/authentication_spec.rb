@@ -56,7 +56,7 @@ feature 'As a user who wants to add content to the site' do
     click_button 'Sign In'
 
     expect(current_path).to eql(root_path)
-    expect(page).to have_content('Welcome, bob')
+    expect(page).to have_content('My Profile')
   end
 
   scenario "I can sign in to my account with a capitalised email address" do
@@ -70,7 +70,7 @@ feature 'As a user who wants to add content to the site' do
     click_button 'Sign In'
 
     expect(current_path).to eql(root_path)
-    expect(page).to have_content('Welcome, bob')
+    expect(page).to have_content('My Profile')
   end
 
   scenario "I can view my details" do
@@ -80,7 +80,7 @@ feature 'As a user who wants to add content to the site' do
 
     visit '/'
 
-    click_link user.screen_name
+    click_link 'My Profile' #user.screen_name
 
     expect(current_path).to eql(my_profile_path)
     expect(page).to have_content("First name: #{user.first_name}")

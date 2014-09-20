@@ -1,22 +1,22 @@
-.container
-  .col-xs-12
+.container.user-card
+  .details.col-xs-12
     %h1= @user.screen_name
 
     %p
-      = user_name_label(@user)
+      %strong= user_name_label(@user)
       = @user.first_name
 
     - unless @user.is_group?
       %p
-        Last name:
+        %strong Last name:
         = @user.last_name
 
     %p
-      Email:
+      %strong Email:
       = @user.email
 
     %p
-      Group account?
+      %strong Group account?
       = @user.is_group?
 
   .actions

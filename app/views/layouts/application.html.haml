@@ -25,19 +25,19 @@
           %ul.nav.navbar-nav
             %li{class: active_if_controller_path('memories') }
               %a(href="/") Home
-            %li
-              %a(href="mailto:edinburgh-stories@armoin.com?subject=Feedback") Feedback
             - if logged_in?
               %li{class: active_if_controller_path('my/memories') }
                 = link_to 'My Memories', my_memories_path
+              %li{class: active_if_controller_path('my/profile') }
+                = link_to 'My Profile', my_profile_path
               %li
                 = link_to 'Sign Out', '/logout', method: :delete
-              %li.greeting= greet(current_user.screen_name).html_safe
             - else
               %li{class: active_if_controller_path('users') }
                 %a(href="/signup") Sign Up
               %li{class: active_if_controller_path('sessions') }
                 %a(href="/login") Sign In
+          %a.feedback.btn.btn-primary(href="mailto:edinburgh-stories@armoin.com?subject=Feedback") Feedback
 
     - unless Rails.env.test?
       %script(type="text/javascript" src="//cdn.mailto.ninja/js/v0/mailto.ninja.js")

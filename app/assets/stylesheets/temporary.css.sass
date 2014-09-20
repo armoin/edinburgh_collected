@@ -11,6 +11,10 @@ html, body
   font-size: smaller
   margin: 0 3px
 
+a.feedback
+  float: right
+  margin-top: 8px
+
 body
   padding-top: 70px
 
@@ -59,6 +63,17 @@ li.greeting
 
   &:hover
     color: #777777
+
+.user-card
+  .details
+    background: white
+    padding-bottom: 1em
+
+  .actions
+    a
+      float: right
+      margin: 10px 0
+
 
 a.rotate
   text-decoration: none
@@ -209,6 +224,11 @@ body.styleguide
   h2
     font-size: 24px
     text-align: center
+    margin-top: 0
+
+  a.feedback.btn.btn-primary
+    width: 100%
+    margin: 10px 0
 
   form
     background-color: #ccc
@@ -252,4 +272,14 @@ body.styleguide
       div
         &.img
           line-height: 100%
+
+  .user-card
+    .details
+      h1
+        text-align: left
+
+    .actions
+      a
+        width: 100%
+        margin: 10px 0
 
