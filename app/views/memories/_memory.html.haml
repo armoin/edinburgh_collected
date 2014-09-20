@@ -4,20 +4,20 @@
 
   .row
 
-    .col-xs-6
+    .photo.col-sm-6
       %img{src: cache_busted_url(@memory), alt: @memory.title, title: @memory.title}
 
       %p= @memory.description
       %p= @memory.attribution
 
-    .col-xs-6
+    .col-sm-6
 
       .memory-meta
 
         %p.views This photo has been viewed XX times
         %p.saved This photo has been saved to XX scrapbooks
 
-        = link_to "Add to a scrapbook +", '#', class: "btn btn-default not-implemented"
+        = link_to "Add to scrapbook +", '#', class: "btn btn-default not-implemented"
         = link_to "Share this photo", '#', class: "btn btn-default not-implemented"
 
 

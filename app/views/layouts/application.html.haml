@@ -26,10 +26,6 @@
             %li{class: active_if_controller_path('memories') }
               %a(href="/") Home
             %li
-              %a.not-implemented(href="#about") About
-            %li
-              %a.not-implemented(href="#contact") Help & Tutorials
-            %li
               %a(href="mailto:edinburgh-stories@armoin.com?subject=Feedback") Feedback
             - if logged_in?
               %li{class: active_if_controller_path('my/memories') }
@@ -43,6 +39,12 @@
               %li{class: active_if_controller_path('sessions') }
                 %a(href="/login") Sign In
 
+    - unless Rails.env.test?
+      %script(type="text/javascript" src="//cdn.mailto.ninja/js/v0/mailto.ninja.js")
+      :javascript
+        mailto.ninja({ showOnMobile: true })
+    = javascript_include_tag('feature_switch', 'data-turbolinks-track' => true)
+
     .flashes
       - flash.each do |class_name, message|
         %div{class: class_name}
@@ -55,10 +57,5 @@
       %footer
         %p &copy; The City of Edinburgh Council 2014
 
-
-    - unless Rails.env.test?
-      %script(type="text/javascript" src="//cdn.mailto.ninja/js/v0/mailto.ninja.js")
-      :javascript
-        mailto.ninja({ showOnMobile: true })
 
 
