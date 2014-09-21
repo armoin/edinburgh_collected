@@ -1,13 +1,13 @@
 .container
   .col-xs-12
+    %h2.form-title Edit details
+
     =simple_form_for @memory,
       as: 'memory',
       url: my_memory_url(@memory.id),
       wrapper: :horizontal_form,
       method: :put,
       html: {id: "edit-memory", class: "form-horizontal", role: "form"} do |form|
-
-      %h2 Edit details
 
       = form.error_notification
 

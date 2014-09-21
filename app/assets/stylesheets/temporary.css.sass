@@ -130,9 +130,14 @@ a.memory
     img
       max-width: 100%
 
-form
+.row
+  text-align: center
+
+form, .form-title
   max-width: 750px
-  margin: 0 auto
+  margin: 0 auto 10px
+
+form
   background-color: white
   padding: 1em
 
@@ -143,9 +148,15 @@ form
   label
     min-width: 230px
 
-  label.collection_radio_buttons
-    min-width: 10px
-    margin: 0.4em 0.6em
+    &.control-label
+      padding-right: 5px
+
+    &.collection_radio_buttons
+      min-width: 10px
+      margin: 0.4em 0.6em
+
+    &.checkbox
+      margin-left: 1.3em
 
   .actions
     padding-right: 15px
@@ -158,9 +169,6 @@ form
     color: white
     padding: 2px
     background-color: red
-
-  label.checkbox
-    margin-left: 1.3em
 
   #image-editor-wrapper
     display: none

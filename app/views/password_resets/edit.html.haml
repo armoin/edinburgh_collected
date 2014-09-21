@@ -1,6 +1,6 @@
 .container
   .col-xs-12
-    %h1 Choose a new password
+    %h1.form-title Choose a new password
 
     = simple_form_for @user,
       url: password_reset_path(@token),
