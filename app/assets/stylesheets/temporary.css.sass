@@ -1,22 +1,36 @@
 @import "bourbon"
 
+
+$navy-blue:     #2e3863
+$cream:         #eeece7
+$red:           #be2b09
+
+
+=border-radius($radius)
+  -webkit-border-radius: $radius
+  -moz-border-radius:    $radius
+  -ms-border-radius:     $radius
+  border-radius:         $radius
+
+/* ==================================== BASICS */
+
 html, body
   overflow-x: hidden
-  background-color: #ccc
-
-.override .mailto.ninja
-  // put any override styles in here
-
-.beta
-  font-size: smaller
-  margin: 0 3px
-
-a.feedback
-  float: right
-  margin-top: 8px
+  background-color: $navy-blue
 
 body
-  padding-top: 70px
+  padding-top: 50px
+  background-image: url(paper-background-texture.png)
+
+
+/* ==================================== LAYOUT */
+
+a
+  color: $navy-blue
+
+.background
+  background-image: url(background-ph.png)
+  background-repeat: no-repeat
 
 footer
   padding: 10px 0
@@ -58,17 +72,60 @@ footer
       &:hover
         color: lighten(green, 20)
 
-li.greeting
-  padding-top: 15px
-  color: white
+.row
+  text-align: center
 
-.navbar-inverse .navbar-nav > li.greeting > a
-  margin: 0
-  padding: 0
-  color: white
+.searchwrapper
+  background: #434b6e
+  position: relative
 
-  &:hover
-    color: #777777
+  a
+    color: #ffffff
+
+    &:hover
+      text-decoration: none
+
+  .dropdowns
+    position: absolute
+
+    .fauxselect
+      float: left
+      list-style: none
+      margin: 1em 1em 0 0
+      padding: 0
+      background: $cream
+      +border-radius(3px)
+      padding: 5px
+
+      .ddTitle
+        font-weight: bold
+        &:hover
+          color: $navy-blue
+
+      a
+        color: $navy-blue
+        display: block
+        &:hover
+          color: $red
+
+      ul
+        padding: 0
+        list-style: none
+        display: none
+
+    .area, .category
+      &:hover
+        cursor: pointer
+
+        ul
+          display: block
+
+  .searchForm
+
+    float: right
+
+    form
+      background: none
 
 ul.nav.nav-pills
   display: inline-block
@@ -88,36 +145,15 @@ ul.nav.nav-pills
 button#create-scrapbook-button
   margin-bottom: 10px
 
-.user-card
-  .details
-    background: white
-    padding-bottom: 1em
-
-  .actions
-    a
-      float: right
-      margin: 10px 0
-
 .photo
   padding: 0
 
-a.rotate
-  text-decoration: none
 
-  &#rotate-left:hover
-    @include transform(rotate(-30deg))
-    @include transition(all 0.5s)
+/* ==================================== HOME PAGE */
 
-  &#rotate-right:hover
-    @include transform(rotate(30deg))
-    @include transition(all 0.5s)
 
-/* ==================================== LAYOUT */
 
-.container img
-  max-width: 100%
-  height: auto
-
+/* ==================================== MEMORIES */
 
 a#add-memory
   width: 150px
@@ -211,6 +247,23 @@ a.memory, a.scrapbook
 .row
   text-align: center
 
+/* ==================================== PROFILE */
+
+
+
+/* ==================================== FORMS */
+
+a.rotate
+  text-decoration: none
+
+  &#rotate-left:hover
+    @include transform(rotate(-30deg))
+    @include transition(all 0.5s)
+
+  &#rotate-right:hover
+    @include transform(rotate(30deg))
+    @include transition(all 0.5s)
+
 form, .form-title
   max-width: 750px
   margin: 0 auto 10px
@@ -272,11 +325,40 @@ form
     label
       min-width: 180px
 
+/* ==================================== MESSAGES */
+
+li.greeting
+  padding-top: 15px
+  color: white
+
+.navbar-inverse .navbar-nav > li.greeting > a
+  margin: 0
+  padding: 0
+  color: white
+
+  &:hover
+    color: #777777
+
+
+/* ==================================== MISC */
+
+.container img
+  max-width: 100%
+  height: auto
+
+.override .mailto.ninja
+  // put any override styles in here
+
+/* hides and disables the element */
+.hide
+  display: none
+
 /* hides the element without disabling it */
 .hide-whilst-enabled
   width: 0
   height: 0
   overflow: hidden
+
 
 
 /* ==================================== ADMIN */
@@ -367,6 +449,32 @@ ul.admin-toolbar
         border: 1px solid #ccc
         border-bottom: -1px
         color: #ccc
+
+
+
+/* ==================================== BETA */
+
+.beta
+  font-size: smaller
+  margin: 0 3px
+
+a.feedback
+  float: right
+  margin-top: 8px
+
+
+
+.user-card
+  .details
+    background: white
+    padding-bottom: 1em
+
+  .actions
+    a
+      float: right
+      margin: 10px 0
+
+
 
 /* ==================================== STYLEGUIDE */
 
