@@ -1,9 +1,0 @@
-.container-fluid
-  .row
-    .memories
-      - @memories.each do |memory|
-        %a.memory.thumb(data-id="#{memory.id}" href="#{memory_url(memory.id)}" title="View details" role="button")
-          %div.img
-            %img{src: cache_busted_url(memory, :thumb), alt: memory.title}
-          %div.footer
-            %p.title= memory.title

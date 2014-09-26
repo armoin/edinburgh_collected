@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="col-xs-12">
+    <%= simple_form_for @memory,
+      as: :memory,
+      url: my_memories_url,
+      wrapper: :horizontal_form,
+      wrapper_mappings: { file: :horizontal_file_input },
+      html: {id: "add-memory", class: "form-horizontal", role: "form"} do |form| %>
+
+      <%= form.error_notification %>
+
+      <%= form.input :type, as: :select, collection: Memory.file_types, required: true, input_html: {class: 'form-control'} %>
+
+      <%= form.input :source, as: :file %>
+      <%-# %a#select-file.btn.btn-primary Select file %>
+      <%= render partial: 'image_editor', locals: {form: form} %>
+
+      <%= render partial: 'details_form', object: @memory, locals: {form: form} %>
+
+      <div class="form-group">
+        <div class="actions col-xs-sm-12">
+          <%= link_to "Cancel", my_memories_path, class: "btn btn-default" %>
+          <%= form.button :submit, "Save And Add Another", class: "btn btn-primary", disabled: true %>
+          <%= form.button :submit, "Save", class: "btn btn-primary", disabled: true %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    new Validator($('#add-memory')).validate();
+    fileInputEl = $('#memory_source')[0]
+    editorEl    = $('#image-editor')[0]
+    rotationEl  = $('#memory_rotation')[0]
+    new UploadedImageEditor(fileInputEl, editorEl, rotationEl);
+  });
+</script>

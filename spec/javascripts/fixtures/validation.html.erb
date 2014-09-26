@@ -1,0 +1,44 @@
+<form>
+  <div class="form-group required">
+    <label>Text Test</label>
+    <input class="form-control" type="text" value="Filled in" />
+  </div>
+  <div class="form-group required">
+    <label>Date Test</label>
+    <input class="form-control" type="date" value="2014-05-04" />
+  </div>
+  <div class="form-group required">
+    <label>Select Test</label>
+    <select class="form-control">
+      <option></option>
+      <option selected>Hello</option>
+      <option>World</option>
+    </select>
+  </div>
+  <div class="form-group required">
+    <label>Textarea Test</label>
+    <textarea class="form-control">I am filled in</textarea>
+  </div>
+  <div class="form-group check_boxes required">
+    <label class="check_boxes required control-label">
+      <abbr title="required"> *</abbr>
+      Categories
+    </label>
+    <label class="checkbox">
+      <input class="check_boxes required" id="memory_category_ids_1" name="memory[category_ids][]" type="checkbox" value="1" checked="checked" />
+      Animals
+    <label class="checkbox">
+      <input class="check_boxes required" id="memory_category_ids_2" name="memory[category_ids][]" type="checkbox" value="2" />
+      Architecture
+    <input name="memory[category_ids][]" type="hidden" value="" />
+  </div>
+  <div class="form-group">
+    <label>Not Required Test</label>
+    <input class="form-control" type="text" />
+  </div>
+  <div class="form-group">
+    <input type="submit" disabled />
+  </div>
+</div>
+
+  

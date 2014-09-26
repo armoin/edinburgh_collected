@@ -1,0 +1,36 @@
+<div class="memory full">
+  <h1 class="title"><%= @memory.title %></h1>
+  <h2 class="sub"><%= sub_text(@memory) %></h2>
+
+  <div class="photo col-sm-6">
+    <img src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
+
+    <p><%= @memory.description %></p>
+    <p><%= @memory.attribution %></p>
+
+  </div>
+
+  <div class="col-sm-6">
+
+    <div class="memory-meta">
+
+      <p class="views">This photo has been viewed XX times</p>
+      <p class="saved">This photo has been saved to XX scrapbooks</p>
+
+      <%= link_to "Add to scrapbook +", '#', class: "btn btn-default not-implemented" %>
+      <%= link_to "Share this photo", '#', class: "btn btn-default not-implemented" %>
+
+
+      <h3>Categories</h3>
+      <p><%= @memory.category_list %></p>
+
+      <h3>Tags</h3>
+
+      <ul>
+        <% @memory.tags.each do |tag| %>
+          <li><%= tag.name %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="col-xs-12">
+    <h1 class="form-title">Reset Password</h1>
+
+    <%= form_tag password_resets_path, class: 'form-horizontal', role: 'form' do %>
+      <div class="form-group">
+        <div class="col-xs-12 col-sm-4">
+          <%= label_tag :email %>
+        </div>
+        <div class="col-xs-12 col-sm-8">
+          <%= email_field_tag :email, nil, class: 'form-control' %>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="actions col-xs-sm-12">
+          <%= link_to "Cancel", login_path, class: "btn btn-default" %>
+          <%= submit_tag "Reset Password", class: "btn btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

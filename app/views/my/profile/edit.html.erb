@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="col-xs-12">
+    <h2 class="form-title">Change details</h2>
+
+    <%= simple_form_for @user,
+      url: my_profile_path,
+      wrapper: :horizontal_form,
+      html: {method: :put, class: 'form-horizontal', role: 'form'} do |form| %>
+
+      <%= form.error_notification %>
+
+      <%= form.input :first_name, label: user_name_label(@user), input_html: {class: 'form-control'} %>
+      <% unless @user.is_group? %>
+        <%= form.input :last_name, input_html: {class: 'form-control'} %>
+      <% end %>
+
+      <%= form.input :screen_name, input_html: {class: 'form-control'} %>
+      <%= form.input :email, input_html: {class: 'form-control'} %>
+
+      <div class="form-group">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-8">
+          <p class="info">
+            If you want to change your password, please fill in the fields below,
+            otherwise just leave them blank.
+          </p>
+        </div>
+      </div>
+
+      <%= form.input :password, required: true, input_html: {class: 'form-control', value: ''} %>
+      <%= form.input :password_confirmation, input_html: {class: 'form-control', value: ''} %>
+
+      <div class="form-group">
+        <div class="actions col-xs-sm-12">
+          <%= link_to "Cancel", my_profile_path(@user), class: "btn btn-default" %>
+          <%= form.submit "Save Changes", class: "btn btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

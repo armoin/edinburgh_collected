@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="row">
+    <div class="memories">
+      <% @memories.each do |memory| %>
+        <a class="memory thumb" data-id="<%= memory.id %>" href="<%= memory_url(memory.id) %>" title="View details" role="button">
+          <div class="img">
+            <%= image_tag cache_busted_url(memory, :thumb), alt: memory.title %>
+          </div>
+          <div class="footer">
+            <p class="title"><%= memory.title %></p>
+          </div>
+        </a>
+      <% end %>
+    </div>
+  </div>
+</div>

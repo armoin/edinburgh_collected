@@ -1,0 +1,37 @@
+<div class="container">
+  <div class="col-xs-12">
+    <h2 class="form-title">Edit details</h2>
+
+    <%= simple_form_for @memory,
+      as: 'memory',
+      url: my_memory_url(@memory.id),
+      wrapper: :horizontal_form,
+      method: :put,
+      html: {id: "edit-memory", class: "form-horizontal", role: "form"} do |form| %>
+
+      <%= form.error_notification %>
+
+      <img class="hide" id='memory_source' src="<%= cache_busted_url(@memory)" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
+      <%= render partial: 'image_editor', locals: {form: form} %>
+
+      <%= render partial: 'details_form', object: @memory, locals: { form: form } %>
+
+      <div class="form-group">
+        <div class="actions col-xs-sm-12">
+          <%= link_to "Cancel", my_memories_path, class: "btn btn-default" %>
+          <%= form.submit "Save", class: "btn btn-primary", disabled: true %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    new Validator($('#edit-memory')).validate()
+    src        = $('#memory_source').attr('src')
+    editorEl   = $('#image-editor')[0]
+    rotationEl = $('#memory_rotation')[0]
+    new ImageEditor(editorEl, src, rotationEl)
+  });
+</script>

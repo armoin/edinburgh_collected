@@ -4,7 +4,6 @@ ruby '2.1.2'
 
 gem 'rails', '~> 4.1.2'
 
-gem 'haml-rails',                   '~> 0.5.3'
 gem 'bootstrap-sass',               '~> 3.2.0'
 gem 'sass-rails',                   '~> 4.0.3'
 gem 'bourbon'

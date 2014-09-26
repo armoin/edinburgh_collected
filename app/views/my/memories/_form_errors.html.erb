@@ -1,0 +1,10 @@
+<% if @memory.errors.any? %>
+  <div id="error_explanation">
+    <h2>Please correct the following ...</h2>
+    <ul>
+      <% @memory.errors.messages.values.each do |msg| %>
+        <li><%= msg.join(', ') %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

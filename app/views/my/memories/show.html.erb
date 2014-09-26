@@ -1,0 +1,10 @@
+<div class="container outerpage">
+  <%= link_to "Back", my_memories_url %>
+
+  <% if belongs_to_user?(@memory) %>
+    <%= link_to "Edit", edit_my_memory_url(@memory.id) %>
+    <%= link_to "Delete", my_memory_url(@memory.id), method: :delete, data: {confirm: 'Are you sure?'} %>
+  <% end %>
+
+  <%= render 'memories/memory', object: @memory %>
+</div>
