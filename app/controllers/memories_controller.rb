@@ -3,11 +3,11 @@ class MemoriesController < ApplicationController
 
   def index
     @memories = Memory.all
-    respond_with(@memories)
+    respond_with @memories
   end
 
   def show
     @memory = Memory.find(params[:id])
-    respond_with(@memory)
+    respond_with @memory
   end
 end

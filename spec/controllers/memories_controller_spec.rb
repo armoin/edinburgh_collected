@@ -1,8 +1,10 @@
 require 'rails_helper'
 
 describe MemoriesController do
+  let(:user)     { Fabricate.build(:user) }
+
   describe 'GET index' do
-    let(:memories) { [Memory.new, Memory.new] }
+    let(:memories) { Fabricate.times(2, :photo_memory, user: user) }
 
     before(:each) do
       allow(Memory).to receive(:all).and_return(memories)
@@ -33,16 +35,15 @@ describe MemoriesController do
         expect(response.status).to eql(200)
       end
 
-      it "provides the expected JSON" do
-        expected_json = memories.to_json
+      it "provides JSON" do
         get :index, format: :json
-        expect(response.body).to eql(expected_json)
+        expect(response.content_type).to eql('application/json')
       end
     end
   end
 
   describe 'GET show' do
-    let(:memory) { Memory.new }
+    let(:memory) { Fabricate.build(:photo_memory, user: user) }
     let(:format) { :html }
 
     before :each do
@@ -73,8 +74,8 @@ describe MemoriesController do
       context "when requesting JSON" do
         let(:format) { :json }
 
-        it "provides the expected JSON" do
-          expect(response.body).to eql(memory.to_json)
+        it "provides JSON" do
+          expect(response.content_type).to eql('application/json')
         end
       end
     end
