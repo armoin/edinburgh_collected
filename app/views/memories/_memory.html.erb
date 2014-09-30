@@ -1,46 +1,56 @@
 <div class="memory full">
-  <h1 class="title"><%= @memory.title %></h1>
-  <h2 class="sub"><%= sub_text(@memory) %></h2>
+  <header>
+    <a href="#" class="userAvatar"><img src="http://placehold.it/72x72" alt="username" /></a>
+    <h1 class="title"><%= @memory.title %></h1>
+    <p class="sub"><%= sub_text(@memory) %></p>
+  </header>
+  <div class="clearfix">
+    <div class="photo col-sm-8">
+      <img src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
 
-  <div class="photo col-sm-6">
-    <img src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
+      <p><%= @memory.description %></p>
+      <p><%= @memory.attribution %></p>
+    </div>
 
-    <p><%= @memory.description %></p>
-    <p><%= @memory.attribution %></p>
-  </div>
+    <div class="col-sm-4">
 
-  <div class="col-sm-6">
+      <div class="memory-meta">
 
-    <div class="memory-meta">
+        <p class="views">This has been viewed <strong>XX</strong> times</p>
+        <p class="saved">This has been saved to <strong>XX</strong> scrapbooks</p>
 
-      <p class="views">This photo has been viewed XX times</p>
-      <p class="saved">This photo has been saved to XX scrapbooks</p>
+        <span class="buttons">
+          <% if logged_in? %>
+            <%= link_to "Add to scrapbook +", '#', class: "btn btn-default", data: {toggle: 'modal', target: '#add-to-scrapbook-modal'} %>
+          <% else %>
+            <br />
+            <div>
+              <p>If you would like to add this to a Scrapbook, please</p>
+              <%= link_to 'Sign Up', signup_path, class: 'btn btn-primary' %>
+              or
+              <%= link_to 'Sign In', signin_path, class: 'btn btn-primary' %>
+            </div>
+            <br />
+          <% end %>
+          <%= link_to "Share this photo", '#', class: "btn btn-default not-implemented" %>
+          <% if belongs_to_user?(@memory) %>
+            <%= link_to "Edit this memory", edit_my_memory_url(@memory.id), :class => "btn btn-default" %>
+            <%= link_to "Delete this memory",  my_memory_url(@memory.id), method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-danger"%>
+          <% end %>
+        </span>
 
-      <% if logged_in? %>
-        <%= link_to "Add to scrapbook +", '#', class: "btn btn-default", data: {toggle: 'modal', target: '#add-to-scrapbook-modal'} %>
-      <% else %>
-        <br />
-        <div>
-          <p>If you would like to add this to a Scrapbook, please</p>
-          <%= link_to 'Sign Up', signup_path, class: 'btn btn-primary' %>
-          or
-          <%= link_to 'Sign In', signin_path, class: 'btn btn-primary' %>
-        </div>
-        <br />
-      <% end %>
-      <%= link_to "Share this photo", '#', class: "btn btn-default not-implemented" %>
 
+        <h3>Categories</h3>
+        <p><%= @memory.category_list %></p>
 
-      <h3>Categories</h3>
-      <p><%= @memory.category_list %></p>
+        <h3>Tags</h3>
 
-      <h3>Tags</h3>
-
-      <ul>
-        <% @memory.tags.each do |tag| %>
-          <li><%= tag.name %></li>
-        <% end %>
-      </ul>
+        <ul>
+          <% @memory.tags.each do |tag| %>
+            <li><%= tag.name %></li>
+          <% end %>
+        </ul>
+      </div>
     </div>
   </div>
 </div>

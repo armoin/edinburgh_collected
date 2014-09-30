@@ -20,4 +20,5 @@
 //= require jquery.placeholder
 //= require jquery-ui.min
 //= require masonry.pkgd.min
+//= require masonry-activate
 //= require_tree .

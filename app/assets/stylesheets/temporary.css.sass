@@ -27,9 +27,9 @@ html, body
   background-color: $navy-blue
   font-family: 'Open Sans', sans-serif
   font-size: 16px
+  color: $navy-blue
 
 body
-  padding-top: 50px
   background-image: url(paper-background-texture.png)
 
 
@@ -42,8 +42,26 @@ h1, h2, h3
   font-family: 'Open Sans', sans-serif
   font-weight: 600
 
+.back_button
+  color: $cream
+  margin: 1em 0
+  display: block
+  font-weight: 300
 
-/* ==================================== LAYOUT */
+  &:before
+    content: "< "
+
+  &:hover
+    color: $red
+
+/* ==================================== HEADER */
+
+.navbar
+  margin-bottom: 0
+
+  ul.nav
+    float: right
+
 
 .module
   background-color: $module
@@ -113,6 +131,7 @@ footer
 
   .dropdowns
     position: absolute
+    z-index: 500
 
     .fauxselect
       float: left
@@ -188,6 +207,40 @@ button#create-scrapbook-button
 
 /* ==================================== MEMORIES */
 
+.memory.full
+
+  header
+    color: $cream
+    margin-bottom: 1em
+
+    .userAvatar
+      float: left
+      margin-right: 1em
+
+  .photo
+    margin-bottom: 1em
+
+    img
+      margin-bottom: 1em
+
+  .memory-meta
+    margin-top: 8em
+    background-color: $navy-blue
+    color: $cream
+    padding: 1em
+
+    p.saved, p.views
+      text-align: center
+
+    .buttons
+      text-align: center
+      display: block
+
+      a
+        margin: 0.25em
+        display: inline-block
+
+
 a#add-memory
   width: 150px
   margin-bottom: 10px
@@ -208,11 +261,6 @@ a.memory, a.scrapbook
 
   &.thumb
     text-align: center
-    margin: 10px
-    background-color: white
-    padding: 10px
-    display: inline-block
-    width: 220px
 
     div
       &.img, &.button
@@ -492,9 +540,19 @@ ul.admin-toolbar
   margin: 0 3px
 
 a.feedback
-  float: right
-  margin-top: 8px
+  padding: 1em 2em 0.5em 2em
+  color: #fff
+  background-color: #5cb85c
+  border-color: #fff
+  text-transform: uppercase
+  z-index: 1000
+  position: fixed
+  right: 0px
+  bottom: 0
 
+  &:hover
+    text-decoration: none
+    background: #4cae4c
 
 
 .user-card
@@ -606,3 +664,64 @@ body.styleguide
         width: 100%
         margin: 10px 0
 
+
+
+
+/* Grid */
+
+#posts
+  margin: 30px auto 0
+
+  .post
+    margin: 0 0 50px
+    text-align: center
+    width: 100%
+
+  .post img
+    padding: 0 15px
+    width: 100%
+
+#grid.container
+  .post img
+    padding: 0
+
+
+/* Medium devices */
+
+@media (min-width: 768px)
+  #grid > #posts .post
+    width: 335px
+
+  .post img
+    padding: 0
+
+
+
+/* Medium devices */
+
+@media (min-width: 992px)
+  #grid > #posts .post
+    width: 445px
+
+
+
+/* Large devices */
+
+@media (min-width: 1200px)
+
+  #grid > #posts .post
+    width: 346px
+
+
+
+/* Large devices min-width (1200px) + a .post margin (50px) * 2 (100px) = 1300px */
+
+
+@media (min-width: 1300px)
+  #grid
+    position: relative
+
+  #grid.container
+    left: auto
+    padding-left: 15px
+    padding-right: 15px
