@@ -4,6 +4,7 @@
 $navy-blue:     #2e3863
 $cream:         #eeece7
 $red:           #be2b09
+$module:        #f0efea
 
 
 =border-radius($radius)
@@ -12,21 +13,44 @@ $red:           #be2b09
   -ms-border-radius:     $radius
   border-radius:         $radius
 
+=box-shadow($top, $left, $blur, $color, $inset:"")
+  -webkit-box-shadow:    $top $left $blur $color #{$inset}
+  -moz-box-shadow:       $top $left $blur $color #{$inset}
+  box-shadow:            $top $left $blur $color #{$inset}
+
+
+
 /* ==================================== BASICS */
 
 html, body
   overflow-x: hidden
   background-color: $navy-blue
+  font-family: 'Open Sans', sans-serif
+  font-size: 16px
 
 body
   padding-top: 50px
   background-image: url(paper-background-texture.png)
 
 
-/* ==================================== LAYOUT */
+/* ==================================== TYPOGRAPHY */
 
 a
   color: $navy-blue
+
+h1, h2, h3
+  font-family: 'Open Sans', sans-serif
+  font-weight: 600
+
+
+/* ==================================== LAYOUT */
+
+.module
+  background-color: $module
+  padding: 1em
+  border: 1px solid #d5d0b7
+  +border-radius(3px)
+  +box-shadow(0, 1px, 1px, rgba(0, 0, 0, 0.5))
 
 .background
   background-image: url(background-ph.png)
@@ -35,6 +59,8 @@ a
 footer
   padding: 10px 0
   text-align: center
+  background: $navy-blue
+  color: $cream
 
 .error-message
   border: 1px solid #a94442
@@ -148,9 +174,16 @@ button#create-scrapbook-button
 .photo
   padding: 0
 
-
 /* ==================================== HOME PAGE */
 
+#homeContent
+  h1
+    color: $cream
+    text-align: center
+    padding: 0 0 0.5em 0
+
+  #contentModules
+    padding: 1em 0
 
 
 /* ==================================== MEMORIES */
