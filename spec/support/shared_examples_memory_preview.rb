@@ -1,12 +1,18 @@
 RSpec.shared_examples 'a memory preview' do
   let(:memory_class) { find('.memory') }
 
+  it "shows the user's avatar photo" do
+    img = memory_class.find('.userAvatar img')
+    expect(img['src']).to have_content("http://placehold.it/72x72")
+    expect(img['alt']).to have_content("username")
+  end
+
   it 'has a title' do
     expect(memory_class.find('.title')).to have_text("A test")
   end
 
   it 'has an image' do
-    img = memory_class.find('img')
+    img = memory_class.find('.photo img')
     expect(img['src']).to have_content("test.jpg")
     expect(img['alt']).to have_content("A test")
   end
