@@ -63,15 +63,6 @@
       </div>
     </div>
 
-    <div class="flashes">
-      <% flash.each do |class_name, message| %>
-        <div class="<%= class_name %>">
-          <%= message %>
-          <span class="close">&times;</span>
-        </div>
-      <% end %>
-    </div>
-
     <div class="searchwrapper not-implemented">
       <div class="container clearfix">
         <div class="dropdowns col-sm-6">
@@ -119,6 +110,15 @@
           </form>
         </div>
       </div>
+    </div>
+
+    <div class="flashes">
+      <% flash.each do |class_name, message| %>
+        <div class="<%= class_name %>">
+          <%= message %>
+          <span class="close">&times;</span>
+        </div>
+      <% end %>
     </div>
 
     <div class="background">
