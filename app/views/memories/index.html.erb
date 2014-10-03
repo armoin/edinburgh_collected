@@ -1,10 +1,10 @@
 <div class="container">
-  <div class="row">
+  <div id="grid" class="row">
     <ul class="nav nav-pills">
       <li class="active"><%= link_to 'Memories', memories_path %></li>
       <li><%= link_to 'Scrapbooks', scrapbooks_path %></li>
     </ul>
-    <div class="memories">
+    <div id="memories">
       <% @memories.each do |memory| %>
         <%= render partial: 'memories/memory_thumb', locals: {memory: memory, link_path: memory_path(memory.id)} %>
       <% end %>

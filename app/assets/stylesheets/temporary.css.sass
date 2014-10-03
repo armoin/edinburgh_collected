@@ -62,6 +62,11 @@ h1, h2, h3
   ul.nav
     float: right
 
+    li
+      a
+        &:hover
+          background-color: transparent
+
 
 .module
   background-color: $module
@@ -71,7 +76,7 @@ h1, h2, h3
   +box-shadow(0, 1px, 1px, rgba(0, 0, 0, 0.5))
 
 .background
-  background-image: url(image_url('background-ph.png'))
+  background-image: url(image_path('background-ph.png'))
   background-repeat: no-repeat
 
 footer
@@ -132,6 +137,7 @@ footer
   .dropdowns
     display: inline-block
     z-index: 500
+    padding: 0
 
     .fauxselect
       float: left
@@ -166,6 +172,7 @@ footer
           display: block
 
   .searchForm
+    padding: 0
 
     float: right
     text-align: right
@@ -278,8 +285,10 @@ a.memory, a.scrapbook
       &.img
         background-color: black
         img
+          +border-radius(3px)
           vertical-align: middle
-          max-width: 200px
+          padding: 5px
+          background: ivory
 
       &.button
         span.glyphicon.glyphicon-plus
