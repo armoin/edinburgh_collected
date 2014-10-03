@@ -1,4 +1,4 @@
-<div class="container">
+<div id="signUp" class="container">
   <div class="col-xs-12">
     <h1 class="form-title">Sign Up</h1>
 
@@ -27,12 +27,12 @@
 
       <div class="form-group">
         <div class="actions col-xs-sm-12">
-          <%= link_to "Cancel", root_path, class: "btn btn-default" %>
           <%= form.submit "Sign Up", class: "btn btn-primary" %>
         </div>
       </div>
     <% end %>
   </div>
+  <p class="switch"><a href="/signup">Already have an account? Sign in now</a></p>
 </div>
 
 <script type="text/javascript">
