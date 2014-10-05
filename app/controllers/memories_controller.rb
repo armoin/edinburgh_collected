@@ -1,5 +1,5 @@
 class MemoriesController < ApplicationController
-  respond_to :html, :json
+  respond_to :html, :json, :geojson
 
   def index
     @memories = Memory.all
