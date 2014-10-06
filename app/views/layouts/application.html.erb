@@ -40,14 +40,14 @@
                 <%= link_to 'My Profile', my_profile_path %>
               </li>
               <li>
-                <%= link_to 'Sign Out', logout_path, method: :delete %>
+                <%= link_to 'Sign Out', signout_path, method: :delete %>
               </li>
             <% else %>
               <li class="<%= active_if_controller_path('users') %>">
                 <%= link_to 'Sign Up', signup_path %>
               </li>
               <li class="<%= active_if_controller_path('sessions') %>">
-                <%= link_to 'Sign In', login_path %>
+                <%= link_to 'Sign In', signin_path %>
               </li>
             <% end %>
           </ul>

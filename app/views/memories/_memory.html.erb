@@ -43,16 +43,16 @@
         </div>
         <div class="modal-body">
           <h4>Select scrapbook</h4>
-          <div class="scrapbooks">
-            <%- if current_user %>
-              <%- current_user.scrapbooks.sort{|a,b| b.updated_at<=>a.updated_at}.each do |scrapbook| %>
+          <div class="scrapbooks select">
+            <% if current_user %>
+              <% current_user.scrapbooks.sort{|a,b| b.updated_at<=>a.updated_at}.each do |scrapbook| %>
                 <div class="scrapbook" data-id="<%= scrapbook.id %>">
                   <div class="picture">
-                    <%- if scrapbook.memories.count == 0 %>
+                    <% if scrapbook.memories.count == 0 %>
                       <p>&nbsp;</p>
-                    <%- else %>
+                    <% else %>
                       <%= image_tag cache_busted_url(scrapbook.memories.first, :thumb) %>
-                    <%- end %>
+                    <% end %>
                   </div>
                   <div class="details">
                     <div class="title"><%= scrapbook.title %></div>
@@ -60,8 +60,8 @@
                     <div class="updates">Updated <%= scrapbook.updated_at %></div>
                   </div>
                 </div>
-              <%- end %>
-            <%- end %>
+              <% end %>
+            <% end %>
           </div>
           or
           <button id="create-scrapbook" class="btn btn-primary" data-toggle="modal" data-target="#create-scrapbook-modal">
@@ -72,6 +72,7 @@
           <%= form_tag my_scrapbook_memories_path, remote: true, id: 'add-to-scrapbook', class: 'minimal' do %>
             <%= hidden_field_tag "scrapbook_memory[scrapbook_id]" %>
             <%= hidden_field_tag "scrapbook_memory[memory_id]", @memory.id %>
+          <% end %>
           <button class="cancel btn btn-default" data-dismiss="modal">Cancel</button>
           <button class="save btn btn-primary">Add to scrapbook</button>
         </div>
