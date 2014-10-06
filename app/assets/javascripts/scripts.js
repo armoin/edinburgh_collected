@@ -1,8 +1,6 @@
 // Load is used to ensure all images have been loaded, impossible with document
 
-jQuery(window).load(function () {
-
-
+var masonryIt = function () {
 
 	// Takes the gutter width from the bottom margin of .memory
 
@@ -31,25 +29,26 @@ jQuery(window).load(function () {
 
 			// Resets all widths to 'auto' to sterilize calculations
 
-			memory_width = jQuery('.memory').width() + gutter;
+			post_width = jQuery('.memory').width() + gutter;
 			jQuery('#memories, body > #grid').css('width', 'auto');
 
 
 
 			// Calculates how many .memory elements will actually fit per row. Could this code be cleaner?
 
-			memories_per_row = jQuery('#memories').innerWidth() / memory_width;
-			floor_memories_width = (Math.floor(memories_per_row) * memory_width) - gutter;
-			ceil_memories_width = (Math.ceil(memories_per_row) * memory_width) - gutter;
-			memories_width = (ceil_memories_width > jQuery('#memories').innerWidth()) ? floor_memories_width : ceil_memories_width;
-			if (memories_width == jQuery('.memory').width()) {
-				memories_width = '100%';
+			posts_per_row = jQuery('#memories').innerWidth() / post_width;
+			floor_posts_width = (Math.floor(posts_per_row) * post_width) - gutter;
+			ceil_posts_width = (Math.ceil(posts_per_row) * post_width) - gutter;
+			posts_width = (ceil_posts_width > jQuery('#memories').innerWidth()) ? floor_posts_width : ceil_posts_width;
+			if (posts_width == jQuery('.memory').width()) {
+				posts_width = '100%';
 			}
 
 
 
 			// Ensures that all top-level elements have equal width and stay centered
 
+			jQuery('#memories, #grid').css('width', posts_width);
 			jQuery('#grid').css({'margin': '0 auto'});
 
 
@@ -59,4 +58,7 @@ jQuery(window).load(function () {
 
 
 
-});
+};
+
+jQuery(window).on('load', masonryIt);
+jQuery(window).on('page:load', masonryIt);

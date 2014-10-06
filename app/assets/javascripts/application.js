@@ -19,6 +19,6 @@
 //= require exif
 //= require jquery.placeholder
 //= require jquery-ui.min
+//= require imagesloaded.pkgd.min
 //= require masonry.pkgd.min
-//= require masonry-activate
 //= require_tree .
