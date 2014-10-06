@@ -11,7 +11,7 @@
 
       <%= form.error_notification %>
 
-      <img class="hide" id='memory_source' src="<%= cache_busted_url(@memory)" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
+      <img class="hide" id='memory_source' src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
       <%= render partial: 'image_editor', locals: {form: form} %>
 
       <%= render partial: 'details_form', object: @memory, locals: { form: form } %>
