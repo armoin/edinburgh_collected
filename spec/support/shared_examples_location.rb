@@ -201,5 +201,36 @@ RSpec.shared_examples 'locatable' do
       end
     end
   end
+
+  describe "has_coords?" do
+    before :each do
+      # coords fall through to area if blank
+      memory.area = nil
+    end
+
+    it "is false if the model has no latitude or longitdude" do
+      memory.longitude = nil
+      memory.latitude = nil
+      expect(memory).not_to have_coords
+    end
+
+    it "is false if the model has no latitude" do
+      memory.longitude = 123.0
+      memory.latitude = nil
+      expect(memory).not_to have_coords
+    end
+
+    it "is false if the model has no longitude" do
+      memory.longitude = nil
+      memory.latitude = 3.21
+      expect(memory).not_to have_coords
+    end
+
+    it "is true if the model has both latitude and longitdude" do
+      memory.longitude = 123.0
+      memory.latitude = 3.21
+      expect(memory).to have_coords
+    end
+  end
 end
 

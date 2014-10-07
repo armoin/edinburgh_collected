@@ -1,36 +1,66 @@
 require 'rails_helper'
 
 describe MemoriesController do
+  let(:user)     { Fabricate.build(:user) }
+
   describe 'GET index' do
-    let(:expected) { [Memory.new, Memory.new] }
+    let(:memories) { Fabricate.times(2, :photo_memory, user: user) }
+    let(:format)   { :html }
 
     before(:each) do
-      allow(Memory).to receive(:all).and_return(expected)
-    end
-
-    it "is successful" do
-      get :index
-      expect(response).to be_success
-      expect(response.status).to eql(200)
-    end
-
-    it "renders the index page" do
-      get :index
-      expect(response).to render_template(:index)
+      allow(Memory).to receive(:all).and_return(memories)
+      get :index, format: format
     end
 
     it "fetches the memories and assigns them" do
-      get :index
-      expect(assigns(:memories)).to eql(expected)
+      expect(assigns(:memories)).to eql(memories)
+    end
+
+    context 'when request is for HTML' do
+      it "is successful" do
+        expect(response).to be_success
+        expect(response.status).to eql(200)
+      end
+
+      it "renders the index page" do
+        expect(response).to render_template(:index)
+      end
+    end
+
+    context 'when request is for JSON' do
+      let(:format) { :json }
+
+      it 'is successful' do
+        expect(response).to be_success
+        expect(response.status).to eql(200)
+      end
+
+      it "provides JSON" do
+        expect(response.content_type).to eql('application/json')
+      end
+    end
+
+    context 'when request is for GeoJSON' do
+      let(:format) { :geojson }
+
+      it 'is successful' do
+        expect(response).to be_success
+        expect(response.status).to eql(200)
+      end
+
+      it "provides GeoJSON" do
+        expect(response.content_type).to eql('text/geojson')
+      end
     end
   end
 
   describe 'GET show' do
-    let(:memory) { Memory.new }
+    let(:memory) { Fabricate.build(:photo_memory, user: user) }
+    let(:format) { :html }
 
     before :each do
       allow(Memory).to receive(:find) { memory }
-      get :show, id: '123'
+      get :show, id: '123', format: format
     end
 
     it "is successful" do
@@ -47,16 +77,60 @@ describe MemoriesController do
         expect(assigns(:memory)).to eql(memory)
       end
 
-      it "renders the show page" do
-        expect(response).to render_template(:show)
+      context "when requesting HTML" do
+        it "renders the show page" do
+          expect(response).to render_template(:show)
+        end
+      end
+
+      context "when requesting JSON" do
+        let(:format) { :json }
+
+        it "provides JSON" do
+          expect(response.content_type).to eql('application/json')
+        end
+      end
+
+      context "when requesting GeoJSON" do
+        let(:format) { :geojson }
+
+        it "provides GeoJSON" do
+          expect(response.content_type).to eql('text/geojson')
+        end
       end
     end
 
     context "fetch is not successful" do
-      it "renders the not found page" do
+      before :each do
         allow(Memory).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-        get :show, id: '123'
-        expect(response).to render_template('exceptions/not_found')
+      end
+
+      context "when requesting HTML" do
+        before :each do
+          get :show, id: '123'
+        end
+
+        it "renders the not found page" do
+          expect(response).to render_template('exceptions/not_found')
+        end
+
+        it "returns an error status" do
+          expect(response.status).to eq(404)
+        end
+      end
+
+      context "when requesting JSON" do
+        it "returns an error status" do
+          get :show, id: '123', format: :json
+          expect(response.status).to eq(404)
+        end
+      end
+
+      context "when requesting GeoJSON" do
+        it "returns an error status" do
+          get :show, id: '123', format: :geojson
+          expect(response.status).to eq(404)
+        end
       end
     end
   end
