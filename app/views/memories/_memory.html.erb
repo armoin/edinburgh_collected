@@ -16,7 +16,18 @@
       <p class="views">This photo has been viewed XX times</p>
       <p class="saved">This photo has been saved to XX scrapbooks</p>
 
-      <%= link_to "Add to scrapbook +", '#', class: "btn btn-default", data: {toggle: 'modal', target: '#add-to-scrapbook-modal'} %>
+      <% if logged_in? %>
+        <%= link_to "Add to scrapbook +", '#', class: "btn btn-default", data: {toggle: 'modal', target: '#add-to-scrapbook-modal'} %>
+      <% else %>
+        <br />
+        <div>
+          <p>If you would like to add this to a Scrapbook, please</p>
+          <%= link_to 'Sign Up', signup_path, class: 'btn btn-primary' %>
+          or
+          <%= link_to 'Sign In', signin_path, class: 'btn btn-primary' %>
+        </div>
+        <br />
+      <% end %>
       <%= link_to "Share this photo", '#', class: "btn btn-default not-implemented" %>
 
 
@@ -34,142 +45,4 @@
   </div>
 </div>
 
-
-<div class="modal fade" id="add-to-scrapbook-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Add <%= @memory.title %> to a scrapbook</h4>
-        </div>
-        <div class="modal-body">
-          <h4>Select scrapbook</h4>
-          <div class="scrapbooks select">
-            <% if current_user %>
-              <% current_user.scrapbooks.sort{|a,b| b.updated_at<=>a.updated_at}.each do |scrapbook| %>
-                <div class="scrapbook" data-id="<%= scrapbook.id %>">
-                  <div class="picture">
-                    <% if scrapbook.memories.count == 0 %>
-                      <p>&nbsp;</p>
-                    <% else %>
-                      <%= image_tag cache_busted_url(scrapbook.memories.first, :thumb) %>
-                    <% end %>
-                  </div>
-                  <div class="details">
-                    <div class="title"><%= scrapbook.title %></div>
-                    <div class="count"><%= scrapbook.memories.count %></div>
-                    <div class="updates">Updated <%= scrapbook.updated_at %></div>
-                  </div>
-                </div>
-              <% end %>
-            <% end %>
-          </div>
-          or
-          <button id="create-scrapbook" class="btn btn-primary" data-toggle="modal" data-target="#create-scrapbook-modal">
-            Create a new scrapbook
-          </button>
-        </div>
-        <div class="modal-footer">
-          <%= form_tag my_scrapbook_memories_path, remote: true, id: 'add-to-scrapbook', class: 'minimal' do %>
-            <%= hidden_field_tag "scrapbook_memory[scrapbook_id]" %>
-            <%= hidden_field_tag "scrapbook_memory[memory_id]", @memory.id %>
-          <% end %>
-          <button class="cancel btn btn-default" data-dismiss="modal">Cancel</button>
-          <button class="save btn btn-primary">Add to scrapbook</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal fade" id="create-scrapbook-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <%= form_for :scrapbook, url: my_scrapbooks_path, remote: true, html: {class: 'form-horizontal', id: 'create-scrapbook'} do |f| %>
-        <div class="modal-header">
-          <h4 class="modal-title">Create a new scrapbook</h4>
-        </div>
-        <div class="modal-body">
-          <div class="form-group">
-            <div class="col-sm-4">
-              <%= f.label :title %>
-            </div>
-            <div class="col-sm-8">
-              <%= f.text_field :title, class: 'form-control' %>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-4">
-              <%= f.label :description %>
-            </div>
-            <div class="col-sm-8">
-              <%= f.text_area :description, class: 'form-control' %>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button id="cancel-create-scrapbook" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button class="save btn btn-primary">Create scrapbook</button>
-        </div>
-      <% end %>
-    </div>
-  </div>
-</div>
-
-<script type="text/javascript">
-  $(document).ready(function () {
-
-    $('#create-scrapbook').on('click', function (e) {
-      e.preventDefault();
-      $('#add-to-scrapbook-modal').modal('hide');
-    });
-
-    $("form#create-scrapbook").on("ajax:success", function (e, data, status, xhr) {
-      var html = '<div class="scrapbook">';
-      html    += '  <div class="picture"><p>&nbsp</p></div>';
-      html    += '  <div class="details">';
-      html    += '    <div class="title"></div>';
-      html    += '    <div class="count">0</div>';
-      html    += '    <div class="updates"></div>';
-      html    += '  </div>';
-      html    += '</div>';
-      var scrapbook = $.parseHTML(html);
-      $(scrapbook).attr('data-id', data.id);
-      $(scrapbook).find('.title').text(data.title);
-      $(scrapbook).find('.updates').text('Updated ' + data.updated_at);
-      $('.scrapbooks').prepend(scrapbook);
-      $('.scrapbooks .scrapbook').first().trigger('click');
-      $('#create-scrapbook-modal').modal('hide');
-      $('#add-to-scrapbook-modal').modal('show');
-    }).on("ajax:error", function (e, data, status, xhr) {
-      console.log("event: ", e);
-      console.log("data: ", data);
-      console.log("status: ", status);
-    });
-
-    $("form#add-to-scrapbook").on("ajax:success", function (e, data, status, xhr) {
-      var html = '<div class="notice">This photo was added to your scrapbook "' + data.title + '" <a class="btn btn-default" href="/my/scrapbooks/' + data.id + '">View your scrapbook</a></div>';
-      $('#add-to-scrapbook-modal').modal('hide');
-      $('.flashes').html(html).show();
-    }).on("ajax:error", function (e, data, status, xhr) {
-      console.log("event: ", e);
-      console.log("data: ", data);
-      console.log("status: ", status);
-    });
-
-    $('#add-to-scrapbook-modal').on('shown.bs.modal', function() {
-      $('.scrapbooks').scrollTop(0);
-    })
-
-    $('#cancel-create-scrapbook').on('click', function (e) {
-      $('#add-to-scrapbook-modal').modal('show');
-    });
-
-    $('.scrapbooks').on('click', '.scrapbook', function (e) {
-      $('.scrapbook').removeClass('selected')
-      $(e.currentTarget).addClass('selected')
-      $('form#add-to-scrapbook #scrapbook_memory_scrapbook_id').val($(e.currentTarget).data('id'))
-    });
-  });
-</script>
-
+<%= render partial: 'memories/add_to_scrapbook', locals: {memory: @memory} %>
