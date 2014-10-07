@@ -22,6 +22,10 @@ module Locatable
     read_attribute(:longitude) || self.area.try(:longitude)
   end
 
+  def has_coords?
+    latitude.present? && longitude.present?
+  end
+
   private
 
   def blank_coords

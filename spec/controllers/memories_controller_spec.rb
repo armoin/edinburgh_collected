@@ -5,39 +5,51 @@ describe MemoriesController do
 
   describe 'GET index' do
     let(:memories) { Fabricate.times(2, :photo_memory, user: user) }
+    let(:format)   { :html }
 
     before(:each) do
       allow(Memory).to receive(:all).and_return(memories)
+      get :index, format: format
     end
 
     it "fetches the memories and assigns them" do
-      get :index
       expect(assigns(:memories)).to eql(memories)
     end
 
     context 'when request is for HTML' do
       it "is successful" do
-        get :index
         expect(response).to be_success
         expect(response.status).to eql(200)
       end
 
       it "renders the index page" do
-        get :index
         expect(response).to render_template(:index)
       end
     end
 
     context 'when request is for JSON' do
+      let(:format) { :json }
+
       it 'is successful' do
-        get :index, format: :json
         expect(response).to be_success
         expect(response.status).to eql(200)
       end
 
       it "provides JSON" do
-        get :index, format: :json
         expect(response.content_type).to eql('application/json')
+      end
+    end
+
+    context 'when request is for GeoJSON' do
+      let(:format) { :geojson }
+
+      it 'is successful' do
+        expect(response).to be_success
+        expect(response.status).to eql(200)
+      end
+
+      it "provides GeoJSON" do
+        expect(response.content_type).to eql('text/geojson')
       end
     end
   end
@@ -78,6 +90,14 @@ describe MemoriesController do
           expect(response.content_type).to eql('application/json')
         end
       end
+
+      context "when requesting GeoJSON" do
+        let(:format) { :geojson }
+
+        it "provides GeoJSON" do
+          expect(response.content_type).to eql('text/geojson')
+        end
+      end
     end
 
     context "fetch is not successful" do
@@ -102,6 +122,13 @@ describe MemoriesController do
       context "when requesting JSON" do
         it "returns an error status" do
           get :show, id: '123', format: :json
+          expect(response.status).to eq(404)
+        end
+      end
+
+      context "when requesting GeoJSON" do
+        it "returns an error status" do
+          get :show, id: '123', format: :geojson
           expect(response.status).to eq(404)
         end
       end
