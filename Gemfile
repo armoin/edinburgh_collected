@@ -12,8 +12,8 @@ gem 'uglifier',                     '>= 1.3.0'
 gem 'coffee-rails',                 '~> 4.0.0'
 
 gem 'jquery-rails',                 '~> 3.1.2'
-gem 'turbolinks',                   '~> 2.3.0'
-gem 'jbuilder',                     '~> 2.0'
+gem 'turbolinks',                   '~> 2.4.0'
+gem 'jbuilder',                     '~> 2.2.0'
 
 gem 'faraday',                      '~> 0.9.0'
 gem 'carrierwave',                  '~> 0.10.0', github: "carrierwaveuploader/carrierwave"
