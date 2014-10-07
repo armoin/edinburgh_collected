@@ -36,6 +36,7 @@ end
 
 group :development, :test do
   gem 'rspec-rails',                '~> 3.1.0'
+  gem 'capybara',                   '2.4.1'
   gem 'capybara-rails',             '~> 0.0.2'
   gem 'launchy',                    '~> 2.4.2'
   gem "jasminerice",                :git => 'https://github.com/bradphelan/jasminerice.git'

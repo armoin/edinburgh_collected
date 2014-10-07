@@ -55,7 +55,7 @@ GEM
       sass (~> 3.2)
       thor
     builder (3.2.2)
-    capybara (2.4.3)
+    capybara (2.4.1)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
@@ -269,6 +269,7 @@ DEPENDENCIES
   autoprefixer-rails (~> 3.0.1.20140826)
   bootstrap-sass (~> 3.2.0)
   bourbon
+  capybara (= 2.4.1)
   capybara-rails (~> 0.0.2)
   carrierwave (~> 0.10.0)!
   codeclimate-test-reporter
