@@ -80,5 +80,10 @@ RSpec.configure do |config|
     # a real object. This is generally recommended.
     mocks.verify_partial_doubles = true
   end
+
+  config.after(:all) do
+    uploads_folder = File.join(File.dirname(__FILE__), '..', 'public', 'uploads')
+    FileUtils.rm_rf(uploads_folder) if Dir.exist?(uploads_folder)
+  end
 end
 
