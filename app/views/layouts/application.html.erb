@@ -63,50 +63,18 @@
       </div>
     </div>
 
-    <div class="searchwrapper not-implemented">
+    <div class="searchwrapper">
       <div class="container clearfix">
         <div class="dropdowns col-sm-6">
-          <ul class="area fauxselect">
-            <li>
-              <a class="ddTitle">Explore by Area &#x25BE;</a>
-
-              <ul>
-                <li><a>Balerno</a></li>
-                <li><a>Blackhall</a></li>
-                <li><a>Brunstfield</a></li>
-                <li><a>Clemiston</a></li>
-              </ul>
-            </li>
-          </ul>
-
-          <ul class="category fauxselect">
-            <li>
-              <a class="ddTitle">Explore by Category &#x25BE;</a>
-
-              <ul>
-                <li><a>Animals</a></li>
-                <li><a>Architecture</a></li>
-                <li><a>Childhood</a></li>
-                <li><a>Education</a></li>
-                <li><a>Environment</a></li>
-                <li><a>Events</a></li>
-                <li><a>Fashion</a></li>
-                <li><a>Health and Welfare</a></li>
-                <li><a>Homes</a></li>
-                <li><a>Leisure</a></li>
-                <li><a>Sport</a></li>
-                <li><a>Technology</a></li>
-                <li><a>Transport</a></li>
-                <li><a>Work</a></li>
-              </ul>
-            </li>
-          </ul>
+          <%= link_to 'Add New', new_my_memory_path, id: 'add-memory', class: 'btn btn-primary', role: 'button' %>
+          <%= select_tag 'filter_area', options_from_collection_for_select(Area.all, :id, :name), {prompt: 'Explore by Area', class: "form-control"} %>
+          <%= select_tag 'filter_category', options_from_collection_for_select(Category.all, :id, :name), {prompt: 'Explore by Category', class: "form-control"} %>
         </div>
 
         <div class="searchForm col-sm-4">
           <form>
             <input type="text" class="form-control" />
-            <input type="submit" class="btn btn-primary" />
+            <input type="submit" class="btn btn-primary not-implemented" />
           </form>
         </div>
       </div>

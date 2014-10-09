@@ -43,7 +43,6 @@ h1, h2, h3
   font-weight: 600
 
 .back_button
-  color: $cream
   margin: 1em 0
   display: block
   font-weight: 300
@@ -139,37 +138,10 @@ footer
     z-index: 500
     padding: 0
 
-    .fauxselect
-      float: left
-      list-style: none
-      margin: 1em 1em 0 0
-      padding: 0
-      background: $cream
-      +border-radius(3px)
-      padding: 5px
-
-      .ddTitle
-        font-weight: bold
-        &:hover
-          color: $navy-blue
-
-      a
-        color: $navy-blue
-        display: block
-        &:hover
-          color: $red
-
-      ul
-        padding: 0
-        list-style: none
-        display: none
-
-    .area, .category
-      &:hover
-        cursor: pointer
-
-        ul
-          display: block
+    select
+      display: inline
+      width: auto
+      margin: 1em 0.5em 1em 0
 
   .searchForm
     padding: 0
@@ -211,7 +183,6 @@ button#create-scrapbook-button
 
 #homeContent
   h1
-    color: $cream
     text-align: center
     padding: 0 0 0.5em 0
 
@@ -224,7 +195,6 @@ button#create-scrapbook-button
 .memory.full
 
   header
-    color: $cream
     margin-bottom: 1em
 
     .userAvatar
@@ -238,7 +208,6 @@ button#create-scrapbook-button
       margin-bottom: 1em
 
   .memory-meta
-    margin-top: 8em
     background-color: $navy-blue
     color: $cream
     padding: 1em
@@ -346,6 +315,15 @@ a.memory, a.scrapbook
   text-align: center
 
 /* ==================================== PROFILE */
+
+.profile, .user-card
+  .details
+    background: none !important
+
+  .userAvatar
+    float: left
+    margin-right: 1em
+
 
 
 
@@ -651,6 +629,13 @@ body.styleguide
   a.feedback.btn.btn-primary
     width: 100%
     margin: 10px 0
+
+  .dropdowns
+    a
+      display: block
+
+    select
+      margin: 0
 
   form
     background-color: #ccc

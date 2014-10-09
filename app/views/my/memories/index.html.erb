@@ -1,7 +1,11 @@
-<div class="container">
-  <div class="">
-    <%= link_to 'Add New', new_my_memory_path, id: 'add-memory', class: 'btn btn-primary', role: 'button' %>
-  </div>
+<div class="container profile">
+  <header>
+    <a href="#" class="userAvatar"><img src="http://placehold.it/72x72" alt="username" /></a>
+    <h1 class="title">User Screen Name
+      <%= link_to 'Edit', my_profile_edit_path, class: 'btn btn-primary' %>
+    </h1>
+    <p class="sub">User bio/description goes here</p>
+  </header>
   <div id="grid">
     <ul class="nav nav-pills">
       <li class="active"><%= link_to 'Memories', my_memories_path %></li>
