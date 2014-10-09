@@ -44,11 +44,15 @@
                   <%= link_to 'Admin', admin_home_path %>
                 </li>
               <% end %>
-              <li class="<%= active_if_controller_path('my/profile') %>">
+              <li class="profile <%= active_if_controller_path('my/profile') %>">
                 <%= link_to 'My Profile', my_profile_path %>
-              </li>
-              <li>
-                <%= link_to 'Sign Out', signout_path, method: :delete %>
+                <ul>
+                  <li>
+                    <%= link_to 'Edit Profile', my_profile_edit_path %>
+                  </li>
+                  <li>
+                    <%= link_to 'Sign Out', signout_path, method: :delete %>
+                  </li>
               </li>
             <% else %>
               <li class="<%= active_if_controller_path('users') %>">

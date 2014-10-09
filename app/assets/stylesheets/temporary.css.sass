@@ -725,6 +725,30 @@ body.styleguide
   .memory img
     padding: 0
 
+  .navbar-nav
+    li.profile
+      position: relative
+      ul
+        position: absolute
+        background: $navy-blue
+        z-index: 100
+        padding: 0
+        list-style: none
+        display: none
+
+        a
+          color: $cream
+          padding: 1em 0.5em
+
+      &:hover
+        background: $navy-blue
+        a
+          color: $cream
+
+        ul
+          display: block
+
+
 
 /* Large devices min-width (1200px) + a .memory margin (50px) * 2 (100px) = 1300px */
 
