@@ -1,7 +1,14 @@
 task :recreate_versions => :environment do |t, args|
-  Photo.find_each do |photo|
+  Photo.where.not('source LIKE "%php"').each do |photo|
+    puts "Updating photo #{photo.id} ..."
+
     photo.source.recreate_versions!
-    photo.categories << Category.first if photo.categories.empty?
+
+    if photo.categories.empty?
+      puts "Adding a category"
+      photo.categories << Category.first
+    end
+
     photo.save!
   end
 end
