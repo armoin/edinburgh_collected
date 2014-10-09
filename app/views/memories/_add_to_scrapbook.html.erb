@@ -99,7 +99,7 @@
       $(scrapbook).attr('data-id', data.id);
       $(scrapbook).find('.title').text(data.title);
       $(scrapbook).find('.updates').text('Updated ' + data.updated_at);
-      $('.scrapbooks').prepend(scrapbook);
+      // $('.scrapbooks').prepend(scrapbook);
       $('.scrapbooks .scrapbook').first().trigger('click');
       $('#create-scrapbook-modal').modal('hide');
       $('#add-to-scrapbook-modal').modal('show');
