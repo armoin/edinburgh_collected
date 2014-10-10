@@ -70,7 +70,7 @@
     <div class="searchwrapper">
       <div class="container clearfix">
         <div class="dropdowns col-sm-6">
-          <%= link_to 'Add New', new_my_memory_path, id: 'add-memory', class: 'btn btn-primary', role: 'button' %>
+          <%= link_to 'Add New', new_my_memory_path, id: 'add-memory-button', class: 'btn btn-primary', role: 'button' %>
           <%= select_tag 'filter_area', options_from_collection_for_select(Area.all, :id, :name), {prompt: 'Explore by Area', class: "form-control"} %>
           <%= select_tag 'filter_category', options_from_collection_for_select(Category.all, :id, :name), {prompt: 'Explore by Category', class: "form-control"} %>
         </div>

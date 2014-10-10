@@ -6,6 +6,7 @@ describe ImageUploader, slow: true do
 
   let(:memory)       { Fabricate.build(:photo_memory, id: 123) }
   let(:path_to_file) { File.join(Rails.root, 'spec', 'fixtures', 'files', 'test.jpg') }
+  let(:photo_width)  { 167 }
   let(:uploader)     { ImageUploader.new(memory, :source) }
 
   describe 'without manipulation' do
@@ -74,11 +75,11 @@ describe ImageUploader, slow: true do
       ImageUploader.enable_processing = false
       uploader.remove!
     end
+  end
 
-    context 'the thumb version' do
-      it "should scale down a landscape image to fit within 200 x 200 pixels" do
-        expect(uploader.thumb).to be_no_larger_than(200, 200)
-      end
+  context 'the thumb version' do
+    it "should scale down an image to a width of 250 pixels" do
+      expect(uploader.thumb).to be_no_larger_than(250, photo_width)
     end
   end
 end

@@ -13,7 +13,7 @@ RSpec.shared_examples 'a memory preview' do
 
   it 'has an image' do
     img = memory_class.find('.photo img')
-    expect(img['src']).to have_content("test.jpg")
+    expect(img['src']).to have_content(memory.source.url)
     expect(img['alt']).to have_content("A test")
   end
 
