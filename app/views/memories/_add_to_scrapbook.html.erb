@@ -27,7 +27,7 @@
           <% end %>
         </div>
         or
-        <button id="create-scrapbook" class="btn btn-primary" data-toggle="modal" data-target="#create-scrapbook-modal">
+        <button id="create-scrapbook-button" class="btn btn-primary" data-toggle="modal" data-target="#create-scrapbook-modal">
           Create a new scrapbook
         </button>
       </div>
@@ -54,7 +54,7 @@
         <div class="modal-body">
           <div class="form-group">
             <div class="col-sm-4">
-              <%= f.label :title %>
+              <%= f.label :title, class: "string control-label" %>
             </div>
             <div class="col-sm-8">
               <%= f.text_field :title, class: 'form-control' %>
@@ -62,7 +62,7 @@
           </div>
           <div class="form-group">
             <div class="col-sm-4">
-              <%= f.label :description %>
+              <%= f.label :description, class: "string control-label" %>
             </div>
             <div class="col-sm-8">
               <%= f.text_area :description, class: 'form-control' %>
@@ -80,34 +80,8 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-
-    $('#create-scrapbook').on('click', function (e) {
-      e.preventDefault();
-      $('#add-to-scrapbook-modal').modal('hide');
-    });
-
-    $("form#create-scrapbook").on("ajax:success", function (e, data, status, xhr) {
-      var html = '<div class="scrapbook">';
-      html    += '  <div class="picture"><p>&nbsp</p></div>';
-      html    += '  <div class="details">';
-      html    += '    <div class="title"></div>';
-      html    += '    <div class="count">0</div>';
-      html    += '    <div class="updates"></div>';
-      html    += '  </div>';
-      html    += '</div>';
-      var scrapbook = $.parseHTML(html);
-      $(scrapbook).attr('data-id', data.id);
-      $(scrapbook).find('.title').text(data.title);
-      $(scrapbook).find('.updates').text('Updated ' + data.updated_at);
-      // $('.scrapbooks').prepend(scrapbook);
-      $('.scrapbooks .scrapbook').first().trigger('click');
-      $('#create-scrapbook-modal').modal('hide');
-      $('#add-to-scrapbook-modal').modal('show');
-    }).on("ajax:error", function (e, data, status, xhr) {
-      console.log("event: ", e);
-      console.log("data: ", data);
-      console.log("status: ", status);
-    });
+    var scrapbooks_controller = new ScrapbooksController();
+    scrapbooks_controller.init();
 
     $("form#add-to-scrapbook").on("ajax:success", function (e, data, status, xhr) {
       var html = '<div class="notice">This photo was added to your scrapbook "' + data.title + '" <a class="btn btn-default" href="/my/scrapbooks/' + data.id + '">View your scrapbook</a></div>';
@@ -125,12 +99,6 @@
 
     $('#cancel-create-scrapbook').on('click', function (e) {
       $('#add-to-scrapbook-modal').modal('show');
-    });
-
-    $('.scrapbooks').on('click', '.scrapbook', function (e) {
-      $('.scrapbook').removeClass('selected')
-      $(e.currentTarget).addClass('selected')
-      $('form#add-to-scrapbook #scrapbook_memory_scrapbook_id').val($(e.currentTarget).data('id'))
     });
   });
 </script>
