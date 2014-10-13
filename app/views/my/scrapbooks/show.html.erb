@@ -1,8 +1,9 @@
 <div class="container-fluid">
-  <%= link_to "Back", my_scrapbooks_url %>
+  <%= link_to "All my scrapbooks", my_scrapbooks_path %> |
   <% if belongs_to_user?(@scrapbook) %>
-    <%= link_to "Edit", edit_my_scrapbook_url(@scrapbook.id) %>
-    <%= link_to "Delete", my_scrapbook_url(@scrapbook.id), method: :delete, data: {confirm: 'Are you sure?'} %>
+    <%= link_to "Add more memories", memories_path %> |
+    <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id) %> |
+    <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), method: :delete, data: {confirm: 'Are you sure?'} %>
   <% end %>
 
   <h1><%= @scrapbook.title %></h1>
