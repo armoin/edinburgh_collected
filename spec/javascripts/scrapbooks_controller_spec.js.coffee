@@ -6,6 +6,9 @@ describe "ScrapbooksController", ->
     $('#add-to-scrapbook-button').trigger('click')
     expect($('#add-to-scrapbook-modal')).toBeVisible()
 
+    # mock event for callbacks
+    @mockEvent = { preventDefault: -> true }
+
     @scrapbooks_controller = new ScrapbooksController()
     @scrapbooks_controller.init()
 
@@ -25,13 +28,11 @@ describe "ScrapbooksController", ->
       $('#create-scrapbook-button').trigger('click')
       @scrapbooks_controller.createModalClose()
 
-    describe "when successful", ->
-      it "hides the Create Scrapbook modal", ->
-        expect( $('.modal#create-scrapbook-modal') ).toBeHidden()
+    it "hides the Create Scrapbook modal", ->
+      expect( $('.modal#create-scrapbook-modal') ).toBeHidden()
 
-      it "shows the Add To Scrapbook modal", ->
-        expect( $('.modal#add-to-scrapbook-modal') ).toBeVisible()
-
+    it "shows the Add To Scrapbook modal", ->
+      expect( $('.modal#add-to-scrapbook-modal') ).toBeVisible()
 
   describe "successful creation", ->
     describe "adding a newly created scrapbook to the select list", ->
@@ -77,3 +78,88 @@ describe "ScrapbooksController", ->
     it "shows the appropriate error messages", ->
       $error_message = @error_field.siblings('.help-block').first()
       expect($error_message.text()).toEqual("can't be blank, foo is not bar")
+
+  describe "selecting a scrapbook", ->
+    beforeEach ->
+      @selected = $('.scrapbooks .scrapbook.selected')
+      @toSelect = $('.scrapbooks .scrapbook[data-id="1"]')
+
+    describe "when selected scrapbook is not currently selected", ->
+      it "unselects any other selected scrapbooks", ->
+        expect($(@selected)).toHaveClass('selected')
+        @scrapbooks_controller.selectScrapbook(@toSelect)
+        expect($(@selected)).not.toHaveClass('selected')
+
+      it "marks the selected scrapbook as selected", ->
+        expect($(@toSelect)).not.toHaveClass('selected')
+        @scrapbooks_controller.selectScrapbook(@toSelect)
+        expect($(@toSelect)).toHaveClass('selected')
+
+      it "adds the selected scrapbook's id to a hidden field", ->
+        expect($('#scrapbook_memory_scrapbook_id').val()).toEqual("#{@selected.data('id')}")
+        @scrapbooks_controller.selectScrapbook(@toSelect)
+        expect($('#scrapbook_memory_scrapbook_id').val()).toEqual('1')
+
+    describe "when selected scrapbook is already selected", ->
+      beforeEach ->
+        expect($(@selected)).toHaveClass('selected')
+        @scrapbooks_controller.selectScrapbook(@selected)
+
+      it "unselects the selected scrapbook", ->
+        expect($(@selected)).not.toHaveClass('selected')
+
+      it "does not mark any other scrapbooks as selected", ->
+        expect($('.scrapbook.selected').length).toEqual(0)
+
+      it "clears the scrapbook id hidden field", ->
+        expect($('#scrapbook_memory_scrapbook_id').val()).toEqual('')
+
+  describe "validating scrapbook selection", ->
+    it "shows an error if no scrapbook is selected", ->
+      $('.scrapbook.selected').removeClass('selected')
+      @scrapbooks_controller.validateAddToScrapbook(@mockEvent)
+      expect( $('.error-message').text() ).toEqual('Please select a scrapbook to add this memory to.')
+
+    it "does not show an error if a scrapbook is selected", ->
+      @scrapbooks_controller.validateAddToScrapbook()
+      expect( $('.error-message').length ).toEqual(0)
+
+  describe "successfully adding a memory to a scrapbook", ->
+    beforeEach ->
+      @data = {
+        id: 123,
+        title: 'My test scrapbook'
+      }
+
+    it "closes the Add To Scrapbook modal", ->
+      expect( $('#add-to-scrapbook-modal') ).toBeVisible()
+      @scrapbooks_controller.addToScrapbookSuccess(@mockEvent, @data)
+      expect( $('#add-to-scrapbook-modal') ).toBeHidden()
+
+    it "shows a success message", ->
+      @scrapbooks_controller.addToScrapbookSuccess(@mockEvent, @data)
+      expect( $('.flashes') ).toBeVisible()
+
+    it "success message contains a link to the scrapbook", ->
+      @scrapbooks_controller.addToScrapbookSuccess(@mockEvent, @data)
+      expect( $('.flashes .notice a[href="/my/scrapbooks/123"]').length ).toEqual(1)
+
+  describe "error when adding a memory to a scrapbook", ->
+    beforeEach ->
+      @data = {
+        id: 123,
+        title: 'My test scrapbook'
+      }
+
+    it "closes the Add To Scrapbook modal", ->
+      expect( $('#add-to-scrapbook-modal') ).toBeVisible()
+      @scrapbooks_controller.addToScrapbookSuccess(@mockEvent, @data)
+      expect( $('#add-to-scrapbook-modal') ).toBeHidden()
+
+    it "shows a success message", ->
+      @scrapbooks_controller.addToScrapbookSuccess(@mockEvent, @data)
+      expect( $('.flashes') ).toBeVisible()
+
+    it "success message contains a link to the scrapbook", ->
+      @scrapbooks_controller.addToScrapbookSuccess(@mockEvent, @data)
+      expect( $('.flashes .notice a[href="/my/scrapbooks/123"]').length ).toEqual(1)
