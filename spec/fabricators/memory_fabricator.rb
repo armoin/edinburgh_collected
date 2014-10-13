@@ -12,3 +12,10 @@ Fabricator(:photo_memory, from: :photo) do
   categories(rand: 3) { |attrs, i| Fabricate(:category) }
 end
 
+def stub_memories(number=1)
+  Array.new(number) do |i|
+    n = i+1
+    double('memory', id: n, title: "Test #{n}", source_url: "#{n}.jpg", updated_at: n.days.ago)
+  end
+end
+
