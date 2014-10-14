@@ -11,6 +11,16 @@ class My::ScrapbookMemoriesController < My::AuthenticatedUserController
     end
   end
 
+  def destroy
+    scrapbook_memory = ScrapbookMemory.find(params[:id])
+    @scrapbook = scrapbook_memory.scrapbook
+    if current_user.scrapbooks.include?(@scrapbook) && scrapbook_memory.destroy
+      redirect_to edit_my_scrapbook_path(@scrapbook), notice: 'Memory successfully removed'
+    else
+      redirect_to edit_my_scrapbook_path(@scrapbook), alert: 'Could not remove memory'
+    end
+  end
+
   private
 
   def scrapbook_id

@@ -6,7 +6,7 @@ describe My::ScrapbookMemoriesController do
   end
 
   describe 'POST create' do
-    let(:scrapbooks)    { Fabricate.times(1, :scrapbook) }
+    let(:scrapbooks)    { Array.new(3) { Fabricate.build(:scrapbook) } }
     let(:scrapbook)     { scrapbooks.first }
     let(:memory)        { Fabricate.build(:photo_memory, id: 456) }
     let(:strong_params) {{
@@ -97,6 +97,78 @@ describe My::ScrapbookMemoriesController do
           allow(scrapbooks).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
           post :create, given_params
           expect(response).to have_http_status(:not_found)
+        end
+      end
+    end
+  end
+
+  describe 'DELETE destroy' do
+    let(:scrapbook_memory) { Fabricate.build(:scrapbook_memory, id: 123) }
+    let(:scrapbook)        { scrapbook_memory.scrapbook }
+
+    before :each do
+      allow(ScrapbookMemory).to receive(:find).and_return(scrapbook_memory)
+      allow(scrapbook_memory).to receive(:destroy).and_return(true)
+    end
+
+    context 'when not logged in' do
+      it 'asks user to signin' do
+        delete :destroy, id: scrapbook_memory.id
+        expect(response).to redirect_to(:signin)
+      end
+    end
+
+    context 'when logged in' do
+      before :each do
+        @user = scrapbook.user
+        login_user
+        allow(controller).to receive(:current_user).and_return(@user)
+      end
+
+      context 'as the scrapbook owner' do
+        before :each do
+          allow(@user).to receive(:scrapbooks).and_return([scrapbook])
+        end
+
+        it "destroys the scrapbook_memory" do
+          delete :destroy, id: scrapbook_memory.id
+          expect(scrapbook_memory).to have_received(:destroy)
+        end
+
+        it "redirects to the scrapbook edit page" do
+          delete :destroy, id: scrapbook_memory.id
+          expect(response).to redirect_to(edit_my_scrapbook_path(scrapbook))
+        end
+
+        context 'when successfully destroyed' do
+          it 'shows a success message' do
+            allow(scrapbook_memory).to receive(:destroy).and_return(true)
+            delete :destroy, id: scrapbook_memory.id
+            expect(flash[:notice]).to eql('Memory successfully removed')
+          end
+        end
+
+        context 'when there is an error' do
+          it 'shows an error message' do
+            allow(scrapbook_memory).to receive(:destroy).and_return(false)
+            delete :destroy, id: scrapbook_memory.id
+            expect(flash[:alert]).to eql('Could not remove memory')
+          end
+        end
+      end
+
+      context "as another user" do
+        before :each do
+          allow(@user).to receive(:scrapbooks).and_return([])
+          delete :destroy, id: scrapbook_memory.id
+        end
+
+        it "redirects to the scrapbook edit page" do
+          expect(response).to redirect_to(edit_my_scrapbook_path(scrapbook))
+        end
+
+        it 'shows an error message' do
+          expect(flash[:alert]).to eql('Could not remove memory')
         end
       end
     end

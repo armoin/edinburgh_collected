@@ -8,7 +8,7 @@ class Memory < ActiveRecord::Base
   belongs_to :user
   belongs_to :area
   has_and_belongs_to_many :categories
-  has_many :scrapbook_memories
+  has_many :scrapbook_memories, dependent: :destroy
   has_many :scrapbooks, through: :scrapbook_memories
 
   attr_accessor :rotation
