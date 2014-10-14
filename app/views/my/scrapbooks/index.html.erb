@@ -1,4 +1,7 @@
 <div class="container-fluid">
+  <button id="create-scrapbook-button" class="btn btn-primary" data-toggle="modal" data-target="#create-scrapbook-modal">
+    Create a new scrapbook
+  </button>
   <div class="row">
     <div class="scrapbooks">
       <% @scrapbooks.each do |scrapbook| %>
@@ -21,3 +24,10 @@
   </div>
 </div>
 
+<%= render partial: 'memories/create_scrapbook' %>
+
+<script type="text/javascript">
+  var createScrapbookController = new CreateScrapbookController(function (e, data, status, xhr) {
+    window.location = '/my/scrapbooks/' + data.id
+  });
+</script>
