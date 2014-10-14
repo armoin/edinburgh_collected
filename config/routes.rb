@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     put '/profile' => 'profile#update'
   end
   resources :memories
+  resources :scrapbooks, only: [:index, :show]
 
   resources :users, only: [:new, :create] do
     member do
