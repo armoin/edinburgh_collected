@@ -1,22 +1,21 @@
-class @ScrapbooksController
+class @AddToScrapbookController
+  constructor: ->
+    @createScrapbookController = new CreateScrapbookController(@scrapbookCreateSuccess)
+
   init: =>
     $('#create-scrapbook-button').on 'click', (e) ->
       e.preventDefault()
       $('#add-to-scrapbook-modal').modal('hide')
 
-    $('form#create-scrapbook')
-      .on('ajax:success', @scrapbookCreateSuccess)
-      .on('ajax:error', @scrapbookCreateError)
+    $('#cancel-create-scrapbook').on 'click', (e) =>
+      e.preventDefault()
+      $('#add-to-scrapbook-modal').modal('show');
 
     $('.scrapbooks').on 'click', '.scrapbook', (e) =>
       @selectScrapbook(e.currentTarget)
 
     $('#add-to-scrapbook-modal').on 'shown.bs.modal', ->
       $('.scrapbooks').scrollTop(0)
-
-    $('#cancel-create-scrapbook').on 'click', (e) =>
-      e.preventDefault()
-      @createModalClose()
 
     $("form#add-to-scrapbook .save")
       .on("click", @validateAddToScrapbook)
@@ -27,14 +26,7 @@ class @ScrapbooksController
 
   scrapbookCreateSuccess: (e, data, status, xhr) =>
     @addNewScrapbookToSelect(data)
-    @createModalClose()
-
-  scrapbookCreateError: (e, data, status, xhr) =>
-    @markErrors(data)
-
-  createModalClose: ->
-    $('#create-scrapbook-modal').modal('hide');
-    $('#add-to-scrapbook-modal').modal('show');
+    $('#add-to-scrapbook-modal').modal('show')
 
   addNewScrapbookToSelect: (data) =>
     html =  '<div class="scrapbook">'
@@ -51,12 +43,6 @@ class @ScrapbooksController
     $(scrapbook).find('.updates').text('Updated ' + data.updated_at)
     $('.scrapbooks').prepend(scrapbook)
     @selectScrapbook(scrapbook)
-
-  markErrors: (data) ->
-    $.each data.responseJSON, (key, value) ->
-      $('form#create-scrapbook').find("#scrapbook_#{key}")
-        .after('<span class="help-block">' + value.join(", ") + '</span>')
-        .closest('.form-group').addClass('has-error')
 
   selectScrapbook: (scrapbook) ->
     wasSelected = $(scrapbook).hasClass('selected')
