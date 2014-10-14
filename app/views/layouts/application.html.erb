@@ -29,6 +29,9 @@
             <li class="<%= active_if_controller_path('memories') %>">
               <%= link_to 'Home', root_path %>
             </li>
+            <li class="<%= active_if_controller_path('scrapbooks') %>">
+              <%= link_to 'Browse Scrapbooks', scrapbooks_path %>
+            </li>
             <% if logged_in? %>
               <li class="<%= active_if_controller_path('my/memories') %>">
                 <%= link_to 'My Memories', my_memories_path %>
