@@ -3,6 +3,10 @@
     Create a new scrapbook
   </button>
   <div class="row">
+    <ul class="nav nav-pills">
+      <li><%= link_to 'Memories', my_memories_path %></li>
+      <li class="active"><%= link_to 'Scrapbooks', my_scrapbooks_path %></li>
+    </ul>
     <div class="scrapbooks">
       <% @scrapbooks.each do |scrapbook| %>
         <a class="scrapbook thumb" data-id="<%= scrapbook.id %>" href="<%= my_scrapbook_path(scrapbook.id) %>" title="View details" role="button">

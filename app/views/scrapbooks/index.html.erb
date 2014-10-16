@@ -1,5 +1,9 @@
 <div class="container-fluid">
   <div class="row">
+    <ul class="nav nav-pills">
+      <li><%= link_to 'Memories', memories_path %></li>
+      <li class="active"><%= link_to 'Scrapbooks', scrapbooks_path %></li>
+    </ul>
     <div class="scrapbooks">
       <% @scrapbooks.each do |scrapbook| %>
         <a class="scrapbook thumb" data-id="<%= scrapbook.id %>" href="<%= scrapbook_path(scrapbook.id) %>" title="View details" role="button">
