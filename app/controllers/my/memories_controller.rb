@@ -48,7 +48,7 @@ class My::MemoriesController < My::AuthenticatedUserController
   private
 
   def assign_memories
-    @memories = memories
+    @memories = memories.by_recent
   end
 
   def assign_memory
