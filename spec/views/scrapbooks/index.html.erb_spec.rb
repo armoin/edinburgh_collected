@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'my/scrapbooks/index.html.erb' do
+describe 'scrapbooks/index.html.erb' do
   let(:scrapbooks) { Array.new(3) { Fabricate.build(:scrapbook) } }
 
   describe 'toggle to switch to the memories list' do
@@ -10,12 +10,12 @@ describe 'my/scrapbooks/index.html.erb' do
     end
 
     it 'displays Memories as not active' do
-      expect(rendered).to have_css('.nav.nav-pills li a[href="/my/memories"]')
-      expect(rendered).not_to have_css('.nav.nav-pills li.active a[href="/my/memories"]')
+      expect(rendered).to have_css('.nav.nav-pills li a[href="/memories"]')
+      expect(rendered).not_to have_css('.nav.nav-pills li.active a[href="/memories"]')
     end
 
     it 'displays Scrapbooks as active' do
-      expect(rendered).to have_css('.nav.nav-pills li.active a[href="/my/scrapbooks"]')
+      expect(rendered).to have_css('.nav.nav-pills li.active a[href="/scrapbooks"]')
     end
   end
 

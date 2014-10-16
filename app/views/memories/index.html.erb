@@ -1,5 +1,9 @@
 <div class="container">
   <div class="row">
+    <ul class="nav nav-pills">
+      <li class="active"><%= link_to 'Memories', memories_path %></li>
+      <li><%= link_to 'Scrapbooks', scrapbooks_path %></li>
+    </ul>
     <div class="memories">
       <% @memories.each do |memory| %>
         <a class="memory thumb" data-id="<%= memory.id %>" href="<%= memory_path(memory.id) %>" title="View details" role="button">
