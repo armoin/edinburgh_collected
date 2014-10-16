@@ -15,7 +15,7 @@ class Memory < ActiveRecord::Base
 
   MAX_YEAR_RANGE = 120
 
-  default_scope { order('created_at DESC') }
+  scope :by_recent, -> { order('created_at DESC') }
 
   def self.file_types
     ["Photo"]

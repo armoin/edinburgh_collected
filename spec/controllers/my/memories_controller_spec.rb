@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 describe My::MemoriesController do
-  let(:stub_memories) { double('memories', find: memory) }
+  let(:stub_memories) { double('memories', find: memory, by_recent: true) }
   let(:memory)        { Fabricate.build(:photo_memory, id: 123, user: @user) }
 
   before :each do
     @user = Fabricate.build(:user)
     allow(@user).to receive(:memories).and_return(stub_memories)
+    allow(stub_memories).to receive(:by_recent).and_return(stub_memories)
   end
 
   describe 'GET index' do
@@ -29,6 +30,10 @@ describe My::MemoriesController do
 
       it "fetches the user's memories" do
         expect(@user).to have_received(:memories)
+      end
+
+      it "orders by most recent first" do
+        expect(stub_memories).to have_received(:by_recent)
       end
 
       it "assigns the returned memories" do
