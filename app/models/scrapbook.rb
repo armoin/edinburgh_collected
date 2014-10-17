@@ -4,5 +4,9 @@ class Scrapbook < ActiveRecord::Base
   has_many :memories, through: :scrapbook_memories
 
   validates :title, :user, presence: true
+
+  def cover_memory
+    ScrapbookMemory.cover_memory_for(self)
+  end
 end
 

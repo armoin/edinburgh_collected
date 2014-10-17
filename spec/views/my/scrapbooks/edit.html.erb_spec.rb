@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe 'my/scrapbooks/edit.html.erb' do
   let(:scrapbook)           { Fabricate.build(:scrapbook, id: 132) }
-  let(:memories)            { stub_memories(3) }
-  let(:scrapbook_memories)  { memories.map.with_index{|m,i| double(id: i, scrapbook: scrapbook, memory: m)} }
+  let(:memories)            { stub_memories(3).map.with_index{|m,i| double(id: i, scrapbook: scrapbook, memory: m)} }
+  let(:scrapbook_memories)  { double('scrapbook_memories', by_ordering: memories) }
 
   before :each do
     allow(scrapbook).to receive(:scrapbook_memories).and_return(scrapbook_memories)
@@ -16,7 +16,7 @@ describe 'my/scrapbooks/edit.html.erb' do
     expect(rendered).to have_link('All my scrapbooks', href: my_scrapbooks_path)
   end
 
-  context "when memory doesn't belong to the user" do
+  context "when scrapbook doesn't belong to the user" do
     before :each do
       allow(view).to receive(:belongs_to_user?).and_return(false)
       render
@@ -35,7 +35,7 @@ describe 'my/scrapbooks/edit.html.erb' do
     end
   end
 
-  context "when memory belongs to the user" do
+  context "when scrapbook belongs to the user" do
     before :each do
       allow(view).to receive(:belongs_to_user?).and_return(true)
       render
