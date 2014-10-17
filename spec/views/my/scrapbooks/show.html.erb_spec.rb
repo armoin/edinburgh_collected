@@ -67,8 +67,11 @@ describe "my/scrapbooks/show.html.erb" do
   end
 
   describe "memory thumbnails" do
+    let(:memories)            { stub_memories(3).map.with_index{|m,i| double(id: i, scrapbook: scrapbook, memory: m)} }
+    let(:scrapbook_memories)  { double('scrapbook_memories', by_ordering: memories) }
+
     before :each do
-      allow(scrapbook).to receive(:memories).and_return(stub_memories(3))
+      allow(scrapbook).to receive(:scrapbook_memories).and_return(scrapbook_memories)
       render
     end
 

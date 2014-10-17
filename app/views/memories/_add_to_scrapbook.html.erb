@@ -11,10 +11,10 @@
             <% current_user.scrapbooks.sort{|a,b| b.updated_at<=>a.updated_at}.each do |scrapbook| %>
               <div class="scrapbook" data-id="<%= scrapbook.id %>">
                 <div class="picture">
-                  <% if scrapbook.memories.count == 0 %>
-                    <p>&nbsp;</p>
+                  <% if scrapbook.cover_memory.present? %>
+                    <%= image_tag cache_busted_url(scrapbook.cover_memory, :thumb) %>
                   <% else %>
-                    <%= image_tag cache_busted_url(scrapbook.memories.first, :thumb) %>
+                    <p>&nbsp;</p>
                   <% end %>
                 </div>
                 <div class="details">

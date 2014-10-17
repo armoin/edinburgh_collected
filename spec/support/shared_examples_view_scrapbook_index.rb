@@ -12,6 +12,7 @@ RSpec.shared_examples 'a scrapbook index' do
     context "that has no memories" do
       before :each do
         assign(:scrapbooks, scrapbooks)
+        allow_any_instance_of(Scrapbook).to receive(:cover_memory).and_return(nil)
         render
       end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140915135250) do
+ActiveRecord::Schema.define(version: 20141016133654) do
 
   create_table "areas", force: true do |t|
     t.string   "name",       null: false
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(version: 20140915135250) do
     t.integer  "memory_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "ordering"
   end
 
   add_index "scrapbook_memories", ["memory_id"], name: "index_scrapbook_memories_on_memory_id"

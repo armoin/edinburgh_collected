@@ -35,7 +35,7 @@
 
   <div class="row">
     <div class="memories">
-      <% @scrapbook.scrapbook_memories.each do |scrapbook_memory| %>
+      <% @scrapbook.scrapbook_memories.by_ordering.each do |scrapbook_memory| %>
         <% memory = scrapbook_memory.memory %>
         <div class="memory thumb" data-id="<%= memory.id %>">
           <div class="img">
