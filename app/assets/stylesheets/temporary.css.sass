@@ -146,14 +146,20 @@ a.memory, a.scrapbook
     width: 220px
 
     div
-      &.img
+      &.img, &.button
         text-align: center
-        background-color: black
         line-height: 200px
 
+      &.img
+        background-color: black
         img
           vertical-align: middle
           max-width: 200px
+
+      &.button
+        span.glyphicon.glyphicon-plus
+          font-size: 128px
+          vertical-align: middle
 
       &.footer
         margin: 10px 0
