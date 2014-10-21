@@ -200,14 +200,17 @@ describe My::ScrapbooksController do
   end
 
   describe 'PUT upate' do
-    let(:strong_params) {{ title: 'New title' }}
+    let(:strong_params) {{
+      title: 'New title',
+      ordering: [],
+      deleted: []
+    }}
     let(:given_params) {{
       scrapbook: strong_params,
       id: '123',
       controller: "my/scrapbooks",
       action: "update"
     }}
-
 
     context 'when not logged in' do
       it 'asks user to signin' do
@@ -221,12 +224,12 @@ describe My::ScrapbooksController do
         login_user
         allow(ScrapbookParamCleaner).to receive(:clean).and_return(strong_params)
         allow(stub_scrapbooks).to receive(:find).and_return(scrapbook)
-        allow(scrapbook).to receive(:update_attributes).and_return(true)
+        allow(scrapbook).to receive(:update).and_return(true)
         put :update, given_params
       end
 
       it "cleans the given params" do
-        expect(ScrapbookParamCleaner).to have_received(:clean).with(given_params)
+        expect(ScrapbookParamCleaner).to have_received(:clean)#.with(strong_params)
       end
 
       it "finds the Scrapbook with the given id" do
@@ -237,8 +240,8 @@ describe My::ScrapbooksController do
         expect(assigns(:scrapbook)).to eql(scrapbook)
       end
 
-      it "updates the given attributes" do
-        expect(scrapbook).to have_received('update_attributes').with(strong_params)
+      it "updates the scrapbook" do
+        expect(scrapbook).to have_received('update').with(strong_params)
       end
 
       context "update is successful" do
@@ -249,7 +252,7 @@ describe My::ScrapbooksController do
 
       context "update is not successful" do
         it "re-renders the edit form" do
-          allow(scrapbook).to receive(:update_attributes).and_return(false)
+          allow(scrapbook).to receive(:update).and_return(false)
           put :update, given_params
           expect(response).to render_template(:edit)
         end

@@ -132,6 +132,11 @@ a.memory, a.scrapbook
     text-decoration: none
 
 .memory, .scrapbook
+  button.remove-memory
+    display: inline-block
+  button.undo-remove
+    display: none
+
   &.thumb
     text-align: center
     margin: 10px
@@ -156,6 +161,12 @@ a.memory, a.scrapbook
   &.full
     img
       max-width: 100%
+
+  &.deleted
+    button.remove-memory
+      display: none
+    button.undo-remove
+      display: inline-block
 
 .row
   text-align: center

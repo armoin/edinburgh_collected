@@ -69,8 +69,8 @@ describe 'my/scrapbooks/edit.html.erb' do
       expect(rendered).to have_css('.memory', count: 3)
     end
 
-    it "lets the user delete a memory" do
-      expect(rendered).to have_css(".memory a[data-method='delete']", text: 'Delete', count: 3)
+    it "lets the user remove a memory" do
+      expect(rendered).to have_css(".memory button.remove-memory", text: 'Remove', count: 3)
     end
   end
 end

@@ -18,4 +18,5 @@
 //= require binaryajax
 //= require exif
 //= require jquery.placeholder
+//= require jquery-ui.min
 //= require_tree .

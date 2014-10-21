@@ -8,5 +8,28 @@ class Scrapbook < ActiveRecord::Base
   def cover_memory
     ScrapbookMemory.cover_memory_for(self)
   end
+
+  def update(params)
+    ordering = params.delete(:ordering)
+    deleted = params.delete(:deleted)
+    super
+    reorder_memories(ordering)
+    remove_memories(deleted)
+    errors.messages.empty?
+  end
+
+  private
+
+  def reorder_memories(ordering_string)
+    if ordering_string.present?
+      ScrapbookMemory.reorder_for_scrapbook(self, ordering_string.split(','))
+    end
+  end
+
+  def remove_memories(deleted_string)
+    if deleted_string.present?
+      ScrapbookMemory.remove_from_scrapbook(self, deleted_string.split(','))
+    end
+  end
 end
 
