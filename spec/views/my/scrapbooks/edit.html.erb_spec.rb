@@ -22,10 +22,6 @@ describe 'my/scrapbooks/edit.html.erb' do
       render
     end
 
-    it "does not have an 'Add more memories' link" do
-      expect(rendered).not_to have_link('Add more memories', href: memories_path)
-    end
-
     it "does not have a show link" do
       expect(rendered).not_to have_link('Show', href: my_scrapbook_path(scrapbook))
     end
@@ -39,10 +35,6 @@ describe 'my/scrapbooks/edit.html.erb' do
     before :each do
       allow(view).to receive(:belongs_to_user?).and_return(true)
       render
-    end
-
-    it "has an 'Add more memories' link" do
-      expect(rendered).to have_link('Add more memories', href: memories_path)
     end
 
     it "has a show link" do
