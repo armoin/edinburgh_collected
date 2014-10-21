@@ -3,6 +3,8 @@ class ScrapbookParamCleaner
     params.require(:scrapbook).permit(
       :title,
       :description,
+      :ordering,
+      :deleted
     )
   end
 end

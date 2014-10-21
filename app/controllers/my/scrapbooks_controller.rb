@@ -25,7 +25,7 @@ class My::ScrapbooksController < My::AuthenticatedUserController
 
   def update
     @scrapbook = current_user.scrapbooks.find(params[:id])
-    if @scrapbook.update_attributes(scrapbook_params)
+    if @scrapbook.update(scrapbook_params)
       redirect_to my_scrapbook_path(@scrapbook)
     else
       render :edit

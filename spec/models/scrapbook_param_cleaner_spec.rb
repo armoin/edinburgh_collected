@@ -4,6 +4,8 @@ def scrapbook_allowed_params
   {
     title:        'A test',
     description:  'This is a test description',
+    ordering: '1,2,3',
+    deleted: '4,5',
   }
 end
 
