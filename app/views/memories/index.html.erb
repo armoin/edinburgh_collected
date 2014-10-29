@@ -6,15 +6,9 @@
     </ul>
     <div class="memories">
       <% @memories.each do |memory| %>
-        <a class="memory thumb" data-id="<%= memory.id %>" href="<%= memory_path(memory.id) %>" title="View details" role="button">
-          <div class="img">
-            <%= image_tag cache_busted_url(memory, :thumb), alt: memory.title %>
-          </div>
-          <div class="footer">
-            <p class="title"><%= memory.title %></p>
-          </div>
-        </a>
+        <%= render partial: 'memories/memory_thumb', locals: {memory: memory, link_path: memory_path(memory.id)} %>
       <% end %>
     </div>
   </div>
 </div>
+
