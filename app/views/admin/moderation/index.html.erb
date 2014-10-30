@@ -1,0 +1,35 @@
+<h1>Moderation Inbox</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="memories">
+      <% @memories.each do |memory| %>
+        <div class="memory moderation">
+          <div class="actions">
+            <ul>
+              <li>
+                <%= link_to 'Approve', '#', class: "btn btn-success", confirm: 'Are you sure?' %>
+              </li>
+              <li>
+                <%= link_to 'Reject', '#', class: "btn btn-danger", confirm: 'Are you sure?' %>
+              </li>
+              <li>
+                <%= link_to 'Remove', '#', class: "btn btn-primary", confirm: 'Are you sure?' %>
+              </li>
+            </ul>
+          </div>
+          <div class="details">
+            <div class="media">
+              <%= image_tag cache_busted_url(memory, :thumb) %>
+            </div>
+            <div class="info">
+              <h2><%= memory.title %></h2>
+              <p><%= memory.description %></p>
+              <p><%= memory.location %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

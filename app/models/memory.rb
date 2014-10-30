@@ -29,6 +29,10 @@ class Memory < ActiveRecord::Base
     Time.now.year
   end
 
+  def self.unmoderated
+    all
+  end
+
   validates_presence_of :title, :source, :user, :year
   validates_presence_of :categories, message: 'must have at least one'
   validates :year,
