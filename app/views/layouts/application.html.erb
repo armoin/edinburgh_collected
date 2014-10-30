@@ -36,6 +36,11 @@
               <li class="<%= active_if_controller_path('my/memories', 'my/scrapbooks') %>">
                 <%= link_to 'My Content', my_memories_path %>
               </li>
+              <% if current_user.is_admin? %>
+                <li class="<%= active_if_controller_path('admin/home', 'admin/moderation') %>">
+                  <%= link_to 'Admin', admin_home_path %>
+                </li>
+              <% end %>
               <li class="<%= active_if_controller_path('my/profile') %>">
                 <%= link_to 'My Profile', my_profile_path %>
               </li>

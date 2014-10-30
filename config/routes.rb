@@ -16,6 +16,11 @@ Rails.application.routes.draw do
   resources :memories
   resources :scrapbooks, only: [:index, :show]
 
+  namespace :admin do
+    get '/home' => 'home#index'
+    get '/moderation' => 'moderation#index'
+  end
+
   resources :users, only: [:new, :create] do
     member do
       get :activate
