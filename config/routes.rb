@@ -6,12 +6,15 @@ Rails.application.routes.draw do
 
   namespace :my do
     resources :memories
+    resources :scrapbooks
+    resources :scrapbook_memories
 
     get '/profile' => 'profile#show'
     get '/profile/edit' => 'profile#edit'
     put '/profile' => 'profile#update'
   end
   resources :memories
+  resources :scrapbooks, only: [:index, :show]
 
   resources :users, only: [:new, :create] do
     member do
@@ -23,8 +26,8 @@ Rails.application.routes.draw do
 
   get '/signup' => 'users#new'
   post '/signup' => 'users#create'
-  get '/login' => 'sessions#new'
-  delete '/logout' => 'sessions#destroy'
+  get '/signin' => 'sessions#new'
+  delete '/signout' => 'sessions#destroy'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

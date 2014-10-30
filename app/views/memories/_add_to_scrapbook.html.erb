@@ -1,0 +1,54 @@
+<div class="modal fade" id="add-to-scrapbook-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add <%= memory.title %> to a scrapbook</h4>
+      </div>
+      <div class="modal-body">
+        <h4>Select scrapbook</h4>
+        <div class="scrapbooks select">
+          <% if current_user %>
+            <% current_user.scrapbooks.sort{|a,b| b.updated_at<=>a.updated_at}.each do |scrapbook| %>
+              <div class="scrapbook" data-id="<%= scrapbook.id %>">
+                <div class="picture">
+                  <% if scrapbook.cover_memory.present? %>
+                    <%= image_tag cache_busted_url(scrapbook.cover_memory, :thumb) %>
+                  <% else %>
+                    <p>&nbsp;</p>
+                  <% end %>
+                </div>
+                <div class="details">
+                  <div class="title"><%= scrapbook.title %></div>
+                  <div class="count"><%= scrapbook.memories.count %></div>
+                  <div class="updates">Updated <%= scrapbook.updated_at %></div>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+        or
+        <button id="create-scrapbook-button" class="btn btn-primary" data-toggle="modal" data-target="#create-scrapbook-modal">
+          Create a new scrapbook
+        </button>
+      </div>
+      <div class="modal-footer">
+        <%= form_tag my_scrapbook_memories_path, remote: true, id: 'add-to-scrapbook', class: 'minimal' do %>
+          <%= hidden_field_tag "scrapbook_memory[scrapbook_id]" %>
+          <%= hidden_field_tag "scrapbook_memory[memory_id]", memory.id %>
+          <a href="#" class="cancel btn btn-default" data-dismiss="modal">Cancel</a>
+          <button class="save btn btn-primary">Add to scrapbook</button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= render partial: 'memories/create_scrapbook' %>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    var addToScrapbookController = new AddToScrapbookController();
+    addToScrapbookController.init();
+  });
+</script>
+

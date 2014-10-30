@@ -4,6 +4,6 @@ class My::AuthenticatedUserController < ApplicationController
   private
 
   def not_authenticated
-    redirect_to login_path, alert: "Please login first"
+    redirect_to signin_path, alert: "Please sign in first"
   end
 end

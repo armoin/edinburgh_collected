@@ -14,11 +14,13 @@ describe Memory do
   it_behaves_like 'taggable'
 
   describe 'ordering' do
-    it 'sorts them by reverse created at date' do
-      memory1 = Fabricate(:photo_memory, user: test_user, area: area)
-      memory2 = Fabricate(:photo_memory, user: test_user, area: area)
-      expect(Memory.first).to eql(memory2)
-      expect(Memory.last).to eql(memory1)
+    describe '.by_recent' do
+      it 'sorts them by reverse created at date' do
+        memory1 = Fabricate(:photo_memory, user: test_user, area: area)
+        memory2 = Fabricate(:photo_memory, user: test_user, area: area)
+        expect(Memory.by_recent.first).to eql(memory2)
+        expect(Memory.by_recent.last).to eql(memory1)
+      end
     end
   end
 

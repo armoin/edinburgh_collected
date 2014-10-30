@@ -22,35 +22,41 @@ footer
   padding: 10px 0
   text-align: center
 
-.alert, .notice
-  padding: 15px
-  border: 1px solid transparent
-  border-radius: 4px
-  color: white
-  margin: 0 16px 20px 16px
+.error-message
+  border: 1px solid #a94442
+  color: #a94442
+  padding: 0.6em
 
-  .close
-    text-shadow: 0 0 0 #fff
-    margin-top: -2px
-    opacity: 1
+.flashes
+  .alert, .notice
+    padding: 15px
+    border: 1px solid transparent
+    border-radius: 4px
+    color: white
+    margin: 0 16px 20px 16px
 
-.alert
-  background: red
+    .close
+      text-shadow: 0 0 0 #fff
+      margin-top: -2px
+      opacity: 1
 
-  .close
-    color: tan
+  .alert
+    background: red
 
-    &:hover
-      color: lighten(tan, 15)
+    .close
+      color: tan
 
-.notice
-  background: green
+      &:hover
+        color: lighten(tan, 15)
 
-  .close
-    color: lighten(green, 10)
+  .notice
+    background: green
 
-    &:hover
-      color: lighten(green, 20)
+    .close
+      color: lighten(green, 10)
+
+      &:hover
+        color: lighten(green, 20)
 
 li.greeting
   padding-top: 15px
@@ -63,6 +69,24 @@ li.greeting
 
   &:hover
     color: #777777
+
+ul.nav.nav-pills
+  display: inline-block
+
+  li
+    background: #ddd
+    border-radius: 0px
+
+    a
+      color: #2a6496
+      border-radius: 0px
+
+    &.active a
+      background: #333
+      color: white
+
+button#create-scrapbook-button
+  margin-bottom: 10px
 
 .user-card
   .details
@@ -100,12 +124,18 @@ a#add-memory
   margin-bottom: 10px
 
 
-a.memory
+a.memory, a.scrapbook
   color: black
   text-decoration: none
 
   &:hover
     text-decoration: none
+
+.memory, .scrapbook
+  button.remove-memory
+    display: inline-block
+  button.undo-remove
+    display: none
 
   &.thumb
     text-align: center
@@ -116,14 +146,20 @@ a.memory
     width: 220px
 
     div
-      &.img
+      &.img, &.button
         text-align: center
-        background-color: black
         line-height: 200px
 
+      &.img
+        background-color: black
         img
           vertical-align: middle
           max-width: 200px
+
+      &.button
+        span.glyphicon.glyphicon-plus
+          font-size: 128px
+          vertical-align: middle
 
       &.footer
         margin: 10px 0
@@ -131,6 +167,12 @@ a.memory
   &.full
     img
       max-width: 100%
+
+  &.deleted
+    button.remove-memory
+      display: none
+    button.undo-remove
+      display: inline-block
 
 .row
   text-align: center
@@ -142,6 +184,9 @@ form, .form-title
 form
   background-color: white
   padding: 1em
+
+  &.minimal
+    padding: 0
 
   &#add-memory img, &#edit-memory img
     max-width: 720px
@@ -188,15 +233,17 @@ form
   .info
     font-style: italic
 
-/* hides and disables the element */
-.hide
-  display: none
+.modal
+  form
+    label
+      min-width: 180px
 
 /* hides the element without disabling it */
 .hide-whilst-enabled
   width: 0
   height: 0
   overflow: hidden
+
 
 
 /* ==================================== STYLEGUIDE */
@@ -246,6 +293,9 @@ body.styleguide
     #image-editor-wrapper
       width: 300px
       margin-left: -30px
+
+    &.minimal
+      background-color: #fff
 
     .actions
       width: 100%

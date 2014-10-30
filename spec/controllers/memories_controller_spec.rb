@@ -4,11 +4,12 @@ describe MemoriesController do
   let(:user)     { Fabricate.build(:user) }
 
   describe 'GET index' do
-    let(:memories) { Fabricate.times(2, :photo_memory, user: user) }
+    let(:memories) { double('memories', by_random: [1,2]) }
     let(:format)   { :html }
 
     before(:each) do
       allow(Memory).to receive(:all).and_return(memories)
+      allow(memories).to receive(:by_recent).and_return(memories)
       get :index, format: format
     end
 
@@ -17,6 +18,10 @@ describe MemoriesController do
     end
 
     context 'when request is for HTML' do
+      it "orders them by most recent" do
+        expect(memories).to have_received(:by_recent)
+      end
+
       it "is successful" do
         expect(response).to be_success
         expect(response.status).to eql(200)

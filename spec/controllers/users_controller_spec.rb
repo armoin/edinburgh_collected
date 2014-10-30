@@ -79,7 +79,7 @@ describe UsersController do
       end
 
       it 'redirects to the sign in page' do
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
 
       it 'displays a success notice' do

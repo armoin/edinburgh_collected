@@ -22,12 +22,12 @@ describe My::AuthenticatedUserController do
         get :secret
       end
 
-      it "redirects to the login page" do
-        expect(response).to redirect_to(:login)
+      it "redirects to the signin page" do
+        expect(response).to redirect_to(:signin)
       end
 
-      it "alerts the user to log in" do
-        expect(flash[:alert]).to eql('Please login first')
+      it "alerts the user to sign in" do
+        expect(flash[:alert]).to eql('Please sign in first')
       end
     end
 

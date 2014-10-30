@@ -1,0 +1,37 @@
+<div class="container-fluid">
+  <%= link_to "All my scrapbooks", my_scrapbooks_path %>
+  <% if belongs_to_user?(@scrapbook) %>
+    | <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id) %>
+    | <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), method: :delete, data: {confirm: 'Are you sure?'} %>
+  <% end %>
+
+  <h1><%= @scrapbook.title %></h1>
+  <p><%= @scrapbook.description %></p>
+
+  <div class="row">
+    <div class="memories">
+      <% if belongs_to_user?(@scrapbook) %>
+        <a class="memory thumb" href="<%= memories_path %>" title="Add more memories" role="button">
+          <div class="button">
+            <span class="glyphicon glyphicon-plus"></span>
+          </div>
+          <div class="footer">
+            <p class="title">Add memories</p>
+          </div>
+        </a>
+      <% end %>
+      <% @scrapbook.scrapbook_memories.by_ordering.each do |scrapbook_memory| %>
+        <% memory = scrapbook_memory.memory %>
+        <a class="memory thumb" data-id="<%= memory.id %>" href="<%= memory_url(memory.id) %>" title="View details" role="button">
+          <div class="img">
+            <img src="<%= cache_busted_url(memory, :thumb) %>" alt="<%= memory.title %>" />
+          </div>
+          <div class="footer">
+            <p class="title"><%= memory.title %></p>
+          </div>
+        </a>
+      <% end %>
+    </div>
+  </div>
+</div>
+

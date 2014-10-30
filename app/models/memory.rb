@@ -7,14 +7,15 @@ class Memory < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :area
-
   has_and_belongs_to_many :categories
+  has_many :scrapbook_memories, dependent: :destroy
+  has_many :scrapbooks, through: :scrapbook_memories
 
   attr_accessor :rotation
 
   MAX_YEAR_RANGE = 120
 
-  default_scope { order('created_at DESC') }
+  scope :by_recent, -> { order('created_at DESC') }
 
   def self.file_types
     ["Photo"]

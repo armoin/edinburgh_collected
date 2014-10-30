@@ -1,19 +1,20 @@
 require 'rails_helper'
 
 describe My::MemoriesController do
-  let(:stub_memories) { double('memories', find: memory) }
+  let(:stub_memories) { double('memories', find: memory, by_recent: true) }
   let(:memory)        { Fabricate.build(:photo_memory, id: 123, user: @user) }
 
   before :each do
     @user = Fabricate.build(:user)
     allow(@user).to receive(:memories).and_return(stub_memories)
+    allow(stub_memories).to receive(:by_recent).and_return(stub_memories)
   end
 
   describe 'GET index' do
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to signin' do
         get :index
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 
@@ -31,6 +32,10 @@ describe My::MemoriesController do
         expect(@user).to have_received(:memories)
       end
 
+      it "orders by most recent first" do
+        expect(stub_memories).to have_received(:by_recent)
+      end
+
       it "assigns the returned memories" do
         expect(assigns[:memories]).to eql(stub_memories)
       end
@@ -43,9 +48,9 @@ describe My::MemoriesController do
 
   describe 'GET show' do
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to sign in' do
         get :show, id: 123
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 
@@ -86,9 +91,9 @@ describe My::MemoriesController do
 
   describe 'GET new' do
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to sign in' do
         get :new
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 
@@ -122,9 +127,9 @@ describe My::MemoriesController do
     }}
 
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to signin' do
         post :create, given_params
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 
@@ -186,9 +191,9 @@ describe My::MemoriesController do
 
   describe 'GET edit' do
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to signin' do
         get :edit, id: 123
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 
@@ -238,9 +243,9 @@ describe My::MemoriesController do
 
 
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to signin' do
         put :update, given_params
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 
@@ -287,9 +292,9 @@ describe My::MemoriesController do
 
   describe 'DELETE destroy' do
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to signin' do
         delete :destroy, id: '123'
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 

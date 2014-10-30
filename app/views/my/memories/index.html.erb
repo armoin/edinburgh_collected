@@ -3,9 +3,13 @@
     <%= link_to 'Add New', new_my_memory_path, id: 'add-memory', class: 'btn btn-primary', role: 'button' %>
   </div>
   <div class="row">
+    <ul class="nav nav-pills">
+      <li class="active"><%= link_to 'Memories', my_memories_path %></li>
+      <li><%= link_to 'Scrapbooks', my_scrapbooks_path %></li>
+    </ul>
     <div class="memories">
       <% @memories.each do |memory| %>
-        <a class="memory thumb" data-id="<%= memory.id %>" href="<%= my_memory_url(memory.id) %>" title="View details" role="button">
+        <a class="memory thumb" data-id="<%= memory.id %>" href="<%= my_memory_path(memory.id) %>" title="View details" role="button">
           <div class="img">
             <img src="<%= cache_busted_url(memory, :thumb) %>" alt="<%= memory.title %>" />
           </div>

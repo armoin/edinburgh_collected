@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   authenticates_with_sorcery!
 
   has_many :memories
+  has_many :scrapbooks
 
   attr_accessor :password, :password_confirmation
 

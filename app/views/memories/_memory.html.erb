@@ -7,7 +7,6 @@
 
     <p><%= @memory.description %></p>
     <p><%= @memory.attribution %></p>
-
   </div>
 
   <div class="col-sm-6">
@@ -17,7 +16,18 @@
       <p class="views">This photo has been viewed XX times</p>
       <p class="saved">This photo has been saved to XX scrapbooks</p>
 
-      <%= link_to "Add to scrapbook +", '#', class: "btn btn-default not-implemented" %>
+      <% if logged_in? %>
+        <%= link_to "Add to scrapbook +", '#', class: "btn btn-default", data: {toggle: 'modal', target: '#add-to-scrapbook-modal'} %>
+      <% else %>
+        <br />
+        <div>
+          <p>If you would like to add this to a Scrapbook, please</p>
+          <%= link_to 'Sign Up', signup_path, class: 'btn btn-primary' %>
+          or
+          <%= link_to 'Sign In', signin_path, class: 'btn btn-primary' %>
+        </div>
+        <br />
+      <% end %>
       <%= link_to "Share this photo", '#', class: "btn btn-default not-implemented" %>
 
 
@@ -34,3 +44,5 @@
     </div>
   </div>
 </div>
+
+<%= render partial: 'memories/add_to_scrapbook', locals: {memory: @memory} %>

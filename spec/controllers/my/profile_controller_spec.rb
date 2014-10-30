@@ -3,9 +3,9 @@ require 'rails_helper'
 describe My::ProfileController do
   describe 'GET show' do
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to signin' do
         get :show
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 
@@ -28,9 +28,9 @@ describe My::ProfileController do
 
   describe 'GET edit' do
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to signin' do
         get :edit
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 
@@ -53,9 +53,9 @@ describe My::ProfileController do
 
   describe 'PUT update' do
     context 'when not logged in' do
-      it 'asks user to login' do
+      it 'asks user to signin' do
         put :update
-        expect(response).to redirect_to(:login)
+        expect(response).to redirect_to(:signin)
       end
     end
 

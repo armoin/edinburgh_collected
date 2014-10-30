@@ -1,0 +1,24 @@
+<div class="container-fluid">
+  <% if logged_in? %>
+    <button id="create-scrapbook-button" class="btn btn-primary" data-toggle="modal" data-target="#create-scrapbook-modal">
+      Create a new scrapbook
+    </button>
+  <% end %>
+  <div class="row">
+    <ul class="nav nav-pills">
+      <li><%= link_to 'Memories', memories_path %></li>
+      <li class="active"><%= link_to 'Scrapbooks', scrapbooks_path %></li>
+    </ul>
+    <div class="scrapbooks">
+      <%= render @scrapbooks %>
+    </div>
+  </div>
+</div>
+
+<%= render partial: 'memories/create_scrapbook' %>
+
+<script type="text/javascript">
+  var createScrapbookController = new CreateScrapbookController(function (e, data, status, xhr) {
+    window.location = '/my/scrapbooks/' + data.id
+  });
+</script>

@@ -1,0 +1,53 @@
+<div class="flashes"></div>
+
+<a id="add-to-scrapbook-button" href="#" data-toggle="modal" data-target="#add-to-scrapbook-modal">
+  Add To Scrapbook
+</a>
+
+<div class="modal" id="add-to-scrapbook-modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Add test to a scrapbook</h4>
+      </div>
+      <div class="modal-body">
+        <h4>Select scrapbook</h4>
+        <div class="scrapbooks select">
+          <div class="scrapbook selected" data-id="2">
+            <div class="picture">
+              <p>&nbsp;</p>
+            </div>
+            <div class="details">
+              <div class="title">Scrapbook 2</div>
+              <div class="count">0</div>
+              <div class="updates">Updated yesterday</div>
+            </div>
+          </div>
+          <div class="scrapbook" data-id="1">
+            <div class="picture">
+              <img arc="assets/test.jpg" />
+            </div>
+            <div class="details">
+              <div class="title">Scrapbook 1</div>
+              <div class="count">3</div>
+              <div class="updates">2 days ago</div>
+            </div>
+          </div>
+        </div>
+        or
+        <button id="create-scrapbook-button" class="btn btn-primary" data-toggle="modal" data-target="#create-scrapbook-modal">
+          Create a new scrapbook
+        </button>
+      </div>
+      <div class="modal-footer">
+        <form id="add-to-scrapbook" class="minimal">
+          <input type="hidden" name="scrapbook_memory[scrapbook_id]" id="scrapbook_memory_scrapbook_id" value="2">
+          <input type="hidden" name="scrapbook_memory[memory_id]" id="scrapbook_memory_memory_id" value="123">
+          <a href="#" class="cancel btn btn-default" data-dismiss="modal">Cancel</a>
+          <button class="save btn btn-primary">Add to scrapbook</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+

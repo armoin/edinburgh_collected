@@ -26,25 +26,28 @@
         </div>
         <div class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="<%= active_if_controller_path('memories') %>">
+            <li class="<%= active_if_controller_path('/') %>">
               <%= link_to 'Home', root_path %>
             </li>
+            <li class="<%= active_if_controller_path('memories', 'scrapbooks') %>">
+              <%= link_to 'Browse', memories_path %>
+            </li>
             <% if logged_in? %>
-              <li class="<%= active_if_controller_path('my/memories') %>">
-                <%= link_to 'My Memories', my_memories_path %>
+              <li class="<%= active_if_controller_path('my/memories', 'my/scrapbooks') %>">
+                <%= link_to 'My Content', my_memories_path %>
               </li>
               <li class="<%= active_if_controller_path('my/profile') %>">
                 <%= link_to 'My Profile', my_profile_path %>
               </li>
               <li>
-                <%= link_to 'Sign Out', logout_path, method: :delete %>
+                <%= link_to 'Sign Out', signout_path, method: :delete %>
               </li>
             <% else %>
               <li class="<%= active_if_controller_path('users') %>">
                 <%= link_to 'Sign Up', signup_path %>
               </li>
               <li class="<%= active_if_controller_path('sessions') %>">
-                <%= link_to 'Sign In', login_path %>
+                <%= link_to 'Sign In', signin_path %>
               </li>
             <% end %>
           </ul>

@@ -22,7 +22,7 @@ class AuthenticationMailer < ActionMailer::Base
 
   def activation_success_email(user)
     @user = user
-    @url  = login_url
+    @url  = signin_url
 
     mail to: user.email,
          subject: 'Welcome to Edinburgh Stories'
