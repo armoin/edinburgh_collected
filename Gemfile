@@ -7,7 +7,7 @@ gem 'rails', '~> 4.1.7'
 gem 'bootstrap-sass',               '~> 3.3.0'
 gem 'sass-rails',                   '~> 4.0.4'
 gem 'bourbon',                      '~> 3.2.1'
-gem 'autoprefixer-rails',           '~> 3.0.1.20140826'
+gem 'autoprefixer-rails',           '~> 3.1.2.0'
 gem 'uglifier',                     '>= 1.3.0'
 gem 'coffee-rails',                 '~> 4.1.0'
 
@@ -36,7 +36,7 @@ end
 
 group :development, :test do
   gem 'rspec-rails',                '~> 3.1.0'
-  gem 'capybara',                   '2.4.1'
+  gem 'capybara',                   '~> 2.4.1'
   gem 'capybara-rails',             '~> 0.0.2'
   gem 'launchy',                    '~> 2.4.2'
   gem "jasminerice",                :git => 'https://github.com/bradphelan/jasminerice.git'
@@ -46,7 +46,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'webmock',                    '1.18.0'
+  gem 'webmock',                    '1.20.0'
   gem 'sqlite3',                    '1.3.9'
   gem "codeclimate-test-reporter",  require: nil
   gem "poltergeist",                '1.5.1'
