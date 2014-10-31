@@ -75,9 +75,7 @@ describe ImageUploader, slow: true do
       ImageUploader.enable_processing = false
       uploader.remove!
     end
-  end
 
-  context 'the thumb version' do
     it "should scale down an image to a width of 250 pixels" do
       expect(uploader.thumb).to be_no_larger_than(250, photo_width)
     end

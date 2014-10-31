@@ -25,21 +25,5 @@ describe "my/memories/show.html.erb" do
     end
   end
 
-  context "when memory belongs to the user" do
-    before :each do
-      assign(:memory, memory)
-      allow(view).to receive(:belongs_to_user?).and_return(true)
-      render
-    end
-
-    it "has an edit link" do
-      expect(rendered).to have_link('Edit', href: edit_my_memory_path(memory))
-    end
-
-    it "has a delete link" do
-      expect(rendered).to have_link('Delete', href: my_memory_path(memory))
-    end
-  end
-
   it_behaves_like "a memory show page"
 end
