@@ -8,13 +8,10 @@
           <div class="actions">
             <ul>
               <li>
-                <%= link_to 'Approve', '#', class: "btn btn-success", confirm: 'Are you sure?' %>
+                <%= link_to 'Approve', admin_approve_memory_path(memory), method: :put, class: "btn btn-success", confirm: 'Are you sure?' %>
               </li>
               <li>
-                <%= link_to 'Reject', '#', class: "btn btn-danger", confirm: 'Are you sure?' %>
-              </li>
-              <li>
-                <%= link_to 'Remove', '#', class: "btn btn-primary", confirm: 'Are you sure?' %>
+                <%= link_to 'Reject', admin_reject_memory_path(memory), class: "btn btn-danger", confirm: 'Are you sure?' %>
               </li>
             </ul>
           </div>

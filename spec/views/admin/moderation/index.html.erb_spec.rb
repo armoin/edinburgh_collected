@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "admin/moderation/index.html.erb" do
-  let(:stub_memories) { Array.new(3) { Fabricate.build(:photo_memory) } }
+  let(:stub_memories) { Array.new(3) {|n| Fabricate.build(:photo_memory, id: n+1) } }
 
   before :each do
     assign(:memories, stub_memories)
@@ -16,11 +16,11 @@ describe "admin/moderation/index.html.erb" do
     let(:memory) { stub_memories.first }
 
     it 'has an approve button' do
-      expect(rendered).to have_link('Approve', count: 3)
+      expect(rendered).to have_link('Approve', href: admin_approve_memory_path(memory.id))
     end
 
     it 'has a reject button' do
-      expect(rendered).to have_link('Reject', count: 3)
+      expect(rendered).to have_link('Reject', href: admin_reject_memory_path(memory.id))
     end
 
     context 'when photo memory' do

@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/home' => 'home#index'
     get '/moderation' => 'moderation#index'
+    put '/approve_memory/:id' => 'moderation#approve', as: 'approve_memory'
+    put '/reject_memory/:id' => 'moderation#reject', as: 'reject_memory'
   end
 
   resources :users, only: [:new, :create] do
