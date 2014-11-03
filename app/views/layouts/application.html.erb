@@ -15,76 +15,70 @@
   <a class="feedback" href="mailto:edinburgh-stories@armoin.com?subject=Feedback">Feedback</a>
     <div class="navbar" role="navigation">
       <div class="container">
-       <div id="branding" class="col-md-3">
-          <a class="navbar-brand" href="/">
+
+       <div id="branding" class="col-xs-6 col-sm-2 col-md-2">
+          <a class="" href="/">
            <%= image_tag "edinburgh-scrapbooks.png", alt: "Edinburgh Scrapbooks - Beta" %>
           </a>
        </div>
 
-       <div id="" class="col-md-9">
+       <div id="header-right" class="col-sm-10 col-md-10 ">
 
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-        </div>
+        <div class="wrapper">
 
-        <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="<%= active_if_controller_path('home') %>">
-              <%= link_to 'Home', root_path %>
-            </li>
-            <li class="<%= active_if_controller_path('memories', 'scrapbooks') %>">
-              <%= link_to 'Browse', memories_path %>
-            </li>
-            <% if logged_in? %>
-              <li class="<%= active_if_controller_path('my/memories', 'my/scrapbooks') %>">
-                <%= link_to 'My Content', my_memories_path %>
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li class="<%= active_if_controller_path('home') %>">
+                <%= link_to 'Home', root_path %>
               </li>
-              <% if current_user.is_admin? %>
-                <li class="<%= active_if_controller_path('admin/home', 'admin/moderation') %>">
-                  <%= link_to 'Admin', admin_home_path %>
+              <li class="<%= active_if_controller_path('memories', 'scrapbooks') %>">
+                <%= link_to 'Browse', memories_path %>
+              </li>
+              <% if logged_in? %>
+                <li class="<%= active_if_controller_path('my/memories', 'my/scrapbooks') %>">
+                  <%= link_to 'My Content', my_memories_path %>
+                </li>
+                <% if current_user.is_admin? %>
+                  <li class="<%= active_if_controller_path('admin/home', 'admin/moderation') %>">
+                    <%= link_to 'Admin', admin_home_path %>
+                  </li>
+                <% end %>
+                <li class="profile <%= active_if_controller_path('my/profile') %>">
+                  <%= link_to 'My Profile', my_profile_path %>
+                  <ul>
+                    <li>
+                      <%= link_to 'Edit Profile', my_profile_edit_path %>
+                    </li>
+                    <li>
+                      <%= link_to 'Sign Out', signout_path, method: :delete %>
+                    </li>
+                </li>
+              <% else %>
+                <li class="<%= active_if_controller_path('users') %>">
+                  <%= link_to 'Sign Up', signup_path %>
+                </li>
+                <li class="<%= active_if_controller_path('sessions') %>">
+                  <%= link_to 'Sign In', signin_path %>
                 </li>
               <% end %>
-              <li class="profile <%= active_if_controller_path('my/profile') %>">
-                <%= link_to 'My Profile', my_profile_path %>
-                <ul>
-                  <li>
-                    <%= link_to 'Edit Profile', my_profile_edit_path %>
-                  </li>
-                  <li>
-                    <%= link_to 'Sign Out', signout_path, method: :delete %>
-                  </li>
-              </li>
-            <% else %>
-              <li class="<%= active_if_controller_path('users') %>">
-                <%= link_to 'Sign Up', signup_path %>
-              </li>
-              <li class="<%= active_if_controller_path('sessions') %>">
-                <%= link_to 'Sign In', signin_path %>
-              </li>
-            <% end %>
-          </ul>
-        </div> <!-- end navbar -->
+            </ul>
+          </div> <!-- end navbar -->
 
-        <div id="searchwrapper" class="row">
-          <div class="dropdowns col-sm-6">
-            <%= select_tag 'filter_area', options_from_collection_for_select(Area.all, :id, :name), {prompt: 'Explore by Area', class: "form-control"} %>
-            <%= select_tag 'filter_category', options_from_collection_for_select(Category.all, :id, :name), {prompt: 'Explore by Category', class: "form-control"} %>
-          </div>
+          <div id="searchwrapper" class="row">
+            <div class="dropdowns col-xs-12  col-sm-7 col-md-6">
+              <%= select_tag 'filter_area', options_from_collection_for_select(Area.all, :id, :name), {prompt: 'Explore by Area', class: "form-control"} %>
+              <%= select_tag 'filter_category', options_from_collection_for_select(Category.all, :id, :name), {prompt: 'Explore by Category', class: "form-control"} %>
+            </div>
 
-          <div class="searchForm col-sm-4">
-            <form>
-              <input type="text" class="form-control" />
-              <input type="submit" class="btn btn-primary not-implemented" />
-            </form>
-          </div>
-        </div> <!-- end search/browse box -->
+            <div class="searchForm  col-xs-12 col-sm-4 col-md-6">
+              <form>
+                <input type="text" class="form-control" />
+              </form>
+            </div>
+          </div> <!-- end search/browse box -->
 
-      </div>
+        </div>
+       </div>
       </div>
     </div> <!-- end header/nav container -->
 

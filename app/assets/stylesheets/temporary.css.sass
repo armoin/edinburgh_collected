@@ -56,13 +56,22 @@ h1, h2, h3
 
 .navbar
   margin-bottom: 0
-  padding-top: 1em
+  padding-top: 1.5em
 
+  .container
+    height: 100%
+    position: relative
 
   #branding
+    position: absolute
+    height: 100%
+    left: 0
+
     a
+      display: block
       padding: 0
-      height: 100%
+      position: absolute
+      bottom: 0
 
       img
         width: 100%
@@ -77,9 +86,13 @@ h1, h2, h3
 
       li
         a
-          padding-top: 0
+          padding: 0.5em 15px
           &:hover
             background-color: transparent
+
+  #header-right
+    position: relative
+    float: right
 
   #searchwrapper
     background: $navy-blue
@@ -629,6 +642,29 @@ body.styleguide
 
 
 @media screen and (max-width: 767px)
+
+  .navbar #branding
+    position: relative
+
+    a
+      position: relative
+
+  .navbar #header-right
+    top: 0
+    margin-top: 1em
+
+  #searchwrapper
+    select#filter_category
+      float: right
+      margin: 0
+
+    .searchForm
+      padding-top: 0.5em !important
+
+      input
+        width: 100% !important
+
+
   h1
     font-size: 28px
     text-align: center
