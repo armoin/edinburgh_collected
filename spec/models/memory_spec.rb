@@ -108,4 +108,10 @@ describe Memory do
       expect(memory.category_list).to eql('Home, Transport')
     end
   end
+
+  describe "#approve!" do
+    it "changes the model's status to 'approved'" do
+      #TODO
+    end
+  end
 end

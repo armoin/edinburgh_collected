@@ -50,6 +50,10 @@ class Memory < ActiveRecord::Base
     categories.map(&:name).join(', ')
   end
 
+  def approve!
+    #TODO
+  end
+
   private
 
   def month_string
