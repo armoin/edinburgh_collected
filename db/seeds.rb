@@ -51,19 +51,20 @@ areas.each do |area|
 end
 
 categories = [
-  "Animals",
-  "Architecture",
   "Childhood",
   "Education",
   "Environment",
   "Events",
+  "Family Life",
   "Fashion",
-  "Health and Welfare",
-  "Homes",
+  "Food and Drink",
+  "Health",
+  "Home",
   "Leisure",
+  "Places",
   "Sport",
   "Technology",
-  "Transport",
+  "Travel",
   "Work"
 ]
 
