@@ -1,10 +1,11 @@
 @import "bourbon"
 
 
-$navy-blue:     #2e3863
+$navy-blue:     #35404d
 $cream:         #eeece7
 $red:           #be2b09
 $module:        #f0efea
+$light-grey:    #eaebe9
 
 
 =border-radius($radius)
@@ -24,13 +25,11 @@ $module:        #f0efea
 
 html, body
   overflow-x: hidden
-  background-color: $navy-blue
+  background-color: $light-grey
   font-family: 'Open Sans', sans-serif
   font-size: 16px
   color: $navy-blue
 
-body
-  background-image: url(image_path('paper-background-texture.png'))
 
 
 /* ==================================== TYPOGRAPHY */
@@ -57,14 +56,67 @@ h1, h2, h3
 
 .navbar
   margin-bottom: 0
+  padding-top: 1em
 
-  ul.nav
-    float: right
 
-    li
-      a
-        &:hover
-          background-color: transparent
+  #branding
+    a
+      padding: 0
+      height: 100%
+
+      img
+        width: 100%
+
+  .navbar-collapse
+    padding: 0
+    position: relative
+    right: -1em
+
+    ul.nav
+      float: right
+
+      li
+        a
+          padding-top: 0
+          &:hover
+            background-color: transparent
+
+  #searchwrapper
+    background: $navy-blue
+    position: relative
+    padding: 0.5em
+
+    a
+      color: #ffffff
+
+      &:hover
+        text-decoration: none
+
+    .dropdowns
+      display: inline-block
+      z-index: 500
+      padding: 0
+
+      select
+        display: inline
+        width: auto
+        margin: 0em 0.5em 0em 0
+
+    .searchForm
+      padding: 0
+
+      float: right
+      text-align: right
+
+      form
+        background: none
+        margin-bottom: 0
+        padding: 0
+
+      input
+        display: inline-block
+        width: auto
+
 
 
 .module
@@ -74,9 +126,6 @@ h1, h2, h3
   +border-radius(3px)
   +box-shadow(0, 1px, 1px, rgba(0, 0, 0, 0.5))
 
-.background
-  // background-image: url(image_path('background-ph.png'))
-  // background-repeat: no-repeat
 
 footer
   padding: 10px 0
@@ -119,43 +168,6 @@ footer
 
       &:hover
         color: lighten(green, 20)
-
-.row
-  text-align: center
-
-.searchwrapper
-  background: #434b6e
-  position: relative
-
-  a
-    color: #ffffff
-
-    &:hover
-      text-decoration: none
-
-  .dropdowns
-    display: inline-block
-    z-index: 500
-    padding: 0
-
-    select
-      display: inline
-      width: auto
-      margin: 1em 0.5em 1em 0
-
-  .searchForm
-    padding: 0
-
-    float: right
-    text-align: right
-
-    form
-      background: none
-      margin-bottom: 0
-
-    input
-      display: inline-block
-      width: auto
 
 
 ul.nav.nav-pills

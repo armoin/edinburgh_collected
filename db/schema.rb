@@ -12,10 +12,14 @@
 # It's strongly recommended that you check this file into your version control system.
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20141106105359) do
 =======
 ActiveRecord::Schema.define(version: 20141030141417) do
 >>>>>>> backgrounds and seach bar styles
+=======
+ActiveRecord::Schema.define(version: 20141016133654) do
+>>>>>>> Styling header and adjusting front page content
 
   create_table "areas", force: true do |t|
     t.string   "name",       null: false
@@ -118,7 +122,6 @@ ActiveRecord::Schema.define(version: 20141030141417) do
     t.string   "activation_token"
     t.datetime "activation_token_expires_at"
     t.boolean  "is_group",                        default: false
-    t.boolean  "is_admin",                        default: false
   end
 
   add_index "users", ["activation_token"], name: "index_users_on_activation_token"
