@@ -6,9 +6,8 @@
    <%= link_to 'Browse Scrapbooks', scrapbooks_path %>
    </span>
   </header>
-  </header>
 
-    <div id="memories">
+    <div id="memories" class="masonry-grid">
       <% @memories.each do |memory| %>
         <%= render partial: 'memories/memory_thumb', locals: {memory: memory, link_path: memory_path(memory.id)} %>
       <% end %>

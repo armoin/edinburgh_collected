@@ -1,12 +1,12 @@
 var runMasonry = function(e) {
-  $('#memories').waitForImages(function () {
-    var $container = $("#memories"),
-        gutter     = parseInt( $('.memory').css('marginBottom') );
+  $('.masonry-grid').waitForImages(function () {
+    var $container = $(".masonry-grid"),
+        gutter     = parseInt( $('.masonry').css('marginBottom') );
 
     $container.masonry({
       gutter:       gutter,
-      itemSelector: '.memory',
-      columnWidth:  '.memory'
+      itemSelector: '.masonry',
+      columnWidth:  '.masonry'
     });
   });
 };
