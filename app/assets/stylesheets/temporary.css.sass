@@ -220,10 +220,11 @@ button#create-scrapbook-button
 #contentHeader
   border-bottom: $navy-blue 1px solid
   padding: 2em 0 0.5em
+  margin-bottom: 2em
 
   h1
     margin: 0
-    float: left
+    display: inline-block
 
   span.actions
     float: right
@@ -294,12 +295,6 @@ a.memory, a.scrapbook
         text-align: center
         padding: 0.5em
 
-        img
-          +border-radius(3px)
-          vertical-align: middle
-          padding: 5px
-          background: ivory
-
       &.button
         span.glyphicon.glyphicon-plus
           font-size: 128px
@@ -360,15 +355,30 @@ a.memory, a.scrapbook
   text-align: center
 
 
-/* ==================================== SCRAPBOOKS */
+/* ==================================== MASONRY STUFF */
 
-#grid > #scrapbooks
+.masonry-grid
 
   .masonry
     width: 240px
     margin-bottom: 50px
 
+    .detail
+      margin: 0 10px 10px 10px
 
+/* ==================================== SCRAPBOOKS */
+
+#scrapbooks, #scrapbook
+
+  #description
+    text-align: center
+    font-style: italic
+    font-size: 1.5em
+    padding: 0 0 1em 0
+
+  .masonry
+    width: 240px
+    margin-bottom: 50px
 
 
 /* ==================================== PROFILE */
@@ -518,6 +528,11 @@ li.greeting
   width: 0
   height: 0
   overflow: hidden
+
+.float-left
+  float: left
+.float-right
+  float: right
 
 
 
@@ -778,23 +793,7 @@ body.styleguide
         margin: 10px 0
 
 
-/* Grid */
 
-#memories, #scrapbooks
-  margin: 50px auto 0
-
-  .memory
-    margin: 0 0 50px
-    width: 100%
-
-  .memory img
-
-    // width: 100%
-
-#grid
-
-  .memory img
-    padding: 0
 
 
 /* Medium devices */
