@@ -130,6 +130,7 @@ h1, h2, h3
         display: inline-block
 
 
+/* ==================================== LAYOUT */
 
 .module
   background-color: $module
@@ -214,6 +215,26 @@ button#create-scrapbook-button
     padding: 1em 0
 
 
+/* ==================================== BROWSE */
+
+#contentHeader
+  border-bottom: $navy-blue 1px solid
+  padding: 2em 0 0.5em
+
+  h1
+    margin: 0
+    float: left
+
+  span.actions
+    float: right
+
+    a
+      background: $navy-blue
+      color: white
+      padding: 0.5em
+      display: inline-block
+
+
 /* ==================================== MEMORIES */
 
 .memory.full
@@ -254,7 +275,6 @@ a#add-memory-button
 
 
 a.memory, a.scrapbook
-  color: black
   text-decoration: none
 
   &:hover
@@ -267,16 +287,13 @@ a.memory, a.scrapbook
     display: none
 
   &.thumb
-    text-align: center
+    background: white
 
     div
       &.img, &.button
         text-align: center
-        line-height: 200px
         padding: 0.5em
 
-      &.img
-        background-color: black
         img
           +border-radius(3px)
           vertical-align: middle
@@ -288,8 +305,12 @@ a.memory, a.scrapbook
           font-size: 128px
           vertical-align: middle
 
-      &.footer
-        margin: 10px 0
+      &.detail
+        margin: 0 10px 10px 10px
+
+        h2
+          font-size: 20px
+          margin: 0.25em 0
 
   &.full
     img
@@ -748,11 +769,10 @@ body.styleguide
 /* Grid */
 
 #memories
-  margin: 100px auto 0
+  margin: 50px auto 0
 
   .memory
     margin: 0 0 50px
-    text-align: center
     width: 100%
 
   .memory img
@@ -760,8 +780,6 @@ body.styleguide
     // width: 100%
 
 #grid
-
-  background-image: url(image_path('paper-background-texture.png'))
 
   .memory img
     padding: 0
