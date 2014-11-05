@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141030141417) do
+ActiveRecord::Schema.define(version: 20141104071932) do
 
   create_table "areas", force: true do |t|
     t.string   "name",       null: false
@@ -50,6 +50,14 @@ ActiveRecord::Schema.define(version: 20141030141417) do
     t.string   "location"
     t.float    "latitude"
     t.float    "longitude"
+  end
+
+  create_table "memory_moderations", force: true do |t|
+    t.integer  "memory_id",  null: false
+    t.string   "from_state", null: false
+    t.string   "to_state",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "scrapbook_memories", force: true do |t|

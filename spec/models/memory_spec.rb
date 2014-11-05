@@ -13,6 +13,10 @@ describe Memory do
   it_behaves_like 'locatable'
   it_behaves_like 'taggable'
 
+  let(:moderatable_model) { Memory }
+  let(:moderatable_factory) { :photo_memory }
+  it_behaves_like 'moderatable'
+
   describe 'ordering' do
     describe '.by_recent' do
       it 'sorts them by reverse created at date' do
@@ -106,12 +110,6 @@ describe Memory do
       memory.categories.build(name: 'Home')
       memory.categories.build(name: 'Transport')
       expect(memory.category_list).to eql('Home, Transport')
-    end
-  end
-
-  describe "#approve!" do
-    it "changes the model's status to 'approved'" do
-      #TODO
     end
   end
 end

@@ -4,12 +4,14 @@ class Memory < ActiveRecord::Base
   extend CarrierWave::Mount
   include Locatable
   include Taggable
+  include Moderatable
 
   belongs_to :user
   belongs_to :area
   has_and_belongs_to_many :categories
   has_many :scrapbook_memories, dependent: :destroy
   has_many :scrapbooks, through: :scrapbook_memories
+  has_many :memory_moderations
 
   attr_accessor :rotation
 
@@ -29,8 +31,8 @@ class Memory < ActiveRecord::Base
     Time.now.year
   end
 
-  def self.unmoderated
-    all
+  def self.moderation_record
+    MemoryModeration
   end
 
   validates_presence_of :title, :source, :user, :year
@@ -50,10 +52,6 @@ class Memory < ActiveRecord::Base
     categories.map(&:name).join(', ')
   end
 
-  def approve!
-    #TODO
-  end
-
   private
 
   def month_string
@@ -63,5 +61,9 @@ class Memory < ActiveRecord::Base
   def day_string
     day_ord = ActiveSupport::Inflector.ordinalize(day.to_i)
     Time.new(year, month).strftime("#{day_ord} %B %Y")
+  end
+
+  def moderation_records
+    memory_moderations
   end
 end
