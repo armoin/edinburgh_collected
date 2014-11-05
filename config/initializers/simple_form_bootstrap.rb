@@ -71,5 +71,4 @@ SimpleForm.setup do |config|
   # buttons and other elements.
   config.default_wrapper = :bootstrap
   config.label_text = lambda { |label, required| "#{label} #{required}" }
-
 end
