@@ -18,7 +18,7 @@
       <%= simple_form_for @memory,
         as: :memory,
         url: my_memories_url,
-        wrapper: :horizontal_form,../../../../config/initializers/simple_form_bootstrap.rb
+        wrapper: :horizontal_form,
         wrapper_mappings: { file: :horizontal_file_input },
         html: {id: "add-memory", class: "form-horizontal", role: "form"} do |form| %>
 
@@ -27,7 +27,7 @@
         <%= form.input :type, as: :select, collection: Memory.file_types, required: true, input_html: {class: 'form-control'} %>
 
         <%= form.input :source, as: :file %>
-        <%-# %a#select-file.btn.btn-primary Select file %>../../../../config/initializers/simple_form_bootstrap.rb
+        <%-# %a#select-file.btn.btn-primary Select file %>
         <%= render partial: 'image_editor', locals: {form: form} %>
 
         <%= render partial: 'details_form', object: @memory, locals: {form: form} %>

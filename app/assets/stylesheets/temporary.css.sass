@@ -6,6 +6,7 @@ $cream:         #eeece7
 $red:           #be2b09
 $module:        #f0efea
 $light-grey:    #eaebe9
+$beige:         #c9ccc1
 
 
 =border-radius($radius)
@@ -383,6 +384,34 @@ a.memory, a.scrapbook
 
 /* ==================================== PROFILE */
 
+#profileHeader
+  background: $beige
+  margin: 2em 0 0 0
+
+  .wrapper
+    padding: 15px
+    float: left
+
+    h1
+      margin: 0
+
+  #userContent
+    float: right
+    display: inline-block
+
+    div
+      display: inline-block
+      text-align: center
+      padding: 0.5em
+
+      &.active
+        background: $navy-blue
+        a
+          color: white
+
+      span
+        display: block
+
 .profile, .user-card
   .details
     background: none !important
@@ -422,6 +451,21 @@ a.memory, a.scrapbook
 
   #formPanel
     background: #d9dbd7
+
+    select
+      width: auto
+
+    label.control-label
+      padding-bottom: 0.25em
+
+    .check_boxes
+      display: block
+      padding-bottom: 0
+
+      .checkbox
+        display: inline-block
+        width: 40%
+        font-weight: 400
 
 
 
