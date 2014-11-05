@@ -7,7 +7,7 @@
     <% end %>
   </div>
   <div class="detail">
-    <h2 class="title"><%= scrapbook.title %></h2>
+    <h3 class="title"><%= scrapbook.title %></h3>
     <div class="count"><%= pluralize(scrapbook.memories.count, 'memory') %></div>
     <div class="updates">Updated <%= time_ago_in_words(scrapbook.updated_at) %> ago</div>
   </div>

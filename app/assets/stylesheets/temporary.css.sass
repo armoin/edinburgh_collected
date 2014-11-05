@@ -7,6 +7,7 @@ $red:           #be2b09
 $module:        #f0efea
 $light-grey:    #eaebe9
 $beige:         #c9ccc1
+$green:         #51b0aa
 
 
 =border-radius($radius)
@@ -158,7 +159,7 @@ footer
     border: 1px solid transparent
     border-radius: 4px
     color: white
-    margin: 0 16px 20px 16px
+    margin: 16px 0 0 0
 
     .close
       text-shadow: 0 0 0 #fff
@@ -223,7 +224,7 @@ button#create-scrapbook-button
   padding: 2em 0 0.5em
   margin-bottom: 2em
 
-  h1
+  h1, h2
     margin: 0
     display: inline-block
 
@@ -304,7 +305,7 @@ a.memory, a.scrapbook
       &.detail
         margin: 0 10px 10px 10px
 
-        h2
+        h3
           font-size: 20px
           margin: 0.25em 0
 
@@ -490,7 +491,6 @@ a.rotate
 
 form, .form-title
   max-width: 750px
-  margin: 0 auto 10px
 
 form
   background-color: white
@@ -884,9 +884,12 @@ body.styleguide
       position: relative
       ul
         position: absolute
-        background: $navy-blue
+        right: 0
+        width: 150px
+        text-align: right
+        background: $green
         z-index: 100
-        padding: 0
+        padding: 0 0 10px 0
         list-style: none
         display: none
 
@@ -895,7 +898,7 @@ body.styleguide
           padding: 1em 0.5em
 
       &:hover
-        background: $navy-blue
+        background: $green
         a
           color: $cream
 
