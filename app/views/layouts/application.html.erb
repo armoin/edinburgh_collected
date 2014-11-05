@@ -82,6 +82,8 @@
       </div>
     </div> <!-- end header/nav container -->
 
+    <%= link_to 'Add new memory', new_my_memory_path %>
+
     <div class="flashes">
       <% flash.each do |class_name, message| %>
         <div class="<%= class_name %>">
