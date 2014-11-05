@@ -28,6 +28,9 @@
 
           <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
+              <li>
+               <%= link_to 'Add new memory', new_my_memory_path %>
+              </li>
               <li class="<%= active_if_controller_path('home') %>">
                 <%= link_to 'Home', root_path %>
               </li>
@@ -82,7 +85,6 @@
       </div>
     </div> <!-- end header/nav container -->
 
-    <%= link_to 'Add new memory', new_my_memory_path %>
 
     <div class="flashes">
       <% flash.each do |class_name, message| %>
