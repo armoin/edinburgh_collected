@@ -52,6 +52,10 @@ class Memory < ActiveRecord::Base
     categories.map(&:name).join(', ')
   end
 
+  def moderation_records
+    memory_moderations
+  end
+
   private
 
   def month_string
@@ -61,9 +65,5 @@ class Memory < ActiveRecord::Base
   def day_string
     day_ord = ActiveSupport::Inflector.ordinalize(day.to_i)
     Time.new(year, month).strftime("#{day_ord} %B %Y")
-  end
-
-  def moderation_records
-    memory_moderations
   end
 end

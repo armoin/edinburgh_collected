@@ -10,7 +10,7 @@ RSpec.shared_examples 'moderatable' do
     before :each do
       unmoderated.unmoderate!
       approved.approve!
-      rejected.reject!
+      rejected.reject!('test')
     end
 
     describe '.unmoderated' do
@@ -66,8 +66,13 @@ RSpec.shared_examples 'moderatable' do
 
     describe "#reject!" do
       it "changes the moderation state to 'rejected'" do
-        moderatable_instance.reject!
+        moderatable_instance.reject!('unsuitable')
         expect(moderatable_instance.current_state).to eql('rejected')
+      end
+
+      it "stores the given reason" do
+        moderatable_instance.reject!('unsuitable')
+        expect(moderatable_instance.moderation_records.last.comment).to eql('unsuitable')
       end
     end
 

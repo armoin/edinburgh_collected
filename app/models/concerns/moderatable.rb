@@ -31,8 +31,8 @@ module Moderatable
     update_state!('approved')
   end
 
-  def reject!
-    update_state!('rejected')
+  def reject!(comment)
+    update_state!('rejected', comment)
   end
 
   def unmoderate!
@@ -50,7 +50,7 @@ module Moderatable
 
   private
 
-  def update_state!(state)
-    moderation_records.create!(from_state: current_state, to_state: state)
+  def update_state!(state, comment=nil)
+    moderation_records.create!(from_state: current_state, to_state: state, comment: comment)
   end
 end
