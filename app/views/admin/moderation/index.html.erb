@@ -4,14 +4,17 @@
   <div class="row">
     <div class="memories">
       <% @memories.each do |memory| %>
-        <div class="memory moderation">
+        <div class="memory moderation" data-id="<%= memory.id %>">
           <div class="actions">
             <ul>
               <li>
-                <%= link_to 'Approve', admin_approve_memory_path(memory), method: :put, class: "btn btn-success", confirm: 'Are you sure?' %>
+                <%= link_to 'Approve', admin_approve_memory_path(memory), class: "approve btn btn-success" %>
               </li>
               <li>
-                <%= link_to 'Reject', admin_reject_memory_path(memory), class: "btn btn-danger", confirm: 'Are you sure?' %>
+                <%= link_to 'Reject - unsuitable', admin_reject_memory_path(memory), data: {reason: 'unsuitable'}, class: "reject btn btn-danger" %>
+              </li>
+              <li>
+                <%= link_to 'Reject - offensive', admin_reject_memory_path(memory), data: {reason: 'offensive'}, class: "reject btn btn-danger" %>
               </li>
             </ul>
           </div>
@@ -30,3 +33,8 @@
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  new Moderator();
+</script>
+

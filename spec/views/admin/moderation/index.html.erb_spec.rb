@@ -15,12 +15,20 @@ describe "admin/moderation/index.html.erb" do
   describe 'a memory' do
     let(:memory) { stub_memories.first }
 
+    it 'has an id' do
+      expect(rendered).to have_css(".memory[data-id=\"#{memory.id}\"]")
+    end
+
     it 'has an approve button' do
       expect(rendered).to have_link('Approve', href: admin_approve_memory_path(memory.id))
     end
 
-    it 'has a reject button' do
-      expect(rendered).to have_link('Reject', href: admin_reject_memory_path(memory.id))
+    it 'has a reject - unsuitable button' do
+      expect(rendered).to have_link('Reject - unsuitable', href: admin_reject_memory_path(memory.id))
+    end
+
+    it 'has a reject - offensive button' do
+      expect(rendered).to have_link('Reject - offensive', href: admin_reject_memory_path(memory.id))
     end
 
     context 'when photo memory' do
