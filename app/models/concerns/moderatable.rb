@@ -6,16 +6,22 @@ module Moderatable
       ModerationRecordQuery.new(self, moderation_record)
     end
 
+    def by_state(state)
+      joins(moderation_record_query.first_join)
+        .joins(moderation_record_query.second_join)
+        .where(moderation_record_query.where(state))
+    end
+
     def unmoderated
-      Memory.find_by_sql(moderation_record_query.query_for('unmoderated'))
+      by_state('unmoderated')
     end
 
     def approved
-      Memory.find_by_sql(moderation_record_query.query_for('approved'))
+      by_state('approved')
     end
 
     def rejected
-      Memory.find_by_sql(moderation_record_query.query_for('rejected'))
+      by_state('rejected')
     end
 
     def moderation_record

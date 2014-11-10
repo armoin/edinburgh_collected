@@ -6,14 +6,22 @@ class ModerationRecordQuery
     @foreign_key = model.name.foreign_key.to_sym
   end
 
-  def query_for(state)
-    model_table
-      .project("#{@table_name}.*")
-      .join(moderation_records_1, Arel::Nodes::OuterJoin)
-      .on(id_matches_fk_for(moderation_records_1))
-      .join(moderation_records_2, Arel::Nodes::OuterJoin)
-      .on(id_matches_fk_for(moderation_records_2).and(sort_latest))
-      .where( latest_record.and(state_is(state)))
+  def first_join
+    constraints = model_table.create_on(
+      id_matches_fk_for(moderation_records_1)
+    )
+    model_table.create_join(moderation_records_1, constraints, Arel::Nodes::OuterJoin).to_sql
+  end
+
+  def second_join
+    constraints = model_table.create_on(
+      id_matches_fk_for(moderation_records_2).and(sort_latest)
+    )
+    model_table.create_join(moderation_records_2, constraints, Arel::Nodes::OuterJoin).to_sql
+  end
+
+  def where(state)
+    latest_record.and(state_is(state)).to_sql
   end
 
   private

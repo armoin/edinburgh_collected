@@ -1,30 +1,32 @@
 require 'rails_helper'
 
 describe ModerationRecordQuery do
-  describe '#query_for' do
+  subject { ModerationRecordQuery.new(Memory, MemoryModeration) }
+
+  describe '#first_join' do
     context 'Memory' do
-      let(:sql) { subject.query_for('unmoderated').to_sql }
-
-      subject { ModerationRecordQuery.new(Memory, MemoryModeration) }
-
-      it 'selects all memory fields' do
-        expect(sql).to include(memories_projection)
-      end
-
-      it 'selects from the memories table' do
-        expect(sql).to include(memories_from)
-      end
+      let(:sql) { subject.first_join }
 
       it 'left joins the memory_moderations table' do
         expect(sql).to include(memories_first_join)
       end
+    end
+  end
+
+  describe '#second_join' do
+    context 'Memory' do
+      let(:sql) { subject.second_join }
 
       it 'left joins the memory_moderations table again to sort records' do
         expect(sql).to include(memories_second_join)
       end
+    end
+  end
 
+  describe '#where' do
+    context 'Memory' do
       context "when querying for default state" do
-        let(:sql) { subject.query_for(ModerationStateMachine::DEFAULT_STATE).to_sql }
+        let(:sql) { subject.where(ModerationStateMachine::DEFAULT_STATE) }
 
         it 'filters for records with the state or those that have a null state' do
           expect(sql).to include(memories_where_default_state)
@@ -32,7 +34,7 @@ describe ModerationRecordQuery do
       end
 
       context "when querying for a non-default state" do
-        let(:sql) { subject.query_for('approved').to_sql }
+        let(:sql) { subject.where('approved') }
 
         it 'filters for records with the state' do
           expect(sql).to include(memories_where_other_state)
@@ -40,14 +42,6 @@ describe ModerationRecordQuery do
       end
     end
   end
-end
-
-def memories_projection
-  "SELECT memories.*"
-end
-
-def memories_from
-  "FROM \"memories\""
 end
 
 def memories_first_join
@@ -59,10 +53,10 @@ def memories_second_join
 end
 
 def memories_where_default_state
-  "WHERE \"memory_moderations_2\".\"id\" IS NULL AND (\"memory_moderations\".\"to_state\" = 'unmoderated' OR \"memory_moderations\".\"to_state\" IS NULL)"
+  "\"memory_moderations_2\".\"id\" IS NULL AND (\"memory_moderations\".\"to_state\" = 'unmoderated' OR \"memory_moderations\".\"to_state\" IS NULL)"
 end
 
 def memories_where_other_state
-  "WHERE \"memory_moderations_2\".\"id\" IS NULL AND \"memory_moderations\".\"to_state\" = 'approved'"
+  "\"memory_moderations_2\".\"id\" IS NULL AND \"memory_moderations\".\"to_state\" = 'approved'"
 end
 

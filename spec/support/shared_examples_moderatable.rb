@@ -13,6 +13,18 @@ RSpec.shared_examples 'moderatable' do
       rejected.reject!('test')
     end
 
+    describe '.by_state' do
+      it 'returns records if there are any in the given state' do
+        expect(moderatable_model.by_state('unmoderated').count).to eql(2)
+        expect(moderatable_model.by_state('approved').count).to eql(1)
+        expect(moderatable_model.by_state('rejected').count).to eql(1)
+      end
+
+      it 'returns rno ecords if there are none in the given state' do
+        expect(moderatable_model.by_state('nonsense').count).to eql(0)
+      end
+    end
+
     describe '.unmoderated' do
       it 'only returns unmoderated records' do
         unmoderated_records = moderatable_model.unmoderated

@@ -4,23 +4,30 @@ describe MemoriesController do
   let(:user)     { Fabricate.build(:user) }
 
   describe 'GET index' do
-    let(:memories) { double('memories', by_random: [1,2]) }
-    let(:format)   { :html }
+    let(:approved_memories) { double('approved_memories') }
+    let(:sorted_memories)   { double('sorted_memories') }
+    let(:format)            { :html }
 
     before(:each) do
-      allow(Memory).to receive(:all).and_return(memories)
-      allow(memories).to receive(:by_recent).and_return(memories)
+      allow(Memory).to receive(:approved).and_return(approved_memories)
+      allow(approved_memories).to receive(:by_recent).and_return(sorted_memories)
       get :index, format: format
     end
 
-    it "fetches the memories and assigns them" do
-      expect(assigns(:memories)).to eql(memories)
+    it "fetches the approved memories" do
+      expect(Memory).to have_received(:approved)
+    end
+
+    it "orders them by most recent first" do
+      expect(approved_memories).to have_received(:by_recent)
+    end
+
+    it "assigns the approved and sorted memories" do
+      expect(assigns(:memories)).to eql(sorted_memories)
     end
 
     context 'when request is for HTML' do
-      it "orders them by most recent" do
-        expect(memories).to have_received(:by_recent)
-      end
+      let(:format) { :html }
 
       it "is successful" do
         expect(response).to be_success
