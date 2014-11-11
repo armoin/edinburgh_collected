@@ -6,7 +6,7 @@ describe Admin::Moderation::MemoriesController do
   end
 
   describe 'GET index' do
-    let(:memories) { stub_memories(2) }
+    let(:unmoderated_memories) { stub_memories(2) }
 
     context 'when not logged in' do
       it 'redirects to sign in' do
@@ -28,21 +28,66 @@ describe Admin::Moderation::MemoriesController do
       before :each do
         @user = Fabricate(:admin_user)
         login_user
-        allow(Memory).to receive(:unmoderated).and_return(memories)
+        allow(Memory).to receive(:unmoderated).and_return(unmoderated_memories)
+        get :index
       end
 
       it 'fetches all memories that need to be moderated' do
-        get :index
         expect(Memory).to have_received(:unmoderated)
       end
 
       it 'assigns the unmoderated memories' do
-        get :index
-        expect(assigns[:memories]).to eql(memories)
+        expect(assigns[:memories]).to eql(unmoderated_memories)
       end
 
       it 'renders the index view' do
-        get :index
+        expect(response).to render_template(:index)
+      end
+    end
+  end
+
+  describe 'GET moderated' do
+    let(:moderated_memories)   { Memory.none }
+    let(:sorted_memories)      { stub_memories(2) }
+
+    context 'when not logged in' do
+      it 'redirects to sign in' do
+        get :moderated
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in but not as an admin' do
+      it 'redirects to sign in' do
+        @user = Fabricate(:active_user)
+        login_user
+        get :moderated
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in' do
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+        allow(Memory).to receive(:moderated).and_return(moderated_memories)
+        allow(moderated_memories).to receive(:by_recent).and_return(sorted_memories)
+        get :moderated
+      end
+
+      it 'fetches all memories that have already been moderated' do
+        expect(Memory).to have_received(:moderated)
+      end
+
+      it 'sorts them with the most recent first' do
+        expect(moderated_memories).to have_received(:by_recent)
+      end
+
+      it 'assigns the moderated memories' do
+        expect(assigns[:memories]).to eql(sorted_memories)
+      end
+
+      it 'renders the index view' do
         expect(response).to render_template(:index)
       end
     end
@@ -107,7 +152,7 @@ describe Admin::Moderation::MemoriesController do
     end
   end
 
-  describe 'PUT approve_memory' do
+  describe 'PUT approve' do
     let(:memory) { Fabricate.build(:photo_memory, id: 123) }
 
     context 'when not logged in' do
@@ -195,7 +240,7 @@ describe Admin::Moderation::MemoriesController do
     end
   end
 
-  describe 'PUT reject_memory' do
+  describe 'PUT reject' do
     let(:memory) { Fabricate.build(:photo_memory, id: 123) }
     let(:reason) { 'unsuitable' }
     let(:result) { true }
@@ -276,6 +321,93 @@ describe Admin::Moderation::MemoriesController do
             it "returns an Unprocessable Entity error" do
               expect(response.status).to eql(422)
               expect(response.body).to eql('Unable to reject')
+            end
+          end
+        end
+      end
+    end
+  end
+
+  describe 'PUT unmoderate' do
+    let(:memory) { Fabricate.build(:photo_memory, id: 123) }
+    let(:result) { true }
+    let(:format) { 'html' }
+
+    context 'when not logged in' do
+      it 'redirects to sign in' do
+        put :unmoderate, id: memory.id
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in but not as an admin' do
+      it 'redirects to sign in' do
+        @user = Fabricate(:active_user)
+        login_user
+        put :unmoderate, id: memory.id
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in' do
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+        allow(Memory).to receive(:find).with(memory.to_param).and_return(memory)
+        allow(memory).to receive(:unmoderate!).and_return(result)
+        put :unmoderate, id: memory.id, format: format
+      end
+
+      it 'looks for the memory to unmoderate' do
+        expect(Memory).to have_received(:find).with(memory.to_param)
+      end
+
+      context "when memory is found" do
+        it "updates the memory's status to 'Unmoderated'" do
+          expect(memory).to have_received(:unmoderate!)
+        end
+
+        context 'when an HTML  request' do
+          let(:format) { 'html' }
+
+          it 'redirects to the moderation index page' do
+            expect(response).to redirect_to(admin_moderation_path)
+          end
+
+          context "when successful" do
+            let(:result) { true }
+
+            it "displays a success message" do
+              expect(flash[:notice]).to eql('Memory unmoderated')
+            end
+          end
+
+          context "when unsuccessful" do
+            let(:result) { false }
+
+            it "displays a failure alert" do
+              expect(flash[:alert]).to eql('Could not unmoderate memory')
+            end
+          end
+        end
+
+        context 'when a JSON request' do
+          let(:format) { 'json' }
+
+          context "when successful" do
+            let(:result) { true }
+
+            it 'provides a JSON version of the memory' do
+              expect(response.body).to eql(memory.to_json)
+            end
+          end
+
+          context "when unsuccessful" do
+            let(:result) { false }
+
+            it "returns an Unprocessable Entity error" do
+              expect(response.status).to eql(422)
+              expect(response.body).to eql('Unable to unmoderate')
             end
           end
         end

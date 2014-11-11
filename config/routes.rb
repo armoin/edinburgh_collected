@@ -22,9 +22,13 @@ Rails.application.routes.draw do
 
     namespace :moderation do
       resources :memories do
+        collection do
+          get :moderated
+        end
         member do
           put :approve
           put :reject
+          put :unmoderate
         end
       end
     end

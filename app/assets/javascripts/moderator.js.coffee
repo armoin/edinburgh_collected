@@ -1,6 +1,6 @@
 class @Moderator
   constructor: ->
-    $('a.approve, a.reject').on('click', @moderate)
+    $('a.approve, a.reject, a.unmoderate').on('click', @moderate)
 
   moderate: (e) =>
     e.preventDefault()

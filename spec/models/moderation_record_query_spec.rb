@@ -42,6 +42,26 @@ describe ModerationRecordQuery do
       end
     end
   end
+
+  describe '#where_not' do
+    context 'Memory' do
+      context "when querying with default state" do
+        let(:sql) { subject.where_not(ModerationStateMachine::DEFAULT_STATE) }
+
+        it 'filters out records with the state or those that have a null state' do
+          expect(sql).to include(memories_where_not_default_state)
+        end
+      end
+
+      context "when querying with non-default state" do
+        let(:sql) { subject.where_not('approved') }
+
+        it 'only filters out records with the given state' do
+          expect(sql).to include(memories_where_not_other_state)
+        end
+      end
+    end
+  end
 end
 
 def memories_first_join
@@ -58,5 +78,13 @@ end
 
 def memories_where_other_state
   "\"memory_moderations_2\".\"id\" IS NULL AND \"memory_moderations\".\"to_state\" = 'approved'"
+end
+
+def memories_where_not_default_state
+  "\"memory_moderations_2\".\"id\" IS NULL AND \"memory_moderations\".\"to_state\" != 'unmoderated' AND \"memory_moderations\".\"to_state\" IS NOT NULL"
+end
+
+def memories_where_not_other_state
+  "\"memory_moderations_2\".\"id\" IS NULL AND \"memory_moderations\".\"to_state\" != 'approved'"
 end
 

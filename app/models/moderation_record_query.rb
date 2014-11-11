@@ -24,6 +24,10 @@ class ModerationRecordQuery
     latest_record.and(state_is(state)).to_sql
   end
 
+  def where_not(state)
+    latest_record.and(state_is_not(state)).to_sql
+  end
+
   private
 
   def model_table
@@ -54,6 +58,12 @@ class ModerationRecordQuery
     state_finder = moderation_records_1[:to_state].eq(state)
     return state_finder unless state == ModerationStateMachine::DEFAULT_STATE
     state_finder.or( moderation_records_1[:to_state].eq(nil) )
+  end
+
+  def state_is_not(state)
+    state_finder = moderation_records_1[:to_state].not_eq(state)
+    return state_finder unless state == ModerationStateMachine::DEFAULT_STATE
+    state_finder.and( moderation_records_1[:to_state].not_eq(nil) )
   end
 end
 

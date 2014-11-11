@@ -25,6 +25,15 @@ RSpec.shared_examples 'moderatable' do
       end
     end
 
+    describe '.moderated' do
+      it 'returns all records that are not moderated' do
+        moderated_records = moderatable_model.moderated
+        expect(moderated_records.count).to eql(2)
+        expect(moderated_records).to include(approved)
+        expect(moderated_records).to include(rejected)
+      end
+    end
+
     describe '.unmoderated' do
       it 'only returns unmoderated records' do
         unmoderated_records = moderatable_model.unmoderated
@@ -66,6 +75,28 @@ RSpec.shared_examples 'moderatable' do
         MemoryModeration.create!(memory: moderatable_instance, from_state: 'unmoderated', to_state: 'approved')
         MemoryModeration.create!(memory: moderatable_instance, from_state: 'approved', to_state: 'rejected')
         expect(moderatable_instance.current_state).to eql('rejected')
+      end
+    end
+
+    describe "#current_state_reson" do
+      it "is nil if no moderation records are found" do
+        expect(moderatable_instance.current_state_reason).to be_nil
+      end
+
+      it "is nil if the moderation record found has no comment" do
+        MemoryModeration.create!(memory: moderatable_instance, from_state: 'unmoderated', to_state: 'approved')
+        expect(moderatable_instance.current_state_reason).to be_nil
+      end
+
+      it "provides the to_state of the moderation record if one is found" do
+        MemoryModeration.create!(memory: moderatable_instance, from_state: 'unmoderated', to_state: 'approved', comment: 'test comment')
+        expect(moderatable_instance.current_state_reason).to eql('test comment')
+      end
+
+      it "provides the to_state of the latest moderation record if more than one is found" do
+        MemoryModeration.create!(memory: moderatable_instance, from_state: 'unmoderated', to_state: 'approved', comment: 'first comment')
+        MemoryModeration.create!(memory: moderatable_instance, from_state: 'approved', to_state: 'rejected', comment: 'last comment')
+        expect(moderatable_instance.current_state_reason).to eql('last comment')
       end
     end
 
