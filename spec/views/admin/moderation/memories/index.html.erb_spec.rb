@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "admin/moderation/index.html.erb" do
+describe "admin/moderation/memories/index.html.erb" do
   let(:stub_memories) { Array.new(3) {|n| Fabricate.build(:photo_memory, id: n+1) } }
 
   before :each do
@@ -20,15 +20,15 @@ describe "admin/moderation/index.html.erb" do
     end
 
     it 'has an approve button' do
-      expect(rendered).to have_link('Approve', href: admin_approve_memory_path(memory.id))
+      expect(rendered).to have_link('Approve', href: approve_admin_moderation_memory_path(memory.id))
     end
 
     it 'has a reject - unsuitable button' do
-      expect(rendered).to have_link('Reject - unsuitable', href: admin_reject_memory_path(memory.id))
+      expect(rendered).to have_link('Reject - unsuitable', href: reject_admin_moderation_memory_path(memory.id))
     end
 
     it 'has a reject - offensive button' do
-      expect(rendered).to have_link('Reject - offensive', href: admin_reject_memory_path(memory.id))
+      expect(rendered).to have_link('Reject - offensive', href: reject_admin_moderation_memory_path(memory.id))
     end
 
     context 'when photo memory' do

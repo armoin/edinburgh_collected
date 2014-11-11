@@ -1,6 +1,10 @@
-class Admin::ModerationController < Admin::AuthenticatedAdminController
+class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminController
   def index
     @memories = Memory.unmoderated
+  end
+
+  def show
+    @memory = Memory.find(params[:id])
   end
 
   def approve

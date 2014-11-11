@@ -1,0 +1,8 @@
+<div class="container outerpage">
+  <% if current_user.is_admin? %>
+    <%= link_to "Edit", edit_admin_moderation_memory_path(@memory) %>
+    <%= link_to "Delete", admin_moderation_memory_path(@memory), method: :delete, data: {confirm: 'Are you sure?'} %>
+  <% end %>
+
+  <%= render 'memories/memory', object: @memory %>
+</div>

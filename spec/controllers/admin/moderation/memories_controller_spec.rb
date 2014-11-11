@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Admin::ModerationController do
+describe Admin::Moderation::MemoriesController do
   it 'requires the user to be authenticated as an administrator' do
     expect(subject).to be_a(Admin::AuthenticatedAdminController)
   end
@@ -44,6 +44,65 @@ describe Admin::ModerationController do
       it 'renders the index view' do
         get :index
         expect(response).to render_template(:index)
+      end
+    end
+  end
+
+  describe 'GET show' do
+    let(:memory) { Fabricate.build(:photo_memory, id: 123) }
+
+    context 'when not logged in' do
+      it 'redirects to sign in' do
+        get :show, id: '123'
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in but not as an admin' do
+      it 'redirects to sign in' do
+        @user = Fabricate(:active_user)
+        login_user
+        get :show, id: '123'
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in' do
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+        allow(Memory).to receive(:find).with('123').and_return(memory)
+      end
+
+      it 'fetches the requested memory' do
+        get :show, id: '123'
+        expect(Memory).to have_received(:find).with('123')
+      end
+
+      context 'when the memory is found' do
+        before :each do
+          allow(Memory).to receive(:find).with('123').and_return(memory)
+          get :show, id: '123'
+        end
+
+        it 'assigns the memory' do
+          expect(assigns[:memory]).to eql(memory)
+        end
+
+        it 'renders the show view' do
+          expect(response).to render_template(:show)
+        end
+      end
+
+      context 'when the memory is not found' do
+        before :each do
+          allow(Memory).to receive(:find).with('123').and_raise(ActiveRecord::RecordNotFound)
+          get :show, id: '123'
+        end
+
+        it 'raises a 404' do
+          expect(response.status).to eql(404)
+        end
       end
     end
   end

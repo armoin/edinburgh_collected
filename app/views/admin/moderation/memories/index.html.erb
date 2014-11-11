@@ -8,13 +8,13 @@
           <div class="actions">
             <ul>
               <li>
-                <%= link_to 'Approve', admin_approve_memory_path(memory), class: "approve btn btn-success" %>
+                <%= link_to 'Approve', approve_admin_moderation_memory_path(memory), class: "approve btn btn-success" %>
               </li>
               <li>
-                <%= link_to 'Reject - unsuitable', admin_reject_memory_path(memory), data: {reason: 'unsuitable'}, class: "reject btn btn-danger" %>
+                <%= link_to 'Reject - unsuitable', reject_admin_moderation_memory_path(memory), data: {reason: 'unsuitable'}, class: "reject btn btn-danger" %>
               </li>
               <li>
-                <%= link_to 'Reject - offensive', admin_reject_memory_path(memory), data: {reason: 'offensive'}, class: "reject btn btn-danger" %>
+                <%= link_to 'Reject - offensive', reject_admin_moderation_memory_path(memory), data: {reason: 'offensive'}, class: "reject btn btn-danger" %>
               </li>
             </ul>
           </div>
