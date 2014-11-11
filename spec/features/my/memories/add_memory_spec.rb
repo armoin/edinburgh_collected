@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature 'adding new memories', slow: true, js:true do # REMEMBER: add js:true again if this test is reincluded
   before do
-    Fabricate(:active_user, email: 'bobby@example.com')
+    Fabricate(:active_user, email: 'bobby@example.com', password: 's3cr3t', password_confirmation: 's3cr3t')
     Fabricate(:area)
     Fabricate.times(4, :category)
   end

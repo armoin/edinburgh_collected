@@ -1,8 +1,8 @@
 class User < ActiveRecord::Base
   authenticates_with_sorcery!
 
-  has_many :memories
-  has_many :scrapbooks
+  has_many :memories, dependent: :destroy
+  has_many :scrapbooks, dependent: :destroy
 
   attr_accessor :password, :password_confirmation
 

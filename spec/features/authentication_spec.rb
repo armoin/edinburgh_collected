@@ -45,65 +45,67 @@ feature 'As a user who wants to add content to the site' do
     expect(current_path).to eql(root_path)
   end
 
-  scenario "I can sign in to my account" do
-    Fabricate(:active_user, email: 'bobby@example.com', screen_name: 'bob')
+  context 'with an existing user' do
+    let!(:user) {
+      Fabricate(:active_user,
+                email: 'bobby@example.com',
+                screen_name: 'bob',
+                password: 's3cr3t',
+                password_confirmation: 's3cr3t')
+    }
 
-    visit '/signin'
+    scenario "I can sign in to my account" do
+      visit '/signin'
 
-    fill_in 'Email',    with: 'bobby@example.com'
-    fill_in 'Password', with: 's3cr3t'
+      fill_in 'Email',    with: 'bobby@example.com'
+      fill_in 'Password', with: 's3cr3t'
 
-    click_button 'Sign In'
+      click_button 'Sign In'
 
-    expect(current_path).to eql(root_path)
-    expect(page).to have_content('My Profile')
-  end
+      expect(current_path).to eql(root_path)
+      expect(page).to have_content('My Profile')
+    end
 
-  scenario "I can sign in to my account with a capitalised email address" do
-    Fabricate(:active_user, email: 'bobby@example.com', screen_name: 'bob')
+    scenario "I can sign in to my account with a capitalised email address" do
+      visit '/signin'
 
-    visit '/signin'
+      fill_in 'Email',    with: 'Bobby@example.com'
+      fill_in 'Password', with: 's3cr3t'
 
-    fill_in 'Email',    with: 'Bobby@example.com'
-    fill_in 'Password', with: 's3cr3t'
+      click_button 'Sign In'
 
-    click_button 'Sign In'
+      expect(current_path).to eql(root_path)
+      expect(page).to have_content('My Profile')
+    end
 
-    expect(current_path).to eql(root_path)
-    expect(page).to have_content('My Profile')
-  end
+    scenario "I can view my details" do
+      login('bobby@example.com', 's3cr3t')
 
-  scenario "I can view my details" do
-    user = Fabricate(:active_user)
+      visit '/'
 
-    login(user.email, 's3cr3t')
+      click_link 'My Profile' #user.screen_name
 
-    visit '/'
+      expect(current_path).to eql(my_profile_path)
+      expect(page).to have_content("First name: #{user.first_name}")
+      expect(page).to have_content("Last name: #{user.last_name}")
+      expect(page).to have_content("Email: #{user.email}")
+      expect(page).to have_content("Group account? #{user.is_group?}")
+    end
 
-    click_link 'My Profile' #user.screen_name
+    scenario "I can change my details" do
+      login('bobby@example.com', 's3cr3t')
 
-    expect(current_path).to eql(my_profile_path)
-    expect(page).to have_content("First name: #{user.first_name}")
-    expect(page).to have_content("Last name: #{user.last_name}")
-    expect(page).to have_content("Email: #{user.email}")
-    expect(page).to have_content("Group account? #{user.is_group?}")
-  end
+      visit '/my/profile'
 
-  scenario "I can change my details" do
-    user = Fabricate(:active_user)
+      click_link 'Edit'
 
-    login(user.email, 's3cr3t')
+      expect(current_path).to eql(my_profile_edit_path)
 
-    visit '/my/profile'
+      fill_in 'First name', with: 'Bobby'
 
-    click_link 'Edit'
+      click_button 'Save Changes'
 
-    expect(current_path).to eql(my_profile_edit_path)
-
-    fill_in 'First name', with: 'Bobby'
-
-    click_button 'Save Changes'
-
-    expect(user.reload.first_name).to eql('Bobby')
+      expect(user.reload.first_name).to eql('Bobby')
+    end
   end
 end
