@@ -24,6 +24,7 @@ gem 'sorcery',                      '~> 0.8.6'
 gem 'geocoder',                     '~> 1.2.4'
 gem 'simple_form',                  '~> 3.0.2'
 gem 'email_validator',              '~> 1.4.0'
+gem 'fabrication',                '~> 2.11.3'
 
 group :doc do
   gem 'sdoc',                       '~> 0.4.0'
@@ -41,7 +42,6 @@ group :development, :test do
   gem 'launchy',                    '~> 2.4.2'
   gem "jasminerice",                :git => 'https://github.com/bradphelan/jasminerice.git'
   gem 'timecop',                    '~> 0.7.1'
-  gem 'fabrication',                '~> 2.11.3'
   gem 'ffaker',                     '~> 1.25.0'
 end
 
