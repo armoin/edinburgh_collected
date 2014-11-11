@@ -13,7 +13,7 @@ namespace :temp_users do
   end
 
   task :remove => :environment do |t, args|
-    User.where("email LIKE 'temp_user%'").destroy
+    User.where("email LIKE 'temp_user%'").destroy_all
   end
 end
 
