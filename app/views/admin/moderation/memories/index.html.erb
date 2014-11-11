@@ -2,10 +2,10 @@
 
 <div class="container">
   <div class="row">
-    <div class="memories">
+    <table class="memories">
       <% @memories.each do |memory| %>
-        <div class="memory moderation" data-id="<%= memory.id %>">
-          <div class="actions">
+        <tr class="memory moderation" data-id="<%= memory.id %>">
+          <td class="actions">
             <ul>
               <li>
                 <%= link_to 'Approve', approve_admin_moderation_memory_path(memory), class: "approve btn btn-success" %>
@@ -16,9 +16,12 @@
               <li>
                 <%= link_to 'Reject - offensive', reject_admin_moderation_memory_path(memory), data: {reason: 'offensive'}, class: "reject btn btn-danger" %>
               </li>
+              <li>
+                <%= link_to 'View details', admin_moderation_memory_path(memory), class: "btn btn-default" %>
+              </li>
             </ul>
-          </div>
-          <div class="details">
+          </td>
+          <td class="details">
             <div class="media">
               <%= image_tag cache_busted_url(memory, :thumb) %>
             </div>
@@ -27,10 +30,10 @@
               <p><%= memory.description %></p>
               <p><%= memory.location %></p>
             </div>
-          </div>
-        </div>
+          </td>
+        </tr>
       <% end %>
-    </div>
+    </table>
   </div>
 </div>
 
