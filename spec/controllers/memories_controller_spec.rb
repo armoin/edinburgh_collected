@@ -1,15 +1,16 @@
 require 'rails_helper'
 
 describe MemoriesController do
-  let(:user)     { Fabricate.build(:user) }
+  let(:approved_memories) { double('approved_memories') }
+  let(:sorted_memories)   { double('sorted_memories') }
+  let(:format)            { :html }
+
+  before(:each) do
+    allow(Memory).to receive(:approved).and_return(approved_memories)
+  end
 
   describe 'GET index' do
-    let(:approved_memories) { double('approved_memories') }
-    let(:sorted_memories)   { double('sorted_memories') }
-    let(:format)            { :html }
-
     before(:each) do
-      allow(Memory).to receive(:approved).and_return(approved_memories)
       allow(approved_memories).to receive(:by_recent).and_return(sorted_memories)
       get :index, format: format
     end
@@ -67,11 +68,11 @@ describe MemoriesController do
   end
 
   describe 'GET show' do
+    let(:user)   { Fabricate.build(:user) }
     let(:memory) { Fabricate.build(:photo_memory, user: user) }
-    let(:format) { :html }
 
     before :each do
-      allow(Memory).to receive(:find) { memory }
+      allow(approved_memories).to receive(:find).and_return(memory)
       get :show, id: '123', format: format
     end
 
@@ -81,7 +82,7 @@ describe MemoriesController do
     end
 
     it "fetches the requested memory" do
-      expect(Memory).to have_received(:find).with('123')
+      expect(approved_memories).to have_received(:find).with('123')
     end
 
     context "fetch is successful" do
@@ -114,7 +115,7 @@ describe MemoriesController do
 
     context "fetch is not successful" do
       before :each do
-        allow(Memory).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        allow(approved_memories).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
       end
 
       context "when requesting HTML" do
