@@ -63,7 +63,6 @@ categories = [
   "Leisure",
   "Places",
   "Sport",
-  "Technology",
   "Travel",
   "Work"
 ]
