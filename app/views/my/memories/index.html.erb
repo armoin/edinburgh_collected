@@ -4,7 +4,8 @@
 
     <div class="wrapper col-md-9">
     <a href="#" class="userAvatar"><img src="http://placehold.it/72x72/ffffff/000000" alt="username" /></a>
-    <h1 class="title">User Screen Name
+    <h1 class="title">
+      <%= current_user.try(:first_name) %>
       <%= link_to 'Edit', my_profile_edit_path, class: 'btn btn-primary' %>
     </h1>
     <p class="sub">User bio/description goes here</p>
@@ -12,10 +13,10 @@
 
     <div id="userContent" class="col-md-3">
      <div id="userMemories" class="active">
-      <a href=""> <span>XX</span> Memories</a>
+      <a href=""> <span><%= @memories.size %></span> Memories</a>
      </div>
      <div id="userScrapbooks">
-      <a href=""> <span>XX</span> Scrapbooks</a>
+      <a href=""> <span><%= current_user.scrapbooks.size %></span> Scrapbooks</a>
      </div>
     </div>
   </header>
@@ -23,9 +24,9 @@
   <div id="grid">
 
   <header id="contentHeader" class="clearfix">
-   <h2>Browsing XXXX's memories</h2>
+   <h2>Browsing your memories</h2>
    <span class="actions">
-   <%= link_to 'Browse XXXXs Scrapbooks', my_scrapbooks_path %>
+   <%= link_to 'Browse your Scrapbooks', my_scrapbooks_path %>
    </span>
   </header>
 

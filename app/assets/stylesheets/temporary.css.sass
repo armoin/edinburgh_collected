@@ -56,50 +56,47 @@ h1, h2, h3
 
 /* ==================================== HEADER */
 
-.navbar
-  margin-bottom: 0
-  padding-top: 1.5em
+header
+  position: relative
 
-  .container
-    height: 100%
-    position: relative
 
-  #branding
-    position: absolute
-    height: 100%
-    left: 0
+  .navbar
+    margin-bottom: 0
 
-    a
-      display: block
-      padding: 0
-      position: absolute
-      bottom: 0
+    .navbar-toggle .icon-bar
+      background: $navy-blue
 
-      img
-        width: 100%
-
-  .navbar-collapse
-    padding: 0
-    position: relative
-    right: -1em
-
-    ul.nav
+    .navbar-collapse
       float: right
+      padding: 0
+      position: relative
+      right: -1em
 
-      li
-        a
-          padding: 0.5em 15px
-          &:hover
-            background-color: transparent
+      ul.nav
+        float: right
 
-  #header-right
-    position: relative
-    float: right
+  #logo
+    padding-left: 0
+    margin-top: 1.25em
+    position: absolute
+    bottom: 0
+
+    .navbar-brand
+      display: block
+      float: none
+      height: auto
+      position: relative
+      padding: 0
+      font-size: inherit
+      line-height: 100%
+      margin-bottom: 0
 
   #searchwrapper
     background: $navy-blue
     position: relative
     padding: 0.5em
+    margin: 3em 0 0 0
+    float: right
 
     a
       color: #ffffff
@@ -130,6 +127,9 @@ h1, h2, h3
 
       input
         display: inline-block
+
+
+
 
 
 /* ==================================== LAYOUT */
@@ -590,6 +590,7 @@ li.greeting
   max-width: 100%
   height: auto
 
+
 .override .mailto.ninja
   // put any override styles in here
 
@@ -764,30 +765,40 @@ body.styleguide
 
 @media screen and (max-width: 767px)
 
-  .navbar #branding
-    position: relative
+  header
 
-    a
+    #logo
+      margin-top: 3.5em
       position: relative
-      text-align: center
+      margin-bottom: 1em
 
-      img
-        width: auto
+      .navbar-brand
+        float: none
 
-  .navbar #header-right
-    top: 0
-    margin-top: 1em
+        img
+          margin: 0 auto
 
-  #searchwrapper
-    select#filter_category
-      float: right
-      margin: 0
+    .navbar
+      .container
+        padding: 0
 
-    .searchForm
-      padding-top: 0.5em !important
+      .navbar-collapse
+        background: $navy-blue
+        right: auto
+        width: 100%
+        text-align: right
+        padding-right: 15px
+        margin: 0
 
-      input
-        width: 100% !important
+        a
+          color: white !important
+
+          &:hover
+            background: inherit
+
+    #searchwrapper
+      margin-top: 0em
+
 
 
   h1
