@@ -1,3 +1,24 @@
+
+// Home Page Masonry
+
+var homeMasonry = function(e) {
+  $('#scrapbookImages').waitForImages(function () {
+    var $container = $("#scrapbookImages"),
+        gutter     = parseInt( $('.masonry').css('marginBottom') );
+
+    $container.masonry({
+      gutter:       gutter,
+      itemSelector: '.masonry',
+      columnWidth:  '.masonry'
+    });
+  });
+};
+
+$(window).on('page:load', homeMasonry);
+$(window).on('load', homeMasonry);
+
+
+
 var runMasonry = function(e) {
   $('.masonry-grid').waitForImages(function () {
     var $container = $(".masonry-grid"),
