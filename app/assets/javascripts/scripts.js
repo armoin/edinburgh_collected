@@ -17,7 +17,17 @@ var homeMasonry = function(e) {
 $(window).on('page:load', homeMasonry);
 $(window).on('load', homeMasonry);
 
+// Home Equal Heights
 
+
+$(function() {
+    $('.module').matchHeight();
+});
+
+
+
+
+// Home Page Masonry
 
 var runMasonry = function(e) {
   $('.masonry-grid').waitForImages(function () {

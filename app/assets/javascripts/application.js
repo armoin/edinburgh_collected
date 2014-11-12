@@ -22,4 +22,5 @@
 //= require imagesloaded.pkgd.min
 //= require jquery.waitforimages.min
 //= require masonry.pkgd.min
+//= require jquery.matchHeight-min
 //= require_tree .
