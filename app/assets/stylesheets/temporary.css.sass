@@ -280,25 +280,39 @@ form
 
 
 /* ==================================== ADMIN */
-table.memories
-  td
-    height: 100%
+table.items
+  background-color: cornsilk
+  text-align: left
 
-  .status
-    padding: 0.6em
+  thead
+    background-color: black
     color: white
-    text-align: center
 
-  .unmoderated
-    background-color: #428bca
+  td
+    &.approved, &.rejected
+      color: white
 
-  .approved
-    background-color: #5cb85c
+    &.approved
+      background-color: #5cb85c
 
-  .rejected
-    background-color: #d9534f
+    &.rejected
+      background-color: #d9534f
 
+ul.moderation-actions
+  list-style: none
+  display: inline-block
+  background: whitesmoke
+  margin: 0
+  padding: 0.4em
 
+  li
+    float: left
+    margin-right: 10px
+
+    .btn-disabled
+      border: 1px solid #ccc
+      border-bottom: -1px
+      color: #ccc
 
 /* ==================================== STYLEGUIDE */
 

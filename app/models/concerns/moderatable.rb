@@ -64,6 +64,10 @@ module Moderatable
     current_record.try(:comment)
   end
 
+  def last_moderated_at
+    current_record.try(:updated_at)
+  end
+
   private
 
   def current_record

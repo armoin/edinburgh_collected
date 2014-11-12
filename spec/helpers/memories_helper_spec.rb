@@ -58,5 +58,51 @@ describe MemoriesHelper do
       expect(helper.sub_text(memory)).to eql('Portobello, 4th May 2014')
     end
   end
+
+  describe "#button_class" do
+    let(:memory) { Fabricate.build(:photo_memory) }
+
+    context "when current state is 'unmoderated'" do
+      before :each do
+        allow(memory).to receive(:current_state).and_return('unmoderated')
+        allow(memory).to receive(:current_state_reason).and_return(nil)
+      end
+
+      context "when state label does not match supplied button text" do
+        it "is enabled" do
+          button_class = helper.button_class(memory, 'approved')
+          expect(button_class).to eql("unmoderated btn btn-disabled")
+        end
+      end
+
+      context "when state label matches button text" do
+        it "is disabled" do
+          button_class = helper.button_class(memory, 'unmoderated')
+          expect(button_class).to eql("unmoderated btn btn-unmoderated")
+        end
+      end
+    end
+
+    context "when current state is 'rejected' and reason is 'unsuitable'" do
+      before :each do
+        allow(memory).to receive(:current_state).and_return('rejected')
+        allow(memory).to receive(:current_state_reason).and_return('unsuitable')
+      end
+
+      context "when state label does not match supplied button text" do
+        it "is enabled" do
+          button_class = helper.button_class(memory, 'approved')
+          expect(button_class).to eql("unmoderated btn btn-disabled")
+        end
+      end
+
+      context "when state label matches button text" do
+        it "is disabled" do
+          button_class = helper.button_class(memory, 'rejected - unsuitable')
+          expect(button_class).to eql("rejected btn btn-rejected")
+        end
+      end
+    end
+  end
 end
 

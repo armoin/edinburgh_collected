@@ -1,7 +1,30 @@
 <div class="container outerpage">
   <% if current_user.is_admin? %>
-    <%= link_to "Edit", edit_admin_moderation_memory_path(@memory) %>
-    <%= link_to "Delete", admin_moderation_memory_path(@memory), method: :delete, data: {confirm: 'Are you sure?'} %>
+    <ul class="moderation-actions">
+      <li>
+        <%= link_to "Back to list", admin_moderation_path, class: 'btn btn-default' %>
+      </li>
+      <% unless @memory.current_state == 'unmoderated' %>
+        <li>
+          <%= link_to 'Unmoderate', unmoderate_admin_moderation_memory_path(@memory), class: "unmoderate btn btn-primary", method: :put %>
+        </li>
+      <% end %>
+      <li>
+        <%= link_to 'Approve', approve_admin_moderation_memory_path(@memory), class: "approve btn btn-success", method: :put %>
+      </li>
+      <li>
+        <%= link_to 'Reject - unsuitable', reject_admin_moderation_memory_path(@memory), data: {reason: 'unsuitable'}, class: "reject btn btn-danger", method: :put %>
+      </li>
+      <li>
+        <%= link_to 'Reject - offensive', reject_admin_moderation_memory_path(@memory), data: {reason: 'offensive'}, class: "reject btn btn-danger", method: :put %>
+      </li>
+      <li>
+        <%= link_to "Edit", edit_admin_moderation_memory_path(@memory), class: 'btn btn-default' %>
+      </li>
+      <li>
+        <%= link_to "Delete", admin_moderation_memory_path(@memory), class: 'btn btn-default', method: :delete, data: {confirm: 'Are you sure?'} %>
+      </li>
+    </ul>
   <% end %>
 
   <%= render 'memories/memory', object: @memory %>
