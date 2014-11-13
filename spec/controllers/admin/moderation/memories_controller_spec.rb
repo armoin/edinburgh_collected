@@ -5,94 +5,6 @@ describe Admin::Moderation::MemoriesController do
     expect(subject).to be_a(Admin::AuthenticatedAdminController)
   end
 
-  describe 'GET index' do
-    let(:unmoderated_memories) { stub_memories(2) }
-
-    context 'when not logged in' do
-      it 'redirects to sign in' do
-        get :index
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in but not as an admin' do
-      it 'redirects to sign in' do
-        @user = Fabricate(:active_user)
-        login_user
-        get :index
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in' do
-      before :each do
-        @user = Fabricate(:admin_user)
-        login_user
-        allow(Memory).to receive(:unmoderated).and_return(unmoderated_memories)
-        get :index
-      end
-
-      it 'fetches all memories that need to be moderated' do
-        expect(Memory).to have_received(:unmoderated)
-      end
-
-      it 'assigns the unmoderated memories' do
-        expect(assigns[:memories]).to eql(unmoderated_memories)
-      end
-
-      it 'renders the index view' do
-        expect(response).to render_template(:index)
-      end
-    end
-  end
-
-  describe 'GET moderated' do
-    let(:moderated_memories)   { Memory.none }
-    let(:sorted_memories)      { stub_memories(2) }
-
-    context 'when not logged in' do
-      it 'redirects to sign in' do
-        get :moderated
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in but not as an admin' do
-      it 'redirects to sign in' do
-        @user = Fabricate(:active_user)
-        login_user
-        get :moderated
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in' do
-      before :each do
-        @user = Fabricate(:admin_user)
-        login_user
-        allow(Memory).to receive(:moderated).and_return(moderated_memories)
-        allow(moderated_memories).to receive(:by_recent).and_return(sorted_memories)
-        get :moderated
-      end
-
-      it 'fetches all memories that have already been moderated' do
-        expect(Memory).to have_received(:moderated)
-      end
-
-      it 'sorts them with the most recent first' do
-        expect(moderated_memories).to have_received(:by_recent)
-      end
-
-      it 'assigns the moderated memories' do
-        expect(assigns[:memories]).to eql(sorted_memories)
-      end
-
-      it 'renders the index view' do
-        expect(response).to render_template(:index)
-      end
-    end
-  end
-
   describe 'GET show' do
     let(:memory) { Fabricate.build(:photo_memory, id: 123) }
 
@@ -196,7 +108,7 @@ describe Admin::Moderation::MemoriesController do
           let(:format) { 'html' }
 
           it 'redirects to the moderation index page' do
-            expect(response).to redirect_to(admin_moderation_path)
+            expect(response).to redirect_to(admin_unmoderated_path)
           end
 
           context "when successful" do
@@ -284,7 +196,7 @@ describe Admin::Moderation::MemoriesController do
           let(:format) { 'html' }
 
           it 'redirects to the moderation index page' do
-            expect(response).to redirect_to(admin_moderation_path)
+            expect(response).to redirect_to(admin_unmoderated_path)
           end
 
           context "when successful" do
@@ -371,7 +283,7 @@ describe Admin::Moderation::MemoriesController do
           let(:format) { 'html' }
 
           it 'redirects to the moderation index page' do
-            expect(response).to redirect_to(admin_moderation_path)
+            expect(response).to redirect_to(admin_unmoderated_path)
           end
 
           context "when successful" do

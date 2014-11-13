@@ -18,14 +18,11 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get '/home' => 'home#index'
-    get '/moderation' => 'moderation#index'
+    get '/unmoderated' => 'moderation#index'
     get '/moderated' => 'moderation#moderated'
 
     namespace :moderation do
-      resources :memories do
-        collection do
-          get :moderated
-        end
+      resources :memories, only: [:show, :edit, :update, :delete] do
         member do
           put :approve
           put :reject

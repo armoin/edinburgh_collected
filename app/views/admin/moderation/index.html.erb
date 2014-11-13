@@ -3,7 +3,7 @@
 <div class="container <%= action_name %>">
   <div class="row">
     <% if action_name == 'moderated' %>
-      <%= link_to 'Unmoderated', admin_moderation_path %>
+      <%= link_to 'Unmoderated', admin_unmoderated_path %>
       | Moderated
     <% else %>
       Unmoderated |
@@ -22,7 +22,7 @@
       </thead>
       <tbody>
         <% @items.each do |item| %>
-          <tr>
+          <tr class='item'>
             <td><%= item.is_a?(Scrapbook) ? 'Scrapbook' : 'Memory' %></td>
             <td><%= item.title %></td>
             <td class="<%= item.current_state %>"><%= item.current_state %></td>
