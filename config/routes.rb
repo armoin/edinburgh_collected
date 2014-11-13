@@ -16,6 +16,22 @@ Rails.application.routes.draw do
   resources :memories
   resources :scrapbooks, only: [:index, :show]
 
+  namespace :admin do
+    get '/home' => 'home#index'
+    get '/unmoderated' => 'moderation#index'
+    get '/moderated' => 'moderation#moderated'
+
+    namespace :moderation do
+      resources :memories, only: [:show, :edit, :update, :delete] do
+        member do
+          put :approve
+          put :reject
+          put :unmoderate
+        end
+      end
+    end
+  end
+
   resources :users, only: [:new, :create] do
     member do
       get :activate

@@ -1,0 +1,37 @@
+<h1>Moderation Inbox</h1>
+
+<div class="container <%= action_name %>">
+  <div class="row">
+    <% if action_name == 'moderated' %>
+      <%= link_to 'Unmoderated', admin_unmoderated_path %>
+      | Moderated
+    <% else %>
+      Unmoderated |
+      <%= link_to 'Moderated', admin_moderated_path %>
+    <% end %>
+
+    <table class="items table table-striped table-responsive">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Title</th>
+          <th>State</th>
+          <th>Last Moderated</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @items.each do |item| %>
+          <tr class='item'>
+            <td><%= item.is_a?(Scrapbook) ? 'Scrapbook' : 'Memory' %></td>
+            <td><%= item.title %></td>
+            <td class="<%= item.current_state %>"><%= item.current_state %></td>
+            <td><%= item.last_moderated_at.try(:strftime, "%d-%b-%Y %H:%M") %></td>
+            <td><%= link_to 'View details', admin_moderation_memory_path(item.id) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+

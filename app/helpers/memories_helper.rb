@@ -9,3 +9,4 @@ module MemoriesHelper
     [memory.address, memory.date].reject{|s| s.blank?}.join(', ')
   end
 end
+

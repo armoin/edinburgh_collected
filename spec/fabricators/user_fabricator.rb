@@ -17,6 +17,17 @@ Fabricator(:active_user, from: User) do
   after_create          { |u, transients| u.activate! }
 end
 
+Fabricator(:admin_user, from: User) do
+  first_name            { Faker::Name.first_name }
+  last_name             { Faker::Name.last_name }
+  screen_name           { Faker::Name.first_name }
+  email                 { Faker::Internet.email }
+  password              's3cr3t'
+  password_confirmation 's3cr3t'
+  is_admin              true
+  after_create { |u, transients| u.activate! }
+end
+
 Fabricator(:pending_user, from: User) do
   first_name            'Bobby'
   last_name             'Tables'

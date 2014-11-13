@@ -13,6 +13,10 @@ describe Memory do
   it_behaves_like 'locatable'
   it_behaves_like 'taggable'
 
+  let(:moderatable_model) { Memory }
+  let(:moderatable_factory) { :photo_memory }
+  it_behaves_like 'moderatable'
+
   describe 'ordering' do
     describe '.by_recent' do
       it 'sorts them by reverse created at date' do

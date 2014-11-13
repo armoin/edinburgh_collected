@@ -4,12 +4,14 @@ class Memory < ActiveRecord::Base
   extend CarrierWave::Mount
   include Locatable
   include Taggable
+  include Moderatable
 
   belongs_to :user
   belongs_to :area
   has_and_belongs_to_many :categories
   has_many :scrapbook_memories, dependent: :destroy
   has_many :scrapbooks, through: :scrapbook_memories
+  has_many :memory_moderations
 
   attr_accessor :rotation
 
@@ -29,6 +31,10 @@ class Memory < ActiveRecord::Base
     Time.now.year
   end
 
+  def self.moderation_record
+    MemoryModeration
+  end
+
   validates_presence_of :title, :source, :user, :year
   validates_presence_of :categories, message: 'must have at least one'
   validates :year,
@@ -44,6 +50,10 @@ class Memory < ActiveRecord::Base
 
   def category_list
     categories.map(&:name).join(', ')
+  end
+
+  def moderation_records
+    memory_moderations
   end
 
   private

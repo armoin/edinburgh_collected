@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141016133654) do
+ActiveRecord::Schema.define(version: 20141106105359) do
 
   create_table "areas", force: true do |t|
     t.string   "name",       null: false
@@ -50,6 +50,15 @@ ActiveRecord::Schema.define(version: 20141016133654) do
     t.string   "location"
     t.float    "latitude"
     t.float    "longitude"
+  end
+
+  create_table "memory_moderations", force: true do |t|
+    t.integer  "memory_id",  null: false
+    t.string   "from_state", null: false
+    t.string   "to_state",   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.text     "comment"
   end
 
   create_table "scrapbook_memories", force: true do |t|
@@ -105,6 +114,7 @@ ActiveRecord::Schema.define(version: 20141016133654) do
     t.string   "activation_token"
     t.datetime "activation_token_expires_at"
     t.boolean  "is_group",                        default: false
+    t.boolean  "is_admin",                        default: false
   end
 
   add_index "users", ["activation_token"], name: "index_users_on_activation_token"
