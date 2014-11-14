@@ -55,6 +55,11 @@ module Moderatable
     update_state!('unmoderated')
   end
 
+  def previous_state
+    state = current_record.try(:from_state)
+    state || ModerationStateMachine::DEFAULT_STATE
+  end
+
   def current_state
     state = current_record.try(:to_state)
     state || ModerationStateMachine::DEFAULT_STATE
