@@ -15,6 +15,17 @@
     <p><%= @scrapbook.description %></p>
   </div>
 
-  <%= render partial: 'memories/memories', locals: {memories: @scrapbook.scrapbook_memories.by_ordering.map(&:memory)} %>
+  <% memories = @scrapbook.scrapbook_memories.by_ordering.map(&:memory) %>
+  <div class="masonry-loading-spinner"><div class="spinner"></div></div>
+    <div id="memories" class="masonry-grid">
+      <% memories.each do |memory| %>
+        <%= render partial: 'memories/memory_thumb', locals: {memory: memory, link_path: memory_path(memory)} %>
+      <% end %>
+    </div>
+  </div>
 </div>
+
+<script type="text/javascript">
+  $(".masonry-loading-spinner .spinner").spin();
+</script>
 

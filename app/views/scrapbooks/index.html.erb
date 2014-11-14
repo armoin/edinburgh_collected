@@ -8,7 +8,9 @@
     </header>
 
     <div id="scrapbooks" class="masonry-grid">
-      <%= render @scrapbooks %>
+      <% @scrapbooks.each do |scrapbook| %>
+        <%= render partial: 'scrapbooks/scrapbook', locals: {scrapbook: scrapbook, link_path: scrapbook_path(scrapbook)} %>
+      <% end %>
     </div>
   </div>
 </div>
