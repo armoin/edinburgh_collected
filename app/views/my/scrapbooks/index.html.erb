@@ -1,34 +1,18 @@
 <div class="container profile scrapbook">
-  <header id="profileHeader" class="clearfix">
-    <div class="wrapper col-md-9">
-      <a href="#" class="userAvatar"><img src="http://placehold.it/72x72/ffffff/000000" alt="username" /></a>
-      <h1 class="title">User Screen Name
-        <%= link_to 'Edit', my_profile_edit_path, class: 'btn btn-primary' %>
-      </h1>
-      <p class="sub">User bio/description goes here</p>
-    </div>
-
-    <div id="userContent" class="col-md-3">
-      <div id="userMemories" class="active">
-        <a href=""> <span>XX</span> Memories</a>
-      </div>
-      <div id="userScrapbooks">
-        <a href=""> <span>XX</span> Scrapbooks</a>
-      </div>
-    </div>
-  </header>
+  <%= render partial: 'shared/profile_header' %>
 
   <div id="grid">
     <header id="contentHeader" class="clearfix">
-      <h2>Browsing XXXX's Scrapbooks</h2>
+      <h2>Browsing your scrapbooks</h2>
       <span class="actions">
         <button id="create-scrapbook-button" class="btn btn-primary" data-toggle="modal" data-target="#create-scrapbook-modal">
           Create a new scrapbook
         </button>
-        <%= link_to 'Browse XXXXs Memories', my_memories_path %>
+        <%= link_to 'Browse your Memories', my_memories_path %>
       </span>
     </header>
 
+    <div class="masonry-loading-spinner"><div class="spinner"></div></div>
     <div id="scrapbooks" class="masonry-grid">
       <% @scrapbooks.each do |scrapbook| %>
         <%= render partial: 'scrapbooks/scrapbook', locals: {scrapbook: scrapbook, link_path: my_scrapbook_path(scrapbook)} %>
@@ -43,4 +27,5 @@
   var createScrapbookController = new CreateScrapbookController(function (e, data, status, xhr) {
     window.location = '/my/scrapbooks/' + data.id
   });
+  $(".masonry-loading-spinner .spinner").spin();
 </script>
