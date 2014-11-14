@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get 'styleguide/blocks' => 'styleguide#blocks'
   get 'styleguide/elements' => 'styleguide#elements'
 
+  get 't_and_c' => 'static#t_and_c'
+
   namespace :my do
     resources :memories
     resources :scrapbooks
