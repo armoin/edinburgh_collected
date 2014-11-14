@@ -14,6 +14,7 @@ var doIt = function (container, fitWidth) {
       gutter     = parseInt( $('.masonry').css('marginBottom') );
 
   $spinner.hide();
+  $('.module').matchHeight();
   $container.show();
   $container.masonry({
     gutter:       gutter,
@@ -22,12 +23,6 @@ var doIt = function (container, fitWidth) {
     isFitWidth:   fitWidth
   });
 };
-
-// Home Equal Heights
-
-// $(function() {
-//   $('.module').matchHeight();
-// });
 
 $(window).on('page:load', runMasonry);
 $(window).on('load', runMasonry);
