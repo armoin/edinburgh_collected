@@ -16,7 +16,7 @@
     <a class="feedback btn btn-primary" href="mailto:edinburgh-stories@armoin.com?subject=Feedback">Feedback</a>
 
     <header class="clearfix container">
-      <div class="navbar navbar navbar-fixed-top" role="navigation">
+      <div class="navbar navbar" role="navigation">
         <div class="container">
           <div class="navbar-header">
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
@@ -77,7 +77,7 @@
       </div>
 
       <div id="searchwrapper" class="dropdowns col-xs-12  col-sm-10 col-md-10">
-        <div class="dropdowns">
+<!--  <div class="dropdowns">
           <%= select_tag 'filter_area', options_from_collection_for_select(Area.all, :id, :name), {prompt: 'Explore by Area', class: "form-control"} %>
           <%= select_tag 'filter_category', options_from_collection_for_select(Category.all, :id, :name), {prompt: 'Explore by Category', class: "form-control"} %>
         </div>
@@ -86,7 +86,7 @@
           <form>
             <input type="text" class="form-control" />
           </form>
-        </div>
+        </div> -->
       </div> <!-- end search/browse box -->
     </header>
 

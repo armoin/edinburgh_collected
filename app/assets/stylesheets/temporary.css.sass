@@ -58,6 +58,7 @@ h1, h2, h3
 
 header
   position: relative
+  margin-top: 2em
 
 
   .navbar
@@ -70,7 +71,7 @@ header
       float: right
       padding: 0
       position: relative
-      right: -1em
+      right: 0
 
       ul.nav
         float: right
@@ -111,8 +112,9 @@ header
     background: $navy-blue
     position: relative
     padding: 0.5em
-    margin: 3em 0 0 0
+    margin: 0em 0 0 0
     float: right
+    height: 1em
 
     a
       color: #ffffff
@@ -400,9 +402,6 @@ a.memory, a.scrapbook
     .info
       width: 500px
       padding: 0.4em
-
-.row
-  text-align: center
 
 
 /* ==================================== MASONRY STUFF */
@@ -756,6 +755,9 @@ ul.admin-toolbar
   font-size: smaller
   margin: 0 3px
 
+.feedback
+  position: absolute
+
 
 .user-card
   .details
@@ -799,9 +801,10 @@ body.styleguide
 @media screen and (max-width: 767px)
 
   header
+    margin-top: 0
 
     #logo
-      margin-top: 3.5em
+      margin-top: 1em
       position: relative
       margin-bottom: 1em
 
