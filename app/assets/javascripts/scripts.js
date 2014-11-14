@@ -27,3 +27,8 @@ var doIt = function (container, fitWidth) {
 $(window).on('page:load', runMasonry);
 $(window).on('load', runMasonry);
 
+
+$(document).ready(function () {
+  var setHeightBoxes = $("#profileHeader .wrapper").outerHeight();
+  $('.stats a').height(setHeightBoxes -45)
+});

@@ -474,12 +474,20 @@ a.memory, a.scrapbook
 
   #userContent
     float: right
-    display: inline-block
+    display: table
 
     div
-      display: inline-block
+      display: table-cell
       text-align: center
-      padding: 0.5em
+      vertical-align: middle
+
+      a
+        display: block
+        padding: 1.5em 0
+
+        span
+          font-size: 1.5em
+          font-weight: 600
 
       &.active
         background: $navy-blue
@@ -488,6 +496,16 @@ a.memory, a.scrapbook
 
       span
         display: block
+
+.memories #userMemories a:hover, .scrapbook #userScrapbooks a:hover
+  text-decoration: none
+  pointer: auto
+
+.memories #userScrapbooks a:hover, .scrapbook #userMemories a:hover
+  background: $green
+  text-decoration: none
+  color: white
+
 
 .profile, .user-card
   .details
