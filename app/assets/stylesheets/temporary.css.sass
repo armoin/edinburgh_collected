@@ -25,6 +25,9 @@ $green:         #51b0aa
 
 /* ==================================== BASICS */
 
+*
+  margin: 0
+
 html, body
   overflow-x: hidden
   background-color: $light-grey
@@ -164,16 +167,29 @@ header
   +border-radius(3px)
   +box-shadow(0, 1px, 1px, rgba(0, 0, 0, 0.5))
 
+/* ================= STICKY FOOTER */
+
+html, body
+  height: 100%
+
+#wrapper
+  min-height: 100%
+  height: auto !important
+  height: 100%
+  margin: 0 auto -190px
+
+#push
+  height: 190px
 
 footer
-  padding: 2em 0
+  height: 190px
   text-align: center
   background: $navy-blue
   color: $cream
 
   a
     color:  white
-    margin-bottom: 2em
+    margin: 1em
     display: inline-block
 
     &:hover
@@ -181,7 +197,6 @@ footer
       text-decoration: underline
 
   #councilLogo
-    margin: 1em 0 0
     display: inline-block
 
 .error-message
