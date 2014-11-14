@@ -34,6 +34,11 @@ html, body
 
 
 
+/* ==================================== BUTTONS */
+
+a.delete
+  background-color: $red !important
+
 /* ==================================== TYPOGRAPHY */
 
 a
@@ -458,6 +463,15 @@ a.memory, a.scrapbook
     width: 320px
     margin-bottom: 50px
 
+#editScrapbook
+  float: right
+
+  .memory
+    margin-bottom: 1em
+    img
+      width: 100%
+      float: left
+
 
 /* ==================================== PROFILE */
 
@@ -584,7 +598,6 @@ form, .form-title
 
 form
   background-color: white
-  padding: 1em
 
   &.minimal
     padding: 0
@@ -831,6 +844,11 @@ ul.admin-toolbar
     a
       float: right
       margin: 10px 0
+
+    &:hover
+      background: $green
+      color: white
+      text-decoration: none
 
 
 
