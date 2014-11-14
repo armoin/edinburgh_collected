@@ -18,7 +18,7 @@
 
         <p class="views not-implemented">This has been viewed <strong>XX</strong> times</p>
         <% scrapbook_count = @memory.scrapbooks.count %>
-        <p class="saved">This has been added to <strong><%= scrapbook_count %></strong> <%= 'scrapbook'.pluralize(scrapbook_count) %></p>
+        <p class="saved">This has been added to <span id="scrapbook-count"><%= scrapbook_count %></span> <span id="scrapbook-text"><%= 'scrapbook'.pluralize(scrapbook_count) %></span></p>
 
         <span class="buttons">
           <% if logged_in? %>

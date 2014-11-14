@@ -66,6 +66,13 @@ class @AddToScrapbookController
   addToScrapbookSuccess: (e, data, status, xhr) =>
     $('#add-to-scrapbook-modal').modal('hide');
     @displaySuccessMessage(data)
+    @updateScrapbookIndicator()
+
+  updateScrapbookIndicator: ->
+    currentCount = parseInt($('span#scrapbook-count').text(), 10)
+    $('span#scrapbook-count').text(currentCount + 1)
+    scrapbookText = if currentCount == 0 then 'scrapbook' else 'scrapbooks'
+    $('span#scrapbook-text').text(scrapbookText)
 
   addToScrapbookError: (e, data, status, xhr) =>
     selector = $('#add-to-scrapbook-modal .modal-body')
