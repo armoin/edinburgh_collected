@@ -1,9 +1,9 @@
 <div class="container user-card">
   <div class="details col-xs-12">
-  <header>
-    <a href="#" class="userAvatar"><img src="http://placehold.it/72x72" alt="username" /></a>
-    <h1 class="title"><%= @user.screen_name %></h1>
-  </header>
+    <header>
+      <a href="#" class="userAvatar"><img src="http://placehold.it/72x72" alt="username" /></a>
+      <h1 class="title"><%= @user.screen_name %></h1>
+    </header>
 
     <p>
       <strong><%= user_name_label(@user) %></strong> <%= @user.first_name %>
@@ -17,10 +17,6 @@
 
     <p>
       <strong>Email:</strong> <%= @user.email %>
-    </p>
-
-    <p>
-      <strong>Group account?</strong> <%= @user.is_group? %>
     </p>
   </div>
 
