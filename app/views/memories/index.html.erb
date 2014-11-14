@@ -1,17 +1,13 @@
 <div class="container">
   <div id="grid">
-  <header id="contentHeader" class="clearfix">
-   <h1>Browsing all memories</h1>
-   <span class="actions">
-   <%= link_to 'Browse Scrapbooks', scrapbooks_path %>
-   </span>
-  </header>
+    <header id="contentHeader" class="clearfix">
+      <h1>Browsing all memories</h1>
+      <span class="actions">
+        <%= link_to 'Browse Scrapbooks', scrapbooks_path %>
+      </span>
+    </header>
 
-    <div id="memories" class="masonry-grid">
-      <% @memories.each do |memory| %>
-        <%= render partial: 'memories/memory_thumb', locals: {memory: memory, link_path: memory_path(memory.id)} %>
-      <% end %>
-    </div>
+    <%= render partial: 'memories/memories', locals: {memories: @memories} %>
   </div>
 </div>
 

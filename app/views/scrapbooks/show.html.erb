@@ -15,18 +15,6 @@
     <p><%= @scrapbook.description %></p>
   </div>
 
-  <div id="memories" class="masonry-grid">
-    <% @scrapbook.scrapbook_memories.by_ordering.each do |scrapbook_memory| %>
-      <% memory = scrapbook_memory.memory %>
-      <a class="memory thumb masonry" data-id="<%= memory.id %>" href="<%= memory_url(memory.id) %>" title="View details" role="button">
-        <div class="img">
-          <img src="<%= cache_busted_url(memory, :thumb) %>" alt="<%= memory.title %>" />
-        </div>
-        <div class="detail">
-          <p class="title"><%= memory.title %></p>
-        </div>
-      </a>
-    <% end %>
-  </div>
+  <%= render partial: 'memories/memories', locals: {memories: @scrapbook.scrapbook_memories.by_ordering.map(&:memory)} %>
 </div>
 
