@@ -17,7 +17,8 @@
       <div class="memory-meta">
 
         <p class="views">This has been viewed <strong>XX</strong> times</p>
-        <p class="saved">This has been saved to <strong>XX</strong> scrapbooks</p>
+        <% scrapbook_count = @memory.scrapbooks.count %>
+        <p class="saved">This has been added to <strong><%= scrapbook_count %></strong> <%= 'scrapbook'.pluralize(scrapbook_count) %></p>
 
         <span class="buttons">
           <% if logged_in? %>
