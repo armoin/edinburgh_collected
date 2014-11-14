@@ -37,7 +37,8 @@ var runMasonry = function(e) {
     $container.masonry({
       gutter:       gutter,
       itemSelector: '.masonry',
-      columnWidth:  '.masonry'
+      columnWidth:  '.masonry',
+      isFitWidth: true
     });
   });
 };
