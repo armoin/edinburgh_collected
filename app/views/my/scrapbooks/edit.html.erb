@@ -1,5 +1,4 @@
 <div class="container">
-  <%= link_to "All my scrapbooks", my_scrapbooks_path %>
   <% if belongs_to_user?(@scrapbook) %>
     | <%= link_to "Show", my_scrapbook_path(@scrapbook.id) %>
     | <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), method: :delete, data: {confirm: 'Are you sure?'} %>

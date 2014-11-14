@@ -1,21 +1,18 @@
 <div id="scrapbook" class="container">
-  <%= link_to "All scrapbooks", scrapbooks_path %>
-
   <header id="contentHeader" class="clearfix">
+    <h1><%= @scrapbook.title %></h1>
 
-   <h1><%= @scrapbook.title %></h1>
-
-   <% if belongs_to_user?(@scrapbook) %>
-    <span class="actions">
-     <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id) %>
-     <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), method: :delete, data: {confirm: 'Are you sure?'} %>
-     <a class="memory thumb" href="<%= memories_url %>" title="Add more memories" role="button">Add memories</a>
-    </span>
-   <% end %>
+    <% if belongs_to_user?(@scrapbook) %>
+      <span class="actions">
+        <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id) %>
+        <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), method: :delete, data: {confirm: 'Are you sure?'} %>
+        <a class="memory thumb" href="<%= memories_url %>" title="Add more memories" role="button">Add memories</a>
+      </span>
+    <% end %>
   </header>
 
   <div id="description">
-   <p><%= @scrapbook.description %></p>
+    <p><%= @scrapbook.description %></p>
   </div>
 
   <div id="memories" class="masonry-grid">
@@ -31,6 +28,5 @@
       </a>
     <% end %>
   </div>
-
 </div>
 

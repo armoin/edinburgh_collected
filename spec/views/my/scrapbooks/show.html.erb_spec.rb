@@ -2,16 +2,9 @@ require 'rails_helper'
 
 describe "my/scrapbooks/show.html.erb" do
   let(:scrapbook) { Fabricate.build(:scrapbook, id: 123) }
-  # let(:memory) { Fabricate.build(:photo_memory, id: 456) }
 
   before :each do
-    # scrapbook.memories << memory
     assign(:scrapbook, scrapbook)
-  end
-
-  it "has an 'All my scrapbooks' link to the my_scrapbooks page" do
-    render
-    expect(rendered).to have_link('All my scrapbooks', href: my_scrapbooks_path)
   end
 
   context "when memory doesn't belong to the user" do

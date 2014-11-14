@@ -1,34 +1,32 @@
 <div class="container profile memories">
-
   <header id="profileHeader" class="clearfix">
-
     <div class="wrapper col-md-9">
-    <a href="#" class="userAvatar"><img src="http://placehold.it/72x72/ffffff/000000" alt="username" /></a>
-    <h1 class="title">
-      <%= current_user.try(:first_name) %>
-      <%= link_to 'Edit', my_profile_edit_path, class: 'btn btn-primary' %>
-    </h1>
-    <p class="sub">User bio/description goes here</p>
+      <a href="#" class="userAvatar"><img src="http://placehold.it/72x72/ffffff/000000" alt="username" /></a>
+      <h1 class="title">
+        <%= current_user.try(:first_name) %>
+        <%= link_to 'Edit', my_profile_edit_path, class: 'btn btn-primary' %>
+      </h1>
+      <p class="sub">User bio/description goes here</p>
     </div>
 
     <div id="userContent" class="col-md-3">
-     <div id="userMemories" class="active">
-      <a href=""> <span><%= @memories.size %></span> Memories</a>
-     </div>
-     <div id="userScrapbooks">
-      <a href=""> <span><%= current_user.scrapbooks.size %></span> Scrapbooks</a>
-     </div>
+      <div id="userMemories" class="active">
+        <a href=""> <span><%= @memories.size %></span> Memories</a>
+      </div>
+      <div id="userScrapbooks">
+        <a href=""> <span><%= current_user.scrapbooks.size %></span> Scrapbooks</a>
+      </div>
     </div>
   </header>
 
   <div id="grid">
 
-  <header id="contentHeader" class="clearfix">
-   <h2>Browsing your memories</h2>
-   <span class="actions">
-   <%= link_to 'Browse your Scrapbooks', my_scrapbooks_path %>
-   </span>
-  </header>
+    <header id="contentHeader" class="clearfix">
+      <h2>Browsing your memories</h2>
+      <span class="actions">
+        <%= link_to 'Browse your Scrapbooks', my_scrapbooks_path %>
+      </span>
+    </header>
 
     <div id="memories" class="masonry-grid">
       <% @memories.each do |memory| %>

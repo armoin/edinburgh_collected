@@ -1,17 +1,15 @@
 <div class="container">
   <div id="grid">
-
     <header id="contentHeader" class="clearfix">
-     <h1>Browsing all scrapbooks</h1>
-     <span class="actions">
-     <%= link_to 'Browse Memories', memories_path %>
-     </span>
+      <h1>Browsing all scrapbooks</h1>
+      <span class="actions">
+        <%= link_to 'Browse Memories', memories_path %>
+      </span>
     </header>
 
     <div id="scrapbooks" class="masonry-grid">
       <%= render @scrapbooks %>
     </div>
-
   </div>
 </div>
 
