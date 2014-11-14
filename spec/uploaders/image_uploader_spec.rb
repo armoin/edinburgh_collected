@@ -6,7 +6,6 @@ describe ImageUploader, slow: true do
 
   let(:memory)       { Fabricate.build(:photo_memory, id: 123) }
   let(:path_to_file) { File.join(Rails.root, 'spec', 'fixtures', 'files', 'test.jpg') }
-  let(:photo_width)  { 167 }
   let(:uploader)     { ImageUploader.new(memory, :source) }
 
   describe 'without manipulation' do
@@ -76,8 +75,8 @@ describe ImageUploader, slow: true do
       uploader.remove!
     end
 
-    it "should scale down an image to a width of 250 pixels" do
-      expect(uploader.thumb).to be_no_larger_than(250, photo_width)
+    it "should scale down an image to a width of 300 pixels" do
+      expect(uploader.thumb).to be_no_larger_than(300, 200)
     end
   end
 end
