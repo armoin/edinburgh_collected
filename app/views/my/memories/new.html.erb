@@ -1,6 +1,6 @@
 <div class="container">
+ <header id="formHeader" class="row">
 <!--
- <div id="newMemorySteps" class="row">
   <div class="step step1 col-md-4">
    <span>1</span> Choose the type of file
   </div>
@@ -10,8 +10,8 @@
   <div class="step step3 col-md-4">
    <span>3</span> Upload Complete
   </div>
- </div>
  -->
+ </header>
 
  <div id="newMemoryForm" class="formWrapper row">
   <div id="formPanel" class="col-md-6">
@@ -34,7 +34,7 @@
         <%= render partial: 'details_form', object: @memory, locals: {form: form} %>
 
         <div class="form-group">
-          <div class="actions col-xs-sm-12">
+          <div class="actions">
             <%= link_to "Cancel", my_memories_path, class: "btn btn-default" %>
             <%= form.button :submit, "Save And Add Another", class: "btn btn-primary", disabled: true %>
             <%= form.button :submit, "Save", class: "btn btn-primary", disabled: true %>
@@ -44,7 +44,7 @@
     </div>
     <div class="col-md-6">
       <div id="infoPanel">
-       <h1>Explanation to go here</h1>
+
       </div>
     </div>
 

@@ -493,8 +493,8 @@ a.memory, a.scrapbook
 
 /* ==================================== FORMS */
 
-#newMemorySteps
-  padding: 3em 0 2em 0
+#formHeader
+  padding: 0em 0 2em 0
   text-align: center
   text-transform: uppercase
 
@@ -512,19 +512,15 @@ a.memory, a.scrapbook
     text-align: right
 
 
-#newMemoryForm
+.formWrapper
   background: white
-  margin-left: 0
-  margin-right: 0
+  margin: 0 0 2em 0
 
   #formPanel
     background: #d9dbd7
 
     select
       width: auto
-
-    label.control-label
-      padding-bottom: 0.25em
 
     .check_boxes
       display: block
@@ -584,8 +580,11 @@ form
       margin-left: 1.3em
 
   .actions
-    padding-right: 15px
-    float: right
+    border-top: 1px solid $navy-blue
+    padding-top: 1em
+    width: 100%
+    text-align: right
+    margin-top: 1em
 
     input[type="submit"]
       margin-left: 10px
@@ -861,7 +860,6 @@ body.styleguide
 
   h1
     font-size: 28px
-    text-align: center
 
   h2
     font-size: 24px
@@ -909,7 +907,6 @@ body.styleguide
     text-align: center
 
   .photo
-    text-align: center
     margin-top: 10px
 
   .global-memory-actions
@@ -944,6 +941,19 @@ body.styleguide
 
     span.actions
       float: none
+
+  .formWrapper
+    h1
+      margin-top: 0
+      padding-top: 20px
+
+    h2
+      padding: 1em 0 0 0
+    #infoPanel
+      display: none
+
+    .check_boxes .checkbox
+      width: 100% !important
 
 
 /* Medium devices */
