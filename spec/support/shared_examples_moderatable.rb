@@ -61,6 +61,23 @@ RSpec.shared_examples 'moderatable' do
   end
 
   describe "moderation state" do
+    describe "#previous_state" do
+      it "provides the default state if no moderation records are found" do
+        expect(moderatable_instance.previous_state).to eql(ModerationStateMachine::DEFAULT_STATE)
+      end
+
+      it "provides the from_state of the moderation record if one is found" do
+        MemoryModeration.create!(memory: moderatable_instance, from_state: 'unmoderated', to_state: 'approved')
+        expect(moderatable_instance.previous_state).to eql('unmoderated')
+      end
+
+      it "provides the from_state of the latest moderation record if more than one is found" do
+        MemoryModeration.create!(memory: moderatable_instance, from_state: 'unmoderated', to_state: 'approved')
+        MemoryModeration.create!(memory: moderatable_instance, from_state: 'approved', to_state: 'rejected')
+        expect(moderatable_instance.previous_state).to eql('approved')
+      end
+    end
+
     describe "#current_state" do
       it "provides the default state if no moderation records are found" do
         expect(moderatable_instance.current_state).to eql(ModerationStateMachine::DEFAULT_STATE)
@@ -78,7 +95,7 @@ RSpec.shared_examples 'moderatable' do
       end
     end
 
-    describe "#current_state_reson" do
+    describe "#current_state_reason" do
       it "is nil if no moderation records are found" do
         expect(moderatable_instance.current_state_reason).to be_nil
       end
