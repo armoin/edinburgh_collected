@@ -25,9 +25,6 @@ $green:         #51b0aa
 
 /* ==================================== BASICS */
 
-*
-  margin: 0
-
 html, body
   overflow-x: hidden
   background-color: $light-grey
@@ -596,6 +593,7 @@ a.memory, a.scrapbook
 form
   background-color: transparent !important
   margin: 0 0 0 0 !important
+  padding: 1em
 
   label
     text-align: left !important
@@ -976,10 +974,11 @@ body.styleguide
 
       input[type="submit"]
         width: 100%
+        margin-left: 0
 
-      a.btn
-        margin-left: 10px
-        margin-right: -11px
+      // a.btn
+      //   margin-left: 10px
+      //   margin-right: -11px
 
   .col-xs-12.global-asset-actions
     text-align: center
@@ -995,7 +994,18 @@ body.styleguide
 
   a.memory
     &.thumb
+      width: 290px
       margin: 0 auto
+      margin-bottom: 5px
+      div
+        &.img
+          line-height: 100%
+
+  #scrapbooks .masonry, #scrapbook .masonry
+    &.thumb
+      width: 290px
+      margin: 0 auto
+      margin-bottom: 5px
       div
         &.img
           line-height: 100%
