@@ -15,7 +15,7 @@ var doIt = function (container, fitWidth) {
 
   $spinner.hide();
   $('.module').matchHeight();
-  $container.show();
+  $container.parent().show();
   $container.masonry({
     gutter:       gutter,
     itemSelector: '.masonry',
