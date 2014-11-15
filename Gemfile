@@ -27,6 +27,7 @@ gem 'email_validator',              '~> 1.4.0'
 gem 'fabrication',                  '~> 2.11.3'
 gem 'ffaker',                       '~> 1.25.0'
 gem 'fastimage'
+gem 'kaminari'
 
 group :doc do
   gem 'sdoc',                       '~> 0.4.0'
