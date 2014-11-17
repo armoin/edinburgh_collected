@@ -11,11 +11,6 @@ describe 'my/scrapbooks/edit.html.erb' do
     render
   end
 
-  it "has an 'All my scrapbooks' link to the my_scrapbooks page" do
-    render
-    expect(rendered).to have_link('All my scrapbooks', href: my_scrapbooks_path)
-  end
-
   context "when scrapbook doesn't belong to the user" do
     before :each do
       allow(view).to receive(:belongs_to_user?).and_return(false)

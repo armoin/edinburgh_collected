@@ -1,4 +1,4 @@
-<a class="scrapbook thumb" data-id="<%= scrapbook.id %>" href="<%= scrapbook_path(scrapbook.id) %>" title="View details" role="button">
+<a class="scrapbook thumb masonry" data-id="<%= scrapbook.id %>" href="<%= link_path %>" title="View details" role="button">
   <div class="img">
     <% if scrapbook.cover_memory.present? %>
       <%= image_tag cache_busted_url(scrapbook.cover_memory, :thumb), alt: scrapbook.title %>
@@ -6,8 +6,8 @@
       <p>&nbsp;</p>
     <% end %>
   </div>
-  <div class="footer">
-    <div class="title"><%= scrapbook.title %></div>
+  <div class="detail">
+    <h3 class="title"><%= scrapbook.title %></h3>
     <div class="count"><%= pluralize(scrapbook.memories.count, 'memory') %></div>
     <div class="updates">Updated <%= time_ago_in_words(scrapbook.updated_at) %> ago</div>
   </div>

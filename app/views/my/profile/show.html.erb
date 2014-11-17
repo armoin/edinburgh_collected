@@ -1,6 +1,9 @@
 <div class="container user-card">
   <div class="details col-xs-12">
-    <h1><%= @user.screen_name %></h1>
+    <header>
+      <a href="#" class="userAvatar"><%= image_tag "avatar.png" %></a>
+      <h1 class="title"><%= @user.screen_name %></h1>
+    </header>
 
     <p>
       <strong><%= user_name_label(@user) %></strong> <%= @user.first_name %>
@@ -14,10 +17,6 @@
 
     <p>
       <strong>Email:</strong> <%= @user.email %>
-    </p>
-
-    <p>
-      <strong>Group account?</strong> <%= @user.is_group? %>
     </p>
   </div>
 

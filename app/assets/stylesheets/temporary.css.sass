@@ -1,26 +1,200 @@
 @import "bourbon"
 
+
+$navy-blue:     #35404d
+$cream:         #eeece7
+$red:           #be2b09
+$module:        #f0efea
+$light-grey:    #eaebe9
+$beige:         #c9ccc1
+$green:         #51b0aa
+
+
+=border-radius($radius)
+  -webkit-border-radius: $radius
+  -moz-border-radius:    $radius
+  -ms-border-radius:     $radius
+  border-radius:         $radius
+
+=box-shadow($top, $left, $blur, $color, $inset:"")
+  -webkit-box-shadow:    $top $left $blur $color #{$inset}
+  -moz-box-shadow:       $top $left $blur $color #{$inset}
+  box-shadow:            $top $left $blur $color #{$inset}
+
+
+
+/* ==================================== BASICS */
+
 html, body
   overflow-x: hidden
-  background-color: #ccc
+  background-color: $light-grey
+  font-family: 'Open Sans', sans-serif
+  font-size: 16px
+  color: $navy-blue
 
-.override .mailto.ninja
-  // put any override styles in here
 
-.beta
-  font-size: smaller
-  margin: 0 3px
 
-a.feedback
-  float: right
-  margin-top: 8px
+/* ==================================== BUTTONS */
 
-body
-  padding-top: 70px
+a.delete
+  background-color: $red !important
+
+/* ==================================== TYPOGRAPHY */
+
+a
+  color: $navy-blue
+
+h1, h2, h3
+  font-family: 'Open Sans', sans-serif
+  font-weight: 600
+
+.back_button
+  margin: 1em 0
+  display: block
+  font-weight: 300
+
+  &:before
+    content: "< "
+
+  &:hover
+    color: $red
+
+/* ==================================== HEADER */
+
+header
+  position: relative
+  margin-top: 2em
+
+
+  .navbar
+    margin-bottom: 0
+
+    .navbar-toggle .icon-bar
+      background: $navy-blue
+
+    .navbar-collapse
+      float: right
+      padding: 0
+      position: relative
+      right: 0
+
+      ul.nav
+        float: right
+
+        li
+
+          a:hover
+            background: inherit
+
+          ul
+            padding: 0
+
+            li a
+              padding: 10px 15px
+              line-height: 20px
+              display: block
+
+
+
+
+  #logo
+    padding-left: 0
+    margin-top: 1.25em
+    position: absolute
+    bottom: 0
+
+    .navbar-brand
+      display: block
+      float: none
+      height: auto
+      position: relative
+      padding: 0
+      font-size: inherit
+      line-height: 100%
+      margin-bottom: 0
+
+  #searchwrapper
+    background: $navy-blue
+    position: relative
+    padding: 0.5em
+    margin: 0em 0 0 0
+    float: right
+    height: 1em
+
+    a
+      color: #ffffff
+
+      &:hover
+        text-decoration: none
+
+    .dropdowns
+      display: inline-block
+      z-index: 500
+      padding: 0
+
+      select
+        display: inline
+        width: auto
+        margin: 0em 0.5em 0em 0
+
+    .searchForm
+      padding: 0
+
+      float: right
+      text-align: right
+
+      form
+        background: none
+        margin-bottom: 0
+        padding: 0
+
+      input
+        display: inline-block
+
+
+
+
+
+/* ==================================== LAYOUT */
+
+.module
+  background-color: $module
+  padding: 0.5em
+  border: 1px solid #d5d0b7
+  +border-radius(3px)
+  +box-shadow(0, 1px, 1px, rgba(0, 0, 0, 0.5))
+
+/* ================= STICKY FOOTER */
+
+html, body
+  height: 100%
+
+#wrapper
+  min-height: 100%
+  height: auto !important
+  height: 100%
+  margin: 0 auto -190px
+
+#push
+  height: 190px
 
 footer
-  padding: 10px 0
+  height: 190px
   text-align: center
+  background: $navy-blue
+  color: $cream
+
+  a
+    color:  white
+    margin: 1em
+    display: inline-block
+
+    &:hover
+      color: white
+      text-decoration: underline
+
+  #councilLogo
+    display: inline-block
 
 .error-message
   border: 1px solid #a94442
@@ -33,7 +207,7 @@ footer
     border: 1px solid transparent
     border-radius: 4px
     color: white
-    margin: 0 16px 20px 16px
+    margin: 16px 0 0 0
 
     .close
       text-shadow: 0 0 0 #fff
@@ -58,17 +232,6 @@ footer
       &:hover
         color: lighten(green, 20)
 
-li.greeting
-  padding-top: 15px
-  color: white
-
-.navbar-inverse .navbar-nav > li.greeting > a
-  margin: 0
-  padding: 0
-  color: white
-
-  &:hover
-    color: #777777
 
 ul.nav.nav-pills
   display: inline-block
@@ -88,44 +251,119 @@ ul.nav.nav-pills
 button#create-scrapbook-button
   margin-bottom: 10px
 
-.user-card
-  .details
-    background: white
-    padding-bottom: 1em
-
-  .actions
-    a
-      float: right
-      margin: 10px 0
-
 .photo
   padding: 0
 
-a.rotate
-  text-decoration: none
+/* ==================================== HOME PAGE */
 
-  &#rotate-left:hover
-    @include transform(rotate(-30deg))
-    @include transition(all 0.5s)
+#homeContent
+  h1
+    font-size: 1.25em
+    padding: 0 0 0.5em 0
 
-  &#rotate-right:hover
-    @include transform(rotate(30deg))
-    @include transition(all 0.5s)
+  #contentModules
+    padding: 2em 0 0 0
 
-/* ==================================== LAYOUT */
+    #joinES
+      text-align: center
 
-.container img
-  max-width: 100%
-  height: auto
+      a.btn
+        width: 80%
+        margin-bottom: 0.5em
+      p
+        margin: 0
+
+  #featuredScrapbook
+    border-top: 3px solid $navy-blue
+    margin: 2em 0
+
+    h2
+      text-transform: uppercase
+      font-size: 1em
+    h3
+      font-weight: 300
+
+    #scrapbookImages
+      padding-top: 1em
+      .masonry
+        width: 24%
+        padding: 0 1% 2% 1%
+
+        a
+          padding: 0.53em
+          background: white
+          display: block
 
 
-a#add-memory
+
+
+/* ==================================== BROWSE */
+
+#memories
+  margin-bottom: 2em
+
+#contentHeader
+  border-bottom: $navy-blue 1px solid
+  padding: 2em 0 0.5em
+  margin-bottom: 2em
+
+  h1, h2
+    margin: 0
+    display: inline-block
+
+  span.actions
+    float: right
+
+    a
+      background: $navy-blue
+      color: white
+      padding: 0.5em
+      display: inline-block
+
+
+/* ==================================== MEMORIES */
+
+.memory.full
+
+  header
+    margin-bottom: 1em
+
+    .userAvatar
+      float: left
+      margin-right: 1em
+
+  .photo
+    margin-bottom: 1em
+
+    img
+      margin-bottom: 1em
+
+  .memory-meta
+    background-color: $navy-blue
+    color: $cream
+    padding: 1em
+
+    p.saved, p.views
+      text-align: center
+
+      #scrapbook-count
+        font-weight: bold
+
+    .buttons
+      text-align: center
+      display: block
+
+      a
+        margin: 0.25em
+        display: inline-block
+
+
+a#add-memory-button
   width: 150px
-  margin-bottom: 10px
+  margin-bottom: 1px
 
 
 a.memory, a.scrapbook
-  color: black
   text-decoration: none
 
   &:hover
@@ -138,31 +376,24 @@ a.memory, a.scrapbook
     display: none
 
   &.thumb
-    text-align: center
-    margin: 10px
-    background-color: white
-    padding: 10px
-    display: inline-block
-    width: 220px
+    background: white
 
     div
       &.img, &.button
         text-align: center
-        line-height: 200px
-
-      &.img
-        background-color: black
-        img
-          vertical-align: middle
-          max-width: 200px
+        padding: 0.5em
 
       &.button
         span.glyphicon.glyphicon-plus
           font-size: 128px
           vertical-align: middle
 
-      &.footer
-        margin: 10px 0
+      &.detail
+        margin: 0 10px 10px 10px
+
+        h3
+          font-size: 20px
+          margin: 0.25em 0
 
   &.full
     img
@@ -208,16 +439,181 @@ a.memory, a.scrapbook
       width: 500px
       padding: 0.4em
 
-.row
+
+/* ==================================== MASONRY STUFF */
+
+.masonry-loading-spinner
+  position: relative
+  margin-bottom: 2em
+
+  .spinner
+    height: 100px
+
+.memory-container, .scrapbooks-container
+  display: none
+
+.masonry-grid
+  margin: 0 auto
+
+  .masonry
+    width: 320px
+    margin-bottom: 50px
+
+    .detail
+      margin: 0 10px 10px 10px
+
+
+
+/* ==================================== SCRAPBOOKS */
+
+#scrapbooks, #scrapbook
+
+  #description
+    text-align: center
+    font-style: italic
+    font-size: 1.5em
+    padding: 0 0 1em 0
+
+  .masonry
+    width: 320px
+    margin-bottom: 50px
+
+#editScrapbook
+  float: right
+
+  .memory
+    margin-bottom: 1em
+    img
+      width: 100%
+      float: left
+
+
+/* ==================================== PROFILE */
+
+#profileHeader
+  background: $beige
+  margin: 2em 0 0 0
+
+  .wrapper
+    padding: 15px
+    float: left
+
+    h1
+      margin: 0
+
+  #userContent
+    float: right
+    display: table
+
+    div
+      display: table-cell
+      text-align: center
+      vertical-align: middle
+
+      a
+        display: block
+        padding: 1.5em 0
+
+        span
+          font-size: 1.5em
+          font-weight: 600
+
+      &.active
+        background: $navy-blue
+        a
+          color: white
+
+      span
+        display: block
+
+.memories #userMemories a:hover, .scrapbook #userScrapbooks a:hover
+  text-decoration: none
+  pointer: auto
+
+.memories #userScrapbooks a:hover, .scrapbook #userMemories a:hover
+  background: $green
+  text-decoration: none
+  color: white
+
+
+.profile, .user-card
+  .details
+    background: none !important
+
+  .userAvatar
+    float: left
+    margin-right: 1em
+
+
+
+
+/* ==================================== FORMS */
+
+#formHeader
+  padding: 0em 0 2em 0
   text-align: center
+  text-transform: uppercase
+
+  .step > span
+    background: $navy-blue
+    color: white
+    margin-right: 0.25em
+    padding: 0.25em 0.75em
+    +border-radius(50%)
+
+  .step1
+    text-align: left
+
+  .step3
+    text-align: right
+
+
+.formWrapper
+  background: white
+  margin: 0 0 2em 0
+
+  #formPanel
+    background: #d9dbd7
+
+    select
+      width: auto
+
+    .check_boxes
+      display: block
+      padding-bottom: 0
+
+      .checkbox
+        display: inline-block
+        width: 40%
+        font-weight: 400
+
+
+
+
+form
+  background-color: transparent !important
+  margin: 0 0 0 0 !important
+  padding: 1em
+
+  label
+    text-align: left !important
+
+a.rotate
+  text-decoration: none
+
+  &#rotate-left:hover
+    @include transform(rotate(-30deg))
+    @include transition(all 0.5s)
+
+  &#rotate-right:hover
+    @include transform(rotate(30deg))
+    @include transition(all 0.5s)
 
 form, .form-title
   max-width: 750px
-  margin: 0 auto 10px
 
 form
   background-color: white
-  padding: 1em
 
   &.minimal
     padding: 0
@@ -240,8 +636,11 @@ form
       margin-left: 1.3em
 
   .actions
-    padding-right: 15px
-    float: right
+    border-top: 1px solid $navy-blue
+    padding-top: 1em
+    width: 100%
+    text-align: right
+    margin-top: 1em
 
     input[type="submit"]
       margin-left: 10px
@@ -272,11 +671,89 @@ form
     label
       min-width: 180px
 
+/* ==================================== SIGN IN / SIGN OUT */
+
+#signIn, #signUp
+  padding: 5em 0
+
+  h1
+    text-align: center
+  form
+    label
+      text-align: left!important
+
+  p.switch
+    font-weight: 600
+    text-align: center
+
+  #user_is_group
+    text-align: left
+
+
+
+/* ==================================== MESSAGES */
+
+li.greeting
+  padding-top: 15px
+  color: white
+
+.navbar-inverse .navbar-nav > li.greeting > a
+  margin: 0
+  padding: 0
+  color: white
+
+  &:hover
+    color: #777777
+
+
+/* ==================================== MISC */
+
+.container img
+  max-width: 100%
+  height: auto
+
+
+.override .mailto.ninja
+  // put any override styles in here
+
+/* hides and disables the element */
+.hide
+  display: none
+
 /* hides the element without disabling it */
 .hide-whilst-enabled
   width: 0
   height: 0
   overflow: hidden
+
+.float-left
+  float: left
+.float-right
+  float: right
+
+.not-implemented
+  display: none !important
+
+.exception
+  text-align: center
+  margin: 5em 0
+
+
+/* ==================================== STATIC */
+
+#t_and_c
+  margin-bottom: 2em
+
+  h1
+    text-align: center
+    margin: 1em 0
+
+  a
+    text-decoration: underline
+
+  nav
+    ul
+      list-style: none
 
 
 /* ==================================== ADMIN */
@@ -368,6 +845,35 @@ ul.admin-toolbar
         border-bottom: -1px
         color: #ccc
 
+
+
+/* ==================================== BETA */
+
+.beta
+  font-size: smaller
+  margin: 0 3px
+
+.feedback
+  position: absolute
+
+
+.user-card
+  .details
+    background: white
+    padding-bottom: 1em
+
+  .actions
+    a
+      float: right
+      margin: 10px 0
+
+    &:hover
+      background: $green
+      color: white
+      text-decoration: none
+
+
+
 /* ==================================== STYLEGUIDE */
 
 body.styleguide
@@ -396,9 +902,46 @@ body.styleguide
 
 
 @media screen and (max-width: 767px)
+
+  header
+    margin-top: 0
+
+    #logo
+      margin-top: 1em
+      position: relative
+      margin-bottom: 1em
+
+      .navbar-brand
+        float: none
+
+        img
+          margin: 0 auto
+
+    .navbar
+      .container
+        padding: 0
+
+      .navbar-collapse
+        background: $navy-blue
+        right: auto
+        width: 100%
+        text-align: right
+        padding-right: 15px
+        margin: 0
+
+        a
+          color: white !important
+
+          &:hover
+            background: inherit
+
+    #searchwrapper
+      margin-top: 0em
+
+
+
   h1
     font-size: 28px
-    text-align: center
 
   h2
     font-size: 24px
@@ -408,6 +951,13 @@ body.styleguide
   a.feedback.btn.btn-primary
     width: 100%
     margin: 10px 0
+
+  .dropdowns
+    a
+      display: block
+
+    select
+      margin: 0
 
   form
     background-color: #ccc
@@ -430,16 +980,16 @@ body.styleguide
 
       input[type="submit"]
         width: 100%
+        margin-left: 0
 
-      a.btn
-        margin-left: 10px
-        margin-right: -11px
+      // a.btn
+      //   margin-left: 10px
+      //   margin-right: -11px
 
   .col-xs-12.global-asset-actions
     text-align: center
 
   .photo
-    text-align: center
     margin-top: 10px
 
   .global-memory-actions
@@ -450,7 +1000,18 @@ body.styleguide
 
   a.memory
     &.thumb
-      margin-left: 50px
+      width: 290px
+      margin: 0 auto
+      margin-bottom: 5px
+      div
+        &.img
+          line-height: 100%
+
+  #scrapbooks .masonry, #scrapbook .masonry
+    &.thumb
+      width: 290px
+      margin: 0 auto
+      margin-bottom: 5px
       div
         &.img
           line-height: 100%
@@ -465,3 +1026,78 @@ body.styleguide
         width: 100%
         margin: 10px 0
 
+
+  #contentHeader
+    text-align: center
+
+    h1
+      margin-bottom: 0.5em
+
+    span.actions
+      float: none
+
+  .formWrapper
+    h1
+      margin-top: 0
+      padding-top: 20px
+
+    h2
+      padding: 1em 0 0 0
+    #infoPanel
+      display: none
+
+    .check_boxes .checkbox
+      width: 100% !important
+
+
+/* Medium devices */
+
+@media (min-width: 768px)
+  #grid > #memories .memory
+    width: 320px
+
+  .memory img
+    padding: 0
+
+  .navbar-nav
+    li.profile
+      position: relative
+      ul
+        position: absolute
+        right: 0
+        width: 150px
+        text-align: right
+        background: $green
+        z-index: 100
+        padding: 0 0 10px 0
+        list-style: none
+        display: none
+
+        a
+          color: $cream
+          padding: 1em 0.5em
+
+      &:hover
+        background: $green
+        a
+          color: $cream
+
+        ul
+          display: block
+
+  .navbar #searchwrapper .searchForm input
+    width: 100%
+
+
+
+/* Large devices min-width (1200px) + a .memory margin (50px) * 2 (100px) = 1300px */
+
+
+@media (min-width: 1300px)
+  #grid
+    position: relative
+
+  #grid.container
+    left: auto
+    padding-left: 15px
+    padding-right: 15px

@@ -2,26 +2,15 @@ require 'rails_helper'
 
 describe "my/scrapbooks/show.html.erb" do
   let(:scrapbook) { Fabricate.build(:scrapbook, id: 123) }
-  # let(:memory) { Fabricate.build(:photo_memory, id: 456) }
 
   before :each do
-    # scrapbook.memories << memory
     assign(:scrapbook, scrapbook)
-  end
-
-  it "has an 'All my scrapbooks' link to the my_scrapbooks page" do
-    render
-    expect(rendered).to have_link('All my scrapbooks', href: my_scrapbooks_path)
   end
 
   context "when memory doesn't belong to the user" do
     before :each do
       allow(view).to receive(:belongs_to_user?).and_return(false)
       render
-    end
-
-    it "does not have an 'Add memories' link" do
-      expect(rendered).not_to have_link('Add memories', href: memories_path)
     end
 
     it "does not have an edit link" do
@@ -39,8 +28,8 @@ describe "my/scrapbooks/show.html.erb" do
       render
     end
 
-    it "has an 'Add memories' link" do
-      expect(rendered).to have_link('Add memories', href: memories_path)
+    it "has an 'Add more memories' link" do
+      expect(rendered).to have_link('Add more memories', href: memories_path)
     end
 
     it "has an edit link" do

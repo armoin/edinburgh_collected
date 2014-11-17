@@ -75,10 +75,8 @@ describe ImageUploader, slow: true do
       uploader.remove!
     end
 
-    context 'the thumb version' do
-      it "should scale down a landscape image to fit within 200 x 200 pixels" do
-        expect(uploader.thumb).to be_no_larger_than(200, 200)
-      end
+    it "should scale down an image to a width of 300 pixels" do
+      expect(uploader.thumb).to be_no_larger_than(300, 200)
     end
   end
 end

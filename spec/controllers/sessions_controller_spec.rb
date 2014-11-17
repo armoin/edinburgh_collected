@@ -32,8 +32,8 @@ describe SessionsController do
     end
 
     context 'when successful' do
-      it 'redirects to the root page' do
-        expect(response).to redirect_to(:root)
+      it 'redirects to the my memories page' do
+        expect(response).to redirect_to(my_memories_path)
       end
 
       it 'displays a success notice' do

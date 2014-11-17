@@ -19,4 +19,10 @@
 //= require exif
 //= require jquery.placeholder
 //= require jquery-ui.min
+//= require imagesloaded.pkgd.min
+//= require jquery.waitforimages.min
+//= require masonry.pkgd.min
+//= require jquery.matchHeight-min
+//= require spin.min
+//= require jquery.spin
 //= require_tree .

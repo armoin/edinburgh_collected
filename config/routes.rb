@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get 'styleguide/blocks' => 'styleguide#blocks'
   get 'styleguide/elements' => 'styleguide#elements'
 
+  get 't_and_c' => 'static#t_and_c'
+
   namespace :my do
     resources :memories
     resources :scrapbooks
@@ -49,7 +51,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'memories#index'
+  root 'home#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

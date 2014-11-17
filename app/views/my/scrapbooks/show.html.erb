@@ -1,33 +1,32 @@
-<div class="container-fluid">
-  <%= link_to "All my scrapbooks", my_scrapbooks_path %>
-  <% if belongs_to_user?(@scrapbook) %>
-    | <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id) %>
-    | <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), method: :delete, data: {confirm: 'Are you sure?'} %>
-  <% end %>
+<div id="scrapbook" class="container">
 
-  <h1><%= @scrapbook.title %></h1>
-  <p><%= @scrapbook.description %></p>
+  <div id="grid">
+    <header id="contentHeader" class="clearfix">
+      <h1><%= @scrapbook.title %></h1>
+      <span class="actions">
+         <% if belongs_to_user?(@scrapbook) %>
+           <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id) %>
+           <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), method: :delete, data: {confirm: 'Are you sure?'} %>
+           <%= link_to "Add more memories", memories_path, role: "button" %>
+         <% end %>
+        <%= link_to 'All scrapbooks', my_scrapbooks_path %>
+      </span>
+    </header>
 
-  <div class="row">
-    <div class="memories">
-      <% if belongs_to_user?(@scrapbook) %>
-        <a class="memory thumb" href="<%= memories_path %>" title="Add more memories" role="button">
-          <div class="button">
-            <span class="glyphicon glyphicon-plus"></span>
-          </div>
-          <div class="footer">
-            <p class="title">Add memories</p>
-          </div>
-        </a>
-      <% end %>
+    <div id="description">
+      <p><%= @scrapbook.description %></p>
+    </div>
+
+    <div id="scrapbooks" class="masonry-grid">
       <% @scrapbook.scrapbook_memories.by_ordering.each do |scrapbook_memory| %>
         <% memory = scrapbook_memory.memory %>
-        <a class="memory thumb" data-id="<%= memory.id %>" href="<%= memory_url(memory.id) %>" title="View details" role="button">
+        <a class="memory thumb masonry" data-id="<%= memory.id %>" href="<%= memory_url(memory.id) %>" title="View details" role="button">
           <div class="img">
-            <img src="<%= cache_busted_url(memory, :thumb) %>" alt="<%= memory.title %>" />
+            <%= image_tag cache_busted_url(memory, :thumb), alt: memory.title %>
           </div>
-          <div class="footer">
-            <p class="title"><%= memory.title %></p>
+          <div class="detail">
+            <h3 class="title"><%= memory.title %></h3>
+            <p><%= truncate(memory.description, :length => 50) %></p>
           </div>
         </a>
       <% end %>

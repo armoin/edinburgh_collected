@@ -1,37 +1,31 @@
-<div class="container-fluid">
-  <%= link_to "All scrapbooks", scrapbooks_path %>
-  <% if belongs_to_user?(@scrapbook) %>
-    | <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id) %>
-    | <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), method: :delete, data: {confirm: 'Are you sure?'} %>
-  <% end %>
+<div id="scrapbook" class="container">
+  <header id="contentHeader" class="clearfix">
+    <h1><%= @scrapbook.title %></h1>
 
-  <h1><%= @scrapbook.title %></h1>
-  <p><%= @scrapbook.description %></p>
+    <% if belongs_to_user?(@scrapbook) %>
+      <span class="actions">
+        <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id) %>
+        <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), method: :delete, data: {confirm: 'Are you sure?'} %>
+        <%= link_to "Add more memories", memories_path, role: "button" %>
+      </span>
+    <% end %>
+  </header>
 
-  <div class="row">
-    <div class="memories">
-      <% if belongs_to_user?(@scrapbook) %>
-        <a class="memory thumb" href="<%= memories_url %>" title="Add more memories" role="button">
-          <div class="button">
-            <span class="glyphicon glyphicon-plus"></span>
-          </div>
-          <div class="footer">
-            <p class="title">Add memories</p>
-          </div>
-        </a>
-      <% end %>
-      <% @scrapbook.scrapbook_memories.by_ordering.each do |scrapbook_memory| %>
-        <% memory = scrapbook_memory.memory %>
-        <a class="memory thumb" data-id="<%= memory.id %>" href="<%= memory_url(memory.id) %>" title="View details" role="button">
-          <div class="img">
-            <img src="<%= cache_busted_url(memory, :thumb) %>" alt="<%= memory.title %>" />
-          </div>
-          <div class="footer">
-            <p class="title"><%= memory.title %></p>
-          </div>
-        </a>
+  <div id="description">
+    <p><%= @scrapbook.description %></p>
+  </div>
+
+  <% memories = @scrapbook.scrapbook_memories.by_ordering.map(&:memory) %>
+  <div class="masonry-loading-spinner"><div class="spinner"></div></div>
+    <div id="memories" class="masonry-grid">
+      <% memories.each do |memory| %>
+        <%= render partial: 'memories/memory_thumb', locals: {memory: memory, link_path: memory_path(memory)} %>
       <% end %>
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(".masonry-loading-spinner .spinner").spin();
+</script>
 

@@ -1,14 +1,22 @@
-<div class="container-fluid">
-  <button id="create-scrapbook-button" class="btn btn-primary" data-toggle="modal" data-target="#create-scrapbook-modal">
-    Create a new scrapbook
-  </button>
-  <div class="row">
-    <ul class="nav nav-pills">
-      <li><%= link_to 'Memories', my_memories_path %></li>
-      <li class="active"><%= link_to 'Scrapbooks', my_scrapbooks_path %></li>
-    </ul>
-    <div class="scrapbooks">
-      <%= render partial: 'scrapbooks/scrapbook', collection: @scrapbooks %>
+<div class="container profile scrapbook">
+  <%= render partial: 'shared/profile_header' %>
+
+  <div id="grid">
+    <header id="contentHeader" class="clearfix">
+      <h2>Browsing your scrapbooks</h2>
+      <span class="actions">
+        <a id="create-scrapbook-button" data-toggle="modal" data-target="#create-scrapbook-modal">
+          Create a new scrapbook
+        </a>
+        <%= link_to 'Browse your Memories', my_memories_path %>
+      </span>
+    </header>
+
+    <div class="masonry-loading-spinner"><div class="spinner"></div></div>
+    <div id="scrapbooks" class="masonry-grid">
+      <% @scrapbooks.each do |scrapbook| %>
+        <%= render partial: 'scrapbooks/scrapbook', locals: {scrapbook: scrapbook, link_path: my_scrapbook_path(scrapbook)} %>
+      <% end %>
     </div>
   </div>
 </div>
@@ -19,4 +27,5 @@
   var createScrapbookController = new CreateScrapbookController(function (e, data, status, xhr) {
     window.location = '/my/scrapbooks/' + data.id
   });
+  $(".masonry-loading-spinner .spinner").spin();
 </script>

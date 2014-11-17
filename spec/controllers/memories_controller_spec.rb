@@ -7,6 +7,8 @@ describe MemoriesController do
 
   before(:each) do
     allow(Memory).to receive(:approved).and_return(approved_memories)
+    allow(sorted_memories).to receive(:page).and_return(sorted_memories)
+    allow(sorted_memories).to receive(:per).and_return(sorted_memories)
   end
 
   describe 'GET index' do
@@ -21,6 +23,11 @@ describe MemoriesController do
 
     it "orders them by most recent first" do
       expect(approved_memories).to have_received(:by_recent)
+    end
+
+    it "paginates the results 30 to a page" do
+      expect(sorted_memories).to have_received(:page)
+      expect(sorted_memories).to have_received(:per).with(30)
     end
 
     it "assigns the approved and sorted memories" do

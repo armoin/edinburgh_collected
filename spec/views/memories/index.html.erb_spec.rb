@@ -1,23 +1,18 @@
 require 'rails_helper'
 
 describe 'memories/index.html.erb' do
-  let(:user)     { Fabricate(:user) }
-  let(:memories) { Fabricate.times(3, :photo_memory, user: user) }
+  let(:user)           { Fabricate(:user) }
+  let(:memories)       { Fabricate.times(3, :photo_memory, user: user) }
+  let(:paged_memories) { Kaminari.paginate_array(memories).page(1) }
 
   before :each do
-    assign(:memories, memories)
+    allow(view).to receive(:current_user).and_return(user)
+    assign(:memories, paged_memories)
     render
   end
 
-  describe 'toggle to switch to the scrapbooks list' do
-    it 'displays Memories as active' do
-      expect(rendered).to have_css('.nav.nav-pills li.active a[href="/memories"]')
-    end
-
-    it 'displays Scrapbooks as not active' do
-      expect(rendered).to have_css('.nav.nav-pills li a[href="/scrapbooks"]')
-      expect(rendered).not_to have_css('.nav.nav-pills li.active a[href="/scrapbooks"]')
-    end
+  it 'displays a link to Browse all Scrapbooks' do
+    expect(rendered).to have_link('Browse Scrapbooks', href: scrapbooks_path)
   end
 
   context 'a memory' do
@@ -30,5 +25,4 @@ describe 'memories/index.html.erb' do
 
   it_behaves_like 'a memory index'
 end
-
 

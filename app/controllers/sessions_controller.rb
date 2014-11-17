@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 
   def create
     if @user = login(params[:email], params[:password])
-      redirect_back_or_to :root, notice: 'Successfully signed in'
+      redirect_back_or_to my_memories_path, notice: 'Successfully signed in'
     else
       flash[:alert] = 'Could not sign in'
       render :new
