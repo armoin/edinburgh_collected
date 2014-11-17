@@ -5,19 +5,13 @@ describe 'my/memories/index.html.erb' do
   let(:memories) { Fabricate.times(3, :photo_memory, user: user) }
 
   before :each do
+    allow(view).to receive(:current_user).and_return(user)
     assign(:memories, memories)
     render
   end
 
-  describe 'toggle to switch to the scrapbooks list' do
-    it 'displays Memories as active' do
-      expect(rendered).to have_css('.nav.nav-pills li.active a[href="/my/memories"]')
-    end
-
-    it 'displays Scrapbooks as not active' do
-      expect(rendered).to have_css('.nav.nav-pills li a[href="/my/scrapbooks"]')
-      expect(rendered).not_to have_css('.nav.nav-pills li.active a[href="/my/scrapbooks"]')
-    end
+  it 'displays a link to Browse your Scrapbooks' do
+    expect(rendered).to have_link('Browse your Scrapbooks', href: my_scrapbooks_path)
   end
 
   context 'a memory' do

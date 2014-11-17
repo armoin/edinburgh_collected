@@ -6,7 +6,7 @@
       <span class="actions">
         <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id) %>
         <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), method: :delete, data: {confirm: 'Are you sure?'} %>
-        <a class="memory thumb" href="<%= memories_url %>" title="Add more memories" role="button">Add memories</a>
+        <%= link_to "Add more memories", memories_path, role: "button" %>
       </span>
     <% end %>
   </header>

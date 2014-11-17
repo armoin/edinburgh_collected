@@ -4,10 +4,10 @@
     <header id="contentHeader" class="clearfix">
       <h1><%= @scrapbook.title %></h1>
       <span class="actions">
-         <a class="memory thumb" href="<%= memories_path %>" title="Add more memories" role="button">Add memories</a>
          <% if belongs_to_user?(@scrapbook) %>
            <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id) %>
            <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), method: :delete, data: {confirm: 'Are you sure?'} %>
+           <%= link_to "Add more memories", memories_path, role: "button" %>
          <% end %>
         <%= link_to 'All scrapbooks', my_scrapbooks_path %>
       </span>

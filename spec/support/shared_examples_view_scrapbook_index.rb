@@ -2,7 +2,7 @@ RSpec.shared_examples 'a scrapbook index' do
   it "displays all the given scrapbooks" do
     assign(:scrapbooks, scrapbooks)
     render
-    expect(rendered).to have_css('.scrapbooks .scrapbook', count: 3)
+    expect(rendered).to have_css('#scrapbooks .scrapbook', count: 3)
   end
 
   describe "a scrapbook" do
