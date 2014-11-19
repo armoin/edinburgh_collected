@@ -74,7 +74,7 @@ describe ImageUploader, slow: true do
       end
 
       context 'when the extension is not valid' do
-        let(:filename) { 'test.php' }
+        let(:filename) { 'test.oops' }
 
         it 'provides the file name with the filetype extension' do
           expect(uploader.filename).to eql('test.jpeg')
