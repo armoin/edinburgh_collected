@@ -37,7 +37,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-    "#{secure_token}.#{ext}" if original_filename.present?
+    "#{File.basename(original_filename, '.*')}.#{ext}" if original_filename.present?
   end
 
   def extension_white_list
@@ -49,10 +49,6 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
 
   protected
-  def secure_token
-    var = :"@#{mounted_as}_secure_token"
-    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.uuid)
-  end
 
   def filetype
     @filetype ||= FastImage.type(current_path).to_s

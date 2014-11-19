@@ -5,7 +5,8 @@ describe ImageUploader, slow: true do
   include CarrierWave::Test::Matchers
 
   let(:memory)       { Fabricate.build(:photo_memory, id: 123) }
-  let(:path_to_file) { File.join(Rails.root, 'spec', 'fixtures', 'files', 'test.jpg') }
+  let(:filename)     { 'test.jpg' }
+  let(:path_to_file) { File.join(Rails.root, 'spec', 'fixtures', 'files', filename) }
   let(:uploader)     { ImageUploader.new(memory, :source) }
 
   describe 'without manipulation' do
@@ -60,6 +61,24 @@ describe ImageUploader, slow: true do
       it "is true when image is rotated by > 0" do
         model.rotation = "90"
         expect(uploader.is_rotated?(file)).to be_truthy
+      end
+    end
+
+    describe '#filename' do
+      context 'when the extension is valid' do
+        let(:filename) { 'test.jpg' }
+
+        it 'provides the file name with the given extension' do
+          expect(uploader.filename).to eql('test.jpg')
+        end
+      end
+
+      context 'when the extension is not valid' do
+        let(:filename) { 'test.php' }
+
+        it 'provides the file name with the filetype extension' do
+          expect(uploader.filename).to eql('test.jpeg')
+        end
       end
     end
   end
