@@ -2,11 +2,16 @@ require 'rails_helper'
 
 describe "my/memories/show.html.erb" do
   let(:memory) { Fabricate.build(:photo_memory, id: 123) }
+  let(:user)   { Fabricate.build(:active_user) }
+
+  before :each do
+    allow(view).to receive(:current_user).and_return(user)
+  end
 
   context "when memory doesn't belong to the user" do
     before :each do
       assign(:memory, memory)
-      allow(view).to receive(:belongs_to_user?).and_return(false)
+      allow(user).to receive(:can_modify?).and_return(false)
       render
     end
 

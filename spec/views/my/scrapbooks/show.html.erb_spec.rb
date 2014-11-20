@@ -2,14 +2,16 @@ require 'rails_helper'
 
 describe "my/scrapbooks/show.html.erb" do
   let(:scrapbook) { Fabricate.build(:scrapbook, id: 123) }
+  let(:user)      { Fabricate.build(:active_user) }
 
   before :each do
+    allow(view).to receive(:current_user).and_return(user)
     assign(:scrapbook, scrapbook)
   end
 
   context "when memory doesn't belong to the user" do
     before :each do
-      allow(view).to receive(:belongs_to_user?).and_return(false)
+      allow(user).to receive(:can_modify?).and_return(false)
       render
     end
 
@@ -24,7 +26,7 @@ describe "my/scrapbooks/show.html.erb" do
 
   context "when memory belongs to the user" do
     before :each do
-      allow(view).to receive(:belongs_to_user?).and_return(true)
+      allow(user).to receive(:can_modify?).and_return(true)
       render
     end
 

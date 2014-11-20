@@ -218,4 +218,53 @@ describe User do
       expect(User.find_by_email(email)).to be_nil
     end
   end
+
+  describe '#can_modify?' do
+    let(:user_id) { 123 }
+    let(:thing)   { double('thing') }
+
+    context 'when user is not an admin' do
+      subject { Fabricate.build(:user, id: user_id, is_admin: false) }
+
+      it "is false if no object given" do
+        expect(subject.can_modify?(nil)).to be_falsy
+      end
+
+      it "is false if thing has no user_id" do
+        expect(subject.can_modify?(thing)).to be_falsy
+      end
+
+      it "is false if thing is not theirs" do
+        thing = double('thing', user_id: 999)
+        expect(subject.can_modify?(thing)).to be_falsy
+      end
+
+      it "is true if thing is theirs" do
+        thing = double('thing', user_id: user_id)
+        expect(subject.can_modify?(thing)).to be_truthy
+      end
+    end
+
+    context 'when user is an admin' do
+      subject { Fabricate.build(:user, id: user_id, is_admin: true) }
+
+      it "is false if no object given" do
+        expect(subject.can_modify?(nil)).to be_falsy
+      end
+
+      it "is true if thing has no user_id" do
+        expect(subject.can_modify?(thing)).to be_truthy
+      end
+
+      it "is true if thing belongs to someone else" do
+        thing = double('thing', user_id: 999)
+        expect(subject.can_modify?(thing)).to be_truthy
+      end
+
+      it "is true if thing is theirs" do
+        thing = double('thing', user_id: user_id)
+        expect(subject.can_modify?(thing)).to be_truthy
+      end
+    end
+  end
 end

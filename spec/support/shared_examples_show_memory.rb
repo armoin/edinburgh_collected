@@ -42,9 +42,12 @@ RSpec.shared_examples "a memory show page" do
   end
 
   context "when memory belongs to the user" do
+    let(:user) { Fabricate.build(:active_user) }
+
     before :each do
       assign(:memory, memory)
-      allow(view).to receive(:belongs_to_user?).and_return(true)
+      allow(view).to receive(:current_user).and_return(user)
+      allow(user).to receive(:can_modify?).and_return(true)
       render
     end
 
