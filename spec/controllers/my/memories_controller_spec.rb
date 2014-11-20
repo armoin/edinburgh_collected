@@ -254,7 +254,7 @@ describe My::MemoriesController do
         login_user
         allow(MemoryParamCleaner).to receive(:clean).and_return(strong_params)
         allow(stub_memories).to receive(:find).and_return(memory)
-        allow(memory).to receive(:update_attributes).and_return(true)
+        allow(memory).to receive(:update).and_return(true)
         put :update, given_params
       end
 
@@ -271,7 +271,7 @@ describe My::MemoriesController do
       end
 
       it "updates the given attributes" do
-        expect(memory).to have_received('update_attributes').with(strong_params)
+        expect(memory).to have_received('update').with(strong_params)
       end
 
       context "update is successful" do
@@ -282,7 +282,7 @@ describe My::MemoriesController do
 
       context "update is not successful" do
         it "re-renders the edit form" do
-          allow(memory).to receive(:update_attributes).and_return(false)
+          allow(memory).to receive(:update).and_return(false)
           put :update, given_params
           expect(response).to render_template(:edit)
         end

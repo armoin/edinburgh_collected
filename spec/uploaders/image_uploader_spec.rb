@@ -11,6 +11,7 @@ describe ImageUploader, slow: true do
 
   describe 'without manipulation' do
     before do
+      allow(SecureRandom).to receive(:uuid).and_return('random_sample')
       uploader.store!(File.open(path_to_file))
     end
 
@@ -65,11 +66,15 @@ describe ImageUploader, slow: true do
     end
 
     describe '#filename' do
+      it "randomly generates a filename" do
+        expect(uploader.filename).to eql('random_sample.jpg')
+      end
+
       context 'when the extension is valid' do
         let(:filename) { 'test.jpg' }
 
         it 'provides the file name with the given extension' do
-          expect(uploader.filename).to eql('test.jpg')
+          expect(File.extname(uploader.filename)).to eql('.jpg')
         end
       end
 
@@ -77,7 +82,7 @@ describe ImageUploader, slow: true do
         let(:filename) { 'test.oops' }
 
         it 'provides the file name with the filetype extension' do
-          expect(uploader.filename).to eql('test.jpeg')
+          expect(File.extname(uploader.filename)).to eql('.jpeg')
         end
       end
     end

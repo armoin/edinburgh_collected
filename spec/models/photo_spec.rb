@@ -12,17 +12,19 @@ describe Photo do
   it_behaves_like "locatable"
 
   describe 'updating' do
+    let(:now) { Time.now }
+    let(:old) { 2.days.ago }
+
     before :each do
       allow(memory.source).to receive(:recreate_versions!)
+      memory.updated_at = old
+      memory.save!
     end
 
     context 'when photo has been rotated' do
       before :each do
-        memory.save!
-        @old_updated_at = memory.updated_at
-        Timecop.freeze(5.minutes.from_now) do
-          memory.rotation = "90"
-          memory.save!
+        Timecop.freeze(now) do
+          memory.update(rotation: '90')
         end
       end
 
@@ -31,22 +33,20 @@ describe Photo do
       end
 
       it 'changes updated at' do
-        expect(memory.updated_at).not_to eql(@old_updated_at)
+        expect(memory.updated_at).to eql(now)
       end
     end
 
     context 'when image has not been rotated' do
       context 'when rotation is nil' do
         before :each do
-          memory.save!
-          @old_updated_at = memory.updated_at
-          Timecop.freeze(5.minutes.from_now) do
-            memory.save!
+          Timecop.freeze(now) do
+            memory.update(rotation: nil)
           end
         end
 
         it 'does not change updated at' do
-          expect(memory.updated_at).to eql(@old_updated_at)
+          expect(memory.updated_at).to eql(old)
         end
 
         it 'does not recreate the photo versions' do
@@ -56,16 +56,13 @@ describe Photo do
 
       context 'when rotation is 0' do
         before :each do
-          memory.save!
-          @old_updated_at = memory.updated_at
-          Timecop.freeze(5.minutes.from_now) do
-            memory.rotation = "0"
-            memory.save!
+          Timecop.freeze(now) do
+            memory.update(rotation: '0')
           end
         end
 
         it 'does not change updated at' do
-          expect(memory.updated_at).to eql(@old_updated_at)
+          expect(memory.updated_at).to eql(old)
         end
 
         it 'does not recreate the photo versions' do

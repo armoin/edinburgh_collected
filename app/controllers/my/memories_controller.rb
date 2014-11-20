@@ -30,7 +30,7 @@ class My::MemoriesController < My::AuthenticatedUserController
   end
 
   def update
-    if @memory.update_attributes(memory_params)
+    if @memory.update(memory_params)
       redirect_to my_memories_url
     else
       render :edit
