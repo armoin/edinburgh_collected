@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     get '/moderated' => 'moderation#moderated'
 
     namespace :moderation do
-      resources :memories, only: [:show, :edit, :update, :delete] do
+      resources :memories, only: [:show, :edit, :update, :destroy] do
         member do
           put :approve
           put :reject

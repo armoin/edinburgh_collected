@@ -34,9 +34,11 @@
             <br />
           <% end %>
           <%= link_to "Share this photo", '#', class: "btn btn-default not-implemented" %>
-          <% if belongs_to_user?(@memory) %>
-            <%= link_to "Edit this memory", edit_my_memory_path(@memory.id), :class => "btn btn-default" %>
-            <%= link_to "Delete this memory",  my_memory_path(@memory.id), method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-danger"%>
+          <% edit_path ||= edit_my_memory_path(@memory.id) %>
+          <% delete_path ||= my_memory_path(@memory.id) %>
+          <% if current_user.try(:can_modify?, @memory) %>
+            <%= link_to "Edit this memory", edit_path, :class => "btn btn-default" %>
+            <%= link_to "Delete this memory",  delete_path, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-danger"%>
           <% end %>
         </span>
 

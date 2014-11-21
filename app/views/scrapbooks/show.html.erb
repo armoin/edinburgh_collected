@@ -2,7 +2,7 @@
   <header id="contentHeader" class="clearfix">
     <h1><%= @scrapbook.title %></h1>
 
-    <% if belongs_to_user?(@scrapbook) %>
+    <% if current_user.try(:can_modify?, @scrapbook) %>
       <span class="actions">
         <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id) %>
         <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), method: :delete, data: {confirm: 'Are you sure?'} %>
