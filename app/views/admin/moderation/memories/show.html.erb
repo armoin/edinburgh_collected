@@ -10,14 +10,12 @@
         <%= button_for_state('reject', 'rejected', @memory, 'unsuitable') %>
         <%= button_for_state('reject', 'rejected', @memory, 'offensive') %>
         <li>
-          <%= link_to "Edit", edit_admin_moderation_memory_path(@memory), class: 'btn btn-default' %>
-        </li>
-        <li>
-          <%= link_to "Delete", admin_moderation_memory_path(@memory), class: 'btn btn-default', method: :delete, data: {confirm: 'Are you sure?'} %>
+          <% href = @memory.current_state == 'unmoderated' ? admin_unmoderated_path : admin_moderated_path %>
+          <%= link_to 'Back to list', href, class: 'btn btn-default' %>
         </li>
       </ul>
     </ul>
   <% end %>
 
-  <%= render 'memories/memory', object: @memory %>
+  <%= render 'memories/memory', object: @memory, edit_path: edit_admin_moderation_memory_path(@memory.id), delete_path: admin_moderation_memory_path(@memory) %>
 </div>

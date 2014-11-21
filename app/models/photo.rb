@@ -10,8 +10,11 @@ class Photo < Memory
   end
 
   def update(params)
-    super(params)
-    rotate_image if rotated?
+    update_successful = super(params)
+    if rotated? && update_successful
+      update_successful = update_successful && rotate_image
+    end
+    update_successful
   end
 
   private
@@ -19,7 +22,7 @@ class Photo < Memory
   def rotate_image
     self.updated_at = Time.now
     self.source.recreate_versions!
-    self.save!
+    self.save
   end
 end
 

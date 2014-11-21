@@ -52,11 +52,11 @@ RSpec.shared_examples "a memory show page" do
     end
 
     it "has an edit link" do
-      expect(rendered).to have_link('Edit', href: edit_my_memory_path(memory))
+      expect(rendered).to have_link('Edit this memory', href: edit_path)
     end
 
     it "has a delete link" do
-      expect(rendered).to have_link('Delete', href: my_memory_path(memory))
+      expect(rendered).to have_link('Delete this memory', href: delete_path)
     end
   end
 end

@@ -4,6 +4,25 @@ class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminControlle
   def show
   end
 
+  def edit
+  end
+
+  def update
+    if @memory.update(memory_params)
+      redirect_to admin_moderation_memory_path(@memory.id)
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    if @memory.destroy
+      redirect_to admin_unmoderated_url, notice: 'Successfully deleted'
+    else
+      redirect_to admin_unmoderated_url, alert: 'Could not delete'
+    end
+  end
+
   def approve
     respond_to do |format|
       if @memory.approve!
@@ -56,6 +75,10 @@ class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminControlle
     else
       admin_moderated_path
     end
+  end
+
+  def memory_params
+    MemoryParamCleaner.clean(params)
   end
 end
 
