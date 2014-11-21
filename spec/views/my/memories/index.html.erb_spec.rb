@@ -1,12 +1,13 @@
 require 'rails_helper'
 
 describe 'my/memories/index.html.erb' do
-  let(:user)     { Fabricate(:user) }
-  let(:memories) { Fabricate.times(3, :photo_memory, user: user) }
+  let(:user)           { Fabricate(:user) }
+  let(:memories)       { Fabricate.times(3, :photo_memory, user: user) }
+  let(:paged_memories) { Kaminari.paginate_array(memories).page(1) }
 
   before :each do
     allow(view).to receive(:current_user).and_return(user)
-    assign(:memories, memories)
+    assign(:memories, paged_memories)
     render
   end
 

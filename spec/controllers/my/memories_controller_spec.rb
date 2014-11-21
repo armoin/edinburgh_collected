@@ -2,12 +2,15 @@ require 'rails_helper'
 
 describe My::MemoriesController do
   let(:stub_memories) { double('memories', find: memory, by_recent: true) }
+  let(:sorted_memories)   { double('sorted_memories') }
   let(:memory)        { Fabricate.build(:photo_memory, id: 123, user: @user) }
 
   before :each do
     @user = Fabricate.build(:user)
     allow(@user).to receive(:memories).and_return(stub_memories)
-    allow(stub_memories).to receive(:by_recent).and_return(stub_memories)
+    allow(stub_memories).to receive(:by_recent).and_return(sorted_memories)
+    allow(sorted_memories).to receive(:page).and_return(sorted_memories)
+    allow(sorted_memories).to receive(:per).and_return(sorted_memories)
   end
 
   describe 'GET index' do
@@ -36,8 +39,13 @@ describe My::MemoriesController do
         expect(stub_memories).to have_received(:by_recent)
       end
 
+      it "paginates the results 30 to a page" do
+        expect(sorted_memories).to have_received(:page)
+        expect(sorted_memories).to have_received(:per).with(30)
+      end
+
       it "assigns the returned memories" do
-        expect(assigns[:memories]).to eql(stub_memories)
+        expect(assigns[:memories]).to eql(sorted_memories)
       end
 
       it "renders the index page" do
