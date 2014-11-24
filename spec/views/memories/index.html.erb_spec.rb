@@ -24,5 +24,6 @@ describe 'memories/index.html.erb' do
   end
 
   it_behaves_like 'a memory index'
+  it_behaves_like 'paginated content'
 end
 
