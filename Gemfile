@@ -48,10 +48,10 @@ group :development, :test do
 end
 
 group :test do
-  gem 'webmock',                    '1.20.0'
-  gem 'sqlite3',                    '1.3.9'
+  gem 'webmock',                    '~> 1.20.0'
+  gem 'sqlite3',                    '~> 1.3.9'
   gem "codeclimate-test-reporter",  require: nil
-  gem "poltergeist",                '1.5.1'
+  gem "poltergeist",                '~> 1.5.1'
   gem 'database_cleaner',           '~> 1.3.0'
 end
 
