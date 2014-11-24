@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/carrierwaveuploader/carrierwave.git
-  revision: 87bd4fcf2843414451bfb85c4f371940bdfb9521
+  revision: ce4af694905d3b1af631a8c0d0902c19ed726f5b
   specs:
     carrierwave (0.10.0)
       activemodel (>= 3.2.0)
@@ -49,7 +49,7 @@ GEM
     autoprefixer-rails (3.1.2.20141016)
       execjs
     bcrypt (3.1.9)
-    bootstrap-sass (3.3.0.1)
+    bootstrap-sass (3.3.1.0)
       sass (~> 3.2)
     bourbon (3.2.3)
       sass (~> 3.2)
@@ -90,12 +90,12 @@ GEM
     exception_notification (4.0.1)
       actionmailer (>= 3.0.4)
       activesupport (>= 3.0.4)
-    excon (0.40.0)
+    excon (0.41.0)
     execjs (2.2.2)
     fabrication (2.11.3)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
-    fastimage (1.6.3)
+    fastimage (1.6.4)
       addressable (~> 2.3, >= 2.3.5)
     ffaker (1.25.0)
     figaro (1.0.0)
@@ -113,7 +113,7 @@ GEM
       fog-core (~> 1.22)
       fog-json
       inflecto
-    fog-core (1.24.0)
+    fog-core (1.25.0)
       builder
       excon (~> 0.38)
       formatador (~> 0.2)
@@ -129,19 +129,19 @@ GEM
     fog-sakuracloud (0.1.1)
       fog-core
       fog-json
-    fog-softlayer (0.3.23)
+    fog-softlayer (0.3.24)
       fog-core
       fog-json
-    fog-xml (0.1.0)
+    fog-xml (0.1.1)
       fog-core
       nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
-    geocoder (1.2.5)
+    geocoder (1.2.6)
     hike (1.2.3)
     i18n (0.6.11)
     inflecto (0.0.2)
     ipaddress (0.8.0)
-    jbuilder (2.2.4)
+    jbuilder (2.2.5)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     jquery-rails (3.1.2)
@@ -152,7 +152,7 @@ GEM
     kaminari (0.16.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
-    launchy (2.4.2)
+    launchy (2.4.3)
       addressable (~> 2.3)
     letter_opener (1.2.0)
       launchy (~> 2.2)
@@ -161,7 +161,7 @@ GEM
     mime-types (2.4.3)
     mini_magick (3.8.1)
       subexec (~> 0.2.1)
-    mini_portile (0.6.0)
+    mini_portile (0.6.1)
     minitest (5.4.3)
     multi_json (1.10.1)
     multi_xml (0.5.5)
@@ -169,8 +169,8 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
-    nokogiri (1.6.3.1)
-      mini_portile (= 0.6.0)
+    nokogiri (1.6.4.1)
+      mini_portile (~> 0.6.0)
     oauth (0.4.7)
     oauth2 (0.9.4)
       faraday (>= 0.8, < 0.10)
@@ -264,7 +264,7 @@ GEM
     thread_safe (0.3.4)
     tilt (1.4.1)
     timecop (0.7.1)
-    turbolinks (2.5.1)
+    turbolinks (2.5.2)
       coffee-rails
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
@@ -274,7 +274,7 @@ GEM
     webmock (1.20.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
-    websocket-driver (0.3.5)
+    websocket-driver (0.4.0)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
