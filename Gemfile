@@ -28,6 +28,7 @@ gem 'fabrication',                  '~> 2.11.3'
 gem 'ffaker',                       '~> 1.25.0'
 gem 'fastimage'
 gem 'kaminari'
+gem 'pg',                           '~> 0.17.1'
 
 group :doc do
   gem 'sdoc',                       '~> 0.4.0'
@@ -49,14 +50,12 @@ end
 
 group :test do
   gem 'webmock',                    '~> 1.20.0'
-  gem 'sqlite3',                    '~> 1.3.9'
   gem "codeclimate-test-reporter",  require: nil
   gem "poltergeist",                '~> 1.5.1'
   gem 'database_cleaner',           '~> 1.3.0'
 end
 
 group :production do
-  gem 'pg',                         '~> 0.17.1'
   gem 'rails_12factor',             '~> 0.0.2'
 end
 

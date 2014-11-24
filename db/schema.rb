@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20141106105359) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "areas", force: true do |t|
     t.string   "name",       null: false
     t.float    "latitude",   null: false
@@ -69,8 +72,8 @@ ActiveRecord::Schema.define(version: 20141106105359) do
     t.integer  "ordering"
   end
 
-  add_index "scrapbook_memories", ["memory_id"], name: "index_scrapbook_memories_on_memory_id"
-  add_index "scrapbook_memories", ["scrapbook_id"], name: "index_scrapbook_memories_on_scrapbook_id"
+  add_index "scrapbook_memories", ["memory_id"], name: "index_scrapbook_memories_on_memory_id", using: :btree
+  add_index "scrapbook_memories", ["scrapbook_id"], name: "index_scrapbook_memories_on_scrapbook_id", using: :btree
 
   create_table "scrapbooks", force: true do |t|
     t.integer  "user_id"
@@ -80,7 +83,7 @@ ActiveRecord::Schema.define(version: 20141106105359) do
     t.datetime "updated_at"
   end
 
-  add_index "scrapbooks", ["user_id"], name: "index_scrapbooks_on_user_id"
+  add_index "scrapbooks", ["user_id"], name: "index_scrapbooks_on_user_id", using: :btree
 
   create_table "taggings", force: true do |t|
     t.integer  "tag_id"
@@ -89,8 +92,8 @@ ActiveRecord::Schema.define(version: 20141106105359) do
     t.datetime "updated_at"
   end
 
-  add_index "taggings", ["memory_id"], name: "index_taggings_on_memory_id"
-  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id"
+  add_index "taggings", ["memory_id"], name: "index_taggings_on_memory_id", using: :btree
+  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
 
   create_table "tags", force: true do |t|
     t.string   "name",       null: false
@@ -117,8 +120,8 @@ ActiveRecord::Schema.define(version: 20141106105359) do
     t.boolean  "is_admin",                        default: false
   end
 
-  add_index "users", ["activation_token"], name: "index_users_on_activation_token"
-  add_index "users", ["email"], name: "index_users_on_email", unique: true
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token"
+  add_index "users", ["activation_token"], name: "index_users_on_activation_token", using: :btree
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", using: :btree
 
 end
