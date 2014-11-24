@@ -48,7 +48,7 @@ class My::MemoriesController < My::AuthenticatedUserController
   private
 
   def assign_memories
-    @memories = memories.by_recent
+    @memories = memories.by_recent.page(params[:page]).per(30)
   end
 
   def assign_memory

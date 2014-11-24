@@ -29,9 +29,9 @@
 
         <%= form.input :source, as: :file %>
         <%-# %a#select-file.btn.btn-primary Select file %>
-        <%= render partial: 'image_editor', locals: {form: form} %>
+        <%= render partial: 'memories/image_editor', locals: {form: form} %>
 
-        <%= render partial: 'details_form', object: @memory, locals: {form: form} %>
+        <%= render partial: 'memories/details_form', object: @memory, locals: {form: form} %>
 
         <div class="form-group">
           <div class="actions">
