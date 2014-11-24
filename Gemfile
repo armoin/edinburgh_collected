@@ -7,7 +7,7 @@ gem 'rails', '~> 4.1.7'
 gem 'bootstrap-sass',               '~> 3.3.0'
 gem 'sass-rails',                   '~> 4.0.4'
 gem 'bourbon',                      '~> 3.2.1'
-gem 'autoprefixer-rails',           '~> 3.1.2.0'
+gem 'autoprefixer-rails',           '~> 4.0.1'
 gem 'uglifier',                     '>= 1.3.0'
 gem 'coffee-rails',                 '~> 4.1.0'
 
