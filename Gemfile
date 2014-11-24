@@ -17,8 +17,8 @@ gem 'jbuilder',                     '~> 2.2.0'
 
 gem 'faraday',                      '~> 0.9.0'
 gem 'carrierwave',                  '~> 0.10.0', github: "carrierwaveuploader/carrierwave"
-gem 'mini_magick',                  '~> 3.8.0'
-gem 'fog',                          '~> 1.24.0'
+gem 'mini_magick',                  '~> 4.0.1'
+gem 'fog',                          '~> 1.25.0'
 gem 'figaro',                       '~> 1.0.0'
 gem 'sorcery',                      '~> 0.8.6'
 gem 'geocoder',                     '~> 1.2.4'
@@ -34,7 +34,7 @@ group :doc do
 end
 
 group :development do
-  gem 'spring',                     '~> 1.1.3'
+  gem 'spring',                     '~> 1.2.0'
   gem 'letter_opener',              '~> 1.2.0'
 end
 
