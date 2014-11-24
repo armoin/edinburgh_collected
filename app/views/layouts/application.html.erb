@@ -79,16 +79,18 @@
           </div>
 
           <div id="searchwrapper" class="dropdowns col-xs-12  col-sm-10 col-md-10">
-    <!--  <div class="dropdowns">
-              <%= select_tag 'filter_area', options_from_collection_for_select(Area.all, :id, :name), {prompt: 'Explore by Area', class: "form-control"} %>
-              <%= select_tag 'filter_category', options_from_collection_for_select(Category.all, :id, :name), {prompt: 'Explore by Category', class: "form-control"} %>
-            </div>
+            <!--
+              <div class="dropdowns">
+                <%= select_tag 'filter_area', options_from_collection_for_select(Area.all, :id, :name), {prompt: 'Explore by Area', class: "form-control"} %>
+                <%= select_tag 'filter_category', options_from_collection_for_select(Category.all, :id, :name), {prompt: 'Explore by Category', class: "form-control"} %>
+              </div>
+            -->
 
-            <div class="searchForm  col-xs-12 col-sm-4 col-md-6">
-              <form>
-                <input type="text" class="form-control" />
-              </form>
-            </div> -->
+            <div class="searchForm col-xs-12 col-sm-4 col-md-6">
+              <%= form_tag search_path, method: :get do %>
+                <%= text_field_tag :query, nil, class: 'form-control' %>
+              <% end -%>
+            </div>
           </div> <!-- end search/browse box -->
         </header>
 

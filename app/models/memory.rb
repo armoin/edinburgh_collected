@@ -19,6 +19,14 @@ class Memory < ActiveRecord::Base
 
   scope :by_recent, -> { order('created_at DESC') }
 
+  def self.search(query)
+    if query.present?
+      where("title ilike :q or description ilike :q", q: "%#{query}%")
+    else
+      all
+    end
+  end
+
   def self.file_types
     ["Photo"]
   end

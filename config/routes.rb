@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   end
   resources :memories
   resources :scrapbooks, only: [:index, :show]
+  get '/search' => 'search#index'
 
   namespace :admin do
     get '/home' => 'home#index'
