@@ -19,11 +19,18 @@ class Memory < ActiveRecord::Base
 
   scope :by_recent, -> { order('created_at DESC') }
 
-  def self.search(query)
+  include PgSearch
+  pg_search_scope :search,
+    against: [:title, :description, :year, :location],
+    using: {tsearch: {dictionary: "english"}},
+    associated_against: {categories: :name},
+    ignoring: :accents
+
+  def self.text_search(query)
     if query.present?
-      where("title ilike :q or description ilike :q", q: "%#{query}%")
+      approved.search(query)
     else
-      all
+      approved
     end
   end
 

@@ -204,6 +204,10 @@ GEM
       nokogiri
       rbvmomi
     pg (0.17.1)
+    pg_search (0.7.8)
+      activerecord (>= 3.1)
+      activesupport (>= 3.1)
+      arel
     poltergeist (1.5.1)
       capybara (~> 2.1)
       cliver (~> 0.3.1)
@@ -335,6 +339,7 @@ DEPENDENCIES
   letter_opener (~> 1.2.0)
   mini_magick (~> 4.0.1)
   pg (~> 0.17.1)
+  pg_search
   poltergeist (~> 1.5.1)
   rails (~> 4.1.7)
   rails_12factor (~> 0.0.2)

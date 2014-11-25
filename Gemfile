@@ -29,6 +29,7 @@ gem 'ffaker',                       '~> 1.25.0'
 gem 'fastimage'
 gem 'kaminari'
 gem 'pg',                           '~> 0.17.1'
+gem 'pg_search'
 
 group :doc do
   gem 'sdoc',                       '~> 0.4.0'

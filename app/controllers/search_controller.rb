@@ -1,7 +1,6 @@
 class SearchController < ApplicationController
   def index
-    @memories = Memory.search(params[:query]).page(params[:current_page]).per(30)
-    render 'memories/index'
+    @memories = Memory.text_search(params[:query]).page(params[:current_page]).per(30)
   end
 end
 
