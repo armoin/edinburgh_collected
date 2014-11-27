@@ -16,3 +16,4 @@ env:
   - secure: Jif2E3gIFxlpMjdjc9GDtQ+ThSpUlEcjfEW0HqvW9RwOJDitP945ju1c54U+boQXMy68f1RPklfQ9toLg7bAzABXdLMfDAsP/uhxnvROJQoAUAj9HSjmh3b2P1dc/7oO0y22aycGSajB4uO+nZp2d9bK9KF5IUPuxAP9QP514Qk=
 before_script:
   - psql -c 'create database travis_ci_test;' -U postgres
+  - cp config/database.yml.travis config/database.yml
