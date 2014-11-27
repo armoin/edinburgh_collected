@@ -821,6 +821,24 @@ table.items
       border-color: #ac2925
 
 
+.state
+  float:left
+  color: white
+  padding: 0.4em
+  text-align: center
+  font-size: 1.4em
+  font-variant: small-caps
+  margin-bottom: 1em
+
+  &.unmoderated
+    background-color: #428bca
+
+  &.approved
+    background-color: #5cb85c
+
+  &.rejected
+    background-color: #d9534f
+
 ul.admin-toolbar
   list-style: none
   display: inline-block
@@ -829,21 +847,7 @@ ul.admin-toolbar
   width: 100%
 
   li.state
-    float:left
-    color: white
-    padding: 0.4em
-    text-align: center
-    font-size: 1.4em
-    font-variant: small-caps
-
-    &.unmoderated
-      background-color: #428bca
-
-    &.approved
-      background-color: #5cb85c
-
-    &.rejected
-      background-color: #d9534f
+    margin-bottom: 0
 
   ul.moderation-actions
     list-style: none

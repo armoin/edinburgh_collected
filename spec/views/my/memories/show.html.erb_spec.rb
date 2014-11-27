@@ -32,5 +32,14 @@ describe "my/memories/show.html.erb" do
     end
   end
 
+  context "when a memory belongs to a user" do
+    before :each do
+      assign(:memory, memory)
+      render
+    end
+
+    it_behaves_like 'state labelled content'
+  end
+
   it_behaves_like "a memory show page"
 end

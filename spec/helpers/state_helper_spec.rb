@@ -93,5 +93,17 @@ describe StateHelper do
       end
     end
   end
+
+  describe '#show_state?' do
+    it 'shows state if the controller path is in viewable state paths' do
+      allow(helper).to receive(:controller_path).and_return(StateHelper::VIEWABLE_STATE_PATHS.first)
+      expect(helper.show_state?).to be_truthy
+    end
+
+    it 'does not show state if the controller path is not in viewable state paths' do
+      allow(helper).to receive(:controller_path).and_return('test/not/viewable')
+      expect(helper.show_state?).to be_falsy
+    end
+  end
 end
 

@@ -1,0 +1,6 @@
+<% if current_user.try(:can_modify?, memory) && show_state? %>
+  <div class="state <%= memory.current_state %>">
+    <%= state_label(memory) %>
+  </div>
+<% end -%>
+

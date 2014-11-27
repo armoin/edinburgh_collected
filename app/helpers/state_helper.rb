@@ -1,4 +1,8 @@
 module StateHelper
+  VIEWABLE_STATE_PATHS = [
+    'my/memories'
+  ]
+
   def button_for_state(action, state, memory, reason=nil)
     link_name = action
     if reason
@@ -16,6 +20,10 @@ module StateHelper
     label = memory.current_state
     label += " - #{memory.current_state_reason}" if memory.current_state_reason
     label
+  end
+
+  def show_state?
+    VIEWABLE_STATE_PATHS.include? controller_path
   end
 end
 
