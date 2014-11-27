@@ -18,7 +18,7 @@ describe Memory do
   it_behaves_like 'moderatable'
 
   describe 'searching' do
-    before :all do
+    before :each do
       @term_in_title       = Fabricate(:photo_memory, title: 'Edinburgh Castle test')
       @term_in_description = Fabricate(:photo_memory, description: 'This is an Edinburgh Castle test')
       @term_in_location    = Fabricate(:photo_memory, location: 'Edinburgh Castle')
