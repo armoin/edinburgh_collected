@@ -19,18 +19,21 @@ class Memory < ActiveRecord::Base
 
   scope :by_recent, -> { order('created_at DESC') }
 
+  SEARCHABLE_FIELDS       = [:title, :description, :year, :location]
+  SEARCHABLE_ASSOCIATIONS = {categories: :name}
+
   include PgSearch
   pg_search_scope :search,
-    against: [:title, :description, :year, :location],
+    against: SEARCHABLE_FIELDS,
     using: {tsearch: {dictionary: "english"}},
-    associated_against: {categories: :name},
+    associated_against: SEARCHABLE_ASSOCIATIONS,
     ignoring: :accents
 
   def self.text_search(query)
     if query.present?
-      approved.search(query)
+      all.search(query)
     else
-      approved
+      all
     end
   end
 
