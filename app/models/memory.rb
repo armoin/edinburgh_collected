@@ -6,6 +6,11 @@ class Memory < ActiveRecord::Base
   include Taggable
   include Moderatable
 
+  SEARCHABLE_FIELDS       = [:title, :description, :year, :location]
+  SEARCHABLE_ASSOCIATIONS = {categories: :name}
+
+  include Searchable
+
   belongs_to :user
   belongs_to :area
   has_and_belongs_to_many :categories
@@ -18,24 +23,6 @@ class Memory < ActiveRecord::Base
   MAX_YEAR_RANGE = 120
 
   scope :by_recent, -> { order('created_at DESC') }
-
-  SEARCHABLE_FIELDS       = [:title, :description, :year, :location]
-  SEARCHABLE_ASSOCIATIONS = {categories: :name}
-
-  include PgSearch
-  pg_search_scope :search,
-    against: SEARCHABLE_FIELDS,
-    using: {tsearch: {dictionary: "english"}},
-    associated_against: SEARCHABLE_ASSOCIATIONS,
-    ignoring: :accents
-
-  def self.text_search(query)
-    if query.present?
-      all.search(query)
-    else
-      all
-    end
-  end
 
   def self.file_types
     ["Photo"]
