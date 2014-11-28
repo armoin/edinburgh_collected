@@ -267,4 +267,56 @@ describe User do
       end
     end
   end
+
+  describe '#can_view?' do
+    let(:memory) { Fabricate(:photo_memory) }
+
+    context 'when memory is approved' do
+      before :each do
+        memory.approve!
+      end
+
+      context 'and user can modify' do
+        before :each do
+          allow(subject).to receive(:can_modify?).and_return(true)
+        end
+
+        it 'is viewable' do
+          expect(subject.can_view?(memory)).to be_truthy
+        end
+      end
+
+      context 'and user cannot modify' do
+        before :each do
+          allow(subject).to receive(:can_modify?).and_return(false)
+        end
+
+        it 'is viewable' do
+          expect(subject.can_view?(memory)).to be_truthy
+        end
+      end
+    end
+
+    context 'when memory is not approved' do
+      context 'and user can modify' do
+        before :each do
+          allow(subject).to receive(:can_modify?).and_return(true)
+        end
+
+        it 'is viewable' do
+          expect(subject.can_view?(memory)).to be_truthy
+        end
+      end
+
+      context 'and user cannot modify' do
+        before :each do
+          allow(subject).to receive(:can_modify?).and_return(false)
+        end
+
+        it 'is not viewable' do
+          expect(subject.can_view?(memory)).to be_falsy
+        end
+      end
+    end
+  end
 end

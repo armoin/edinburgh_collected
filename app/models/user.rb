@@ -24,6 +24,10 @@ class User < ActiveRecord::Base
     object.try(:user_id) == self.id || self.is_admin?
   end
 
+  def can_view?(object)
+    (object.current_state == 'approved') || can_modify?(object)
+  end
+
   private
 
   def downcase_email
