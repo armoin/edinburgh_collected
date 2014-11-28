@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'search/index.html.erb' do
+describe 'search/memories/index.html.erb' do
   let(:user)           { Fabricate(:user) }
   let(:memories)       { Fabricate.times(3, :photo_memory, user: user) }
   let(:paged_memories) { Kaminari.paginate_array(memories).page(1) }

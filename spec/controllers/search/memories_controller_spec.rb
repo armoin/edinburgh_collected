@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe SearchController do
+describe Search::MemoriesController do
   let(:approved_memories) { double('approved_memories') }
   let(:returned_memories) { double('returned_memories') }
   let(:format)            { :html }
