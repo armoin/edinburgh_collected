@@ -7,13 +7,13 @@ describe Search::MemoriesController do
 
   before(:each) do
     allow(Memory).to receive(:approved).and_return(approved_memories)
-    allow(approved_memories).to receive(:text_search).with(query).and_return(returned_memories)
-    allow(returned_memories).to receive(:page).and_return(returned_memories)
-    allow(returned_memories).to receive(:per).and_return(returned_memories)
   end
 
   describe 'GET index' do
     before(:each) do
+      allow(approved_memories).to receive(:text_search).with(query).and_return(returned_memories)
+      allow(returned_memories).to receive(:page).and_return(returned_memories)
+      allow(returned_memories).to receive(:per).and_return(returned_memories)
       get :index, format: format, query: query
     end
 
@@ -68,3 +68,4 @@ describe Search::MemoriesController do
     end
   end
 end
+
