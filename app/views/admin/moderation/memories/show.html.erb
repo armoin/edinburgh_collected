@@ -10,7 +10,7 @@
         <%= button_for_state('reject', 'rejected', @memory, 'unsuitable') %>
         <%= button_for_state('reject', 'rejected', @memory, 'offensive') %>
         <li>
-          <% href = @memory.current_state == 'unmoderated' ? admin_unmoderated_path : admin_moderated_path %>
+          <% href = @memory.unmoderated? ? admin_unmoderated_path : admin_moderated_path %>
           <%= link_to 'Back to list', href, class: 'btn btn-default' %>
         </li>
       </ul>

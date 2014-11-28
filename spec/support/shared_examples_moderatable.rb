@@ -142,6 +142,28 @@ RSpec.shared_examples 'moderatable' do
         expect(moderatable_instance.current_state).to eql('unmoderated')
       end
     end
+
+    describe "#approved?" do
+      it 'is false when not approved' do
+        expect(moderatable_instance.approved?).to be_falsy
+      end
+
+      it 'is true when approved' do
+        moderatable_instance.approve!
+        expect(moderatable_instance.approved?).to be_truthy
+      end
+    end
+
+    describe "#unmoderated?" do
+      it 'is false when not unmoderated' do
+        moderatable_instance.approve!
+        expect(moderatable_instance.unmoderated?).to be_falsy
+      end
+
+      it 'is true when unmoderated' do
+        expect(moderatable_instance.unmoderated?).to be_truthy
+      end
+    end
   end
 end
 

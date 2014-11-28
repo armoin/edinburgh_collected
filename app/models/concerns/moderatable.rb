@@ -73,6 +73,14 @@ module Moderatable
     current_record.try(:updated_at)
   end
 
+  def approved?
+    current_state == 'approved'
+  end
+
+  def unmoderated?
+    current_state == 'unmoderated'
+  end
+
   private
 
   def current_record
