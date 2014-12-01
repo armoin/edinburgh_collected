@@ -19,7 +19,7 @@ describe 'my/memories/index.html.erb' do
     let(:memory) { memories.first }
 
     it 'is a link to the show page for that memory' do
-      expect(rendered).to have_css("a.memory[href=\"#{my_memory_path(memory)}\"]")
+      expect(rendered).to have_css("a.memory[href=\"#{memory_path(memory)}\"]")
     end
 
     it_behaves_like 'state labelled content'
