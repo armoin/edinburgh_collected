@@ -55,59 +55,6 @@ describe My::MemoriesController do
     end
   end
 
-  describe 'GET show' do
-    context 'when not logged in' do
-      it 'asks user to sign in' do
-        get :show, id: 123
-        expect(response).to redirect_to(:signin)
-      end
-    end
-
-    context "when logged in" do
-      before :each do
-        allow(@user).to receive(:memories).and_return(stub_memories)
-        login_user
-        get :show, id: 123
-      end
-
-      it "fetches the requested memory" do
-        expect(Memory).to have_received(:find).with('123')
-      end
-
-      it "renders the not found page if memory wasn't found" do
-        allow(Memory).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-        get :show, id: '123'
-        expect(response).to render_template('exceptions/not_found')
-      end
-
-      context "when the current user can modify the memory" do
-        before :each do
-          allow(@user).to receive(:can_modify?).and_return(true)
-          get :show, id: '123'
-        end
-
-        it "assigns fetched memory" do
-          expect(assigns(:memory)).to eql(memory)
-        end
-
-        it "renders the show page" do
-          expect(response).to render_template(:show)
-        end
-      end
-
-      context "when the current_user cannot modify the memory" do
-        before :each do
-          allow(@user).to receive(:can_modify?).and_return(false)
-          get :show, id: '123'
-        end
-
-        it "renders the not found page" do
-          expect(response).to render_template('exceptions/not_found')
-        end
-      end
-    end
-  end
-
   describe 'GET new' do
     context 'when not logged in' do
       it 'asks user to sign in' do
@@ -230,7 +177,7 @@ describe My::MemoriesController do
 
       it "renders the not found page if memory wasn't found" do
         allow(Memory).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-        get :show, id: '123'
+        get :edit, id: 123
         expect(response).to render_template('exceptions/not_found')
       end
 

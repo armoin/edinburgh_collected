@@ -4,6 +4,6 @@
       <h2>Found <%= pluralize(@memories.total_count, 'match') %> for "<%= params[:query] %>"</h2>
     </header>
 
-    <%= render partial: 'memories/index', locals: {memories: @memories, root_path: memories_path} %>
+    <%= render partial: 'memories/index', locals: {memories: @memories} %>
   </div>
 </div>

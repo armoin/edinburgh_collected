@@ -5,9 +5,6 @@ class My::MemoriesController < My::AuthenticatedUserController
     @memories = current_user.memories.by_recent.page(params[:page]).per(30)
   end
 
-  def show
-  end
-
   def new
     @memory = Memory.new
   end

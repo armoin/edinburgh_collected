@@ -59,7 +59,7 @@ describe "admin/moderation/index.html.erb" do
         end
 
         it 'has a "View Details" link to the memory show page' do
-          expect(rendered).to have_link('View details', href: admin_moderation_memory_path(item.id))
+          expect(rendered).to have_link('View details', memory_path(item.id))
         end
       end
 
