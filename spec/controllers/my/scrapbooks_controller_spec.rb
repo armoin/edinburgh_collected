@@ -11,8 +11,15 @@ describe My::ScrapbooksController do
 
   describe 'GET index' do
     context 'when not logged in' do
-      it 'asks user to signin' do
+      before :each do
         get :index
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it 'asks user to signin' do
         expect(response).to redirect_to(:signin)
       end
     end
@@ -23,8 +30,8 @@ describe My::ScrapbooksController do
         get :index
       end
 
-      it 'is successful' do
-        expect(response).to be_success
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
       end
 
       it "fetches the user's scrapbooks" do
@@ -43,8 +50,15 @@ describe My::ScrapbooksController do
 
   describe 'GET show' do
     context 'when not logged in' do
-      it 'asks user to signin' do
+      before :each do
         get :show, id: '123'
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it 'asks user to signin' do
         expect(response).to redirect_to(:signin)
       end
     end
@@ -56,6 +70,10 @@ describe My::ScrapbooksController do
         login_user
         allow(stub_scrapbooks).to receive(:find).and_return(scrapbook)
         get :show, id: 123
+      end
+
+      it 'sets the current memory index path' do
+        expect(session[:current_memory_index_path]).to eql(my_scrapbook_path(scrapbook.id))
       end
 
       it "looks for the requested scrapbook" do
@@ -92,8 +110,15 @@ describe My::ScrapbooksController do
     }}
 
     context 'when not logged in' do
-      it 'asks user to signin' do
+      before :each do
         post :create, given_params
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it 'asks user to signin' do
         expect(response).to redirect_to(:signin)
       end
     end
@@ -106,6 +131,10 @@ describe My::ScrapbooksController do
         allow(scrapbook).to receive(:user=)
         allow(scrapbook).to receive(:save).and_return(true)
         post :create, given_params
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
       end
 
       it "cleans the given params" do
@@ -160,8 +189,15 @@ describe My::ScrapbooksController do
 
   describe 'GET edit' do
     context 'when not logged in' do
-      it 'asks user to signin' do
+      before :each do
         get :edit, id: '123'
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it 'asks user to signin' do
         expect(response).to redirect_to(:signin)
       end
     end
@@ -173,6 +209,10 @@ describe My::ScrapbooksController do
         login_user
         allow(stub_scrapbooks).to receive(:find).and_return(scrapbook)
         get :edit, id: 123
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
       end
 
       it "looks for the requested scrapbook" do
@@ -213,8 +253,15 @@ describe My::ScrapbooksController do
     }}
 
     context 'when not logged in' do
-      it 'asks user to signin' do
+      before :each do
         put :update, given_params
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it 'asks user to signin' do
         expect(response).to redirect_to(:signin)
       end
     end
@@ -226,6 +273,10 @@ describe My::ScrapbooksController do
         allow(stub_scrapbooks).to receive(:find).and_return(scrapbook)
         allow(scrapbook).to receive(:update).and_return(true)
         put :update, given_params
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
       end
 
       it "cleans the given params" do
@@ -262,8 +313,15 @@ describe My::ScrapbooksController do
 
   describe 'DELETE destroy' do
     context 'when not logged in' do
-      it 'asks user to signin' do
+      before :each do
         delete :destroy, id: '123'
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it 'asks user to signin' do
         expect(response).to redirect_to(:signin)
       end
     end
@@ -274,6 +332,10 @@ describe My::ScrapbooksController do
         allow(stub_scrapbooks).to receive(:find).and_return(scrapbook)
         allow(scrapbook).to receive(:destroy).and_return(true)
         delete :destroy, id: '123'
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
       end
 
       it "finds the Scrapbook with the given id" do

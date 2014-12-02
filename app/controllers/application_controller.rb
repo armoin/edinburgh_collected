@@ -4,7 +4,6 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   include SessionHelper
-  before_action :store_index_path, only: :index
 
   respond_to :html, :json, :geojson
 

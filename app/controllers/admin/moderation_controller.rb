@@ -1,4 +1,6 @@
 class Admin::ModerationController < Admin::AuthenticatedAdminController
+  before_action :store_memory_index_path, only: [:index, :moderated]
+
   def index
     @items = Memory.unmoderated
   end

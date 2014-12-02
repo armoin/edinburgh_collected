@@ -20,6 +20,10 @@ describe Search::MemoriesController do
     context 'when no query is given' do
       let(:query) { nil }
 
+      it 'stores the memory index path with no query' do
+        expect(session[:current_memory_index_path]).to eql(search_memories_path(format: format))
+      end
+
       it "redirects to the browse memories page" do
         expect(response).to redirect_to(memories_path)
       end
@@ -28,6 +32,10 @@ describe Search::MemoriesController do
     context 'when a blank query is given' do
       let(:query) { "" }
 
+      it 'stores the memory index path with an empty query' do
+        expect(session[:current_memory_index_path]).to eql(search_memories_path(format: format, query: query))
+      end
+
       it "redirects to the browse memories page" do
         expect(response).to redirect_to(memories_path)
       end
@@ -35,6 +43,10 @@ describe Search::MemoriesController do
 
     context 'when a query is given' do
       let(:query) { "test search" }
+
+      it 'stores the memory index path with the given query' do
+        expect(session[:current_memory_index_path]).to eql(search_memories_path(format: format, query: query))
+      end
 
       it "fetches the approved memories" do
         expect(Memory).to have_received(:approved)

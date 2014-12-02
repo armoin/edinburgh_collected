@@ -1,4 +1,5 @@
 class My::MemoriesController < My::AuthenticatedUserController
+  before_action :store_memory_index_path, only: :index
   before_action :assign_memory, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -36,9 +37,9 @@ class My::MemoriesController < My::AuthenticatedUserController
 
   def destroy
     if @memory.destroy
-      redirect_to current_index_path, notice: 'Successfully deleted'
+      redirect_to current_memory_index_path, notice: 'Successfully deleted'
     else
-      redirect_to current_index_path, alert: 'Could not delete'
+      redirect_to current_memory_index_path, alert: 'Could not delete'
     end
   end
 
