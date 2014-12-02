@@ -1,4 +1,6 @@
 class MemoriesController < ApplicationController
+  before_action :store_memory_index_path, only: :index
+
   respond_to :html, :json, :geojson
 
   def index

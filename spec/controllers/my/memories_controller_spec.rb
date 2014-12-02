@@ -4,6 +4,7 @@ describe My::MemoriesController do
   let(:stub_memories)   { double('memories', find: memory, by_recent: true) }
   let(:sorted_memories) { double('sorted_memories') }
   let(:memory)          { Fabricate.build(:photo_memory, id: 123, user: @user) }
+  let(:base_path)       { my_memories_path }
 
   before :each do
     @user = Fabricate.build(:user)
@@ -28,8 +29,8 @@ describe My::MemoriesController do
         get :index
       end
 
-      it 'is successful' do
-        expect(response).to be_success
+      it 'sets the current memory index path if action is index' do
+        expect(session[:current_memory_index_path]).to eql(base_path)
       end
 
       it "fetches the user's memories" do
@@ -68,6 +69,10 @@ describe My::MemoriesController do
         allow(@user).to receive(:memories).and_return(stub_memories)
         login_user
         get :new
+      end
+
+      it 'does not set the current memory index path if action is not index' do
+        expect(session[:current_memory_index_path]).to be_nil
       end
 
       it "assigns a new Memory" do
@@ -109,6 +114,10 @@ describe My::MemoriesController do
         allow(memory).to receive(:user=)
         allow(memory).to receive(:save).and_return(true)
         post :create, given_params
+      end
+
+      it 'does not set the current memory index path if action is not index' do
+        expect(session[:current_memory_index_path]).to be_nil
       end
 
       it "cleans the given params" do
@@ -168,6 +177,10 @@ describe My::MemoriesController do
     context "when logged in" do
       before :each do
         login_user
+      end
+
+      it 'does not set the current memory index path if action is not index' do
+        expect(session[:current_memory_index_path]).to be_nil
       end
 
       it "fetches the requested memory" do
@@ -231,6 +244,10 @@ describe My::MemoriesController do
         allow(MemoryParamCleaner).to receive(:clean).and_return(strong_params)
         allow(Memory).to receive(:find).and_return(memory)
         allow(memory).to receive(:update).and_return(true)
+      end
+
+      it 'does not set the current memory index path if action is not index' do
+        expect(session[:current_memory_index_path]).to be_nil
       end
 
       it "finds the Memory with the given id" do
@@ -299,6 +316,10 @@ describe My::MemoriesController do
         allow(memory).to receive(:destroy).and_return(true)
       end
 
+      it 'does not set the current memory index path if action is not index' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
       it "finds the Memory with the given id" do
         delete :destroy, id: '123'
         expect(Memory).to have_received(:find).with('123')
@@ -311,11 +332,11 @@ describe My::MemoriesController do
       end
 
       context "when the current user can modify the memory" do
-        let(:current_index_path) { memories_url }
+        let(:current_memory_index_path) { memories_url }
 
         before :each do
           allow(@user).to receive(:can_modify?).and_return(true)
-          session[:current_index_path] = current_index_path
+          session[:current_memory_index_path] = current_memory_index_path
           delete :destroy, id: '123'
         end
 
@@ -333,8 +354,8 @@ describe My::MemoriesController do
           end
         end
 
-        context "when current index path is my memories" do
-          let(:current_index_path) { my_memories_url }
+        context "when current memory index path is my memories" do
+          let(:current_memory_index_path) { my_memories_url }
 
           it "redirects to the my memories page" do
             expect(response).to redirect_to(my_memories_url)

@@ -17,6 +17,10 @@ describe MemoriesController do
       get :index, format: format
     end
 
+    it 'sets the current memory index path' do
+      expect(session[:current_memory_index_path]).to eql(memories_path(format: format))
+    end
+
     it "fetches the approved memories" do
       expect(Memory).to have_received(:approved)
     end
@@ -77,6 +81,10 @@ describe MemoriesController do
   describe 'GET show' do
     let(:user)   { Fabricate.build(:user) }
     let(:memory) { Fabricate.build(:photo_memory) }
+
+    it 'does not set the current memory index path' do
+      expect(session[:current_memory_index_path]).to be_nil
+    end
 
     it "fetches the requested memory" do
       allow(Memory).to receive(:find).and_return(memory)

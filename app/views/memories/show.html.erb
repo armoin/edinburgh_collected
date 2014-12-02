@@ -2,7 +2,7 @@
   <% if current_user.try(:is_admin?) && show_moderation_panel? %>
     <%= render partial: 'admin/moderation/moderation_panel', locals: {memory: @memory} %>
   <% else %>
-    <%= link_to 'Back', current_index_path %>
+    <%= link_to 'Back', current_memory_index_path %>
   <% end %>
 
   <%= render partial: 'memories/memory', object: @memory %>
