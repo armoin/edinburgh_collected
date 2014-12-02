@@ -15,9 +15,9 @@
         <%= form.error_notification %>
 
         <img class="hide" id='memory_source' src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
-        <%= render partial: 'memories/image_editor', locals: {form: form} %>
+        <%= render partial: 'image_editor', locals: {form: form} %>
 
-        <%= render partial: 'memories/details_form', object: @memory, locals: { form: form } %>
+        <%= render partial: 'details_form', object: @memory, locals: { form: form } %>
 
         <div class="form-group">
           <div class="actions col-xs-sm-12">
