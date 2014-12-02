@@ -1,19 +1,6 @@
 <div class="container">
-  <% if current_user.try(:is_admin?) %>
-    <ul class="admin-toolbar">
-      <li class="state <%= @memory.current_state %>">
-        <%= state_label(@memory) %>
-      </li>
-      <ul class="moderation-actions">
-        <%= button_for_state('unmoderate', 'unmoderated', @memory) %>
-        <%= button_for_state('approve', 'approved', @memory) %>
-        <%= button_for_state('reject', 'rejected', @memory, 'unsuitable') %>
-        <%= button_for_state('reject', 'rejected', @memory, 'offensive') %>
-        <li>
-          <%= link_to 'Back to list', current_index_path, class: 'btn btn-default' %>
-        </li>
-      </ul>
-    </ul>
+  <% if current_user.try(:is_admin?) && show_moderation_panel? %>
+    <%= render partial: 'admin/moderation/moderation_panel', locals: {memory: @memory} %>
   <% else %>
     <%= link_to 'Back', current_index_path %>
   <% end %>
