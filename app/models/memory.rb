@@ -6,6 +6,11 @@ class Memory < ActiveRecord::Base
   include Taggable
   include Moderatable
 
+  SEARCHABLE_FIELDS       = [:title, :description, :year, :location]
+  SEARCHABLE_ASSOCIATIONS = {categories: :name}
+
+  include Searchable
+
   belongs_to :user
   belongs_to :area
   has_and_belongs_to_many :categories

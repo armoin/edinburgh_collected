@@ -18,6 +18,10 @@ Rails.application.routes.draw do
   resources :memories
   resources :scrapbooks, only: [:index, :show]
 
+  namespace :search do
+    resources :memories, only: [:index]
+  end
+
   namespace :admin do
     get '/home' => 'home#index'
     get '/unmoderated' => 'moderation#index'

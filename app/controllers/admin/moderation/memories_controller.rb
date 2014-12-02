@@ -1,28 +1,6 @@
 class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminController
   before_filter :assign_memory
 
-  def show
-  end
-
-  def edit
-  end
-
-  def update
-    if @memory.update(memory_params)
-      redirect_to admin_moderation_memory_path(@memory.id)
-    else
-      render :edit
-    end
-  end
-
-  def destroy
-    if @memory.destroy
-      redirect_to admin_unmoderated_url, notice: 'Successfully deleted'
-    else
-      redirect_to admin_unmoderated_url, alert: 'Could not delete'
-    end
-  end
-
   def approve
     respond_to do |format|
       if @memory.approve!
@@ -63,10 +41,6 @@ class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminControlle
 
   def assign_memory
     @memory ||= Memory.find(params[:id])
-  end
-
-  def state
-    params[:state] || ModerationStateMachine::DEFAULT_STATE
   end
 
   def redirect_path

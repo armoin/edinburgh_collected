@@ -1,11 +1,8 @@
 class My::MemoriesController < My::AuthenticatedUserController
-  before_action :assign_memories, only: :index
   before_action :assign_memory, only: [:show, :edit, :update, :destroy]
 
   def index
-  end
-
-  def show
+    @memories = current_user.memories.by_recent.page(params[:page]).per(30)
   end
 
   def new
@@ -31,7 +28,7 @@ class My::MemoriesController < My::AuthenticatedUserController
 
   def update
     if @memory.update(memory_params)
-      redirect_to my_memories_url
+      redirect_to memory_path(@memory.id)
     else
       render :edit
     end
@@ -39,24 +36,17 @@ class My::MemoriesController < My::AuthenticatedUserController
 
   def destroy
     if @memory.destroy
-      redirect_to my_memories_url, notice: 'Successfully deleted'
+      redirect_to current_index_path, notice: 'Successfully deleted'
     else
-      redirect_to my_memories_url, alert: 'Could not delete'
+      redirect_to current_index_path, alert: 'Could not delete'
     end
   end
 
   private
 
-  def assign_memories
-    @memories = memories.by_recent.page(params[:page]).per(30)
-  end
-
   def assign_memory
-    @memory = memories.find(params[:id])
-  end
-
-  def memories
-    current_user.memories
+    @memory = Memory.find(params[:id])
+    raise ActiveRecord::RecordNotFound unless current_user.can_modify?(@memory)
   end
 
   def memory_params

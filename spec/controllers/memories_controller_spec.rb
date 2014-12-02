@@ -76,82 +76,72 @@ describe MemoriesController do
 
   describe 'GET show' do
     let(:user)   { Fabricate.build(:user) }
-    let(:memory) { Fabricate.build(:photo_memory, user: user) }
-
-    before :each do
-      allow(approved_memories).to receive(:find).and_return(memory)
-      get :show, id: '123', format: format
-    end
-
-    it "is successful" do
-      expect(response).to be_success
-      expect(response.status).to eql(200)
-    end
+    let(:memory) { Fabricate.build(:photo_memory) }
 
     it "fetches the requested memory" do
-      expect(approved_memories).to have_received(:find).with('123')
+      allow(Memory).to receive(:find).and_return(memory)
+      get :show, id: '123', format: format
+      expect(Memory).to have_received(:find).with('123')
     end
 
-    context "fetch is successful" do
+    context "when record is found" do
+      before :each do
+        allow(Memory).to receive(:find).and_return(memory)
+      end
+
       it "assigns fetched memory" do
+        get :show, id: '123', format: format
         expect(assigns(:memory)).to eql(memory)
       end
 
-      context "when requesting HTML" do
-        it "renders the show page" do
-          expect(response).to render_template(:show)
+      context 'and memory is approved' do
+        before :each do
+          memory.save!
+          memory.approve!
+          get :show, id: '123', format: format
         end
+
+        it_behaves_like 'a found memory'
       end
 
-      context "when requesting JSON" do
-        let(:format) { :json }
+      context 'and the memory is not approved' do
+        context 'when there is no current user' do
+          before :each do
+            get :show, id: '123', format: format
+          end
 
-        it "provides JSON" do
-          expect(response.content_type).to eql('application/json')
+          it_behaves_like 'a not found memory'
         end
-      end
 
-      context "when requesting GeoJSON" do
-        let(:format) { :geojson }
+        context 'and the current user' do
+          before :each do
+            allow(controller).to receive(:current_user).and_return(user)
+            allow(user).to receive(:can_modify?).and_return(can_modify)
+            get :show, id: '123', format: format
+          end
 
-        it "provides GeoJSON" do
-          expect(response.content_type).to eql('text/geojson')
+          context 'cannot modify the memory' do
+            let(:can_modify) { false }
+
+            it_behaves_like 'a not found memory'
+          end
+
+          context 'can modify the memory' do
+            let(:can_modify) { true }
+
+            it_behaves_like 'a found memory'
+          end
         end
       end
     end
 
-    context "fetch is not successful" do
+    context "when record is not found" do
       before :each do
-        allow(approved_memories).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        allow(Memory).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        get :show, id: '123', format: format
       end
 
-      context "when requesting HTML" do
-        before :each do
-          get :show, id: '123'
-        end
-
-        it "renders the not found page" do
-          expect(response).to render_template('exceptions/not_found')
-        end
-
-        it "returns an error status" do
-          expect(response.status).to eq(404)
-        end
-      end
-
-      context "when requesting JSON" do
-        it "returns an error status" do
-          get :show, id: '123', format: :json
-          expect(response.status).to eq(404)
-        end
-      end
-
-      context "when requesting GeoJSON" do
-        it "returns an error status" do
-          get :show, id: '123', format: :geojson
-          expect(response.status).to eq(404)
-        end
-      end
+      it_behaves_like 'a not found memory'
     end
   end
 end

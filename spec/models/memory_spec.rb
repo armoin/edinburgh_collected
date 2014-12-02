@@ -17,6 +17,94 @@ describe Memory do
   let(:moderatable_factory) { :photo_memory }
   it_behaves_like 'moderatable'
 
+  describe 'searching' do
+    before :each do
+      @term_in_title       = Fabricate(:photo_memory, title: 'Edinburgh Castle test')
+      @term_in_description = Fabricate(:photo_memory, description: 'This is an Edinburgh Castle test')
+      @term_in_location    = Fabricate(:photo_memory, location: 'Edinburgh Castle')
+      @term_in_year        = Fabricate(:photo_memory, year: '1975')
+      @terms_not_found     = Fabricate(:photo_memory,
+                                       title:       'test',
+                                       description: 'test',
+                                       location:    'test',
+                                       year:        '2014')
+    end
+
+    let(:results) { Memory.text_search(terms) }
+
+    context 'when no terms are given' do
+      let(:terms) { nil }
+
+      it 'returns all records' do
+        expect(results.count(:all)).to eql(5)
+      end
+    end
+
+    context 'when blank terms are given' do
+      let(:terms) { '' }
+
+      it 'returns all records' do
+        expect(results.count(:all)).to eql(5)
+      end
+    end
+
+    context 'text fields' do
+      let(:terms) { 'castle' }
+
+      it 'returns all records matching the given query' do
+        expect(results.count(:all)).to eql(3)
+      end
+
+      it "includes records where title matches" do
+        expect(results).to include(@term_in_title)
+      end
+
+      it "includes records where description matches" do
+        expect(results).to include(@term_in_description)
+      end
+
+      it "includes records where location matches" do
+        expect(results).to include(@term_in_location)
+      end
+
+      it 'does not include records that have no fields that match' do
+        expect(results).not_to include(@terms_not_found)
+      end
+    end
+
+    context 'date fields' do
+      let(:terms) { '1975' }
+
+      it 'returns all records matching the given query' do
+        expect(results.count(:all)).to eql(1)
+      end
+
+      it 'includes records where year matches' do |field|
+        expect(results).to include(@term_in_year)
+      end
+
+      it 'does not include records that have no fields that match' do
+        expect(results).not_to include(@terms_not_found)
+      end
+    end
+
+    context 'associated fields' do
+      let(:terms) { 'foo' }
+
+      context 'categories' do
+        before :each do
+          @term_in_categories = Fabricate(:photo_memory)
+          @term_in_categories.categories << Category.new(name: 'foo')
+          @term_in_categories.categories << Category.new(name: 'bar')
+        end
+
+        it 'includes records where at least one category name matches' do
+          expect(results).to include(@term_in_categories)
+        end
+      end
+    end
+  end
+
   describe 'ordering' do
     describe '.by_recent' do
       it 'sorts them by reverse created at date' do

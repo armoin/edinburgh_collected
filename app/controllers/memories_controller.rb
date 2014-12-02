@@ -7,7 +7,8 @@ class MemoriesController < ApplicationController
   end
 
   def show
-    @memory = memories.find(params[:id])
+    @memory = Memory.find(params[:id])
+    raise ActiveRecord::RecordNotFound unless viewable?(@memory)
     respond_with @memory
   end
 
@@ -15,5 +16,10 @@ class MemoriesController < ApplicationController
 
   def memories
     Memory.approved
+  end
+
+  def viewable?(memory)
+    memory.approved? ||
+      current_user.try(:can_modify?, memory)
   end
 end

@@ -1,12 +1,7 @@
 <div class="container profile memories">
-  <%= render partial: 'shared/profile_header' %>
-
   <div id="grid">
     <header id="contentHeader" class="clearfix">
-      <h2>Browsing your memories</h2>
-      <span class="actions">
-        <%= link_to 'Browse your Scrapbooks', my_scrapbooks_path %>
-      </span>
+      <h2>Found <%= pluralize(@memories.total_count, 'match') %> for "<%= params[:query] %>"</h2>
     </header>
 
     <%= render partial: 'memories/index', locals: {memories: @memories} %>

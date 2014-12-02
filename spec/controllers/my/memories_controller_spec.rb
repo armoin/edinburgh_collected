@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 describe My::MemoriesController do
-  let(:stub_memories) { double('memories', find: memory, by_recent: true) }
-  let(:sorted_memories)   { double('sorted_memories') }
-  let(:memory)        { Fabricate.build(:photo_memory, id: 123, user: @user) }
+  let(:stub_memories)   { double('memories', find: memory, by_recent: true) }
+  let(:sorted_memories) { double('sorted_memories') }
+  let(:memory)          { Fabricate.build(:photo_memory, id: 123, user: @user) }
 
   before :each do
     @user = Fabricate.build(:user)
-    allow(@user).to receive(:memories).and_return(stub_memories)
+    allow(Memory).to receive(:find).and_return(memory)
     allow(stub_memories).to receive(:by_recent).and_return(sorted_memories)
     allow(sorted_memories).to receive(:page).and_return(sorted_memories)
     allow(sorted_memories).to receive(:per).and_return(sorted_memories)
@@ -23,6 +23,7 @@ describe My::MemoriesController do
 
     context 'when logged in' do
       before :each do
+        allow(@user).to receive(:memories).and_return(stub_memories)
         login_user
         get :index
       end
@@ -54,49 +55,6 @@ describe My::MemoriesController do
     end
   end
 
-  describe 'GET show' do
-    context 'when not logged in' do
-      it 'asks user to sign in' do
-        get :show, id: 123
-        expect(response).to redirect_to(:signin)
-      end
-    end
-
-    context "when logged in" do
-      before :each do
-        login_user
-        get :show, id: 123
-      end
-
-      it "is successful" do
-        expect(response).to be_success
-        expect(response.status).to eql(200)
-      end
-
-      it "fetches the requested memory" do
-        expect(stub_memories).to have_received(:find).with('123')
-      end
-
-      it "assigns fetched memory" do
-        expect(assigns(:memory)).to eql(memory)
-      end
-
-      context "fetch is successful" do
-        it "renders the show page" do
-          expect(response).to render_template(:show)
-        end
-      end
-
-      context "fetch is not successful" do
-        it "renders the not found page" do
-          allow(stub_memories).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-          get :show, id: '123'
-          expect(response).to render_template('exceptions/not_found')
-        end
-      end
-    end
-  end
-
   describe 'GET new' do
     context 'when not logged in' do
       it 'asks user to sign in' do
@@ -107,6 +65,7 @@ describe My::MemoriesController do
 
     context 'when logged in' do
       before :each do
+        allow(@user).to receive(:memories).and_return(stub_memories)
         login_user
         get :new
       end
@@ -143,6 +102,7 @@ describe My::MemoriesController do
 
     context 'when logged in' do
       before :each do
+        allow(@user).to receive(:memories).and_return(stub_memories)
         login_user
         allow(MemoryParamCleaner).to receive(:clean).and_return(strong_params)
         allow(Memory).to receive(:new).and_return(memory)
@@ -208,32 +168,41 @@ describe My::MemoriesController do
     context "when logged in" do
       before :each do
         login_user
-        get :edit, id: 123
-      end
-
-      it "is successful" do
-        expect(response).to be_success
-        expect(response.status).to eql(200)
       end
 
       it "fetches the requested memory" do
-        expect(stub_memories).to have_received(:find).with('123')
+        get :edit, id: 123
+        expect(Memory).to have_received(:find).with('123')
       end
 
-      it "assigns fetched memory" do
-        expect(assigns(:memory)).to eql(memory)
+      it "renders the not found page if memory wasn't found" do
+        allow(Memory).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        get :edit, id: 123
+        expect(response).to render_template('exceptions/not_found')
       end
 
-      context "fetch is successful" do
+      context "when the current user can modify the memory" do
+        before :each do
+          allow(@user).to receive(:can_modify?).and_return(true)
+          get :edit, id: 123
+        end
+
+        it "assigns fetched memory" do
+          expect(assigns(:memory)).to eql(memory)
+        end
+
         it "renders the edit page" do
           expect(response).to render_template(:edit)
         end
       end
 
-      context "fetch is not successful" do
+      context "when the current_user cannot modify the memory" do
+        before :each do
+          allow(@user).to receive(:can_modify?).and_return(false)
+          get :edit, id: 123
+        end
+
         it "renders the not found page" do
-          allow(stub_memories).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-          get :show, id: '123'
           expect(response).to render_template('exceptions/not_found')
         end
       end
@@ -249,7 +218,6 @@ describe My::MemoriesController do
       action: "update"
     }}
 
-
     context 'when not logged in' do
       it 'asks user to signin' do
         put :update, given_params
@@ -261,38 +229,56 @@ describe My::MemoriesController do
       before :each do
         login_user
         allow(MemoryParamCleaner).to receive(:clean).and_return(strong_params)
-        allow(stub_memories).to receive(:find).and_return(memory)
+        allow(Memory).to receive(:find).and_return(memory)
         allow(memory).to receive(:update).and_return(true)
-        put :update, given_params
-      end
-
-      it "cleans the given params" do
-        expect(MemoryParamCleaner).to have_received(:clean).with(given_params)
       end
 
       it "finds the Memory with the given id" do
-        expect(stub_memories).to have_received(:find).with('123')
+        put :update, given_params
+        expect(Memory).to have_received(:find).with('123')
       end
 
-      it "assigns the memory" do
-        expect(assigns(:memory)).to eql(memory)
-      end
+      context "when the current user can modify the memory" do
+        before :each do
+          allow(@user).to receive(:can_modify?).and_return(true)
+          put :update, given_params
+        end
 
-      it "updates the given attributes" do
-        expect(memory).to have_received('update').with(strong_params)
-      end
+        it "assigns fetched memory" do
+          expect(assigns(:memory)).to eql(memory)
+        end
 
-      context "update is successful" do
-        it "redirects to the user's memories page" do
-          expect(response).to redirect_to(my_memories_url)
+        it "cleans the given params" do
+          expect(MemoryParamCleaner).to have_received(:clean).with(given_params)
+        end
+
+        it "updates the given attributes" do
+          expect(memory).to have_received('update').with(strong_params)
+        end
+
+        context "update is successful" do
+          it "redirects to the memory page" do
+            expect(response).to redirect_to(memory_path(memory.id))
+          end
+        end
+
+        context "update is not successful" do
+          it "re-renders the edit form" do
+            allow(memory).to receive(:update).and_return(false)
+            put :update, given_params
+            expect(response).to render_template(:edit)
+          end
         end
       end
 
-      context "update is not successful" do
-        it "re-renders the edit form" do
-          allow(memory).to receive(:update).and_return(false)
+      context "when the current_user cannot modify the memory" do
+        before :each do
+          allow(@user).to receive(:can_modify?).and_return(false)
           put :update, given_params
-          expect(response).to render_template(:edit)
+        end
+
+        it "renders the not found page" do
+          expect(response).to render_template('exceptions/not_found')
         end
       end
     end
@@ -309,34 +295,75 @@ describe My::MemoriesController do
     context 'when logged in' do
       before :each do
         login_user
-        allow(stub_memories).to receive(:find).and_return(memory)
+        allow(Memory).to receive(:find).and_return(memory)
         allow(memory).to receive(:destroy).and_return(true)
-        delete :destroy, id: '123'
       end
 
       it "finds the Memory with the given id" do
-        expect(stub_memories).to have_received(:find).with('123')
+        delete :destroy, id: '123'
+        expect(Memory).to have_received(:find).with('123')
       end
 
-      it "destroys the given attributes" do
-        expect(memory).to have_received('destroy')
+      it "renders the not found page if memory wasn't found" do
+        allow(Memory).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        delete :destroy, id: '123'
+        expect(response).to render_template('exceptions/not_found')
       end
 
-      it "redirects to the user's memories page" do
-        expect(response).to redirect_to(my_memories_url)
-      end
+      context "when the current user can modify the memory" do
+        let(:current_index_path) { memories_url }
 
-      context "destroy is successful" do
-        it "shows a success notice" do
-          expect(flash[:notice]).to eql('Successfully deleted')
+        before :each do
+          allow(@user).to receive(:can_modify?).and_return(true)
+          session[:current_index_path] = current_index_path
+          delete :destroy, id: '123'
+        end
+
+        it "assigns fetched memory" do
+          expect(assigns(:memory)).to eql(memory)
+        end
+
+        it "destroys the given attributes" do
+          expect(memory).to have_received('destroy')
+        end
+
+        context "when current index path is memories" do
+          it "redirects to the memories page" do
+            expect(response).to redirect_to(memories_url)
+          end
+        end
+
+        context "when current index path is my memories" do
+          let(:current_index_path) { my_memories_url }
+
+          it "redirects to the my memories page" do
+            expect(response).to redirect_to(my_memories_url)
+          end
+        end
+
+        context "destroy is successful" do
+          it "shows a success notice" do
+            expect(flash[:notice]).to eql('Successfully deleted')
+          end
+        end
+
+        context "destroy is not successful" do
+          it "shows an alert" do
+            allow(memory).to receive(:destroy).and_return(false)
+            delete :destroy, id: '123'
+            expect(flash[:alert]).to eql('Could not delete')
+          end
         end
       end
 
-      context "destroy is not successful" do
-        it "shows an alert" do
-          allow(memory).to receive(:destroy).and_return(false)
+      context "when the current_user cannot modify the memory" do
+        before :each do
+          allow(@user).to receive(:can_modify?).and_return(false)
           delete :destroy, id: '123'
-          expect(flash[:alert]).to eql('Could not delete')
+        end
+
+        it "renders the not found page" do
+          expect(response).to render_template('exceptions/not_found')
         end
       end
     end

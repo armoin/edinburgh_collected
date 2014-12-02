@@ -3,6 +3,9 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
+  include SessionHelper
+  before_action :store_index_path, only: :index
+
   respond_to :html, :json, :geojson
 
   rescue_from ActiveRecord::RecordNotFound do
