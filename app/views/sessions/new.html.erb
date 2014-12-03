@@ -1,5 +1,21 @@
-<div id="signIn" class="container">
-  <div class="col-md-6 col-md-offset-3 col-xs-12 col-sm-12">
+<div class="container">
+ <header id="formHeader" class="row">
+<!--
+  <div class="step step1 col-md-4">
+   <span>1</span> Choose the type of file
+  </div>
+  <div class="step step2 col-md-4">
+   <span>2</span> Upload your memory
+  </div>
+  <div class="step step3 col-md-4">
+   <span>3</span> Upload Complete
+  </div>
+ -->
+ </header>
+
+
+ <div id="signIn" class="formWrapper row">
+  <div id="formPanel" class="col-md-6">
     <h1 class="form-title">Sign In</h1>
 
     <%= form_tag sessions_path, class: 'form-horizontal', role: 'form' do %>
@@ -26,6 +42,9 @@
         </div>
       </div>
     <% end %>
+  </div>
+  <div id= class="col-md-6">
     <p class="switch"><a href="/signup">Not a member? Sign up now</a></p>
   </div>
+ </div>
 </div>
