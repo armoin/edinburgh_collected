@@ -64,7 +64,7 @@
                       <%= link_to 'Sign Up', signup_path %>
                     </li>
                     <li class="<%= active_if_controller_path('sessions') %>">
-                      <%= link_to 'Sign In', signin_path %>
+                      <%= link_to 'Sign In', signin_path, class: 'signin button green' %>
                     </li>
                   <% end %>
                 </ul>
@@ -112,7 +112,12 @@
     </div>
     <footer>
       <div class="container-fluid">
-        <%= link_to 'Terms & Conditions', t_and_c_path %>
+       <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact us</a></li>
+        <li><a href="#">Privacy & cookies</a></li>
+        <li><%= link_to 'Terms & Conditions', t_and_c_path %></li>
+       </ul>
         <p>&copy; The City of Edinburgh Council 2014</p>
         <a href="http://www.edinburgh.gov.uk/" id="councilLogo"><%= image_tag "edinburgh-council.png", alt: "The City of Edinburgh Council" %></a>
       </div>

@@ -3,7 +3,7 @@
 
 $navy-blue:     #35404d
 $cream:         #eeece7
-$red:           #be2b09
+$red:           #e45f56
 $module:        #f0efea
 $light-grey:    #eaebe9
 $beige:         #c9ccc1
@@ -38,6 +38,56 @@ html, body
 
 a.delete
   background-color: $red !important
+
+
+.button
+  -moz-border-radius: 4px
+  -webkit-border-radius: 4px
+  border-radius: 4px
+  border: 1px solid
+  display: inline-block
+  padding: 0.5em 1em
+  color: $cream
+  text-decoration: none
+  text-shadow: 0px 1px 0px #51b0aa
+
+  &:hover
+    color: white
+    text-decoration: none
+
+  &:active
+    position: relative
+    top: 1px
+
+
+
+.button.green
+  -moz-box-shadow: inset 0px -2.5em 0px -24px darken( $green, 3% )
+  -webkit-box-shadow: inset 0px -2.5em 0px -24px darken( $green, 3% )
+  box-shadow: inset 0px -2.5em 0px -24px darken( $green, 3% )
+  background-color: #51b0aa
+  border: 1px solid darken( $green, 10% )
+  text-shadow: 0px 1px 0px #51b0aa
+
+  &:hover
+    background-color: lighten( $green, 5% )
+
+.button.red
+  -moz-box-shadow: inset 0px -2.5em 0px -24px darken( $red, 3% )
+  -webkit-box-shadow: inset 0px -2.5em 0px -24px darken( $red, 3% )
+  box-shadow: inset 0px -2.5em 0px -24px darken( $red, 3% )
+  background-color: $red
+  border: 1px solid darken( $red, 10% )
+  text-shadow: 0px 1px 0px $red
+
+  &:hover
+    background-color: lighten( $red, 5% )
+
+
+
+
+
+
 
 /* ==================================== PAGINATION */
 
@@ -95,9 +145,11 @@ header
         float: right
 
         li
+          margin: 1em 1em 1em 0
 
-          a:hover
-            background: inherit
+          a
+            padding: 0.25em 0.5em
+            +border-radius(3px)
 
           ul
             padding: 0
@@ -171,11 +223,11 @@ header
 /* ==================================== LAYOUT */
 
 .module
-  background-color: $module
-  padding: 0.5em
-  border: 1px solid #d5d0b7
+  background-color: $navy-blue
+  color: $cream
+  padding: 1em
   +border-radius(3px)
-  +box-shadow(0, 1px, 1px, rgba(0, 0, 0, 0.5))
+
 
 /* ================= STICKY FOOTER */
 
@@ -196,6 +248,10 @@ footer
   text-align: center
   background: $navy-blue
   color: $cream
+
+  ul
+    li
+      display: inline-block
 
   a
     color:  white
@@ -277,12 +333,20 @@ button#create-scrapbook-button
   #contentModules
     padding: 2em 0 0 0
 
+
+    a.button
+      width: 100%
+      margin-bottom: 0.5em
+      font-size: 1.25em
+      text-align: center
+
     #joinES
       text-align: center
 
-      a.btn
-        width: 80%
-        margin-bottom: 0.5em
+      a.signin
+        color: $cream
+        font-size: 0.8em
+
       p
         margin: 0
 
