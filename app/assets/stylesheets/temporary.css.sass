@@ -1002,8 +1002,19 @@ body.styleguide
           margin: 0 auto
 
     .navbar
+      margin-bottom: 0
+      position: absolute
+      right: 0
+      width: 100%
+      z-index: 300
+
       .container
         padding: 0
+
+      .navbar-header.open
+        background: $navy-blue
+        .navbar-toggle .icon-bar
+          background: $cream
 
       .navbar-collapse
         background: $navy-blue
