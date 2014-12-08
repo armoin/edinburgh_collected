@@ -223,8 +223,7 @@ header
 /* ==================================== LAYOUT */
 
 .module
-  background-color: $navy-blue
-  color: $cream
+  border: 1px solid $navy-blue
   padding: 1em
   +border-radius(3px)
 
@@ -344,7 +343,6 @@ button#create-scrapbook-button
       text-align: center
 
       a.signin
-        color: $cream
         font-size: 0.8em
 
       p
@@ -554,6 +552,38 @@ a.memory, a.scrapbook
   .masonry
     width: 320px
     margin-bottom: 50px
+    padding: 1em
+
+    h3.title
+      margin: 0 0 10px 0
+
+
+    img.main, img.ph
+      border: 1px solid #ccc
+      +border-radius(3px)
+      margin-bottom: 1em
+      padding: 0.25em
+
+    .bottom-row
+
+      .count
+        width: 24%
+        display: inline-block
+        background: $green
+        color: white
+        text-align: center
+        +border-radius(3px)
+        height: 65px
+        top: 3px
+        position: relative
+
+      img
+        width: 23%
+
+      &.empty
+        text-align: center
+
+
 
 #editScrapbook
   float: right
