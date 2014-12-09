@@ -30,7 +30,7 @@ RSpec.shared_examples "a memory show page" do
   end
 
   it "has a date" do
-    expect(rendered).to have_css('.sub', memory.date)
+    expect(rendered).to have_css('.sub', memory.date_string)
   end
 
   it 'has an attribution' do

@@ -6,7 +6,7 @@ module MemoriesHelper
   end
 
   def sub_text(memory)
-    [memory.address, memory.date].reject{|s| s.blank?}.join(', ')
+    [memory.address, memory.date_string].reject{|s| s.blank?}.join(', ')
   end
 end
 

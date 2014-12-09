@@ -12,55 +12,102 @@ RSpec.shared_examples "a memory" do
       expect(memory).to be_valid
     end
 
-    describe "year" do
-      it "can't be blank" do
-        memory.year = ""
-        expect(memory).to be_invalid
-        expect(memory.errors[:year]).to include("Please tell us when this dates from")
+    describe 'date' do
+      let(:now) { Date.new(2014, 5, 4) }
+
+      before :each do
+        Timecop.freeze(now)
       end
 
-      it "is invalid if in the future" do
-        memory.year = 1.year.from_now.year.to_s
-        expect(memory).to be_invalid
-        expect(memory.errors[:year]).to include("must be within the last 120 years")
+      after :each do
+        Timecop.return
       end
 
-      context "when in the past" do
-        it "is invalid on create" do
-          memory.year = (Memory::MAX_YEAR_RANGE+1).years.ago.year.to_s
+      describe "year" do
+        it "can't be blank" do
+          memory.year = ""
           expect(memory).to be_invalid
-          expect(memory.errors[:year]).to include("must be within the last 120 years")
+          expect(memory.errors[:year]).to include("Please tell us when this dates from")
         end
 
-        it "is invalid on update if changed" do
-          memory.save!
-          memory.year = (Memory::MAX_YEAR_RANGE+1).years.ago.year.to_s
+        it "is invalid if in the future" do
+          memory.year = '2015'
           expect(memory).to be_invalid
-          expect(memory.errors[:year]).to include("must be within the last 120 years")
+          expect(memory.errors[:base]).to include("The date can't be in the future")
         end
 
-        # this is to protect against future changes when
-        # a date in the past is now invalid even though
-        # it was valid on creation
-        it "is valid on update if not changed" do
-          memory.year = Memory::MAX_YEAR_RANGE.years.ago.year.to_s
-          memory.save!
-          Timecop.freeze(12.years.from_now) do
-            expect(memory).to be_valid
-          end
+        it "is valid if is the present" do
+          memory.year = '2014'
+          expect(memory).to be_valid
+          expect(memory.errors[:base]).to be_empty
+        end
+
+        it "is valid if in the past" do
+          memory.year = '1814'
+          expect(memory).to be_valid
+          expect(memory.errors[:base]).to be_empty
         end
       end
 
-      it "is valid at earliest boundary" do
-        memory.year = Memory::MAX_YEAR_RANGE.years.ago.year.to_s
-        expect(memory).to be_valid
-        expect(memory.errors[:year]).to be_empty
+      describe "month" do
+        before :each do
+          memory.year = '2014'
+        end
+
+        it "is valid if not present" do
+          memory.month = ""
+          expect(memory).to be_valid
+          expect(memory.errors[:base]).to be_empty
+        end
+
+        it "is invalid if in the future" do
+          memory.month = '6'
+          expect(memory).to be_invalid
+          expect(memory.errors[:base]).to include("The date can't be in the future")
+        end
+
+        it "is valid if is the present" do
+          memory.month = '5'
+          expect(memory).to be_valid
+          expect(memory.errors[:base]).to be_empty
+        end
+
+        it "is valid if in the past" do
+          memory.month = '4'
+          expect(memory).to be_valid
+          expect(memory.errors[:base]).to be_empty
+        end
       end
 
-      it "is valid at latest boundary" do
-        memory.year = Time.now.year.to_s
-        expect(memory).to be_valid
-        expect(memory.errors[:year]).to be_empty
+      describe "day" do
+        before :each do
+          memory.year = '2014'
+          memory.month = '5'
+        end
+
+        it "is valid if not present" do
+          memory.day = ""
+          expect(memory).to be_valid
+          expect(memory.errors[:base]).to be_empty
+        end
+
+        it "is invalid if in the future" do
+          memory.day = '5'
+          expect(memory).to be_invalid
+          expect(memory.errors[:base]).to include("The date can't be in the future")
+        end
+
+        it "is valid if is the present" do
+          memory.day = '4'
+          expect(memory).to be_valid
+          expect(memory.errors[:base]).to be_empty
+        end
+
+        it "is valid if in the past" do
+          memory.day = '3'
+          expect(memory).to be_valid
+          expect(memory.errors[:base]).to be_empty
+        end
       end
     end
 

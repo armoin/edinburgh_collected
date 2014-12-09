@@ -24,37 +24,37 @@ describe MemoriesHelper do
 
   describe "#sub_text" do
     it "provides an empty string if there is no address and no date" do
-      memory = double(address: nil, date: nil)
+      memory = double(address: nil, date_string: nil)
       expect(helper.sub_text(memory)).to eql('')
     end
 
     it "provides an empty string if there is a blank address and date" do
-      memory = double(address: '', date: '')
+      memory = double(address: '', date_string: '')
       expect(helper.sub_text(memory)).to eql('')
     end
 
     it "provides just the address if there is no date" do
-      memory = double(address: 'Portobello', date: nil)
+      memory = double(address: 'Portobello', date_string: nil)
       expect(helper.sub_text(memory)).to eql('Portobello')
     end
 
     it "provides just the address if there is a blank date" do
-      memory = double(address: 'Portobello', date: '')
+      memory = double(address: 'Portobello', date_string: '')
       expect(helper.sub_text(memory)).to eql('Portobello')
     end
 
     it "provides just the date if there is no address" do
-      memory = double(address: nil, date: '4th May 2014')
+      memory = double(address: nil, date_string: '4th May 2014')
       expect(helper.sub_text(memory)).to eql('4th May 2014')
     end
 
     it "provides just the date if there is a blank address" do
-      memory = double(address: '', date: '4th May 2014')
+      memory = double(address: '', date_string: '4th May 2014')
       expect(helper.sub_text(memory)).to eql('4th May 2014')
     end
 
     it "provides the address and date if there is an address and a date" do
-      memory = double(address: 'Portobello', date: '4th May 2014')
+      memory = double(address: 'Portobello', date_string: '4th May 2014')
       expect(helper.sub_text(memory)).to eql('Portobello, 4th May 2014')
     end
   end

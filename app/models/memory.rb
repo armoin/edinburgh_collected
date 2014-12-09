@@ -20,36 +20,26 @@ class Memory < ActiveRecord::Base
 
   attr_accessor :rotation
 
-  MAX_YEAR_RANGE = 120
-
-  scope :by_recent, -> { order('created_at DESC') }
-
   def self.file_types
     ["Photo"]
-  end
-
-  def self.furthest_year
-    current_year - MAX_YEAR_RANGE
-  end
-
-  def self.current_year
-    Time.now.year
   end
 
   def self.moderation_record
     MemoryModeration
   end
 
-  validates_presence_of :title, :description, :source, :user, :year
+  validates_presence_of :title, :description, :source, :user, :year, :type
   validates_presence_of :categories, message: 'must have at least one'
-  validates :year,
-            inclusion: { in: (furthest_year..current_year).map(&:to_s), message: 'must be within the last 120 years' },
-            if: :year_changed?
-  validates :type,
-            presence: true,
-            inclusion: { in: Memory.file_types }
+  validates :type, inclusion: { in: Memory.file_types }
+  validate :date_not_in_future
+
+  scope :by_recent, -> { order('created_at DESC') }
 
   def date
+    Date.new(self.year.to_i, the_month, the_day)
+  end
+
+  def date_string
     return year unless month.present?
     return month_string unless day.present?
     day_string
@@ -64,6 +54,22 @@ class Memory < ActiveRecord::Base
   end
 
   private
+
+  def date_not_in_future
+    if self.date > Time.now
+      errors.add(:base, "The date can't be in the future")
+    end
+  end
+
+  def the_month
+    return 1 if self.month.blank?
+    self.month.to_i
+  end
+
+  def the_day
+    return 1 if self.day.blank?
+    self.day.to_i
+  end
 
   def month_string
     Time.new(year, month).strftime('%B %Y')

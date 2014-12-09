@@ -20,7 +20,7 @@ RSpec.shared_examples 'moderatable' do
         expect(moderatable_model.by_state('rejected').count).to eql(1)
       end
 
-      it 'returns rno ecords if there are none in the given state' do
+      it 'returns no records if there are none in the given state' do
         expect(moderatable_model.by_state('nonsense').count).to eql(0)
       end
     end
