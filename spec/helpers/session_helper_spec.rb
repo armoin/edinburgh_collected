@@ -13,7 +13,7 @@ describe SessionHelper do
   describe '#current_memory_index_path' do
     context 'when session has no current_memory_index_path' do
       it 'returns the default path' do
-        expect(helper.current_memory_index_path).to eql(SessionHelper::DEFAULT_PATH)
+        expect(helper.current_memory_index_path).to eql(SessionHelper::DEFAULT_MEMORY_PATH)
       end
     end
 
@@ -23,7 +23,7 @@ describe SessionHelper do
       end
 
       it 'returns the default path' do
-        expect(helper.current_memory_index_path).to eql(SessionHelper::DEFAULT_PATH)
+        expect(helper.current_memory_index_path).to eql(SessionHelper::DEFAULT_MEMORY_PATH)
       end
     end
 
