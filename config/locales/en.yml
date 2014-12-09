@@ -6,10 +6,10 @@ en:
         month: "Do you know the month too?"
         day:   "How about the day?"
         description: "Tell us about what you have added"
-        type: "What would you like to add?"
-        source: "Please select a file"
-        title: "What would you like to call this?"
-        attribution: "Would you like to attribute this to another person?"
+        type: "What type of memory would you like to add?"
+        source: "Please choose a file"
+        title: "What's the title of your memory?"
+        attribution: "Who is the author or artist?"
       user:
         screen_name: 'Username'
         is_group: 'Who is this account for?'

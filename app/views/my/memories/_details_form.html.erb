@@ -1,10 +1,10 @@
 <%= form.input :title, input_html: {class: 'form-control'} %>
-<%= form.input :area_id, as: :select, collection: Area.all, input_html: {class: 'form-control'} %>
-<%= form.input :location, input_html: {class: 'form-control'} %>
+<%= form.input :description, as: :text, input_html: {class: 'form-control'} %>
+<%= form.association :categories, as: :check_boxes %>
 <%= form.input :year, input_html: {class: 'form-control', placeholder: "no earlier than #{Memory.furthest_year} please"} %>
 <%= form.input :month, as: :select, collection: month_names, include_blank: false, input_html: {class: 'form-control'} %>
 <%= form.input :day, as: :select, collection: (1..31).to_a, input_html: {class: 'form-control'} %>
-<%= form.input :description, as: :text, input_html: {class: 'form-control'} %>
 <%= form.input :attribution, input_html: {class: 'form-control'} %>
-<%= form.input :tag_list, label: 'What terms might people use to search for this? (separate terms with commas)', input_html: {class: 'form-control', placeholder: 'e.g. landmarks, buildings, castles'} %>
-<%= form.association :categories, as: :check_boxes %>
+<%= form.input :area_id, as: :select, label: 'Edinburgh area', collection: Area.all, input_html: {class: 'form-control'} %>
+<%= form.input :location, input_html: {class: 'form-control'} %>
+<%= form.input :tag_list, label: 'Add tags', input_html: {class: 'form-control', placeholder: 'e.g. landmarks, buildings, castles'} %>
