@@ -17,20 +17,15 @@ RSpec.shared_examples 'a scrapbook index' do
       end
 
       it "does not have a cover image" do
-        expect(rendered).to have_css("#{scope} .img p")
+        expect(rendered).to have_css("#{scope} img.ph")
       end
 
       it "has a title" do
         expect(rendered).to have_css("#{scope} .title", text: scrapbook.title)
       end
 
-      it "shows how many memories it contains" do
-        expect(rendered).to have_css("#{scope} .count", text: '0 memories')
-      end
-
-      it "show when it was last updated" do
-        updated_at_text = time_ago_in_words(scrapbook.updated_at)
-        expect(rendered).to have_css("#{scope} .updates", text: "Updated #{updated_at_text}")
+      it "states that it is empty" do
+        expect(rendered).to have_css("#{scope} h4", text: 'This scrapbook is empty')
       end
     end
 
@@ -42,7 +37,7 @@ RSpec.shared_examples 'a scrapbook index' do
       end
 
       it "uses a memory image as the cover image" do
-        expect(rendered).to have_css("#{scope} .img img")
+        expect(rendered).to have_css("#{scope} img.main")
       end
 
       it "has a title" do
@@ -51,11 +46,6 @@ RSpec.shared_examples 'a scrapbook index' do
 
       it "shows how many memories it contains" do
         expect(rendered).to have_css("#{scope} .count", text: '2 memories')
-      end
-
-      it "show when it was last updated" do
-        updated_at_text = time_ago_in_words(scrapbook.updated_at)
-        expect(rendered).to have_css("#{scope} .updates", text: "Updated #{updated_at_text}")
       end
     end
   end

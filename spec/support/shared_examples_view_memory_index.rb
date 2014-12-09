@@ -1,6 +1,7 @@
 RSpec.shared_examples 'a memory index' do
-  it "displays all given memories" do
-    expect(rendered).to have_css('.memory', count: 3)
+  it "displays all given memories and an add button" do
+    expect(rendered).to have_css('.memory.add', count: 1)
+    expect(rendered).to have_css('.memory', count: 4)
   end
 
   context 'a memory' do
