@@ -5,10 +5,10 @@
     <header id="contentHeader" class="clearfix">
       <h2>Browsing your scrapbooks</h2>
       <span class="actions">
-        <a id="create-scrapbook-button" data-toggle="modal" data-target="#create-scrapbook-modal">
-          Create a new scrapbook
+        <a id="create-scrapbook-button" class="button scrapbooks" data-toggle="modal" data-target="#create-scrapbook-modal">
+          Create a scrapbook
         </a>
-        <%= link_to 'Browse your Memories', my_memories_path %>
+        <%= link_to 'Browse your Memories', my_memories_path, :class => "button memories" %>
       </span>
     </header>
 

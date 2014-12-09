@@ -3,11 +3,14 @@
 
 $navy-blue:     #35404d
 $cream:         #eeece7
-$red:           #e45f56
-$module:        #f0efea
+$coral:         #e45f56
 $light-grey:    #eaebe9
 $beige:         #c9ccc1
-$green:         #51b0aa
+$teal:          #4aaaa5
+$blue:          #7accc8
+$green:         #a3d39c
+
+$module:        #f0efea
 
 
 =border-radius($radius)
@@ -36,8 +39,14 @@ html, body
 
 /* ==================================== BUTTONS */
 
+h1 a
+  font-size: 14px !important
+  padding: 0.25em !important
+  position: relative !important
+  top: -0.25em !important
+
 a.delete
-  background-color: $red !important
+  background-color: $coral !important
 
 
 .button
@@ -47,7 +56,7 @@ a.delete
   border: 1px solid
   display: inline-block
   padding: 0.5em 1em
-  color: $cream
+  color: white
   text-decoration: none
   text-shadow: 0px 1px 0px #51b0aa
 
@@ -56,32 +65,47 @@ a.delete
     text-decoration: none
 
   &:active
+    color: white
+    text-decoration: none
     position: relative
     top: 1px
 
 
+.button.navy, .button.edit
+  background-color: darken( $navy-blue, 10% )
+  border: 1px solid darken( $navy-blue, 20% )
+  text-shadow: 0px 1px 0px $navy-blue
+  font-size: 1em
+
+  &:hover
+    background-color: darken( $navy-blue, 20% )
+
 
 .button.green
-  -moz-box-shadow: inset 0px -2.5em 0px -24px darken( $green, 3% )
-  -webkit-box-shadow: inset 0px -2.5em 0px -24px darken( $green, 3% )
-  box-shadow: inset 0px -2.5em 0px -24px darken( $green, 3% )
-  background-color: #51b0aa
-  border: 1px solid darken( $green, 10% )
-  text-shadow: 0px 1px 0px #51b0aa
+  background-color: darken( $green, 10% )
+  border: 1px solid darken( $green, 20% )
+  text-shadow: 0px 1px 0px $green
 
   &:hover
-    background-color: lighten( $green, 5% )
+    background-color: darken( $green, 20% )
 
-.button.red
-  -moz-box-shadow: inset 0px -2.5em 0px -24px darken( $red, 3% )
-  -webkit-box-shadow: inset 0px -2.5em 0px -24px darken( $red, 3% )
-  box-shadow: inset 0px -2.5em 0px -24px darken( $red, 3% )
-  background-color: $red
-  border: 1px solid darken( $red, 10% )
-  text-shadow: 0px 1px 0px $red
+.button.red, .button.scrapbooks
+  background-color: $coral
+  border: 1px solid darken( $coral, 10% )
+  text-shadow: 0px 1px 0px $coral
 
   &:hover
-    background-color: lighten( $red, 5% )
+    background-color: darken( $coral, 5% )
+    cursor: pointer
+
+
+.button.teal, .button.memories
+  background-color: $teal
+  border: 1px solid darken( $teal, 10% )
+  text-shadow: 0px 1px 0px $teal
+
+  &:hover
+    background-color: darken( $teal, 5% )
 
 
 
@@ -102,6 +126,22 @@ a.delete
       &:hover
         color: lightblue
 
+.memory-container
+  .pagination
+    li
+      a
+        color: $teal
+      span.disabled, &:hover
+        color: lighten( $teal, 20% )
+        &:hover
+          color: lighten( $teal, 20% )
+
+      &.active
+        a
+          color: white
+          background: $teal
+          border: 1px solid darken( $teal, 5% )
+
 /* ==================================== TYPOGRAPHY */
 
 a
@@ -120,7 +160,7 @@ h1, h2, h3
     content: "< "
 
   &:hover
-    color: $red
+    color: $coral
 
 /* ==================================== HEADER */
 
@@ -187,7 +227,7 @@ header
     // height: 1em
 
     a
-      color: #ffffff
+      color: white
 
       &:hover
         text-decoration: none
@@ -226,6 +266,7 @@ header
   border: 1px solid $navy-blue
   padding: 1em
   +border-radius(3px)
+  background: darken( $cream, 5% )
 
 
 /* ================= STICKY FOOTER */
@@ -265,8 +306,8 @@ footer
     display: inline-block
 
 .error-message
-  border: 1px solid #a94442
-  color: #a94442
+  border: 1px solid darken( $coral, 10% )
+  color: darken( $coral, 10% )
   padding: 0.6em
 
 .flashes
@@ -278,7 +319,7 @@ footer
     margin: 16px 0 0 0
 
     .close
-      text-shadow: 0 0 0 #fff
+      text-shadow: 0 0 0 white
       margin-top: -2px
       opacity: 1
 
@@ -309,7 +350,7 @@ ul.nav.nav-pills
     border-radius: 0px
 
     a
-      color: #2a6496
+      color: $navy-blue
       border-radius: 0px
 
     &.active a
@@ -377,6 +418,7 @@ button#create-scrapbook-button
 #memories
   margin-bottom: 2em
 
+
 #contentHeader
   border-bottom: $navy-blue 1px solid
   padding: 2em 0 0.5em
@@ -389,11 +431,6 @@ button#create-scrapbook-button
   span.actions
     float: right
 
-    a
-      background: $navy-blue
-      color: white
-      padding: 0.5em
-      display: inline-block
 
 
 /* ==================================== MEMORIES */
@@ -469,6 +506,22 @@ a.memory, a.scrapbook
         h3
           font-size: 20px
           margin: 0.25em 0
+
+  &.add.memory
+    text-align: center
+
+    span
+      padding: 50px
+      background: $teal
+      font-size: 7em
+      width: 100%
+      display: block
+      color: white
+
+      &:hover
+        background: darken( $teal, 5% )
+
+
 
   &.full
     img
@@ -562,14 +615,13 @@ a.memory, a.scrapbook
       border: 1px solid #ccc
       +border-radius(3px)
       margin-bottom: 1em
-      padding: 0.25em
 
     .bottom-row
 
       .count
         width: 24%
         display: inline-block
-        background: $green
+        background: $teal
         color: white
         text-align: center
         +border-radius(3px)
@@ -598,7 +650,7 @@ a.memory, a.scrapbook
 /* ==================================== PROFILE */
 
 #profileHeader
-  background: $beige
+  background: darken( $cream, 5% )
   margin: 2em 0 0 0
 
   .wrapper
@@ -611,6 +663,8 @@ a.memory, a.scrapbook
   #userContent
     float: right
     display: table
+    position: relative
+    right: -15px
 
     div
       display: table-cell
@@ -630,6 +684,10 @@ a.memory, a.scrapbook
         a
           color: white
 
+      &:hover
+        text-decoration: none
+        pointer: default !important
+
       span
         display: block
 
@@ -638,7 +696,7 @@ a.memory, a.scrapbook
   pointer: auto
 
 .memories #userScrapbooks a:hover, .scrapbook #userMemories a:hover
-  background: $green
+  background: $teal
   text-decoration: none
   color: white
 
@@ -982,7 +1040,7 @@ ul.admin-toolbar
       margin: 10px 0
 
     &:hover
-      background: $green
+      background: $teal
       color: white
       text-decoration: none
 
@@ -1192,7 +1250,7 @@ body.styleguide
         right: 0
         width: 150px
         text-align: right
-        background: $green
+        background: $teal
         z-index: 100
         padding: 0 0 10px 0
         list-style: none
@@ -1203,7 +1261,7 @@ body.styleguide
           padding: 1em 0.5em
 
       &:hover
-        background: $green
+        background: $teal
         a
           color: $cream
 

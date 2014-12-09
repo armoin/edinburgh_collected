@@ -5,11 +5,11 @@
       <h1><%= @scrapbook.title %></h1>
       <span class="actions">
          <% if current_user.try(:can_modify?, @scrapbook) %>
-           <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id) %>
-           <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), method: :delete, data: {confirm: 'Are you sure?'} %>
-           <%= link_to "Add more memories", memories_path, role: "button" %>
+           <%= link_to "Add more memories", memories_path, role: "button", :class => "button memories"  %>
+           <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id), :class => "button navy edit"  %>
+           <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), :class => "button scrapbooks" , method: :delete, data: {confirm: 'Are you sure?'} %>
          <% end %>
-        <%= link_to 'All scrapbooks', my_scrapbooks_path %>
+        <%= link_to 'All scrapbooks', my_scrapbooks_path, :class => "button scrapbooks" %>
       </span>
     </header>
 
