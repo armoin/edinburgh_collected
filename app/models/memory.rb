@@ -40,12 +40,14 @@ class Memory < ActiveRecord::Base
     MemoryModeration
   end
 
-  validates_presence_of :title, :source, :user, :year
+  validates_presence_of :title, :description, :source, :user, :year
   validates_presence_of :categories, message: 'must have at least one'
   validates :year,
-            inclusion: { in: (furthest_year..current_year).map(&:to_s), message: 'must be within the last 120 years.' },
+            inclusion: { in: (furthest_year..current_year).map(&:to_s), message: 'must be within the last 120 years' },
             if: :year_changed?
-  validates :type, inclusion: { in: Memory.file_types }
+  validates :type,
+            presence: true,
+            inclusion: { in: Memory.file_types }
 
   def date
     return year unless month.present?

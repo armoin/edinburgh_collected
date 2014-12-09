@@ -17,11 +17,13 @@ en:
       models:
         memory:
           attributes:
+            description:
+              blank: "Please tell us a little bit about this memory"
             title:
-              blank: "Please let us know what you would like to call this."
+              blank: "Please let us know what title you would like to give this"
             type:
-              inclusion: "You can only add image files."
+              blank: "Please tell us what type of memory you want to add"
             year:
-              blank: "Please tell us when this dates from."
+              blank: "Please tell us when this dates from"
             source:
-              blank: "You need to choose a file to upload."
+              blank: "You need to choose a file to upload"

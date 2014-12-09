@@ -16,27 +16,27 @@ RSpec.shared_examples "a memory" do
       it "can't be blank" do
         memory.year = ""
         expect(memory).to be_invalid
-        expect(memory.errors[:year]).to include("Please tell us when this dates from.")
+        expect(memory.errors[:year]).to include("Please tell us when this dates from")
       end
 
       it "is invalid if in the future" do
         memory.year = 1.year.from_now.year.to_s
         expect(memory).to be_invalid
-        expect(memory.errors[:year]).to include("must be within the last 120 years.")
+        expect(memory.errors[:year]).to include("must be within the last 120 years")
       end
 
       context "when in the past" do
         it "is invalid on create" do
           memory.year = (Memory::MAX_YEAR_RANGE+1).years.ago.year.to_s
           expect(memory).to be_invalid
-          expect(memory.errors[:year]).to include("must be within the last 120 years.")
+          expect(memory.errors[:year]).to include("must be within the last 120 years")
         end
 
         it "is invalid on update if changed" do
           memory.save!
           memory.year = (Memory::MAX_YEAR_RANGE+1).years.ago.year.to_s
           expect(memory).to be_invalid
-          expect(memory.errors[:year]).to include("must be within the last 120 years.")
+          expect(memory.errors[:year]).to include("must be within the last 120 years")
         end
 
         # this is to protect against future changes when
@@ -68,7 +68,7 @@ RSpec.shared_examples "a memory" do
       it "can't be blank" do
         memory.source.remove!
         expect(memory).to be_invalid
-        expect(memory.errors[:source]).to include("You need to choose a file to upload.")
+        expect(memory.errors[:source]).to include("You need to choose a file to upload")
       end
 
       context "when type is image" do
@@ -128,20 +128,26 @@ RSpec.shared_examples "a memory" do
       it "can't be blank" do
         memory.type = ''
         expect(memory).to be_invalid
-        expect(memory.errors[:type]).to include('You can only add image files.')
+        expect(memory.errors[:type]).to include("Please tell us what type of memory you want to add")
       end
 
       it "must be an allowed type" do
         memory.type = 'doodah'
         expect(memory).to be_invalid
-        expect(memory.errors[:type]).to include('You can only add image files.')
+        expect(memory.errors[:type]).to include("is not included in the list")
       end
     end
 
     it "title can't be blank" do
       memory.title = ""
       expect(memory).to be_invalid
-      expect(memory.errors[:title]).to include("Please let us know what you would like to call this.")
+      expect(memory.errors[:title]).to include("Please let us know what title you would like to give this")
+    end
+
+    it "description can't be blank" do
+      memory.description = ""
+      expect(memory).to be_invalid
+      expect(memory.errors[:description]).to include("Please tell us a little bit about this memory")
     end
 
     it "must have a user" do
