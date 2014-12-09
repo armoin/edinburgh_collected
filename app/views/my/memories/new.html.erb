@@ -15,7 +15,7 @@
 
  <div id="newMemoryForm" class="formWrapper row">
   <div id="formPanel" class="col-md-6">
-    <h1>Add a new memory</h1>
+    <h1>Add a memory</h1>
       <%= simple_form_for @memory,
         as: :memory,
         url: my_memories_url,
@@ -35,7 +35,7 @@
 
         <div class="form-group">
           <div class="actions">
-            <%= link_to "Cancel", my_memories_path, class: "btn btn-default" %>
+            <%= link_to "Cancel", current_memory_index_path, class: "btn btn-default" %>
             <%= form.button :submit, "Save And Add Another", class: "btn btn-primary", disabled: true %>
             <%= form.button :submit, "Save", class: "btn btn-primary", disabled: true %>
           </div>

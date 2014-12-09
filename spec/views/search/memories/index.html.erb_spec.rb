@@ -17,6 +17,10 @@ describe 'search/memories/index.html.erb' do
     expect(rendered).to have_css('#contentHeader', text: "Found 3 matches for \"#{params_stub[:query]}\"")
   end
 
+  it "doesn't show an add button" do
+    expect(rendered).not_to have_css('.memory.add')
+  end
+
   context 'a memory' do
     let(:memory) { memories.first }
 

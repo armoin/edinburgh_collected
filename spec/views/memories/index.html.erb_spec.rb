@@ -15,6 +15,10 @@ describe 'memories/index.html.erb' do
     expect(rendered).to have_link('Browse scrapbooks', href: scrapbooks_path)
   end
 
+  it "shows an add button" do
+    expect(rendered).to have_css('.memory.add')
+  end
+
   context 'a memory' do
     let(:memory) { memories.first }
 
