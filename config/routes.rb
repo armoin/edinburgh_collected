@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   get 'styleguide/blocks' => 'styleguide#blocks'
   get 'styleguide/elements' => 'styleguide#elements'
 
+  get 'about' => 'static#about'
+  get 'contact' => 'static#contact'
+  get 'p_and_c' => 'static#p_and_c'
   get 't_and_c' => 'static#t_and_c'
 
   namespace :my do
