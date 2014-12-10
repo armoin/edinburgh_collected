@@ -13,7 +13,7 @@ describe 'my/scrapbooks/index.html.erb' do
   it "has a link to show all current user's memories" do
     assign(:scrapbooks, scrapbooks)
     render
-    expect(rendered).to have_link('Browse your Memories', href: my_memories_path)
+    expect(rendered).to have_link('Browse your memories', href: my_memories_path)
   end
 
   it_behaves_like 'a scrapbook index'
