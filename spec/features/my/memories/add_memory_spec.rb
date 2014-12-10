@@ -28,18 +28,28 @@ feature 'adding new memories', slow: true, js:true do # REMEMBER: add js:true ag
     pre_count = Memory.count
     fill_in_form
     click_button 'Save'
+    click_button "That's all for now thanks"
     expect(Memory.count).to eql(pre_count + 1)
   end
 
-  scenario 'clicking Save goes to the My Memories page' do
+  scenario 'clicking Save launches a prompt to advise user' do
+    expect(page).not_to have_css('.modal#save-prompt')
     fill_in_form
     click_button 'Save'
+    expect(page).to have_css('.modal#save-prompt')
+  end
+
+  scenario "clicking Save and then selecting That's all goes to the My Memories page" do
+    fill_in_form
+    click_button 'Save'
+    click_button "That's all for now thanks"
     expect(current_path).to eq('/my/memories')
   end
 
-  scenario 'clicking Save And Add Another goes to the New page again' do
+  scenario 'clicking Save and then Yes please goes to the New page again' do
     fill_in_form
-    click_button 'Save And Add Another'
+    click_button 'Save'
+    click_button "Yes please"
     expect(current_path).to eq('/my/memories/new')
   end
 end
