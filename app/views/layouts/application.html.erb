@@ -10,6 +10,19 @@
 
     <%= javascript_include_tag('application', 'data-turbolinks-track' => true) %>
     <%= csrf_meta_tags %>
+
+    <%# hack to stop modals from causing feature tests to fail %>
+    <% if Rails.env.test? %>
+      <style type="text/css">
+        .modal.fade, .fade {
+          -webkit-transition: opacity 0.01s;
+          -moz-transition: opacity 0.01s;
+          -ms-transition: opacity 0.01s;
+          -o-transition: opacity 0.01s;
+          transition: opacity 0.01s;
+        }
+      </style>
+    <%end%>
   </head>
   <body>
     <div id="wrapper">
