@@ -29,7 +29,7 @@
               <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                   <li class="<%= active_if_controller_path('home') %>">
-                    <a class="feedback" href="mailto:edinburgh-stories@armoin.com?subject=Feedback">Feedback</a>
+                    <a class="feedback" href="mailto:<%= ENV['CONTACT_EMAIL'] %>?subject=Feedback">Feedback</a>
                   </li>
                   <li class="<%= active_if_controller_path('home') %>">
                     <%= link_to 'Home', root_path %>
