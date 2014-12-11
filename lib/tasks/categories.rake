@@ -1,9 +1,13 @@
 namespace :categories do
-  task :convert => :environment do |t, args|
+  def conversions
     {
       "Leisure" => "Sport & Leisure",
       "Sport"   => "Sport & Leisure"
-    }.each do |old, new|
+    }
+  end
+
+  task :convert => :environment do |t, args|
+    conversions.each do |old, new|
       old_category = Category.find_by(name: old)
       new_category = Category.find_by(name: new)
 
