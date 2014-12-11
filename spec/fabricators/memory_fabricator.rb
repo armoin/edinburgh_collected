@@ -10,6 +10,7 @@ Fabricator(:photo_memory, from: :photo) do
   location    "Kings Road"
   source      Rack::Test::UploadedFile.new(File.join(File.join(Rails.root, 'spec', 'fixtures', 'files'), 'test.jpg'))
   categories(rand: 3) { |attrs, i| Fabricate(:category) }
+  tags(rand: 3) { |attrs, i| Fabricate(:tag) }
 end
 
 def stub_memories(number=1)
