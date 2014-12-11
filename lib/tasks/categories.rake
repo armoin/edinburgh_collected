@@ -14,6 +14,7 @@ namespace :categories do
       old_category.memories.each do |memory|
         memory.categories << new_category unless memory.categories.include?(new_category)
         memory.categories.delete(old_category)
+        memory.description = memory.title if memory.description.blank?
         memory.save!
       end
 
