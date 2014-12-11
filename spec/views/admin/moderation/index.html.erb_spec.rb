@@ -75,11 +75,15 @@ describe "admin/moderation/index.html.erb" do
         expect(rendered).to have_css('td', text: 'unmoderated')
       end
 
+      it 'shows the email address of the owner' do
+        expect(rendered).to have_css('td', text: item.user.email)
+      end
+
       context 'when not yet moderated' do
         let(:last_moderated_at) { nil }
 
         it 'has a blank last modified date' do
-          expect(rendered).to have_css('td:nth-child(4)', text: '')
+          expect(rendered).to have_css('td:nth-child(5)', text: '')
         end
       end
 
@@ -87,7 +91,7 @@ describe "admin/moderation/index.html.erb" do
         let(:last_moderated_at) { Time.parse('13-Nov-2014 14:44') }
 
         it 'shows the last moderated date' do
-          expect(rendered).to have_css('td:nth-child(4)', text: '13-Nov-2014 14:44')
+          expect(rendered).to have_css('td:nth-child(5)', text: '13-Nov-2014 14:44')
         end
       end
     end
