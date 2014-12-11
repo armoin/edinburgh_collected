@@ -12,6 +12,140 @@ RSpec.shared_examples "a memory" do
       expect(memory).to be_valid
     end
 
+    it "must have a user" do
+      memory.user = nil
+      expect(memory).to be_invalid
+      expect(memory.errors[:user]).to include("can't be blank")
+    end
+
+    describe "type" do
+      it "can't be blank" do
+        memory.type = ''
+        expect(memory).to be_invalid
+        expect(memory.errors[:type]).to include("Please tell us what type of memory you want to add")
+      end
+
+      it "must be an allowed type" do
+        memory.type = 'doodah'
+        expect(memory).to be_invalid
+        expect(memory.errors[:type]).to include("is not included in the list")
+      end
+    end
+
+    describe "source" do
+      it "can't be blank" do
+        memory.source.remove!
+        expect(memory).to be_invalid
+        expect(memory.errors[:source]).to include("You need to choose a file to upload")
+      end
+
+      context "when type is image" do
+        context "and file is a .jpg" do
+          let(:file_name) { 'test.jpg' }
+
+          it "is valid" do
+            expect(memory).to be_valid
+          end
+        end
+
+        context "and file is a .jpeg" do
+          let(:file_name) { 'test.jpeg' }
+
+          it "is valid" do
+            expect(memory).to be_valid
+          end
+        end
+
+        context "and file is a .png" do
+          let(:file_name) { 'test.png' }
+
+          it "is valid" do
+            expect(memory).to be_valid
+          end
+        end
+
+        context "and file is a .gif" do
+          let(:file_name) { 'test.gif' }
+
+          it "is valid" do
+            expect(memory).to be_valid
+          end
+        end
+
+        context "and file is a .txt" do
+          let(:file_name) { 'test.txt' }
+
+          it "is invalid" do
+            expect(memory).to be_invalid
+            expect(memory.errors[:source]).to include("You are not allowed to upload \"txt\" files, allowed types: JPG, JPEG, GIF, PNG, jpg, jpeg, gif, png")
+          end
+        end
+
+        # context "and remote_source_url is given instead of file" do
+        #   let(:file_name) { 'test.txt' }
+        #
+        #   it "is ignores validation for just now" do
+        #     memory.remote_source_url = 'test/url'
+        #     expect(memory).to be_valid
+        #   end
+        # end
+      end
+    end
+
+    describe "title" do
+      it "can't be blank" do
+        memory.title = ""
+        expect(memory).to be_invalid
+        expect(memory.errors[:title]).to include("Please let us know what title you would like to give this")
+      end
+
+      it "can't be more than 255 characters long" do
+        exact_size_text = Array.new(255, "a").join
+        too_long_text = Array.new(256, "a").join
+        memory.title = exact_size_text
+        expect(memory).to be_valid
+        memory.title = too_long_text
+        expect(memory).to be_invalid
+        expect(memory.errors[:title]).to include("is too long (maximum is 255 characters)")
+      end
+    end
+
+    describe "description" do
+      it "can't be blank" do
+        memory.description = ""
+        expect(memory).to be_invalid
+        expect(memory.errors[:description]).to include("Please tell us a little bit about this memory")
+      end
+
+      it "can't be more than 4000 characters long" do
+        exact_size_text = Array.new(4000, "a").join
+        too_long_text = Array.new(4001, "a").join
+        memory.description = exact_size_text
+        expect(memory).to be_valid
+        memory.description = too_long_text
+        expect(memory).to be_invalid
+        expect(memory.errors[:description]).to include("is too long (maximum is 4000 characters)")
+      end
+    end
+
+    describe "categories" do
+      it "is invalid with no categories" do
+        memory.categories = []
+        expect(memory).to be_invalid
+        expect(memory.errors[:categories]).to include("must have at least one")
+      end
+
+      it "is valid with one category" do
+        memory.categories = Fabricate.times(1, :category)
+        expect(memory).to be_valid
+      end
+
+      it "is valid with multiple categories" do
+        memory.categories = Fabricate.times(2, :category)
+        expect(memory).to be_valid
+      end
+    end
+
     describe 'date' do
       let(:now) { Date.new(2014, 5, 4) }
 
@@ -111,113 +245,15 @@ RSpec.shared_examples "a memory" do
       end
     end
 
-    context "source" do
-      it "can't be blank" do
-        memory.source.remove!
-        expect(memory).to be_invalid
-        expect(memory.errors[:source]).to include("You need to choose a file to upload")
-      end
-
-      context "when type is image" do
-        context "and file is a .jpg" do
-          let(:file_name) { 'test.jpg' }
-
-          it "is valid" do
-            expect(memory).to be_valid
-          end
-        end
-
-        context "and file is a .jpeg" do
-          let(:file_name) { 'test.jpeg' }
-
-          it "is valid" do
-            expect(memory).to be_valid
-          end
-        end
-
-        context "and file is a .png" do
-          let(:file_name) { 'test.png' }
-
-          it "is valid" do
-            expect(memory).to be_valid
-          end
-        end
-
-        context "and file is a .gif" do
-          let(:file_name) { 'test.gif' }
-
-          it "is valid" do
-            expect(memory).to be_valid
-          end
-        end
-
-        context "and file is a .txt" do
-          let(:file_name) { 'test.txt' }
-
-          it "is invalid" do
-            expect(memory).to be_invalid
-            expect(memory.errors[:source]).to include("You are not allowed to upload \"txt\" files, allowed types: JPG, JPEG, GIF, PNG, jpg, jpeg, gif, png")
-          end
-        end
-
-        # context "and remote_source_url is given instead of file" do
-        #   let(:file_name) { 'test.txt' }
-        #
-        #   it "is ignores validation for just now" do
-        #     memory.remote_source_url = 'test/url'
-        #     expect(memory).to be_valid
-        #   end
-        # end
-      end
-    end
-
-    context "type" do
-      it "can't be blank" do
-        memory.type = ''
-        expect(memory).to be_invalid
-        expect(memory.errors[:type]).to include("Please tell us what type of memory you want to add")
-      end
-
-      it "must be an allowed type" do
-        memory.type = 'doodah'
-        expect(memory).to be_invalid
-        expect(memory.errors[:type]).to include("is not included in the list")
-      end
-    end
-
-    it "title can't be blank" do
-      memory.title = ""
-      expect(memory).to be_invalid
-      expect(memory.errors[:title]).to include("Please let us know what title you would like to give this")
-    end
-
-    it "description can't be blank" do
-      memory.description = ""
-      expect(memory).to be_invalid
-      expect(memory.errors[:description]).to include("Please tell us a little bit about this memory")
-    end
-
-    it "must have a user" do
-      memory.user = nil
-      expect(memory).to be_invalid
-      expect(memory.errors[:user]).to include("can't be blank")
-    end
-
-    context "categories" do
-      it "is invalid with no categories" do
-        memory.categories = []
-        expect(memory).to be_invalid
-        expect(memory.errors[:categories]).to include("must have at least one")
-      end
-
-      it "is valid with one category" do
-        memory.categories = Fabricate.times(1, :category)
+    describe "attribution" do
+      it "can't be more than 255 characters long" do
+        exact_size_text = Array.new(255, "a").join
+        too_long_text = Array.new(256, "a").join
+        memory.attribution = exact_size_text
         expect(memory).to be_valid
-      end
-
-      it "is valid with multiple categories" do
-        memory.categories = Fabricate.times(2, :category)
-        expect(memory).to be_valid
+        memory.attribution = too_long_text
+        expect(memory).to be_invalid
+        expect(memory.errors[:attribution]).to include("is too long (maximum is 255 characters)")
       end
     end
   end

@@ -32,6 +32,8 @@ class Memory < ActiveRecord::Base
   validates_presence_of :categories, message: 'must have at least one'
   validates :type, inclusion: { in: Memory.file_types }
   validate :date_not_in_future
+  validates_length_of :title, :attribution, maximum: 255
+  validates_length_of :description, maximum: 4000
 
   scope :by_recent, -> { order('created_at DESC') }
 
