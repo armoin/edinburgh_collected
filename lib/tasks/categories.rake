@@ -1,16 +1,9 @@
 namespace :categories do
-  def conversions
-    {
-      "Animals"             => "Leisure",
-      "Architecture"        => "Places",
-      "Health and Welfare"  => "Health",
-      "Homes"               => "Home",
-      "Transport"           => "Travel"
-    }
-  end
-
   task :convert => :environment do |t, args|
-    conversions.each do |old, new|
+    {
+      "Leisure" => "Sport & Leisure",
+      "Sport"   => "Sport & Leisure"
+    }.each do |old, new|
       old_category = Category.find_by(name: old)
       new_category = Category.find_by(name: new)
 
@@ -19,7 +12,7 @@ namespace :categories do
       puts "Before: #{new} has #{new_category.memories.count} memories."
 
       old_category.memories.each do |memory|
-        memory.categories << new_category
+        memory.categories << new_category unless memory.categories.include?(new_category)
         memory.categories.delete(old_category)
         memory.save!
       end
