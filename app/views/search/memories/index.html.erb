@@ -1,11 +1,14 @@
 <div class="container profile memories">
   <div id="grid">
     <header id="contentHeader" class="clearfix">
-      <h2>Found <%= pluralize(@memories.total_count, 'match') %> for "<%= params[:query] %>"</h2>
+      <h2>Found <%= pluralize(@memories.total_count, 'match') %> for "<%= truncate(params[:query], length: 30) %>"</h2>
     </header>
 
     <% if @memories.empty? -%>
-      <p class="no-results">Sorry, but we couldn't find any results for "<%= params[:query] %>"</p>
+      <div class="no-results">
+        <%= image_tag 'empty-scrapbook.png' %>
+        <p>Sorry, but we couldn't find any results for "<%= params[:query] %>"</p>
+      </div>
     <% else -%>
       <%= render partial: 'memories/index', locals: {memories: @memories} %>
     <% end -%>
