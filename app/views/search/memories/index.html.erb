@@ -4,6 +4,10 @@
       <h2>Found <%= pluralize(@memories.total_count, 'match') %> for "<%= params[:query] %>"</h2>
     </header>
 
-    <%= render partial: 'memories/index', locals: {memories: @memories} %>
+    <% if @memories.empty? -%>
+      <p class="no-results">Sorry, but we couldn't find any results for "<%= params[:query] %>"</p>
+    <% else -%>
+      <%= render partial: 'memories/index', locals: {memories: @memories} %>
+    <% end -%>
   </div>
 </div>
