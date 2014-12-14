@@ -7,7 +7,9 @@
         <%= link_to 'Memories', memories_path, :class => "button memories inactive"   %>
         <span class="button scrapbooks coral">Scrapbooks</span>
 
-       <%= link_to 'Create a scrapbook', new_my_memory_path, :class => "button navy float-right" %>
+        <a id="create-scrapbook-button" class="button navy float-right" data-toggle="modal" data-target="#create-scrapbook-modal">
+          Create a scrapbook
+        </a>
 
       </div>
     </header>

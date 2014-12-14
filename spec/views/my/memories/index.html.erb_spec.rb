@@ -12,7 +12,7 @@ describe 'my/memories/index.html.erb' do
   end
 
   it 'displays a link to Browse your scrapbooks' do
-    expect(rendered).to have_link('Browse your scrapbooks', href: my_scrapbooks_path)
+    expect(rendered).to have_link('Scrapbooks', href: my_scrapbooks_path)
   end
 
   it "shows an add button" do

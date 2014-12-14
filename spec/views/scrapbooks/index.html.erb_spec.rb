@@ -12,7 +12,7 @@ describe 'scrapbooks/index.html.erb' do
   it 'has a link to show all memories' do
     assign(:scrapbooks, paged_scrapbooks)
     render
-    expect(rendered).to have_link('Browse all memories', href: memories_path)
+    expect(rendered).to have_link('Memories', href: memories_path)
   end
 
   it_behaves_like 'a scrapbook index'
