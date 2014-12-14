@@ -1,16 +1,5 @@
 <div class="container">
  <header id="formHeader" class="row">
-<!--
-  <div class="step step1 col-md-4">
-   <span>1</span> Choose the type of file
-  </div>
-  <div class="step step2 col-md-4">
-   <span>2</span> Upload your memory
-  </div>
-  <div class="step step3 col-md-4">
-   <span>3</span> Upload Complete
-  </div>
- -->
  </header>
 
 
@@ -61,10 +50,10 @@
     $('#user_is_group input[type="radio"]').on('change', function (e) {
       var label = $('label[for="user_first_name"]');
       if ($(e.currentTarget).val() === 'true') {
-        label.html('<abbr title="required">*</abbr> Group name');
+        label.html('Group name <abbr title="required">*</abbr>');
         $('.user_last_name').hide()
       } else {
-        label.html('<abbr title="required">*</abbr> First name');
+        label.html('First name <abbr title="required">*</abbr>');
         $('.user_last_name').show()
       }
     })
