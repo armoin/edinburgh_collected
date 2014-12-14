@@ -63,66 +63,6 @@ describe My::ScrapbooksController do
     end
   end
 
-  describe 'GET show' do
-    context 'when not logged in' do
-      before :each do
-        get :show, id: '123'
-      end
-
-      it 'does not store the scrapbook index path' do
-        expect(session[:current_scrapbook_index_path]).to be_nil
-      end
-
-      it 'does not set the current memory index path' do
-        expect(session[:current_memory_index_path]).to be_nil
-      end
-
-      it 'asks user to signin' do
-        expect(response).to redirect_to(:signin)
-      end
-    end
-
-    context 'when logged in' do
-      let(:stub_scrapbooks) { double('scrapbooks', find: scrapbook) }
-
-      before :each do
-        login_user
-        allow(stub_scrapbooks).to receive(:find).and_return(scrapbook)
-        get :show, id: 123
-      end
-
-      it 'does not store the scrapbook index path' do
-        expect(session[:current_scrapbook_index_path]).to be_nil
-      end
-
-      it 'sets the current memory index path' do
-        expect(session[:current_memory_index_path]).to eql(my_scrapbook_path(scrapbook.id))
-      end
-
-      it "looks for the requested scrapbook" do
-        expect(stub_scrapbooks).to have_received(:find).with('123')
-      end
-
-      context "if the scrapbook is found" do
-        it "assigns the scrapbook" do
-          expect(assigns[:scrapbook]).to eql(scrapbook)
-        end
-
-        it "renders the show page" do
-          expect(response).to render_template(:show)
-        end
-      end
-
-      context "if the scrapbook is not found" do
-        it "returns a Not Found" do
-          allow(stub_scrapbooks).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-          get :show, id: '123'
-          expect(response).to render_template('exceptions/not_found')
-        end
-      end
-    end
-  end
-
   describe 'POST create' do
     let(:strong_params) {{ title: 'A title' }}
     let(:given_params) {{
@@ -344,7 +284,7 @@ describe My::ScrapbooksController do
 
       context "update is successful" do
         it "redirects to the scrapbook page" do
-          expect(response).to redirect_to(my_scrapbook_path('123'))
+          expect(response).to redirect_to(scrapbook_path('123'))
         end
       end
 

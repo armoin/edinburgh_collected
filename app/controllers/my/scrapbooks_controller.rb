@@ -6,10 +6,6 @@ class My::ScrapbooksController < My::AuthenticatedUserController
     @scrapbooks = current_user.scrapbooks.page(params[:page]).per(30)
   end
 
-  def show
-    @scrapbook = current_user.scrapbooks.find(params[:id])
-  end
-
   def create
     @scrapbook = Scrapbook.new(scrapbook_params)
     @scrapbook.user = current_user
@@ -29,7 +25,7 @@ class My::ScrapbooksController < My::AuthenticatedUserController
   def update
     @scrapbook = current_user.scrapbooks.find(params[:id])
     if @scrapbook.update(scrapbook_params)
-      redirect_to my_scrapbook_path(@scrapbook)
+      redirect_to scrapbook_path(@scrapbook)
     else
       render :edit
     end

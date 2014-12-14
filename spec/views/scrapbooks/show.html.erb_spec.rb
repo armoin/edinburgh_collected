@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "my/scrapbooks/show.html.erb" do
+describe "scrapbooks/show.html.erb" do
   let(:scrapbook) { Fabricate.build(:scrapbook, id: 123) }
   let(:user)      { Fabricate.build(:active_user) }
 
