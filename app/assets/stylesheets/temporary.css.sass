@@ -6,8 +6,9 @@ $cream:         #eeece7
 $coral:         #e45f56
 $light-grey:    #eaebe9
 $beige:         #c9ccc1
-$teal:          #4aaaa5
-$blue:          #7accc8
+$teal:          #51b0aa
+$blue:          #336699
+$purple:        #6e4591
 $green:         #a3d39c
 
 $module:        #f0efea
@@ -52,8 +53,8 @@ a.underlined
   text-decoration: underline
 
 .button
-  background-color: darken( $navy-blue, 10% )
-  border: 1px solid darken( $navy-blue, 20% )
+  background-color: $navy-blue
+  border: 1px solid $navy-blue
   text-shadow: 0px 1px 0px $navy-blue
   font-size: 1em
   -moz-border-radius: 4px
@@ -80,8 +81,8 @@ a.underlined
 
 
 .button.navy, .button.edit
-  background-color: darken( $navy-blue, 10% )
-  border: 1px solid darken( $navy-blue, 20% )
+  background-color: $navy-blue
+  border: 1px solid $navy-blue
   text-shadow: 0px 1px 0px $navy-blue
   font-size: 1em
 
@@ -97,7 +98,7 @@ a.underlined
   &:hover
     background-color: darken( $green, 20% )
 
-.button.red, .button.scrapbooks
+.button.red, .button.delete
   background-color: $coral
   border: 1px solid darken( $coral, 10% )
   text-shadow: 0px 1px 0px $coral
@@ -106,8 +107,17 @@ a.underlined
     background-color: darken( $coral, 5% )
     cursor: pointer
 
+.button.purple, .button.scrapbooks
+  background-color: $purple
+  border: 1px solid darken( $purple, 10% )
+  text-shadow: 0px 1px 0px $purple
 
-.button.teal, .button.memories
+  &:hover
+    background-color: darken( $purple, 5% )
+    cursor: pointer
+
+
+.button.teal
   background-color: $teal
   border: 1px solid darken( $teal, 10% )
   text-shadow: 0px 1px 0px $teal
@@ -118,6 +128,18 @@ a.underlined
     background-color: darken( $teal, 5% )
 
 
+.button.blue, .button.memories
+  background-color: $blue
+  border: 1px solid darken( $blue, 10% )
+  text-shadow: 0px 1px 0px $blue
+  text-decoration: none
+  color: white
+
+  &:hover
+    background-color: darken( $blue, 5% )
+
+
+
 .button.inactive
   border: 1px solid rgba($navy-blue, 0.25)
   background-color: rgba($navy-blue, 0.25)
@@ -125,21 +147,23 @@ a.underlined
   text-shadow: none
 
   &.scrapbooks:hover
-    background-color: darken( $coral, 5% )
-    border: 1px solid darken( $coral, 10% )
+    background-color: $purple
+    border: 1px solid $purple
     color: white
 
   &.memories:hover
-    background-color: darken( $teal, 5% )
-    border: 1px solid darken( $teal, 10% )
+    background-color: $blue
+    border: 1px solid  $blue
     color: white
 
 
 span.button.scrapbooks:hover
-  background-color: $coral !important
+  background-color: $purple !important
+  cursor: default
 
 span.button.memories:hover
-  background-color: $teal !important
+  background-color: $blue !important
+  cursor: default
 
 
 
@@ -598,14 +622,14 @@ a.memory, a.scrapbook
 
     span
       padding: 50px
-      background: $teal
+      background: $blue
       font-size: 7em
       width: 100%
       display: block
       color: white
 
       &:hover
-        background: darken( $teal, 5% )
+        background: darken( $blue, 5% )
 
 
 
@@ -703,20 +727,27 @@ a.memory, a.scrapbook
     img.main, img.ph
       border: 1px solid #ccc
       +border-radius(3px)
-      margin-bottom: 1em
+      margin-bottom: 0
 
     .bottom-row
 
       .count
         width: 24%
         display: inline-block
-        background: $teal
+        background: $blue
         color: white
         text-align: center
-        +border-radius(3px)
         height: 65px
-        top: 3px
+        top: 15px
         position: relative
+        font-size: 0.8em
+
+        span
+          display: block
+          font-weight: 700
+          font-size: 2em
+          position: relative
+          top: 5px
 
       img
         width: 23%
