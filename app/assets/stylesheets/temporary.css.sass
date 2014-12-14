@@ -72,6 +72,9 @@ a.underlined
     position: relative
     top: 1px
 
+  &.float-right
+    margin-left: 0.25em
+
 
 .button.navy, .button.edit
   background-color: darken( $navy-blue, 10% )
@@ -132,6 +135,7 @@ span.button.scrapbooks:hover
 
 span.button.memories:hover
   background-color: $teal !important
+
 
 
 .search-buttons
@@ -696,15 +700,9 @@ a.memory, a.scrapbook
 /* ==================================== PROFILE */
 
 #profileHeader
-  background: darken( $cream, 5% )
   margin: 2em 0 0 0
+  text-align: center
 
-  .wrapper
-    padding: 15px
-    float: left
-
-    h1
-      margin: 0
 
   #userContent
     float: right
@@ -750,10 +748,6 @@ a.memory, a.scrapbook
 .profile, .user-card
   .details
     background: none !important
-
-  .userAvatar
-    float: left
-    margin-right: 1em
 
 
 

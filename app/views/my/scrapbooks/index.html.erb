@@ -3,13 +3,21 @@
 
   <div id="grid">
     <header id="contentHeader" class="clearfix">
-      <h2>Your scrapbooks</h2>
-      <span class="actions">
-        <a id="create-scrapbook-button" class="button scrapbooks" data-toggle="modal" data-target="#create-scrapbook-modal">
+      <h2>Browsing your scrapbooks</h2>
+      <div class="actions">
+
+         Viewing all:
+        <%= link_to my_memories_path, :class => "button memories inactive"  do %>
+          <span><%= current_user.memories.size %></span> Memories
+        <% end %>
+
+          <span class= "button scrapbooks" ><%= current_user.scrapbooks.size %> Scrapbooks</span>
+
+        <a id="create-scrapbook-button" class="button scrapbooks float-right" data-toggle="modal" data-target="#create-scrapbook-modal">
           Create a scrapbook
         </a>
-        <%= link_to 'Browse your memories', my_memories_path, :class => "button memories" %>
-      </span>
+        <%= link_to 'Browse your memories', my_memories_path, :class => "button float-right memories" %>
+      </div>
     </header>
 
     <%= render partial: 'scrapbooks/index', locals: {scrapbooks: @scrapbooks} %>

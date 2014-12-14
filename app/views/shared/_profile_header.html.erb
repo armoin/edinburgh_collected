@@ -1,24 +1,9 @@
 <header id="profileHeader" class="clearfix">
-  <div class="wrapper col-md-9">
     <a href="#" class="userAvatar"><%= image_tag "avatar.png" %></a>
     <h1 class="title">
       <%= current_user.try(:first_name) %>
       <%= link_to 'Edit', my_profile_edit_path, class: 'button navy' %>
     </h1>
     <p class="sub">User bio/description goes here</p>
-  </div>
-
-  <div id="userContent" class="col-md-3">
-    <div id="userMemories" class="stats <%= controller_name.include?('memories') ? 'active' : nil %>">
-      <%= link_to my_memories_path do %>
-        <span><%= current_user.memories.size %></span> Memories
-      <% end %>
-    </div>
-    <div id="userScrapbooks" class="stats <%= controller_name.include?('scrapbooks') ? 'active' : nil %>">
-      <%= link_to my_scrapbooks_path do %>
-        <span><%= current_user.scrapbooks.size %></span> Scrapbooks
-      <% end %>
-    </div>
-  </div>
 </header>
 
