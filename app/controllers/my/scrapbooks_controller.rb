@@ -1,6 +1,7 @@
 class My::ScrapbooksController < My::AuthenticatedUserController
   before_action :store_scrapbook_index_path, only: :index
   before_action :store_memory_index_path, only: :show
+  before_action :assign_scrapbook, only: [:edit, :update, :destroy]
 
   def index
     @scrapbooks = current_user.scrapbooks.page(params[:page]).per(30)
@@ -19,11 +20,9 @@ class My::ScrapbooksController < My::AuthenticatedUserController
   end
 
   def edit
-    @scrapbook = current_user.scrapbooks.find(params[:id])
   end
 
   def update
-    @scrapbook = current_user.scrapbooks.find(params[:id])
     if @scrapbook.update(scrapbook_params)
       redirect_to scrapbook_path(@scrapbook)
     else
@@ -32,15 +31,21 @@ class My::ScrapbooksController < My::AuthenticatedUserController
   end
 
   def destroy
-    @scrapbook = current_user.scrapbooks.find(params[:id])
+    opts = {}
     if @scrapbook.destroy
-      redirect_to my_scrapbooks_url, notice: 'Successfully deleted'
+      opts = {notice: 'Successfully deleted'}
     else
-      redirect_to my_scrapbooks_url, alert: 'Could not delete'
+      opts = {alert: 'Could not delete'}
     end
+    redirect_to current_scrapbook_index_path, opts
   end
 
   private
+
+  def assign_scrapbook
+    @scrapbook = Scrapbook.find(params[:id])
+    raise ActiveRecord::RecordNotFound unless current_user.can_modify?(@scrapbook)
+  end
 
   def scrapbook_params
     ScrapbookParamCleaner.clean(params)

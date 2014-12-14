@@ -3,13 +3,12 @@
     <h1>Edit</h1>
     <% if current_user.try(:can_modify?, @scrapbook) %>
       <span class="actions">
-        <%= link_to "Show", my_scrapbook_path(@scrapbook.id) %>
+        <%= link_to "Show", scrapbook_path(@scrapbook.id) %>
         <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), class: 'delete', method: :delete, data: {confirm: 'Are you sure?'} %>
       </span>
     <% end %>
   </header>
   <div class="col-md-4">
-
     <% if @scrapbook.errors.messages.any? %>
       <div class="errors">
         <%= @scrapbook.errors.full_messages.join(', ') %>
@@ -31,7 +30,7 @@
         <%= hidden_field_tag 'scrapbook[ordering]' %>
         <%= hidden_field_tag 'scrapbook[deleted]' %>
         <div class="actions col-xs-sm-12">
-          <%= link_to "Cancel", my_scrapbook_path(@scrapbook), class: "btn btn-default" %>
+          <%= link_to "Cancel", scrapbook_path(@scrapbook), class: "btn btn-default" %>
           <%= form.submit "Update scrapbook", class: "btn btn-primary" %>
         </div>
       </div>

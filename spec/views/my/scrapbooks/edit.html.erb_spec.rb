@@ -19,7 +19,7 @@ describe 'my/scrapbooks/edit.html.erb' do
     end
 
     it "does not have a show link" do
-      expect(rendered).not_to have_link('Show', href: my_scrapbook_path(scrapbook))
+      expect(rendered).not_to have_link('Show', href: scrapbook_path(scrapbook))
     end
 
     it "does not have a delete link" do
@@ -34,7 +34,7 @@ describe 'my/scrapbooks/edit.html.erb' do
     end
 
     it "has a show link" do
-      expect(rendered).to have_link('Show', href: my_scrapbook_path(scrapbook))
+      expect(rendered).to have_link('Show', href: scrapbook_path(scrapbook))
     end
 
     it "has a delete link" do
