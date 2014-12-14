@@ -32,6 +32,15 @@
       <%= form.input :password_confirmation, required: true, input_html: {class: 'form-control'} %>
 
       <div class="form-group">
+        <%= form.check_box :accepted_t_and_c %>
+        <label for="user_accepted_t_and_c">
+          I accept the
+          <a class="underlined" href="" data-toggle="modal" data-target="#t_and_c">Terms and Conditions</a>
+          <abbr title="required">*</abbr>
+        </label>
+      </div>
+
+      <div class="form-group">
         <div class="actions col-xs-sm-12">
           <%= form.submit "Sign Up", class: "btn btn-primary" %>
         </div>
@@ -44,6 +53,25 @@
   </div>
 
 </div>
+
+<div class="modal fade" id="t_and_c" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title">Terms & Conditions</h1>
+      </div>
+      <div class="modal-body">
+        <div id="t_and_c_content" style="height: 250px; overflow: scroll">
+          <%= render partial: 'static/t_and_c_text' %>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="" class="btn btn-default" data-dismiss="modal">Close</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script type="text/javascript">
   var initForm = function (e) {

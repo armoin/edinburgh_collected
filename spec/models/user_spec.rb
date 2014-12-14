@@ -121,6 +121,10 @@ describe User do
         end
       end
     end
+
+    it "needs to have accepted the terms and conditions" do
+      expect(subject.errors[:accepted_t_and_c]).to include("must be accepted")
+    end
   end
 
   describe 'activation' do

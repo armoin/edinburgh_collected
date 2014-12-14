@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   validates :screen_name, uniqueness: true, presence: true
   validates :email, uniqueness: true, presence: true, email: true
   validates :password, length: { minimum: 3 }, confirmation: true, if: :password_changed?
+  validates :accepted_t_and_c, presence: { message: 'must be accepted' }
 
   # Email is downcased before validating so always check for downcased email
   def self.find_by_email(email)

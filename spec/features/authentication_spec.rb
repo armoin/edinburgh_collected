@@ -11,6 +11,7 @@ feature 'As a user who wants to add content to the site' do
     fill_in 'Username',                   with: 'Bob'
     fill_in 'user_password',              with: 's3cr3t'
     fill_in 'user_password_confirmation', with: 's3cr3t'
+    check   'user_accepted_t_and_c'
 
     click_button 'Sign Up'
 
@@ -33,6 +34,7 @@ feature 'As a user who wants to add content to the site' do
     fill_in 'Username',                   with: 'Fight Club'
     fill_in 'user_password',              with: 's3cr3t'
     fill_in 'user_password_confirmation', with: 's3cr3t'
+    check   'user_accepted_t_and_c'
 
     click_button 'Sign Up'
 

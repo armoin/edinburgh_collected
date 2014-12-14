@@ -31,7 +31,8 @@ class UsersController < ApplicationController
       :is_group,
       :email,
       :password,
-      :password_confirmation
+      :password_confirmation,
+      :accepted_t_and_c
     )
   end
 end
