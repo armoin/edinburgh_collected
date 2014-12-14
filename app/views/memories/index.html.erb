@@ -1,13 +1,17 @@
 <div class="container">
   <div id="grid">
     <header id="contentHeader" class="clearfix">
-      <h1>All memories</h1>
-      <span class="actions">
-        <%= link_to 'Add a memory', new_my_memory_path, :class => "button memories" %>
-        <%= link_to 'Browse all scrapbooks', scrapbooks_path, :class => "button scrapbooks" %>
-      </span>
-    </header>
+      <h1><span>Browsing</span> All memories</h1>
 
+      <div class="actions">
+       Viewing all:
+       <span class="button memories teal">Memories</span>
+       <%= link_to 'Scrapbooks', scrapbooks_path, :class => "button scrapbooks inactive" %>
+
+       <%= link_to 'Add a memory', new_my_memory_path, :class => "button navy float-right" %>
+      </div>
+
+    </header>
     <%= render partial: 'memories/index', locals: {memories: @memories, show_inline_add: true} %>
   </div>
 </div>

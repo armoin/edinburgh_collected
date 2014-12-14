@@ -109,6 +109,31 @@ a.underlined
   &:hover
     background-color: darken( $teal, 5% )
 
+
+.button.inactive
+  border: 1px solid rgba($navy-blue, 0.25)
+  background-color: rgba($navy-blue, 0.25)
+  color: $navy-blue
+  text-shadow: none
+
+  &.scrapbooks:hover
+    background-color: darken( $coral, 5% )
+    border: 1px solid darken( $coral, 10% )
+    color: white
+
+  &.memories:hover
+    background-color: darken( $teal, 5% )
+    border: 1px solid darken( $teal, 10% )
+    color: white
+
+
+span.button.scrapbooks:hover
+  background-color: $coral !important
+
+span.button.memories:hover
+  background-color: $teal !important
+
+
 .search-buttons
   min-height: 4em
 
@@ -433,16 +458,21 @@ button#create-scrapbook-button
 
 
 #contentHeader
-  border-bottom: $navy-blue 1px solid
-  padding: 2em 0 0.5em
-  margin-bottom: 2em
+  padding: 2em 0
 
   h1, h2
     margin: 0
-    display: inline-block
+    text-align: center
+    span
+      display: block
+      font-size: 0.8em
+      font-weight: 300
 
-  span.actions
-    float: right
+  div.actions
+    margin: 2em 0 0 0
+    padding: 1em 0
+    border-top: $navy-blue 1px solid
+    border-bottom: $navy-blue 1px solid
 
 
 
@@ -887,6 +917,9 @@ li.greeting
 
 
 /* ==================================== MISC */
+
+.float-right
+  float: right
 
 .container img
   max-width: 100%
