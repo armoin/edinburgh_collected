@@ -249,19 +249,27 @@ header
       ul.nav
         float: right
         position: relative
-        top: 0.5em
+        margin-top: 0.5em
 
         li
           margin: 0 1em
 
           a
-            padding: 0.5em 0em 0.25em 0
+            padding: 0.25em 0
             +border-radius(0px)
             border-bottom: 2px solid transparent
 
-            &:hover
+            &:hover, &:active
               background: none
               border-bottom: 2px solid
+
+            &.signin
+              padding: 0.25em 0.5em
+              +border-radius(3px)
+
+              &:hover
+                background: darken( $teal, 10% )
+                border: 1px darken( $teal, 10% ) solid
 
 
           ul
