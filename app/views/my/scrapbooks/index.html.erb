@@ -5,7 +5,7 @@
     <header id="contentHeader" class="clearfix">
       <h2>Browsing your scrapbooks</h2>
       <div class="actions">
-        Viewing all:
+       <strong>Viewing all:</strong>
         <%= link_to my_memories_path, :class => "button memories inactive"  do %>
           <span><%= current_user.memories.size %></span> Memories
         <% end %>
