@@ -36,6 +36,22 @@ $(document).ready(function () {
 
 $(document).ready(function() {
 
+// Add memories panel
+var tabWidth = $('#scrapbook .actions a.memories').outerWidth();
+$('#addMemoriesDrawer #tab').css("width", tabWidth);
+
+$('#addMemoriesDrawer').hide();
+
+$( "#scrapbook .actions a.memories" ).click(function() {
+  $(this).toggleClass('active');
+  $( "#addMemoriesDrawer" ).toggle();
+});
+
+
+// Add memories panel
+
+
+
 //ALAN I CAN"T GET THIS TO WORK CAN YOU LOOK AT IT?
 
 $('#theNavBar').on('show.bs.dropdown', function () {

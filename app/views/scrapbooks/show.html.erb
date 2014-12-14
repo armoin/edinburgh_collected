@@ -1,15 +1,36 @@
 <div id="scrapbook" class="container">
   <div id="grid">
     <header id="contentHeader" class="clearfix">
-      <h1><%= @scrapbook.title %></h1>
-      <span class="actions">
+      <h1><span>Browsing</span><%= @scrapbook.title %></h1>
+      <div class="actions">
+        <%= link_to 'Back', current_scrapbook_index_path, :class => "button back" %>
+        <%= link_to 'Scrapbooks', scrapbooks_path, :class => "button scrapbooks coral" %>
+
          <% if current_user.try(:can_modify?, @scrapbook) %>
-           <%= link_to "Add memories", memories_path, role: "button", :class => "button memories"  %>
-           <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id), :class => "button navy edit"  %>
-           <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), :class => "button scrapbooks" , method: :delete, data: {confirm: 'Are you sure?'} %>
+           <a href="#" class="button add-memories memories float-right">Add memories </a>
+           <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id), :class => "button navy edit float-right"  %>
+           <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), :class => "button scrapbooks float-right" , method: :delete, data: {confirm: 'Are you sure?'} %>
          <% end %>
-        <%= link_to 'Back to scrapbooks', current_scrapbook_index_path, :class => "button scrapbooks" %>
-      </span>
+      </div>
+      <div id="addMemoriesDrawer">
+       <span id="tab"></span>
+        <%= link_to my_memories_path, :class => ""  do %>
+          <%= image_tag "your-collection-icon.png", alt: "Edinburgh Scrapbooks - Beta" %>
+          <span>From your collection</span>
+        <% end %>
+
+        <%= link_to memories_path, :class => ""  do %>
+          <%= image_tag "whole-collection-icon.png", alt: "Edinburgh Scrapbooks - Beta" %>
+          <span>From the entire site</span>
+        <% end %>
+
+        <%= link_to new_my_memory_path, :class => ""  do %>
+          <%= image_tag "upload-memory-icon.png", alt: "Edinburgh Scrapbooks - Beta" %>
+          <span>Upload a new memory</span>
+        <% end %>
+
+
+      </div>
     </header>
 
     <div id="description">
