@@ -2,7 +2,9 @@
   <div id="grid">
     <header id="contentHeader" class="clearfix">
       <h2>Found <%= pluralize(@scrapbooks.total_count, 'match') %> for "<%= truncate(params[:query], length: 30) %>"</h2>
-      <%= link_to 'Search memories', search_memories_path(query: params[:query]), class: 'button memories' %>
+      <span class="actions">
+        <%= link_to 'Search memories', search_memories_path(query: params[:query]), class: 'button memories' %>
+      </span>
     </header>
 
     <% if @scrapbooks.empty? -%>
