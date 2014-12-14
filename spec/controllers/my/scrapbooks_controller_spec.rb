@@ -15,6 +15,10 @@ describe My::ScrapbooksController do
         get :index
       end
 
+      it 'does not store the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to be_nil
+      end
+
       it 'does not set the current memory index path' do
         expect(session[:current_memory_index_path]).to be_nil
       end
@@ -26,8 +30,14 @@ describe My::ScrapbooksController do
 
     context 'when logged in' do
       before :each do
+        allow(stub_scrapbooks).to receive(:page).and_return(stub_scrapbooks)
+        allow(stub_scrapbooks).to receive(:per).and_return(stub_scrapbooks)
         login_user
         get :index
+      end
+
+      it 'stores the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to eql(my_scrapbooks_path)
       end
 
       it 'does not set the current memory index path' do
@@ -36,6 +46,11 @@ describe My::ScrapbooksController do
 
       it "fetches the user's scrapbooks" do
         expect(@user).to have_received(:scrapbooks)
+      end
+
+      it "paginates the results 30 to a page" do
+        expect(stub_scrapbooks).to have_received(:page)
+        expect(stub_scrapbooks).to have_received(:per).with(30)
       end
 
       it "assigns the returned scrapbooks" do
@@ -54,6 +69,10 @@ describe My::ScrapbooksController do
         get :show, id: '123'
       end
 
+      it 'does not store the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to be_nil
+      end
+
       it 'does not set the current memory index path' do
         expect(session[:current_memory_index_path]).to be_nil
       end
@@ -70,6 +89,10 @@ describe My::ScrapbooksController do
         login_user
         allow(stub_scrapbooks).to receive(:find).and_return(scrapbook)
         get :show, id: 123
+      end
+
+      it 'does not store the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to be_nil
       end
 
       it 'sets the current memory index path' do
@@ -114,6 +137,10 @@ describe My::ScrapbooksController do
         post :create, given_params
       end
 
+      it 'does not store the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to be_nil
+      end
+
       it 'does not set the current memory index path' do
         expect(session[:current_memory_index_path]).to be_nil
       end
@@ -131,6 +158,10 @@ describe My::ScrapbooksController do
         allow(scrapbook).to receive(:user=)
         allow(scrapbook).to receive(:save).and_return(true)
         post :create, given_params
+      end
+
+      it 'does not store the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to be_nil
       end
 
       it 'does not set the current memory index path' do
@@ -193,6 +224,10 @@ describe My::ScrapbooksController do
         get :edit, id: '123'
       end
 
+      it 'does not store the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to be_nil
+      end
+
       it 'does not set the current memory index path' do
         expect(session[:current_memory_index_path]).to be_nil
       end
@@ -209,6 +244,10 @@ describe My::ScrapbooksController do
         login_user
         allow(stub_scrapbooks).to receive(:find).and_return(scrapbook)
         get :edit, id: 123
+      end
+
+      it 'does not store the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to be_nil
       end
 
       it 'does not set the current memory index path' do
@@ -257,6 +296,10 @@ describe My::ScrapbooksController do
         put :update, given_params
       end
 
+      it 'does not store the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to be_nil
+      end
+
       it 'does not set the current memory index path' do
         expect(session[:current_memory_index_path]).to be_nil
       end
@@ -273,6 +316,10 @@ describe My::ScrapbooksController do
         allow(stub_scrapbooks).to receive(:find).and_return(scrapbook)
         allow(scrapbook).to receive(:update).and_return(true)
         put :update, given_params
+      end
+
+      it 'does not store the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to be_nil
       end
 
       it 'does not set the current memory index path' do
@@ -317,6 +364,10 @@ describe My::ScrapbooksController do
         delete :destroy, id: '123'
       end
 
+      it 'does not store the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to be_nil
+      end
+
       it 'does not set the current memory index path' do
         expect(session[:current_memory_index_path]).to be_nil
       end
@@ -332,6 +383,10 @@ describe My::ScrapbooksController do
         allow(stub_scrapbooks).to receive(:find).and_return(scrapbook)
         allow(scrapbook).to receive(:destroy).and_return(true)
         delete :destroy, id: '123'
+      end
+
+      it 'does not store the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to be_nil
       end
 
       it 'does not set the current memory index path' do

@@ -13,6 +13,48 @@ describe Scrapbook do
     end
   end
 
+  describe 'searching' do
+    before :each do
+      @term_in_title       = Fabricate(:scrapbook, title: 'Edinburgh Castle test')
+      @term_in_description = Fabricate(:scrapbook, description: 'This is an Edinburgh Castle test')
+      @terms_not_found     = Fabricate(:scrapbook, title: 'test', description: 'test')
+    end
+
+    let(:results) { Scrapbook.text_search(terms) }
+
+    context 'when no terms are given' do
+      let(:terms) { nil }
+
+      it 'returns all records' do
+        expect(results.count(:all)).to eql(3)
+      end
+    end
+
+    context 'when blank terms are given' do
+      let(:terms) { '' }
+
+      it 'returns all records' do
+        expect(results.count(:all)).to eql(3)
+      end
+    end
+
+    context 'text fields' do
+      let(:terms) { 'castle' }
+
+      it 'returns all records matching the given query' do
+        expect(results.count(:all)).to eql(2)
+      end
+
+      it "includes records where title matches" do
+        expect(results).to include(@term_in_title)
+      end
+
+      it "includes records where description matches" do
+        expect(results).to include(@term_in_description)
+      end
+    end
+  end
+
   describe '#cover_memory' do
     it 'is nil if scrapbook has no memories' do
       allow(ScrapbookMemory).to receive(:cover_memory_for).with(subject).and_return(nil)

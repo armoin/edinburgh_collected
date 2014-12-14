@@ -8,12 +8,7 @@
       </span>
     </header>
 
-    <div class="masonry-loading-spinner"><div class="spinner"></div></div>
-    <div id="scrapbooks" class="masonry-grid">
-      <% @scrapbooks.each do |scrapbook| %>
-        <%= render partial: 'scrapbooks/scrapbook', locals: {scrapbook: scrapbook, link_path: scrapbook_path(scrapbook)} %>
-      <% end %>
-    </div>
+    <%= render partial: 'scrapbooks/index', locals: {scrapbooks: @scrapbooks} %>
   </div>
 </div>
 
@@ -23,5 +18,4 @@
   var createScrapbookController = new CreateScrapbookController(function (e, data, status, xhr) {
     window.location = '/my/scrapbooks/' + data.id
   });
-  $(".masonry-loading-spinner .spinner").spin();
 </script>

@@ -23,6 +23,7 @@ Rails.application.routes.draw do
 
   namespace :search do
     resources :memories, only: [:index]
+    resources :scrapbooks, only: [:index]
   end
 
   namespace :admin do

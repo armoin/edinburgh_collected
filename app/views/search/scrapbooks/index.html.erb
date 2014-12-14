@@ -1,0 +1,17 @@
+<div class="container profile scrapbooks">
+  <div id="grid">
+    <header id="contentHeader" class="clearfix">
+      <h2>Found <%= pluralize(@scrapbooks.total_count, 'match') %> for "<%= truncate(params[:query], length: 30) %>"</h2>
+      <%= link_to 'Search memories', search_memories_path(query: params[:query]), class: 'button memories' %>
+    </header>
+
+    <% if @scrapbooks.empty? -%>
+      <div class="no-results">
+        <%= image_tag 'empty-scrapbook.png' %>
+        <p>Sorry, but we couldn't find any results for "<%= params[:query] %>"</p>
+      </div>
+    <% else -%>
+      <%= render partial: 'scrapbooks/index', locals: {scrapbooks: @scrapbooks} %>
+    <% end -%>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="masonry-loading-spinner"><div class="spinner"></div></div>
+<%= render partial: 'shared/pagination', locals: {items: scrapbooks} %>
+<div id="scrapbooks" class="masonry-grid">
+  <% scrapbooks.each do |scrapbook| %>
+    <%= render partial: 'scrapbooks/scrapbook', locals: {scrapbook: scrapbook, link_path: scrapbook_path(scrapbook)} %>
+  <% end %>
+</div>
+<script type="text/javascript">
+  $(".masonry-loading-spinner .spinner").spin();
+</script>
+

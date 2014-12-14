@@ -5,6 +5,16 @@ class Scrapbook < ActiveRecord::Base
 
   validates :title, :user, presence: true
 
+  SEARCHABLE_FIELDS       = [:title, :description]
+  SEARCHABLE_ASSOCIATIONS = {}
+
+  include Searchable
+
+  # TODO: remove this once moderation is in place
+  def self.approved
+    all
+  end
+
   def cover_memory
     ScrapbookMemory.cover_memory_for(self)
   end

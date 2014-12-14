@@ -1,17 +1,17 @@
 RSpec.shared_examples 'a scrapbook index' do
   it "displays all the given scrapbooks" do
-    assign(:scrapbooks, scrapbooks)
+    assign(:scrapbooks, paged_scrapbooks)
     render
     expect(rendered).to have_css('#scrapbooks .scrapbook', count: 3)
   end
 
   describe "a scrapbook" do
-    let(:scrapbook)  { scrapbooks.first }
+    let(:scrapbook)  { paged_scrapbooks.first }
     let(:scope)      { '.scrapbook:nth-child(1)' }
 
     context "that has no memories" do
       before :each do
-        assign(:scrapbooks, scrapbooks)
+        assign(:scrapbooks, paged_scrapbooks)
         allow_any_instance_of(Scrapbook).to receive(:cover_memory).and_return(nil)
         render
       end
@@ -32,7 +32,7 @@ RSpec.shared_examples 'a scrapbook index' do
     context "that has memories" do
       before :each do
         allow(scrapbook).to receive(:memories).and_return(stub_memories(2))
-        assign(:scrapbooks, scrapbooks)
+        assign(:scrapbooks, paged_scrapbooks)
         render
       end
 
@@ -45,7 +45,7 @@ RSpec.shared_examples 'a scrapbook index' do
       end
 
       it "shows how many memories it contains" do
-        expect(rendered).to have_css("#{scope} .count", text: '2 memories')
+        expect(rendered).to have_css("#{scope} .count span", text: '2')
       end
     end
   end
