@@ -54,14 +54,8 @@ $( "#scrapbook .actions a.memories" ).click(function() {
 
 //ALAN I CAN"T GET THIS TO WORK CAN YOU LOOK AT IT?
 
-$('#theNavBar').on('show.bs.dropdown', function () {
+$('.navbar-header').on('show.bs.dropdown', function () {
  alert('this works');
-  $('.navbar-header').addClass('open');
-})
-
-$('#theNavBar').on('hidden.bs.dropdown', function () {
- alert('this works');
-  $('.navbar-header').removeClass('open');
 })
 
 

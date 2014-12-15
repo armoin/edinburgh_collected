@@ -5,12 +5,14 @@
     <header id="contentHeader" class="clearfix">
       <h2>Browsing your memories</h2>
       <div class="actions clearfix">
-       <strong>Viewing all:</strong>
+       <div class="viewingInfo">
+       <strong>Viewing:</strong>
         <span class="button memories"><%= current_user.memories.size %> Memories</span>
 
         <%= link_to my_scrapbooks_path, :class => "button scrapbooks inactive" do %>
-          <span><%= current_user.scrapbooks.size %></span> Scrapbooks
+          <%= current_user.scrapbooks.size %> Scrapbooks
         <% end %>
+      </div>
 
         <%= link_to 'Add a memory', new_my_memory_path, :class => "button float-right memories" %>
       </div>

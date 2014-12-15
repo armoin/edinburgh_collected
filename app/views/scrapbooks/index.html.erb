@@ -3,13 +3,15 @@
     <header id="contentHeader" class="clearfix">
       <h1><span>Browsing</span> All scrapbooks</h1>
       <div class="actions clearfix">
-       <strong>Viewing all:</strong>
-        <%= link_to 'Memories', memories_path, :class => "button memories inactive"   %>
-        <span class="button scrapbooks coral">Scrapbooks</span>
+       <div class="viewingInfo">
+         <strong>Viewing all:</strong>
+         <%= link_to 'Memories', memories_path, :class => "button memories inactive"   %>
+         <span class="button scrapbooks coral">Scrapbooks</span>
+       </div>
 
-        <a id="create-scrapbook-button" class="button navy float-right" data-toggle="modal" data-target="#create-scrapbook-modal">
-          Create a scrapbook
-        </a>
+       <a id="create-scrapbook-button" class="button navy float-right" data-toggle="modal" data-target="#create-scrapbook-modal">
+         Create a scrapbook
+       </a>
 
       </div>
     </header>

@@ -273,7 +273,7 @@ header
               padding: 0.25em 0.5em
               +border-radius(3px)
 
-              &:hover
+              &:hover, &:active
                 background: darken( $teal, 10% )
                 border: 1px darken( $teal, 10% ) solid
 
@@ -534,6 +534,17 @@ button#create-scrapbook-button
     padding: 1em 0
     border-top: $navy-blue 1px solid
     border-bottom: $navy-blue 1px solid
+
+    .viewingInfo
+      display: inline-block
+
+      a.scrapbooks, span.scrapbooks
+        +border-radius(0 3px 3px 0)
+        position: relative
+        left: -5px
+
+      span.memories, a.memories
+        +border-radius(3px 0 0 3px)
 
   a.add-memories:hover, a.add-memories.active
     background-color: $navy-blue
@@ -1256,6 +1267,7 @@ body.styleguide
 
         img
           margin: 0 auto
+          max-width: 150px
 
     .navbar
       margin-bottom: 0
@@ -1288,6 +1300,9 @@ body.styleguide
 
     #searchwrapper
       margin-top: 0em
+
+  .module
+    margin-bottom: 2em
 
 
 
@@ -1353,7 +1368,7 @@ body.styleguide
     &.thumb
       width: 290px
       margin: 0 auto
-      margin-bottom: 5px
+      margin-bottom: 1.5em
       div
         &.img
           line-height: 100%
@@ -1400,6 +1415,18 @@ body.styleguide
     .check_boxes .checkbox
       width: 100% !important
 
+  .actions
+    .viewingInfo
+      display: block
+      padding-bottom: 1em
+
+      a, span
+        padding: 0.25em 0.5em
+
+    a.float-right
+      float: none
+      display: block
+
 
 /* Medium devices */
 
@@ -1419,7 +1446,7 @@ body.styleguide
       margin: 0 !important
 
       & > a
-        padding: 0.5em 1em 0.25em 1em !important
+        padding: 0.25em 1em 0.25em 1em !important
         +border-radius(4px)
 
       ul
