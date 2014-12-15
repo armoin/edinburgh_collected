@@ -13,6 +13,12 @@ $green:         #a3d39c
 
 $module:        #f0efea
 
+$unmoderated:   #428bca
+$approved:      #5cb85c
+$rejected:      #d9534f
+
+$error:         #a94442
+$required:      #a94442
 
 =border-radius($radius)
   -webkit-border-radius: $radius
@@ -1073,38 +1079,38 @@ table.items
       color: white
 
     &.approved
-      background-color: #5cb85c
+      background-color: $approved
 
     &.rejected
-      background-color: #d9534f
+      background-color: $rejected
 
 .btn
   &.unmoderate, &.approve, &.reject
     color: white
 
   &.unmoderate
-    background-color: #428bca
-    border-color: #357ebd
+    background-color: $unmoderated
+    border-color: darken($unmoderated, 5)
 
     &:hover
-      background-color: #3071a9
-      border-color: #285e8e
+      background-color: darken($unmoderated, 5)
+      border-color: darken($unmoderated, 10)
 
   &.approve
-    background-color: #5cb85c
-    border-color: #4cae4c
+    background-color: $approved
+    border-color: darken($approved, 5)
 
     &:hover
-      background-color: #449d44
-      border-color: #398439
+      background-color: darken($approved, 5)
+      border-color: darken($approved, 10)
 
   &.reject
-    background-color: #d9534f
-    border-color: #d43f3a
+    background-color: $rejected
+    border-color: darken($rejected, 5)
 
     &:hover
-      background-color: #c9302c
-      border-color: #ac2925
+      background-color: darken($rejected, 5)
+      border-color: darken($rejected, 10)
 
 
 .state
@@ -1117,13 +1123,13 @@ table.items
   margin-bottom: 1em
 
   &.unmoderated
-    background-color: #428bca
+    background-color: $unmoderated
 
   &.approved
-    background-color: #5cb85c
+    background-color: $approved
 
   &.rejected
-    background-color: #d9534f
+    background-color: $rejected
 
 ul.admin-toolbar
   list-style: none
