@@ -35,7 +35,7 @@
         </div>
       </div>
 
-      <div class="form-group">
+      <div class="form-group user_last_name">
         <div class="formRow">
           <%= form.label :last_name, class: "control-label" %>
           <%= form.text_field :last_name, class: 'form-control' %>
@@ -106,9 +106,19 @@
     <% end -%>
   </div>
 
-  <div id= class="col-md-6">
+  <div class="col-md-6 help-tips">
     <p class="switch"><a href="/signin">Already have an account? Sign in now</a></p>
 
+    <ul>
+      <li>All fields marked with a <span class="required">*</span> are required.</li>
+      <li>Password must be 3 characters or more.</li>
+      <li>Your first name, last name and email are not visible to others on the site. Only your username is used to identify you.</li>
+      <li>
+        You must accept the
+        <a class="underlined" href="" data-toggle="modal" data-target="#t_and_c">Terms and Conditions</a>
+        in order to sign up for an account.
+      </li>
+    </ul>
   </div>
 
 </div>
@@ -136,15 +146,21 @@
   var initForm = function (e) {
     $('#user_is_group input[type="radio"]').on('change', function (e) {
       var label = $('label[for="user_first_name"]');
-      if ($(e.currentTarget).val() === 'true') {
-        label.html('Group name <abbr title="required">*</abbr>');
+      if ( isGroup() ) {
+        label.html('Group name');
         $('.user_last_name').hide()
       } else {
-        label.html('First name <abbr title="required">*</abbr>');
+        label.html('First name');
         $('.user_last_name').show()
       }
     })
-  }
+    $('#user_is_group input[type="radio"]').first().trigger('change');
+  };
+
+  var isGroup = function () {
+    var result = $('input[name="user[is_group]"]:checked').attr('id') === 'user_is_group_true';
+    return result;
+  };
 
   $(document).ready(initForm);
   $(document).on('page:load', initForm);
