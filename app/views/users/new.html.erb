@@ -2,42 +2,100 @@
  <header id="formHeader" class="row">
  </header>
 
-
  <div id="signUp" class="formWrapper row">
   <div id="formPanel" class="col-md-6">
 
     <h1 class="form-title">Sign up for an account</h1>
 
-    <%= simple_form_for @user,
-      wrapper: :horizontal_form,
-      html: {class: 'form-horizontal', role: 'form'} do |form| %>
-
-      <%= form.error_notification %>
-
-      <div id="user_is_group" class="form-group">
-        <div class="col-sm-5">
-          <%= form.label :is_group %>
-        </div>
-        <div class="col-sm-7">
-          <%= form.collection_radio_buttons :is_group, [[false, 'An individual'], [true, 'A group']], :first, :last %>
+    <%= form_for @user, html: {class: 'form-horizontal', role: 'form'} do |form| %>
+      <div class="form-group">
+        <div id="user_is_group" class="form-group">
+          <div class="col-sm-5">
+            <%= form.label :is_group, class: 'control-label' %>
+          </div>
+          <div class="col-sm-7">
+            <%= form.collection_radio_buttons(:is_group, [[false, 'An individual'], [true, 'A group']], :first, :last) do |crb| %>
+              <%= crb.radio_button %>
+              <%= crb.label(class: "collection_radio_buttons") %>
+            <% end -%>
+          </div>
+          <% @user.errors[:is_group].each do |error| %>
+            <span class="help-block"><%= error %></span>
+          <% end -%>
         </div>
       </div>
 
-      <%= form.input :first_name, input_html: {class: 'form-control'} %>
-      <%= form.input :last_name, input_html: {class: 'form-control'} %>
-
-      <%= form.input :email, input_html: {class: 'form-control'} %>
-      <%= form.input :screen_name, input_html: {class: 'form-control'} %>
-      <%= form.input :password, required: true, input_html: {class: 'form-control'} %>
-      <%= form.input :password_confirmation, required: true, input_html: {class: 'form-control'} %>
+      <div class="form-group" aria-required="true">
+        <div class="formRow">
+          <%= form.label :first_name, class: 'control-label' %>
+          <%= form.text_field :first_name, class: 'form-control' %>
+          <% @user.errors[:first_name].each do |error| %>
+            <span class="help-block"><%= error %></span>
+          <% end -%>
+        </div>
+      </div>
 
       <div class="form-group">
-        <%= form.check_box :accepted_t_and_c %>
-        <label for="user_accepted_t_and_c">
-          I accept the
-          <a class="underlined" href="" data-toggle="modal" data-target="#t_and_c">Terms and Conditions</a>
-          <abbr title="required">*</abbr>
-        </label>
+        <div class="formRow">
+          <%= form.label :last_name, class: "control-label" %>
+          <%= form.text_field :last_name, class: 'form-control' %>
+          <% @user.errors[:last_name].each do |error| %>
+            <span class="help-block"><%= error %></span>
+          <% end -%>
+        </div>
+      </div>
+
+      <div class="form-group" aria-required="true">
+        <div class="formRow">
+          <%= form.label :email, class: "control-label" %>
+          <%= form.email_field :email, class: 'form-control' %>
+          <% @user.errors[:email].each do |error| %>
+            <span class="help-block"><%= error %></span>
+          <% end -%>
+        </div>
+      </div>
+
+      <div class="form-group" aria-required="true">
+        <div class="formRow">
+          <%= form.label :screen_name, class: "control-label" %>
+          <%= form.text_field :screen_name, class: 'form-control' %>
+          <% @user.errors[:screen_name].each do |error| %>
+            <span class="help-block"><%= error %></span>
+          <% end -%>
+        </div>
+      </div>
+
+      <div class="form-group" aria-required="true">
+        <div class="formRow">
+          <%= form.label :password, class: "control-label" %>
+          <%= form.password_field :password, class: 'form-control' %>
+          <% @user.errors[:password].each do |error| %>
+            <span class="help-block"><%= error %></span>
+          <% end -%>
+        </div>
+      </div>
+
+      <div class="form-group" aria-required="true">
+        <div class="formRow">
+          <%= form.label :password_confirmation, class: "control-label" %>
+          <%= form.password_field :password_confirmation, class: 'form-control' %>
+          <% @user.errors[:password_confirmation].each do |error| %>
+            <span class="help-block"><%= error %></span>
+          <% end -%>
+        </div>
+      </div>
+
+      <div class="form-group t_and_c" aria-required="true">
+        <div class="formRow">
+          <label for="user_accepted_t_and_c">
+            <%= form.check_box :accepted_t_and_c %>
+            I accept the
+            <a class="underlined" href="" data-toggle="modal" data-target="#t_and_c">Terms and Conditions</a>
+          </label>
+          <% @user.errors[:accepted_t_and_c].each do |error| %>
+            <span class="help-block"><%= error %></span>
+          <% end -%>
+        </div>
       </div>
 
       <div class="form-group">
@@ -45,8 +103,9 @@
           <%= form.submit "Sign Up", class: "btn btn-primary" %>
         </div>
       </div>
-    <% end %>
+    <% end -%>
   </div>
+
   <div id= class="col-md-6">
     <p class="switch"><a href="/signin">Already have an account? Sign in now</a></p>
 
