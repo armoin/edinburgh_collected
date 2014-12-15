@@ -86,7 +86,7 @@
           </div>
 
           <div id="logo" class="col-xs-12 col-sm-2 col-md-2">
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="/" title="Edinburgh Scrapbooks">
               <%= image_tag "edinburgh-scrapbooks.png", alt: "Edinburgh Scrapbooks - Beta" %>
             </a>
           </div>
@@ -101,7 +101,7 @@
 
             <div class="searchForm col-xs-12 col-sm-4 col-md-6">
               <%= form_tag search_memories_path, method: :get do %>
-                <%= text_field_tag :query, params[:query], class: 'form-control' %>
+                <%= text_field_tag :query, params[:query], class: 'form-control', title: 'search' %>
               <% end -%>
             </div>
           </div> <!-- end search/browse box -->
@@ -126,7 +126,7 @@
     <footer>
       <div class="container-fluid">
         <ul>
-          <li><%= link_to 'About', about_path %></li>
+          <li><%= link_to 'About', about_path, title: 'About this site' %></li>
           <li><%= link_to 'Contact us', contact_path %></li>
           <li><%= link_to 'Privacy & Cookies', p_and_c_path %></li>
           <li><%= link_to 'Terms & Conditions', t_and_c_path %></li>
