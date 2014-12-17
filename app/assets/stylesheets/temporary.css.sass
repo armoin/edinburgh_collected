@@ -380,25 +380,32 @@ html, body
 
 footer
   height: 190px
-  text-align: center
   background: $navy-blue
   color: $cream
+  padding-top: 1em
+
+  .wrap
+    float: left
 
   ul
+    margin: 0
+    padding: 0
     li
       display: inline-block
 
-  a
-    color:  white
-    margin: 1em
-    display: inline-block
+      a
+        color:  white
+        padding: 1em 1em 1em 0
+        display: inline-block
 
-    &:hover
-      color: white
-      text-decoration: underline
+        &:hover
+          color: white
+          text-decoration: underline
 
-  #councilLogo
+  #councilLogo, #nestaLogo
+    float: right
     display: inline-block
+    margin: 1.5em 0 0 1.5em
 
 .error-message
   border: 1px solid darken( $coral, 10% )
@@ -1392,6 +1399,13 @@ body.styleguide
         width: 100%
         margin: 10px 0
 
+  #scrapbook
+    #contentHeader
+      .actions
+        .float-right
+          display: inline-block
+
+
 
   #contentHeader
     text-align: center
@@ -1426,6 +1440,35 @@ body.styleguide
     a.float-right
       float: none
       display: block
+
+  footer
+    height: auto
+    text-align: center
+    padding-bottom: 2em
+
+    .wrap
+      padding-bottom: 2em
+
+    ul
+      margin-bottom: 2em
+
+      li
+        display: block
+        a
+          padding: 0.5em
+
+    #councilLogo
+      margin-right: 1em
+
+    #councilLogo, #nestaLogo
+      float: none
+      margin-left: 0
+      display: inline
+
+      img
+        width: 40%
+
+
 
 
 /* Medium devices */

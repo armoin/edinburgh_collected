@@ -124,15 +124,18 @@
       </div>
     </div>
     <footer>
-      <div class="container-fluid">
-        <ul>
-          <li><%= link_to 'About', about_path, title: 'About this site' %></li>
-          <li><%= link_to 'Contact us', contact_path %></li>
-          <li><%= link_to 'Privacy & Cookies', p_and_c_path %></li>
-          <li><%= link_to 'Terms & Conditions', t_and_c_path %></li>
-        </ul>
-        <p>&copy; The City of Edinburgh Council 2014</p>
-        <a href="http://www.edinburgh.gov.uk/" id="councilLogo"><%= image_tag "edinburgh-council.png", alt: "The City of Edinburgh Council" %></a>
+      <div class="container clearfix">
+        <div class="wrap">
+          <ul>
+            <li><%= link_to 'About', about_path, title: 'About this site' %></li>
+            <li><%= link_to 'Contact us', contact_path %></li>
+            <li><%= link_to 'Privacy & Cookies', p_and_c_path %></li>
+            <li><%= link_to 'Terms & Conditions', t_and_c_path %></li>
+          </ul>
+          <p>&copy; The City of Edinburgh Council 2014</p>
+        </div>
+        <a href="http://www.edinburgh.gov.uk/" id="councilLogo" class=""><%= image_tag "edinburgh-council.png", alt: "The City of Edinburgh Council" %></a>
+        <a href="http://www.nesta.org.uk/" id="nestaLogo"><%= image_tag "nesta.png", alt: "Nesta" %></a>
       </div>
     </footer>
 
