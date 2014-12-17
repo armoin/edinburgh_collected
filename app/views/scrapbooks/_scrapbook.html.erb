@@ -1,22 +1,23 @@
 <a class="scrapbook thumb masonry" data-id="<%= scrapbook.id %>" href="<%= link_path %>" title="View details" role="button">
-  <h3 class="title"><%= scrapbook.title %></h3>
-  <% if scrapbook.cover_memory.present? %>
-    <%= image_tag cache_busted_url(scrapbook.cover_memory, :thumb), alt: scrapbook.title, :class => "main" %>
-    <div class="bottom-row">
-      <div class="count">
-        <span><%= scrapbook.memories.count %></span>
-        <%= 'memory'.pluralize(scrapbook.memories.count) %>
+  <div class="padding">
+    <h3 class="scrapbookTitle"><%= scrapbook.title %></h3>
+    <% if scrapbook.cover_memory.present? %>
+      <%= image_tag cache_busted_url(scrapbook.cover_memory, :thumb), alt: scrapbook.title, :class => "main" %>
+      <div class="bottom-row">
+        <div class="count">
+          <span><%= scrapbook.memories.count %></span>
+          <%= 'memory'.pluralize(scrapbook.memories.count) %>
+        </div>
+        <%= image_tag 'scrapbook-thumb-ph.png' %>
+        <%= image_tag 'scrapbook-thumb-ph.png' %>
       </div>
-      <%= image_tag 'scrapbook-thumb-ph.png' %>
-      <%= image_tag 'scrapbook-thumb-ph.png' %>
-      <%= image_tag 'scrapbook-thumb-ph.png' %>
-    </div>
 
-  <% else %>
-    <%= image_tag 'empty-scrapbook.png', :class => "ph" %>
-    <div class="bottom-row empty">
-      <h4>This scrapbook is empty</h4>
-    </div>
-  <% end %>
+    <% else %>
+      <%= image_tag 'empty-scrapbook.png', :class => "ph" %>
+      <div class="bottom-row empty">
+        <h4>This scrapbook is empty</h4>
+      </div>
+    <% end %>
+  </div>
 </a>
 

@@ -509,6 +509,7 @@ button#create-scrapbook-button
       .masonry
         width: 24%
         padding: 0 1% 2% 1%
+        margin-bottom: 1%
 
         a
           padding: 0.53em
@@ -551,6 +552,10 @@ button#create-scrapbook-button
 
       span.memories, a.memories
         +border-radius(3px 0 0 3px)
+
+      a:active, span:active
+        top: 0
+        text-decoration: none
 
   a.add-memories:hover, a.add-memories.active
     background-color: $navy-blue
@@ -643,7 +648,7 @@ a.memory, a.scrapbook
     display: none
 
   &.thumb
-    background: white
+
 
     div
       &.img, &.button
@@ -656,11 +661,14 @@ a.memory, a.scrapbook
           vertical-align: middle
 
       &.detail
-        margin: 0 10px 10px 10px
+        margin: 0 0px 0px 0px
 
         h3
           font-size: 20px
-          margin: 0.25em 0
+          margin: 0.5em 0 0 0
+
+        p
+          margin: 10px 0 0 0
 
   &.add.memory
     text-align: center
@@ -742,11 +750,52 @@ a.memory, a.scrapbook
   margin: 0 auto
 
   .masonry
-    width: 320px
-    margin-bottom: 50px
+    width: 25%
+    margin-bottom: 0
+
+    .padding
+      margin: 0.5em 0.5em 1em
+      background: white
+      padding: 1em
+
+      img
+        border: 1px solid #ccc
+        +border-radius(3px)
+        margin-bottom: 0
+        padding: 2px
 
     .detail
       margin: 0 10px 10px 10px
+
+    h3.scrapbookTitle
+      margin-top: 0
+
+
+    .bottom-row
+
+      .count
+        width: 32%
+        display: inline-block
+        background: $blue
+        color: white
+        text-align: center
+        height: 75px
+        top: 10px
+        position: relative
+        font-size: 0.8em
+
+        span
+          display: block
+          font-weight: 700
+          font-size: 2em
+          position: relative
+          top: 5px
+
+      img
+        width: 32%
+
+      &.empty
+        text-align: center
 
 
 
@@ -759,47 +808,6 @@ a.memory, a.scrapbook
     font-style: italic
     font-size: 1.5em
     padding: 0 0 1em 0
-
-  .masonry
-    width: 320px
-    margin-bottom: 50px
-    padding: 1em
-
-    h3.title
-      margin: 0 0 10px 0
-
-
-    img.main, img.ph
-      border: 1px solid #ccc
-      +border-radius(3px)
-      margin-bottom: 0
-
-    .bottom-row
-
-      .count
-        width: 24%
-        display: inline-block
-        background: $blue
-        color: white
-        text-align: center
-        height: 65px
-        top: 15px
-        position: relative
-        font-size: 0.8em
-
-        span
-          display: block
-          font-weight: 700
-          font-size: 2em
-          position: relative
-          top: 5px
-
-      img
-        width: 23%
-
-      &.empty
-        text-align: center
-
 
 
 #editScrapbook
@@ -1151,16 +1159,12 @@ table.items
 
 
 .state
-  float:left
-  color: white
-  padding: 0.4em
   text-align: center
   font-size: 1.4em
   font-variant: small-caps
-  margin-bottom: 1em
 
   &.unmoderated
-    background-color: $unmoderated
+    color: $coral
 
   &.approved
     background-color: $approved
@@ -1381,9 +1385,9 @@ body.styleguide
 
   #scrapbooks .masonry, #scrapbook .masonry
     &.thumb
-      width: 290px
+      width: 24%
       margin: 0 auto
-      margin-bottom: 5px
+      margin-bottom: 1%
       div
         &.img
           line-height: 100%
