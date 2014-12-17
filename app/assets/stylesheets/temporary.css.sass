@@ -154,7 +154,9 @@ a.underlined
 
 
 .button.inactive
+  border: 1px solid #bcc0c1
   border: 1px solid rgba($navy-blue, 0.25)
+  background-color: #bcc0c1
   background-color: rgba($navy-blue, 0.25)
   color: $navy-blue
   text-shadow: none
@@ -275,6 +277,7 @@ header
             border-bottom: 2px solid transparent
 
             &:hover, &:active
+              color: $navy-blue
               background: none
               border-bottom: 2px solid
 
@@ -284,6 +287,7 @@ header
               +border-radius(3px)
 
               &:hover, &:active
+                color: white
                 background: darken( $green, 10% )
                 border: 1px darken( $green, 10% ) solid
 
