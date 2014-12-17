@@ -119,6 +119,16 @@ a.underlined
     background-color: darken( $teal, 5% )
     cursor: pointer
 
+.button.white, .button.white
+  background-color: white
+  color: $navy-blue
+  border: 1px solid lighten( $navy-blue, 50% )
+  text-shadow: 0px 1px 0px white
+
+  &:hover
+    background-color: darken( white, 5% )
+    cursor: pointer
+
 
 .button.teal
   background-color: $teal
@@ -270,11 +280,12 @@ header
 
             &.signin
               padding: 0.25em 0.5em
+              border: 1px darken( $green, 10% ) solid
               +border-radius(3px)
 
               &:hover, &:active
-                background: darken( $teal, 10% )
-                border: 1px darken( $teal, 10% ) solid
+                background: darken( $green, 10% )
+                border: 1px darken( $green, 10% ) solid
 
 
           ul
@@ -425,22 +436,22 @@ footer
       opacity: 1
 
   .alert
-    background: red
+    background: $coral
 
     .close
-      color: tan
+      color: white
 
       &:hover
-        color: lighten(tan, 15)
+        color: rgba(white, 0.5)
 
   .notice
-    background: green
+    background: $green
 
     .close
-      color: lighten(green, 10)
+      color: white
 
       &:hover
-        color: lighten(green, 20)
+        color: rgba(white, 0.5)
 
 
 ul.nav.nav-pills
