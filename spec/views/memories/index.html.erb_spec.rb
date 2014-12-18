@@ -16,7 +16,7 @@ describe 'memories/index.html.erb' do
   end
 
   it "shows an add button" do
-    expect(rendered).to have_css('.memory.add')
+    expect(rendered).to have_link('Add a memory', href: new_my_memory_path)
   end
 
   context 'a memory' do

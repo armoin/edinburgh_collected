@@ -21,7 +21,7 @@ RSpec.shared_examples 'a scrapbook index' do
       end
 
       it "has a title" do
-        expect(rendered).to have_css("#{scope} .title", text: scrapbook.title)
+        expect(rendered).to have_css("#{scope} .scrapbookTitle", text: scrapbook.title)
       end
 
       it "states that it is empty" do
@@ -41,7 +41,7 @@ RSpec.shared_examples 'a scrapbook index' do
       end
 
       it "has a title" do
-        expect(rendered).to have_css("#{scope} .title", text: scrapbook.title)
+        expect(rendered).to have_css("#{scope} .scrapbookTitle", text: scrapbook.title)
       end
 
       it "shows how many memories it contains" do
