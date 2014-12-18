@@ -499,8 +499,14 @@ button#create-scrapbook-button
       font-size: 1.25em
       text-align: center
 
-    #joinES
-      text-align: center
+    img
+      border: 1px solid #ccc
+      +border-radius(3px)
+      margin-bottom: 0
+      padding: 5px
+      background: white
+
+
 
       a.signin
         font-size: 0.8em
@@ -1532,8 +1538,6 @@ body.styleguide
         +border-radius(4px 0 4px 4px)
         display: none
 
-
-
         li
           margin: 0 !important
           padding: 0.25em 1em !important
@@ -1543,10 +1547,11 @@ body.styleguide
             padding: 0 !important
             border-bottom: none !important
 
+
       &:hover
         background: $navy-blue
         a
-          color: $cream
+          color: $cream !important
           border-bottom: none !important
 
         ul
