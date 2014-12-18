@@ -18,8 +18,8 @@ RSpec.shared_examples 'state labelled content' do
     let(:current_state)        { 'approved' }
     let(:current_state_reason) { nil }
 
-    it 'displays an "approved" state label' do
-      expect(rendered).to have_css('.state.approved', text: 'approved')
+    it 'does not display an "approved" state label' do
+      expect(rendered).not_to have_css('.state.approved', text: 'approved')
     end
   end
 
