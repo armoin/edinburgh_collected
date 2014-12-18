@@ -1,11 +1,11 @@
 <a class="memory thumb masonry" data-id="<%= memory.id %>" href="<%= memory_path(memory) %>" title="View details" role="button">
+  <div class="padding">
   <%= render partial: 'memories/state_label', locals: {memory: memory} %>
-  <div class="img">
-    <%= image_tag cache_busted_url(memory, :thumb), alt: memory.title %>
-  </div>
-  <div class="detail">
-    <h3 class="title"><%= memory.title %></h3>
-    <p><%= truncate(memory.description, :length => 50) %></p>
+     <%= image_tag cache_busted_url(memory, :thumb), alt: memory.title %>
+   <div class="detail">
+     <h3 class="title"><%= memory.title %></h3>
+     <p><%= truncate(memory.description, :length => 50) %></p>
+   </div>
   </div>
 </a>
 

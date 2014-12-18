@@ -1,11 +1,18 @@
 <div class="container profile memories">
   <div id="grid">
     <header id="contentHeader" class="clearfix">
-      <h2>Found <%= pluralize(@memories.total_count, 'match') %> for "<%= truncate(params[:query], length: 30) %>"</h2>
-      <span class="actions clearfix">
-        <%= link_to 'Search scrapbooks', search_scrapbooks_path(query: params[:query]), class: 'button scrapbooks' %>
-      </span>
+      <h1>Found <%= pluralize(@memories.total_count, 'match') %> for "<%= truncate(params[:query], length: 30) %>"</h1>
+
+      <div class="actions clearfix">
+       <div class="viewingInfo">
+         <strong>Searching all:</strong>
+         <span class="button memories teal">Memories</span>
+         <%= link_to 'Search scrapbooks', search_scrapbooks_path(query: params[:query]), class: 'button scrapbooks inactive' %>
+       </div>
+      </div>
+
     </header>
+
 
     <% if @memories.empty? -%>
       <div class="no-results">

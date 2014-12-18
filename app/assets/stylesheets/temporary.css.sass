@@ -8,8 +8,7 @@ $light-grey:    #eaebe9
 $beige:         #c9ccc1
 $teal:          #51b0aa
 $blue:          #336699
-$purple:        #6e4591
-$green:         #a3d39c
+$green:         #49B18C
 
 $module:        #f0efea
 
@@ -112,12 +111,22 @@ a.underlined
     cursor: pointer
 
 .button.purple, .button.scrapbooks
-  background-color: $purple
-  border: 1px solid darken( $purple, 10% )
-  text-shadow: 0px 1px 0px $purple
+  background-color: $teal
+  border: 1px solid darken( $teal, 10% )
+  text-shadow: 0px 1px 0px $teal
 
   &:hover
-    background-color: darken( $purple, 5% )
+    background-color: darken( $teal, 5% )
+    cursor: pointer
+
+.button.white, .button.white
+  background-color: white
+  color: $navy-blue
+  border: 1px solid lighten( $navy-blue, 50% )
+  text-shadow: 0px 1px 0px white
+
+  &:hover
+    background-color: darken( white, 5% )
     cursor: pointer
 
 
@@ -145,14 +154,16 @@ a.underlined
 
 
 .button.inactive
+  border: 1px solid #bcc0c1
   border: 1px solid rgba($navy-blue, 0.25)
+  background-color: #bcc0c1
   background-color: rgba($navy-blue, 0.25)
   color: $navy-blue
   text-shadow: none
 
   &.scrapbooks:hover
-    background-color: $purple
-    border: 1px solid $purple
+    background-color: $teal
+    border: 1px solid $teal
     color: white
 
   &.memories:hover
@@ -162,7 +173,7 @@ a.underlined
 
 
 span.button.scrapbooks:hover
-  background-color: $purple !important
+  background-color: $teal !important
   cursor: default
 
 span.button.memories:hover
@@ -237,7 +248,7 @@ h1, h2, h3
 
 header
   position: relative
-  // margin-top: 2em
+  margin-top: 1em
 
 
   .navbar
@@ -266,16 +277,19 @@ header
             border-bottom: 2px solid transparent
 
             &:hover, &:active
+              color: $navy-blue
               background: none
               border-bottom: 2px solid
 
             &.signin
               padding: 0.25em 0.5em
+              border: 1px darken( $green, 10% ) solid
               +border-radius(3px)
 
-              &:hover
-                background: darken( $teal, 10% )
-                border: 1px darken( $teal, 10% ) solid
+              &:hover, &:active
+                color: white
+                background: darken( $green, 10% )
+                border: 1px darken( $green, 10% ) solid
 
 
           ul
@@ -380,25 +394,32 @@ html, body
 
 footer
   height: 190px
-  text-align: center
   background: $navy-blue
   color: $cream
+  padding-top: 1em
+
+  .wrap
+    float: left
 
   ul
+    margin: 0
+    padding: 0
     li
       display: inline-block
 
-  a
-    color:  white
-    margin: 1em
-    display: inline-block
+      a
+        color:  white
+        padding: 1em 1em 1em 0
+        display: inline-block
 
-    &:hover
-      color: white
-      text-decoration: underline
+        &:hover
+          color: white
+          text-decoration: underline
 
-  #councilLogo
+  #councilLogo, #nestaLogo
+    float: right
     display: inline-block
+    margin: 1.5em 0 0 1.5em
 
 .error-message
   border: 1px solid darken( $coral, 10% )
@@ -419,22 +440,22 @@ footer
       opacity: 1
 
   .alert
-    background: red
+    background: $coral
 
     .close
-      color: tan
+      color: white
 
       &:hover
-        color: lighten(tan, 15)
+        color: rgba(white, 0.5)
 
   .notice
-    background: green
+    background: $green
 
     .close
-      color: lighten(green, 10)
+      color: white
 
       &:hover
-        color: lighten(green, 20)
+        color: rgba(white, 0.5)
 
 
 ul.nav.nav-pills
@@ -503,6 +524,7 @@ button#create-scrapbook-button
       .masonry
         width: 24%
         padding: 0 1% 2% 1%
+        margin-bottom: 1%
 
         a
           padding: 0.53em
@@ -515,7 +537,7 @@ button#create-scrapbook-button
 /* ==================================== BROWSE */
 
 #memories
-  margin-bottom: 2em
+  width: 100% !important
 
 
 #contentHeader
@@ -534,6 +556,21 @@ button#create-scrapbook-button
     padding: 1em 0
     border-top: $navy-blue 1px solid
     border-bottom: $navy-blue 1px solid
+
+    .viewingInfo
+      display: inline-block
+
+      a.scrapbooks, span.scrapbooks
+        +border-radius(0 3px 3px 0)
+        position: relative
+        left: -5px
+
+      span.memories, a.memories
+        +border-radius(3px 0 0 3px)
+
+      a:active, span:active
+        top: 0
+        text-decoration: none
 
   a.add-memories:hover, a.add-memories.active
     background-color: $navy-blue
@@ -626,7 +663,7 @@ a.memory, a.scrapbook
     display: none
 
   &.thumb
-    background: white
+
 
     div
       &.img, &.button
@@ -639,11 +676,14 @@ a.memory, a.scrapbook
           vertical-align: middle
 
       &.detail
-        margin: 0 10px 10px 10px
+        margin: 0 0px 0px 0px
 
         h3
           font-size: 20px
-          margin: 0.25em 0
+          margin: 0.5em 0 0 0
+
+        p
+          margin: 10px 0 0 0
 
   &.add.memory
     text-align: center
@@ -725,11 +765,53 @@ a.memory, a.scrapbook
   margin: 0 auto
 
   .masonry
-    width: 320px
-    margin-bottom: 50px
+    width: 25%
+    margin-bottom: 0
+
+    .padding
+      margin: 0.5em 0.5em 1em
+      background: white
+      padding: 1em
+
+      img
+        border: 1px solid #ccc
+        +border-radius(3px)
+        margin-bottom: 0
+        padding: 2px
 
     .detail
       margin: 0 10px 10px 10px
+
+    h3.scrapbookTitle
+      margin-top: 0
+
+
+    .bottom-row
+
+      .count
+        width: 32%
+        +border-radius(3px)
+        display: inline-block
+        background: $blue
+        color: white
+        text-align: center
+        height: 75px
+        top: 10px
+        position: relative
+        font-size: 0.8em
+
+        span
+          display: block
+          font-weight: 700
+          font-size: 2em
+          position: relative
+          top: 5px
+
+      img
+        width: 32%
+
+      &.empty
+        text-align: center
 
 
 
@@ -742,47 +824,6 @@ a.memory, a.scrapbook
     font-style: italic
     font-size: 1.5em
     padding: 0 0 1em 0
-
-  .masonry
-    width: 320px
-    margin-bottom: 50px
-    padding: 1em
-
-    h3.title
-      margin: 0 0 10px 0
-
-
-    img.main, img.ph
-      border: 1px solid #ccc
-      +border-radius(3px)
-      margin-bottom: 0
-
-    .bottom-row
-
-      .count
-        width: 24%
-        display: inline-block
-        background: $blue
-        color: white
-        text-align: center
-        height: 65px
-        top: 15px
-        position: relative
-        font-size: 0.8em
-
-        span
-          display: block
-          font-weight: 700
-          font-size: 2em
-          position: relative
-          top: 5px
-
-      img
-        width: 23%
-
-      &.empty
-        text-align: center
-
 
 
 #editScrapbook
@@ -1136,16 +1177,19 @@ table.items
 
 
 .state
-  float:left
-  color: white
-  padding: 0.4em
   text-align: center
-  font-size: 1.4em
+  font-size: 1.2em
+  font-weight: 600
   font-variant: small-caps
-  margin-bottom: 1em
+  position: relative
+  top: -0.5em
+
+  span
+    position: relative
+    top: 0.25em
 
   &.unmoderated
-    background-color: $unmoderated
+    color: $coral
 
   &.approved
     background-color: $approved
@@ -1258,6 +1302,7 @@ body.styleguide
 
         img
           margin: 0 auto
+          max-width: 150px
 
     .navbar
       margin-bottom: 0
@@ -1290,6 +1335,9 @@ body.styleguide
 
     #searchwrapper
       margin-top: 0em
+
+  .module
+    margin-bottom: 2em
 
 
 
@@ -1355,16 +1403,16 @@ body.styleguide
     &.thumb
       width: 290px
       margin: 0 auto
-      margin-bottom: 5px
+      margin-bottom: 1.5em
       div
         &.img
           line-height: 100%
 
   #scrapbooks .masonry, #scrapbook .masonry
     &.thumb
-      width: 290px
+      width: 24%
       margin: 0 auto
-      margin-bottom: 5px
+      margin-bottom: 1%
       div
         &.img
           line-height: 100%
@@ -1378,6 +1426,13 @@ body.styleguide
       a
         width: 100%
         margin: 10px 0
+
+  #scrapbook
+    #contentHeader
+      .actions
+        .float-right
+          display: inline-block
+
 
 
   #contentHeader
@@ -1402,6 +1457,47 @@ body.styleguide
     .check_boxes .checkbox
       width: 100% !important
 
+  .actions
+    .viewingInfo
+      display: block
+      padding-bottom: 1em
+
+      a, span
+        padding: 0.25em 0.5em
+
+    a.float-right
+      float: none
+      display: block
+
+  footer
+    height: auto
+    text-align: center
+    padding-bottom: 2em
+
+    .wrap
+      padding-bottom: 2em
+
+    ul
+      margin-bottom: 2em
+
+      li
+        display: block
+        a
+          padding: 0.5em
+
+    #councilLogo
+      margin-right: 1em
+
+    #councilLogo, #nestaLogo
+      float: none
+      margin-left: 0
+      display: inline
+
+      img
+        width: 40%
+
+
+
 
 /* Medium devices */
 
@@ -1421,7 +1517,7 @@ body.styleguide
       margin: 0 !important
 
       & > a
-        padding: 0.5em 1em 0.25em 1em !important
+        padding: 0.25em 1em 0.25em 1em !important
         +border-radius(4px)
 
       ul
