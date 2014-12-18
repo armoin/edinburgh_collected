@@ -1,6 +1,4 @@
 class Photo < Memory
-  mount_uploader :source, ImageUploader
-
   def rotation=(degrees_string)
     @rotation = degrees_string.to_i
   end

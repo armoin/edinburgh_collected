@@ -1,10 +1,105 @@
-<%= form.input :title, input_html: {class: 'form-control'} %>
-<%= form.input :description, as: :text, input_html: {class: 'form-control'} %>
-<%= form.association :categories, as: :check_boxes %>
-<%= form.input :year, input_html: {class: 'form-control'} %>
-<%= form.input :month, as: :select, collection: month_names, include_blank: false, input_html: {class: 'form-control'} %>
-<%= form.input :day, as: :select, collection: (1..31).to_a, input_html: {class: 'form-control'} %>
-<%= form.input :attribution, input_html: {class: 'form-control'} %>
-<%= form.input :area_id, as: :select, label: 'Edinburgh area', collection: Area.all, input_html: {class: 'form-control'} %>
-<%= form.input :location, input_html: {class: 'form-control'} %>
-<%= form.input :tag_list, label: 'Add tags', input_html: {class: 'form-control', placeholder: 'e.g. landmarks, buildings, castles'} %>
+<div class="form-group" aria-required="true">
+  <div class="formRow">
+    <%= form.label :title, class: 'control-label' %>
+    <%= form.text_field :title, class: 'form-control' %>
+    <% @memory.errors[:title].each do |error| %>
+      <span class="help-block"><%= error %></span>
+    <% end -%>
+  </div>
+</div>
+
+<div class="form-group" aria-required="true">
+  <div class="formRow">
+    <%= form.label :description, class: 'control-label' %>
+    <%= form.text_area :description, class: 'form-control' %>
+    <% @memory.errors[:description].each do |error| %>
+      <span class="help-block"><%= error %></span>
+    <% end -%>
+  </div>
+</div>
+
+<div class="form-group check_boxes" aria-required="true">
+  <div class="formRow">
+    <%= form.label :categories, class: 'control-label check_boxes' %>
+    <% Category.all.each do |c| -%>
+      <label class="sub-label checkbox">
+        <%= check_box_tag "memory[category_ids][]", c.id, @memory.categories.include?(c) %>
+        <%= c.name %>
+      </label>
+    <% end -%>
+    <% @memory.errors[:categories].each do |error| %>
+      <span class="help-block"><%= error %></span>
+    <% end -%>
+  </div>
+</div>
+
+<div class="form-group" aria-required="true">
+  <div class="formRow">
+    <%= form.label :year, class: 'control-label' %>
+    <%= form.text_field :year, class: 'form-control' %>
+    <% @memory.errors[:year].each do |error| %>
+      <span class="help-block"><%= error %></span>
+    <% end -%>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="formRow">
+    <%= form.label :month %>
+    <%= form.select :month, month_names, {include_blank: false}, {class: 'form-control'} %>
+  </div>
+  <% @memory.errors[:month].each do |error| %>
+    <span class="help-block"><%= error %></span>
+  <% end -%>
+</div>
+
+<div class="form-group">
+  <div class="formRow">
+    <%= form.label :day %>
+    <%= form.select :day, (1..31).to_a, {include_blank: true}, {class: 'form-control'} %>
+  </div>
+  <% @memory.errors[:day].each do |error| %>
+    <span class="help-block"><%= error %></span>
+  <% end -%>
+</div>
+
+<div class="form-group">
+  <div class="formRow">
+    <%= form.label :attribution, class: 'control-label' %>
+    <%= form.text_field :attribution, class: 'form-control' %>
+    <% @memory.errors[:attribution].each do |error| %>
+      <span class="help-block"><%= error %></span>
+    <% end -%>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="formRow">
+    <%= form.label :area_id %>
+    <%= form.select :area_id, Area.all.collect{|a| [a.name, a.id] }, {include_blank: true}, {class: 'form-control'} %>
+  </div>
+  <% @memory.errors[:area_id].each do |error| %>
+    <span class="help-block"><%= error %></span>
+  <% end -%>
+</div>
+
+<div class="form-group">
+  <div class="formRow">
+    <%= form.label :location, class: 'control-label' %>
+    <%= form.text_field :location, class: 'form-control' %>
+    <% @memory.errors[:location].each do |error| %>
+      <span class="help-block"><%= error %></span>
+    <% end -%>
+  </div>
+</div>
+
+<div class="form-group">
+  <div class="formRow">
+    <%= form.label :tag_list, class: 'control-label' %>
+    <%= form.text_field :tag_list, class: 'form-control', placeholder: 'Please separate tags with commas' %>
+    <% @memory.errors[:tag_list].each do |error| %>
+      <span class="help-block"><%= error %></span>
+    <% end -%>
+  </div>
+</div>
+

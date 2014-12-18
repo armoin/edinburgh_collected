@@ -2,6 +2,8 @@ require 'carrierwave/mount'
 
 class Memory < ActiveRecord::Base
   extend CarrierWave::Mount
+  mount_uploader :source, ImageUploader
+
   include Locatable
   include Taggable
   include Moderatable

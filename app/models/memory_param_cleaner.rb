@@ -5,6 +5,7 @@ class MemoryParamCleaner
       :type,
       :rotation,
       :source,
+      :source_cache,
       :description,
       :year,
       :month,

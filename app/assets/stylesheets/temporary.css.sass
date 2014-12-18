@@ -927,10 +927,12 @@ form
 
   .form-group
     &[aria-required="true"]
-      label:after
-        margin-left: 5px
-        content: "*"
-        color: $required
+      label
+        &:not(.sub-label)
+          &:after
+            margin-left: 5px
+            content: "*"
+            color: $required
 
   label
     min-width: 230px
@@ -959,7 +961,7 @@ form
     color: $error
     padding: 2px
 
-    input
+    input, select
       border-color: $error
 
   p.error-text

@@ -1,33 +1,44 @@
 <div class="container">
- <header id="formHeader" class="row">
-<!--
-  <div class="step step1 col-md-4">
-   <span>1</span> Choose the type of file
-  </div>
-  <div class="step step2 col-md-4">
-   <span>2</span> Upload your memory
-  </div>
-  <div class="step step3 col-md-4">
-   <span>3</span> Upload Complete
-  </div>
- -->
- </header>
+  <header id="formHeader" class="row">
+    <!--
+      <div class="step step1 col-md-4">
+       <span>1</span> Choose the type of file
+      </div>
+      <div class="step step2 col-md-4">
+       <span>2</span> Upload your memory
+      </div>
+      <div class="step step3 col-md-4">
+       <span>3</span> Upload Complete
+      </div>
+     -->
+  </header>
 
- <div id="newMemoryForm" class="formWrapper row">
-  <div id="formPanel" class="col-md-6">
-    <h1>Add a memory</h1>
-      <%= simple_form_for @memory,
-        as: :memory,
-        url: my_memories_url,
-        wrapper: :horizontal_form,
-        wrapper_mappings: { file: :horizontal_file_input },
-        html: {id: "add-memory", class: "form-horizontal", role: "form"} do |form| %>
+  <div id="newMemoryForm" class="formWrapper row">
+    <div id="formPanel" class="col-md-6">
 
-        <%= form.error_notification %>
+      <h1>Add a memory</h1>
 
-        <%= form.input :type, as: :select, collection: Memory.file_types, required: true, input_html: {class: 'form-control'} %>
+      <%= form_for @memory, url: my_memories_path, as: 'memory', html: {id: 'add-memory', class: 'form-horizontal', role: 'form'} do |form| %>
+        <div class="form-group" aria-required="true">
+          <div class="formRow">
+            <%= form.label :type, class: 'control-label' %>
+            <%= form.select :type, Memory.file_types, {include_blank: true}, {class: 'form-control'} %>
+          </div>
+          <% @memory.errors[:type].each do |error| %>
+            <span class="help-block"><%= error %></span>
+        <% end -%>
+        </div>
 
-        <%= form.input :source, as: :file %>
+        <div class="form-group" aria-required="true">
+          <div class="formRow">
+            <%= form.label :source, class: 'control-label' %>
+            <%= form.file_field :source %>
+            <%= form.hidden_field :source_cache %>
+          </div>
+          <% @memory.errors[:source].each do |error| %>
+            <span class="help-block"><%= error %></span>
+          <% end -%>
+        </div>
 
         <%= render partial: 'image_editor', locals: {form: form} %>
 
@@ -36,12 +47,12 @@
         <div class="form-group">
           <div class="actions">
             <%= link_to "Cancel", current_memory_index_path, class: "btn btn-default" %>
-            <%# <%= form.button :submit, "Save And Add Another", class: "btn btn-primary", disabled: true %>
-            <%= form.button :submit, "Save", class: "btn btn-primary", disabled: true %>
+            <%= form.submit "Save", class: "btn btn-primary", disabled: true %>
           </div>
         </div>
-      <% end %>
+      <% end -%>
     </div>
+
     <div class="col-md-6">
       <div id="infoPanel">
 
