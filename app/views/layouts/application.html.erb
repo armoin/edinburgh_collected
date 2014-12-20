@@ -107,7 +107,12 @@
 
             <div class="searchForm col-xs-12 col-sm-4 col-md-6">
               <%= form_tag search_memories_path, method: :get do %>
+              <div class="input-group ">
                 <%= text_field_tag :query, params[:query], class: 'form-control', title: 'search' %>
+                <span class="input-group-btn">
+                 <button class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
+                </span>
+                </div>
               <% end -%>
             </div>
           </div> <!-- end search/browse box -->

@@ -24,5 +24,6 @@
 //= require masonry.pkgd.min
 //= require jquery.matchHeight-min
 //= require spin.min
-//= require jquery.spin
+//= require spin.min
+//= require freewall
 //= require_tree .

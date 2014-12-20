@@ -1,12 +1,12 @@
-<div class="container profile scrapbook">
+<div id="scrapbooks" class="container profile scrapbooks">
   <%= render partial: 'shared/profile_header' %>
 
   <div id="grid">
     <header id="contentHeader" class="clearfix">
-      <h2>Browsing your scrapbooks</h2>
+      <h2>Your scrapbooks</h2>
       <div class="actions">
        <div class="viewingInfo">
-       <strong>Viewing:</strong>
+       <strong>Browsing</strong>
         <%= link_to my_memories_path, :class => "button memories inactive"  do %>
           <%= current_user.memories.size %> Memories
         <% end %>

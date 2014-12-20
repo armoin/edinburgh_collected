@@ -96,7 +96,7 @@ a.underlined
 .button.green
   background-color: darken( $green, 10% )
   border: 1px solid darken( $green, 20% )
-  text-shadow: 0px 1px 0px $green
+  text-shadow: 0px 1px 0px darken( $green, 20% )
 
   &:hover
     background-color: darken( $green, 20% )
@@ -104,7 +104,7 @@ a.underlined
 .button.red, .button.delete
   background-color: $coral
   border: 1px solid darken( $coral, 10% )
-  text-shadow: 0px 1px 0px $coral
+  text-shadow: 0px 1px 0px darken( $coral, 20% )
 
   &:hover
     background-color: darken( $coral, 5% )
@@ -113,7 +113,7 @@ a.underlined
 .button.purple, .button.scrapbooks
   background-color: $teal
   border: 1px solid darken( $teal, 10% )
-  text-shadow: 0px 1px 0px $teal
+  text-shadow: 0px 1px 0px darken( $teal, 20% )
 
   &:hover
     background-color: darken( $teal, 5% )
@@ -133,7 +133,7 @@ a.underlined
 .button.teal
   background-color: $teal
   border: 1px solid darken( $teal, 10% )
-  text-shadow: 0px 1px 0px $teal
+  text-shadow: 0px 1px 0px darken( $teal, 20% )
   text-decoration: none
   color: white
 
@@ -199,30 +199,59 @@ span.button.memories:hover
 
 /* ==================================== PAGINATION */
 
-.pagination-container
-  text-align: center
+.memories
+  .pagination-container
+    text-align: center
 
-  .pagination
-    span.disabled
-      color: lighten( $blue, 50% )
-      background: #eee
-
-      &:hover
+    .pagination
+      span.disabled
         color: lighten( $blue, 50% )
+        background: #eee
 
-    li
-      a
-        color: $blue
-      span.disabled, &:hover
-        color: lighten( $blue, 20% )
         &:hover
-          color: lighten( $blue, 20% )
+          color: lighten( $blue, 50% )
 
-      &.active
+      li
         a
-          color: white
-          background: $blue
-          border: 1px solid darken( $blue, 5% )
+          color: $blue
+        span.disabled, &:hover
+          color: lighten( $blue, 20% )
+          &:hover
+            color: lighten( $blue, 20% )
+
+        &.active
+          a
+            color: white
+            background: $blue
+            border: 1px solid darken( $blue, 5% )
+
+
+
+.scrapbooks
+  .pagination-container
+    text-align: center
+
+    .pagination
+      span.disabled
+        color: lighten( $teal, 50% )
+        background: #eee
+
+        &:hover
+          color: lighten( $teal, 50% )
+
+      li
+        a
+          color: $teal
+        span.disabled, &:hover
+          color: lighten( $teal, 20% )
+          &:hover
+            color: lighten( $teal, 20% )
+
+        &.active
+          a
+            color: white
+            background: $teal
+            border: 1px solid darken( $teal, 5% )
 
 /* ==================================== TYPOGRAPHY */
 
@@ -357,13 +386,16 @@ header
       input
         display: inline-block
         border: none
-        opacity: 0.5
         transition: opacity .25s ease-in-out
         -moz-transition: opacity .25s ease-in-out
         -webkit-transition: opacity .25s ease-in-out
 
         &:focus
           opacity: 1
+          outline: 0
+
+      button
+        border-color: white
 
 
 
@@ -518,12 +550,16 @@ button#create-scrapbook-button
     border-top: 3px solid $navy-blue
     margin: 2em 0
 
-    h2
-      text-transform: uppercase
-      font-size: 1em
-    h3
-      font-weight: 300
-      margin-top: 0
+    .scrapbookInfo
+      padding-top: 1em
+
+      h3
+        text-transform: uppercase
+        font-size: 1em
+      h2
+        font-weight: 300
+        margin: 0 0 1em 0
+        font-size: 24px
 
     #scrapbookImages
       padding-top: 1em
