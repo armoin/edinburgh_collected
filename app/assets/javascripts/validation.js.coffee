@@ -11,7 +11,7 @@ class @Validator
 
   form_valid: =>
     result = true
-    $('.form-group.required').each (i, form_group) =>
+    $('.form-group[aria-required="true"]').each (i, form_group) =>
       if $(form_group).hasClass('check_boxes')
         result = @atLeastOneChecked(form_group)
       else
