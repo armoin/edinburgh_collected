@@ -14,6 +14,12 @@ class @Validator
     $('.form-group[aria-required="true"]').each (i, form_group) =>
       if $(form_group).hasClass('check_boxes')
         result = @atLeastOneChecked(form_group)
+      else if $(form_group).find('input[type="file"]').length
+        files = $(form_group).find('input[type="file"]')[0].files
+        cache = $(form_group).find('input#memory_source_cache').val()
+        hasFileAttached = files != undefined && files.length > 0
+        hasFileCached = cache != undefined && cache != ''
+        result = hasFileAttached || hasFileCached
       else
         field = $(form_group).find('input, textarea, select')
         value = $(field).val()

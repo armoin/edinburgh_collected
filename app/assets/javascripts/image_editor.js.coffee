@@ -1,34 +1,36 @@
-class @ImageEditor
-  constructor: (@editorEl, src, @rotationEl, @exifRotation) ->
+class @ImageEditorController
+  constructor: (@editorEl, @rotationEl) ->
+    @createRotateEvent('left', -90)
+    @createRotateEvent('right', 90)
     @reset()
-    img = new Image()
-    img.src = src
-    img.onload = (e) =>
-      svg = @buildSVG(img)
-      @createRotateEvent(svg, 'left', -90)
-      @createRotateEvent(svg, 'right', 90)
-    $(editorEl).closest('.form-group').show()
+    @showHideToggle()
 
-  buildSVG: (img) ->
-    imageMeasurements = ImageCalculator.calculateMeasurements(img)
-    d = imageMeasurements.dimensions
-    h = imageMeasurements.hypoteneus
-    p = imageMeasurements.position
-    paper = new Raphael($(@editorEl)[0], h, h)
-    image = paper.image(img.src, p.x, p.y, d.width, d.height)
-    image.transform('r'+@exifRotation)
-    image
+  showHideToggle: =>
+    src = $('img.upload').attr('src')
+    if ( src == '' or src == undefined )
+      $(@editorEl).closest('.form-group').hide()
+    else
+      $(@editorEl).closest('.form-group').show()
 
-  createRotateEvent: (image, direction, amount) =>
+  addSrc: (src) =>
+    @reset()
+    $(@editorEl).find('img.upload').attr('src', src)
+    @showHideToggle()
+
+  createRotateEvent: (direction, amount) =>
     $("#rotate-#{direction}").on 'click', (e) =>
       e.preventDefault()
-      if image
-        @angle += amount
-        image.stop().animate({transform: "r" + @angle}, 1000, "<>")
-        $(@rotationEl).val(@angle % 360)
+      current_rotation = $(@rotationEl).val()
+      if (current_rotation == '' || isNaN(current_rotation))
+        current_rotation = 0
+      rotation = (parseInt(current_rotation, 10) + amount) % 360
+      $(@rotationEl).val(rotation)
+      $('#image-wrapper')
+        .removeClass()
+        .addClass('rotate' + rotation)
 
   reset: =>
-    @angle = 0
-    $(@editorEl).find('svg').remove()
+    $(@editorEl).find('#image-wrapper').removeClass()
+    # $(@editorEl).find('img.upload').attr('src', '')
     $(@rotationEl).val(0)
 

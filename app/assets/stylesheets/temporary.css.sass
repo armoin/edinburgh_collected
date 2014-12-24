@@ -984,17 +984,6 @@ form
   label
     text-align: left !important
 
-a.rotate
-  text-decoration: none
-
-  &#rotate-left:hover
-    @include transform(rotate(-30deg))
-    @include transition(all 0.5s)
-
-  &#rotate-right:hover
-    @include transform(rotate(30deg))
-    @include transition(all 0.5s)
-
 form, .form-title
   max-width: 750px
 
@@ -1053,16 +1042,63 @@ form
 
   #image-editor-wrapper
     display: none
-
-  #image-editor
-    text-align: center
-    padding: 10px
-    margin-bottom: 0.6em
     background: lightgrey
 
-    .rotate img
-      width: 25px
-      margin-bottom: 0
+    #image-editor
+      text-align: center
+      padding: 10px
+      margin-bottom: 0.6em
+
+      #image-wrapper
+        width: 350px
+        height: 350px
+        line-height: 350px
+        margin: 0 auto
+        @include transform(rotate(0deg))
+        @include transition(all 0.5s)
+
+        &.rotate90
+          @include transform(rotate(90deg))
+
+        &.rotate180
+          @include transform(rotate(180deg))
+
+        &.rotate270
+          @include transform(rotate(270deg))
+
+        &.rotate-90
+          @include transform(rotate(-90deg))
+
+        &.rotate-180
+          @include transform(rotate(-180deg))
+
+        &.rotate-270
+          @include transform(rotate(-270deg))
+
+        img.upload
+          max-width: 100%
+          max-height: 100%
+          vertical-align: middle
+
+    .controls
+      padding: 0.4em
+      background: darkgrey
+      text-align: center
+
+      a.rotate
+        text-decoration: none
+
+        &#rotate-left:hover
+          img
+            @include transform(rotate(-30deg))
+
+        &#rotate-right:hover
+          img
+            @include transform(rotate(30deg))
+
+        img
+          width: 25px
+          margin-bottom: 0
 
   .info
     font-style: italic

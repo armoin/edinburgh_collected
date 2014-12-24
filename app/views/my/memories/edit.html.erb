@@ -5,9 +5,9 @@
     <div id="formPanel" class="col-md-6">
       <h2 class="form-title">Edit details</h2>
 
-      <%= form_for @memory, url: my_memory_path(@memory), html: {id: 'edit-memory', class: 'form-horizontal', role: 'form'} do |form| %>
+      <%= form_for @memory, url: my_memory_path(@memory), as: 'memory', html: {id: 'edit-memory', class: 'form-horizontal', role: 'form'} do |form| %>
         <img class="hide" id='memory_source' src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
-        <%= render partial: 'image_editor', locals: {form: form} %>
+        <%= render partial: 'image_editor', locals: {form: form, uploaded_image_url: @memory.source_url} %>
 
         <%= render partial: 'details_form', object: @memory, locals: { form: form } %>
 
@@ -29,11 +29,11 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-    new Validator($('#edit-memory')).validate()
-    src        = $('#memory_source').attr('src')
-    editorEl   = $('#image-editor')[0]
-    rotationEl = $('#memory_rotation')[0]
-    new ImageEditor(editorEl, src, rotationEl)
+    new Validator($('#edit-memory')).validate();
+
+    editorEl   = $('#image-editor')[0];
+    rotationEl = $('#memory_rotation')[0];
+    iec = new ImageEditorController(editorEl, rotationEl);
   });
 </script>
 
