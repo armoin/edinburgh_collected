@@ -1,13 +1,11 @@
-<div id="image-editor-wrapper" class="form-group">
-  <div class="col-xs-12">
-    <%= form.hidden_field :rotation %>
-    <div id="image-editor">
-      <div id="image-wrapper">
-        <img title="uploaded image" class="upload" src="<%= uploaded_image_url %>" />
-      </div>
+<div id="image-editor">
+  <%= form.hidden_field :rotation %>
+  <div id="image-area">
+    <div id="image-rotation-box">
+      <img title="uploaded image" class="image" src="<%= uploaded_image_url %>" />
     </div>
   </div>
-  <div class="controls col-xs-12">
+  <div class="controls">
     <a class="rotate" id="rotate-left">
       <%= image_tag 'rotate_ac.png' %>
     </a>

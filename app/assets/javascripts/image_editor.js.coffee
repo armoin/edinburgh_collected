@@ -6,15 +6,15 @@ class @ImageEditorController
     @showHideToggle()
 
   showHideToggle: =>
-    src = $('img.upload').attr('src')
+    src = $(@editorEl).find('#image-rotation-box img').attr('src')
     if ( src == '' or src == undefined )
-      $(@editorEl).closest('.form-group').hide()
+      $(@editorEl).hide()
     else
-      $(@editorEl).closest('.form-group').show()
+      $(@editorEl).show()
 
   addSrc: (src) =>
+    $(@editorEl).find('#image-rotation-box img').attr('src', src)
     @reset()
-    $(@editorEl).find('img.upload').attr('src', src)
     @showHideToggle()
 
   createRotateEvent: (direction, amount) =>
@@ -25,12 +25,11 @@ class @ImageEditorController
         current_rotation = 0
       rotation = (parseInt(current_rotation, 10) + amount) % 360
       $(@rotationEl).val(rotation)
-      $('#image-wrapper')
+      $('#image-rotation-box')
         .removeClass()
         .addClass('rotate' + rotation)
 
   reset: =>
-    $(@editorEl).find('#image-wrapper').removeClass()
-    # $(@editorEl).find('img.upload').attr('src', '')
+    $(@editorEl).find('#image-rotation-box').removeClass()
     $(@rotationEl).val(0)
 
