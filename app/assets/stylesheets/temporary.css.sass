@@ -568,10 +568,12 @@ button#create-scrapbook-button
         padding: 0 1% 2% 1%
         margin-bottom: 1%
 
-        a
-          padding: 0.53em
+        img
+          border: 1px solid #cccccc
+          border-radius: 3px
+          margin-bottom: 0
+          padding: 5px
           background: white
-          display: block
 
 
 
@@ -866,6 +868,10 @@ a.memory, a.scrapbook
     font-style: italic
     font-size: 1.5em
     padding: 0 0 1em 0
+
+  .masonry
+    width: 33.33%
+    margin-bottom: 0
 
 
 #editScrapbook
@@ -1375,6 +1381,9 @@ body.styleguide
 
 @media screen and (max-width: 767px)
 
+  .desktop
+    display: none
+
   header
     margin-top: 0
 
@@ -1586,11 +1595,26 @@ body.styleguide
         width: 40%
 
 
+  /* Home Page */
+  #featuredScrapbook
+    text-align: center
+
+    #scrapbookImages
+      padding: 1em 0!important
+      .masonry
+        width: 50% !important
+        margin-bottom: 0 !important
+
+
 
 
 /* Medium devices */
 
 @media (min-width: 768px)
+
+  .mobile
+    display: none
+
   #grid > #memories .memory
     width: 320px
 
