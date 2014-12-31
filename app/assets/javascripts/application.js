@@ -26,4 +26,5 @@
 //= require spin.min
 //= require jquery.spin
 //= require freewall
+//= require jquery.tagsinput.min
 //= require_tree .

@@ -28,7 +28,7 @@ RSpec.shared_examples "a memory" do
       it "must be an allowed type" do
         memory.type = 'doodah'
         expect(memory).to be_invalid
-        expect(memory.errors[:type]).to include("is not included in the list")
+        expect(memory.errors[:type]).to include("must be of type 'photo'")
       end
     end
 

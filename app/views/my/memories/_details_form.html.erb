@@ -96,10 +96,19 @@
 <div class="form-group">
   <div class="formRow">
     <%= form.label :tag_list, class: 'control-label' %>
-    <%= form.text_field :tag_list, class: 'form-control', placeholder: 'Please separate tags with commas' %>
+    <%= form.text_field :tag_list, class: 'form-control' %>
     <% @memory.errors[:tag_list].each do |error| %>
       <span class="help-block"><%= error %></span>
     <% end -%>
   </div>
 </div>
 
+<script type="text/javascript">
+  $('#memory_tag_list').tagsInput({
+    'height':              '100px',
+    'width':               '100%',
+    'interactive':         true,
+    'defaultText':         '',
+    'removeWithBackspace': true
+  });
+</script>

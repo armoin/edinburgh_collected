@@ -10,7 +10,7 @@ en:
         source: "Please choose a file"
         title: "What's the title of your memory?"
         attribution: "Who is the author or artist?"
-        tag_list: "Add tags"
+        tag_list: "Add tags (separate with commas)"
         area_id: "Edinburgh area"
       user:
         screen_name: 'Username'
