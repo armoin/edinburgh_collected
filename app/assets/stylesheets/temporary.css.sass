@@ -580,9 +580,6 @@ button#create-scrapbook-button
 
 /* ==================================== BROWSE */
 
-#memories
-  width: 100% !important
-
 
 #contentHeader
   padding: 2em 0
@@ -1392,8 +1389,11 @@ body.styleguide
   .desktop
     display: none
 
+
   header
     margin-top: 0
+    top: 0
+
 
     #logo
       margin-top: 1em
@@ -1629,8 +1629,9 @@ body.styleguide
   .memory img
     padding: 0
 
-  header .navbar .navbar-collapse ul.nav li.profile
-    margin: 0 !important
+  header
+    .navbar .navbar-collapse ul.nav li.profile
+      margin: 0 !important
 
   .navbar-nav
     li.profile
