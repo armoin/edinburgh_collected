@@ -1,19 +1,18 @@
 <div id="contact" class="container static">
   <div class="row">
-    <h1>How to contact Edinburgh Collected</h1>
+    <h1>Contact Edinburgh Collected</h1>
 
-    <h2>Email us at</h2>
+    <h2>By email</h2>
+    <p>
+      <a href="mailto:<%= ENV['CONTACT_EMAIL']%>" title="email address">
+        <%= ENV['CONTACT_EMAIL']%>
+      </a>
+    </p>
 
-    <a href="mailto:<%= ENV['CONTACT_EMAIL']%>" title="email address">
-      <%= ENV['CONTACT_EMAIL']%>
-    </a>
-
-    <h2>Phone us on</h2>
-
+    <h2>By phone</h2>
     <p>0131 242 8033</p>
 
-    <h2>Write to us at</h2>
-
+    <h2>Or write to</h2>
     <p>
       Information Digital Team
     </p>
