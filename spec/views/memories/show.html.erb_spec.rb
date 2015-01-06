@@ -58,7 +58,7 @@ describe "memories/show.html.erb" do
       end
 
       it "has an area" do
-        expect(rendered).to have_css('.memory #memory-area h3', text: 'Edinburgh Area', count: 1)
+        expect(rendered).to have_css('.memory #memory-area h3', text: 'Edinburgh area', count: 1)
         expect(rendered).to have_css('.memory #memory-area a', text: 'Portobello', count: 1)
       end
 
@@ -94,7 +94,7 @@ describe "memories/show.html.erb" do
       end
 
       it "shows the area header" do
-        expect(rendered).to have_css('.memory #memory-area h3', text: 'Edinburgh Area', count: 1)
+        expect(rendered).to have_css('.memory #memory-area h3', text: 'Edinburgh area', count: 1)
       end
 
       it "does not have an area" do

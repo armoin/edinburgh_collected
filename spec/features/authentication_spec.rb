@@ -13,7 +13,7 @@ feature 'As a user who wants to add content to the site' do
     fill_in 'user_password_confirmation', with: 's3cr3t'
     check   'user_accepted_t_and_c'
 
-    click_button 'Sign Up'
+    click_button 'Sign up'
 
     user = User.find_by_email('bobby@example.com')
     expect(user.first_name).to eql('Bobby')
@@ -36,7 +36,7 @@ feature 'As a user who wants to add content to the site' do
     fill_in 'user_password_confirmation', with: 's3cr3t'
     check   'user_accepted_t_and_c'
 
-    click_button 'Sign Up'
+    click_button 'Sign up'
 
     user = User.find_by_email('fight_club@example.com')
     expect(user.first_name).to eql('Fight Club')
@@ -62,7 +62,7 @@ feature 'As a user who wants to add content to the site' do
       fill_in 'Email',    with: 'bobby@example.com'
       fill_in 'Password', with: 's3cr3t'
 
-      click_button 'Sign In'
+      click_button 'Sign in'
 
       expect(current_path).to eql(my_memories_path)
       expect(page).to have_content('My account')
@@ -74,7 +74,7 @@ feature 'As a user who wants to add content to the site' do
       fill_in 'Email',    with: 'Bobby@example.com'
       fill_in 'Password', with: 's3cr3t'
 
-      click_button 'Sign In'
+      click_button 'Sign in'
 
       expect(current_path).to eql(my_memories_path)
       expect(page).to have_content('My account')
