@@ -104,7 +104,7 @@ feature 'As a user who wants to add content to the site' do
 
       fill_in 'First name', with: 'Bobby'
 
-      click_button 'Save Changes'
+      click_button 'Save changes'
 
       expect(user.reload.first_name).to eql('Bobby')
     end
