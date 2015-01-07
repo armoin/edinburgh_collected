@@ -34,7 +34,7 @@
     <%end%>
   </head>
   <body>
- 		<a class="feedback" href="mailto:<%= ENV['CONTACT_EMAIL'] %>?subject=Feedback">Feedback</a>
+    <a class="desktop feedback" href="mailto:<%= ENV['CONTACT_EMAIL'] %>?subject=Feedback">Feedback</a>
     <div id="wrapper">
       <div id="main">
         <header class="clearfix container">
@@ -87,6 +87,9 @@
                       <%= link_to 'Sign in', signin_path, class: 'signin button green' %>
                     </li>
                   <% end %>
+                  <li class="mobile">
+                    <a class="feedback" href="mailto:<%= ENV['CONTACT_EMAIL'] %>?subject=Feedback">Feedback</a>
+                  </li>
                 </ul>
               </div>
             </div>
