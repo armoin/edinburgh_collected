@@ -25,6 +25,7 @@
 //= require jquery.matchHeight-min
 //= require spin.min
 //= require jquery.spin
-//= require freewall
+//= require isotope.pkgd.min
+//= require packery-mode.pkgd.min
 //= require jquery.tagsinput.min
 //= require_tree .
