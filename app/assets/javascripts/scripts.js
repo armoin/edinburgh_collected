@@ -1,26 +1,35 @@
 var runMasonry = function(e) {
+  $('#contentModules').waitForImages(function () {
+    $('.module').matchHeight();
+  });
+
   $('#scrapbookImages').waitForImages(function () {
-    doIt(this, false);
+    var $container = $(this),
+        $spinner   = $(".masonry-loading-spinner");
+        gutter     = parseInt( $('.masonry').css('marginBottom') );
+
+    $spinner.hide();
+    $container.parent().show();
+    $container.packery({
+      itemSelector: '.item',
+      gutter: 10,
+      isOriginLeft: false
+    });
   });
 
   $('.masonry-grid').waitForImages(function () {
-    doIt(this, true);
-  });
-};
+    var $container = $(this),
+        $spinner   = $(".masonry-loading-spinner");
+        gutter     = parseInt( $('.masonry').css('marginBottom') );
 
-var doIt = function (container, fitWidth) {
-  var $container = $(container),
-      $spinner   = $(".masonry-loading-spinner");
-      gutter     = parseInt( $('.masonry').css('marginBottom') );
-
-  $spinner.hide();
-  $('.module').matchHeight();
-  $container.parent().show();
-  $container.masonry({
-    gutter:       gutter,
-    itemSelector: '.masonry',
-    columnWidth:  '.masonry',
-    isFitWidth:   fitWidth
+    $spinner.hide();
+    $container.parent().show();
+    $container.masonry({
+      itemSelector: '.masonry',
+      columnWidth:  '.masonry',
+      gutter: gutter,
+      fitWidth: true,
+    });
   });
 };
 
