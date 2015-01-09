@@ -18,11 +18,11 @@
 
       <h1>Add a memory</h1>
 
-      <%= form_for @memory, url: my_memories_path, as: 'memory', html: {id: 'add-memory', class: 'form-horizontal', role: 'form'} do |form| %>
+      <%= form_for @memory, url: my_memories_path, as: 'memory', builder: Judge::FormBuilder, html: {id: 'add-memory', class: 'form-horizontal', role: 'form'} do |form| %>
         <div class="form-group" aria-required="true">
           <div class="formRow">
             <%= form.label :type, class: 'control-label' %>
-            <%= form.select :type, Memory.file_types, {include_blank: true}, {class: 'form-control'} %>
+            <%= form.select :type, Memory.file_types, {include_blank: true, validate: true}, {class: 'form-control'} %>
           </div>
           <% @memory.errors[:type].each do |error| %>
             <span class="help-block"><%= error %></span>
@@ -48,7 +48,7 @@
         <div class="form-group">
           <div class="actions">
             <%= link_to "Cancel", current_memory_index_path, class: "btn btn-default" %>
-            <%= form.submit "Save", class: "btn btn-primary", disabled: true %>
+            <%= form.submit "Save", class: "btn btn-primary" %>
           </div>
         </div>
       <% end -%>
@@ -69,24 +69,25 @@
   var showPrompt = true;
 
   var setupForm = function (e) {
-    new Validator($('form#add-memory')).validate();
+    window.formValidator = new FormValidator();
 
     fileInputEl = $('#memory_source')[0]
     Utilities.redirectEvent('click', '#select-file', fileInputEl)
 
     editorEl    = $('#image-editor')[0]
     rotationEl  = $('#memory_rotation')[0]
-    iec = new ImageEditorController(editorEl, rotationEl);
-    new UploadedImageEditor(fileInputEl, iec);
+    window.iec = new ImageEditorController(editorEl, rotationEl);
+    new UploadedImageEditor(fileInputEl, window.iec);
   };
 
-  $(window).on('load', setupForm);
-  $(window).on('page:load', setupForm);
+  $(document).ready(setupForm);
 
   $('form#add-memory').on('submit', function (e) {
     if (showPrompt) {
       e.preventDefault();
-      $('#save-prompt').modal();
+      window.formValidator.validateForm(this, {
+        onValid: function () { $('#save-prompt').modal(); }
+      });
     }
   });
 

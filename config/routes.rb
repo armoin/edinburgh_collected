@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount Judge::Engine => '/judge'
+
   # styleguide
   get 'styleguide' => 'styleguide#blocks'
   get 'styleguide/blocks' => 'styleguide#blocks'

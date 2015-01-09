@@ -1,129 +1,357 @@
-describe "Validator", ->
+maxChars = 10
+
+presenceValidator  = JSON.stringify([{"kind": "presence", "options": {}, "messages": {"blank": "test presence message"}}])
+maxLengthValidator = JSON.stringify([{"kind": "length", "options": {"maximum": maxChars}, "messages": {"too_long": "text max length message"}}])
+
+describe "FormValidator", ->
   beforeEach ->
-    loadFixtures 'validation'
-    @validator = new Validator($('form'))
+    @form = affix('form#validatorTest')
+    @formGroup = @form.affix('.form-group')
 
-  describe "checking that the form is valid", ->
-    it "returns false if a required text field is null", ->
-      $('.form-group[aria-required="true"] input[type="text"]').val(null)
-      expect(@validator.form_valid()).toBe(false)
+  describe "validating fields", ->
+    describe "resets the form before validating", ->
+      beforeEach ->
+        $(@formGroup).addClass('field_with_errors')
+        $("<span class='help-block'>This is some help text that should disappear</span>").appendTo(@formGroup)
 
-    it "returns false if a required date field is null", ->
-      $('.form-group[aria-required="true"] input[type="date"]').val(null)
-      expect(@validator.form_valid()).toBe(false)
+      it "removes the error class from the field", ->
+        expect( $(@formGroup) ).toHaveClass('field_with_errors')
+        new FormValidator().validateForm(@form)
+        expect( $(@formGroup) ).not.toHaveClass('field_with_errors')
 
-    it "returns false if a required text field is empty", ->
-      $('.form-group[aria-required="true"] input[type="text"]').val('')
-      expect(@validator.form_valid()).toBe(false)
+      it "removes the error messages", ->
+        expect( $(@formGroup) ).toContain('span.help-block')
+        new FormValidator().validateForm(@form)
+        expect( $(@formGroup) ).not.toContain('span.help-block')
 
-    it "returns false if a required date field is empty", ->
-      $('.form-group[aria-required="true"] input[type="date"]').val('')
-      expect(@validator.form_valid()).toBe(false)
 
-    it "returns false if a required select field has a blank option selected", ->
-      $('.form-group[aria-required="true"] select option:first').attr('selected', true)
-      expect(@validator.form_valid()).toBe(false)
+    describe "text field", ->
+      describe "no validation", ->
+        beforeEach ->
+          $("<input type='text' />").appendTo(@formGroup)
 
-    it "returns false if a required textarea is blank", ->
-      $('.form-group[aria-required="true"] textarea').text('')
-      expect(@validator.form_valid()).toBe(false)
+        describe "when blank", ->
+          beforeEach ->
+            $('form#validatorTest input[type="text"]').val('')
+            new FormValidator().validateForm(@form)
 
-    it "returns false if no required checkboxes are checked", ->
-      $('.form-group[aria-required="true"] input[type="checkbox"]:checked').attr('checked', false)
-      expect(@validator.form_valid()).toBe(false)
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
 
-    it "returns true if one required checkbox is checked", ->
-      expect($('.form-group[aria-required="true"] input[type="checkbox"]:checked').length).toEqual(1)
-      expect(@validator.form_valid()).toBe(true)
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
 
-    it "returns true if two required checkboxes are checked", ->
-      $('.form-group[aria-required="true"] input[type="checkbox"]').not(':checked').attr('checked', true)
-      expect($('.form-group[aria-required="true"] input[type="checkbox"]:checked').length).toEqual(2)
-      expect(@validator.form_valid()).toBe(true)
+        describe "when filled in", ->
+          beforeEach ->
+            $('form#validatorTest input[type="text"]').val('test')
+            new FormValidator().validateForm(@form)
 
-    it "returns false when two required fields are incomplete", ->
-      $('.form-group[aria-required="true"] input[type="text"]').val('')
-      $('.form-group[aria-required="true"] input[type="date"]').val('')
-      expect(@validator.form_valid()).toBe(false)
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
 
-    it "returns true when all required fields are complete", ->
-      expect(@validator.form_valid()).toBe(true)
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
 
-  describe "toggling the submit button", ->
-    describe "the submit button", ->
-      it "should be disabled at the start if invalid", ->
-        $('.form-group[aria-required="true"] input[type="text"]').val('')
-        @validator = new Validator($('form'))
-        submit_button = $('input[type="submit"]')
-        expect(submit_button).toBeDisabled()
+      describe "required", ->
+        beforeEach ->
+          $("<input type='text' data-validate='#{presenceValidator}' />").appendTo(@formGroup)
 
-      it "should be enabled at the start if valid", ->
-        submit_button = $('input[type="submit"]')
-        expect(submit_button).not.toBeDisabled()
+        describe "when blank", ->
+          beforeEach ->
+            $('form#validatorTest input[type="text"]').val('')
+            new FormValidator().validateForm(@form)
 
-      describe "once a required text field has been typed in", ->
-        it "should be enabled if the field is valid", ->
-          @validator.validate()
-          $('.form-group[aria-required="true"] input[type="text"]').trigger('keyup')
-          submit_button = $('input[type="submit"]')
-          expect(submit_button).not.toBeDisabled()
+          it "is highlighted", ->
+            expect($(@formGroup)).toHaveClass('field_with_errors')
 
-        it "should be disabled if the field is not valid", ->
-          @validator.validate()
-          $('.form-group[aria-required="true"] input[type="text"]').val('').trigger('keyup')
-          submit_button = $('input[type="submit"]')
-          expect(submit_button).toBeDisabled()
+          it "has an error message", ->
+            expect($(@formGroup)).toContain('span.help-block')
 
-      describe "once a required date field has been changed", ->
-        it "should be enabled if the field is valid", ->
-          @validator.validate()
-          $('.form-group[aria-required="true"] input[type="date"]').trigger('change')
-          submit_button = $('input[type="submit"]')
-          expect(submit_button).not.toBeDisabled()
+        describe "when filled in", ->
+          beforeEach ->
+            $('form#validatorTest input[type="text"]').val('test')
+            new FormValidator().validateForm(@form)
 
-        it "should be disabled if the field is not valid", ->
-          @validator.validate()
-          $('.form-group[aria-required="true"] input[type="date"]').val('').trigger('change')
-          submit_button = $('input[type="submit"]')
-          expect(submit_button).toBeDisabled()
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
 
-      describe "once a required select field has been changed", ->
-        it "should be enabled if the option is valid", ->
-          @validator.validate()
-          $('.form-group[aria-required="true"] select').trigger('change')
-          submit_button = $('input[type="submit"]')
-          expect(submit_button).not.toBeDisabled()
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
 
-        it "should be disabled if the option is not valid", ->
-          @validator.validate()
-          $('.form-group[aria-required="true"] select option:first').attr('selected', true)
-          $('.form-group[aria-required="true"] select').trigger('change')
-          submit_button = $('input[type="submit"]')
-          expect(submit_button).toBeDisabled()
+      describe "maximum length", ->
+        beforeEach ->
+          $("<input type='text' data-validate='#{maxLengthValidator}' />").appendTo(@formGroup)
 
-      describe "once a required textarea has been typed in", ->
-        it "should be enabled if the textarea has any text in it", ->
-          @validator.validate()
-          $('.form-group[aria-required="true"] textarea').trigger('keyup')
-          submit_button = $('input[type="submit"]')
-          expect(submit_button).not.toBeDisabled()
+        describe "when less than max chars", ->
+          beforeEach ->
+            $('form#validatorTest input[type="text"]').val('less chars')
+            new FormValidator().validateForm(@form)
 
-        it "should be disabled if the textarea does not have any text in it", ->
-          @validator.validate()
-          $('.form-group[aria-required="true"] textarea').val('').trigger('keyup')
-          submit_button = $('input[type="submit"]')
-          expect(submit_button).toBeDisabled()
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
 
-      describe "once at least one required checkbox has been checked", ->
-        it "should be enabled if the checkbox was checked", ->
-          @validator.validate()
-          $('.form-group[aria-required="true"] input[type="checkbox"]').trigger('change')
-          submit_button = $('input[type="submit"]')
-          expect(submit_button).not.toBeDisabled()
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
 
-        it "should be disabled if the checkbox has not been checked", ->
-          @validator.validate()
-          $('.form-group[aria-required="true"] input[type="checkbox"]').attr('checked', false).trigger('change')
-          submit_button = $('input[type="submit"]')
-          expect(submit_button).toBeDisabled()
+        describe "when matches max chars", ->
+          beforeEach ->
+            $('form#validatorTest input[type="text"]').val('=max chars')
+            new FormValidator().validateForm(@form)
+
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
+
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
+
+        describe "when over max chars", ->
+          beforeEach ->
+            $('form#validatorTest input[type="text"]').val('Longer than max chars')
+            new FormValidator().validateForm(@form)
+
+          it "is highlighted", ->
+            expect($(@formGroup)).toHaveClass('field_with_errors')
+
+          it "has an error message", ->
+            expect($(@formGroup)).toContain('span.help-block')
+
+
+    describe "text area", ->
+      describe "no validation", ->
+        beforeEach ->
+          $("<textarea></textarea>").appendTo(@formGroup)
+
+        describe "when blank", ->
+          beforeEach ->
+            $('form#validatorTest textarea').text('')
+            new FormValidator().validateForm(@form)
+
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
+
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
+
+        describe "when filled in", ->
+          beforeEach ->
+            $('form#validatorTest textarea').text('test')
+            new FormValidator().validateForm(@form)
+
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
+
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
+
+      describe "required", ->
+        beforeEach ->
+          $("<textarea data-validate='#{presenceValidator}'></textarea>").appendTo(@formGroup)
+
+        describe "when blank", ->
+          beforeEach ->
+            $('form#validatorTest textarea').text('')
+            new FormValidator().validateForm(@form)
+
+          it "is highlighted", ->
+            expect($(@formGroup)).toHaveClass('field_with_errors')
+
+          it "has an error message", ->
+            expect($(@formGroup)).toContain('span.help-block')
+
+        describe "when filled in", ->
+          beforeEach ->
+            $('form#validatorTest textarea').text('test')
+            new FormValidator().validateForm(@form)
+
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
+
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
+
+      describe "maximum length", ->
+        beforeEach ->
+          $("<textarea data-validate='#{maxLengthValidator}'></textarea>").appendTo(@formGroup)
+
+        describe "when less than max chars", ->
+          beforeEach ->
+            $('form#validatorTest textarea').val('less chars')
+            new FormValidator().validateForm(@form)
+
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
+
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
+
+        describe "when matches max chars", ->
+          beforeEach ->
+            $('form#validatorTest textarea').val('=max chars')
+            new FormValidator().validateForm(@form)
+
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
+
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
+
+        describe "when over max chars", ->
+          beforeEach ->
+            $('form#validatorTest textarea').val('Longer than max chars')
+            new FormValidator().validateForm(@form)
+
+          it "is highlighted", ->
+            expect($(@formGroup)).toHaveClass('field_with_errors')
+
+          it "has an error message", ->
+            expect($(@formGroup)).toContain('span.help-block')
+
+
+    describe "select", ->
+      describe "no validation", ->
+        beforeEach ->
+          $("<select><option value=''></option><option value='Photo'>Photo</option></select>").appendTo(@formGroup)
+
+        describe "when no option selected", ->
+          beforeEach ->
+            new FormValidator().validateForm(@form)
+
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
+
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
+
+        describe "when an option with no value is selected", ->
+          beforeEach ->
+            $('form#validatorTest select').find('option').first().prop('selected', true)
+            new FormValidator().validateForm(@form)
+
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
+
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
+
+        describe "when an option with a value is selected", ->
+          beforeEach ->
+            $('form#validatorTest select').find('option').last().prop('selected', true)
+            new FormValidator().validateForm(@form)
+
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
+
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
+
+      describe "required", ->
+        beforeEach ->
+          $("<select data-validate='#{presenceValidator}'><option value=''></option><option value='Photo'>Photo</option></select>").appendTo(@formGroup)
+
+        describe "when no option selected", ->
+          beforeEach ->
+            new FormValidator().validateForm(@form)
+
+          it "is highlighted", ->
+            expect($(@formGroup)).toHaveClass('field_with_errors')
+
+          it "has an error message", ->
+            expect($(@formGroup)).toContain('span.help-block')
+
+        describe "when an option with no value is selected", ->
+          beforeEach ->
+            $('form#validatorTest select').find('option').first().prop('selected', true)
+            new FormValidator().validateForm(@form)
+
+          it "is highlighted", ->
+            expect($(@formGroup)).toHaveClass('field_with_errors')
+
+          it "has an error message", ->
+            expect($(@formGroup)).toContain('span.help-block')
+
+        describe "when an option with a value is selected", ->
+          beforeEach ->
+            $('form#validatorTest select').find('option').last().prop('selected', true)
+            new FormValidator().validateForm(@form)
+
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
+
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
+
+
+    describe "checkboxes", ->
+      describe "no validation", ->
+        beforeEach ->
+          $("<input type='checkbox' value='1'><input type='checkbox' value='2'>").appendTo(@formGroup)
+
+        describe "when no box checked", ->
+          beforeEach ->
+            new FormValidator().validateForm(@form)
+
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
+
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
+
+        describe "when one box checked", ->
+          beforeEach ->
+            $(@formGroup).find('input[type="checkbox"]').first().prop('checked', true)
+            new FormValidator().validateForm(@form)
+
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
+
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
+
+        describe "when two boxes checked", ->
+          beforeEach ->
+            $(@formGroup).find('input[type="checkbox"]').prop('checked', true)
+            new FormValidator().validateForm(@form)
+
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
+
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
+
+      describe "required", ->
+        beforeEach ->
+          $(@formGroup).attr('aria-required', true)
+          $("<input type='checkbox' value='1'><input type='checkbox' value='2'>").appendTo(@formGroup)
+
+        describe "when no box checked", ->
+          beforeEach ->
+            new FormValidator().validateForm(@form)
+
+          it "is highlighted", ->
+            expect($(@formGroup)).toHaveClass('field_with_errors')
+
+          it "has an error message", ->
+            expect($(@formGroup)).toContain('span.help-block')
+
+        describe "when one box checked", ->
+          beforeEach ->
+            $(@formGroup).find('input[type="checkbox"]').first().prop('checked', true)
+            new FormValidator().validateForm(@form)
+
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
+
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
+
+        describe "when two boxes checked", ->
+          beforeEach ->
+            $(@formGroup).find('input[type="checkbox"]').prop('checked', true)
+            new FormValidator().validateForm(@form)
+
+          it "is not highlighted", ->
+            expect($(@formGroup)).not.toHaveClass('field_with_errors')
+
+          it "does not have an error message", ->
+            expect($(@formGroup)).not.toContain('span.help-block')
 

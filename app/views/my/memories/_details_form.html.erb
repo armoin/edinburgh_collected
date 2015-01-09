@@ -1,7 +1,7 @@
 <div class="form-group" aria-required="true">
   <div class="formRow">
     <%= form.label :title, class: 'control-label' %>
-    <%= form.text_field :title, class: 'form-control' %>
+    <%= form.text_field :title, class: 'form-control', validate: true %>
     <% @memory.errors[:title].each do |error| %>
       <span class="help-block"><%= error %></span>
     <% end -%>
@@ -11,7 +11,7 @@
 <div class="form-group" aria-required="true">
   <div class="formRow">
     <%= form.label :description, class: 'control-label' %>
-    <%= form.text_area :description, class: 'form-control' %>
+    <%= form.text_area :description, class: 'form-control', validate: true %>
     <% @memory.errors[:description].each do |error| %>
       <span class="help-block"><%= error %></span>
     <% end -%>
@@ -36,7 +36,7 @@
 <div class="form-group" aria-required="true">
   <div class="formRow">
     <%= form.label :year, class: 'control-label' %>
-    <%= form.text_field :year, class: 'form-control' %>
+    <%= form.text_field :year, class: 'form-control', validate: true %>
     <% @memory.errors[:year].each do |error| %>
       <span class="help-block"><%= error %></span>
     <% end -%>

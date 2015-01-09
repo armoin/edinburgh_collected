@@ -5,7 +5,7 @@
     <div id="formPanel" class="col-md-6">
       <h2 class="form-title">Edit details</h2>
 
-      <%= form_for @memory, url: my_memory_path(@memory), as: 'memory', html: {id: 'edit-memory', class: 'form-horizontal', role: 'form'} do |form| %>
+      <%= form_for @memory, url: my_memory_path(@memory), as: 'memory', builder: Judge::FormBuilder, html: {id: 'edit-memory', class: 'form-horizontal', role: 'form'} do |form| %>
         <img class="hide" id='memory_source' src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
         <%= render partial: 'image_editor', locals: {form: form, uploaded_image_url: @memory.source_url} %>
 
@@ -14,7 +14,7 @@
         <div class="form-group">
           <div class="actions col-xs-sm-12">
             <%= link_to "Cancel", memory_path(@memory), class: "btn btn-default" %>
-            <%= form.submit "Save", class: "btn btn-primary", disabled: true %>
+            <%= form.submit "Save", class: "btn btn-primary" %>
           </div>
         </div>
       <% end -%>
@@ -28,12 +28,26 @@
 </div>
 
 <script type="text/javascript">
-  $(document).ready(function () {
-    new Validator($('#edit-memory')).validate();
+  var setupForm = function (e) {
+    window.formValidator = new FormValidator();
 
     editorEl   = $('#image-editor')[0];
     rotationEl = $('#memory_rotation')[0];
-    iec = new ImageEditorController(editorEl, rotationEl);
+    window.iec = new ImageEditorController(editorEl, rotationEl);
+  };
+
+  $(document).ready(setupForm);
+
+  $('form#edit-memory').on('submit', function (e, formValid) {
+    if (!formValid) {
+      e.preventDefault();
+      window.formValidator.validateForm(this, {
+        onValid: function () {
+          $('form#edit-memory').trigger('submit', true);
+        }
+      });
+    }
   });
+
 </script>
 

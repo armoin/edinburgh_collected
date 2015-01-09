@@ -28,4 +28,7 @@
 //= require isotope.pkgd.min
 //= require packery-mode.pkgd.min
 //= require jquery.tagsinput.min
+//= require underscore
+//= require json2
+//= require judge
 //= require_tree .
