@@ -66,7 +66,7 @@
 <div class="form-group">
   <div class="formRow">
     <%= form.label :attribution, class: 'control-label' %>
-    <%= form.text_field :attribution, class: 'form-control' %>
+    <%= form.text_field :attribution, class: 'form-control', validate: true %>
     <% @memory.errors[:attribution].each do |error| %>
       <span class="help-block"><%= error %></span>
     <% end -%>

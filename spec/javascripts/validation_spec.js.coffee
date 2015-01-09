@@ -8,6 +8,32 @@ describe "FormValidator", ->
     @form = affix('form#validatorTest')
     @formGroup = @form.affix('.form-group')
 
+  describe "labelling max length fields", ->
+    describe "when a field has no validations", ->
+      it "is does not have its label changed", ->
+        $("<label>Test</label><input type='text' />").appendTo(@formGroup)
+        new FormValidator().labelMaxLength(@form)
+        expect( $(@formGroup).find('label').text() ).toEqual('Test')
+
+    describe "when a field has validations but not max length", ->
+      it "is does not have its label changed", ->
+        $("<label>Test</label><input type='text' data-validate='#{presenceValidator}' />").appendTo(@formGroup)
+        new FormValidator().labelMaxLength(@form)
+        expect( $(@formGroup).find('label').text() ).toEqual('Test')
+
+    describe "when a field has validations that include max length", ->
+      describe "if the label has not already got max length text", ->
+        it "is has its label changed", ->
+          $("<label>Test</label><input type='text' data-validate='#{maxLengthValidator}' />").appendTo(@formGroup)
+          new FormValidator().labelMaxLength(@form)
+          expect( $(@formGroup).find('label').text() ).toEqual("Test (max #{maxChars} chars)")
+
+      describe "if the label has already got max length text", ->
+        it "is does not have its label changed", ->
+          $("<label>Test (max #{maxChars} chars)</label><input type='text' data-validate='#{maxLengthValidator}' />").appendTo(@formGroup)
+          new FormValidator().labelMaxLength(@form)
+          expect( $(@formGroup).find('label').text() ).toEqual("Test (max #{maxChars} chars)")
+
   describe "validating fields", ->
     describe "resets the form before validating", ->
       beforeEach ->

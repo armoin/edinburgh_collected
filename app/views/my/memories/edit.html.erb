@@ -30,6 +30,7 @@
 <script type="text/javascript">
   var setupForm = function (e) {
     window.formValidator = new FormValidator();
+    window.formValidator.labelMaxLength($('form#edit-memory'));
 
     editorEl   = $('#image-editor')[0];
     rotationEl = $('#memory_rotation')[0];

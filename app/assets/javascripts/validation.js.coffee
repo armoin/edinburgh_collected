@@ -1,4 +1,14 @@
 class @FormValidator
+  labelMaxLength: (form) ->
+    validatedFields(form)
+      .filter (i, field) -> hasLengthValidation(field)
+      .each   (i, field) ->
+        currentLabelText = $(field).siblings('label').text()
+        maxLength = lengthValidationFor(field).options.maximum
+        maxLengthText = '(max ' + maxLength + ' chars)'
+        unless currentLabelText.match(".*#{maxLengthText}")
+          $(field).siblings('label').text(currentLabelText + ' ' + maxLengthText)
+
   validateForm: (form, opts) ->
     reset(form)
 
@@ -28,8 +38,21 @@ class @FormValidator
     else
       $('.field_with_errors')[0].scrollIntoView()
 
+  hasLengthValidation = (field) ->
+    $(field).data('validate').filter( (validation) ->
+      validation.kind == 'length'
+    ).length > 0
+
+  validatedFields = (parent) ->
+    $(parent).find('[data-validate]')
+
+  lengthValidationFor = (field) ->
+    $(field).data('validate').filter( (validation) ->
+      validation.kind == 'length'
+    )[0]
+
   dataValidated = (formGroup) ->
-    return $(formGroup).find('[data-validate]').length > 0
+    return validatedFields(formGroup).length > 0
 
   validateField = (field) ->
     judge.validate field, {

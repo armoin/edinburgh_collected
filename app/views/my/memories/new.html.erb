@@ -70,6 +70,7 @@
 
   var setupForm = function (e) {
     window.formValidator = new FormValidator();
+    window.formValidator.labelMaxLength($('form#add-memory'));
 
     fileInputEl = $('#memory_source')[0]
     Utilities.redirectEvent('click', '#select-file', fileInputEl)
@@ -78,6 +79,7 @@
     rotationEl  = $('#memory_rotation')[0]
     window.iec = new ImageEditorController(editorEl, rotationEl);
     new UploadedImageEditor(fileInputEl, window.iec);
+
   };
 
   $(document).ready(setupForm);
