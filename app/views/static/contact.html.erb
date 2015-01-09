@@ -1,32 +1,34 @@
-<div id="contact" class="container static">
-  <div class="row">
-    <h1>Contact Edinburgh Collected</h1>
+<div class="container">
+  <div id="contactPage" class="row static">
+    <div id="staticText" class="col-md-6">
+      <h1>Contact Edinburgh Collected</h1>
 
-    <h2>By email</h2>
-    <p>
-      <a href="mailto:<%= ENV['CONTACT_EMAIL']%>" title="email address">
-        <%= ENV['CONTACT_EMAIL']%>
-      </a>
-    </p>
+      <section>
+        <p><strong>By email</strong></p>
+        <p>
+          <a href="mailto:<%= ENV['CONTACT_EMAIL']%>" title="email address">
+            <%= ENV['CONTACT_EMAIL']%>
+          </a>
+        </p>
+      </section>
 
-    <h2>By phone</h2>
-    <p>0131 242 8033</p>
+      <section>
+        <p><strong>By phone</strong></p>
+        <p>0131 242 8033</p>
+      </section>
 
-    <h2>Or write to</h2>
-    <p>
-      Information Digital Team
-    </p>
-    <p>
-      Central Library
-    </p>
-    <p>
-      George IV Bridge
-    </p>
-    <p>
-      Edinburgh
-    </p>
-    <p>
-      EH1 1EG
-    </p>
+      <section>
+        <p><strong>Or write to</strong></p>
+        <p>
+          Information Digital Team<br/>
+          Central Library<br/>
+          George IV Bridge<br/>
+          Edinburgh<br/>
+          EH1 1EG
+        </p>
+      </section>
+    </div>
+    <div id="staticOther" class="col-md-6">
+    </div>
   </div>
 </div>
