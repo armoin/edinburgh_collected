@@ -9,7 +9,7 @@ describe AuthenticationMailer do
     it "renders the headers" do
       expect(mail.subject).to eq("Reset password")
       expect(mail.to).to eq([user.email])
-      expect(mail.from).to eq(["edinburgh-stories@armoin.com"])
+      expect(mail.from).to eq([ENV['CONTACT_EMAIL']])
     end
 
     EMAIL_PARTS.each do |content_type|
@@ -33,7 +33,7 @@ describe AuthenticationMailer do
     it "renders the headers" do
       expect(mail.subject).to eq("Please activate your account")
       expect(mail.to).to eq([user.email])
-      expect(mail.from).to eq(["edinburgh-stories@armoin.com"])
+      expect(mail.from).to eq([ENV['CONTACT_EMAIL']])
     end
 
     EMAIL_PARTS.each do |content_type|
@@ -55,9 +55,9 @@ describe AuthenticationMailer do
     let(:mail) { AuthenticationMailer.activation_success_email(user) }
 
     it "renders the headers" do
-      expect(mail.subject).to eq("Welcome to Edinburgh Stories")
+      expect(mail.subject).to eq("Welcome to Edinburgh Collected")
       expect(mail.to).to eq([user.email])
-      expect(mail.from).to eq(["edinburgh-stories@armoin.com"])
+      expect(mail.from).to eq([ENV['CONTACT_EMAIL']])
     end
 
     EMAIL_PARTS.each do |content_type|

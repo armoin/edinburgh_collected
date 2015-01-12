@@ -29,3 +29,6 @@ en:
               blank: "Please tell us when this dates from"
             source:
               blank: "You need to choose a file to upload"
+  authentication_mailer:
+    activation_success_email:
+      subject: 'Welcome to Edinburgh Collected'

@@ -1,5 +1,5 @@
 class AuthenticationMailer < ActionMailer::Base
-  default from: "edinburgh-stories@armoin.com"
+  default from: ENV['CONTACT_EMAIL']
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -24,7 +24,6 @@ class AuthenticationMailer < ActionMailer::Base
     @user = user
     @url  = signin_url
 
-    mail to: user.email,
-         subject: 'Welcome to Edinburgh Stories'
+    mail to: user.email
   end
 end
