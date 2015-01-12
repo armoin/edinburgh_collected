@@ -42,3 +42,8 @@ en:
       body: 'You have successfully activated your %{app_name} account.'
     reset_password_email:
       subject: 'Reset password'
+
+  home:
+    index:
+      about: 'Join %{app_name} to add and share your memories of %{city}'
+      scrapbook: 'Create a scrapbook and share your memories of %{city}'
