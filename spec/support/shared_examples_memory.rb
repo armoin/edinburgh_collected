@@ -93,15 +93,7 @@ RSpec.shared_examples "a memory" do
 
       describe "file size" do
         context "when under max size" do
-          let(:file_name) { 'test_size_under.jpg' }
-
-          it "is valid" do
-            expect(memory).to be_valid
-          end
-        end
-
-        context "when just under max size" do
-          let(:file_name) { 'test_size_slightly_under.jpg' }
+          let(:file_name) { 'under.jpg' }
 
           it "is valid" do
             expect(memory).to be_valid
@@ -109,7 +101,7 @@ RSpec.shared_examples "a memory" do
         end
 
         context "when equal to max size" do
-          let(:file_name) { 'test_size_equal.jpg' }
+          let(:file_name) { 'equal.jpg' }
 
           it "is valid" do
             expect(memory).to be_valid
@@ -117,11 +109,11 @@ RSpec.shared_examples "a memory" do
         end
 
         context "when over max size" do
-          let(:file_name) { 'test_size_over.jpg' }
+          let(:file_name) { 'over.jpg' }
 
           it "is invalid" do
             expect(memory).to be_invalid
-            expect(memory.errors[:source]).to include("file size must be less than or equal to 1 MB")
+            expect(memory.errors[:source]).to include("file size must be less than or equal to 2 MB")
           end
         end
       end

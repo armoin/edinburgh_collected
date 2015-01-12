@@ -82,7 +82,7 @@ class @FormValidator
       markInvalid(formGroup, ['Please select a file to upload'])
 
     if hasMaxSize(formGroup) && maxFileSizeExceeded(formGroup)
-      markInvalid(formGroup, ['File must be less than or equal to 1MB'])
+      markInvalid(formGroup, ['File must be less than or equal to 2MB'])
 
   hasFileAttached = (formGroup) ->
     files = $(formGroup).find('input[type="file"]')[0].files
