@@ -31,6 +31,7 @@ gem 'kaminari'
 gem 'pg',                           '~> 0.17.1'
 gem 'pg_search'
 gem 'judge'
+gem 'file_validators'
 
 group :doc do
   gem 'sdoc',                       '~> 0.4.0'
@@ -49,7 +50,6 @@ group :development, :test do
   gem 'launchy',                    '~> 2.4.2'
   gem "jasminerice",                :git => 'https://github.com/bradphelan/jasminerice.git'
   gem 'timecop',                    '~> 0.7.1'
-  gem 'file_validators'
 end
 
 group :test do
