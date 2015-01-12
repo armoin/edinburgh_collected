@@ -81,6 +81,9 @@ class @FormValidator
     if !hasFileAttached(formGroup) && !hasFileCached(formGroup)
       markInvalid(formGroup, ['Please select a file to upload'])
 
+    if hasMaxSize(formGroup) && maxFileSizeExceeded(formGroup)
+      markInvalid(formGroup, ['File must be less than or equal to 1MB'])
+
   hasFileAttached = (formGroup) ->
     files = $(formGroup).find('input[type="file"]')[0].files
     files && files.length > 0
@@ -88,6 +91,17 @@ class @FormValidator
   hasFileCached = (formGroup) ->
     cache = $(formGroup).find('input#memory_source_cache').val()
     cache && cache != ''
+
+  hasMaxSize = (formGroup) ->
+    $(formGroup).find('input[type="file"]').data('max-size')
+
+  maxFileSizeExceeded = (formGroup) ->
+    fileInputEl = $(formGroup).find('input[type="file"]')[0]
+    maxSize = parseInt $(fileInputEl).data('max-size'), 10
+    size = 0
+    if fileInputEl.files && fileInputEl.files[0]
+      size = fileInputEl.files[0].size
+    size >= maxSize
 
   markInvalid = (formGroup, messages) ->
     $(formGroup).addClass('field_with_errors')

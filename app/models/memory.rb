@@ -37,6 +37,9 @@ class Memory < ActiveRecord::Base
   validates_length_of :title, :attribution, maximum: 255
   validates_length_of :description, maximum: 4000
 
+  MAX_FILE_SIZE = 1.megabyte
+  validates :source, file_size: { less_than_or_equal_to: MAX_FILE_SIZE }
+
   scope :by_recent, -> { order('created_at DESC') }
 
   def date

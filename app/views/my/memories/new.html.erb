@@ -32,7 +32,7 @@
         <div class="form-group" aria-required="true">
           <div class="formRow">
             <%= form.label :source, class: 'control-label' %>
-            <%= form.file_field :source, class: 'hide-whilst-enabled' %>
+            <%= form.file_field :source, class: 'hide-whilst-enabled', data: {max_size: Memory::MAX_FILE_SIZE} %>
             <%= link_to 'Choose a file', '', id: 'select-file', class: 'btn btn-primary' %>
             <%= form.hidden_field :source_cache %>
           </div>
@@ -79,7 +79,6 @@
     rotationEl  = $('#memory_rotation')[0]
     window.iec = new ImageEditorController(editorEl, rotationEl);
     new UploadedImageEditor(fileInputEl, window.iec);
-
   };
 
   $(document).ready(setupForm);

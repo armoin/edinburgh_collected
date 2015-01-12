@@ -49,6 +49,7 @@ group :development, :test do
   gem 'launchy',                    '~> 2.4.2'
   gem "jasminerice",                :git => 'https://github.com/bradphelan/jasminerice.git'
   gem 'timecop',                    '~> 0.7.1'
+  gem 'file_validators'
 end
 
 group :test do
