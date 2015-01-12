@@ -1,11 +1,6 @@
 Rails.application.routes.draw do
   mount Judge::Engine => '/judge'
 
-  # styleguide
-  get 'styleguide' => 'styleguide#blocks'
-  get 'styleguide/blocks' => 'styleguide#blocks'
-  get 'styleguide/elements' => 'styleguide#elements'
-
   get 'about' => 'static#about'
   get 'contact' => 'static#contact'
   get 'p_and_c' => 'static#p_and_c'
