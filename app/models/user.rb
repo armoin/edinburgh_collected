@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   before_update :send_activation, if: :email_changed?
 
   validates :first_name, presence: true
+  validates :last_name, presence: true, unless: Proc.new { |u| u.is_group? }
   validates :screen_name, uniqueness: true, presence: true
   validates :email, uniqueness: true, presence: true, email: true
   validates :password, length: { minimum: 3 }, confirmation: true, if: :password_changed?

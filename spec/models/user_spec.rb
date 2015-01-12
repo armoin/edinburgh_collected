@@ -2,15 +2,24 @@ require 'rails_helper'
 
 describe User do
   describe 'validation' do
-    before :each do
-      expect(subject).to be_invalid
-    end
-
     it 'needs a first_name' do
+      expect(subject).to be_invalid
       expect(subject.errors[:first_name]).to include("can't be blank")
     end
 
+    it 'needs a last name if the user is an individual' do
+      expect(subject).to be_invalid
+      expect(subject.errors[:last_name]).to include("can't be blank")
+    end
+
+    it 'does not need a last name if the user is a group' do
+      subject.is_group = true
+      expect(subject).to be_invalid
+      expect(subject.errors[:last_name]).not_to include("can't be blank")
+    end
+
     it 'needs a screen_name' do
+      expect(subject).to be_invalid
       expect(subject.errors[:screen_name]).to include("can't be blank")
     end
 
@@ -22,6 +31,7 @@ describe User do
     end
 
     it 'needs an email' do
+      expect(subject).to be_invalid
       expect(subject.errors[:email]).to include("can't be blank")
     end
 
@@ -123,6 +133,7 @@ describe User do
     end
 
     it "needs to have accepted the terms and conditions" do
+      expect(subject).to be_invalid
       expect(subject.errors[:accepted_t_and_c]).to include("must be accepted")
     end
   end
