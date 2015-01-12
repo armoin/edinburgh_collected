@@ -6,7 +6,7 @@
     <div class="module">
      <%= image_tag 'Pod-1-Newton-Street-Coronation-Party-Edinburgh.jpg', alt: "Newton Street Coronation Party, Edinburgh" %>
      <h1>Create history...</h1>
-     <p>Join Edinburgh Collected to add and share your memories of Edinburgh</p>
+     <p><%= t '.about', app_name: ENV['APP_NAME'], city: ENV['CITY'] %></p>
       <a href="signup" class="button green">Get started</a>
     </div>
    </div>

@@ -17,11 +17,15 @@ describe AuthenticationMailer do
         let(:body) { get_body_for(mail, content_type) }
 
         it "greets the user" do
-          expect(body).to match("Hello #{user.screen_name},")
+          expect(body).to match("Hi #{user.screen_name}")
         end
 
         it "provides the reset password URL" do
           expect(body).to match(edit_password_reset_url('123abc'))
+        end
+
+        it "signs off from the app team" do
+          expect(body).to match("The #{ENV['APP_NAME']} Team")
         end
       end
     end
@@ -47,6 +51,10 @@ describe AuthenticationMailer do
         it "provides the activation URL" do
           expect(body).to match(activate_user_url(user.activation_token))
         end
+
+        it "signs off from the app team" do
+          expect(body).to match("The #{ENV['APP_NAME']} Team")
+        end
       end
     end
   end
@@ -55,7 +63,7 @@ describe AuthenticationMailer do
     let(:mail) { AuthenticationMailer.activation_success_email(user) }
 
     it "renders the headers" do
-      expect(mail.subject).to eq("Welcome to Edinburgh Collected")
+      expect(mail.subject).to eq("Welcome to #{ENV['APP_NAME']}")
       expect(mail.to).to eq([user.email])
       expect(mail.from).to eq([ENV['CONTACT_EMAIL']])
     end
@@ -70,6 +78,10 @@ describe AuthenticationMailer do
 
         it "provides the sign in URL" do
           expect(body).to match(signin_url)
+        end
+
+        it "signs off from the app team" do
+          expect(body).to match("The #{ENV['APP_NAME']} Team")
         end
       end
     end

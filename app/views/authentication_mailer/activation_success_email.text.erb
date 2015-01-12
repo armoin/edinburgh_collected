@@ -1,9 +1,9 @@
-Hi <%= @user.screen_name %>,
+<%= t 'greeting', name: @user.screen_name %>
 
-You have successfully activated your Edinburgh Stories account.
+<%= t '.body', app_name: ENV['APP_NAME'] %>
 
 You can sign in by visiting <%= @url %> in your browser.
 
-Thanks,
+<%= t 'thanks' %>
 
-The Edinburgh Stories Team
+<%= t 'sign_off', app_name: ENV['APP_NAME'] %>

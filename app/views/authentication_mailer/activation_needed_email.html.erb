@@ -1,9 +1,9 @@
-<p>Hi <%= @user.screen_name %>,</p>
+<p><%= t 'greeting', name: @user.screen_name %></p>
 
 <p>
-Please activate your account by visiting <%= link_to @url, @url %> in your browser.
+  Please activate your account by visiting <%= link_to @url, @url %> in your browser.
 </p>
 
-<p>Thanks,</p>
+<p><%= t 'thanks' %></p>
 
-<p>The Edinburgh Stories Team</p>
+<p><%= t 'sign_off', app_name: ENV['APP_NAME'] %></p>

@@ -4,12 +4,12 @@
 [![Dependency Status](https://gemnasium.com/urfolomeus/edinburgh_stories.svg)](https://gemnasium.com/urfolomeus/edinburgh_stories)
 
 
-# Edinburgh Stories
+# Edinburgh Collected
 
 This is the working title for a city-wide shared memory app developed for City of Edinburgh Council Libraries divsion as part of the Nesta programme.
 
 
-# Running Edinburgh Stories
+# Running Edinburgh Collected
 
 ## Pre-requisities
 
@@ -28,4 +28,4 @@ This is the working title for a city-wide shared memory app developed for City o
 ## Running
 
 * `rails s`
-* Edinburgh Stories should now be available at [http://localhost:3000](http://localhost:3000).
+* Edinburgh Collected should now be available at [http://localhost:3000](http://localhost:3000).

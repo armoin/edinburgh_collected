@@ -1,4 +1,8 @@
 en:
+  greeting: 'Hi %{name},'
+  thanks: 'Thanks,'
+  sign_off: 'The %{app_name} Team'
+
   activerecord:
     attributes:
       memory:
@@ -29,6 +33,12 @@ en:
               blank: "Please tell us when this dates from"
             source:
               blank: "You need to choose a file to upload"
+
   authentication_mailer:
+    activation_needed_email:
+      subject: 'Please activate your account'
     activation_success_email:
-      subject: 'Welcome to Edinburgh Collected'
+      subject: "Welcome to %{app_name}"
+      body: 'You have successfully activated your %{app_name} account.'
+    reset_password_email:
+      subject: 'Reset password'
