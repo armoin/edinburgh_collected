@@ -22,15 +22,10 @@ describe 'my/memories/index.html.erb' do
   context 'a memory' do
     let(:memory) { memories.first }
 
-    it 'is a link to the show page for that memory' do
-      expect(rendered).to have_css("a.memory[href=\"#{memory_path(memory)}\"]")
-    end
-
     it_behaves_like 'state labelled content'
   end
 
   it_behaves_like 'a memory index'
   it_behaves_like 'paginated content'
 end
-
 

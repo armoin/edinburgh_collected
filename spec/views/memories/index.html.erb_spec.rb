@@ -19,14 +19,6 @@ describe 'memories/index.html.erb' do
     expect(rendered).to have_link('Add a memory', href: new_my_memory_path)
   end
 
-  context 'a memory' do
-    let(:memory) { memories.first }
-
-    it 'is a link to the show page for that memory' do
-      expect(rendered).to have_css("a.memory[href=\"#{memory_path(memory)}\"]")
-    end
-  end
-
   it_behaves_like 'a memory index'
   it_behaves_like 'paginated content'
 end
