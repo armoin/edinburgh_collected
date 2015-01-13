@@ -1,5 +1,3 @@
-city    = 'Edinburgh'
-country = 'United Kingdom'
 areas   = [
   "Balerno",
   "Blackhall",
@@ -40,7 +38,7 @@ areas   = [
 ]
 
 areas.each do |area|
-  Area.create_with(city: city, country: country).find_or_create_by(name: area)
+  Area.create_with(city: ENV['CITY'], country: ENV['COUNTRY']).find_or_create_by(name: area)
 end
 
 categories = [

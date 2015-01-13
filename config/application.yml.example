@@ -1,9 +1,10 @@
 # This file contains required environment variables for use in development and test environments
 # It mimics the way Heroku handles these things and works in conjunction with the Figaro gem
 
-# Set the name and city of the app
+# Set the location and name of the app
 APP_NAME:              ''
 CITY:                  ''
+COUNTRY:               ''
 
 # If you use S3 to store images in development (test saves locally)
 AWS_ACCESS_KEY_ID:     ''
