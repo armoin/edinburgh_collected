@@ -45,16 +45,6 @@ $(document).ready(function () {
 
 $(document).ready(function() {
 
-// Add memories panel
-var tabWidth = $('#scrapbook .actions a.memories').outerWidth();
-$('#addMemoriesDrawer #tab').css("width", tabWidth);
-
-$('#addMemoriesDrawer').hide();
-
-$( "#scrapbook .actions a.memories" ).click(function() {
-  $(this).toggleClass('active');
-  $( "#addMemoriesDrawer" ).toggle();
-});
 
 
 // Add memories panel

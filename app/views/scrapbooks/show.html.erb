@@ -13,7 +13,8 @@
          <% end %>
       </div>
       <div id="addMemoriesDrawer">
-       <span id="tab"></span>
+        <span id="tab"></span>
+
         <%= link_to my_memories_path, :class => ""  do %>
           <%= image_tag "your-collection-icon.png", alt: "Your collection" %>
           <span>From your collection</span>
@@ -28,8 +29,6 @@
           <%= image_tag "upload-memory-icon.png", alt: "Upload a new memory" %>
           <span>Upload a new memory</span>
         <% end %>
-
-
       </div>
     </header>
 
@@ -50,5 +49,15 @@
 
 <script type="text/javascript">
   $(".masonry-loading-spinner .spinner").spin();
+
+  // Add memories panel
+  var tabWidth = $('#scrapbook .actions a.memories').outerWidth();
+  $('#addMemoriesDrawer #tab').css("width", tabWidth);
+
+  $( "#scrapbook .actions a.memories" ).click(function(e) {
+    e.preventDefault();
+    $(this).toggleClass('active');
+    $("#addMemoriesDrawer").toggle();
+  });
 </script>
 
