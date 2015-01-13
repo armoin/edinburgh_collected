@@ -46,7 +46,37 @@
         </div>
       </div>
     <% else -%>
-      <p>Instructions on how to add stuff goes here.</p>
+      <div id="scrapbookInstructions" class="container">
+       <h3>Your scrapbook is empty!</h3>
+       <p>Start adding memories now...</p>
+
+        <div class="instructionsWrapper" class="row">
+
+        <div class="col-md-4 col-sm-4">
+        <%= link_to my_memories_path, :class => "actionLink"  do %>
+          <%= image_tag "your-collection-icon-light.png", alt: "Your collection" %>
+          <span>From your collection</span>
+        <% end %>
+        <p>Browse the memories that you have uploaded and add them to a scrapbook</p>
+        </div>
+
+        <div class="col-md-4 col-sm-4">
+        <%= link_to memories_path, :class => "actionLink"  do %>
+          <%= image_tag "whole-collection-icon-light.png", alt: "Whole collection" %>
+          <span>From the entire site</span>
+        <% end %>
+        <p>Browse the whole collection of memories and add them to a scrapbook</p>
+        </div>
+
+        <div class="col-md-4 col-sm-4">
+        <%= link_to new_my_memory_path, :class => "actionLink"  do %>
+          <%= image_tag "upload-memory-icon-light.png", alt: "Upload a new memory" %>
+          <span>Upload a new memory</span>
+        <% end %>
+        <p>You can upload a brand new memory and add it to a scrapbook</p>
+        </div>
+
+      </div>
     <% end -%>
   </div>
 </div>
