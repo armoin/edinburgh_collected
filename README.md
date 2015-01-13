@@ -29,3 +29,16 @@ This is the working title for a city-wide shared memory app developed for City o
 
 * `rails s`
 * Edinburgh Collected should now be available at [http://localhost:3000](http://localhost:3000).
+
+
+## Forking the app
+
+
+### Recreating the sensitive files
+
+You will need to generate the following files and ensure that you don't commit them to the public repo (the .gitignore file for the project should do this automatically).
+
+* Generate a [secrets.yml file](http://guides.rubyonrails.org/upgrading_ruby_on_rails.html#config-secrets-yml).
+* `cp config/database.yml.example config/database.yml` then add your database names as appropriate.
+* `cp config/application.yml.example config/application.yml` and complete as required.
+* `cp config/initializers/carrierwave.rb.example config/initializers/carrierwave.rb` and complete as required.
