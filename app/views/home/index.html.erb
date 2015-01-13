@@ -6,7 +6,7 @@
     <div class="module">
      <%= image_tag 'Pod-1-Newton-Street-Coronation-Party-Edinburgh.jpg', alt: "Newton Street Coronation Party, Edinburgh" %>
      <h1>Create history...</h1>
-     <p><%= t '.about', app_name: ENV['APP_NAME'], city: ENV['CITY'] %></p>
+     <p><%= t '.about', app_name: APP_NAME, city: CITY %></p>
       <a href="signup" class="button green">Get started</a>
     </div>
    </div>
@@ -33,7 +33,7 @@
 
   <div id="featuredScrapbook" class="row">
     <div class="col-md-3  col-sm-3 col-xs-12 scrapbookInfo">
-      <h2><%= t '.scrapbook', city: ENV['CITY'] %></h2>
+      <h2><%= t '.scrapbook', city: CITY %></h2>
 
       <h3>Featured scrapbook</h3>
       <p>James Thomson & Sons Ltd., Licensed Grocer & Victualler</p>

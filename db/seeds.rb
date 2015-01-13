@@ -38,7 +38,7 @@ areas   = [
 ]
 
 areas.each do |area|
-  Area.create_with(city: ENV['CITY'], country: ENV['COUNTRY']).find_or_create_by(name: area)
+  Area.create_with(city: CITY, country: COUNTRY).find_or_create_by(name: area)
 end
 
 categories = [
