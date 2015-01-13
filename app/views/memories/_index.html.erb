@@ -11,6 +11,9 @@
   </div>
   <%= render partial: 'shared/pagination', locals: {items: @memories} %>
 </div>
+
+<%= render partial: 'memories/add_to_scrapbook' %>
+
 <script type="text/javascript">
   $(".masonry-loading-spinner .spinner").spin();
 </script>

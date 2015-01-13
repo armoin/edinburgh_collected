@@ -14,6 +14,15 @@ class @AddToScrapbookController
     $('.scrapbooks').on 'click', '.scrapbook', (e) =>
       @selectScrapbook(e.currentTarget)
 
+    $('#add-to-scrapbook-modal').on 'show.bs.modal', (e) ->
+      id = $(e.relatedTarget).data('memory-id')
+      if id
+        $('#scrapbook_memory_memory_id').val(id)
+
+      title = $(e.relatedTarget).data('memory-title')
+      if title
+        $('#add-to-scrapbook-modal .modal-title').text("Add \"#{title}\" to a scrapbook")
+
     $('#add-to-scrapbook-modal').on 'shown.bs.modal', ->
       $('.scrapbooks').scrollTop(0)
 
