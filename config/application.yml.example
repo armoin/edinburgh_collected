@@ -2,14 +2,14 @@
 # It mimics the way Heroku handles these things and works in conjunction with the Figaro gem
 
 # Set the location and name of the app
-APP_NAME:              ''
-CITY:                  ''
-COUNTRY:               ''
+APP_NAME:              'Edinburgh Collected'
+CITY:                  'Edinburgh'
+COUNTRY:               'United Kingdom'
+
+# The main email address for the app. Used for contact info and sending emails.
+CONTACT_EMAIL:         'ec@example.com'
 
 # If you use S3 to store images in development (test saves locally)
 AWS_ACCESS_KEY_ID:     ''
 AWS_SECRET_ACCESS_KEY: ''
 S3_BUCKET_NAME:        ''
-
-# The main email address for the app. Used for contact info and sending emails.
-CONTACT_EMAIL:         ''
