@@ -5,12 +5,12 @@ common: &common
 
 development:
   <<: *common
-  database: edinburgh-scrapbooks-development
+  database: <development db name here>
 
 test:
   <<: *common
-  database: edinburgh-scrapbooks-test
+  database: <test db name here>
 
 production:
   <<: *common
-  database: edinburgh-scrapbooks-production
+  database: <production db name here>
