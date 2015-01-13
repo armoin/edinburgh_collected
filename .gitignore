@@ -17,10 +17,8 @@
 /public/uploads
 
 # Ignore sensitive files
-/config/initializers/carrierwave.rb
 /config/application.yml
 /config/database.yml
-/config/secrets.yml
 
 # Ignore specific tasks
 /lib/tasks/categories.rake
