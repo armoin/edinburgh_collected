@@ -43,19 +43,3 @@ $(document).ready(function () {
 });
 
 
-$(document).ready(function() {
-
-
-
-// Add memories panel
-
-
-
-//ALAN I CAN"T GET THIS TO WORK CAN YOU LOOK AT IT?
-
-$('.navbar-header').on('show.bs.dropdown', function () {
- alert('this works');
-})
-
-
-});

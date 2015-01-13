@@ -1,11 +1,21 @@
-<a class="memory thumb masonry" data-id="<%= memory.id %>" href="<%= memory_path(memory) %>" title="View details" role="button">
+<div class="memory thumb masonry">
   <div class="padding">
-  <%= render partial: 'memories/state_label', locals: {memory: memory} %>
-     <%= image_tag cache_busted_url(memory, :thumb), alt: memory.title %>
-   <div class="detail">
-     <h3 class="title"><%= memory.title %></h3>
-     <p><%= truncate(memory.description, :length => 50) %></p>
-   </div>
+     <%= render partial: 'memories/state_label', locals: {memory: memory} %>
+    <div class="imageWrapper">
+      <div class="hoverButtons">
+       <div id="memory-<%= memory.id %>" class="buttonsWrapper vCenterAlign">
+         <a href-"#" class="addScrapbook button scrapbooks"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Scrapbook</a>
+         <a href="<%= memory_path(memory) %>" class="view button memories"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View</a>
+       </div>
+      </div>
+      <%= image_tag cache_busted_url(memory, :thumb), alt: memory.title %>
+    </div>
+    <div class="detail">
+      <a data-id="<%= memory.id %>" href="<%= memory_path(memory) %>" title="View details" role="button">
+        <h3 class="title"><%= memory.title %></h3>
+        <p><%= truncate(memory.description, :length => 50) %></p>
+      </a>
+    </div>
   </div>
-</a>
+</div>
 

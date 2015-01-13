@@ -715,6 +715,34 @@ a.memory, a.scrapbook
 
   &.thumb
 
+    .imageWrapper
+      position: relative
+      height: 100%
+      cursor: pointer
+
+      &:hover
+        .hoverButtons
+          display: block
+
+      .hoverButtons
+        background: rgba( black, 0.5 )
+        position: absolute
+        height: 100%
+        text-align: center
+        width: 100%
+        display: none
+
+        div.buttonsWrapper
+          padding: 1em 10%
+          display: block
+
+          a
+            display: inline-block
+            padding: 0.25em 0.5em
+            font-size: 0.9em
+
+            span
+              margin-right: 0.5em
 
     div
       &.img, &.button
@@ -728,6 +756,9 @@ a.memory, a.scrapbook
 
       &.detail
         margin: 0 0px 0px 0px
+
+        a:hover
+          color: $blue
 
         h3
           font-size: 20px
