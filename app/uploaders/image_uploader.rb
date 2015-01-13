@@ -32,8 +32,14 @@ class ImageUploader < CarrierWave::Uploader::Base
   process :fix_exif_rotation
   process :set_content_type
   process :manual_rotation, if: :is_rotated?
+  version :mini_thumb do
+    process :resize_to_fill => [90, 90]
+  end
   version :thumb do
-    process :resize_to_fit => [300, nil]
+    process :resize_to_fit => [250, nil]
+  end
+  version :big_thumb do
+    process :resize_to_fit => [350, nil]
   end
 
   def filename

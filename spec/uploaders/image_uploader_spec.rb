@@ -99,8 +99,16 @@ describe ImageUploader, slow: true do
       uploader.remove!
     end
 
-    it "should scale down an image to a width of 300 pixels" do
-      expect(uploader.thumb).to be_no_larger_than(300, 200)
+    it "should scale down a thumb image to 90x90 pixels" do
+      expect(uploader.mini_thumb).to have_dimensions(90, 90)
+    end
+
+    it "should scale down a thumb image to a width of 250 pixels" do
+      expect(uploader.thumb).to be_no_larger_than(250, 167)
+    end
+
+    it "should scale down a big thumb image to a width of 350 pixels" do
+      expect(uploader.big_thumb).to be_no_larger_than(350, 233)
     end
   end
 end

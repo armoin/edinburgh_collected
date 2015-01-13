@@ -9,6 +9,11 @@ task :recreate_versions => :environment do |t, args|
       photo.categories << Category.first
     end
 
+    if photo.description.blank?
+      puts "Adding a description"
+      photo.description = photo.title
+    end
+
     photo.save!
   end
 end

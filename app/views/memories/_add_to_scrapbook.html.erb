@@ -12,7 +12,7 @@
               <div class="scrapbook" data-id="<%= scrapbook.id %>">
                 <div class="picture">
                   <% if scrapbook.cover_memory.present? %>
-                    <%= image_tag cache_busted_url(scrapbook.cover_memory, :thumb) %>
+                    <%= image_tag cache_busted_url(scrapbook.cover_memory, :mini_thumb) %>
                   <% else %>
                     <p>&nbsp;</p>
                   <% end %>
