@@ -8,8 +8,13 @@
           <span><%= scrapbook.cover.memory_count %></span>
           <%= 'memory'.pluralize(scrapbook.cover.memory_count) %>
         </div>
-        <%= image_tag 'scrapbook-thumb-ph.png' %> <!-- mini thumb -->
-        <%= image_tag 'scrapbook-thumb-ph.png' %> <!-- mini thumb -->
+        <% scrapbook.cover.secondary_memories.each do |secondary_memory| -%>
+          <% if secondary_memory -%>
+            <%= image_tag cache_busted_url(secondary_memory, :mini_thumb), alt: secondary_memory.title %>
+          <% else -%>
+            <%= image_tag 'empty-scrapbook.png', :class => "ph" %>
+          <% end -%>
+        <% end -%>
       </div>
 
     <% else %>
