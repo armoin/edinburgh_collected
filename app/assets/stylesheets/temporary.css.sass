@@ -405,9 +405,10 @@ header
 
 .module
   border: 1px solid $navy-blue
-  padding: 1em
+  padding: 1em 5%
   +border-radius(3px)
   background: darken( $cream, 5% )
+  position: relative
 
 
 /* ================= STICKY FOOTER */
@@ -519,17 +520,28 @@ button#create-scrapbook-button
 
   #contentModules
     padding: 2em 0 0 0
+    position: relative
 
+    .module
+      padding-bottom: 5em
 
     h2
 
-    h3
+    div.wrapper
+      height: 3em
+      position: absolute
+      bottom: 1em
+      width: 90%
+      -webkit-box-sizing: border-box
+      -moz-box-sizing: border-box
+      box-sizing: border-box
 
-    a.button
-      width: 100%
-      margin-bottom: 0.5em
-      font-size: 1.25em
-      text-align: center
+
+      a.button
+        margin-bottom: 0
+        font-size: 1.25em
+        text-align: center
+        display: block
 
     img
       border: 1px solid #ccc
