@@ -3,11 +3,14 @@
     <h3 class="scrapbookTitle"><%= scrapbook.title %></h3>
     <% if scrapbook.cover_memory.present? %>
       <%= image_tag cache_busted_url(scrapbook.cover_memory, :big_thumb), alt: scrapbook.title, :class => "main" %>
-      <div class="bottom-row">
+      <div class="bottom-row clearfix">
         <div class="count">
-          <span><%= scrapbook.memories.count %></span>
-          <%= 'memory'.pluralize(scrapbook.memories.count) %>
+           <div class="wrapper">
+            <span><%= scrapbook.memories.count %></span>
+            <i><%= 'memory'.pluralize(scrapbook.memories.count) %></i>
+           </div>
         </div>
+        <%= image_tag 'scrapbook-thumb-ph.png' %> <!-- mini thumb -->
         <%= image_tag 'scrapbook-thumb-ph.png' %> <!-- mini thumb -->
         <%= image_tag 'scrapbook-thumb-ph.png' %> <!-- mini thumb -->
       </div>

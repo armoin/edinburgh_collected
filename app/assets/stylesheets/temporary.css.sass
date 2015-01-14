@@ -889,28 +889,45 @@ a.memory, a.scrapbook
 
 
     .bottom-row
+      padding-top: 1em
 
       .count
-        width: 32%
+        width: 24%
         +border-radius(3px)
-        display: inline-block
+        float: left
         background: $blue
         color: white
         text-align: center
-        height: 75px
-        top: 10px
+        padding: 23% 0 0
         position: relative
-        font-size: 0.8em
+        font-size: 1em
+        margin-right: 2%
+
+        .wrapper
+          position: absolute
+          top: 0
+          left: 0
+          width: 100%
+          top: 25%
+          line-height: 150%
+
+        i
+          font-style: normal
+
 
         span
           display: block
           font-weight: 700
-          font-size: 2em
           position: relative
-          top: 5px
+          font-size: 1.5em
 
       img
-        width: 32%
+        margin-right: 2%
+        width: 24%
+        float: left
+
+        &:last-child
+          margin-right: 0
 
 
 
@@ -1487,8 +1504,9 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
 
 
+/* SCREEN SIZE: MOBILES */
 
-@media screen and (max-width: 767px)
+@media screen and (max-width: 768px)
 
   .desktop
     display: none !important
@@ -1621,12 +1639,21 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
   #scrapbooks .masonry, #scrapbook .masonry
     &.thumb
-      width: 24%
+      width: 50%
       margin: 0 auto
       margin-bottom: 1%
       div
         &.img
           line-height: 100%
+      .bottom-row
+        .count
+          width: 31%
+          padding: 31% 0 0
+
+        img
+          width: 31%
+          &:nth-child(3)
+            display: none
 
   .user-card
     .details
@@ -1721,7 +1748,8 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         margin-bottom: 0 !important
 
 
-/* Medium devices */
+
+/* SCREEN SIZE: TABLETS */
 
 @media (min-width: 768px)
 
@@ -1781,12 +1809,62 @@ header .navbar .navbar-collapse ul.nav li a.feedback
   .navbar #searchwrapper .searchForm input
     width: 100%
 
+  #scrapbooks .masonry.thumb,
+  #scrapbook .masonry.thumb
+    width: 33%!important
+
+
+  .masonry-grid .masonry .bottom-row
+    .count
+      width: 31%
+      padding: 31% 0 0
+      font-size: 1em !important
+
+    img
+      width: 31%
+      &:nth-child(3)
+        display: none
+
+
+/* SCREEN SIZE: SMALL LAPTOPS */
+
+
+@media (min-width: 992px)
+
+  .masonry-grid .masonry .bottom-row
+    .wrapper
+      top: 20%
+
+      .count
+        width: 23%
+        padding: 23% 0 0
+
+      img
+        width: 23%
+        &:nth-child(3)
+          display: inline-block
+
 
 
 /* Large devices min-width (1200px) + a .memory margin (50px) * 2 (100px) = 1300px */
 
 
-@media (min-width: 1300px)
+
+/* SCREEN SIZE: LARGE SCREENS */
+
+@media (min-width: 1200px)
+
+  .masonry-grid .masonry .bottom-row
+    .count
+      font-size: 1.15em !important
+
+
+
+      img
+        width: 23%
+        &:nth-child(3)
+          display: inline-block
+
   #grid
     position: relative
 
@@ -1794,6 +1872,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     left: auto
     padding-left: 15px
     padding-right: 15px
+
 
 
 
