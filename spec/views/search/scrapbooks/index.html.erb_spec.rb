@@ -40,7 +40,6 @@ describe 'search/scrapbooks/index.html.erb' do
     before :each do
       allow(view).to receive(:current_user).and_return(user)
       allow(view).to receive(:params).and_return(params_stub)
-      allow_any_instance_of(Scrapbook).to receive(:cover_memory).and_return(memory)
     end
 
     describe "the results" do

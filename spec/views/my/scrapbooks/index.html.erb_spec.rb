@@ -8,7 +8,6 @@ describe 'my/scrapbooks/index.html.erb' do
 
   before :each do
     allow(view).to receive(:current_user).and_return(user)
-    allow_any_instance_of(Scrapbook).to receive(:cover_memory).and_return(memory)
   end
 
   it "has a link to show all current user's memories" do

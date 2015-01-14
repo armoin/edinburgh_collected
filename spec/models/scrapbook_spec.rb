@@ -55,16 +55,11 @@ describe Scrapbook do
     end
   end
 
-  describe '#cover_memory' do
-    it 'is nil if scrapbook has no memories' do
-      allow(ScrapbookMemory).to receive(:cover_memory_for).with(subject).and_return(nil)
-      expect(subject.cover_memory).to be_nil
-    end
-
-    it 'provides the supplied memory if scrapbook has memories' do
-      memory = Fabricate.build(:photo_memory)
-      allow(ScrapbookMemory).to receive(:cover_memory_for).with(subject).and_return(memory)
-      expect(subject.cover_memory).to eql(memory)
+  describe '#cover' do
+    it 'provides a ScrapbookCover for the scrapbook' do
+      allow(ScrapbookCover).to receive(:new)
+      subject.cover
+      expect(ScrapbookCover).to have_received(:new).with(subject)
     end
   end
 

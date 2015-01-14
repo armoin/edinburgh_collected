@@ -6,10 +6,6 @@ class ScrapbookMemory < ActiveRecord::Base
 
   before_create :assign_ordering
 
-  def self.cover_memory_for(scrapbook)
-    where(scrapbook: scrapbook).by_ordering.first.try(:memory)
-  end
-
   def self.reorder_for_scrapbook(scrapbook, ordering)
     ScrapbookMemory.transaction do
       ordering.each.with_index do |id, i|

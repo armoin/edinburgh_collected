@@ -61,26 +61,6 @@ describe ScrapbookMemory do
     end
   end
 
-  describe '.cover_memory_for' do
-    let(:scrapbook) { Fabricate(:scrapbook) }
-
-    it 'is nil if scrapbook has no memories' do
-      expect(ScrapbookMemory.cover_memory_for(scrapbook)).to be_nil
-    end
-
-    it 'provides the only memory if scrapbook only has one memory' do
-      castle = Fabricate(:scrapbook_memory, scrapbook: scrapbook)
-      expect(ScrapbookMemory.cover_memory_for(scrapbook)).to eql(castle.memory)
-    end
-
-    it 'provides the memory with the lowest ordering if scrapbook has more than one memory' do
-      castle, beach = Fabricate.times(2, :scrapbook_memory, scrapbook: scrapbook)
-      castle.update_attribute(:ordering, 2)
-      beach.update_attribute(:ordering, 1)
-      expect(ScrapbookMemory.cover_memory_for(scrapbook)).to eql(beach.memory)
-    end
-  end
-
   describe '.reorder_for_scrapbook' do
     let(:scrapbook)       { Fabricate(:scrapbook) }
     let(:other_scrapbook) { Fabricate(:scrapbook) }

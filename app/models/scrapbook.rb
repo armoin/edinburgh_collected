@@ -15,8 +15,8 @@ class Scrapbook < ActiveRecord::Base
     all
   end
 
-  def cover_memory
-    ScrapbookMemory.cover_memory_for(self)
+  def cover
+    @cover ||= ScrapbookCover.new(self)
   end
 
   def update(params)
