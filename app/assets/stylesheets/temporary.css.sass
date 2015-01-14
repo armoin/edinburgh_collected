@@ -1055,11 +1055,11 @@ a.memory, a.scrapbook
 
 
 .formWrapper
-  background: white
+  background:  darken( $light-grey, 5% )
   margin: 0 0 2em 0
 
   #formPanel
-    background: #d9dbd7
+    background: white
 
     select
       width: auto
@@ -1072,6 +1072,29 @@ a.memory, a.scrapbook
         display: inline-block
         width: 40%
         font-weight: 400
+
+  #extraPanel
+    padding-bottom: 2em
+
+    #signposting
+      text-align: center
+      padding: 0.5em 0 2em
+
+      a.button
+        font-size: 1.25em
+
+    .help-tips
+      background: $light-grey
+      margin: 0 2em
+      padding: 2em 3em
+      list-style: none
+
+      li
+        margin-bottom: 0.5em
+
+        span.glyphicon
+          margin-right: 0.5em
+          margin-left: -1.5em
 
 
 
@@ -1841,6 +1864,12 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       width: 31%
       &:nth-child(3)
         display: none
+
+  #formPanel
+    padding-top: 2em
+
+    h1
+      margin-top: 0
 
 
 /* SCREEN SIZE: SMALL LAPTOPS */
