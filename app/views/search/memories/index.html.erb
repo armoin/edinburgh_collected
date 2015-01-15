@@ -1,26 +1,24 @@
 <div class="container profile memories">
   <div id="grid">
     <header id="contentHeader" class="clearfix">
-      <h1>Found <%= pluralize(@memories.total_count, 'match') %> for "<%= truncate(params[:query], length: 30) %>"</h1>
+      <h1>Search results</h1>
 
       <div class="actions clearfix">
-       <div class="viewingInfo">
-         <strong>Searching all:</strong>
-         <span class="button memories teal">Memories</span>
-         <%= link_to 'Search scrapbooks', search_scrapbooks_path(query: params[:query]), class: 'button scrapbooks inactive' %>
-       </div>
+        <div class="viewingInfo">
+          <strong>Found</strong>
+          <span class="button memories teal"><%= pluralize(@results.memory_count, 'memory') %></span>
+          <%= link_to pluralize(@results.scrapbook_count, 'scrapbook'), search_scrapbooks_path(query: params[:query]), class: 'button scrapbooks inactive' %>
+        </div>
       </div>
-
     </header>
 
-
-    <% if @memories.empty? -%>
+    <% if @results.paged_results.empty? -%>
       <div class="no-results">
         <%= image_tag 'empty-scrapbook.png' %>
-        <p>Sorry, but we couldn't find any results for "<%= params[:query] %>"</p>
+        <p>Sorry, but we couldn't find any results for "<%= @results.query %>"</p>
       </div>
     <% else -%>
-      <%= render partial: 'memories/index', locals: {memories: @memories} %>
+      <%= render partial: 'memories/index', locals: {memories: @results.paged_results} %>
     <% end -%>
   </div>
 </div>

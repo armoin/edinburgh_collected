@@ -19,15 +19,16 @@ describe Memory do
 
   describe 'searching' do
     before :each do
-      @term_in_title       = Fabricate(:photo_memory, title: 'Edinburgh Castle test')
-      @term_in_description = Fabricate(:photo_memory, description: 'This is an Edinburgh Castle test')
-      @term_in_location    = Fabricate(:photo_memory, location: 'Edinburgh Castle')
-      @term_in_year        = Fabricate(:photo_memory, year: '1975')
-      @terms_not_found     = Fabricate(:photo_memory,
-                                       title:       'test',
-                                       description: 'test',
-                                       location:    'test',
-                                       year:        '2014')
+      @unapproved_term_in_title = Fabricate(:memory, title: 'Edinburgh Castle test')
+      @term_in_title            = Fabricate(:approved_memory, title: 'Edinburgh Castle test')
+      @term_in_description      = Fabricate(:approved_memory, description: 'This is an Edinburgh Castle test')
+      @term_in_location         = Fabricate(:approved_memory, location: 'Edinburgh Castle')
+      @term_in_year             = Fabricate(:approved_memory, year: '1975')
+      @terms_not_found          = Fabricate(:approved_memory,
+                                              title:       'test',
+                                              description: 'test',
+                                              location:    'test',
+                                              year:        '2014')
     end
 
     let(:results) { Memory.text_search(terms) }
@@ -35,23 +36,31 @@ describe Memory do
     context 'when no terms are given' do
       let(:terms) { nil }
 
-      it 'returns all records' do
+      it 'returns all approved records' do
         expect(results.count(:all)).to eql(5)
+      end
+
+      it 'does not return unapproved records' do
+        expect(results).not_to include(@unapproved_term_in_title)
       end
     end
 
     context 'when blank terms are given' do
       let(:terms) { '' }
 
-      it 'returns all records' do
+      it 'returns all approved records' do
         expect(results.count(:all)).to eql(5)
+      end
+
+      it 'does not return unapproved records' do
+        expect(results).not_to include(@unapproved_term_in_title)
       end
     end
 
     context 'text fields' do
       let(:terms) { 'castle' }
 
-      it 'returns all records matching the given query' do
+      it 'returns all approved records matching the given query' do
         expect(results.count(:all)).to eql(3)
       end
 
@@ -68,6 +77,10 @@ describe Memory do
       end
 
       it 'does not include records that have no fields that match' do
+        expect(results).not_to include(@unapproved_term_in_title)
+      end
+
+      it 'does not include unapproved records that have fields that match' do
         expect(results).not_to include(@terms_not_found)
       end
     end
@@ -93,7 +106,7 @@ describe Memory do
 
       context 'categories' do
         before :each do
-          @term_in_categories = Fabricate(:photo_memory)
+          @term_in_categories = Fabricate(:approved_memory)
           @term_in_categories.categories << Category.new(name: 'foo')
           @term_in_categories.categories << Category.new(name: 'bar')
         end

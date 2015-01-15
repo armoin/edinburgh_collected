@@ -3,13 +3,7 @@ class Search::ScrapbooksController < ApplicationController
 
   def index
     redirect_to scrapbooks_path if params[:query].blank?
-    @scrapbooks = scrapbooks.text_search(params[:query]).page(params[:page]).per(30)
-  end
-
-  private
-
-  def scrapbooks
-    Scrapbook.approved
+    @results = SearchResults.new('scrapbooks', params[:query], params[:page])
   end
 end
 

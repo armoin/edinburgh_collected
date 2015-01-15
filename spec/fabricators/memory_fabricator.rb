@@ -1,4 +1,4 @@
-Fabricator(:photo_memory, from: :photo) do
+Fabricator(:memory, class_name: :photo, aliases: [:photo_memory]) do
   user
   area
   year        "2014"
@@ -11,6 +11,10 @@ Fabricator(:photo_memory, from: :photo) do
   source      Rack::Test::UploadedFile.new(File.join(File.join(Rails.root, 'spec', 'fixtures', 'files'), 'test.jpg'))
   categories(rand: 3) { |attrs, i| Fabricate(:category) }
   tags(rand: 3) { |attrs, i| Fabricate(:tag) }
+end
+
+Fabricator(:approved_memory, from: :memory) do
+  after_create {|memory, transients| memory.approve! }
 end
 
 def stub_memories(number=1)

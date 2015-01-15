@@ -12,9 +12,10 @@ module Searchable
   end
 
   module ClassMethods
+    # searches only content that has been approved by a moderator
     def text_search(query)
-      return all unless query.present?
-      all.search(query)
+      return approved unless query.present?
+      approved.search(query)
     end
   end
 end

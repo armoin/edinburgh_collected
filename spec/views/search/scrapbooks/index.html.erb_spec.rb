@@ -1,22 +1,31 @@
 require 'rails_helper'
 
 describe 'search/scrapbooks/index.html.erb' do
-  let(:user)           { Fabricate(:user) }
-  let(:params_stub)    { {query: 'test search'}  }
+  let(:user)            { Fabricate(:user) }
+  let(:query)           { 'test search'  }
+  let(:page)            { '1' }
+  let(:memory_count)    { 1 }
+  let(:results)         { double('results', paged_results: paged_scrapbooks, query: query, memory_count: memory_count, scrapbook_count: scrapbook_count) }
+
+  before :each do
+    allow(view).to receive(:current_user).and_return(user)
+    assign(:results, results)
+  end
 
   context 'when there are no results' do
-    let(:scrapbooks)       { [] }
-    let(:paged_scrapbooks) { Kaminari.paginate_array(scrapbooks).page(1) }
+    let(:scrapbook_count)  { 0 }
+    let(:paged_scrapbooks) { Kaminari.paginate_array([]).page(page) }
 
     before :each do
-      allow(view).to receive(:current_user).and_return(user)
-      allow(view).to receive(:params).and_return(params_stub)
-      assign(:scrapbooks, paged_scrapbooks)
       render
     end
 
-    it 'displays the result count' do
-      expect(rendered).to have_css('#contentHeader', text: "Found 0 matches for \"#{params_stub[:query]}\"")
+    it 'displays the result count on the scrapbook button' do
+      expect(rendered).to have_css('span.button.scrapbooks', text: "#{scrapbook_count} scrapbooks")
+    end
+
+    it 'has a link to the memory results with the number found' do
+      expect(rendered).to have_css('a.button.memories', text: "#{memory_count} memory")
     end
 
     it "doesn't show an add button" do
@@ -28,28 +37,29 @@ describe 'search/scrapbooks/index.html.erb' do
     end
 
     it "displays a no results message" do
-      expect(rendered).to have_css('.no-results p', text: "Sorry, but we couldn't find any results for \"#{params_stub[:query]}\"")
+      expect(rendered).to have_css('.no-results p', text: "Sorry, but we couldn't find any results for \"#{query}\"")
     end
   end
 
   context 'when there are results' do
-    let(:scrapbooks)       { Fabricate.times(3, :scrapbook, user: user) }
-    let(:paged_scrapbooks) { Kaminari.paginate_array(scrapbooks).page(1) }
+    let(:scrapbook_count)  { 3 }
+    let(:scrapbooks)       { Array.new(scrapbook_count).map.with_index do |s, i|
+                               Fabricate.build(:scrapbook, user: user, title: query)
+                             end }
+    let(:paged_scrapbooks) { Kaminari.paginate_array(scrapbooks).page(page) }
     let(:memory)           { Fabricate.build(:photo_memory) }
 
-    before :each do
-      allow(view).to receive(:current_user).and_return(user)
-      allow(view).to receive(:params).and_return(params_stub)
-    end
-
-    describe "the results" do
+    describe 'results' do
       before :each do
-        assign(:scrapbooks, paged_scrapbooks)
         render
       end
 
-      it 'displays the result count' do
-        expect(rendered).to have_css('#contentHeader', text: "Found 3 matches for \"#{params_stub[:query]}\"")
+      it 'displays the result count on the scrapbook button' do
+        expect(rendered).to have_css('span.button.scrapbooks', text: "#{scrapbook_count} scrapbooks")
+      end
+
+      it 'has a link to the memory results with the number found' do
+        expect(rendered).to have_css('a.button.memories', text: "#{memory_count} memory")
       end
 
       it "doesn't show an add button" do
