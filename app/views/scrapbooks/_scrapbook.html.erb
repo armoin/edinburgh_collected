@@ -3,11 +3,11 @@
     <h3 class="scrapbookTitle"><%= scrapbook.title %></h3>
     <% if scrapbook.memories.any? %>
       <% Rails.logger.info "\n\n-----------" %>
-      <% Rails.logger.info scrapbook.id %>
-      <% Rails.logger.info scrapbook.memories.map(&:id) %>
-      <% Rails.logger.info scrapbook.memories.first.id %>
-      <% Rails.logger.info scrapbook.cover.main_memory.id %>
-      <% Rails.logger.info scrapbook.cover.secondary_memories.map(&:id) %>
+      <% Rails.logger.info "id: #{scrapbook.id}" %>
+      <% Rails.logger.info "memory ids: #{scrapbook.memories.map(&:id)}" %>
+      <% Rails.logger.info "memory first #{scrapbook.memories.first.try(:id)}" %>
+      <% Rails.logger.info "main memory: #{scrapbook.cover.main_memory.try(:id)}" %>
+      <% Rails.logger.info "secondary memories: #{scrapbook.cover.secondary_memories.map{|m| m.try(:id)} }" %>
       <% Rails.logger.info "-----------\n\n" %>
       <%= image_tag cache_busted_url(scrapbook.cover.main_memory, :big_thumb), alt: scrapbook.title, :class => "main" %>
       <div class="bottom-row clearfix">
