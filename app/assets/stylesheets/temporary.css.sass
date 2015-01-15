@@ -1040,7 +1040,6 @@ a.memory, a.scrapbook
 
 #formHeader
   padding: 0em 0 2em 0
-  text-align: center
   text-transform: uppercase
 
   .step > span
@@ -1058,11 +1057,11 @@ a.memory, a.scrapbook
 
 
 .formWrapper
-  background: white
+  background:  darken( $light-grey, 5% )
   margin: 0 0 2em 0
 
   #formPanel
-    background: #d9dbd7
+    background: white
 
     select
       width: auto
@@ -1075,6 +1074,29 @@ a.memory, a.scrapbook
         display: inline-block
         width: 40%
         font-weight: 400
+
+  #extraPanel
+    padding-bottom: 2em
+
+    #signposting
+      text-align: center
+      padding: 0.5em 0 2em
+
+      a.button
+        font-size: 1.25em
+
+    .help-tips
+      background: $light-grey
+      margin: 0 2em
+      padding: 2em 3em
+      list-style: none
+
+      li
+        margin-bottom: 0.5em
+
+        span.glyphicon
+          margin-right: 0.5em
+          margin-left: -1.5em
 
 
 
@@ -1240,7 +1262,7 @@ form
 #signIn, #signUp
 
   h1
-    text-align: center
+
   form
     label
       text-align: left!important
@@ -1506,6 +1528,18 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
 
 
+/* SCREEN SIZE: SMALL MOBILES */
+
+@media (max-width: 480px)
+  #scrapbooks .masonry, #scrapbook .masonry
+    &.thumb
+      width: 100% !important
+
+  #memories .masonry, #scrapbook .masonry
+    width: 100% !important
+
+
+
 /* SCREEN SIZE: MOBILES */
 
 @media screen and (max-width: 768px)
@@ -1639,6 +1673,11 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         &.img
           line-height: 100%
 
+
+  #memories .masonry, #scrapbook .masonry
+    width: 50%
+
+
   #scrapbooks .masonry, #scrapbook .masonry
     &.thumb
       width: 50%
@@ -1651,6 +1690,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         .count
           width: 31%
           padding: 31% 0 0
+          font-size: 0.8em
 
         img
           width: 31%
@@ -1820,12 +1860,18 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     .count
       width: 31%
       padding: 31% 0 0
-      font-size: 1em !important
+      font-size: 0.75em
 
     img
       width: 31%
       &:nth-child(3)
         display: none
+
+  #formPanel
+    padding-top: 2em
+
+    h1
+      margin-top: 0
 
 
 /* SCREEN SIZE: SMALL LAPTOPS */
@@ -1833,18 +1879,14 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
 @media (min-width: 992px)
 
+
   .masonry-grid .masonry .bottom-row
     .wrapper
       top: 20%
 
-      .count
-        width: 23%
-        padding: 23% 0 0
+    .count
+      font-size: 1em !important
 
-      img
-        width: 23%
-        &:nth-child(3)
-          display: inline-block
 
 
 
@@ -1858,12 +1900,14 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
   .masonry-grid .masonry .bottom-row
     .count
-      font-size: 1.15em !important
+      width: 23% !important
+      padding: 23% 0 0 !important
+      font-size: 1em !important
 
-      img
-        width: 23%
-        &:nth-child(3)
-          display: inline-block
+    img
+      width: 23% !important
+      &:nth-child(3)
+        display: inline-block !important
 
   #homeContent #contentModules .module
     padding-bottom: 5em

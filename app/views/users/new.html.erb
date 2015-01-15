@@ -100,21 +100,23 @@
 
       <div class="form-group">
         <div class="actions col-xs-sm-12">
-          <%= form.submit "Sign up", class: "button green" %>
+          <%= form.submit "Sign up", class: "button" %>
         </div>
       </div>
     <% end -%>
   </div>
 
-  <div class="col-md-6 help-tips">
-   <br><br><br>
-    <p class="switch"><a href="/signin">Already have an account? Sign in now</a></p>
+  <div id="extraPanel" class="col-md-6">
+    <div id="signposting">
+      <h3>Already have an account?</h3>
+      <a href="/signin" class="green button">Sign in now</a>
+    </div>
 
-    <ul>
-      <li>All fields marked with a <span class="required">*</span> are required.</li>
-      <li>Password must be 3 characters or more.</li>
-      <li>Your first name, last name and email are not visible to others on the site. Only your username is used to identify you.</li>
-      <li>
+    <ul class="help-tips">
+      <li><span class="glyphicon glyphicon-info-sign"></span>All fields marked with a <span class="required">*</span> are required.</li>
+      <li><span class="glyphicon glyphicon-info-sign"></span>Password must be 3 characters or more.</li>
+      <li><span class="glyphicon glyphicon-info-sign"></span>Your first name, last name and email are not visible to others on the site. Only your username is used to identify you.</li>
+      <li><span class="glyphicon glyphicon-info-sign"></span>
         You must accept the
         <a class="underlined" href="" data-toggle="modal" data-target="#t_and_c">Terms and Conditions</a>
         in order to sign up for an account.
