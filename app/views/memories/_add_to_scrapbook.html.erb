@@ -6,7 +6,7 @@
       </div>
       <div class="modal-body">
         <h4>Select scrapbook</h4>
-        <div class="scrapbooks select">
+        <div class="scrapbook_selector select">
           <% if current_user %>
             <% current_user.scrapbooks.sort{|a,b| b.updated_at<=>a.updated_at}.each do |scrapbook| %>
               <div class="scrapbook" data-id="<%= scrapbook.id %>">
@@ -44,6 +44,7 @@
 </div>
 
 <%= render partial: 'memories/create_scrapbook' %>
+<%= render partial: 'memories/after_add_to_scrapbook' %>
 
 <script type="text/javascript">
   $(document).ready(function () {

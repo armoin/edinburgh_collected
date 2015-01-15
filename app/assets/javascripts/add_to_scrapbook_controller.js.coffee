@@ -11,7 +11,7 @@ class @AddToScrapbookController
       e.preventDefault()
       $('#add-to-scrapbook-modal').modal('show');
 
-    $('.scrapbooks').on 'click', '.scrapbook', (e) =>
+    $('.scrapbook_selector').on 'click', '.scrapbook', (e) =>
       @selectScrapbook(e.currentTarget)
 
     $('#add-to-scrapbook-modal').on 'show.bs.modal', (e) ->
@@ -24,7 +24,7 @@ class @AddToScrapbookController
         $('#add-to-scrapbook-modal .modal-title').text("Add \"#{title}\" to a scrapbook")
 
     $('#add-to-scrapbook-modal').on 'shown.bs.modal', ->
-      $('.scrapbooks').scrollTop(0)
+      $('.scrapbook_selector').scrollTop(0)
 
     $("form#add-to-scrapbook .save")
       .on("click", @validateAddToScrapbook)
@@ -50,7 +50,7 @@ class @AddToScrapbookController
     $(scrapbook).attr('data-id', data.id)
     $(scrapbook).find('.title').text(data.title)
     $(scrapbook).find('.updates').text('Updated ' + data.updated_at)
-    $('.scrapbooks').prepend(scrapbook)
+    $('.scrapbook_selector').prepend(scrapbook)
     @selectScrapbook(scrapbook)
 
   selectScrapbook: (scrapbook) ->
@@ -89,13 +89,10 @@ class @AddToScrapbookController
     @displayErrorMessage(selector, message)
 
   displaySuccessMessage: (data) ->
-    html =  '<div class="notice">'
-    html += '  This photo was added to your scrapbook "' + data.title + '"'
-    html += '  <a class="btn btn-default" href="/my/scrapbooks/' + data.id + '">'
-    html += '    View your scrapbook'
-    html += '  </a>'
-    html += '</div>'
-    $('.flashes').html(html).show();
+    scope = $('#after-add-to-scrapbook-modal')
+    scope.find('.scrapbook-name').text(data.title)
+    scope.find('.view-scrapbook').attr('href', "/scrapbooks/#{data.id}")
+    scope.modal('show');
 
   displayErrorMessage: (selector, message) ->
     html = "<div class=\"error-message\">#{message}</div>"

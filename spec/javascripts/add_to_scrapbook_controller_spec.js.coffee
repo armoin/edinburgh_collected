@@ -1,6 +1,6 @@
 describe "AddToScrapbooksController", ->
   beforeEach ->
-    loadFixtures('add_to_scrapbook.html', 'create_scrapbook.html')
+    loadFixtures('add_to_scrapbook.html', 'after_add_to_scrapbook.html', 'create_scrapbook.html')
 
     # show the Add To Scrapbook modal
     $('#add-to-scrapbook-button').trigger('click')
@@ -44,7 +44,7 @@ describe "AddToScrapbooksController", ->
           updated_at: @date
         }
         @addToScrapbookController.addNewScrapbookToSelect(data)
-        @scrapbook_list = $('.modal#add-to-scrapbook-modal .scrapbooks .scrapbook')
+        @scrapbook_list = $('.modal#add-to-scrapbook-modal .scrapbook_selector .scrapbook')
 
       it "adds a new scrapbook to the list", ->
         expect( @scrapbook_list.length ).toEqual(3)
@@ -81,8 +81,8 @@ describe "AddToScrapbooksController", ->
 
   describe "selecting a scrapbook", ->
     beforeEach ->
-      @selected = $('.scrapbooks .scrapbook.selected')
-      @toSelect = $('.scrapbooks .scrapbook[data-id="1"]')
+      @selected = $('.scrapbook_selector .scrapbook.selected')
+      @toSelect = $('.scrapbook_selector .scrapbook[data-id="1"]')
 
     describe "when selected scrapbook is not currently selected", ->
       it "unselects any other selected scrapbooks", ->
@@ -136,31 +136,39 @@ describe "AddToScrapbooksController", ->
       @addToScrapbookController.addToScrapbookSuccess(@mockEvent, @data)
       expect( $('#add-to-scrapbook-modal') ).toBeHidden()
 
-    it "shows a success message", ->
-      @addToScrapbookController.addToScrapbookSuccess(@mockEvent, @data)
-      expect( $('.flashes') ).toBeVisible()
+    it "opens the After Add To Scrapbook modal", ->
+      runs ->
+        expect( $('#after-add-to-scrapbook-modal') ).toBeHidden()
+        @addToScrapbookController.addToScrapbookSuccess(@mockEvent, @data)
 
-    it "success message contains a link to the scrapbook", ->
-      @addToScrapbookController.addToScrapbookSuccess(@mockEvent, @data)
-      expect( $('.flashes .notice a[href="/my/scrapbooks/123"]').length ).toEqual(1)
+      waitsFor `function () {
+        return $('#after-add-to-scrapbook-modal').is(':visible')
+      }`, "After add to scrapbook modal did not appear", 750
+
+      runs ->
+        expect( $('#after-add-to-scrapbook-modal') ).toBeVisible()
+
+    it "adds the scrapbook title to the message", ->
+      runs ->
+        @addToScrapbookController.addToScrapbookSuccess(@mockEvent, @data)
+
+      waitsFor `function () {
+        return $('#after-add-to-scrapbook-modal').is(':visible')
+      }`, "After add to scrapbook modal did not appear", 750
+
+      runs ->
+        expect( $('#after-add-to-scrapbook-modal .modal-body .scrapbook-name').text() ).toEqual(@data.title)
+
+    it "View scrapbook button is a link to the scrapbook", ->
+      runs ->
+        @addToScrapbookController.addToScrapbookSuccess(@mockEvent, @data)
+
+      waitsFor `function () {
+        return $('#after-add-to-scrapbook-modal').is(':visible')
+      }`, "After add to scrapbook modal did not appear", 750
+
+      runs ->
+        expect( $('#after-add-to-scrapbook-modal .modal-footer .view-scrapbook').attr('href') ).toEqual("/scrapbooks/#{@data.id}")
 
   describe "error when adding a memory to a scrapbook", ->
-    beforeEach ->
-      @data = {
-        id: 123,
-        title: 'My test scrapbook'
-      }
-
-    it "closes the Add To Scrapbook modal", ->
-      expect( $('#add-to-scrapbook-modal') ).toBeVisible()
-      @addToScrapbookController.addToScrapbookSuccess(@mockEvent, @data)
-      expect( $('#add-to-scrapbook-modal') ).toBeHidden()
-
-    it "shows a success message", ->
-      @addToScrapbookController.addToScrapbookSuccess(@mockEvent, @data)
-      expect( $('.flashes') ).toBeVisible()
-
-    it "success message contains a link to the scrapbook", ->
-      @addToScrapbookController.addToScrapbookSuccess(@mockEvent, @data)
-      expect( $('.flashes .notice a[href="/my/scrapbooks/123"]').length ).toEqual(1)
-
+    # TODO: add tests for this and stop error message from appearing multiple times
