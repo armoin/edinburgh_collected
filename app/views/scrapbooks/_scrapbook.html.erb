@@ -2,6 +2,12 @@
   <div class="padding">
     <h3 class="scrapbookTitle"><%= scrapbook.title %></h3>
     <% if scrapbook.memories.any? %>
+      <% Rails.logger.info "\n\n-----------" %>
+      <% Rails.logger.info scrapbook.id %>
+      <% Rails.logger.info scrapbook.memories.map(&:id) %>
+      <% Rails.logger.info scrapbook.memories.first.id %>
+      <% Rails.logger.info scrapbook.main_memory.id %>
+      <% Rails.logger.info "-----------\n\n" %>
       <%= image_tag cache_busted_url(scrapbook.cover.main_memory, :big_thumb), alt: scrapbook.title, :class => "main" %>
       <div class="bottom-row clearfix">
         <div class="count">
