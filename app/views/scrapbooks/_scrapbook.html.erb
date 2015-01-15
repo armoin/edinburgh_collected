@@ -12,9 +12,9 @@
         </div>
         <% scrapbook.cover.secondary_memories.each do |secondary_memory| -%>
           <% if secondary_memory -%>
-            <%= image_tag cache_busted_url(secondary_memory, :mini_thumb), alt: secondary_memory.title %>
+            <%= image_tag cache_busted_url(secondary_memory, :mini_thumb), alt: secondary_memory.title, class: 'mini' %>
           <% else -%>
-            <%= image_tag 'empty-scrapbook.png', :class => "ph" %>
+            <div class="empty mini"></div>
           <% end -%>
         <% end -%>
       </div>

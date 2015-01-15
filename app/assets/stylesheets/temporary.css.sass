@@ -915,7 +915,7 @@ a.memory, a.scrapbook
 
         i
           font-style: normal
-
+          font-size: 0.9em
 
         span
           display: block
@@ -923,14 +923,19 @@ a.memory, a.scrapbook
           position: relative
           font-size: 1.5em
 
-      img
-        margin-right: 2%
+      .mini
+        margin-left: 3%
         width: 24%
         float: left
 
-        &:last-child
-          margin-right: 0
+        &:nth-child(2)
+          margin-left: 0
 
+        &.empty
+          height: 30px
+          padding: 11.5% 0
+          background: #eee
+          display: inline-block
 
 
 /* ==================================== SCRAPBOOKS */
@@ -1692,10 +1697,16 @@ header .navbar .navbar-collapse ul.nav li a.feedback
           padding: 31% 0 0
           font-size: 0.8em
 
-        img
+        .mini
           width: 31%
-          &:nth-child(3)
+          &:nth-child(4)
             display: none
+
+          &:nth-child(2)
+            margin-left: 2%
+
+          &.empty
+            padding: 15% 0
 
   .user-card
     .details
@@ -1862,10 +1873,13 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       padding: 31% 0 0
       font-size: 0.75em
 
-    img
+    .mini
       width: 31%
-      &:nth-child(3)
+      &:nth-child(4)
         display: none
+
+      &.empty
+        padding: 15% 0
 
   #formPanel
     padding-top: 2em
@@ -1904,10 +1918,13 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       padding: 23% 0 0 !important
       font-size: 1em !important
 
-    img
+    .mini
       width: 23% !important
-      &:nth-child(3)
+      &:nth-child(4)
         display: inline-block !important
+
+      &.empty
+        padding: 11% 0
 
   #homeContent #contentModules .module
     padding-bottom: 5em
