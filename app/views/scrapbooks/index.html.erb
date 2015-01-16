@@ -9,9 +9,9 @@
          <span class="button scrapbooks coral">Scrapbooks</span>
        </div>
 
-       <a id="create-scrapbook-button" class="button scrapbooks float-right" data-toggle="modal" data-target="#create-scrapbook-modal">
-         Create a scrapbook
-       </a>
+       <% if logged_in? -%>
+         <%= link_to 'Create a scrapbook', '#', id: 'create-scrapbook-button', class: 'button scrapbooks float-right', data: {toggle: 'modal', target:'#create-scrapbook-modal'} %>
+       <% end -%>
 
       </div>
     </header>

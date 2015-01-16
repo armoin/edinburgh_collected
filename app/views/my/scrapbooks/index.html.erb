@@ -5,19 +5,18 @@
     <header id="contentHeader" class="clearfix">
       <h2>Your scrapbooks</h2>
       <div class="actions">
-       <div class="viewingInfo">
-       <strong>Browse</strong>
-        <%= link_to my_memories_path, :class => "button memories inactive"  do %>
-          <%= current_user.memories.size %> Memories
-        <% end %>
+        <div class="viewingInfo">
+          <strong>Browse</strong>
+          <%= link_to my_memories_path, :class => "button memories inactive"  do %>
+            <%= current_user.memories.size %> Memories
+          <% end %>
 
-        <span class= "button scrapbooks" ><%= current_user.scrapbooks.size %> Scrapbooks</span>
-      </div>
+          <span class= "button scrapbooks" ><%= current_user.scrapbooks.size %> Scrapbooks</span>
+        </div>
 
-
-        <a id="create-scrapbook-button" class="button scrapbooks float-right" data-toggle="modal" data-target="#create-scrapbook-modal">
-          Create a scrapbook
-        </a>
+        <% if logged_in? -%>
+          <%= link_to 'Create a scrapbook', '#', id: 'create-scrapbook-button', class: 'button scrapbooks float-right', data: {toggle: 'modal', target:'#create-scrapbook-modal'} %>
+        <% end -%>
       </div>
     </header>
 
