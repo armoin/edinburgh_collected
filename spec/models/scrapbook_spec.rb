@@ -151,4 +151,44 @@ describe Scrapbook do
       end
     end
   end
+
+  describe '#ordered_memories' do
+    subject { Fabricate(:scrapbook) }
+
+    context 'when the scrapbook has no memories' do
+      it 'provides and empty collection' do
+        expect(subject.ordered_memories).to be_empty
+      end
+    end
+
+    context 'when the scrapbook has one memory' do
+      let!(:scrapbook_memory) { Fabricate(:scrapbook_memory, scrapbook: subject) }
+      let(:memory)           { scrapbook_memory.memory }
+
+      it 'provides a collection with just that memory' do
+        expect(subject.ordered_memories.length).to eql(1)
+        expect(subject.ordered_memories).to eql([memory])
+      end
+    end
+
+    context 'when the scrapbook has more than one memory' do
+      let!(:sm_1)    { Fabricate(:scrapbook_memory, scrapbook: subject) }
+      let!(:sm_2)    { Fabricate(:scrapbook_memory, scrapbook: subject) }
+      let!(:sm_3)    { Fabricate(:scrapbook_memory, scrapbook: subject) }
+      let(:memory_1) { sm_1.memory }
+      let(:memory_2) { sm_2.memory }
+      let(:memory_3) { sm_3.memory }
+
+      it 'provides a collection with all memories in order' do
+        expect(subject.ordered_memories.length).to eql(3)
+        expect(subject.ordered_memories).to eql([memory_1, memory_2, memory_3])
+      end
+
+      it 'provides a collection with all memories in order if the order is changed' do
+        subject.update({ordering: "#{sm_2.id},#{sm_3.id},#{sm_1.id}"})
+        expect(subject.ordered_memories.length).to eql(3)
+        expect(subject.ordered_memories).to eql([memory_2, memory_3, memory_1])
+      end
+    end
+  end
 end

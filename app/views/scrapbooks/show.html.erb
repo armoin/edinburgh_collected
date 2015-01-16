@@ -1,3 +1,5 @@
+<% memories = @scrapbook.ordered_memories %>
+
 <div id="scrapbook" class="container">
   <div id="grid">
     <header id="contentHeader" class="clearfix">
@@ -6,7 +8,9 @@
         <%= link_to 'Back', current_scrapbook_index_path, :class => "button back" %>
 
         <% if current_user.try(:can_modify?, @scrapbook) %>
-          <a href="#" class="button add-memories memories float-right">Add memories </a>
+          <% if memories.any? -%>
+            <a href="#" class="button add-memories memories float-right">Add memories </a>
+          <% end -%>
           <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id), :class => "button navy edit float-right"  %>
           <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), :class => "button delete float-right" , method: :delete, data: {confirm: 'Are you sure?'} %>
         <% end %>
@@ -23,11 +27,6 @@
           <%= image_tag "whole-collection-icon.png", alt: "Whole collection" %>
           <span>From the entire site</span>
         <% end %>
-
-        <%= link_to new_my_memory_path, :class => ""  do %>
-          <%= image_tag "upload-memory-icon.png", alt: "Upload a new memory" %>
-          <span>Upload a new memory</span>
-        <% end %>
       </div>
     </header>
 
@@ -35,7 +34,6 @@
       <p><%= @scrapbook.description %></p>
     </div>
 
-    <% memories = @scrapbook.scrapbook_memories.by_ordering.map(&:memory) %>
     <% if memories.any? -%>
       <div class="masonry-loading-spinner"><div class="spinner"></div></div>
         <div id="memories" class="masonry-grid">
@@ -46,35 +44,27 @@
       </div>
     <% else -%>
       <div id="scrapbookInstructions" class="container">
-       <h3>Your scrapbook is empty!</h3>
-       <p>Start adding memories now...</p>
+        <h3>Your scrapbook is empty!</h3>
+        <p>Start adding memories now...</p>
 
         <div class="instructionsWrapper" class="row">
 
-        <div class="col-md-4 col-sm-4">
-        <%= link_to my_memories_path, :class => "actionLink"  do %>
-          <%= image_tag "your-collection-icon-light.png", alt: "Your collection" %>
-          <span>From your collection</span>
-        <% end %>
-        <p>Browse the memories that you have uploaded and add them to a scrapbook</p>
-        </div>
+          <div class="col-md-6 col-sm-6">
+            <%= link_to my_memories_path, :class => "actionLink"  do %>
+              <%= image_tag "your-collection-icon-light.png", alt: "Your collection" %>
+              <span>From your collection</span>
+            <% end %>
+            <p>Browse the memories that you have uploaded and add them to a scrapbook</p>
+          </div>
 
-        <div class="col-md-4 col-sm-4">
-        <%= link_to memories_path, :class => "actionLink"  do %>
-          <%= image_tag "whole-collection-icon-light.png", alt: "Whole collection" %>
-          <span>From the entire site</span>
-        <% end %>
-        <p>Browse the whole collection of memories and add them to a scrapbook</p>
+          <div class="col-md-6 col-sm-6">
+            <%= link_to memories_path, :class => "actionLink"  do %>
+              <%= image_tag "whole-collection-icon-light.png", alt: "Whole collection" %>
+              <span>From the entire site</span>
+            <% end %>
+            <p>Browse the whole collection of memories and add them to a scrapbook</p>
+          </div>
         </div>
-
-        <div class="col-md-4 col-sm-4">
-        <%= link_to new_my_memory_path, :class => "actionLink"  do %>
-          <%= image_tag "upload-memory-icon-light.png", alt: "Upload a new memory" %>
-          <span>Upload a new memory</span>
-        <% end %>
-        <p>You can upload a brand new memory and add it to a scrapbook</p>
-        </div>
-
       </div>
     <% end -%>
   </div>

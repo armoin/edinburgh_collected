@@ -28,6 +28,10 @@ class Scrapbook < ActiveRecord::Base
     errors.messages.empty?
   end
 
+  def ordered_memories
+    scrapbook_memories.by_ordering.map(&:memory)
+  end
+
   private
 
   def reorder_memories(ordering_string)

@@ -9,7 +9,7 @@ describe "scrapbooks/show.html.erb" do
     assign(:scrapbook, scrapbook)
   end
 
-  context "when memory doesn't belong to the user" do
+  context "when scrapbook doesn't belong to the user" do
     before :each do
       allow(user).to receive(:can_modify?).and_return(false)
       render
@@ -24,21 +24,40 @@ describe "scrapbooks/show.html.erb" do
     end
   end
 
-  context "when memory belongs to the user" do
+  context "when scrapbook belongs to the user" do
     before :each do
       allow(user).to receive(:can_modify?).and_return(true)
-      render
     end
 
-    it "has an 'Add memories' link" do
-      expect(rendered).to have_link('Add memories')
+    context "and the scrapbook has no memories" do
+      before :each do
+        allow(scrapbook).to receive(:ordered_memories).and_return([])
+      end
+
+      it "does not have an 'Add memories' link" do
+        render
+        expect(rendered).not_to have_link('Add memories')
+      end
+    end
+
+    context "and the scrapbook has memories" do
+      before :each do
+        allow(scrapbook).to receive(:ordered_memories).and_return([Fabricate.build(:memory, id: 123)])
+      end
+
+      it "has an 'Add memories' link" do
+        render
+        expect(rendered).to have_link('Add memories')
+      end
     end
 
     it "has an edit link" do
+      render
       expect(rendered).to have_link('Edit', href: edit_my_scrapbook_path(scrapbook))
     end
 
     it "has a delete link" do
+      render
       expect(rendered).to have_link('Delete', href: my_scrapbook_path(scrapbook))
     end
   end
