@@ -631,35 +631,6 @@ button#create-scrapbook-button
     text-decoration: none
     text-shadow: 0px 1px 0px $navy-blue
 
-  #addMemoriesDrawer
-    display: none
-    text-align: center
-    background: $navy-blue
-    padding: 1em
-    position: relative
-
-    #tab
-      background: $navy-blue
-      width: 100px
-      height: 20px
-      display: block
-      position: absolute
-      top: -20px
-      right: 0
-    a
-      padding: 1em
-      background: $cream
-      border: 1px solid $navy-blue
-      +border-radius(10px)
-      width: 30%
-      display: inline-block
-      margin: 0 1%
-      img
-        display:block
-        margin: 1em auto
-      span
-        display: block
-
 
 /* ==================================== MEMORIES */
 
@@ -953,26 +924,28 @@ a.memory, a.scrapbook
     margin-bottom: 0
 
   #scrapbookInstructions
-    text-align: center
     margin-bottom: 1em
     border: 3px solid $navy-blue
 
-    a.actionLink
-      background: $blue
-      padding: 1em
-      color: $cream
-      display: block
-      text-align: center
-      margin: 0 0 1em 0
-      +border-radius(5px)
-      span
-        display: block
-      img
-        margin: 0 auto 0.5em auto
+.instructionsWrapper
+  text-align: center
 
-      &:hover
-        background: $navy-blue
-        text-decoration: none
+  a.actionLink
+    background: $blue
+    padding: 1em
+    color: $cream
+    display: block
+    text-align: center
+    margin: 0 0 1em 0
+    +border-radius(5px)
+    span
+      display: block
+    img
+      margin: 0 auto 0.5em auto
+
+    &:hover
+      background: $navy-blue
+      text-decoration: none
 
 
 
@@ -985,6 +958,9 @@ a.memory, a.scrapbook
       width: 100%
       float: left
 
+#add-memories-modal
+  .modal-header, .modal-footer
+    border: none
 
 /* ==================================== PROFILE */
 
@@ -1544,6 +1520,9 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     width: 100% !important
 
 
+  #scrapbookInstructions
+    width: 90%
+
 
 /* SCREEN SIZE: MOBILES */
 
@@ -1800,6 +1779,9 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         width: 47% !important
         margin-bottom: 0 !important
 
+  #scrapbookInstructions
+    width: 90%
+
 
 
 /* SCREEN SIZE: TABLETS */
@@ -1887,6 +1869,9 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     h1
       margin-top: 0
 
+  #scrapbookInstructions
+    width: 80%
+
 
 /* SCREEN SIZE: SMALL LAPTOPS */
 
@@ -1901,6 +1886,9 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     .count
       font-size: 1em !important
 
+
+  #scrapbookInstructions
+    width: 70%
 
 
 
@@ -1938,6 +1926,9 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     left: auto
     padding-left: 15px
     padding-right: 15px
+
+  #scrapbookInstructions
+    width: 60%
 
 
 

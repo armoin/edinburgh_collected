@@ -1,0 +1,18 @@
+<div class="instructionsWrapper" class="row">
+
+  <div class="col-md-6 col-sm-6">
+    <%= link_to my_memories_path, :class => "actionLink"  do %>
+      <%= image_tag "your-collection-icon-light.png", alt: "Your collection" %>
+      <span>From your collection</span>
+    <% end %>
+    <p>Browse the memories that you have uploaded and add them to a scrapbook</p>
+  </div>
+
+  <div class="col-md-6 col-sm-6">
+    <%= link_to memories_path, :class => "actionLink"  do %>
+      <%= image_tag "whole-collection-icon-light.png", alt: "Whole collection" %>
+      <span>From the entire site</span>
+    <% end %>
+    <p>Browse the whole collection of memories and add them to a scrapbook</p>
+  </div>
+</div>

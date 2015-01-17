@@ -9,23 +9,10 @@
 
         <% if current_user.try(:can_modify?, @scrapbook) %>
           <% if memories.any? -%>
-            <a href="#" class="button add-memories memories float-right">Add memories </a>
+            <a href="#" class="button add-memories memories float-right" data-toggle="modal" data-target="#add-memories-modal">Add memories</a>
           <% end -%>
           <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id), :class => "button navy edit float-right"  %>
           <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), :class => "button delete float-right" , method: :delete, data: {confirm: 'Are you sure?'} %>
-        <% end %>
-      </div>
-      <div id="addMemoriesDrawer">
-        <span id="tab"></span>
-
-        <%= link_to my_memories_path, :class => ""  do %>
-          <%= image_tag "your-collection-icon.png", alt: "Your collection" %>
-          <span>From your collection</span>
-        <% end %>
-
-        <%= link_to memories_path, :class => ""  do %>
-          <%= image_tag "whole-collection-icon.png", alt: "Whole collection" %>
-          <span>From the entire site</span>
         <% end %>
       </div>
     </header>
@@ -47,40 +34,15 @@
         <h3>Your scrapbook is empty!</h3>
         <p>Start adding memories now...</p>
 
-        <div class="instructionsWrapper" class="row">
-
-          <div class="col-md-6 col-sm-6">
-            <%= link_to my_memories_path, :class => "actionLink"  do %>
-              <%= image_tag "your-collection-icon-light.png", alt: "Your collection" %>
-              <span>From your collection</span>
-            <% end %>
-            <p>Browse the memories that you have uploaded and add them to a scrapbook</p>
-          </div>
-
-          <div class="col-md-6 col-sm-6">
-            <%= link_to memories_path, :class => "actionLink"  do %>
-              <%= image_tag "whole-collection-icon-light.png", alt: "Whole collection" %>
-              <span>From the entire site</span>
-            <% end %>
-            <p>Browse the whole collection of memories and add them to a scrapbook</p>
-          </div>
-        </div>
+        <%= render partial: 'scrapbooks/add_memories' %>
       </div>
     <% end -%>
   </div>
 </div>
 
+<%= render partial: 'scrapbooks/add_memories_modal' %>
+
 <script type="text/javascript">
   $(".masonry-loading-spinner .spinner").spin();
-
-  // Add memories panel
-  var tabWidth = $('#scrapbook .actions a.memories').outerWidth();
-  $('#addMemoriesDrawer #tab').css("width", tabWidth);
-
-  $( "#scrapbook .actions a.memories" ).click(function(e) {
-    e.preventDefault();
-    $(this).toggleClass('active');
-    $("#addMemoriesDrawer").toggle();
-  });
 </script>
 
