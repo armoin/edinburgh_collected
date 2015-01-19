@@ -1,5 +1,20 @@
 <div class="container">
-  <div class="col-xs-12">
+ <header id="formHeader" class="row">
+<!--
+  <div class="step step1 col-md-4">
+   <span>1</span> Choose the type of file
+  </div>
+  <div class="step step2 col-md-4">
+   <span>2</span> Upload your memory
+  </div>
+  <div class="step step3 col-md-4">
+   <span>3</span> Upload Complete
+  </div>
+ -->
+ </header>
+
+ <div id="password" class="formWrapper row">
+  <div id="formPanel" class="col-md-6">
     <h1 class="form-title">Choose a new password</h1>
 
     <%= simple_form_for @user,
@@ -13,11 +28,12 @@
       <%= form.input :password_confirmation, input_html: {class: 'form-control'} %>
 
       <div class="form-group">
-        <div class="actions col-xs-sm-12">
-          <%= link_to "Cancel", root_path, class: "btn btn-default" %>
-          <%= form.submit "Change Password", class: "btn btn-primary" %>
+        <div class="actions">
+          <%= form.submit "Change Password", class: "button green" %>
+          <%= link_to "Cancel", root_path, class: "button navy" %>
         </div>
       </div>
     <% end %>
   </div>
+</div>
 </div>
