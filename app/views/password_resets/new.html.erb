@@ -13,7 +13,7 @@
  -->
  </header>
 
- <div id="signIn" class="formWrapper row">
+ <div id="password" class="formWrapper row">
   <div id="formPanel" class="col-md-6">
     <h1 class="form-title">Reset password</h1>
 
@@ -28,8 +28,8 @@
       </div>
       <div class="form-group">
         <div class="actions">
-          <%= link_to "Cancel", signin_path, class: "button navy" %>
           <%= submit_tag "Reset password", class: "button red" %>
+          <%= link_to "Cancel", signin_path, class: "button navy" %>
         </div>
       </div>
     <% end %>
