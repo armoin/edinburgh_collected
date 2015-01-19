@@ -1241,17 +1241,16 @@ form
 
 /* ==================================== SIGN IN / SIGN OUT */
 
-#signIn, #signUp
+#signIn, #signUp, #password
 
   h1
 
   form
     label
       text-align: left!important
-
-  p.switch
-    font-weight: 600
-    text-align: center
+    .actions > *
+      float: right
+      margin-left: 1em
 
   #user_is_group
     text-align: left
@@ -1323,7 +1322,8 @@ li.greeting
 
 
   h1
-    margin: 1em 0
+    margin: 0
+    padding: 1em 0 0.5em 0
 
   a
     text-decoration: underline
@@ -1523,6 +1523,25 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
   #scrapbookInstructions
     width: 90%
+
+  #signIn, #signUp, #password
+    form
+      .actions > *
+        margin: 0 0 1em 0
+        width: 100%
+        float: none
+
+      *:last-child
+        margin-bottom: 0
+
+    #signposting
+      padding: 1em 0 1em !important
+
+    #extraPanel .help-tips
+      font-size: 0.9em
+      margin: 0 0.5em
+      padding: 1em 1em 1em 2.5em
+
 
 
 /* SCREEN SIZE: MOBILES */
@@ -1730,8 +1749,12 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
   .actions
     .viewingInfo
-      display: block
+      display: block !important
       padding-bottom: 1em
+
+      strong
+        display: block !important
+        padding-bottom: 0.25em
 
       a, span
         padding: 0.25em 0.5em
