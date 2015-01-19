@@ -8,10 +8,10 @@
         <div class="viewingInfo">
           <strong>Browse</strong>
           <%= link_to my_memories_path, :class => "button memories inactive"  do %>
-            <%= current_user.memories.size %> Memories
+            <%= pluralize(current_user.memories.size, 'memory') %>
           <% end %>
 
-          <span class= "button scrapbooks" ><%= current_user.scrapbooks.size %> Scrapbooks</span>
+          <span class="button scrapbooks"><%= pluralize(current_user.scrapbooks.size, 'scrapbook') %></span>
         </div>
 
         <% if logged_in? -%>

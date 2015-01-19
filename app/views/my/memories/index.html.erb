@@ -5,14 +5,14 @@
     <header id="contentHeader" class="clearfix">
       <h2>Your memories</h2>
       <div class="actions clearfix">
-       <div class="viewingInfo">
-       <strong>Browse</strong>
-        <span class="button memories">999 Memories</span>
+        <div class="viewingInfo">
+          <strong>Browse</strong>
+          <span class="button memories"><%= pluralize(current_user.memories.size, 'memory') %></span>
 
-        <%= link_to my_scrapbooks_path, :class => "button scrapbooks inactive" do %>
-          999 Scrapbooks
-        <% end %>
-      </div>
+          <%= link_to my_scrapbooks_path, :class => "button scrapbooks inactive" do %>
+            <%= pluralize(current_user.scrapbooks.size, 'scrapbook') %>
+          <% end %>
+        </div>
 
         <%= link_to 'Add a memory', new_my_memory_path, :class => "button float-right memories" %>
       </div>

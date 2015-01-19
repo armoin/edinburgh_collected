@@ -3,12 +3,17 @@ require 'rails_helper'
 describe 'my/scrapbooks/index.html.erb' do
   let(:user)             { Fabricate.build(:active_user) }
   let(:logged_in)        { false }
-  let(:scrapbooks)       { Array.new(3) { Fabricate.build(:scrapbook) } }
+  let(:memory_count)     { 1 }
+  let(:scrapbook_count)  { 3 }
+  let(:scrapbooks)       { Array.new(scrapbook_count) { Fabricate.build(:scrapbook) } }
+  let(:memories)         { Array.new(memory_count) { Fabricate.build(:memory) } }
   let(:paged_scrapbooks) { Kaminari.paginate_array(scrapbooks).page(1) }
   let(:memory)           { Fabricate.build(:photo_memory) }
 
   before :each do
     allow(view).to receive(:current_user).and_return(user)
+    allow(user).to receive(:memories).and_return(memories)
+    allow(user).to receive(:scrapbooks).and_return(scrapbooks)
     allow(view).to receive(:logged_in?).and_return(logged_in)
   end
 
@@ -18,8 +23,12 @@ describe 'my/scrapbooks/index.html.erb' do
       render
     end
 
-    it "has a link to show all current user's memories" do
-      expect(rendered).to have_link('Memories', href: my_memories_path)
+    it 'displays the result count on the scrapbook button' do
+      expect(rendered).to have_css('span.button.scrapbooks', text: "#{scrapbook_count} scrapbooks")
+    end
+
+    it 'has a link to the memory results with the number found' do
+      expect(rendered).to have_css('a.button.memories', text: "#{memory_count} memory")
     end
 
     context 'when the user is not logged in' do
