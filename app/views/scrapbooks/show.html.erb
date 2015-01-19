@@ -29,7 +29,7 @@
           <% end %>
         </div>
       </div>
-    <% else -%>
+    <% elsif current_user.try(:can_modify?, @scrapbook) %>
       <div id="scrapbookInstructions" class="container">
         <h3>Your scrapbook is empty!</h3>
         <p>Start adding memories now...</p>
