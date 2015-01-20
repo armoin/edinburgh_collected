@@ -3,7 +3,7 @@ rvm:
 - 2.1.5
 addons:
   code_climate:
-    repo_token: 34e63aa37c4c64f6d6f2a64501918ff70d96b366d8bca9ec6a257ff0684d0ce4
+    repo_token: a91b99dadb8cb17d6c50336d2933d040ef436fb92c03d4f04a8d2958c143194a
 notifications:
   slack:
     secure: BewidAAO3w1MrgUWIjwZHlVemkFdUKieLPQB9Bj/V8wiP5Xg95Btsf48kuMn9g4JT7s9L8l03bZe06T/XdXWz4VZ8HKae98Q+79+yBaxNk3fyFtHzGPHMPGuDe8SfKdiJHEKrhNBH3Y4RuBLcM9iPJ+k0SlkxmC/eaCzHnrvMeo=

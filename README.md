@@ -1,7 +1,7 @@
-[![Code Climate](https://codeclimate.com/github/urfolomeus/edinburgh_stories.png)](https://codeclimate.com/github/urfolomeus/edinburgh_stories)
-[![Test Coverage](https://codeclimate.com/github/urfolomeus/edinburgh_stories/badges/coverage.svg)](https://codeclimate.com/github/urfolomeus/edinburgh_stories)
-[![Build Status](https://travis-ci.org/urfolomeus/edinburgh_stories.svg?branch=master)](https://travis-ci.org/urfolomeus/edinburgh_stories)
-[![Dependency Status](https://gemnasium.com/urfolomeus/edinburgh_stories.svg)](https://gemnasium.com/urfolomeus/edinburgh_stories)
+[![Code Climate](https://codeclimate.com/github/urfolomeus/edinburgh_collected.png)](https://codeclimate.com/github/urfolomeus/edinburgh_collected)
+[![Test Coverage](https://codeclimate.com/github/urfolomeus/edinburgh_collected/badges/coverage.svg)](https://codeclimate.com/github/urfolomeus/edinburgh_collected)
+[![Build Status](https://travis-ci.org/urfolomeus/edinburgh_collected.svg?branch=master)](https://travis-ci.org/urfolomeus/edinburgh_collected)
+[![Dependency Status](https://gemnasium.com/urfolomeus/edinburgh_collected.svg)](https://gemnasium.com/urfolomeus/edinburgh_collected)
 
 
 # Edinburgh Collected
