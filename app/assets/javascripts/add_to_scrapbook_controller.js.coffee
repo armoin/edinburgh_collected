@@ -32,9 +32,6 @@ class @AddToScrapbookController
     $("form#add-to-scrapbook .save")
       .on("click", @validateAddToScrapbook)
 
-    $("form#add-to-scrapbook")
-      .on("ajax:success", @addToScrapbookSuccess)
-
   scrapbookCreateSuccess: (e, data, status, xhr) =>
     @addNewScrapbookToSelect(data)
     $('#add-to-scrapbook-modal').modal('show')
@@ -45,13 +42,11 @@ class @AddToScrapbookController
     html += '  <div class="details">'
     html += '    <div class="title"></div>'
     html += '    <div class="count">0</div>'
-    html += '    <div class="updates"></div>'
     html += '  </div>'
     html += '</div>'
     scrapbook = $.parseHTML(html)
     $(scrapbook).attr('data-id', data.id)
     $(scrapbook).find('.title').text(data.title)
-    $(scrapbook).find('.updates').text('Updated ' + data.updated_at)
     $('.scrapbook_selector').prepend(scrapbook)
     @selectScrapbook(scrapbook)
 
@@ -72,19 +67,6 @@ class @AddToScrapbookController
       e.preventDefault()
       selector = $('#add-to-scrapbook-modal #errors')
       message = 'Please select a scrapbook to add this memory to.'
-      @displayErrorMessage(selector, message)
-
-  addToScrapbookSuccess: (e, data, status, xhr) =>
-    $('#add-to-scrapbook-modal').modal('hide');
-    @displaySuccessMessage(data)
-
-  displaySuccessMessage: (data) ->
-    scope = $('#after-add-to-scrapbook-modal')
-    scope.find('.scrapbook-name').text(data.title)
-    scope.find('.view-scrapbook').attr('href', "/scrapbooks/#{data.id}")
-    scope.modal('show');
-
-  displayErrorMessage: (selector, message) ->
-    html = "<div class=\"error-message\">#{message}</div>"
-    selector.html(html)
+      html = "<div class=\"error-message\">#{message}</div>"
+      selector.html(html)
 

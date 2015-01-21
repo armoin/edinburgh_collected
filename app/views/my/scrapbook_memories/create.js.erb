@@ -1,1 +1,8 @@
 $('.scrapbook_selector').html('<%=j render partial: "scrapbooks/selector", locals: {current_user: current_user} %>');
+
+$('#add-to-scrapbook-modal').modal('hide');
+
+var afterModal = $('#after-add-to-scrapbook-modal');
+afterModal.find('.scrapbook-name').text('<%= @scrapbook.title %>');
+afterModal.find('.view-scrapbook').attr('href', '<%= scrapbook_path(@scrapbook) %>');
+afterModal.modal('show');

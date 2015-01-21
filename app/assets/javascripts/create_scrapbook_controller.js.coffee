@@ -3,7 +3,6 @@ class @CreateScrapbookController
     $('#create-scrapbook-modal').on 'show.bs.modal', ->
       $('form#create-scrapbook').trigger('reset')
 
-
     $('form#create-scrapbook')
       .on('ajax:success', @scrapbookCreateSuccess)
       .on('ajax:error', @scrapbookCreateError)

@@ -59,9 +59,6 @@ describe "AddToScrapbooksController", ->
         it "has the expected count", ->
           expect( @scrapbook.find('.count').text() ).toContain(0)
 
-        it "has the expected updated at", ->
-          expect( @scrapbook.find('.updates').text() ).toContain(@date)
-
         it "is selected", ->
           expect( @scrapbook ).toHaveClass('selected')
 
@@ -123,52 +120,6 @@ describe "AddToScrapbooksController", ->
     it "does not show an error if a scrapbook is selected", ->
       @addToScrapbookController.validateAddToScrapbook()
       expect( $('.error-message').length ).toEqual(0)
-
-  describe "successfully adding a memory to a scrapbook", ->
-    beforeEach ->
-      @data = {
-        id: 123,
-        title: 'My test scrapbook'
-      }
-
-    it "closes the Add To Scrapbook modal", ->
-      expect( $('#add-to-scrapbook-modal') ).toBeVisible()
-      @addToScrapbookController.addToScrapbookSuccess(@mockEvent, @data)
-      expect( $('#add-to-scrapbook-modal') ).toBeHidden()
-
-    it "opens the After Add To Scrapbook modal", ->
-      runs ->
-        expect( $('#after-add-to-scrapbook-modal') ).toBeHidden()
-        @addToScrapbookController.addToScrapbookSuccess(@mockEvent, @data)
-
-      waitsFor `function () {
-        return $('#after-add-to-scrapbook-modal').is(':visible')
-      }`, "After add to scrapbook modal did not appear", 750
-
-      runs ->
-        expect( $('#after-add-to-scrapbook-modal') ).toBeVisible()
-
-    it "adds the scrapbook title to the message", ->
-      runs ->
-        @addToScrapbookController.addToScrapbookSuccess(@mockEvent, @data)
-
-      waitsFor `function () {
-        return $('#after-add-to-scrapbook-modal').is(':visible')
-      }`, "After add to scrapbook modal did not appear", 750
-
-      runs ->
-        expect( $('#after-add-to-scrapbook-modal .modal-body .scrapbook-name').text() ).toEqual(@data.title)
-
-    it "View scrapbook button is a link to the scrapbook", ->
-      runs ->
-        @addToScrapbookController.addToScrapbookSuccess(@mockEvent, @data)
-
-      waitsFor `function () {
-        return $('#after-add-to-scrapbook-modal').is(':visible')
-      }`, "After add to scrapbook modal did not appear", 750
-
-      runs ->
-        expect( $('#after-add-to-scrapbook-modal .modal-footer .view-scrapbook').attr('href') ).toEqual("/scrapbooks/#{@data.id}")
 
   describe "error when adding a memory to a scrapbook", ->
     # TODO: add tests
