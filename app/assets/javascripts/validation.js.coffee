@@ -85,8 +85,8 @@ class @FormValidator
       markInvalid(formGroup, ['File must be less than or equal to 2MB'])
 
   hasFileAttached = (formGroup) ->
-    files = $(formGroup).find('input[type="file"]')[0].files
-    files && files.length > 0
+    file = $(formGroup).find('input#memory_source').val()
+    file && file != ''
 
   hasFileCached = (formGroup) ->
     cache = $(formGroup).find('input#memory_source_cache').val()

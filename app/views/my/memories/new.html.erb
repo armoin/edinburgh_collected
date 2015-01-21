@@ -32,8 +32,7 @@
         <div class="form-group" aria-required="true">
           <div class="formRow">
             <%= form.label :source, class: 'control-label' %>
-            <%= form.file_field :source, class: 'hide-whilst-enabled', data: {max_size: Memory::MAX_FILE_SIZE} %>
-            <%= link_to 'Choose a file', '', id: 'select-file', class: 'btn btn-primary' %>
+            <%= form.file_field :source, data: {max_size: Memory::MAX_FILE_SIZE} %>
             <%= form.hidden_field :source_cache %>
           </div>
           <% @memory.errors[:source].each do |error| %>
@@ -69,6 +68,11 @@
   var showPrompt = true;
 
   var setupForm = function (e) {
+    if ($('#memory_source')[0].files !== undefined) {
+      $('#memory_source').addClass('hide-whilst-enabled');
+      $('#memory_source').after('<a id="select-file" class="btn btn-primary">Choose a file</a>');
+    }
+
     window.formValidator = new FormValidator();
     window.formValidator.labelMaxLength($('form#add-memory'));
 
