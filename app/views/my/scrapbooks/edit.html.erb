@@ -17,9 +17,6 @@
  <div id="editScrapbookForm" class="formWrapper row">
   <div id="formPanel" class="col-md-5">
     <h2 class="form-title">Edit scrapbook</h2>
-    <% if current_user.try(:can_modify?, @scrapbook) %>
-        <%= link_to "View scrapbook", scrapbook_path(@scrapbook.id), class: 'button view' %>
-    <% end %>
   </header>
     <% if @scrapbook.errors.messages.any? %>
       <div class="errors">
@@ -42,7 +39,7 @@
         <%= hidden_field_tag 'scrapbook[ordering]' %>
         <%= hidden_field_tag 'scrapbook[deleted]' %>
         <div class="actions">
-          <%= link_to "Delete scrapbook", my_scrapbook_path(@scrapbook.id), class: 'delete button', method: :delete, data: {confirm: 'Are you sure?'} %>
+          <%= link_to "Cancel", scrapbook_path(@scrapbook.id), class: 'button view' %>
           <%= form.submit "Update scrapbook", class: "button green" %>
         </div>
       </div>
@@ -50,22 +47,23 @@
   </div>
 
   <div id="editScrapbook" class="col-md-7">
-    <div class="memories">
-      <% if @scrapbook.errors.messages.has_key?(:scrapbook_memories) %>
-        <div class="alert">
-          <%= "Scrapbook memories #{@scrapbook.errors.messages[:scrapbook_memories].join(', ')}" %>
-        </div>
-      <% end %>
+    <% if @scrapbook.errors.messages.has_key?(:scrapbook_memories) %>
+      <div class="alert">
+        <%= "Scrapbook memories #{@scrapbook.errors.messages[:scrapbook_memories].join(', ')}" %>
+      </div>
+    <% end %>
+    <h2>Reoder your memories:</h2>
+    <div class="memories masonry-grid">
       <% @scrapbook.scrapbook_memories.by_ordering.each do |scrapbook_memory| %>
         <% memory = scrapbook_memory.memory %>
-        <div class="memory thumb row" data-id="<%= scrapbook_memory.id %>">
-          <div class="img col-md-4">
+        <div class="memory thumb masonry" data-id="<%= scrapbook_memory.id %>">
+          <div class="padding">
             <img src="<%= cache_busted_url(memory, :thumb) %>" alt="<%= memory.title %>" />
-          </div>
-          <div class="detail col-md-5">
-            <h3 class="title"><%= memory.title %></h3>
-            <button class='btn btn-danger btn-xs remove-memory'>Remove</button>
-            <button class='btn btn-default btn-xs undo-remove'>Undo Remove</button>
+            <div class="detail">
+              <h3 class="title"><%= memory.title %></h3>
+              <button class='button red small remove-memory'><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove</button>
+              <button class='button blue small undo-remove'><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Undo Remove</button>
+            </div>
           </div>
         </div>
       <% end %>

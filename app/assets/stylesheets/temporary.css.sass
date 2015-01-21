@@ -151,7 +151,9 @@ a.underlined
   &:hover
     background-color: darken( $blue, 5% )
 
-
+.button.small
+  padding: 0.25em 0.5em
+  font-size: 12px
 
 .button.inactive
   border: 1px solid #bcc0c1
@@ -958,19 +960,33 @@ a.memory, a.scrapbook
     display: inline-block
     margin-top: 0
 
-  input.button
-    margin-left: 0
-
-  a.button.view
-    float: right
 
 
 #editScrapbook
-  float: right
+  padding-top: 1em
 
   .memory
-    margin-bottom: 1em
+    width: 24%
+    margin-bottom: 1%
     cursor: move
+    background: white
+    border: 1px solid white
+
+    &:hover
+      border: 1px solid $green
+      background: lighten( $green, 40% )
+
+
+    .padding
+      background: none
+      padding: 0.15em !important
+      margin: 0.5em
+
+      button
+        font-size: 10px
+
+      h3
+        font-size: 16px
 
     img
       width: 100%
