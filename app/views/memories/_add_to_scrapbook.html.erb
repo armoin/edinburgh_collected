@@ -7,24 +7,7 @@
       <div class="modal-body">
         <h4>Select scrapbook</h4>
         <div class="scrapbook_selector select">
-          <% if current_user %>
-            <% current_user.scrapbooks.sort{|a,b| b.updated_at<=>a.updated_at}.each do |scrapbook| %>
-              <div class="scrapbook" data-id="<%= scrapbook.id %>">
-                <div class="picture">
-                  <% if scrapbook.memories.any? %>
-                    <%= image_tag cache_busted_url(scrapbook.cover.main_memory, :mini_thumb) %>
-                  <% else %>
-                    <p>&nbsp;</p>
-                  <% end %>
-                </div>
-                <div class="details">
-                  <div class="title"><%= scrapbook.title %></div>
-                  <div class="count"><%= scrapbook.cover.memory_count %></div>
-                  <div class="updates">Updated <%= scrapbook.updated_at %></div>
-                </div>
-              </div>
-            <% end %>
-          <% end %>
+          <%= render partial: 'scrapbooks/selector', locals: {current_user: current_user} %>
         </div>
         or
         <button id="create-scrapbook-button" class="btn btn-primary" data-toggle="modal" data-target="#create-scrapbook-modal">

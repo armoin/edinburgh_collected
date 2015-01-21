@@ -4,9 +4,9 @@ class My::ScrapbookMemoriesController < My::AuthenticatedUserController
     @scrapbook.memories << memory
     respond_to do |format|
       if @scrapbook.save
-        format.json { render json: @scrapbook }
+        format.js
       else
-        format.json { render json: {}, status: :unprocessable_entity }
+        format.js { render json: {}, status: :unprocessable_entity }
       end
     end
   end

@@ -17,7 +17,7 @@ describe My::ScrapbookMemoriesController do
       scrapbook_memory: strong_params,
       controller: 'my/scrapbook_memories',
       action: 'create',
-      format: 'json'
+      format: 'js'
     }}
 
     context 'when not logged in' do
@@ -62,8 +62,8 @@ describe My::ScrapbookMemoriesController do
               post :create, given_params
             end
 
-            it "returns the scrapbook" do
-              expect(response.body).to eql(scrapbook.to_json)
+            it "renders the create javascript" do
+              expect(response.body).to render_template('create')
             end
 
             it "is successful" do

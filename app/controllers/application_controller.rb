@@ -5,11 +5,12 @@ class ApplicationController < ActionController::Base
 
   include SessionHelper
 
-  respond_to :html, :json, :geojson
+  respond_to :html, :js, :json, :geojson
 
   rescue_from ActiveRecord::RecordNotFound do
     respond_with do |format|
       format.html    { render 'exceptions/not_found', :status => :not_found }
+      format.js      { head :not_found }
       format.json    { head :not_found }
       format.geojson { head :not_found }
     end
