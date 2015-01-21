@@ -17,6 +17,7 @@
  <div id="editScrapbookForm" class="formWrapper row">
   <div id="formPanel" class="col-md-5">
     <h1 class="form-title">Edit scrapbook</h1>
+    <%= link_to "Cancel", scrapbook_path(@scrapbook.id), class: 'button cancel mobile' %>
 
     <% if @scrapbook.errors.messages.any? %>
       <div class="errors">
@@ -39,8 +40,8 @@
         <%= hidden_field_tag 'scrapbook[ordering]' %>
         <%= hidden_field_tag 'scrapbook[deleted]' %>
         <div class="actions">
-          <%= link_to "Cancel", scrapbook_path(@scrapbook.id), class: 'button view' %>
           <%= form.submit "Update scrapbook", class: "button green" %>
+          <%= link_to "Cancel", scrapbook_path(@scrapbook.id), class: 'button cancel desktop' %>
         </div>
       </div>
     <% end %>
