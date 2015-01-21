@@ -15,7 +15,7 @@
 
 
  <div id="editScrapbookForm" class="formWrapper row">
-  <div id="formPanel" class="col-md-6">
+  <div id="formPanel" class="col-md-5">
     <h2 class="form-title">Edit scrapbook</h2>
     <% if current_user.try(:can_modify?, @scrapbook) %>
         <%= link_to "View scrapbook", scrapbook_path(@scrapbook.id), class: 'button view' %>
@@ -49,7 +49,7 @@
     <% end %>
   </div>
 
-  <div id="editScrapbook" class="col-md-6">
+  <div id="editScrapbook" class="col-md-7">
     <div class="memories">
       <% if @scrapbook.errors.messages.has_key?(:scrapbook_memories) %>
         <div class="alert">
