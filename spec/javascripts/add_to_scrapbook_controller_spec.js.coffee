@@ -171,4 +171,4 @@ describe "AddToScrapbooksController", ->
         expect( $('#after-add-to-scrapbook-modal .modal-footer .view-scrapbook').attr('href') ).toEqual("/scrapbooks/#{@data.id}")
 
   describe "error when adding a memory to a scrapbook", ->
-    # TODO: add tests for this and stop error message from appearing multiple times
+    # TODO: add tests

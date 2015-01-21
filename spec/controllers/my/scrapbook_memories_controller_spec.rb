@@ -77,6 +77,10 @@ describe My::ScrapbookMemoriesController do
               post :create, given_params
             end
 
+            it "renders the error javascript" do
+              expect(response.body).to render_template('error')
+            end
+
             it "is unprocessable" do
               expect(response).to have_http_status(:unprocessable_entity)
             end

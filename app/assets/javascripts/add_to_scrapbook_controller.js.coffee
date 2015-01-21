@@ -26,12 +26,14 @@ class @AddToScrapbookController
     $('#add-to-scrapbook-modal').on 'shown.bs.modal', ->
       $('.scrapbook_selector').scrollTop(0)
 
+    $('#add-to-scrapbook-modal').on 'hide.bs.modal', (e) ->
+      $('#add-to-scrapbook-modal #errors .error-message').remove()
+
     $("form#add-to-scrapbook .save")
       .on("click", @validateAddToScrapbook)
 
     $("form#add-to-scrapbook")
       .on("ajax:success", @addToScrapbookSuccess)
-      .on("ajax:error", @addToScrapbookError)
 
   scrapbookCreateSuccess: (e, data, status, xhr) =>
     @addNewScrapbookToSelect(data)
@@ -68,18 +70,13 @@ class @AddToScrapbookController
   validateAddToScrapbook: (e) =>
     if $('.scrapbook.selected').length == 0
       e.preventDefault()
-      selector = $('#add-to-scrapbook-modal .modal-body')
+      selector = $('#add-to-scrapbook-modal #errors')
       message = 'Please select a scrapbook to add this memory to.'
       @displayErrorMessage(selector, message)
 
   addToScrapbookSuccess: (e, data, status, xhr) =>
     $('#add-to-scrapbook-modal').modal('hide');
     @displaySuccessMessage(data)
-
-  addToScrapbookError: (e, data, status, xhr) =>
-    selector = $('#add-to-scrapbook-modal .modal-body')
-    message = "Could not add to the selected scrapbook. Please try again later."
-    @displayErrorMessage(selector, message)
 
   displaySuccessMessage: (data) ->
     scope = $('#after-add-to-scrapbook-modal')
@@ -89,5 +86,5 @@ class @AddToScrapbookController
 
   displayErrorMessage: (selector, message) ->
     html = "<div class=\"error-message\">#{message}</div>"
-    selector.prepend(html)
+    selector.html(html)
 

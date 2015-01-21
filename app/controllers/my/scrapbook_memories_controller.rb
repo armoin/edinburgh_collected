@@ -6,7 +6,7 @@ class My::ScrapbookMemoriesController < My::AuthenticatedUserController
       if @scrapbook.save
         format.js
       else
-        format.js { render json: {}, status: :unprocessable_entity }
+        format.js { render 'error', status: :unprocessable_entity }
       end
     end
   end
