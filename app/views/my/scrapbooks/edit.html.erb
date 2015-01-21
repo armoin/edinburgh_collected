@@ -1,14 +1,26 @@
 <div class="container">
-  <header id="contentHeader" class="clearfix">
-    <h1>Edit</h1>
+ <header id="formHeader" class="row">
+<!--
+  <div class="step step1 col-md-4">
+   <span>1</span> Choose the type of file
+  </div>
+  <div class="step step2 col-md-4">
+   <span>2</span> Upload your memory
+  </div>
+  <div class="step step3 col-md-4">
+   <span>3</span> Upload Complete
+  </div>
+ -->
+ </header>
+
+
+ <div id="editScrapbookForm" class="formWrapper row">
+  <div id="formPanel" class="col-md-6">
+    <h2 class="form-title">Edit scrapbook</h2>
     <% if current_user.try(:can_modify?, @scrapbook) %>
-      <span class="actions">
-        <%= link_to "Show", scrapbook_path(@scrapbook.id) %>
-        <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), class: 'delete', method: :delete, data: {confirm: 'Are you sure?'} %>
-      </span>
+        <%= link_to "View scrapbook", scrapbook_path(@scrapbook.id), class: 'button view' %>
     <% end %>
   </header>
-  <div class="col-md-4">
     <% if @scrapbook.errors.messages.any? %>
       <div class="errors">
         <%= @scrapbook.errors.full_messages.join(', ') %>
@@ -29,9 +41,9 @@
       <div class="form-group">
         <%= hidden_field_tag 'scrapbook[ordering]' %>
         <%= hidden_field_tag 'scrapbook[deleted]' %>
-        <div class="actions col-xs-sm-12">
-          <%= link_to "Cancel", scrapbook_path(@scrapbook), class: "btn btn-default" %>
-          <%= form.submit "Update scrapbook", class: "btn btn-primary" %>
+        <div class="actions">
+          <%= link_to "Delete scrapbook", my_scrapbook_path(@scrapbook.id), class: 'delete button', method: :delete, data: {confirm: 'Are you sure?'} %>
+          <%= form.submit "Update scrapbook", class: "button green" %>
         </div>
       </div>
     <% end %>
