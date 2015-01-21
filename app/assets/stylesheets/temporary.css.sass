@@ -956,14 +956,31 @@ a.memory, a.scrapbook
 
 
 #editScrapbookForm
-  h2.form-title
-    display: inline-block
+  position: relative
+  height: 100%
+  background: white
+
+  h1.form-title
     margin-top: 0
+
+  #formPanel
+    background: none
 
 
 
 #editScrapbook
   padding-top: 1em
+
+  .memoriesWrapper
+    padding: 1em
+    background-color: $light-grey
+    margin-bottom: 1em
+
+  h2
+    font-weight: 300
+    font-style: italic
+    text-align: center
+    margin: 10px 0 20px
 
   .memory
     width: 24%

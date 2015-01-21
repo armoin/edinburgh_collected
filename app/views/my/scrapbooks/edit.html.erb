@@ -47,6 +47,7 @@
   </div>
 
   <div id="editScrapbook" class="col-md-7">
+   <div class="memoriesWrapper">
     <% if @scrapbook.errors.messages.has_key?(:scrapbook_memories) %>
       <div class="alert">
         <%= "Scrapbook memories #{@scrapbook.errors.messages[:scrapbook_memories].join(', ')}" %>
@@ -67,6 +68,7 @@
           </div>
         </div>
       <% end %>
+    </div>
     </div>
   </div>
 </div>
