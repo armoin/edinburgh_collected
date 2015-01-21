@@ -59,6 +59,7 @@ describe 'search/memories/index.html.erb' do
 
     it_behaves_like 'a memory index'
     it_behaves_like 'paginated content'
+    it_behaves_like 'add to scrapbook'
   end
 end
 
