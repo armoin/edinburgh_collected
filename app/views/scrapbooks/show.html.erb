@@ -1,4 +1,4 @@
-<% memories = @scrapbook.ordered_memories %>
+<% memories = Kaminari.paginate_array(@scrapbook.ordered_memories).page(1).per(30) %>
 
 <div id="scrapbook" class="container">
   <div id="grid">
@@ -22,13 +22,7 @@
     </div>
 
     <% if memories.any? -%>
-      <div class="masonry-loading-spinner"><div class="spinner"></div></div>
-        <div id="memories" class="masonry-grid">
-          <% memories.each do |memory| %>
-            <%= render partial: 'memories/memory_thumb', locals: {memory: memory} %>
-          <% end %>
-        </div>
-      </div>
+      <%= render partial: 'memories/index', locals: {memories: memories} %>
     <% elsif current_user.try(:can_modify?, @scrapbook) %>
       <div id="scrapbookInstructions" class="container">
         <h3>Your scrapbook is empty!</h3>

@@ -18,12 +18,12 @@ describe 'my/scrapbooks/edit.html.erb' do
       render
     end
 
-    it "does not have a show link" do
-      expect(rendered).not_to have_link('Show', href: scrapbook_path(scrapbook))
+    it "does not have a View scrapbook link" do
+      expect(rendered).not_to have_link('View scrapbook', href: scrapbook_path(scrapbook))
     end
 
-    it "does not have a delete link" do
-      expect(rendered).not_to have_link('Delete', href: my_scrapbook_path(scrapbook))
+    it "does not have a Delete scrapbook link" do
+      expect(rendered).not_to have_link('Delete scrapbook', href: my_scrapbook_path(scrapbook))
     end
   end
 
@@ -33,12 +33,12 @@ describe 'my/scrapbooks/edit.html.erb' do
       render
     end
 
-    it "has a show link" do
-      expect(rendered).to have_link('Show', href: scrapbook_path(scrapbook))
+    it "has a View scrapbook link" do
+      expect(rendered).to have_link('View scrapbook', href: scrapbook_path(scrapbook))
     end
 
-    it "has a delete link" do
-      expect(rendered).to have_link('Delete', href: my_scrapbook_path(scrapbook))
+    it "has a Delete scrapbook link" do
+      expect(rendered).to have_link('Delete scrapbook', href: my_scrapbook_path(scrapbook))
     end
   end
 
