@@ -28,7 +28,7 @@ describe 'my/scrapbooks/edit.html.erb' do
     end
 
     it "lets the user save the edit" do
-      expect(rendered).to have_css('input[type="submit"][value="Update scrapbook"]')
+      expect(rendered).to have_css('input[type="submit"][value="Save changes"]')
     end
   end
 

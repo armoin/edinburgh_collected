@@ -6,10 +6,9 @@
       <h1 class="form-title">Edit scrapbook</h1>
       <%= link_to "Cancel", scrapbook_path(@scrapbook.id), class: 'button cancel mobile' %>
 
-      <% if @scrapbook.errors.messages.any? %>
-        <div class="errors">
-          <%= @scrapbook.errors.full_messages.join(', ') %>
-        </div>
+      <% messages = @scrapbook.errors.full_messages %>
+      <% if messages.any? %>
+        <div class="error-message"><%= messages.join(', ') %></div>
       <% end %>
 
       <%= form_for @scrapbook, url: my_scrapbook_path(@scrapbook), html: {class: 'form-horizontal'} do |form| %>
@@ -27,7 +26,7 @@
           <%= hidden_field_tag 'scrapbook[ordering]' %>
           <%= hidden_field_tag 'scrapbook[deleted]' %>
           <div class="actions">
-            <%= form.submit "Update scrapbook", class: "button green" %>
+            <%= form.submit "Save changes", class: "button green" %>
             <%= link_to "Cancel", scrapbook_path(@scrapbook.id), class: 'button cancel desktop' %>
           </div>
         </div>
@@ -41,15 +40,15 @@
             <%= "Scrapbook memories #{@scrapbook.errors.messages[:scrapbook_memories].join(', ')}" %>
           </div>
         <% end %>
-        <h2>Reoder your memories:</h2>
-        <div class="memories masonry-grid">
+        <h2>Reorder your memories:</h2>
+        <div class="memories">
           <% @scrapbook.scrapbook_memories.by_ordering.each do |scrapbook_memory| %>
             <% memory = scrapbook_memory.memory %>
             <div class="memory thumb masonry" data-id="<%= scrapbook_memory.id %>">
               <div class="padding">
                 <img src="<%= cache_busted_url(memory, :thumb) %>" alt="<%= memory.title %>" />
                 <div class="detail">
-                  <h3 class="title"><%= memory.title %></h3>
+                  <h3 class="title"><%= memory.title %> (<%= scrapbook_memory.id %>)</h3>
                   <button class='button red small remove-memory'><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove</button>
                   <button class='button blue small undo-remove'><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Undo Remove</button>
                 </div>

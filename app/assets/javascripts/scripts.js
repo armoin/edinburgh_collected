@@ -24,7 +24,7 @@ var runMasonry = function(e) {
 
     $spinner.hide();
     $container.parent().show();
-    $container.masonry({
+    $container.packery({
       itemSelector: '.masonry',
       columnWidth:  '.masonry',
       gutter: gutter,
