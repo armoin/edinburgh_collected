@@ -2,25 +2,29 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title"></h4>
+        <h3 class="modal-title"></h3>
+      </div>
+      <div class="guide">
+        <p>Select a scrapbook below or
+        <button id="create-scrapbook-button" class="button teal" data-toggle="modal" data-target="#create-scrapbook-modal">
+          Create a new scrapbook
+        </button></p>
       </div>
       <div class="modal-body">
         <div id="errors"></div>
-        <h4>Select scrapbook</h4>
         <div class="scrapbook_selector select">
           <%= render partial: 'scrapbooks/selector', locals: {current_user: current_user} %>
         </div>
-        or
-        <button id="create-scrapbook-button" class="btn btn-primary" data-toggle="modal" data-target="#create-scrapbook-modal">
-          Create a new scrapbook
-        </button>
       </div>
       <div class="modal-footer">
-        <%= form_tag my_scrapbook_memories_path, remote: true, id: 'add-to-scrapbook', class: 'minimal' do %>
+
+          <%= form_tag my_scrapbook_memories_path, remote: true, id: 'add-to-scrapbook', class: 'minimal' do %>
           <%= hidden_field_tag "scrapbook_memory[scrapbook_id]" %>
           <%= hidden_field_tag "scrapbook_memory[memory_id]" %>
-          <a href="#" class="cancel btn btn-default" data-dismiss="modal">Cancel</a>
-          <button class="save btn btn-primary">Add to scrapbook</button>
+          <span>
+          </span>
+          <a href="#" class="cancel button navy" data-dismiss="modal">Cancel</a>
+          <button class="save button teal">Add to scrapbook</button>
         <% end %>
       </div>
     </div>
