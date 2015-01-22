@@ -27,6 +27,7 @@
 //= require jquery.spin
 //= require isotope.pkgd.min
 //= require packery-mode.pkgd.min
+//= require draggabilly.pkgd.min
 //= require jquery.tagsinput.min
 //= require underscore
 //= require json2

@@ -14,9 +14,9 @@ class @ScrapbookEditor
         gutter: gutter,
         fitWidth: true,
       })
-      $memories = $packCont.find('.memory')
-      $memories.draggable()
-      $packCont.packery 'bindUIDraggableEvents', $memories
+      $packCont.find('.memory').each (i, memory) ->
+        draggie = new Draggabilly(memory)
+        $packCont.packery 'bindDraggabillyEvents', draggie
       $packCont.packery 'on', 'dragItemPositioned', recordOrdering
       $packCont.packery 'on', 'removeComplete', recordDeletions
 
