@@ -5,7 +5,7 @@
         <% if scrapbook.memories.any? %>
           <%= image_tag cache_busted_url(scrapbook.cover.main_memory, :mini_thumb) %>
         <% else %>
-          <p>&nbsp;</p>
+          <%= image_tag 'empty-scrapbook.png', :class => "ph" %>
         <% end %>
       </div>
       <div class="details">
