@@ -1,75 +1,62 @@
 <div class="container">
- <header id="formHeader" class="row">
-<!--
-  <div class="step step1 col-md-4">
-   <span>1</span> Choose the type of file
-  </div>
-  <div class="step step2 col-md-4">
-   <span>2</span> Upload your memory
-  </div>
-  <div class="step step3 col-md-4">
-   <span>3</span> Upload Complete
-  </div>
- -->
- </header>
+  <header id="formHeader" class="row"></header>
 
+  <div id="editScrapbookForm" class="formWrapper row">
+    <div id="formPanel" class="col-md-5">
+      <h1 class="form-title">Edit scrapbook</h1>
+      <%= link_to "Cancel", scrapbook_path(@scrapbook.id), class: 'button cancel mobile' %>
 
- <div id="editScrapbookForm" class="formWrapper row">
-  <div id="formPanel" class="col-md-5">
-    <h1 class="form-title">Edit scrapbook</h1>
-    <%= link_to "Cancel", scrapbook_path(@scrapbook.id), class: 'button cancel mobile' %>
-
-    <% if @scrapbook.errors.messages.any? %>
-      <div class="errors">
-        <%= @scrapbook.errors.full_messages.join(', ') %>
-      </div>
-    <% end %>
-
-    <%= form_for @scrapbook, url: my_scrapbook_path(@scrapbook), html: {class: 'form-horizontal'} do |form| %>
-      <div class="form-group">
-        <%= form.label :title, class: 'control-label' %>
-        <%= form.text_field :title, class: 'form-control' %>
-      </div>
-
-      <div class="form-group">
-        <%= form.label :description, class: 'control-label' %>
-        <%= form.text_area :description, class: 'form-control' %>
-      </div>
-
-      <div class="form-group">
-        <%= hidden_field_tag 'scrapbook[ordering]' %>
-        <%= hidden_field_tag 'scrapbook[deleted]' %>
-        <div class="actions">
-          <%= form.submit "Update scrapbook", class: "button green" %>
-          <%= link_to "Cancel", scrapbook_path(@scrapbook.id), class: 'button cancel desktop' %>
+      <% if @scrapbook.errors.messages.any? %>
+        <div class="errors">
+          <%= @scrapbook.errors.full_messages.join(', ') %>
         </div>
-      </div>
-    <% end %>
-  </div>
+      <% end %>
 
-  <div id="editScrapbook" class="col-md-7">
-   <div class="memoriesWrapper">
-    <% if @scrapbook.errors.messages.has_key?(:scrapbook_memories) %>
-      <div class="alert">
-        <%= "Scrapbook memories #{@scrapbook.errors.messages[:scrapbook_memories].join(', ')}" %>
-      </div>
-    <% end %>
-    <h2>Reoder your memories:</h2>
-    <div class="memories masonry-grid">
-      <% @scrapbook.scrapbook_memories.by_ordering.each do |scrapbook_memory| %>
-        <% memory = scrapbook_memory.memory %>
-        <div class="memory thumb masonry" data-id="<%= scrapbook_memory.id %>">
-          <div class="padding">
-            <img src="<%= cache_busted_url(memory, :thumb) %>" alt="<%= memory.title %>" />
-            <div class="detail">
-              <h3 class="title"><%= memory.title %></h3>
-              <button class='button red small remove-memory'><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove</button>
-              <button class='button blue small undo-remove'><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Undo Remove</button>
-            </div>
+      <%= form_for @scrapbook, url: my_scrapbook_path(@scrapbook), html: {class: 'form-horizontal'} do |form| %>
+        <div class="form-group">
+          <%= form.label :title, class: 'control-label' %>
+          <%= form.text_field :title, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= form.label :description, class: 'control-label' %>
+          <%= form.text_area :description, class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= hidden_field_tag 'scrapbook[ordering]' %>
+          <%= hidden_field_tag 'scrapbook[deleted]' %>
+          <div class="actions">
+            <%= form.submit "Update scrapbook", class: "button green" %>
+            <%= link_to "Cancel", scrapbook_path(@scrapbook.id), class: 'button cancel desktop' %>
           </div>
         </div>
       <% end %>
     </div>
+
+    <div id="editScrapbook" class="col-md-7">
+      <div class="memoriesWrapper">
+        <% if @scrapbook.errors.messages.has_key?(:scrapbook_memories) %>
+          <div class="alert">
+            <%= "Scrapbook memories #{@scrapbook.errors.messages[:scrapbook_memories].join(', ')}" %>
+          </div>
+        <% end %>
+        <h2>Reoder your memories:</h2>
+        <div class="memories masonry-grid">
+          <% @scrapbook.scrapbook_memories.by_ordering.each do |scrapbook_memory| %>
+            <% memory = scrapbook_memory.memory %>
+            <div class="memory thumb masonry" data-id="<%= scrapbook_memory.id %>">
+              <div class="padding">
+                <img src="<%= cache_busted_url(memory, :thumb) %>" alt="<%= memory.title %>" />
+                <div class="detail">
+                  <h3 class="title"><%= memory.title %></h3>
+                  <button class='button red small remove-memory'><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Remove</button>
+                  <button class='button blue small undo-remove'><span class="glyphicon glyphicon-repeat" aria-hidden="true"></span> Undo Remove</button>
+                </div>
+              </div>
+            </div>
+          <% end %>
+      </div>
     </div>
   </div>
 </div>

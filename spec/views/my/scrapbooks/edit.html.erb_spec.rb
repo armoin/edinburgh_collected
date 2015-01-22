@@ -4,42 +4,10 @@ describe 'my/scrapbooks/edit.html.erb' do
   let(:scrapbook)           { Fabricate.build(:scrapbook, id: 132) }
   let(:memories)            { stub_memories(3).map.with_index{|m,i| double(id: i, scrapbook: scrapbook, memory: m)} }
   let(:scrapbook_memories)  { double('scrapbook_memories', by_ordering: memories) }
-  let(:user)                { Fabricate.build(:active_user) }
 
   before :each do
-    allow(view).to receive(:current_user).and_return(user)
     allow(scrapbook).to receive(:scrapbook_memories).and_return(scrapbook_memories)
     assign(:scrapbook, scrapbook)
-  end
-
-  context "when scrapbook doesn't belong to the user" do
-    before :each do
-      allow(user).to receive(:can_modify?).and_return(false)
-      render
-    end
-
-    it "does not have a View scrapbook link" do
-      expect(rendered).not_to have_link('View scrapbook', href: scrapbook_path(scrapbook))
-    end
-
-    it "does not have a Delete scrapbook link" do
-      expect(rendered).not_to have_link('Delete scrapbook', href: my_scrapbook_path(scrapbook))
-    end
-  end
-
-  context "when scrapbook belongs to the user" do
-    before :each do
-      allow(user).to receive(:can_modify?).and_return(true)
-      render
-    end
-
-    it "has a View scrapbook link" do
-      expect(rendered).to have_link('View scrapbook', href: scrapbook_path(scrapbook))
-    end
-
-    it "has a Delete scrapbook link" do
-      expect(rendered).to have_link('Delete scrapbook', href: my_scrapbook_path(scrapbook))
-    end
   end
 
   describe 'editing the scrapbook details' do
@@ -53,6 +21,14 @@ describe 'my/scrapbooks/edit.html.erb' do
 
     it 'lets the user edit the description' do
       expect(rendered).to have_css('textarea#scrapbook_description', count: 1)
+    end
+
+    it "lets the user cancel the edit" do
+      expect(rendered).to have_link('Cancel', href: scrapbook_path(scrapbook))
+    end
+
+    it "lets the user save the edit" do
+      expect(rendered).to have_css('input[type="submit"][value="Update scrapbook"]')
     end
   end
 
