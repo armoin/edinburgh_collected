@@ -21,5 +21,51 @@ describe MemoriesHelper do
       expect(helper.month_names).to eql(expected)
     end
   end
+
+  describe '#scrapbook_modal_data' do
+    let(:memory) { double(id: 123, title: 'Test title') }
+
+    subject { helper.scrapbook_modal_data(logged_in, memory) }
+
+    context 'when logged in' do
+      let(:logged_in) { true }
+
+      it "provides the data for the modal" do
+        expect(subject[:toggle]).to eql('modal')
+      end
+
+      it "is bound to the Add to scrapbook modal" do
+        expect(subject[:target]).to eql('#add-to-scrapbook-modal')
+      end
+
+      it "includes the memory's id" do
+        expect(subject[:memory_id]).to eql(memory.id)
+      end
+
+      it "includes the memory's title" do
+        expect(subject[:memory_title]).to eql(memory.title)
+      end
+    end
+
+    context 'when not logged in' do
+      let(:logged_in) { false }
+
+      it "provides the data for a 'Please sign in' popover" do
+        expect(subject[:toggle]).to eql('popover')
+      end
+
+      it "is triggered by a click" do
+        expect(subject[:trigger]).to eql('click')
+      end
+
+      it "has a title" do
+        expect(subject).to have_key(:title)
+      end
+
+      it "has some content" do
+        expect(subject).to have_key(:content)
+      end
+    end
+  end
 end
 

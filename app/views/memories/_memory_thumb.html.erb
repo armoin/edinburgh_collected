@@ -3,12 +3,12 @@
      <%= render partial: 'memories/state_label', locals: {memory: memory} %>
     <div class="imageWrapper">
       <div class="hoverButtons">
-       <div id="memory-<%= memory.id %>" class="buttonsWrapper vCenterAlign">
-         <%= link_to '#', class: "addScrapbook button scrapbooks", data: {memory_id: memory.id, memory_title: memory.title, toggle: 'modal', target: '#add-to-scrapbook-modal'}  do %>
-           <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Scrapbook
-         <% end -%>
-         <a href="<%= memory_path(memory) %>" class="view button memories"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View</a>
-       </div>
+        <div id="memory-<%= memory.id %>" class="buttonsWrapper vCenterAlign">
+          <%= link_to '#', class: "addScrapbook button scrapbooks", data: scrapbook_modal_data(logged_in?, memory), tabindex: 0, role: 'button' do %>
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Scrapbook
+          <% end -%>
+          <a href="<%= memory_path(memory) %>" class="view button memories"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View</a>
+        </div>
       </div>
       <%= image_tag cache_busted_url(memory, :thumb), alt: memory.title %>
     </div>
@@ -21,3 +21,9 @@
   </div>
 </div>
 
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('[data-toggle="popover"]').popover({placement: 'bottom'}).on('click', function (e) { e.preventDefault(); })
+    $('.imageWrapper').on('mouseleave', function (e) { $(e.currentTarget).find('[data-toggle="popover"]').popover('hide') })
+  });
+</script>

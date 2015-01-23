@@ -5,7 +5,7 @@
         <% if scrapbook.memories.any? %>
           <%= image_tag cache_busted_url(scrapbook.cover.main_memory, :mini_thumb) %>
         <% else %>
-          <%= image_tag 'assets/empty-scrapbook.png', :class => "ph" %>
+          <%= image_tag 'empty-scrapbook.png', :class => "ph" %>
         <% end %>
         <span class="glyphicon glyphicon-ok"></span>
       </div>
