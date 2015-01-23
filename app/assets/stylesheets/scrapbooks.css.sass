@@ -1,3 +1,12 @@
+$navy-blue:     #35404d
+$cream:         #eeece7
+$coral:         #e45f56
+$light-grey:    #eaebe9
+$beige:         #c9ccc1
+$teal:          #51b0aa
+$blue:          #336699
+$green:         #49B18C
+
 /* SCRAPBOOK MODAL */
 h4.modal-title
   font-weight: 600
@@ -15,14 +24,20 @@ h4.modal-title
     display: inline-block
     vertical-align: top
     overflow: hidden
+    position: relative
 
     &.selected
-      background-color: #336699
-      background-image: image-url('white-tick.png')
+      background-color: $blue
       background-position: right 20px center
       background-repeat: no-repeat
       background-size: 50px
       color: white
+
+      .picture
+
+        span
+          display: block!important
+
 
     .picture
       float: left
@@ -30,7 +45,6 @@ h4.modal-title
       max-width: 100px
       height: 100%
       background: white
-      overflow: hidden
       border: 1px solid #ccc
       margin-bottom: 0
       padding: 5px
@@ -38,6 +52,23 @@ h4.modal-title
       -moz-border-radius:    3px
       -ms-border-radius:     3px
       border-radius:         3px
+      position: relative
+
+      span
+        display: none
+        background: $green
+        color: white
+        padding: 0.5em
+        position: absolute
+        right: 0px
+        top: 0px
+        z-index: 9999
+        -webkit-border-radius: 1em
+        -moz-border-radius:    1em
+        -ms-border-radius:     1em
+        border-radius:         1em
+        font-size: 0.9em
+
       img
         width: 90px
         margin-right: 1em
@@ -46,9 +77,12 @@ h4.modal-title
       float: left
       width: 60%
       margin-left: 10px
+      font-size: 0.9em
 
       .title
-        font-weight: bold
+        font-weight: 600
+      .count
+        font-style: italic
 
 .modal-footer
   form
@@ -69,6 +103,14 @@ h4.modal-title
 body #add-to-scrapbook-modal .modal-dialog
   width: 80%
   margin: 10%
+
+
+
+@media screen and (max-width: 980px)
+  .scrapbook_selector .scrapbook.selected .picture span
+    font-size: 0.75em
+    top: -5px
+    right: -5px
 
 
 @media screen and (max-width: 768px)
