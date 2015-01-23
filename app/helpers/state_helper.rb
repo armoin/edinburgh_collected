@@ -17,8 +17,8 @@ module StateHelper
   end
 
   def state_label(memory)
-    label = memory.current_state
-    label += " - #{memory.current_state_reason}" if memory.current_state_reason
+    label = memory.moderation_state
+    label += " - #{memory.moderation_reason}" if memory.moderation_reason
     label
   end
 

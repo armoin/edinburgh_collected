@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141214104711) do
+ActiveRecord::Schema.define(version: 20150123171059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,9 @@ ActiveRecord::Schema.define(version: 20141214104711) do
     t.string   "location"
     t.float    "latitude"
     t.float    "longitude"
+    t.string   "moderation_state"
+    t.string   "moderation_reason"
+    t.datetime "last_moderated_at"
   end
 
   create_table "memory_moderations", force: true do |t|

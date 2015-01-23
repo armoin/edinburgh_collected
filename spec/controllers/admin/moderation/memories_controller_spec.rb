@@ -31,13 +31,11 @@ describe Admin::Moderation::MemoriesController do
     context 'when logged in' do
       let(:result)          { true }
       let(:format)          { 'html' }
-      let(:previous_state)  { 'unmoderated' }
 
       before :each do
         @user = Fabricate(:admin_user)
         login_user
         allow(memory).to receive(:approve!).and_return(result)
-        allow(memory).to receive(:previous_state).and_return(previous_state)
         put :approve, id: memory.id, format: format
       end
 
@@ -53,20 +51,8 @@ describe Admin::Moderation::MemoriesController do
         context 'when an HTML  request' do
           let(:format) { 'html' }
 
-          context 'when original state was "unmoderated"' do
-            let(:previous_state) { 'unmoderated' }
-
-            it 'redirects to the unmoderated index page' do
-              expect(response).to redirect_to(admin_unmoderated_path)
-            end
-          end
-
-          context 'when original state was not "unmoderated"' do
-            let(:previous_state) { 'approved' }
-
-            it 'redirects to the moderated index page' do
-              expect(response).to redirect_to(admin_moderated_path)
-            end
+          it 'redirects to the unmoderated index page' do
+            expect(response).to redirect_to(admin_unmoderated_path)
           end
 
           context "when successful" do
@@ -132,13 +118,11 @@ describe Admin::Moderation::MemoriesController do
     end
 
     context 'when logged in' do
-      let(:previous_state)  { 'unmoderated' }
 
       before :each do
         @user = Fabricate(:admin_user)
         login_user
         allow(memory).to receive(:reject!).and_return(result)
-        allow(memory).to receive(:previous_state).and_return(previous_state)
         put :reject, id: memory.id, reason: reason, format: format
       end
 
@@ -154,20 +138,8 @@ describe Admin::Moderation::MemoriesController do
         context 'when an HTML  request' do
           let(:format) { 'html' }
 
-          context 'when original state was "unmoderated"' do
-            let(:previous_state) { 'unmoderated' }
-
-            it 'redirects to the unmoderated index page' do
-              expect(response).to redirect_to(admin_unmoderated_path)
-            end
-          end
-
-          context 'when original state was not "unmoderated"' do
-            let(:previous_state) { 'approved' }
-
-            it 'redirects to the moderated index page' do
-              expect(response).to redirect_to(admin_moderated_path)
-            end
+          it 'redirects to the unmoderated index page' do
+            expect(response).to redirect_to(admin_unmoderated_path)
           end
 
           context "when successful" do
@@ -232,13 +204,11 @@ describe Admin::Moderation::MemoriesController do
     end
 
     context 'when logged in' do
-      let(:previous_state)  { 'unmoderated' }
 
       before :each do
         @user = Fabricate(:admin_user)
         login_user
         allow(memory).to receive(:unmoderate!).and_return(result)
-        allow(memory).to receive(:previous_state).and_return(previous_state)
         put :unmoderate, id: memory.id, format: format
       end
 
@@ -254,20 +224,8 @@ describe Admin::Moderation::MemoriesController do
         context 'when an HTML  request' do
           let(:format) { 'html' }
 
-          context 'when original state was "unmoderated"' do
-            let(:previous_state) { 'unmoderated' }
-
-            it 'redirects to the unmoderated index page' do
-              expect(response).to redirect_to(admin_unmoderated_path)
-            end
-          end
-
-          context 'when original state was not "unmoderated"' do
-            let(:previous_state) { 'approved' }
-
-            it 'redirects to the moderated index page' do
-              expect(response).to redirect_to(admin_moderated_path)
-            end
+          it 'redirects to the moderated index page' do
+            expect(response).to redirect_to(admin_moderated_path)
           end
 
           context "when successful" do

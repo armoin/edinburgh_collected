@@ -13,20 +13,20 @@ RSpec.shared_examples 'moderatable' do
       rejected.reject!('test')
     end
 
-    describe '.by_state' do
+    describe '.in_state' do
       it 'returns records if there are any in the given state' do
-        expect(moderatable_model.by_state('unmoderated').count).to eql(2)
-        expect(moderatable_model.by_state('approved').count).to eql(1)
-        expect(moderatable_model.by_state('rejected').count).to eql(1)
+        expect(moderatable_model.in_state('unmoderated').count).to eql(2)
+        expect(moderatable_model.in_state('approved').count).to eql(1)
+        expect(moderatable_model.in_state('rejected').count).to eql(1)
       end
 
       it 'returns no records if there are none in the given state' do
-        expect(moderatable_model.by_state('nonsense').count).to eql(0)
+        expect(moderatable_model.in_state('nonsense').count).to eql(0)
       end
     end
 
     describe '.moderated' do
-      it 'returns all records that are not moderated' do
+      it 'returns all records that are not unmoderated' do
         moderated_records = moderatable_model.moderated
         expect(moderated_records.count).to eql(2)
         expect(moderated_records).to include(approved)
@@ -61,85 +61,72 @@ RSpec.shared_examples 'moderatable' do
   end
 
   describe "moderation state" do
-    describe "#previous_state" do
-      it "provides the default state if no moderation records are found" do
-        expect(moderatable_instance.previous_state).to eql(ModerationStateMachine::DEFAULT_STATE)
-      end
-
-      it "provides the from_state of the moderation record if one is found" do
-        MemoryModeration.create!(memory: moderatable_instance, from_state: 'unmoderated', to_state: 'approved')
-        expect(moderatable_instance.previous_state).to eql('unmoderated')
-      end
-
-      it "provides the from_state of the latest moderation record if more than one is found" do
-        MemoryModeration.create!(memory: moderatable_instance, from_state: 'unmoderated', to_state: 'approved')
-        MemoryModeration.create!(memory: moderatable_instance, from_state: 'approved', to_state: 'rejected')
-        expect(moderatable_instance.previous_state).to eql('approved')
-      end
-    end
-
-    describe "#current_state" do
-      it "provides the default state if no moderation records are found" do
-        expect(moderatable_instance.current_state).to eql(ModerationStateMachine::DEFAULT_STATE)
-      end
-
-      it "provides the to_state of the moderation record if one is found" do
-        MemoryModeration.create!(memory: moderatable_instance, from_state: 'unmoderated', to_state: 'approved')
-        expect(moderatable_instance.current_state).to eql('approved')
-      end
-
-      it "provides the to_state of the latest moderation record if more than one is found" do
-        MemoryModeration.create!(memory: moderatable_instance, from_state: 'unmoderated', to_state: 'approved')
-        MemoryModeration.create!(memory: moderatable_instance, from_state: 'approved', to_state: 'rejected')
-        expect(moderatable_instance.current_state).to eql('rejected')
-      end
-    end
-
-    describe "#current_state_reason" do
-      it "is nil if no moderation records are found" do
-        expect(moderatable_instance.current_state_reason).to be_nil
-      end
-
-      it "is nil if the moderation record found has no comment" do
-        MemoryModeration.create!(memory: moderatable_instance, from_state: 'unmoderated', to_state: 'approved')
-        expect(moderatable_instance.current_state_reason).to be_nil
-      end
-
-      it "provides the to_state of the moderation record if one is found" do
-        MemoryModeration.create!(memory: moderatable_instance, from_state: 'unmoderated', to_state: 'approved', comment: 'test comment')
-        expect(moderatable_instance.current_state_reason).to eql('test comment')
-      end
-
-      it "provides the to_state of the latest moderation record if more than one is found" do
-        MemoryModeration.create!(memory: moderatable_instance, from_state: 'unmoderated', to_state: 'approved', comment: 'first comment')
-        MemoryModeration.create!(memory: moderatable_instance, from_state: 'approved', to_state: 'rejected', comment: 'last comment')
-        expect(moderatable_instance.current_state_reason).to eql('last comment')
-      end
-    end
-
     describe "#approve!" do
       it "changes the moderation state to 'approved'" do
         moderatable_instance.approve!
-        expect(moderatable_instance.current_state).to eql('approved')
+        expect(moderatable_instance.moderation_state).to eql('approved')
+      end
+
+      it "adds a last_moderated_at date" do
+        expect(moderatable_instance.last_moderated_at).to be_nil
+        moderatable_instance.approve!
+        expect(moderatable_instance.last_moderated_at).not_to be_nil
+      end
+
+      it "adds a moderation record to track the moderation" do
+        expect {
+          moderatable_instance.approve!
+        }.to change{moderatable_model.moderation_record.count}.by(1)
       end
     end
 
     describe "#reject!" do
       it "changes the moderation state to 'rejected'" do
         moderatable_instance.reject!('unsuitable')
-        expect(moderatable_instance.current_state).to eql('rejected')
+        expect(moderatable_instance.moderation_state).to eql('rejected')
       end
 
-      it "stores the given reason" do
+      it "stores the reason if one is given" do
         moderatable_instance.reject!('unsuitable')
-        expect(moderatable_instance.moderation_records.last.comment).to eql('unsuitable')
+        expect(moderatable_instance.moderation_reason).to eql('unsuitable')
+      end
+
+      it "a blank reason if none is given" do
+        moderatable_instance.reject!
+        expect(moderatable_instance.moderation_reason).to eql('')
+      end
+
+      it "adds a last_moderated_at date" do
+        expect(moderatable_instance.last_moderated_at).to be_nil
+        moderatable_instance.reject!
+        expect(moderatable_instance.last_moderated_at).not_to be_nil
+      end
+
+      it "adds a moderation record to track the moderation" do
+        expect {
+          moderatable_instance.reject!
+        }.to change{moderatable_model.moderation_record.count}.by(1)
       end
     end
 
     describe "#unmoderate!" do
       it "changes the moderation state to 'unmoderated'" do
+        moderatable_instance.moderation_state = 'approved'
+        expect(moderatable_instance.moderation_state).to eql('approved')
         moderatable_instance.unmoderate!
-        expect(moderatable_instance.current_state).to eql('unmoderated')
+        expect(moderatable_instance.moderation_state).to eql('unmoderated')
+      end
+
+      it "adds a last_moderated_at date" do
+        expect(moderatable_instance.last_moderated_at).to be_nil
+        moderatable_instance.unmoderate!
+        expect(moderatable_instance.last_moderated_at).not_to be_nil
+      end
+
+      it "adds a moderation record to track the moderation" do
+        expect {
+          moderatable_instance.unmoderate!
+        }.to change{moderatable_model.moderation_record.count}.by(1)
       end
     end
 
