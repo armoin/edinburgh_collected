@@ -23,7 +23,5 @@
 <%= render partial: 'memories/create_scrapbook' %>
 
 <script type="text/javascript">
-  var createScrapbookController = new CreateScrapbookController(function (e, data, status, xhr) {
-    window.location = '/scrapbooks/' + data.id
-  });
+  var createScrapbookController = new CreateScrapbookController();
 </script>

@@ -12,9 +12,9 @@ class My::ScrapbooksController < My::AuthenticatedUserController
     @scrapbook.user = current_user
     respond_to do |format|
       if @scrapbook.save
-        format.json { render json: @scrapbook }
+        format.js
       else
-        format.json { render json: @scrapbook.errors, status: :unprocessable_entity }
+        format.js { render 'error', status: :unprocessable_entity }
       end
     end
   end

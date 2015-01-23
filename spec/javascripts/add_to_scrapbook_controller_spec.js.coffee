@@ -34,34 +34,6 @@ describe "AddToScrapbooksController", ->
     xit "shows the Add To Scrapbook modal", ->
       expect( $('.modal#add-to-scrapbook-modal') ).toBeVisible()
 
-  describe "successful creation", ->
-    describe "adding a newly created scrapbook to the select list", ->
-      beforeEach ->
-        @date = "#{Date.now()}"
-        data = {
-          id: 123,
-          title: 'New scrapbook',
-          updated_at: @date
-        }
-        @addToScrapbookController.addNewScrapbookToSelect(data)
-        @scrapbook_list = $('.modal#add-to-scrapbook-modal .scrapbook_selector .scrapbook')
-
-      it "adds a new scrapbook to the list", ->
-        expect( @scrapbook_list.length ).toEqual(3)
-
-      describe "the new scrapbook", ->
-        beforeEach ->
-          @scrapbook = @scrapbook_list.first()
-
-        it "has the expected title", ->
-          expect( @scrapbook.find('.title').text() ).toEqual("New scrapbook")
-
-        it "has the expected count", ->
-          expect( @scrapbook.find('.count').text() ).toContain(0)
-
-        it "is selected", ->
-          expect( @scrapbook ).toHaveClass('selected')
-
   describe "error on create", ->
     beforeEach ->
       data = { responseJSON: {"title" : ["can't be blank", "foo is not bar"]} }

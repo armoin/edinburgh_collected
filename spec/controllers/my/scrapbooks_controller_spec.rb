@@ -69,7 +69,7 @@ describe My::ScrapbooksController do
       scrapbook: strong_params,
       controller: 'my/scrapbooks',
       action: 'create',
-      format: 'json'
+      format: 'js'
     }}
 
     context 'when not logged in' do
@@ -133,8 +133,8 @@ describe My::ScrapbooksController do
           expect(response.status).to eql(200)
         end
 
-        it "returns the scrapbook" do
-          expect(response.body).to eql(scrapbook.to_json)
+        it "renders the create javascript" do
+          expect(response.body).to render_template('create')
         end
       end
 
@@ -151,8 +151,8 @@ describe My::ScrapbooksController do
           expect(response.status).to eql(422)
         end
 
-        it "returns the scrapbook with errors" do
-          expect(response.body).to eql(errors.to_json)
+        it "renders the error javascript" do
+          expect(response.body).to render_template('error')
         end
       end
     end

@@ -1,6 +1,6 @@
 class @AddToScrapbookController
   constructor: ->
-    @createScrapbookController = new CreateScrapbookController(@scrapbookCreateSuccess)
+    @createScrapbookController = new CreateScrapbookController()
 
   init: =>
     $('#create-scrapbook-button').on 'click', (e) ->
@@ -33,22 +33,6 @@ class @AddToScrapbookController
       .on("click", @validateAddToScrapbook)
 
   scrapbookCreateSuccess: (e, data, status, xhr) =>
-    @addNewScrapbookToSelect(data)
-    $('#add-to-scrapbook-modal').modal('show')
-
-  addNewScrapbookToSelect: (data) =>
-    html =  '<div class="scrapbook">'
-    html += '  <div class="picture"><p>&nbsp</p></div>'
-    html += '  <div class="details">'
-    html += '    <div class="title"></div>'
-    html += '    <div class="count">0</div>'
-    html += '  </div>'
-    html += '</div>'
-    scrapbook = $.parseHTML(html)
-    $(scrapbook).attr('data-id', data.id)
-    $(scrapbook).find('.title').text(data.title)
-    $('.scrapbook_selector').prepend(scrapbook)
-    @selectScrapbook(scrapbook)
 
   selectScrapbook: (scrapbook) ->
     wasSelected = $(scrapbook).hasClass('selected')
