@@ -3,7 +3,7 @@
     <div class="scrapbook" data-id="<%= scrapbook.id %>">
       <div class="picture">
         <% if scrapbook.ordered_memories.any? %>
-          <%= image_tag cache_busted_url(scrapbook.cover.main_memory, :mini_thumb) %>
+          <%= image_tag cache_busted_url(scrapbook.ordered_memories.first, :mini_thumb) %>
         <% else %>
           <%= image_tag 'empty-scrapbook.png', :class => "ph" %>
         <% end %>
@@ -11,7 +11,7 @@
       </div>
       <div class="details">
         <div class="title"><%= scrapbook.title %></div>
-        <div class="count"><%= pluralize(scrapbook.cover.memory_count, 'memory') %></div>
+        <div class="count"><%= pluralize(scrapbook.ordered_memories.length, 'memory') %></div>
       </div>
     </div>
   <% end %>

@@ -3,7 +3,7 @@
   <%= render partial: 'shared/pagination', locals: {items: scrapbooks} %>
   <div id="scrapbooks" class="masonry-grid">
     <% scrapbooks.each do |scrapbook| %>
-      <%= render partial: 'scrapbooks/scrapbook', locals: {scrapbook: scrapbook, link_path: scrapbook_path(scrapbook)} %>
+      <%= render partial: 'scrapbooks/scrapbook_thumb', locals: {scrapbook: scrapbook} %>
     <% end %>
   </div>
 </div>
