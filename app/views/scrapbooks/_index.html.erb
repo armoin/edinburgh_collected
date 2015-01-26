@@ -6,6 +6,7 @@
       <%= render partial: 'scrapbooks/scrapbook_cover', locals: {scrapbook: scrapbook} %>
     <% end %>
   </div>
+  <%= render partial: 'shared/pagination', locals: {items: scrapbooks} %>
 </div>
 <script type="text/javascript">
   $(".masonry-loading-spinner .spinner").spin();

@@ -48,9 +48,8 @@ describe My::ScrapbooksController do
         expect(@user).to have_received(:scrapbooks)
       end
 
-      it "paginates the results 30 to a page" do
+      it "paginates the results" do
         expect(stub_scrapbooks).to have_received(:page)
-        expect(stub_scrapbooks).to have_received(:per).with(30)
       end
 
       it "assigns the returned scrapbooks" do

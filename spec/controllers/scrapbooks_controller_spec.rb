@@ -23,9 +23,8 @@ describe ScrapbooksController do
       expect(Scrapbook).to have_received(:all)
     end
 
-    it "paginates the results 30 to a page" do
+    it "paginates the results" do
       expect(scrapbooks).to have_received(:page)
-      expect(scrapbooks).to have_received(:per).with(30)
     end
 
     it 'renders the index page' do

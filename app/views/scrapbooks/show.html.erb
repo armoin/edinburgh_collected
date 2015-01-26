@@ -1,4 +1,4 @@
-<% memories = Kaminari.paginate_array(@scrapbook.ordered_memories).page(1).per(30) %>
+<% memories = Kaminari.paginate_array(@scrapbook.ordered_memories).page(params[:page]) %>
 
 <div id="scrapbook" class="container">
   <div id="grid">

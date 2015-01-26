@@ -4,7 +4,7 @@ class My::ScrapbooksController < My::AuthenticatedUserController
   before_action :assign_scrapbook, only: [:edit, :update, :destroy]
 
   def index
-    @scrapbooks = current_user.scrapbooks.page(params[:page]).per(30)
+    @scrapbooks = current_user.scrapbooks.page(params[:page])
   end
 
   def create

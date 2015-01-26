@@ -11,7 +11,7 @@
             <%= pluralize(current_user.memories.size, 'memory') %>
           <% end %>
 
-          <span class="button scrapbooks"><%= pluralize(current_user.scrapbooks.size, 'scrapbook') %></span>
+          <span class="button scrapbooks"><%= pluralize(@scrapbooks.length, 'scrapbook') %></span>
         </div>
 
         <% if logged_in? -%>

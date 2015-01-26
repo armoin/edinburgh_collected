@@ -8,7 +8,7 @@ class SearchResults
   end
 
   def paged_results
-    send(@model).page(@page).per(30)
+    send(@model).page(@page)
   end
 
   def memory_count
