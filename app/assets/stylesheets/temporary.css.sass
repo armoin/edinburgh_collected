@@ -282,56 +282,68 @@ header
   margin-top: 1em
 
 
-  .navbar
-    margin-bottom: 0
+  #theNavBar
 
-    .navbar-toggle .icon-bar
-      background: $navy-blue
+    .icon-bar
+      background-color: $navy-blue
+      display: block
+      margin-top: 4px
+      width: 22px
+      height: 2px
+      border-radius: 1px
 
-    .navbar-collapse
+    #menuText
       float: right
-      padding: 0
+      margin-left: 25px
+
+
+    button
+      padding: 40px 1em 1em 1em
+      background: none
+      border: none
       position: relative
-      right: 0
+      left: -15px
+      display: none
 
-      ul.nav
-        float: right
-        position: relative
-        margin-top: 0.5em
+    ul.menu
+      float: right
+      position: relative
+      margin-top: 0.5em
 
-        li
-          margin: 0 1em
+      li
+        margin: 0 1em
+        display: inline-block
 
-          a
-            padding: 0.25em 0
-            +border-radius(0px)
-            border-bottom: 2px solid transparent
+        a
+          padding: 0.25em 0
+          +border-radius(0px)
+          border-bottom: 2px solid transparent
+
+          &:hover, &:active
+            color: $navy-blue
+            background: none
+            border-bottom: 2px solid
+            text-decoration: none
+
+          &.signin
+            padding: 0.25em 0.5em
+            border: 1px darken( $green, 10% ) solid
+            +border-radius(3px)
 
             &:hover, &:active
-              color: $navy-blue
-              background: none
-              border-bottom: 2px solid
-
-            &.signin
-              padding: 0.25em 0.5em
+              color: white
+              background: darken( $green, 10% )
               border: 1px darken( $green, 10% ) solid
-              +border-radius(3px)
-
-              &:hover, &:active
-                color: white
-                background: darken( $green, 10% )
-                border: 1px darken( $green, 10% ) solid
 
 
-          ul
-            padding: 0
+        ul
+          padding: 0
+          display: none
 
-            li a
-              padding: 10px 15px
-              line-height: 20px
-              display: block
-
-
+          li a
+            padding: 10px 15px
+            line-height: 20px
+            display: block
 
 
   #logo
@@ -349,6 +361,7 @@ header
       font-size: inherit
       line-height: 100%
       margin-bottom: 0
+
 
   #searchwrapper
     background: $navy-blue
@@ -1612,46 +1625,95 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
 
     #logo
-      margin-top: 1em
+      margin-top: 20px
       position: relative
       margin-bottom: 1em
       padding: 0
+      float: right
+      display: inline-block
+      width: auto
 
       .navbar-brand
         float: none
+        display: inline-block
 
         img
           margin: 0 auto
-          max-width: 80px
+          max-width: 90px
 
-    .navbar
-      margin-bottom: 0
-      position: absolute
-      right: 0
-      width: 100%
-      z-index: 300
+    #theNavBar
 
-      .container
+      #toggleMenu
+        display: block
+        &.active
+          background: $navy-blue
+          color: $cream
+
+          span.icon-bar
+            background: $cream
+
+      ul.menu
+        display: none
+        float: none
+        position: absolute
+        margin: 0 0 0 -15px
         padding: 0
-
-      .navbar-header.open
-        background: $navy-blue
-        .navbar-toggle .icon-bar
-          background: $cream
-
-      .navbar-collapse
-        background: $navy-blue
-        right: auto
         width: 100%
-        text-align: right
-        padding-right: 15px
-        margin: 0
+        background: $navy-blue
+        z-index: 9999
 
-        a
-          color: white !important
+        li
+          margin: 0
+          display: block
+          font-weight: 600
+          margin-bottom: 1px solid $cream
 
-          &:hover
-            background: inherit
+          &:first-child
+            margin-top: 1em
+
+          a
+            color: $cream
+            padding: 0.5em 1em
+            display: block
+            +border-radius(0px)
+            border-bottom: 2px solid transparent
+
+            &:hover, &:active
+              color: $navy-blue
+              background: none
+              border-bottom: 2px solid
+              text-decoration: none
+
+            &.signin
+              padding: 0.25em 0.5em
+              border: 1px darken( $green, 10% ) solid
+              +border-radius(3px)
+
+              &:hover, &:active
+                color: white
+                background: darken( $green, 10% )
+                border: 1px darken( $green, 10% ) solid
+
+
+          ul
+            padding: 0
+            margin: 0
+            display: block
+            position: relative
+
+            li
+              padding: 0
+              margin: 0
+              font-weight: 300
+
+              &:first-child
+                margin-top: 0em
+
+              a
+                display: block
+
+
+
 
     #searchwrapper
       margin-top: 0em

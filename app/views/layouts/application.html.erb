@@ -38,68 +38,65 @@
     <div id="wrapper">
       <div id="main">
         <header class="clearfix container">
-          <div class="navbar navbar" role="navigation">
-            <div class="container" id="theNavBar">
-              <div class="navbar-header">
-                <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                </button>
-              </div>
-
-              <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                  <li class="<%= active_if_controller_path('home') %>">
-                    <%= link_to 'Home', root_path %>
-                  </li>
-                  <li>
-                    <%= link_to 'Add a memory', new_my_memory_path %>
-                  </li>
-                  <li class="<%= active_if_controller_path('memories', 'scrapbooks') %>">
-                    <%= link_to 'Browse', memories_path %>
-                  </li>
-                  <% if logged_in? %>
-                    <li class="<%= active_if_controller_path('my/memories', 'my/scrapbooks') %>">
-                      <%= link_to 'My collection', my_memories_path %>
-                    </li>
-                    <% if current_user.is_admin? %>
-                      <li class="<%= active_if_controller_path('admin/home', 'admin/moderation') %>">
-                        <%= link_to 'Admin', admin_home_path %>
-                      </li>
-                    <% end %>
-                    <li class="profile <%= active_if_controller_path('my/profile') %>">
-                      <%= link_to 'My account &#9662;'.html_safe, my_profile_path %>
-                      <ul>
-                        <li>
-                          <%= link_to 'Edit your details', my_profile_edit_path %>
-                        </li>
-                        <li>
-                          <%= link_to 'Sign out', signout_path, method: :delete %>
-                        </li>
-                    </li>
-                  <% else %>
-                    <li class="<%= active_if_controller_path('users') %>">
-                      <%= link_to 'Sign up', signup_path %>
-                    </li>
-                    <li class="<%= active_if_controller_path('sessions') %>">
-                      <%= link_to 'Sign in', signin_path, class: 'signin button green' %>
-                    </li>
-                  <% end %>
-                  <li class="mobile">
-                    <a class="feedback" href="mailto:<%= CONTACT_EMAIL %>?subject=Feedback">Feedback</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
 
           <div id="logo" class="col-xs-12 col-sm-2 col-md-2">
             <a class="navbar-brand" href="/" title="<%= APP_NAME %>">
               <%= image_tag "edinburgh-collected.png", alt: "#{APP_NAME} - Beta" %>
             </a>
           </div>
+
+
+            <div id="theNavBar" role="navigation">
+
+              <button id="toggleMenu" type="button">
+                <span id="menuText">MENU</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+
+              <ul class="menu">
+                <li class="<%= active_if_controller_path('home') %>">
+                  <%= link_to 'Home', root_path %>
+                </li>
+                <li>
+                  <%= link_to 'Add a memory', new_my_memory_path %>
+                </li>
+                <li class="<%= active_if_controller_path('memories', 'scrapbooks') %>">
+                  <%= link_to 'Browse', memories_path %>
+                </li>
+                <% if logged_in? %>
+                  <li class="<%= active_if_controller_path('my/memories', 'my/scrapbooks') %>">
+                    <%= link_to 'My collection', my_memories_path %>
+                  </li>
+                  <% if current_user.is_admin? %>
+                    <li class="<%= active_if_controller_path('admin/home', 'admin/moderation') %>">
+                      <%= link_to 'Admin', admin_home_path %>
+                    </li>
+                  <% end %>
+                  <li class="profile <%= active_if_controller_path('my/profile') %>">
+                    <%= link_to 'My account'.html_safe, my_profile_path, class: 'arrow' %>
+                    <ul>
+                      <li>
+                        <%= link_to 'Edit your details', my_profile_edit_path %>
+                      </li>
+                      <li>
+                        <%= link_to 'Sign out', signout_path, method: :delete %>
+                      </li>
+                  </li>
+                <% else %>
+                  <li class="<%= active_if_controller_path('users') %>">
+                    <%= link_to 'Sign up', signup_path %>
+                  </li>
+                  <li class="<%= active_if_controller_path('sessions') %>">
+                    <%= link_to 'Sign in', signin_path, class: 'signin button green' %>
+                  </li>
+                <% end %>
+                <li class="mobile">
+                  <a class="feedback" href="mailto:<%= CONTACT_EMAIL %>?subject=Feedback">Feedback</a>
+                </li>
+              </ul>
+            </div>
 
           <div id="searchwrapper" class="dropdowns col-xs-12  col-sm-10 col-md-10">
             <!--
@@ -119,6 +116,7 @@
                 </div>
               <% end -%>
             </div>
+
           </div> <!-- end search/browse box -->
         </header>
 
