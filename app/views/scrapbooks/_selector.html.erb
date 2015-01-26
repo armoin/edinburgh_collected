@@ -2,7 +2,7 @@
   <% current_user.scrapbooks.sort{|a,b| b.updated_at<=>a.updated_at}.each do |scrapbook| %>
     <div class="scrapbook" data-id="<%= scrapbook.id %>">
       <div class="picture">
-        <% if scrapbook.memories.any? %>
+        <% if scrapbook.ordered_memories.any? %>
           <%= image_tag cache_busted_url(scrapbook.cover.main_memory, :mini_thumb) %>
         <% else %>
           <%= image_tag 'empty-scrapbook.png', :class => "ph" %>

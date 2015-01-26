@@ -29,7 +29,11 @@ class Scrapbook < ActiveRecord::Base
   end
 
   def ordered_memories
-    scrapbook_memories.by_ordering.map(&:memory)
+    scrapbook_memories.by_ordering.includes(:memory).map(&:memory)
+  end
+
+  def approved_ordered_memories
+    ordered_memories.select(&:approved?)
   end
 
   private

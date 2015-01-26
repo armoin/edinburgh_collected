@@ -1,7 +1,7 @@
 <a class="scrapbook thumb masonry" data-id="<%= scrapbook.id %>" href="<%= link_path %>" title="View details" role="button">
   <div class="padding">
     <h3 class="scrapbookTitle"><%= scrapbook.title %></h3>
-    <% if scrapbook.memories.any? %>
+    <% if scrapbook.ordered_memories.any? %>
       <%= image_tag cache_busted_url(scrapbook.cover.main_memory, :big_thumb), alt: scrapbook.title, :class => "main" %>
       <div class="bottom-row clearfix">
         <div class="count">

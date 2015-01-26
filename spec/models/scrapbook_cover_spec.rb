@@ -33,6 +33,7 @@ describe ScrapbookCover do
         it "returns that memory" do
           memory = Fabricate.build(:photo_memory)
           scrapbook.memories << memory
+          scrapbook.save!
           expect(subject.main_memory).to eql(memory)
         end
       end
@@ -43,6 +44,7 @@ describe ScrapbookCover do
           second_memory = Fabricate.build(:photo_memory)
           scrapbook.memories << first_memory
           scrapbook.memories << second_memory
+          scrapbook.save!
           expect(subject.main_memory).to eql(first_memory)
         end
       end
@@ -81,6 +83,7 @@ describe ScrapbookCover do
         it 'returns array of nils' do
           memory = Fabricate.build(:photo_memory)
           scrapbook.memories << memory
+          scrapbook.save!
           expect(subject.secondary_memories).to eql([nil, nil, nil])
         end
       end
@@ -91,6 +94,7 @@ describe ScrapbookCover do
           second_memory = Fabricate.build(:photo_memory)
           scrapbook.memories << first_memory
           scrapbook.memories << second_memory
+          scrapbook.save!
           expect(subject.secondary_memories).to eql([second_memory, nil, nil])
         end
       end
@@ -103,6 +107,7 @@ describe ScrapbookCover do
           scrapbook.memories << first_memory
           scrapbook.memories << second_memory
           scrapbook.memories << third_memory
+          scrapbook.save!
           expect(subject.secondary_memories).to eql([second_memory, third_memory, nil])
         end
       end
@@ -117,6 +122,7 @@ describe ScrapbookCover do
           scrapbook.memories << second_memory
           scrapbook.memories << third_memory
           scrapbook.memories << fourth_memory
+          scrapbook.save!
           expect(subject.secondary_memories).to eql([second_memory, third_memory, fourth_memory])
         end
       end
@@ -133,6 +139,7 @@ describe ScrapbookCover do
           scrapbook.memories << third_memory
           scrapbook.memories << fourth_memory
           scrapbook.memories << five_memory
+          scrapbook.save!
           expect(subject.secondary_memories).to eql([second_memory, third_memory, fourth_memory])
         end
       end
@@ -171,6 +178,7 @@ describe ScrapbookCover do
         it "returns 1" do
           memory = Fabricate.build(:photo_memory)
           scrapbook.memories << memory
+          scrapbook.save!
           expect(subject.memory_count).to eql(1)
         end
       end
@@ -181,6 +189,7 @@ describe ScrapbookCover do
           second_memory = Fabricate.build(:photo_memory)
           scrapbook.memories << first_memory
           scrapbook.memories << second_memory
+          scrapbook.save!
           expect(subject.memory_count).to eql(2)
         end
       end

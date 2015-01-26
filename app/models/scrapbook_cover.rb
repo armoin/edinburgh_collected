@@ -3,26 +3,21 @@ class ScrapbookCover
 
   def initialize(scrapbook)
     @scrapbook = scrapbook
+    @memories = @scrapbook.try(:ordered_memories) || []
   end
 
   def main_memory
-    memories.first
+    @memories.first
   end
 
   def secondary_memories
     Array.new(NUM_SECONDARY_MEMORIES).map.with_index do |memory, i|
-      memories[i+1] # skip the first memory as that is the main memory
+      @memories[i+1] # skip the first memory as that is the main memory
     end
   end
 
   def memory_count
-    memories.length
-  end
-
-  private
-
-  def memories
-    @memories ||= @scrapbook.try(:memories) || []
+    @memories.length
   end
 end
 

@@ -191,4 +191,49 @@ describe Scrapbook do
       end
     end
   end
+
+  describe '#approved_ordered_memories' do
+    subject { Fabricate(:scrapbook) }
+
+    context 'when the scrapbook has one memory' do
+      let!(:scrapbook_memory) { Fabricate(:scrapbook_memory, scrapbook: subject, memory: memory) }
+
+      context 'and it is not approved' do
+        let(:memory) { Fabricate(:memory) }
+
+        it 'provides a collection with just that memory' do
+          expect(subject.approved_ordered_memories).to be_empty
+        end
+      end
+
+      context 'and it is approved' do
+        let(:memory) { Fabricate(:approved_memory) }
+
+        it 'provides a collection with just that memory' do
+          expect(subject.approved_ordered_memories.length).to eql(1)
+          expect(subject.approved_ordered_memories).to eql([memory])
+        end
+      end
+    end
+
+    context 'when the scrapbook has more than one memory and not all are approved' do
+      let(:memory_1) { Fabricate(:memory) }
+      let(:memory_2) { Fabricate(:approved_memory) }
+      let(:memory_3) { Fabricate(:approved_memory) }
+      let!(:sm_1)    { Fabricate(:scrapbook_memory, scrapbook: subject, memory: memory_1) }
+      let!(:sm_2)    { Fabricate(:scrapbook_memory, scrapbook: subject, memory: memory_2) }
+      let!(:sm_3)    { Fabricate(:scrapbook_memory, scrapbook: subject, memory: memory_3) }
+
+      it 'provides a collection with only approved memories in order' do
+        expect(subject.approved_ordered_memories.length).to eql(2)
+        expect(subject.approved_ordered_memories).to eql([memory_2, memory_3])
+      end
+
+      it 'provides a collection with only approved memories in order if the order is changed' do
+        subject.update({ordering: "#{sm_3.id},#{sm_2.id},#{sm_1.id}"})
+        expect(subject.approved_ordered_memories.length).to eql(2)
+        expect(subject.approved_ordered_memories).to eql([memory_3, memory_2])
+      end
+    end
+  end
 end

@@ -31,6 +31,7 @@ RSpec.shared_examples 'a scrapbook index' do
     context "that has memories" do
       before :each do
         allow(scrapbook).to receive(:memories).and_return(stub_memories(2))
+        allow(scrapbook).to receive(:ordered_memories).and_return(stub_memories(2))
         assign(:scrapbooks, paged_scrapbooks)
         render
       end
