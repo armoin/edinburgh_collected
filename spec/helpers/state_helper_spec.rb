@@ -82,6 +82,17 @@ describe StateHelper do
       end
     end
 
+    context 'when there is a blank reason' do
+      before :each do
+        allow(memory).to receive(:moderation_state).and_return('approved')
+        allow(memory).to receive(:moderation_reason).and_return('')
+      end
+
+      it 'just provides the moderation state' do
+        expect(helper.state_label(memory)).to eql('approved')
+      end
+    end
+
     context 'when there is a reason' do
       before :each do
         allow(memory).to receive(:moderation_state).and_return('rejected')
@@ -95,8 +106,13 @@ describe StateHelper do
   end
 
   describe '#show_state?' do
-    it 'shows state if the controller path is in viewable state paths' do
-      allow(helper).to receive(:controller_path).and_return(StateHelper::VIEWABLE_STATE_PATHS.first)
+    it "shows state on the show page of memories that belong to the user" do
+      allow(helper).to receive(:controller_path).and_return('my/memories')
+      expect(helper.show_state?).to be_truthy
+    end
+
+    it "shows state on the show page of scrapbooks that belong to the user" do
+      allow(helper).to receive(:controller_path).and_return('my/scrapbooks')
       expect(helper.show_state?).to be_truthy
     end
 

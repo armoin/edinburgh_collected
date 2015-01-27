@@ -1,6 +1,7 @@
 module StateHelper
   VIEWABLE_STATE_PATHS = [
-    'my/memories'
+    'my/memories',
+    'my/scrapbooks',
   ]
 
   def button_for_state(action, state, memory, reason=nil)
@@ -18,7 +19,7 @@ module StateHelper
 
   def state_label(memory)
     label = memory.moderation_state
-    label += " - #{memory.moderation_reason}" if memory.moderation_reason
+    label += " - #{memory.moderation_reason}" unless memory.moderation_reason.blank?
     label
   end
 
