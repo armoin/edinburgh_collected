@@ -97,7 +97,7 @@ describe 'search/scrapbooks/index.html.erb' do
   context 'when there are results' do
     let(:scrapbook_count)  { 3 }
     let(:scrapbooks)       { Array.new(scrapbook_count).map.with_index do |s, i|
-                               Fabricate.build(:scrapbook, id: i+1)
+                               ScrapbookCoverPresenter.new(Fabricate.build(:scrapbook, id: i+1))
                              end }
     let(:paged_scrapbooks) { Kaminari.paginate_array(scrapbooks).page(1) }
 
@@ -106,11 +106,11 @@ describe 'search/scrapbooks/index.html.erb' do
         render
       end
 
-      context 'a scrapbook' do
-        let(:scrapbook) { scrapbooks.first }
+      context 'a scrapbook presenter' do
+        let(:presenter) { scrapbooks.first }
 
         it 'is a link to the show page for that scrapbook' do
-          expect(rendered).to have_css("a.scrapbook[href=\"#{scrapbook_path(scrapbook)}\"]")
+          expect(rendered).to have_css("a.scrapbook[href=\"#{presenter.path_to_scrapbook}\"]")
         end
       end
 

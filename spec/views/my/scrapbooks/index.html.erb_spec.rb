@@ -7,7 +7,8 @@ describe 'my/scrapbooks/index.html.erb' do
   let(:scrapbook_count)  { 3 }
   let(:scrapbooks)       { Array.new(scrapbook_count) { Fabricate.build(:scrapbook) } }
   let(:memories)         { Array.new(memory_count) { Fabricate.build(:memory) } }
-  let(:paged_scrapbooks) { Kaminari.paginate_array(scrapbooks).page(1) }
+  let(:presenters)       { scrapbooks.map{|s| OwnedScrapbookCoverPresenter.new(s)} }
+  let(:paged_scrapbooks) { Kaminari.paginate_array(presenters).page(1) }
   let(:memory)           { Fabricate.build(:photo_memory) }
 
   before :each do

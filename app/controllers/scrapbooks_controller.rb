@@ -3,7 +3,7 @@ class ScrapbooksController < ApplicationController
   before_action :store_memory_index_path, only: :show
 
   def index
-    @scrapbooks = Scrapbook.approved.page(params[:page])
+    @scrapbooks = wrap_and_paginate_scrapbooks(Scrapbook.approved, ScrapbookCoverPresenter)
   end
 
   def show
