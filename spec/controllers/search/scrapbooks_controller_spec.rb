@@ -1,7 +1,14 @@
 require 'rails_helper'
 
 describe Search::ScrapbooksController do
-  let(:format)              { :html }
+  let(:format)                  { :html }
+  let(:paged_scrapbook_results) { double('paged_scrapbook_results') }
+  let(:scrapbook_results)       { double('scrapbook_results', page: paged_scrapbook_results) }
+  let(:results)                 { double('results', scrapbook_results: scrapbook_results) }
+
+  before(:each) do
+    allow(SearchResults).to receive(:new).and_return(results)
+  end
 
   describe 'GET index' do
     context 'when no query is given' do
@@ -15,6 +22,10 @@ describe Search::ScrapbooksController do
 
       it "redirects to the browse scrapbooks page" do
         expect(response).to redirect_to(scrapbooks_path)
+      end
+
+      it "doesn't generate search results" do
+        expect(SearchResults).not_to receive(:new)
       end
     end
 
@@ -30,15 +41,14 @@ describe Search::ScrapbooksController do
       it "redirects to the browse scrapbooks page" do
         expect(response).to redirect_to(scrapbooks_path)
       end
+
+      it "doesn't generate search results" do
+        expect(SearchResults).not_to receive(:new)
+      end
     end
 
     context 'when a query is given' do
-      let(:query)   { "test search" }
-      let(:results) { double('results') }
-
-      before(:each) do
-        allow(SearchResults).to receive(:new).and_return(results)
-      end
+      let(:query) { "test search" }
 
       context 'when no page number is given' do
         before :each do
@@ -49,12 +59,20 @@ describe Search::ScrapbooksController do
           expect(session[:current_scrapbook_index_path]).to eql(search_scrapbooks_path(format: format, query: query))
         end
 
-        it 'generates a memory search results presenter for the given query' do
-          expect(SearchResults).to have_received(:new).with('scrapbooks', query, nil)
+        it 'generates search results for the given query' do
+          expect(SearchResults).to have_received(:new).with(query)
         end
 
         it "assigns the returned results" do
           expect(assigns(:results)).to eql(results)
+        end
+
+        it "paginates the results" do
+          expect(scrapbook_results).to have_received(:page).with(nil)
+        end
+
+        it "assigns the paged scrapbook results" do
+          expect(assigns(:scrapbooks)).to eql(paged_scrapbook_results)
         end
 
         context 'when request is for HTML' do
@@ -82,12 +100,20 @@ describe Search::ScrapbooksController do
           expect(session[:current_scrapbook_index_path]).to eql(search_scrapbooks_path(format: format, query: query, page: page))
         end
 
-        it 'generates a memory search results presenter for the given query and page' do
-          expect(SearchResults).to have_received(:new).with('scrapbooks', query, page)
+        it 'generates search results for the given query' do
+          expect(SearchResults).to have_received(:new).with(query)
         end
 
         it "assigns the returned results" do
           expect(assigns(:results)).to eql(results)
+        end
+
+        it "paginates the results" do
+          expect(scrapbook_results).to have_received(:page).with(page)
+        end
+
+        it "assigns the paged scrapbook results" do
+          expect(assigns(:scrapbooks)).to eql(paged_scrapbook_results)
         end
 
         context 'when request is for HTML' do

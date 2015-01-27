@@ -1,63 +1,88 @@
 require 'rails_helper'
 
 describe 'search/scrapbooks/index.html.erb' do
-  let(:user)         { Fabricate(:user) }
-  let(:logged_in)    { false }
-  let(:query)        { 'test search'  }
-  let(:page)         { '1' }
-  let(:memory_count) { 1 }
-  let(:results)      { double('results', paged_results: paged_scrapbooks, query: query, memory_count: memory_count, scrapbook_count: scrapbook_count) }
+  let(:query)            { 'test search'  }
+  let(:memory_count)     { 0 }
+  let(:scrapbook_count)  { 0 }
+  let(:results)          { double('results', query: query, memory_count: memory_count, scrapbook_count: scrapbook_count) }
+  let(:paged_scrapbooks) { Kaminari.paginate_array([]).page(1) }
 
   before :each do
-    allow(view).to receive(:logged_in?).and_return(logged_in)
-    allow(view).to receive(:current_user).and_return(user)
     assign(:results, results)
+    assign(:scrapbooks, paged_scrapbooks)
   end
 
   describe 'action bar' do
-    let(:scrapbook_count)  { 0 }
-    let(:paged_scrapbooks) { Kaminari.paginate_array([]).page(page) }
-
     before :each do
-      assign(:scrapbooks, paged_scrapbooks)
       render
     end
 
-    it "doesn't show an add button" do
-      expect(rendered).not_to have_css('.scrapbook.add')
+    it 'it does not show the "Create a scrapbook" button' do
+      expect(rendered).not_to have_link('Create a scrapbook')
     end
 
-    context 'when the user is not logged in' do
-      let(:logged_in) { false }
+    describe 'link to memory results' do
+      let(:link_text) { 'a.button.memories' }
 
-      it 'it does not show the "Create a scrapbook" button' do
-        expect(rendered).not_to have_link('Create a scrapbook')
+      context 'when there are no memories' do
+        let(:memory_count) { 0 }
+
+        it 'has a link with the number of results shown' do
+          expect(rendered).to have_css(link_text, text: "0 memories")
+        end
+      end
+
+      context 'when there is 1 memory' do
+        let(:memory_count) { 1 }
+
+        it 'has a link with the number of results shown' do
+          expect(rendered).to have_css(link_text, text: "1 memory")
+        end
+      end
+
+      context 'when there is more than one memory' do
+        let(:memory_count) { 2 }
+
+        it 'has a link with the number of results shown' do
+          expect(rendered).to have_css(link_text, text: "2 memories")
+        end
       end
     end
 
-    context 'when the user is logged in' do
-      let(:logged_in) { true }
+    describe 'scrapbook result count' do
+      let(:link_text) { 'span.button.scrapbooks' }
 
-      it 'it does not show the "Create a scrapbook" button' do
-        expect(rendered).not_to have_link('Create a scrapbook')
+      context 'when there are no scrapbooks' do
+        let(:scrapbook_count) { 0 }
+
+        it 'displays the count as 0' do
+          expect(rendered).to have_css(link_text, text: "0 scrapbooks")
+        end
+      end
+
+      context 'when there is one scrapbook' do
+        let(:scrapbook_count) { 1 }
+
+        it 'displays the count as 1' do
+          expect(rendered).to have_css(link_text, text: "1 scrapbook")
+        end
+      end
+
+      context 'when there is more than one scrapbook' do
+        let(:scrapbook_count) { 2 }
+
+        it 'displays the count as 2' do
+          expect(rendered).to have_css(link_text, text: "2 scrapbooks")
+        end
       end
     end
   end
 
   context 'when there are no results' do
-    let(:scrapbook_count)  { 0 }
-    let(:paged_scrapbooks) { Kaminari.paginate_array([]).page(page) }
+    let(:paged_scrapbooks) { Kaminari.paginate_array([]).page(1) }
 
     before :each do
       render
-    end
-
-    it 'displays the result count on the scrapbook button' do
-      expect(rendered).to have_css('span.button.scrapbooks', text: "#{scrapbook_count} scrapbooks")
-    end
-
-    it 'has a link to the memory results with the number found' do
-      expect(rendered).to have_css('a.button.memories', text: "#{memory_count} memory")
     end
 
     it "does not display any results" do
@@ -72,22 +97,13 @@ describe 'search/scrapbooks/index.html.erb' do
   context 'when there are results' do
     let(:scrapbook_count)  { 3 }
     let(:scrapbooks)       { Array.new(scrapbook_count).map.with_index do |s, i|
-                               Fabricate.build(:scrapbook, user: user, title: query)
+                               Fabricate.build(:scrapbook, id: i+1)
                              end }
-    let(:paged_scrapbooks) { Kaminari.paginate_array(scrapbooks).page(page) }
-    let(:memory)           { Fabricate.build(:photo_memory) }
+    let(:paged_scrapbooks) { Kaminari.paginate_array(scrapbooks).page(1) }
 
     describe 'results' do
       before :each do
         render
-      end
-
-      it 'displays the result count on the scrapbook button' do
-        expect(rendered).to have_css('span.button.scrapbooks', text: "#{scrapbook_count} scrapbooks")
-      end
-
-      it 'has a link to the memory results with the number found' do
-        expect(rendered).to have_css('a.button.memories', text: "#{memory_count} memory")
       end
 
       context 'a scrapbook' do
