@@ -2,8 +2,7 @@ class ScrapbookCover
   NUM_SECONDARY_MEMORIES = 3
 
   def initialize(scrapbook)
-    @scrapbook = scrapbook
-    @memories = @scrapbook.try(:ordered_memories) || []
+    @memories = scrapbook.try(:ordered_memories) || []
   end
 
   def main_memory
