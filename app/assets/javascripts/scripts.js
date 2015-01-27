@@ -42,13 +42,22 @@ $(document).ready(function () {
   $('.stats a').height(setHeightBoxes -45)
 
 
+  $("#toggleMenu").on("click", mobileMenu );
 
-  $( "#toggleMenu" ).click(function() {
-    $( this ).toggleClass( "active" );
-    $( "ul.menu" ).slideToggle( "slow", function() {
-      // Animation complete.
-    });
-  });
+  var menuAction = 1;
+
+  function mobileMenu() {
+    if ( menuAction == 1 ) {
+      $('#toggleMenu').addClass( "active" );
+      $('ul.menu').show();
+          menuAction = 2;
+      } else {
+          $('#toggleMenu').removeClass( "active" );
+          $('ul.menu').hide();
+          menuAction = 1;
+      }
+  };
+
 
   $(function(){
     if ($(window).width() < 768) {

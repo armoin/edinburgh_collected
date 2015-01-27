@@ -294,7 +294,7 @@ header
 
     #menuText
       float: right
-      margin-left: 25px
+      margin-left: 30px
 
 
     button
@@ -1652,6 +1652,10 @@ header .navbar .navbar-collapse ul.nav li a.feedback
           span.icon-bar
             background: $cream
 
+        &:focus
+          outline: none
+
+
       ul.menu
         display: none
         float: none
@@ -1666,22 +1670,23 @@ header .navbar .navbar-collapse ul.nav li a.feedback
           margin: 0
           display: block
           font-weight: 600
-          margin-bottom: 1px solid $cream
+          border-bottom: 1px solid rgba( $cream, .3 )
 
           &:first-child
             margin-top: 1em
 
+
           a
             color: $cream
-            padding: 0.5em 1em
+            padding: 0.75em 1em 0.75em 46px
             display: block
+            border-bottom: none
             +border-radius(0px)
-            border-bottom: 2px solid transparent
 
             &:hover, &:active
-              color: $navy-blue
+              color: lighten( $green, 20% )
               background: none
-              border-bottom: 2px solid
+              border-bottom: none
               text-decoration: none
 
             &.signin
@@ -1694,23 +1699,31 @@ header .navbar .navbar-collapse ul.nav li a.feedback
                 background: darken( $green, 10% )
                 border: 1px darken( $green, 10% ) solid
 
+            &.feedback
+              background: none
+
 
           ul
             padding: 0
             margin: 0
             display: block
             position: relative
+            border-top: 1px solid rgba( $cream, .3 )
 
             li
               padding: 0
               margin: 0
               font-weight: 300
 
+              &:last-child
+                border-bottom: none
+
               &:first-child
                 margin-top: 0em
 
               a
                 display: block
+                padding: 0.75em 1em 0.75em 46px
 
 
 
