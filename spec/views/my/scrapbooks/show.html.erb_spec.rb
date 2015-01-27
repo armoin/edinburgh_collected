@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "scrapbooks/show.html.erb" do
+describe "my/scrapbooks/show.html.erb" do
   let(:scrapbook)  { Fabricate.build(:scrapbook, id: 123) }
   let(:user)       { Fabricate.build(:active_user) }
   let(:can_modify) { false }
@@ -9,7 +9,7 @@ describe "scrapbooks/show.html.erb" do
   before :each do
     allow(view).to receive(:current_user).and_return(user)
     allow(user).to receive(:can_modify?).and_return(can_modify)
-    allow(scrapbook).to receive(:approved_ordered_memories).and_return(memories)
+    allow(scrapbook).to receive(:ordered_memories).and_return(memories)
     assign(:scrapbook, scrapbook)
     render
   end

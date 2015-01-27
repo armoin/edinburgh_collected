@@ -29,9 +29,8 @@ describe MemoriesController do
       expect(approved_memories).to have_received(:by_recent)
     end
 
-    it "paginates the results 30 to a page" do
+    it "paginates the results" do
       expect(sorted_memories).to have_received(:page)
-      expect(sorted_memories).to have_received(:per).with(30)
     end
 
     it "assigns the approved and sorted memories" do

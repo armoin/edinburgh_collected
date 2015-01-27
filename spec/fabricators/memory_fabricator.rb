@@ -11,6 +11,7 @@ Fabricator(:memory, class_name: :photo, aliases: [:photo_memory]) do
   source      Rack::Test::UploadedFile.new(File.join(File.join(Rails.root, 'spec', 'fixtures', 'files'), 'test.jpg'))
   categories(rand: 3) { |attrs, i| Fabricate(:category) }
   tags(rand: 3) { |attrs, i| Fabricate(:tag) }
+  moderation_state ModerationStateMachine::DEFAULT_STATE
 end
 
 Fabricator(:approved_memory, from: :memory) do

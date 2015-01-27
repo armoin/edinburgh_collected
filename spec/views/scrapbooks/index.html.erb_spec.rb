@@ -2,7 +2,10 @@ require 'rails_helper'
 
 describe 'scrapbooks/index.html.erb' do
   let(:logged_in)        { false }
-  let(:scrapbooks)       { Array.new(3) { Fabricate.build(:scrapbook) } }
+  let(:scrapbook_count)  { 3 }
+  let(:scrapbooks)       { Array.new(scrapbook_count).map.with_index do |s, i|
+                             ScrapbookCoverPresenter.new(Fabricate.build(:scrapbook, id: i+1))
+                           end }
   let(:paged_scrapbooks) { Kaminari.paginate_array(scrapbooks).page(1) }
   let(:memory)           { Fabricate.build(:photo_memory) }
 

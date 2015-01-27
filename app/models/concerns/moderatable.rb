@@ -1,21 +1,25 @@
 module Moderatable
   extend ActiveSupport::Concern
 
+  included do
+    before_create :set_moderation_fields
+  end
+
+  def set_moderation_fields
+    self.moderation_state ||= ModerationStateMachine::DEFAULT_STATE
+  end
+
   module ClassMethods
     def moderation_record_query
       ModerationRecordQuery.new(self, moderation_record)
     end
 
-    def by_state(state)
-      joins(moderation_record_query.first_join)
-        .joins(moderation_record_query.second_join)
-        .where(moderation_record_query.where(state))
+    def in_state(state)
+      where(moderation_state: state)
     end
 
     def not_in_state(state)
-      joins(moderation_record_query.first_join)
-        .joins(moderation_record_query.second_join)
-        .where(moderation_record_query.where_not(state))
+      where.not(moderation_state: state)
     end
 
     def moderated
@@ -23,15 +27,15 @@ module Moderatable
     end
 
     def unmoderated
-      by_state('unmoderated')
+      in_state('unmoderated')
     end
 
     def approved
-      by_state('approved')
+      in_state('approved')
     end
 
     def rejected
-      by_state('rejected')
+      in_state('rejected')
     end
 
     def moderation_record
@@ -47,7 +51,7 @@ module Moderatable
     update_state!('approved')
   end
 
-  def reject!(comment)
+  def reject!(comment='')
     update_state!('rejected', comment)
   end
 
@@ -55,42 +59,18 @@ module Moderatable
     update_state!('unmoderated')
   end
 
-  def previous_state
-    state = current_record.try(:from_state)
-    state || ModerationStateMachine::DEFAULT_STATE
-  end
-
-  def current_state
-    state = current_record.try(:to_state)
-    state || ModerationStateMachine::DEFAULT_STATE
-  end
-
-  def current_state_reason
-    current_record.try(:comment)
-  end
-
-  def last_moderated_at
-    current_record.try(:updated_at)
-  end
-
   def approved?
-    current_state == 'approved'
+    moderation_state == 'approved'
   end
 
   def unmoderated?
-    current_state == 'unmoderated'
+    moderation_state == 'unmoderated'
   end
 
   private
 
-  def current_record
-    moderation_records
-      .order('created_at DESC')
-      .limit(1)
-      .first
-  end
-
-  def update_state!(state, comment=nil)
-    moderation_records.create!(from_state: current_state, to_state: state, comment: comment)
+  def update_state!(state, comment='')
+    moderation_records.create!(from_state: moderation_state, to_state: state, comment: comment)
+    update_attributes(moderation_state: state, moderation_reason: comment, last_moderated_at: DateTime.now)
   end
 end

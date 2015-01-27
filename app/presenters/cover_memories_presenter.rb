@@ -1,8 +1,10 @@
-class ScrapbookCover
+class CoverMemoriesPresenter
   NUM_SECONDARY_MEMORIES = 3
 
-  def initialize(scrapbook)
-    @memories = scrapbook.try(:ordered_memories) || []
+  attr_reader :memories
+
+  def initialize(memories)
+    @memories = memories
   end
 
   def main_memory
@@ -19,4 +21,3 @@ class ScrapbookCover
     @memories.length
   end
 end
-

@@ -1,15 +1,21 @@
 require 'rails_helper'
 
 describe My::ScrapbooksController do
-  let(:scrapbook) { Fabricate.build(:scrapbook, id: 123, user: @user) }
-  let(:stub_scrapbooks) { double('scrapbooks', find: scrapbook) }
+  let(:scrapbook)          { Fabricate.build(:scrapbook, id: 123, user: @user) }
 
   before :each do
     @user = Fabricate.build(:user)
-    allow(@user).to receive(:scrapbooks).and_return(stub_scrapbooks)
   end
 
   describe 'GET index' do
+    let(:num_scrapbooks)     { 2 }
+    let(:scrapbooks)         { Array.new(num_scrapbooks).map.with_index{|s,i| Fabricate.build(:scrapbook, id: i+1)} }
+    let(:stub_scrapbooks)    { Kaminari.paginate_array(scrapbooks).page(1) }
+
+    before :each do
+      allow(@user).to receive(:scrapbooks).and_return(stub_scrapbooks)
+    end
+
     context 'when not logged in' do
       before :each do
         get :index
@@ -30,8 +36,6 @@ describe My::ScrapbooksController do
 
     context 'when logged in' do
       before :each do
-        allow(stub_scrapbooks).to receive(:page).and_return(stub_scrapbooks)
-        allow(stub_scrapbooks).to receive(:per).and_return(stub_scrapbooks)
         login_user
         get :index
       end
@@ -48,17 +52,90 @@ describe My::ScrapbooksController do
         expect(@user).to have_received(:scrapbooks)
       end
 
-      it "paginates the results 30 to a page" do
-        expect(stub_scrapbooks).to have_received(:page)
-        expect(stub_scrapbooks).to have_received(:per).with(30)
+      it "assigns the returned scrapbooks" do
+        expect(assigns[:scrapbooks].length).to eql(num_scrapbooks)
       end
 
-      it "assigns the returned scrapbooks" do
-        expect(assigns[:scrapbooks]).to eql(stub_scrapbooks)
+      it "wraps the results in an OwnedScrapbookCoverPresenter" do
+        assigns[:scrapbooks].each do |scrapbook|
+          expect(scrapbook).to be_a(OwnedScrapbookCoverPresenter)
+        end
+      end
+
+      it "paginates the results" do
+        expect(assigns[:scrapbooks]).to respond_to(:current_page)
       end
 
       it "renders the index page" do
         expect(response).to render_template(:index)
+      end
+    end
+  end
+
+  describe 'GET show' do
+    context 'when not logged in' do
+      before :each do
+        get :show, id: '123'
+      end
+
+      it 'does not store the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to be_nil
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it 'asks user to signin' do
+        expect(response).to redirect_to(:signin)
+      end
+    end
+
+    context 'when logged in' do
+      before :each do
+        login_user
+        allow(Scrapbook).to receive(:find).and_return(scrapbook)
+      end
+
+      it 'does not store the scrapbook index path' do
+        get :show, id: 123
+        expect(session[:current_scrapbook_index_path]).to be_nil
+      end
+
+      it 'stores the current memory index path' do
+        get :show, id: 123
+        expect(session[:current_memory_index_path]).to eql(my_scrapbook_path(123))
+      end
+
+      it "looks for the requested scrapbook" do
+        get :show, id: 123
+        expect(Scrapbook).to have_received(:find).with('123')
+      end
+
+      context "when the current user can modify the scrapbook" do
+        before :each do
+          allow(@user).to receive(:can_modify?).and_return(true)
+          get :show, id: 123
+        end
+
+        it "assigns the scrapbook" do
+          expect(assigns[:scrapbook]).to eql(scrapbook)
+        end
+
+        it "renders the show page" do
+          expect(response).to render_template(:show)
+        end
+      end
+
+      context "when the current user cannot modify the scrapbook" do
+        before :each do
+          allow(@user).to receive(:can_modify?).and_return(false)
+          get :show, id: 123
+        end
+
+        it "renders the not found page" do
+          expect(response).to render_template('exceptions/not_found')
+        end
       end
     end
   end
@@ -178,8 +255,6 @@ describe My::ScrapbooksController do
     end
 
     context 'when logged in' do
-      let(:stub_scrapbooks) { double('scrapbooks', find: scrapbook) }
-
       before :each do
         login_user
         allow(Scrapbook).to receive(:find).and_return(scrapbook)

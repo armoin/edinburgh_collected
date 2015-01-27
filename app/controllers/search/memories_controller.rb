@@ -3,7 +3,8 @@ class Search::MemoriesController < ApplicationController
 
   def index
     redirect_to memories_path if params[:query].blank?
-    @results = SearchResults.new('memories', params[:query], params[:page])
+    @results = SearchResults.new(params[:query])
+    @memories = @results.memory_results.page(params[:page])
   end
 end
 

@@ -2,12 +2,11 @@ require 'rails_helper'
 
 describe ScrapbooksController do
   describe 'GET index' do
-    let(:scrapbooks) { double('scrapbooks') }
-
+    let(:num_scrapbooks) { 2 }
+    let(:scrapbooks)     { Array.new(num_scrapbooks).map.with_index{|s,i| Fabricate.build(:scrapbook, id: i+1)} }
+  
     before :each do
-      allow(Scrapbook).to receive(:all).and_return(scrapbooks)
-      allow(scrapbooks).to receive(:page).and_return(scrapbooks)
-      allow(scrapbooks).to receive(:per).and_return(scrapbooks)
+      allow(Scrapbook).to receive(:approved).and_return(scrapbooks)
       get :index
     end
 
@@ -19,13 +18,22 @@ describe ScrapbooksController do
       expect(session[:current_memory_index_path]).to be_nil
     end
 
-    it 'fetches all scrapbooks' do
-      expect(Scrapbook).to have_received(:all)
+    it 'fetches all approved scrapbooks' do
+      expect(Scrapbook).to have_received(:approved)
     end
 
-    it "paginates the results 30 to a page" do
-      expect(scrapbooks).to have_received(:page)
-      expect(scrapbooks).to have_received(:per).with(30)
+    it "provides the results" do
+      expect(assigns[:scrapbooks].length).to eql(num_scrapbooks)
+    end
+
+    it "wraps the results in a ScrapbookCoverPresenter" do
+      assigns[:scrapbooks].each do |scrapbook|
+        expect(scrapbook).to be_a(ScrapbookCoverPresenter)
+      end
+    end
+
+    it "paginates the results" do
+      expect(assigns[:scrapbooks]).to respond_to(:current_page)
     end
 
     it 'renders the index page' do

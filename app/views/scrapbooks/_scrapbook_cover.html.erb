@@ -1,0 +1,32 @@
+<a class="scrapbook thumb masonry" data-id="<%= presenter.scrapbook.id %>" href="<%= presenter.path_to_scrapbook %>" title="View details" role="button">
+  <div class="padding">
+
+    <h3 class="scrapbookTitle"><%= presenter.scrapbook.title %></h3>
+
+    <% if presenter.cover.main_memory %>
+      <%= image_tag cache_busted_url(presenter.cover.main_memory, :big_thumb), alt: presenter.scrapbook.title, :class => "main" %>
+    <% else %>
+      <div class="empty">
+        <%= image_tag 'empty-scrapbook.png', :class => "ph" %>
+        <h4>This scrapbook is empty</h4>
+      </div>
+    <% end -%>
+
+    <div class="bottom-row clearfix">
+      <div class="count">
+        <div class="wrapper">
+          <span><%= presenter.cover.memory_count %></span>
+          <i><%= 'memory'.pluralize(presenter.cover.memory_count) %></i>
+        </div>
+      </div>
+      <% presenter.cover.secondary_memories.each do |secondary_memory| -%>
+        <% if secondary_memory -%>
+          <%= image_tag cache_busted_url(secondary_memory, :mini_thumb), alt: secondary_memory.title, class: 'mini' %>
+        <% else -%>
+          <div class="empty mini"></div>
+        <% end -%>
+      <% end -%>
+    </div>
+
+  </div>
+</a>

@@ -1,5 +1,5 @@
 <% if current_user.try(:can_modify?, memory) && show_state? && !memory.approved? %>
-  <div class="state <%= memory.current_state %>">
+  <div class="state <%= memory.moderation_state %>">
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <%= state_label(memory) %>
   </div>
 <% end -%>

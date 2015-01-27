@@ -1,7 +1,14 @@
 require 'rails_helper'
 
 describe Search::MemoriesController do
-  let(:format)            { :html }
+  let(:format)               { :html }
+  let(:paged_memory_results) { double('paged_memory_results') }
+  let(:memory_results)       { double('memory_results', page: paged_memory_results) }
+  let(:results)              { double('results', memory_results: memory_results) }
+
+  before(:each) do
+    allow(SearchResults).to receive(:new).and_return(results)
+  end
 
   describe 'GET index' do
     context 'when no query is given' do
@@ -15,6 +22,10 @@ describe Search::MemoriesController do
 
       it "redirects to the browse memories page" do
         expect(response).to redirect_to(memories_path)
+      end
+
+      it "doesn't generate search results" do
+        expect(SearchResults).not_to receive(:new)
       end
     end
 
@@ -30,15 +41,14 @@ describe Search::MemoriesController do
       it "redirects to the browse memories page" do
         expect(response).to redirect_to(memories_path)
       end
+
+      it "doesn't generate search results" do
+        expect(SearchResults).not_to receive(:new)
+      end
     end
 
     context 'when a query is given' do
       let(:query)   { "test search" }
-      let(:results) { double('results') }
-
-      before(:each) do
-        allow(SearchResults).to receive(:new).and_return(results)
-      end
 
       context 'when no page number is given' do
         before :each do
@@ -49,12 +59,20 @@ describe Search::MemoriesController do
           expect(session[:current_memory_index_path]).to eql(search_memories_path(format: format, query: query))
         end
 
-        it 'generates a memory search results presenter for the given query' do
-          expect(SearchResults).to have_received(:new).with('memories', query, nil)
+        it 'generates search results for the given query' do
+          expect(SearchResults).to have_received(:new).with(query)
         end
 
         it "assigns the returned results" do
           expect(assigns(:results)).to eql(results)
+        end
+
+        it "paginates the results" do
+          expect(memory_results).to have_received(:page).with(nil)
+        end
+
+        it "assigns the paged memory results" do
+          expect(assigns(:memories)).to eql(paged_memory_results)
         end
 
         context 'when request is for HTML' do
@@ -83,12 +101,20 @@ describe Search::MemoriesController do
           expect(session[:current_memory_index_path]).to eql(expected)
         end
 
-        it 'generates a memory search results presenter for the given query and page' do
-          expect(SearchResults).to have_received(:new).with('memories', query, page)
+        it 'generates search results for the given query' do
+          expect(SearchResults).to have_received(:new).with(query)
         end
 
         it "assigns the returned results" do
           expect(assigns(:results)).to eql(results)
+        end
+
+        it "paginates the results" do
+          expect(memory_results).to have_received(:page).with(page)
+        end
+
+        it "assigns the paged memory results" do
+          expect(assigns(:memories)).to eql(paged_memory_results)
         end
 
         context 'when request is for HTML' do

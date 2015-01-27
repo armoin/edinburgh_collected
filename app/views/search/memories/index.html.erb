@@ -12,13 +12,13 @@
       </div>
     </header>
 
-    <% if @results.paged_results.empty? -%>
+    <% if @memories.empty? -%>
       <div class="no-results">
         <%= image_tag 'empty-scrapbook.png' %>
         <p>Sorry, but we couldn't find any results for "<%= @results.query %>"</p>
       </div>
     <% else -%>
-      <%= render partial: 'memories/index', locals: {memories: @results.paged_results} %>
+      <%= render partial: 'memories/index', locals: {memories: @memories} %>
     <% end -%>
   </div>
 </div>
