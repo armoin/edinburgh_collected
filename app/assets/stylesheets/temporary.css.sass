@@ -1645,12 +1645,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
       #toggleMenu
         display: block
-        &.active
-          background: $navy-blue
-          color: $cream
-
-          span.icon-bar
-            background: $cream
 
         &:focus
           outline: none
@@ -1675,7 +1669,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
           &:first-child
             margin-top: 1em
 
-
           a
             color: $cream
             padding: 0.75em 1em 0.75em 46px
@@ -1692,7 +1685,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
             &.signin
               padding: 0.25em 0.5em
               border: 1px darken( $green, 10% ) solid
-              +border-radius(3px)
+              +border-radius(0px !important)
 
               &:hover, &:active
                 color: white

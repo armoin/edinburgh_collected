@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require bootstrap-sprockets
 //= require raphael
 //= require binaryajax
@@ -32,4 +31,5 @@
 //= require underscore
 //= require json2
 //= require judge
+//= require jquery.mmenu.min
 //= require_tree .
