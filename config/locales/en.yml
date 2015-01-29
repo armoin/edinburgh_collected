@@ -45,5 +45,5 @@ en:
 
   home:
     index:
-      about: 'Join %{app_name} to add and share your memories of %{city}'
-      scrapbook: 'Create a scrapbook and share your memories of %{city}'
+      about: 'Join %{app_name} to add and share your memories of %{city}.'
+      scrapbook: 'Create a scrapbook and share your memories of %{city}.'
