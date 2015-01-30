@@ -5,7 +5,7 @@ class @FormValidator
       .each   (i, field) ->
         currentLabelText = $(field).siblings('label').text()
         maxLength = lengthValidationFor(field).options.maximum
-        maxLengthText = '(max ' + maxLength + ' chars)'
+        maxLengthText = '(max ' + maxLength + ' characters)'
         unless currentLabelText.match(".*#{maxLengthText}")
           $(field).siblings('label').text(currentLabelText + ' ' + maxLengthText)
 

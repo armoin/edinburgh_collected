@@ -26,13 +26,13 @@ describe "FormValidator", ->
         it "is has its label changed", ->
           $("<label>Test</label><input type='text' data-validate='#{maxLengthValidator}' />").appendTo(@formGroup)
           new FormValidator().labelMaxLength(@form)
-          expect( $(@formGroup).find('label').text() ).toEqual("Test (max #{maxChars} chars)")
+          expect( $(@formGroup).find('label').text() ).toEqual("Test (max #{maxChars} characters)")
 
       describe "if the label has already got max length text", ->
         it "is does not have its label changed", ->
-          $("<label>Test (max #{maxChars} chars)</label><input type='text' data-validate='#{maxLengthValidator}' />").appendTo(@formGroup)
+          $("<label>Test (max #{maxChars} characters)</label><input type='text' data-validate='#{maxLengthValidator}' />").appendTo(@formGroup)
           new FormValidator().labelMaxLength(@form)
-          expect( $(@formGroup).find('label').text() ).toEqual("Test (max #{maxChars} chars)")
+          expect( $(@formGroup).find('label').text() ).toEqual("Test (max #{maxChars} characters)")
 
   describe "validating fields", ->
     describe "resets the form before validating", ->
