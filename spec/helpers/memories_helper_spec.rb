@@ -65,6 +65,10 @@ describe MemoriesHelper do
       it "has some content" do
         expect(subject).to have_key(:content)
       end
+
+      it "contains a link to the sign in page in the content" do
+        expect(subject[:content]).to include("href=\"#{new_session_path}\"")
+      end
     end
   end
 end

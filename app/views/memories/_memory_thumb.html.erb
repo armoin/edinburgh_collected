@@ -23,7 +23,7 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-    $('[data-toggle="popover"]').popover({placement: 'bottom'}).on('click', function (e) { e.preventDefault(); })
+    $('[data-toggle="popover"]').popover({placement: 'bottom', html: true}).on('click', function (e) { e.preventDefault(); })
     $('.imageWrapper').on('mouseleave', function (e) { $(e.currentTarget).find('[data-toggle="popover"]').popover('hide') })
   });
 </script>

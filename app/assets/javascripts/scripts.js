@@ -20,7 +20,7 @@ var runMasonry = function(e) {
   $('.masonry-grid').waitForImages(function () {
     var $container = $(this),
         $spinner   = $(".masonry-loading-spinner");
-        gutter     = parseInt( $('.masonry').css('marginBottom') );
+        gutter     = 0;
 
     $spinner.hide();
     $container.parent().show();
