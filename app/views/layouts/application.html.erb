@@ -38,7 +38,6 @@
     <div id="wrapper">
       <div id="main">
         <header class="clearfix container">
-
           <div id="logo" class="col-xs-12 col-sm-2 col-md-2">
             <a class="navbar-brand" href="/" title="<%= APP_NAME %>">
               <%= image_tag "edinburgh-collected.png", alt: "#{APP_NAME} - Beta" %>
@@ -74,10 +73,10 @@
                     </li>
                   <% end %>
                   <li class="profile <%= active_if_controller_path('my/profile') %>">
-                    <%= link_to 'My account'.html_safe, my_profile_path, class: 'arrow' %>
+                    <span>My account</span>
                     <ul>
                       <li>
-                        <%= link_to 'Edit your details', my_profile_edit_path %>
+                        <%= link_to 'View profile'.html_safe, my_profile_path %>
                       </li>
                       <li>
                         <%= link_to 'Sign out', signout_path, method: :delete %>

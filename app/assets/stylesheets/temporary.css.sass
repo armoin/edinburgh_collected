@@ -339,7 +339,10 @@ header
           position: relative
           margin: 0 !important
 
-          & > a
+          & > span
+            display: inline-block
+
+          & > a, & > span
             padding: 0.25em 1em 0.25em 1em !important
             +border-radius(4px)
 
@@ -359,7 +362,7 @@ header
               margin: 0 !important
               padding: 0.25em 1em !important
 
-              a
+              a, span
                 color: $cream
                 padding: 0 !important
                 border-bottom: none !important
@@ -367,7 +370,7 @@ header
 
           &:hover
             background: $navy-blue
-            a
+            a, span
               color: $cream !important
               border-bottom: none !important
 
