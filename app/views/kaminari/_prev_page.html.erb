@@ -1,5 +1,10 @@
-<li>
-<%= link_to_unless(current_page.first?, raw(t 'views.pagination.previous'), url, :rel => 'prev', :remote => remote) do |name| %>
+<li class="desktop">
+  <%= link_to_unless(current_page.first?, raw(t 'views.pagination.previous'), url, :rel => 'prev', :remote => remote) do |name| %>
+    <span class="disabled"><%= name %></span>
+  <% end %>
+</li>
+<li class="mobile">
+  <%= link_to_unless(current_page.first?, raw(t 'views.pagination.mobile.previous'), url, :rel => 'prev', :remote => remote) do |name| %>
     <span class="disabled"><%= name %></span>
   <% end %>
 </li>

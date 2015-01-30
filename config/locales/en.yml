@@ -47,3 +47,12 @@ en:
     index:
       about: 'Join %{app_name} to add and share your memories of %{city}.'
       scrapbook: 'Create a scrapbook and share your memories of %{city}.'
+
+  views:
+    pagination:
+      mobile:
+        first: "&laquo;"
+        last: "&raquo;"
+        previous: "&lsaquo;"
+        next: "&rsaquo;"
+        truncate: "&hellip;"

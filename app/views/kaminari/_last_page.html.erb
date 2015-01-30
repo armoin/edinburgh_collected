@@ -1,5 +1,10 @@
-<li>
+<li class="desktop">
   <%= link_to_unless(current_page.last?, raw(t 'views.pagination.last'), url, :remote => remote) do |name| %>
+    <span class="disabled"><%= name %></span>
+  <% end %>
+</li>
+<li class="mobile">
+  <%= link_to_unless(current_page.last?, raw(t 'views.pagination.mobile.last'), url, :remote => remote) do |name| %>
     <span class="disabled"><%= name %></span>
   <% end %>
 </li>
