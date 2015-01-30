@@ -1,9 +1,11 @@
 <div class="container">
-  <% if current_user.try(:is_admin?) && show_moderation_panel? %>
-    <%= render partial: 'admin/moderation/moderation_panel', locals: {memory: @memory} %>
-  <% else %>
-    <%= link_to 'Back', current_memory_index_path %>
-  <% end %>
+  <div class="actions">
+    <% if current_user.try(:is_admin?) && show_moderation_panel? %>
+      <%= render partial: 'admin/moderation/moderation_panel', locals: {memory: @memory} %>
+    <% else %>
+      <%= link_to 'Back', current_memory_index_path, class: "button back" %>
+    <% end %>
+  </div>
 
   <%= render partial: 'memories/memory', object: @memory %>
 </div>
