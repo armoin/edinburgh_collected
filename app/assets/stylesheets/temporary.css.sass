@@ -335,6 +335,46 @@ header
               background: darken( $green, 10% )
               border: 1px darken( $green, 10% ) solid
 
+        &.profile
+          position: relative
+          margin: 0 !important
+
+          & > a
+            padding: 0.25em 1em 0.25em 1em !important
+            +border-radius(4px)
+
+          ul
+            position: absolute
+            right: 0
+            width: 160px
+            text-align: right
+            background: $navy-blue
+            z-index: 100
+            padding: 0.5em 0 0.5em 0 !important
+            list-style: none
+            +border-radius(4px 0 4px 4px)
+            display: none
+
+            li
+              margin: 0 !important
+              padding: 0.25em 1em !important
+
+              a
+                color: $cream
+                padding: 0 !important
+                border-bottom: none !important
+
+
+          &:hover
+            background: $navy-blue
+            a
+              color: $cream !important
+              border-bottom: none !important
+
+            ul
+              display: block
+
+
 
         ul
           padding: 0
