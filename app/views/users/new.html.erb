@@ -1,146 +1,146 @@
 <div class="container">
- <header id="formHeader" class="row">
- </header>
+  <header id="formHeader" class="row">
+  </header>
 
- <div id="signUp" class="formWrapper row">
-  <div id="formPanel" class="col-md-6">
+  <div id="signUp" class="formWrapper row">
+    <div id="formPanel" class="col-md-6">
 
-    <h1 class="form-title">Sign up for an account</h1>
+      <h1 class="form-title">Sign up for an account</h1>
 
-    <%= form_for @user, html: {class: 'form-horizontal', role: 'form'} do |form| %>
-      <div class="form-group">
-        <div id="user_is_group" class="form-group">
-          <div class="col-sm-5">
-            <%= form.label :is_group, class: 'control-label' %>
-          </div>
-          <div class="col-sm-7">
-            <%= form.collection_radio_buttons(:is_group, [[false, 'An individual'], [true, 'A group']], :first, :last) do |crb| %>
-              <%= crb.radio_button %>
-              <%= crb.label(class: "collection_radio_buttons") %>
+      <%= form_for @user, html: {class: 'form-horizontal', role: 'form'} do |form| %>
+        <div class="form-group">
+          <div id="user_is_group" class="form-group">
+            <div class="col-sm-5">
+              <%= form.label :is_group, class: 'control-label' %>
+            </div>
+            <div class="col-sm-7">
+              <%= form.collection_radio_buttons(:is_group, [[false, 'An individual'], [true, 'A group']], :first, :last) do |crb| %>
+                <%= crb.radio_button %>
+                <%= crb.label(class: "collection_radio_buttons") %>
+              <% end -%>
+            </div>
+            <% @user.errors[:is_group].each do |error| %>
+              <span class="help-block"><%= error %></span>
             <% end -%>
           </div>
-          <% @user.errors[:is_group].each do |error| %>
-            <span class="help-block"><%= error %></span>
-          <% end -%>
         </div>
-      </div>
 
-      <div class="form-group" aria-required="true">
-        <div class="formRow">
-          <%= form.label :first_name, class: 'control-label' %>
-          <%= form.text_field :first_name, class: 'form-control' %>
-          <% @user.errors[:first_name].each do |error| %>
-            <span class="help-block"><%= error %></span>
-          <% end -%>
+        <div class="form-group" aria-required="true">
+          <div class="formRow">
+            <%= form.label :first_name, class: 'control-label' %>
+            <%= form.text_field :first_name, class: 'form-control' %>
+            <% @user.errors[:first_name].each do |error| %>
+              <span class="help-block"><%= error %></span>
+            <% end -%>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group user_last_name" aria-required="true">
-        <div class="formRow">
-          <%= form.label :last_name, class: "control-label" %>
-          <%= form.text_field :last_name, class: 'form-control' %>
-          <% @user.errors[:last_name].each do |error| %>
-            <span class="help-block"><%= error %></span>
-          <% end -%>
+        <div class="form-group user_last_name" aria-required="true">
+          <div class="formRow">
+            <%= form.label :last_name, class: "control-label" %>
+            <%= form.text_field :last_name, class: 'form-control' %>
+            <% @user.errors[:last_name].each do |error| %>
+              <span class="help-block"><%= error %></span>
+            <% end -%>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group" aria-required="true">
-        <div class="formRow">
-          <%= form.label :email, class: "control-label" %>
-          <%= form.email_field :email, class: 'form-control' %>
-          <% @user.errors[:email].each do |error| %>
-            <span class="help-block"><%= error %></span>
-          <% end -%>
+        <div class="form-group" aria-required="true">
+          <div class="formRow">
+            <%= form.label :email, class: "control-label" %>
+            <%= form.email_field :email, class: 'form-control' %>
+            <% @user.errors[:email].each do |error| %>
+              <span class="help-block"><%= error %></span>
+            <% end -%>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group" aria-required="true">
-        <div class="formRow">
-          <%= form.label :screen_name, class: "control-label" %>
-          <%= form.text_field :screen_name, class: 'form-control' %>
-          <% @user.errors[:screen_name].each do |error| %>
-            <span class="help-block"><%= error %></span>
-          <% end -%>
+        <div class="form-group" aria-required="true">
+          <div class="formRow">
+            <%= form.label :screen_name, class: "control-label" %>
+            <%= form.text_field :screen_name, class: 'form-control' %>
+            <% @user.errors[:screen_name].each do |error| %>
+              <span class="help-block"><%= error %></span>
+            <% end -%>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group" aria-required="true">
-        <div class="formRow">
-          <%= form.label :password, class: "control-label" %>
-          <%= form.password_field :password, class: 'form-control' %>
-          <% @user.errors[:password].each do |error| %>
-            <span class="help-block"><%= error %></span>
-          <% end -%>
+        <div class="form-group" aria-required="true">
+          <div class="formRow">
+            <%= form.label :password, class: "control-label" %>
+            <%= form.password_field :password, class: 'form-control' %>
+            <% @user.errors[:password].each do |error| %>
+              <span class="help-block"><%= error %></span>
+            <% end -%>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group" aria-required="true">
-        <div class="formRow">
-          <%= form.label :password_confirmation, class: "control-label" %>
-          <%= form.password_field :password_confirmation, class: 'form-control' %>
-          <% @user.errors[:password_confirmation].each do |error| %>
-            <span class="help-block"><%= error %></span>
-          <% end -%>
+        <div class="form-group" aria-required="true">
+          <div class="formRow">
+            <%= form.label :password_confirmation, class: "control-label" %>
+            <%= form.password_field :password_confirmation, class: 'form-control' %>
+            <% @user.errors[:password_confirmation].each do |error| %>
+              <span class="help-block"><%= error %></span>
+            <% end -%>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group t_and_c" aria-required="true">
-        <div class="formRow">
-          <label for="user_accepted_t_and_c">
-            <%= form.check_box :accepted_t_and_c %>
-            I accept the
-            <a class="underlined" href="" data-toggle="modal" data-target="#t_and_c">Terms and Conditions</a>
-          </label>
-          <% @user.errors[:accepted_t_and_c].each do |error| %>
-            <span class="help-block"><%= error %></span>
-          <% end -%>
+        <div class="form-group t_and_c" aria-required="true">
+          <div class="formRow">
+            <label for="user_accepted_t_and_c">
+              <%= form.check_box :accepted_t_and_c %>
+              I accept the
+              <a class="underlined" href="" data-toggle="modal" data-target="#t_and_c">Terms and Conditions</a>
+            </label>
+            <% @user.errors[:accepted_t_and_c].each do |error| %>
+              <span class="help-block"><%= error %></span>
+            <% end -%>
+          </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <div class="actions col-xs-sm-12">
-          <%= form.submit "Sign up", class: "button" %>
+        <div class="form-group">
+          <div class="actions col-xs-sm-12">
+            <%= form.submit "Sign up", class: "button" %>
+          </div>
         </div>
-      </div>
-    <% end -%>
-  </div>
-
-  <div id="extraPanel" class="col-md-6">
-    <div id="signposting">
-      <h3>Already have an account?</h3>
-      <a href="/signin" class="green button">Sign in now</a>
+      <% end -%>
     </div>
 
-    <ul class="help-tips">
-      <li><span class="glyphicon glyphicon-info-sign"></span>All fields marked with a <span class="required">*</span> are required.</li>
-      <li><span class="glyphicon glyphicon-info-sign"></span>Password must be 3 characters or more.</li>
-      <li><span class="glyphicon glyphicon-info-sign"></span>Your first name, last name and email are not visible to others on the site. Only your username is used to identify you.</li>
-      <li><span class="glyphicon glyphicon-info-sign"></span>You must accept the <a class="underlined" href="" data-toggle="modal" data-target="#t_and_c">Terms and Conditions</a> in order to sign up for an account.
-      </li>
-    </ul>
+    <div id="extraPanel" class="col-md-6">
+      <div id="signposting">
+        <h3>Already have an account?</h3>
+        <a href="/signin" class="green button">Sign in now</a>
+      </div>
+
+      <ul class="help-tips">
+        <li><span class="glyphicon glyphicon-info-sign"></span>All fields marked with a <span class="required">*</span> are required.</li>
+        <li><span class="glyphicon glyphicon-info-sign"></span>Password must be 3 characters or more.</li>
+        <li><span class="glyphicon glyphicon-info-sign"></span>Your first name, last name and email are not visible to others on the site. Only your username is used to identify you.</li>
+        <li><span class="glyphicon glyphicon-info-sign"></span>You must accept the <a class="underlined" href="" data-toggle="modal" data-target="#t_and_c">Terms and Conditions</a> in order to sign up for an account.
+        </li>
+      </ul>
+    </div>
+
   </div>
 
-</div>
-
-<div class="modal fade" id="t_and_c" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title">Terms and conditions</h1>
-      </div>
-      <div class="modal-body">
-        <div id="t_and_c_content" style="height: 250px; overflow: scroll">
-          <%= render partial: 'static/t_and_c_text' %>
+  <div class="modal fade" id="t_and_c" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title">Terms and conditions</h1>
         </div>
-      </div>
-      <div class="modal-footer">
-        <a href="" class="btn btn-default" data-dismiss="modal">Close</a>
+        <div class="modal-body">
+          <div id="t_and_c_content" style="height: 250px; overflow: scroll">
+            <%= render partial: 'static/t_and_c_text' %>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="" class="btn btn-default" data-dismiss="modal">Close</a>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
 
 <script type="text/javascript">
   var initForm = function (e) {
