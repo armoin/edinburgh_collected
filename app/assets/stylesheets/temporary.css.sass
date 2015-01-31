@@ -19,6 +19,8 @@ $rejected:      #d9534f
 $error:         #a94442
 $required:      #a94442
 
+$mobile-header-height:  135px
+
 $desktop-footer-height: 190px
 $mobile-footer-height:  330px
 
@@ -281,142 +283,130 @@ h1, h2, h3
 
 /* ==================================== HEADER */
 
-header
-  position: relative
-  margin-top: 1em
+#main-header
 
+  #masthead
+    position: relative
+    margin-top: 1em
 
-  #theNavBar
+    #theNavBar
+      button
+        padding: 40px 1em 1em 1em
+        background: none
+        border: none
+        position: relative
+        left: -15px
+        display: none
 
-    .icon-bar
-      background-color: $navy-blue
-      display: block
-      margin-top: 4px
-      width: 22px
-      height: 2px
-      border-radius: 1px
+      ul.menu
+        float: right
+        position: relative
+        margin-top: 0.5em
 
-    #menuText
-      float: right
-      margin-left: 30px
+        li
+          margin: 0 1em
+          display: inline-block
 
-
-    button
-      padding: 40px 1em 1em 1em
-      background: none
-      border: none
-      position: relative
-      left: -15px
-      display: none
-
-    ul.menu
-      float: right
-      position: relative
-      margin-top: 0.5em
-
-      li
-        margin: 0 1em
-        display: inline-block
-
-        a
-          padding: 0.25em 0
-          +border-radius(0px)
-          border-bottom: 2px solid transparent
-
-          &:hover, &:active
-            color: $navy-blue
-            background: none
-            border-bottom: 2px solid
-            text-decoration: none
-
-          &.signin
-            padding: 0.25em 0.5em
-            border: 1px darken( $green, 10% ) solid
-            +border-radius(3px)
+          a
+            padding: 0.25em 0
+            +border-radius(0px)
+            border-bottom: 2px solid transparent
 
             &:hover, &:active
-              color: white
-              background: darken( $green, 10% )
+              color: $navy-blue
+              background: none
+              border-bottom: 2px solid
+              text-decoration: none
+
+            &.signin
+              padding: 0.25em 0.5em
               border: 1px darken( $green, 10% ) solid
+              +border-radius(3px)
 
-        &.profile
-          position: relative
-          margin: 0 !important
+              &:hover, &:active
+                color: white
+                background: darken( $green, 10% )
+                border: 1px darken( $green, 10% ) solid
 
-          & > span
-            display: inline-block
+          &.profile
+            position: relative
+            margin: 0 !important
 
-          & > a, & > span
-            padding: 0.25em 1em 0.25em 1em !important
-            +border-radius(4px)
+            & > span
+              display: inline-block
 
-          ul
-            position: absolute
-            right: 0
-            width: 130px
-            text-align: right
-            background: $navy-blue
-            z-index: 100
-            padding: 0.5em 0 0.5em 0 !important
-            list-style: none
-            +border-radius(4px 0 4px 4px)
-            display: none
-
-            li
-              margin: 0 !important
-              padding: 0.25em 1em !important
-
-              a, span
-                color: $cream
-                padding: 0 !important
-                border-bottom: none !important
-
-
-          &:hover
-            background: $navy-blue
-            a, span
-              color: $cream !important
-              border-bottom: none !important
+            & > a, & > span
+              padding: 0.25em 1em 0.25em 1em !important
+              +border-radius(4px)
 
             ul
+              position: absolute
+              right: 0
+              width: 130px
+              text-align: right
+              background: $navy-blue
+              z-index: 100
+              padding: 0.5em 0 0.5em 0 !important
+              list-style: none
+              +border-radius(4px 0 4px 4px)
+              display: none
+
+              li
+                margin: 0 !important
+                padding: 0.25em 1em !important
+
+                a, span
+                  color: $cream
+                  padding: 0 !important
+                  border-bottom: none !important
+
+
+            &:hover
+              background: $navy-blue
+              a, span
+                color: $cream !important
+                border-bottom: none !important
+
+              ul
+                display: block
+
+
+
+          ul
+            padding: 0
+            display: none
+
+            li a
+              padding: 10px 15px
+              line-height: 20px
               display: block
 
 
+    #logo
+      padding-left: 0
+      margin-top: 1.25em
+      position: absolute
+      bottom: 0
 
-        ul
-          padding: 0
-          display: none
-
-          li a
-            padding: 10px 15px
-            line-height: 20px
-            display: block
-
-
-  #logo
-    padding-left: 0
-    margin-top: 1.25em
-    position: absolute
-    bottom: 0
-
-    .navbar-brand
-      display: block
-      float: none
-      height: auto
-      position: relative
-      padding: 0
-      font-size: inherit
-      line-height: 100%
-      margin-bottom: 0
+      .navbar-brand
+        display: block
+        float: none
+        height: auto
+        position: relative
+        padding: 0
+        font-size: inherit
+        line-height: 100%
+        margin-bottom: 0
 
 
   #searchwrapper
     background: $navy-blue
-    position: relative
     padding: 0.5em
     margin: 0em 0 0 0
     float: right
-    // height: 1em
+
+    .menu-icon
+      display: none
 
     a
       color: white
@@ -461,8 +451,6 @@ header
 
 
 
-
-
 /* ==================================== LAYOUT */
 
 .module
@@ -475,20 +463,29 @@ header
 
 /* ================= STICKY FOOTER */
 
-html
-  position: relative
-  min-height: 100%
 
-body
-  margin-bottom: $desktop-footer-height
+html, body, #wrapper
+  height: 100%
+
+#wrapper
+  display: table
+  width: 100%
+
+/* ie7 and under*/
+#main-header, footer, #main
+  display: block
+#main-header, footer, #main
+  display: table-row
+
+/* height 1px on the header and footer is the sticky footer technique */
+#main-header, footer
+  height: 1px
 
 footer
-  position: absolute
-  bottom: 0
-  width: 100%
   height: $desktop-footer-height
   background: $navy-blue
   color: $cream
+  padding: 1em
 
   .wrap
     float: left
@@ -1656,14 +1653,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       margin: 0 0.5em
       padding: 1em 1em 1em 2.5em
 
-  body
-    margin-bottom: $mobile-footer-height
-
-  footer
-    height: $mobile-footer-height
-    text-align: center
-    padding: 1em
-
 
 /* SCREEN SIZE: MOBILES */
 
@@ -1672,111 +1661,143 @@ header .navbar .navbar-collapse ul.nav li a.feedback
   .desktop
     display: none !important
 
+  #wrapper
+    position: relative
+    overflow: auto
 
-  header
-    margin-top: 0
-    top: 0
+  #main-header
+    width: 100%
+    height: $mobile-header-height
 
 
-    #logo
-      margin-top: 20px
+    #masthead
       position: relative
-      margin-bottom: 1em
-      padding: 0
-      float: right
-      display: inline-block
-      width: auto
+      background-color: $light-grey
+      margin-top: 0
+      top: 0
 
-      .navbar-brand
-        float: none
-        display: inline-block
+      .menu-icon
+        font-size: 1.2em
 
-        img
-          margin: 0 auto
-          max-width: 90px
-
-    #theNavBar
-
-      #toggleMenu
-        display: block
-
-        &:focus
-          outline: none
-
-
-      ul.menu
-        display: none
-        float: none
-        position: absolute
-        margin: 0 0 0 -15px
+      #logo
+        margin-top: 20px
+        position: relative
+        margin-bottom: 1em
         padding: 0
-        width: 100%
-        background: $navy-blue
-        z-index: 9999
+        float: right
+        display: inline-block
+        width: auto
 
-        li
-          margin: 0
+        .navbar-brand
+          float: none
+          display: inline-block
+
+          img
+            margin: 0 auto
+            max-width: 90px
+
+      #theNavBar
+
+        .toggleMenu
           display: block
-          font-weight: 600
-          border-bottom: 1px solid rgba( $cream, .3 )
 
-          &:first-child
-            margin-top: 1em
-
-          a
-            color: $cream
-            padding: 0.75em 1em 0.75em 46px
-            display: block
-            border-bottom: none
-            +border-radius(0px)
-
-            &:hover, &:active
-              color: lighten( $green, 20% )
-              background: none
-              border-bottom: none
-              text-decoration: none
-
-            &.signin
-              padding: 0.25em 0.5em
-              border: 1px darken( $green, 10% ) solid
-              +border-radius(0px !important)
-
-              &:hover, &:active
-                color: white
-                background: darken( $green, 10% )
-                border: 1px darken( $green, 10% ) solid
-
-            &.feedback
-              background: none
+          &:focus
+            outline: none
 
 
-          ul
-            padding: 0
+        ul.menu
+          display: none
+          float: none
+          position: absolute
+          margin: 0 0 0 -15px
+          padding: 0
+          width: 100%
+          background: $navy-blue
+          z-index: 9999
+
+          li
             margin: 0
             display: block
-            position: relative
-            border-top: 1px solid rgba( $cream, .3 )
+            font-weight: 600
+            border-bottom: 1px solid rgba( $cream, .3 )
 
-            li
+            &:first-child
+              margin-top: 1em
+
+            a
+              color: $cream
+              padding: 0.75em 1em 0.75em 46px
+              display: block
+              border-bottom: none
+              +border-radius(0px)
+
+              &:hover, &:active
+                color: lighten( $green, 20% )
+                background: none
+                border-bottom: none
+                text-decoration: none
+
+              &.signin
+                padding: 0.25em 0.5em
+                border: 1px darken( $green, 10% ) solid
+                +border-radius(0px !important)
+
+                &:hover, &:active
+                  color: white
+                  background: darken( $green, 10% )
+                  border: 1px darken( $green, 10% ) solid
+
+              &.feedback
+                background: none
+
+
+            ul
               padding: 0
               margin: 0
-              font-weight: 300
+              display: block
+              position: relative
+              border-top: 1px solid rgba( $cream, .3 )
 
-              &:last-child
-                border-bottom: none
+              li
+                padding: 0
+                margin: 0
+                font-weight: 300
 
-              &:first-child
-                margin-top: 0em
+                &:last-child
+                  border-bottom: none
 
-              a
-                display: block
-                padding: 0.75em 1em 0.75em 46px
+                &:first-child
+                  margin-top: 0em
+
+                a
+                  display: block
+                  padding: 0.75em 1em 0.75em 46px
 
 
 
 
     #searchwrapper
       margin-top: 0em
+
+      .menu-icon
+        color: white
+        font-size: 1.2em
+
+      .fix-search &
+        position: fixed
+        top: 0
+        left: 0
+        z-index: 1050
+        float: none
+
+        .input-group
+          width: 90%
+          float: right
+
+        .menu-icon
+          display: inline-block
+          float: left
+          margin-top: 0.2em
 
   .module
     margin-bottom: 2em
@@ -1947,15 +1968,13 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       margin-bottom: 0.2em
       text-align: center
 
-  body
-    margin-bottom: $mobile-footer-height
-
   footer
+    display: block
     height: $mobile-footer-height
     text-align: center
-    padding: 1em
 
     .wrap
+      float: none
       padding-bottom: 2em
 
     ul
@@ -2063,7 +2082,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         ul
           display: block
 
-  .navbar #searchwrapper .searchForm input
+  #searchwrapper .searchForm input
     width: 100%
 
   #scrapbooks .masonry.thumb,

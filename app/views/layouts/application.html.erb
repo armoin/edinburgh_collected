@@ -36,8 +36,8 @@
   <body>
     <a class="desktop feedback" href="mailto:<%= CONTACT_EMAIL %>?subject=Feedback">Feedback</a>
     <div id="wrapper">
-      <div id="main">
-        <header class="clearfix container">
+      <header id="main-header" class="container">
+        <div id="masthead" class="clearfix container">
           <div id="logo" class="col-xs-12 col-sm-2 col-md-2">
             <a class="navbar-brand" href="/" title="<%= APP_NAME %>">
               <%= image_tag "edinburgh-collected.png", alt: "#{APP_NAME} - Beta" %>
@@ -45,11 +45,10 @@
           </div>
 
           <div id="theNavBar" role="navigation">
-            <button id="toggleMenu" type="button">
-              <span id="menuText">MENU</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
+            <button class="toggleMenu" type="button">
+              <span id="menuText">
+                <span class="menu-icon">&#9776;</span> MENU
+              </span>
             </button>
 
             <nav id="menu">
@@ -108,6 +107,7 @@
 
             <div class="searchForm col-xs-12 col-sm-4 col-md-6">
               <%= form_tag search_memories_path, method: :get do %>
+                <span class="menu-icon toggleMenu">&#9776;</span>
                 <div class="input-group ">
                   <%= text_field_tag :query, params[:query], class: 'form-control', title: 'search' %>
                   <span class="input-group-btn">
@@ -118,8 +118,9 @@
             </div>
 
           </div> <!-- end search/browse box -->
-        </header>
-
+        </div> <!-- end masthead -->
+      </header>
+      <div id="main">
         <div class="flashes container">
           <% flash.each do |class_name, message| %>
             <div class="<%= class_name %>">
@@ -134,22 +135,22 @@
         </div>
 
       </div>
-    </div>
-    <footer>
-      <div class="container clearfix">
-        <div class="wrap">
-          <ul>
-            <li><%= link_to 'About', about_path, title: 'About this site' %></li>
-            <li><%= link_to 'Contact us', contact_path %></li>
-            <li><%= link_to 'Privacy and cookies', p_and_c_path %></li>
-            <li><%= link_to 'Terms and conditions', t_and_c_path %></li>
-          </ul>
-          <p>&copy; The City of Edinburgh Council 2014</p>
+      <footer>
+        <div class="container clearfix">
+          <div class="wrap">
+            <ul>
+              <li><%= link_to 'About', about_path, title: 'About this site' %></li>
+              <li><%= link_to 'Contact us', contact_path %></li>
+              <li><%= link_to 'Privacy and cookies', p_and_c_path %></li>
+              <li><%= link_to 'Terms and conditions', t_and_c_path %></li>
+            </ul>
+            <p>&copy; The City of Edinburgh Council 2014</p>
+          </div>
+          <a href="http://www.edinburgh.gov.uk/" id="councilLogo" class=""><%= image_tag "edinburgh-council.png", alt: "The City of Edinburgh Council" %></a>
+          <a href="http://www.nesta.org.uk/" id="nestaLogo"><%= image_tag "nesta.png", alt: "Nesta" %></a>
         </div>
-        <a href="http://www.edinburgh.gov.uk/" id="councilLogo" class=""><%= image_tag "edinburgh-council.png", alt: "The City of Edinburgh Council" %></a>
-        <a href="http://www.nesta.org.uk/" id="nestaLogo"><%= image_tag "nesta.png", alt: "Nesta" %></a>
-      </div>
-    </footer>
+      </footer>
+    </div>
 
     <script type="text/javascript">
       $(document).ready(function () {
@@ -157,9 +158,29 @@
 
         $("#menu").mmenu({},{clone: true});
 
-        $("#toggleMenu").click(function() {
+        $(".toggleMenu").click(function() {
           $("#mm-menu").trigger("open.mm");
         });
+
+        var didScroll;
+
+        $('body').on('scroll', function(event){ didScroll = true; });
+
+        setInterval(function() {
+          if (didScroll) {
+            hasScrolled();
+            didScroll = false;
+          }
+        }, 250);
+
+        function hasScrolled() {
+          var searchTop = $('#theNavBar')[0].getBoundingClientRect().bottom + 8;
+          if (searchTop <= 0) {
+            $('#wrapper').addClass('fix-search')
+          } else {
+            $('#wrapper').removeClass('fix-search')
+          }
+        }
       });
     </script>
   </body>
