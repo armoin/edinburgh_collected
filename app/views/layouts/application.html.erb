@@ -97,7 +97,7 @@
             </nav>
           </div>
 
-          <div id="searchwrapper" class="dropdowns col-xs-12  col-sm-10 col-md-10">
+          <div id="searchwrapper" class="dropdowns col-xs-12  col-sm-12 col-md-10">
             <!--
               <div class="dropdowns">
                 <%= select_tag 'filter_area', options_from_collection_for_select(Area.all, :id, :name), {prompt: 'Explore by Area', class: "form-control"} %>
@@ -105,7 +105,7 @@
               </div>
             -->
 
-            <div class="searchForm col-xs-12 col-sm-4 col-md-6">
+            <div class="searchForm col-xs-12 col-sm-12 col-md-6">
               <%= form_tag search_memories_path, method: :get do %>
                 <span class="menu-icon toggleMenu">&#9776;</span>
                 <div class="input-group ">

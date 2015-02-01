@@ -1635,23 +1635,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
   #scrapbookInstructions
     width: 90%
 
-  #signIn, #signUp, #password
-    form
-      .actions > *
-        margin: 0 0 1em 0
-        width: 100%
-        float: none
 
-      *:last-child
-        margin-bottom: 0
-
-    #signposting
-      padding: 1em 0 1em !important
-
-    #extraPanel .help-tips
-      font-size: 0.9em
-      margin: 0 0.5em
-      padding: 1em 1em 1em 2.5em
 
 
 /* SCREEN SIZE: MOBILES */
@@ -1823,6 +1807,24 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     select
       margin: 0
 
+  #signIn, #signUp, #password
+    form
+      .actions > *
+        margin: 0 0 1em 0
+        width: 100%
+        float: none
+
+      *:last-child
+        margin-bottom: 0
+
+    #signposting
+      padding: 1em 0 1em !important
+
+    #extraPanel .help-tips
+      font-size: 0.9em
+      margin: 0 0.5em
+      padding: 1em 1em 1em 2.5em
+
   form
     background-color: #ccc
 
@@ -1852,6 +1854,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       // a.btn
       //   margin-left: 10px
       //   margin-right: -11px
+
 
   .col-xs-12.global-asset-actions
     text-align: center
@@ -1969,7 +1972,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       text-align: center
 
   footer
-    display: block
+    // display: block
     height: $mobile-footer-height
     text-align: center
 
@@ -2030,7 +2033,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
 /* SCREEN SIZE: TABLETS */
 
-@media (min-width: 768px)
+@media (min-width: 769px)
 
   .mobile
     display: none !important
@@ -2112,6 +2115,11 @@ header .navbar .navbar-collapse ul.nav li a.feedback
   #scrapbookInstructions
     width: 80%
 
+  footer
+    #councilLogo, #nestaLogo
+      img
+        width: 20%
+
 
 /* SCREEN SIZE: SMALL LAPTOPS */
 
@@ -2130,6 +2138,11 @@ header .navbar .navbar-collapse ul.nav li a.feedback
   #scrapbookInstructions
     width: 70%
 
+
+  footer
+    #councilLogo, #nestaLogo
+      img
+        width: 100%
 
 
 /* Large devices min-width (1200px) + a .memory margin (50px) * 2 (100px) = 1300px */
