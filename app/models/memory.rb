@@ -34,8 +34,8 @@ class Memory < ActiveRecord::Base
   validates_presence_of :categories, message: 'must have at least one'
   validates :type, inclusion: { in: Memory.file_types, message: "must be of type 'photo'", judge: :ignore }
   validate :date_not_in_future
-  validates_length_of :title, :attribution, maximum: 255
-  validates_length_of :description, maximum: 4000
+  validates_length_of :title, :attribution, maximum: 200
+  validates_length_of :description, maximum: 1000
 
   MAX_FILE_SIZE = 2.megabyte
   validates :source, file_size: { less_than_or_equal_to: MAX_FILE_SIZE }

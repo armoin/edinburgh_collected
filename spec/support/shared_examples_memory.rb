@@ -126,14 +126,14 @@ RSpec.shared_examples "a memory" do
         expect(memory.errors[:title]).to include("Please let us know what title you would like to give this")
       end
 
-      it "can't be more than 255 characters long" do
-        exact_size_text = Array.new(255, "a").join
-        too_long_text = Array.new(256, "a").join
+      it "can't be more than 200 characters long" do
+        exact_size_text = Array.new(200, "a").join
+        too_long_text = Array.new(201, "a").join
         memory.title = exact_size_text
         expect(memory).to be_valid
         memory.title = too_long_text
         expect(memory).to be_invalid
-        expect(memory.errors[:title]).to include("is too long (maximum is 255 characters)")
+        expect(memory.errors[:title]).to include("is too long (maximum is 200 characters)")
       end
     end
 
@@ -144,14 +144,14 @@ RSpec.shared_examples "a memory" do
         expect(memory.errors[:description]).to include("Please tell us a little bit about this memory")
       end
 
-      it "can't be more than 4000 characters long" do
-        exact_size_text = Array.new(4000, "a").join
-        too_long_text = Array.new(4001, "a").join
+      it "can't be more than 1000 characters long" do
+        exact_size_text = Array.new(1000, "a").join
+        too_long_text = Array.new(1001, "a").join
         memory.description = exact_size_text
         expect(memory).to be_valid
         memory.description = too_long_text
         expect(memory).to be_invalid
-        expect(memory.errors[:description]).to include("is too long (maximum is 4000 characters)")
+        expect(memory.errors[:description]).to include("is too long (maximum is 1000 characters)")
       end
     end
 
@@ -273,14 +273,14 @@ RSpec.shared_examples "a memory" do
     end
 
     describe "attribution" do
-      it "can't be more than 255 characters long" do
-        exact_size_text = Array.new(255, "a").join
-        too_long_text = Array.new(256, "a").join
+      it "can't be more than 200 characters long" do
+        exact_size_text = Array.new(200, "a").join
+        too_long_text = Array.new(201, "a").join
         memory.attribution = exact_size_text
         expect(memory).to be_valid
         memory.attribution = too_long_text
         expect(memory).to be_invalid
-        expect(memory.errors[:attribution]).to include("is too long (maximum is 255 characters)")
+        expect(memory.errors[:attribution]).to include("is too long (maximum is 200 characters)")
       end
     end
   end
