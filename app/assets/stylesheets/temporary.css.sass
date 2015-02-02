@@ -1051,6 +1051,7 @@ a.memory, a.scrapbook
     padding: 1em
     background-color: $light-grey
     margin-bottom: 1em
+    text-align: center
 
   h2
     font-weight: 300
@@ -1059,16 +1060,12 @@ a.memory, a.scrapbook
     margin: 10px 0 20px
 
   .memory
-    width: 24%
+    display: inline-block
+    vertical-align: top
+    width: 49%
     margin-bottom: 1%
-    cursor: move
     background: white
     border: 1px solid white
-
-    &:hover
-      border: 1px solid $green
-      background: lighten( $green, 40% )
-
 
     .padding
       background: none
@@ -1080,6 +1077,13 @@ a.memory, a.scrapbook
 
       h3
         font-size: 16px
+
+    .detail
+      text-align: left
+
+    .memory-actions
+      margin-top: 0.4em
+      text-align: center
 
     img
       width: 100%
@@ -1651,6 +1655,11 @@ header .navbar .navbar-collapse ul.nav li a.feedback
   #infoPanel
     display: none
 
+  #editScrapbook .memory
+    width: 100%
+    margin-bottom: 4%
+
+
 
 /* SCREEN SIZE: MOBILES */
 
@@ -1862,9 +1871,10 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         margin-bottom: 5px
         display: block
 
-      input[type="submit"]
+      input[type="submit"], .button.cancel
         width: 100%
         margin-left: 0
+        margin-bottom: 0.4em
 
       // a.btn
       //   margin-left: 10px
@@ -1939,11 +1949,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
           .float-right
             display: inline-block
 
-
-
-  #editScrapbook .memory
-    width: 48%
-    margin-bottom: 2%
 
 
   #contentHeader

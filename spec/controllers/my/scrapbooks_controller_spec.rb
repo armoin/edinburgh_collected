@@ -377,8 +377,8 @@ describe My::ScrapbooksController do
         end
 
         context "update is successful" do
-          it "redirects to the scrapbook page" do
-            expect(response).to redirect_to(scrapbook_path('123'))
+          it "redirects to the my scrapbook page" do
+            expect(response).to redirect_to(my_scrapbook_path('123'))
           end
         end
 

@@ -27,7 +27,7 @@ class My::ScrapbooksController < My::AuthenticatedUserController
 
   def update
     if @scrapbook.update(scrapbook_params)
-      redirect_to scrapbook_path(@scrapbook)
+      redirect_to my_scrapbook_path(@scrapbook)
     else
       render :edit
     end
