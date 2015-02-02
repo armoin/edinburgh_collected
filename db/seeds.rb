@@ -42,7 +42,9 @@ areas.each do |area|
 end
 
 categories = [
+  "Animals",
   "Childhood",
+  "Daily Life",
   "Education",
   "Environment",
   "Events",
