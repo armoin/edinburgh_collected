@@ -1,9 +1,9 @@
 <header id="profileHeader" class="clearfix">
-    <a href="#" class="userAvatar"><%= image_tag "avatar.png" %></a>
-    <h1 class="title">
-      <%= current_user.try(:first_name) %>
-      <%= link_to 'Edit', my_profile_edit_path, class: 'button navy' %>
-    </h1>
-    <p class="sub">User bio/description goes here</p>
+  <a href="#" class="userAvatar"><%= image_tag "avatar.png" %></a>
+  <h1 class="title">
+    <%= current_user.try(:screen_name) %>
+    <%= link_to 'Edit', my_profile_edit_path, class: 'button navy' %>
+  </h1>
+  <p class="sub hide">User bio/description goes here</p>
 </header>
 

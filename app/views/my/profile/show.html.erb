@@ -1,26 +1,31 @@
-<div class="container user-card">
-  <div class="details col-xs-12">
-    <header>
-      <a href="#" class="userAvatar"><%= image_tag "avatar.png" %></a>
-      <h1 class="title"><%= @user.screen_name %></h1>
-    </header>
+<div class="container">
+  <div id="profile" class="row static">
+    <div id="detailsPanel" class="col-sm-6">
+      <header>
+        <a href="#" class="userAvatar"><%= image_tag "avatar.png" %></a>
+        <h1 class="title"><%= @user.screen_name %></h1>
+      </header>
 
-    <p>
-      <strong><%= user_name_label(@user) %></strong> <%= @user.first_name %>
-    </p>
-
-    <% unless @user.is_group? %>
       <p>
-        <strong>Last name:</strong> <%= @user.last_name %>
+        <strong><%= user_name_label(@user) %></strong> <%= @user.first_name %>
       </p>
-    <% end %>
 
-    <p>
-      <strong>Email:</strong> <%= @user.email %>
-    </p>
-  </div>
+      <% unless @user.is_group? %>
+        <p>
+          <strong>Last name:</strong> <%= @user.last_name %>
+        </p>
+      <% end %>
 
-  <div class="actions">
-    <%= link_to 'Edit', my_profile_edit_path, class: 'btn btn-primary' %>
+      <p>
+        <strong>Email:</strong> <%= @user.email %>
+      </p>
+
+      <div class="actions">
+        <%= link_to 'Edit', my_profile_edit_path, class: 'btn btn-primary' %>
+      </div>
+    </div>
+
+    <div id="infoPanel" class="col-sm-6">
+    </div>
   </div>
 </div>

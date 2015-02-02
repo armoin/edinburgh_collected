@@ -1635,7 +1635,8 @@ header .navbar .navbar-collapse ul.nav li a.feedback
   #scrapbookInstructions
     width: 90%
 
-
+  #infoPanel
+    display: none
 
 
 /* SCREEN SIZE: MOBILES */
@@ -1907,15 +1908,15 @@ header .navbar .navbar-collapse ul.nav li a.feedback
           &.empty
             padding: 15% 0
 
-  .user-card
-    .details
-      h1
-        text-align: left
-
-    .actions
-      a
-        width: 100%
-        margin: 10px 0
+  // .user-card
+  //   .details
+  //     h1
+  //       text-align: left
+  //
+  //   .actions
+  //     a
+  //       width: 100%
+  //       margin: 10px 0
 
   #scrapbook
     #contentHeader
@@ -1947,8 +1948,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
     h2
       padding: 1em 0 0 0
-    #infoPanel
-      display: none
 
     .check_boxes .checkbox
       width: 100% !important
@@ -2028,6 +2027,18 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         padding-left: 15px
         padding-right: 15px
 
+  /* profile pages */
+
+  #detailsPanel
+    padding: 1em
+    padding-top: 2em
+    background: white
+
+    h1
+      margin-top: 0
+
+    a
+      text-decoration: none
 
 
 
@@ -2106,11 +2117,17 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       &.empty
         padding: 15% 0
 
-  #formPanel
+  #formPanel, #detailsPanel
     padding-top: 2em
 
     h1
       margin-top: 0
+
+  #detailsPanel
+    background: white
+
+    a
+      text-decoration: none
 
   #scrapbookInstructions
     width: 80%
