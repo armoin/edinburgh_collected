@@ -289,7 +289,19 @@ h1, h2, h3
     position: relative
     margin-top: 1em
 
+    .icon-bar
+      background-color: $navy-blue
+      display: block
+      margin-top: 3px
+      width: 15px
+      height: 3px
+      border-radius: 1px
+
     #theNavBar
+      #menuText
+        float: right
+        margin-left: 23px
+
       button
         padding: 40px 1em 1em 1em
         background: none
@@ -405,7 +417,7 @@ h1, h2, h3
     margin: 0em 0 0 0
     float: right
 
-    .menu-icon
+    .toggleMenu
       display: none
 
     a
@@ -1661,9 +1673,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       margin-top: 0
       top: 0
 
-      .menu-icon
-        font-size: 1.2em
-
       #logo
         margin-top: 20px
         position: relative
@@ -1764,9 +1773,10 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     #searchwrapper
       margin-top: 0em
 
-      .menu-icon
-        color: white
-        font-size: 1.2em
+      .toggleMenu
+        .icon-bar
+          background-color: white
+          font-size: 1.2em
 
       .fix-search &
         position: fixed
@@ -1779,10 +1789,10 @@ header .navbar .navbar-collapse ul.nav li a.feedback
           width: 90%
           float: right
 
-        .menu-icon
+        .toggleMenu
           display: inline-block
           float: left
-          margin-top: 0.2em
+          margin-top: 0.4em
 
   .module
     margin-bottom: 2em

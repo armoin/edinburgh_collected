@@ -46,9 +46,10 @@
 
           <div id="theNavBar" role="navigation">
             <button class="toggleMenu" type="button">
-              <span id="menuText">
-                <span class="menu-icon">&#9776;</span> MENU
-              </span>
+              <span id="menuText">MENU</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
             </button>
 
             <nav id="menu">
@@ -107,7 +108,11 @@
 
             <div class="searchForm col-xs-12 col-sm-12 col-md-6">
               <%= form_tag search_memories_path, method: :get do %>
-                <span class="menu-icon toggleMenu">&#9776;</span>
+                <span class="toggleMenu" role="button">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </span>
                 <div class="input-group ">
                   <%= text_field_tag :query, params[:query], class: 'form-control', title: 'search' %>
                   <span class="input-group-btn">
