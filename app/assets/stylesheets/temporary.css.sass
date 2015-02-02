@@ -57,7 +57,7 @@ h1 a
   top: -0.25em !important
 
 a.delete
-  background-color: $coral !important
+  background-color: $coral
 
 a.underlined
   text-decoration: underline
@@ -75,6 +75,7 @@ a.underlined
   text-shadow: 0px 1px 0px darken( $navy-blue, 10% )
 
   &:hover, &:focus
+    background-color: lighten($navy-blue, 10)
     color: white
     text-decoration: none
 
@@ -88,7 +89,7 @@ a.underlined
     margin-left: 0.25em
 
 
-.button.navy, .button.edit
+.button.navy, .button.edit, .button.back
   background-color: $navy-blue
   border: 1px solid $navy-blue
   text-shadow: 0px 1px 0px $navy-blue
