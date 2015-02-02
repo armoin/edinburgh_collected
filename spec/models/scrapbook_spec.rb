@@ -2,14 +2,40 @@ require 'rails_helper'
 
 describe Scrapbook do
   describe 'validation' do
-    it 'must have a title' do
-      expect(subject).to be_invalid
-      expect(subject.errors[:title]).to include("can't be blank")
-    end
-
     it 'must belong to a user' do
       expect(subject).to be_invalid
       expect(subject.errors[:user]).to include("can't be blank")
+    end
+
+    describe 'title' do
+      it 'must be present' do
+        expect(subject).to be_invalid
+        expect(subject.errors[:title]).to include("can't be blank")
+      end
+
+      it "can't be longer than 200 characters" do
+        scrapbook = Fabricate.build(:scrapbook)
+        exact_size_text = Array.new(200, "a").join
+        too_long_text = Array.new(201, "a").join
+        scrapbook.title = exact_size_text
+        expect(scrapbook).to be_valid
+        scrapbook.title = too_long_text
+        expect(scrapbook).to be_invalid
+        expect(scrapbook.errors[:title]).to include("is too long (maximum is 200 characters)")
+      end
+    end
+
+    describe 'description' do
+      it "can't be more than 1000 characters long" do
+        scrapbook = Fabricate.build(:scrapbook)
+        exact_size_text = Array.new(1000, "a").join
+        too_long_text = Array.new(1001, "a").join
+        scrapbook.description = exact_size_text
+        expect(scrapbook).to be_valid
+        scrapbook.description = too_long_text
+        expect(scrapbook).to be_invalid
+        expect(scrapbook.errors[:description]).to include("is too long (maximum is 1000 characters)")
+      end
     end
   end
 

@@ -4,6 +4,8 @@ class Scrapbook < ActiveRecord::Base
   has_many :memories, through: :scrapbook_memories
 
   validates :title, :user, presence: true
+  validates :title, length: {maximum: 200}
+  validates :description, length: {maximum: 1000}
 
   SEARCHABLE_FIELDS       = [:title, :description]
   SEARCHABLE_ASSOCIATIONS = {}
