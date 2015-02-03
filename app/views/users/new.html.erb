@@ -14,10 +14,9 @@
               <%= form.label :is_group, class: 'control-label' %>
             </div>
             <div class="col-sm-7">
-              <%= form.collection_radio_buttons(:is_group, [[false, 'An individual'], [true, 'A group']], :first, :last) do |crb| %>
-                <%= crb.radio_button %>
-                <%= crb.label(class: "collection_radio_buttons") %>
-              <% end -%>
+              <%= form.collection_radio_buttons(:is_group, [[false, 'An individual'], [true, 'A group']], :first, :last) do |b|
+                    b.label(class: "collection_radio_buttons") { b.radio_button + " #{b.text}" }
+                  end %>
             </div>
             <% @user.errors[:is_group].each do |error| %>
               <span class="help-block"><%= error %></span>
