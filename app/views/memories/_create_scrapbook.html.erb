@@ -1,28 +1,12 @@
 <div class="modal fade" id="create-scrapbook-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <%= form_for :scrapbook, url: my_scrapbooks_path, remote: true, html: {class: 'form-horizontal', id: 'create-scrapbook'} do |f| %>
+      <%= form_for Scrapbook.new, url: my_scrapbooks_path, builder: Judge::FormBuilder, remote: true, html: {class: 'form-horizontal', id: 'create-scrapbook'} do |f| %>
         <div class="modal-header">
           <h4 class="modal-title">Create a new scrapbook</h4>
         </div>
         <div class="modal-body">
-          <div id="errors"></div>
-          <div class="form-group">
-            <div class="col-sm-4">
-              <%= f.label :title, class: "string control-label" %>
-            </div>
-            <div class="col-sm-8">
-              <%= f.text_field :title, class: 'form-control' %>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-4">
-              <%= f.label :description, class: "string control-label" %>
-            </div>
-            <div class="col-sm-8">
-              <%= f.text_area :description, class: 'form-control' %>
-            </div>
-          </div>
+          <%= render partial: 'my/scrapbooks/form_details', locals: {form: f} %>
         </div>
         <div class="modal-footer">
           <button id="cancel-create-scrapbook" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -33,3 +17,19 @@
   </div>
 </div>
 
+<script type="text/javascript">
+  $(document).ready(function () {
+    var formValid = false;
+
+    window.formValidator = new FormValidator();
+    window.formValidator.labelMaxLength($('form#create-scrapbook'));
+
+    $('form#create-scrapbook').bind('ajax:beforeSend', function (e) {
+      window.formValidator.validateForm(this, {
+        onValid: function () { formValid = true; this.trigger('submit'); },
+      onInvalid: function () { /* do nothing */ }
+      });
+      return formValid;
+    });
+  })
+</script>
