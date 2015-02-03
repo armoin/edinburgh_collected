@@ -1,2 +1,4 @@
-$('#create-scrapbook-modal #errors').html('<div class="error-message">Error: <%= @scrapbook.errors.full_messages.join(', ') %></div>')
-
+$('span.help-block').remove();
+<% @scrapbook.errors.each do |field, messages| -%>
+  $('#scrapbook_' + '<%= field %>').closest('.form-group').addClass('field_with_errors').append('<span class="help-block"><%=j messages %></span>')
+<% end -%>
