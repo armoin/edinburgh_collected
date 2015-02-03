@@ -20,6 +20,8 @@ en:
         screen_name: 'Username'
         is_group: 'Who is this account for?'
     errors:
+      messages:
+        too_long: "text is too long (maximum is %{count} characters)"
       models:
         memory:
           attributes:

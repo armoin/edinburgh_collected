@@ -133,7 +133,7 @@ RSpec.shared_examples "a memory" do
         expect(memory).to be_valid
         memory.title = too_long_text
         expect(memory).to be_invalid
-        expect(memory.errors[:title]).to include("is too long (maximum is 200 characters)")
+        expect(memory.errors[:title]).to include("text is too long (maximum is 200 characters)")
       end
     end
 
@@ -151,7 +151,7 @@ RSpec.shared_examples "a memory" do
         expect(memory).to be_valid
         memory.description = too_long_text
         expect(memory).to be_invalid
-        expect(memory.errors[:description]).to include("is too long (maximum is 1000 characters)")
+        expect(memory.errors[:description]).to include("text is too long (maximum is 1000 characters)")
       end
     end
 
@@ -280,7 +280,7 @@ RSpec.shared_examples "a memory" do
         expect(memory).to be_valid
         memory.attribution = too_long_text
         expect(memory).to be_invalid
-        expect(memory.errors[:attribution]).to include("is too long (maximum is 200 characters)")
+        expect(memory.errors[:attribution]).to include("text is too long (maximum is 200 characters)")
       end
     end
   end

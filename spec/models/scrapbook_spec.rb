@@ -21,7 +21,7 @@ describe Scrapbook do
         expect(scrapbook).to be_valid
         scrapbook.title = too_long_text
         expect(scrapbook).to be_invalid
-        expect(scrapbook.errors[:title]).to include("is too long (maximum is 200 characters)")
+        expect(scrapbook.errors[:title]).to include("text is too long (maximum is 200 characters)")
       end
     end
 
@@ -34,7 +34,7 @@ describe Scrapbook do
         expect(scrapbook).to be_valid
         scrapbook.description = too_long_text
         expect(scrapbook).to be_invalid
-        expect(scrapbook.errors[:description]).to include("is too long (maximum is 1000 characters)")
+        expect(scrapbook.errors[:description]).to include("text is too long (maximum is 1000 characters)")
       end
     end
   end
