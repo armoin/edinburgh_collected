@@ -12,12 +12,11 @@
       <p id="memory-attribution"><%= @memory.attribution %></p>
     </div>
 
-    <div class="col-sm-4">
+    <div class="details col-sm-4">
 
       <div class="memory-meta">
         <%= render partial: 'memories/state_label', locals: {memory: @memory} %>
 
-        <p class="views not-implemented">This has been viewed <strong>XX</strong> times</p>
         <% scrapbook_count = @memory.scrapbooks.count %>
         <p class="saved">This has been added to <span id="scrapbook-count"><%= scrapbook_count %></span> <span id="scrapbook-text"><%= 'scrapbook'.pluralize(scrapbook_count) %></span></p>
 
@@ -34,7 +33,6 @@
             </div>
             <br />
           <% end %>
-          <%= link_to "Share this photo", '#', class: "btn btn-default not-implemented" %>
           <% edit_path ||= edit_my_memory_path(@memory.id) %>
           <% delete_path ||= my_memory_path(@memory.id) %>
           <% if current_user.try(:can_modify?, @memory) %>
@@ -54,7 +52,7 @@
           <h3>Categories</h3>
           <ul>
             <% @memory.categories.each do |category| %>
-              <li><a href="" class="btn btn-primary btn-xs"><%= category.name %></a></li>
+              <li><a href="" class="btn btn-primary btn-xs not-implemented"><%= category.name %></a></li>
             <% end %>
           </ul>
         </div>
@@ -63,7 +61,7 @@
           <h3>Tags</h3>
           <ul>
             <% @memory.tags.each do |tag| %>
-              <li><a href="" class="btn btn-primary btn-xs"><%= tag.name %></a></li>
+              <li><a href="" class="btn btn-primary btn-xs not-implemented"><%= tag.name %></a></li>
             <% end %>
           </ul>
         </div>
@@ -71,7 +69,7 @@
         <div id="memory-area" class="search-buttons">
           <h3><%= CITY %> area</h3>
           <% if @memory.area.present? -%>
-            <a href="" class="btn btn-primary btn-xs"><%= @memory.area.name %></a>
+            <a href="" class="btn btn-primary btn-xs not-implemented"><%= @memory.area.name %></a>
           <% end -%>
         </div>
 
