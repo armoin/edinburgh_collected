@@ -25,6 +25,9 @@
 /lib/tasks/cc_import.rake
 /lib/tasks/data_transfer.rake
 
+# ignore local env setup
+.env
+
 # Ignore todo scratch
 .todo
 .DS_Store
