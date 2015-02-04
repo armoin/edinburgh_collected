@@ -1,7 +1,7 @@
 CarrierWave.configure do |config|
   if Rails.env.test?
     config.enable_processing = false
-  elsif Rails.env.production? && ENV['HOST'] == 'http://edinburgh-stories.herokuapp.com'
+  elsif Rails.env.production? && ENV['HOST'] == 'http://edinburgh-collected.herokuapp.com'
     config.storage    = :fog
     config.fog_public = true
 
