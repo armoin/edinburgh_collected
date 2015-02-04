@@ -19,8 +19,8 @@ This is the working title for a city-wide shared memory app developed for City o
 ## Installing
 
 ```bash
-  git clone git@github.com:urfolomeus/edinburgh-stories.git
-  cd edinburgh-stories
+  git clone git@github.com:urfolomeus/edinburgh_collected.git
+  cd edinburgh_collected
   bundle install
   rake db:migrate
 ```
