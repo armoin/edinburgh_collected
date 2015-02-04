@@ -4,8 +4,6 @@ ruby '2.1.5'
 
 gem 'rails', '~> 4.1.7'
 
-gem 'puma',                         '~> 2.11.0'
-
 gem 'bootstrap-sass',               '~> 3.3.0'
 gem 'sass-rails',                   '~> 4.0.4'
 gem 'bourbon',                      '~> 3.2.1'
