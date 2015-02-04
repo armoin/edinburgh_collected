@@ -9,7 +9,7 @@
           <strong>Browse</strong>
           <span class="button memories"><%= pluralize(current_user.memories.size, 'memory') %></span>
 
-          <%= link_to my_scrapbooks_path, :class => "button scrapbooks inactive" do %>
+          <%= link_to my_scrapbooks_path, class: "button scrapbooks inactive counter", id: "view_scrapbooks" do %>
             <%= pluralize(current_user.scrapbooks.size, 'scrapbook') %>
           <% end %>
         </div>

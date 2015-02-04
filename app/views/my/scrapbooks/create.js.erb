@@ -2,6 +2,8 @@ if ( $('.scrapbook_selector').length > 0 ) {
   $('.scrapbook_selector').html('<%=j render partial: "scrapbooks/selector", locals: {current_user: current_user} %>');
   $('#create-scrapbook-modal').modal('hide');
   $('#add-to-scrapbook-modal').modal('show');
+
+  $('a#view_scrapbooks.counter').text('<%=j pluralize(current_user.scrapbooks.size, 'scrapbook') %>');
 } else {
   window.location = '<%= scrapbook_path(@scrapbook) %>'
 }
