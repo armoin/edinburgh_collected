@@ -1612,13 +1612,7 @@ a.feedback
   text-decoration: none
 
   &.desktop
-    transform: rotate(-90deg)
-    -webkit-transform: rotate(-90deg)
-    -moz-transform: rotate(-90deg)
-    -o-transform: rotate(-90deg)
-    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3)
-    -ms-transform: rotate(-180deg)
-    -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=3.061616997868383e-16, M12=1, M21=-1, M22=3.061616997868383e-16, SizingMethod='auto expand')"
+    @include transform(rotate(90deg))
     position: fixed
     left: -33px
     top: 40%
@@ -1627,12 +1621,12 @@ a.feedback
     width: 105px
     padding: 8px 16px
     border: solid 1px darken( $coral, 20% )
-    border-top: 0
+    border-bottom: 0
 
     &:hover
       background: $green
       border: solid 1px darken( $green, 20% )
-      border-top: 0
+      border-bottom: 0
 
 header .navbar .navbar-collapse ul.nav li a.feedback
   border-radius: 4px
@@ -1828,10 +1822,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     font-size: 24px
     text-align: center
     margin-top: 0
-
-  a.feedback.btn.btn-primary
-    width: 100%
-    margin: 10px 0
 
   .dropdowns
     a
@@ -2263,5 +2253,9 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
 /* IE 9 */
 .ie9
-  .feedback
-    left: -70px !important
+
+
+/* IE 10+ (because browser hacks don't work after IE9) */
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+
+  
