@@ -68,16 +68,10 @@
   var showPrompt = true;
 
   var setupForm = function (e) {
-    if ($('#memory_source')[0].files !== undefined) {
-      $('#memory_source').addClass('hide-whilst-enabled');
-      $('#memory_source').after('<a id="select-file" class="btn btn-primary">Choose a file</a>');
-    }
-
     window.formValidator = new FormValidator();
     window.formValidator.labelMaxLength($('form#add-memory'));
 
     fileInputEl = $('#memory_source')[0]
-    Utilities.redirectEvent('click', '#select-file', fileInputEl)
 
     editorEl    = $('#image-editor')[0]
     rotationEl  = $('#memory_rotation')[0]
