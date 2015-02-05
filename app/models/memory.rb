@@ -35,9 +35,9 @@ class Memory < ActiveRecord::Base
   validates :type, inclusion: { in: Memory.file_types, message: "must be of type 'photo'", judge: :ignore }
   validate :date_not_in_future
   validates_length_of :title, :attribution, maximum: 200
-  validates_length_of :description, maximum: 1000
+  validates_length_of :description, maximum: 1500
 
-  MAX_FILE_SIZE = 2.megabyte
+  MAX_FILE_SIZE = 4.megabyte
   validates :source, file_size: { less_than_or_equal_to: MAX_FILE_SIZE }
 
   scope :by_recent, -> { order('created_at DESC') }

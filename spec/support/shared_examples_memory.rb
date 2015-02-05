@@ -113,7 +113,7 @@ RSpec.shared_examples "a memory" do
 
           it "is invalid" do
             expect(memory).to be_invalid
-            expect(memory.errors[:source]).to include("file size must be less than or equal to 2 MB")
+            expect(memory.errors[:source]).to include("file size must be less than or equal to 4 MB")
           end
         end
       end
@@ -144,14 +144,14 @@ RSpec.shared_examples "a memory" do
         expect(memory.errors[:description]).to include("Please tell us a little bit about this memory")
       end
 
-      it "can't be more than 1000 characters long" do
-        exact_size_text = Array.new(1000, "a").join
-        too_long_text = Array.new(1001, "a").join
+      it "can't be more than 1500 characters long" do
+        exact_size_text = Array.new(1500, "a").join
+        too_long_text = Array.new(1501, "a").join
         memory.description = exact_size_text
         expect(memory).to be_valid
         memory.description = too_long_text
         expect(memory).to be_invalid
-        expect(memory.errors[:description]).to include("text is too long (maximum is 1000 characters)")
+        expect(memory.errors[:description]).to include("text is too long (maximum is 1500 characters)")
       end
     end
 
