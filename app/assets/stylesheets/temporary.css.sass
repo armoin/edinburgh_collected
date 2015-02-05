@@ -80,6 +80,7 @@ a span.accessible-label
   color: white
   text-decoration: none
   text-shadow: 0px 1px 0px darken( $navy-blue, 10% )
+  margin-bottom: 0.2em
 
   &:hover, &:focus
     background-color: lighten($navy-blue, 10)
@@ -692,7 +693,7 @@ button#create-scrapbook-button
 
   div.actions
     margin: 2em 0 0 0
-    padding: 1em 0
+    padding: 1em 0 0.8em 0
     border-top: $navy-blue 1px solid
     border-bottom: $navy-blue 1px solid
 
@@ -726,37 +727,81 @@ button#create-scrapbook-button
 
 .memory.full
 
-  header
-    margin-bottom: 1em
+  h2.subtitle
+    font-style: italic
+    font-weight: lighter
+    font-size: 1.4em
+    padding-top: 0.6em
 
-    .userAvatar
-      float: left
-      margin-right: 1em
-
-  .photo, .details
-    margin-bottom: 1em
+  #image
+    background: $navy-blue
+    text-align: center
+    margin: 0
+    margin-bottom: 2em
+    padding: 2em
 
     img
-      margin-bottom: 1em
+      max-width: 80%
 
-  .memory-meta
-    background-color: $navy-blue
-    color: $cream
-    padding: 1em
+  #details
+    padding: 0
 
-    p.saved, p.views
-      text-align: center
+    header
+      border-bottom: 1px solid $navy-blue
+      padding: 0
+      padding-bottom: 1em
 
-      #scrapbook-count
+      #user-profile
+        float: left
+        padding: 0
+
+        a.userAvatar, #user-details
+          display: inline-block
+
+        a.userAvatar
+          vertical-align: top
+
+          img
+            width: 50px
+
+        #user-details
+          padding: 0 0.6em
+
+          p
+            margin-bottom: 5px
+
+          .username
+            font-weight: bold
+
+      #share-links
+        float: right
+        padding: 0
+        text-align: right
+
+
+    #metadata
+      padding-left: 0
+
+      #author
         font-weight: bold
 
-    .buttons
-      text-align: center
-      display: block
+      .filters
+        padding-top: 0.2em
+        padding-bottom: 2em
 
-      a
-        margin: 0.25em
-        display: inline-block
+        #memory-area
+          margin-top: 1em
+          border-top: 1px solid $navy-blue
+          padding-top: 1.4em
+
+          a.button
+            width: 100%
+            text-align: center
+
+    #comments
+      padding-right: 0
+      margin-bottom: 2em
+
 
 
 a#add-memory-button
@@ -1999,6 +2044,42 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       display: block
       margin-bottom: 0.2em
       text-align: center
+
+  
+  /* Memory page */
+
+  .memory.full
+
+    #image
+      background-color: inherit
+      padding: 0
+      margin-bottom: 1em
+
+      img
+        max-width: 100%
+
+    #details
+      header
+        #user-profile
+          float: none
+
+        #share-links
+          float: none
+          text-align: center
+          margin-bottom: 2em
+
+      #metadata
+        padding-right: 0
+
+        .filters
+          padding-bottom: 1em 
+
+      #comments
+        padding-left: 0
+
+
+
+  /* Footer */
 
   footer
     // display: block

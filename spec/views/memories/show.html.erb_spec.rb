@@ -1,48 +1,143 @@
 require 'rails_helper'
 
 describe "memories/show.html.erb" do
-  let(:memory) { Fabricate.build(:photo_memory, id: 123) }
+  let(:area)        { Fabricate.build(:area, name: 'Portobello') }
+  let(:location)    { 'Kings Road' }
+  let(:tags)        { Array.new(2).map.with_index{|m,i| Fabricate.build(:tag, id: i)} }
+  let(:attribution) { 'Bobby Tables' }
+  let(:memory)      { Fabricate.build(:photo_memory, id: 123, attribution: attribution, area: area, location: location, tags: tags) }
   let(:edit_path)   { edit_my_memory_path(memory.id) }
   let(:delete_path) { my_memory_path(memory.id) }
 
-  it 'has a link to the current index' do
+  before :each do
     assign(:memory, memory)
     render
-    expect(rendered).to have_link('Back', href: '/memories')
   end
 
   it "displays a memory" do
-    assign(:memory, memory)
-    render
     expect(rendered).to have_css('.memory')
   end
 
-  describe 'the memory' do
+  describe "page header" do
     context 'when all details are given' do
-      before :each do
-        assign(:memory, memory)
-        render
-      end
-
       it 'has a title' do
         expect(rendered).to have_css('.memory .title', text: memory.title)
       end
 
-      it "has the full date" do
-        expect(rendered).to have_css('.memory .sub', text: '4th May 2014')
+      context 'has a subtitle that' do
+        it "includes the location" do
+          expect(rendered).to have_css('.memory .subtitle', text: 'Kings Road', count: 1)
+        end
+
+        it "includes the area" do
+          expect(rendered).to have_css('.memory .subtitle', text: 'Portobello', count: 1)
+        end
+
+        it "includes the date" do
+          expect(rendered).to have_css('.memory .subtitle', text: '4th May 2014')
+        end
+      end
+    end
+
+    context 'when there is no area' do
+      let(:area) { nil }
+
+      it "does not show the area in the header" do
+        expect(rendered).not_to have_css('.memory .subtitle', text: 'Portobello')
+      end
+    end
+
+    context 'when there is no location' do
+      let(:location) { nil }
+
+      it "does not show the area in the header" do
+        expect(rendered).not_to have_css('.memory .subtitle', text: 'Kings Road')
+      end
+    end
+  end
+
+  describe "action bar" do
+    it 'has a link to the current index' do
+      expect(rendered).to have_link('Back', href: '/memories')
+    end
+
+    context "when memory belongs to the user" do
+      let(:user) { Fabricate.build(:active_user) }
+
+      before :each do
+        allow(view).to receive(:current_user).and_return(user)
+        allow(user).to receive(:can_modify?).and_return(true)
+        render
       end
 
-      it 'has an image' do
-        expect(rendered).to match /img.*alt="#{memory.title}"/
-        expect(rendered).to match /img.*src="#{memory.source_url}.*"/
+      it "has an edit link" do
+        expect(rendered).to have_link('Edit', href: edit_path)
       end
 
+      it "has a delete link" do
+        expect(rendered).to have_link('Delete', href: delete_path)
+      end
+    end
+
+    context "when memory does not belong to the user" do
+      let(:user) { Fabricate.build(:active_user) }
+
+      before :each do
+        allow(view).to receive(:current_user).and_return(user)
+        allow(user).to receive(:can_modify?).and_return(false)
+        render
+      end
+
+      it "does not have an edit link" do
+        expect(rendered).not_to have_link('Edit', href: edit_path)
+      end
+
+      it "does not have a delete link" do
+        expect(rendered).not_to have_link('Delete', href: delete_path)
+      end
+    end
+
+    context "when the user is logged in" do
+      before :each do
+        allow(view).to receive(:logged_in?).and_return(true)
+        render
+      end
+
+      it "shows the 'Add to scrapbook' button" do
+        expect(rendered).to have_link('Add to scrapbook +')
+      end
+    end
+
+    context "when the user is not logged in" do
+      before :each do
+        allow(view).to receive(:logged_in?).and_return(false)
+        render
+      end
+
+      it "does not show the 'Add to scrapbook' button" do
+        expect(rendered).not_to have_link('Add to scrapbook +')
+      end
+    end
+  end
+
+  describe "image" do
+    it 'has the correct title' do
+      expect(rendered).to match /img.*alt="#{memory.title}"/
+    end
+
+    it 'has the correct source' do
+      expect(rendered).to match /img.*src="#{memory.source_url}.*"/
+    end
+  end
+
+  describe "details" do
+    context 'when all details are given' do
       it 'has a description' do
         expect(rendered).to have_css('.memory p', text: "This is a test.", count: 1)
       end
 
       it 'has an attribution' do
-        expect(rendered).to have_css('.memory p#memory-attribution', text: '', count: 1)
+        expect(rendered).to have_css('.memory p#memory-attribution', text: 'Bobby Tables', count: 1)
       end
 
       it 'has a list of categories' do
@@ -57,24 +152,21 @@ describe "memories/show.html.erb" do
         end
       end
 
-      it "has an area" do
-        expect(rendered).to have_css('.memory #memory-area h3', text: "#{CITY} area", count: 1)
-        expect(rendered).to have_css('.memory #memory-area a', text: 'Portobello', count: 1)
+      it "has a 'See more from this area' button" do
+        expect(rendered).to have_css('.memory #memory-area a', text: 'See more memories from Portobello', count: 1)
       end
+    end
 
-      it "has a location" do
-        expect(rendered).to have_css('.memory #memory-location h3', text: 'Location', count: 1)
-        expect(rendered).to have_css('.memory #memory-location p', text: 'Kings Road', count: 1)
+    context 'when there is no attribution' do
+      let(:attribution) { nil }
+
+      it 'does not have an attribution' do
+        expect(rendered).not_to have_css('.memory p#memory-attribution')
       end
     end
 
     context 'when there are no tags' do
-      before :each do
-        memory.tags = []
-        memory.save!
-        assign(:memory, memory)
-        render
-      end
+      let(:tags) { [] }
 
       it "shows the tags header" do
         expect(rendered).to have_css('.memory #memory-tags h3', text: 'Tags', count: 1)
@@ -86,75 +178,11 @@ describe "memories/show.html.erb" do
     end
 
     context 'when there is no area' do
-      before :each do
-        memory.area = nil
-        memory.save!
-        assign(:memory, memory)
-        render
+      let(:area) { nil }
+
+      it "does not have a 'See more from this area' button" do
+        expect(rendered).not_to have_css('.memory #memory-area a', text: 'See more memories from Portobello')
       end
-
-      it "shows the area header" do
-        expect(rendered).to have_css('.memory #memory-area h3', text: "#{CITY} area", count: 1)
-      end
-
-      it "does not have an area" do
-        expect(rendered).not_to have_css('.memory #memory-area a')
-      end
-    end
-
-    context 'when there is no location' do
-      before :each do
-        memory.location = nil
-        memory.save!
-        assign(:memory, memory)
-        render
-      end
-
-      it "shows the location header" do
-        expect(rendered).not_to have_css('.memory #memory-location h3')
-      end
-
-      it "does not have a location" do
-        expect(rendered).not_to have_css('.memory #memory-location ul li')
-      end
-    end
-  end
-
-  context "when memory belongs to the user" do
-    let(:user) { Fabricate.build(:active_user) }
-
-    before :each do
-      assign(:memory, memory)
-      allow(view).to receive(:current_user).and_return(user)
-      allow(user).to receive(:can_modify?).and_return(true)
-      render
-    end
-
-    it "has an edit link" do
-      expect(rendered).to have_link('Edit this memory', href: edit_path)
-    end
-
-    it "has a delete link" do
-      expect(rendered).to have_link('Delete this memory', href: delete_path)
-    end
-  end
-
-  context "when memory does not belong to the user" do
-    let(:user) { Fabricate.build(:active_user) }
-
-    before :each do
-      assign(:memory, memory)
-      allow(view).to receive(:current_user).and_return(user)
-      allow(user).to receive(:can_modify?).and_return(false)
-      render
-    end
-
-    it "does not have an edit link" do
-      expect(rendered).not_to have_link('Edit this memory', href: edit_path)
-    end
-
-    it "does not have a delete link" do
-      expect(rendered).not_to have_link('Delete this memory', href: delete_path)
     end
   end
 end

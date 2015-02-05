@@ -1,58 +1,65 @@
 <div class="memory full">
-  <header>
-    <a href="#" class="userAvatar"><%= image_tag "avatar.png" %></a>
+  <header  id="contentHeader" class="clearfix col-xs-12">
     <h1 class="title"><%= @memory.title %></h1>
-    <p class="sub"><%= @memory.date_string %></p>
-  </header>
-  <div class="clearfix">
-    <div class="photo col-sm-8">
-      <img src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
+    <h2 class="subtitle"><%= sub_text(@memory) %></h2>
+    <div class="actions col-xs-12 clearfix">
+      <%= link_to 'Back', current_memory_index_path, class: "button back" %>
+      
+      <% if current_user.try(:can_modify?, @memory) %>
+        <% delete_path ||= my_memory_path(@memory.id) %>
+        <%= link_to "Delete", delete_path, class: "button delete" , method: :delete, data: {confirm: 'Are you sure?'} %>
+        
+        <% edit_path ||= edit_my_memory_path(@memory.id) %>
+        <%= link_to "Edit", edit_path, class: "button navy edit" %>
 
-      <p id="memory-description"><%= @memory.description %></p>
-      <p id="memory-attribution"><%= @memory.attribution %></p>
+        <% if current_user.try(:is_admin?) && show_moderation_panel? %>
+          <%= render partial: 'admin/moderation/moderation_panel', locals: {memory: @memory} %>
+        <% end %>
+      <% end -%>
+
+      <% if logged_in? -%>
+        <%= link_to "Add to scrapbook +", '#', class: "button scrapbooks float-right", data: {memory_id: @memory.id, memory_title: @memory.title, toggle: 'modal', target: '#add-to-scrapbook-modal'} %>
+      <% end -%>
     </div>
+  </header>
 
-    <div class="details col-sm-4">
+  <div id="image" class="col-xs-12">
+    <img src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
+  </div>
 
-      <div class="memory-meta">
-        <%= render partial: 'memories/state_label', locals: {memory: @memory} %>
+  <div id="details" class="col-xs-12">
+    <header class="col-xs-12">
+      <div id="share-links" class="col-xs-12 col-md-6">
+        <%= image_tag 'dummy_share_bar.png' %>
+      </div>
 
-        <% scrapbook_count = @memory.scrapbooks.count %>
-        <p class="saved">This has been added to <span id="scrapbook-count"><%= scrapbook_count %></span> <span id="scrapbook-text"><%= 'scrapbook'.pluralize(scrapbook_count) %></span></p>
-
-        <span class="buttons">
-          <% if logged_in? %>
-            <%= link_to "Add to scrapbook +", '#', class: "btn btn-default", data: {memory_id: @memory.id, memory_title: @memory.title, toggle: 'modal', target: '#add-to-scrapbook-modal'} %>
-          <% else %>
-            <br />
-            <div>
-              <p>If you would like to add this to a scrapbook, please</p>
-              <%= link_to 'Sign up', signup_path, class: 'btn btn-primary' %>
-              or
-              <%= link_to 'Sign in', signin_path, class: 'btn btn-primary' %>
-            </div>
-            <br />
-          <% end %>
-          <% edit_path ||= edit_my_memory_path(@memory.id) %>
-          <% delete_path ||= my_memory_path(@memory.id) %>
-          <% if current_user.try(:can_modify?, @memory) %>
-            <%= link_to "Edit this memory", edit_path, :class => "btn btn-default" %>
-            <%= link_to "Delete this memory",  delete_path, method: :delete, data: {confirm: 'Are you sure?'}, :class => "btn btn-danger"%>
-          <% end %>
-        </span>
-
-
-        <div id="memory-owner">
-          <h3>Owner</h3>
-          <p><%= @memory.user.screen_name %></p>
+      <div id="user-profile" class="col-xs-12 col-md-6">
+        <a href="#" class="userAvatar"><%= image_tag "avatar.png" %></a>
+        <div id="user-details">
+          <p>Added by</p>
+          <p class="username"><%= @memory.user.screen_name %></p>
         </div>
+      </div>
+    </header>
+    <div id="metadata" class="col-xs-12 col-md-6">
+      <div id="about">
+        <h3>About this memory</h3>
+        <p id="memory-description"><%= @memory.description %></p>
 
+        <% if @memory.attribution.present? %>
+          <p id="memory-attribution">
+            <span id="author">Author or artist:</span>
+            <%= @memory.attribution %>
+          </p>
+        <% end -%>
+      </div>
 
+      <div class="filters">
         <div id="memory-categories" class="search-buttons">
           <h3>Categories</h3>
           <ul>
             <% @memory.categories.each do |category| %>
-              <li><a href="" class="btn btn-primary btn-xs not-implemented"><%= category.name %></a></li>
+              <li><a href="" class="button small not-implemented"><%= category.name %></a></li>
             <% end %>
           </ul>
         </div>
@@ -61,25 +68,21 @@
           <h3>Tags</h3>
           <ul>
             <% @memory.tags.each do |tag| %>
-              <li><a href="" class="btn btn-primary btn-xs not-implemented"><%= tag.name %></a></li>
+              <li><a href="" class="button small not-implemented"><%= tag.name %></a></li>
             <% end %>
           </ul>
         </div>
 
-        <div id="memory-area" class="search-buttons">
-          <h3><%= CITY %> area</h3>
-          <% if @memory.area.present? -%>
-            <a href="" class="btn btn-primary btn-xs not-implemented"><%= @memory.area.name %></a>
-          <% end -%>
-        </div>
-
-        <% if @memory.location.present? -%>
-          <div id="memory-location">
-            <h3>Location</h3>
-            <p><%= @memory.location %></p>
+        <% if @memory.area.present? -%>
+          <div id="memory-area">
+            <a href="" class="button memories not-implemented">See more memories from <%= @memory.area.name %></a>
           </div>
         <% end -%>
       </div>
+    </div>
+    <div id="comments" class="col-xs-12 col-md-6">
+      <h3>Latest comments</h3>
+      <p>Comments go here</p>
     </div>
   </div>
 </div>
