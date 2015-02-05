@@ -18,7 +18,6 @@
 
 # Ignore sensitive files
 /config/application.yml
-/config/database.yml
 
 # Ignore specific tasks
 /lib/tasks/cc_import.rake

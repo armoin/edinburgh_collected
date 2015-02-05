@@ -1,0 +1,16 @@
+common: &common
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+
+development:
+  <<: *common
+  database: edinburgh-scrapbooks-development
+
+test:
+  <<: *common
+  database: edinburgh-scrapbooks-test
+
+production:
+  <<: *common
+  database: <production db name here>
