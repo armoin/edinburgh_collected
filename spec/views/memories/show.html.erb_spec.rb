@@ -142,7 +142,7 @@ describe "memories/show.html.erb" do
 
       it 'has a list of categories' do
         memory.categories.each do |cat|
-          expect(rendered).to have_css('.memory #memory-categories ul li', text: cat.name)
+          expect(rendered).to have_link(cat.name, href: filter_categories_path(category: cat.name))
         end
       end
 

@@ -1,0 +1,22 @@
+<div class="container profile memories">
+  <div id="grid">
+    <header id="contentHeader" class="clearfix">
+      <h1>Category "<%= params[:category] %>"</h1>
+
+      <div class="actions clearfix">
+        <div class="viewingInfo">
+          Found <strong><%= pluralize(@memories.total_count, 'memory') %></strong>
+        </div>
+      </div>
+    </header>
+
+    <% if @memories.empty? -%>
+      <div class="no-results">
+        <%= image_tag 'empty-scrapbook.png' %>
+        <p>Sorry, but we couldn't find any results for <strong>"<%= params[:category] %>"</strong></p>
+      </div>
+    <% else -%>
+      <%= render partial: 'memories/index', locals: {memories: @memories} %>
+    <% end -%>
+  </div>
+</div>

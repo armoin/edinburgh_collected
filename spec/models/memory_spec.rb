@@ -17,6 +17,60 @@ describe Memory do
   let(:moderatable_factory) { :photo_memory }
   it_behaves_like 'moderatable'
 
+  describe 'filtering' do
+    describe 'by category' do
+      subject { Memory.filter_by_category(terms) }
+
+      before :each do
+        @term_only_category = Fabricate(:approved_memory)
+        @term_only_category.categories << Category.new(name: 'foo')
+
+        @term_in_categories = Fabricate(:approved_memory)
+        @term_in_categories.categories << Category.new(name: 'foo')
+        @term_in_categories.categories << Category.new(name: 'bar')
+
+        @term_not_in_categories = Fabricate(:approved_memory)
+        @term_not_in_categories.categories << Category.new(name: 'bar')
+      end
+
+      context 'when no category is given' do
+        let(:terms) { nil }
+
+        it 'returns all records' do
+          expect(subject).to include(@term_only_category)
+          expect(subject).to include(@term_in_categories)
+          expect(subject).to include(@term_not_in_categories)
+        end
+      end
+
+      context 'when blank category is given' do
+        let(:terms) { '' }
+
+        it 'returns all records' do
+          expect(subject).to include(@term_only_category)
+          expect(subject).to include(@term_in_categories)
+          expect(subject).to include(@term_not_in_categories)
+        end
+      end
+
+      context 'when a category is given' do
+        let(:terms) { 'foo' }
+
+        it 'includes records that have the category but no others' do
+          expect(subject).to include(@term_only_category)
+        end
+
+        it 'includes records that have the category amongst others' do
+          expect(subject).to include(@term_in_categories)
+        end
+
+        it "doesn't include records that don't have the category" do
+          expect(subject).not_to include(@term_not_in_categories)
+        end
+      end
+    end
+  end
+
   describe 'searching' do
     before :each do
       @unapproved_term_in_title = Fabricate(:memory, title: 'Edinburgh Castle test')

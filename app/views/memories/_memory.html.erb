@@ -60,7 +60,9 @@
           <h3>Categories</h3>
           <ul>
             <% @memory.categories.each do |category| %>
-              <li><a href="" class="button small not-implemented"><%= category.name %></a></li>
+              <li>
+                <%= link_to category.name, filter_categories_path(category: category.name), class: "button small" %>
+              </li>
             <% end %>
           </ul>
         </div>
