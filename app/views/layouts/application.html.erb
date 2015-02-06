@@ -18,6 +18,7 @@
 
 
     <%= javascript_include_tag('application') %>
+
     <%= csrf_meta_tags %>
 
     <%# hack to stop modals from causing feature tests to fail %>
@@ -107,7 +108,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                 </span>
-                <div class="input-group ">
+                <div class="input-group">
                   <%= text_field_tag :query, params[:query], class: 'form-control', title: 'search' %>
                   <span class="input-group-btn">
                     <button class="btn btn-default" type="submit" role="button" aria-label="Search the site"><i class="glyphicon glyphicon-search"></i></button>
@@ -161,6 +162,9 @@
         </div>
       </footer>
     </div>
+
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-544f84fe6bb42974" async="async"></script>
 
     <script type="text/javascript">
       $(document).ready(function () {
