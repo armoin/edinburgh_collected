@@ -9,7 +9,7 @@ class Memory < ActiveRecord::Base
   include Moderatable
 
   SEARCHABLE_FIELDS       = [:title, :description, :year, :location]
-  SEARCHABLE_ASSOCIATIONS = {categories: :name}
+  SEARCHABLE_ASSOCIATIONS = {categories: :name, tags: :name, area: :name}
 
   include Searchable
 

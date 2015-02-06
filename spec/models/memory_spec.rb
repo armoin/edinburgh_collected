@@ -109,10 +109,54 @@ describe Memory do
           @term_in_categories = Fabricate(:approved_memory)
           @term_in_categories.categories << Category.new(name: 'foo')
           @term_in_categories.categories << Category.new(name: 'bar')
+
+          @term_not_in_categories = Fabricate(:approved_memory)
+          @term_not_in_categories.categories << Category.new(name: 'bar')
         end
 
         it 'includes records where at least one category name matches' do
           expect(results).to include(@term_in_categories)
+        end
+
+        it 'does not include records where at least no category names match' do
+          expect(results).not_to include(@term_not_in_categories)
+        end
+      end
+
+      context 'tags' do
+        before :each do
+          @term_in_tags = Fabricate(:approved_memory)
+          @term_in_tags.tags << Tag.new(name: 'foo')
+          @term_in_tags.tags << Tag.new(name: 'bar')
+
+          @term_not_in_tags = Fabricate(:approved_memory)
+          @term_not_in_tags.tags << Tag.new(name: 'bar')
+        end
+
+        it 'includes records where at least one tag name matches' do
+          expect(results).to include(@term_in_tags)
+        end
+
+        it 'does not include records where at least no tag names match' do
+          expect(results).not_to include(@term_not_in_tags)
+        end
+      end
+
+      context 'area' do
+        before :each do
+          foo_area = Fabricate.build(:area, name: 'foo', id: 1)
+          @term_in_area = Fabricate(:approved_memory, area: foo_area)
+          
+          bar_area = Fabricate.build(:area, name: 'bar', id: 2)
+          @term_not_in_area = Fabricate(:approved_memory, area: bar_area)
+        end
+
+        it 'includes records where at least one area name matches' do
+          expect(results).to include(@term_in_area)
+        end
+
+        it 'does not include records where at least no area names match' do
+          expect(results).not_to include(@term_not_in_area)
         end
       end
     end
