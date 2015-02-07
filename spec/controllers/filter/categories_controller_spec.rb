@@ -13,6 +13,22 @@ describe Filter::CategoriesController do
     context 'when no category is given' do
       let(:category) { nil }
     
+      it 'stores the memory index path with no category' do
+        expect(session[:current_memory_index_path]).to eql(filter_categories_path)
+      end
+
+      it "redirects to the browse memories page" do
+        expect(response).to redirect_to(memories_path)
+      end
+    end
+
+    context 'when a blank category is given' do
+      let(:category) { '' }
+    
+      it 'stores the memory index path with a blank category' do
+        expect(session[:current_memory_index_path]).to eql(filter_categories_path(category: category))
+      end
+
       it "redirects to the browse memories page" do
         expect(response).to redirect_to(memories_path)
       end
@@ -21,6 +37,10 @@ describe Filter::CategoriesController do
     context 'when a category is given' do
       let(:category) { 'foo' }
     
+      it 'stores the memory index path with the given category' do
+        expect(session[:current_memory_index_path]).to eql(filter_categories_path(category: category))
+      end
+
       it 'finds all memories that are under the given category' do
         expect(Memory).to have_received(:filter_by_category).with(category)
       end
