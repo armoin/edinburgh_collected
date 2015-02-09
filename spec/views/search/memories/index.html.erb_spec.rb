@@ -87,7 +87,7 @@ describe 'search/memories/index.html.erb' do
     end
 
     it "displays a no results message" do
-      expect(rendered).to have_css('.no-results p', text: "Sorry, but we couldn't find any results for \"#{query}\"")
+      expect(rendered).to have_css('.no-results p', text: "Sorry, but we couldn't find any approved memories for \"#{query}\"")
     end
   end
 

@@ -148,7 +148,7 @@ describe "memories/show.html.erb" do
 
       it 'has a list of tags' do
         memory.tags.each do |tag|
-          expect(rendered).to have_css('.memory #memory-tags ul li', text: tag.name)
+          expect(rendered).to have_link(tag.name, href: filter_tags_path(tag: tag.name))
         end
       end
 

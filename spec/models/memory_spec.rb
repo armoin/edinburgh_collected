@@ -19,7 +19,7 @@ describe Memory do
 
   describe 'filtering' do
     describe 'by category' do
-      subject { Memory.filter_by_category(terms) }
+      subject { Memory.filter_by_category(category) }
 
       before :each do
         @term_only_category = Fabricate(:approved_memory)
@@ -34,7 +34,7 @@ describe Memory do
       end
 
       context 'when no category is given' do
-        let(:terms) { nil }
+        let(:category) { nil }
 
         it 'returns all records' do
           expect(subject).to include(@term_only_category)
@@ -44,7 +44,7 @@ describe Memory do
       end
 
       context 'when blank category is given' do
-        let(:terms) { '' }
+        let(:category) { '' }
 
         it 'returns all records' do
           expect(subject).to include(@term_only_category)
@@ -54,7 +54,7 @@ describe Memory do
       end
 
       context 'when a category is given' do
-        let(:terms) { 'foo' }
+        let(:category) { 'foo' }
 
         it 'includes records that have the category but no others' do
           expect(subject).to include(@term_only_category)
@@ -66,6 +66,58 @@ describe Memory do
 
         it "doesn't include records that don't have the category" do
           expect(subject).not_to include(@term_not_in_categories)
+        end
+      end
+    end
+
+    describe 'by tag' do
+      subject { Memory.filter_by_tag(tag) }
+
+      before :each do
+        @term_only_tag = Fabricate(:approved_memory)
+        @term_only_tag.tags << Tag.new(name: 'foo')
+
+        @term_in_tags = Fabricate(:approved_memory)
+        @term_in_tags.tags << Tag.new(name: 'foo')
+        @term_in_tags.tags << Tag.new(name: 'bar')
+
+        @term_not_in_tags = Fabricate(:approved_memory)
+        @term_not_in_tags.tags << Tag.new(name: 'bar')
+      end
+
+      context 'when no tag is given' do
+        let(:tag) { nil }
+
+        it 'returns all records' do
+          expect(subject).to include(@term_only_tag)
+          expect(subject).to include(@term_in_tags)
+          expect(subject).to include(@term_not_in_tags)
+        end
+      end
+
+      context 'when blank tag is given' do
+        let(:tag) { '' }
+
+        it 'returns all records' do
+          expect(subject).to include(@term_only_tag)
+          expect(subject).to include(@term_in_tags)
+          expect(subject).to include(@term_not_in_tags)
+        end
+      end
+
+      context 'when a tag is given' do
+        let(:tag) { 'foo' }
+
+        it 'includes records that have the tag but no others' do
+          expect(subject).to include(@term_only_tag)
+        end
+
+        it 'includes records that have the tag amongst others' do
+          expect(subject).to include(@term_in_tags)
+        end
+
+        it "doesn't include records that don't have the tag" do
+          expect(subject).not_to include(@term_not_in_tags)
         end
       end
     end

@@ -13,7 +13,7 @@
     <% if @memories.empty? -%>
       <div class="no-results">
         <%= image_tag 'empty-scrapbook.png' %>
-        <p>Sorry, but we couldn't find any results for <strong>"<%= params[:category] %>"</strong></p>
+        <p>Sorry, but we couldn't find any approved memories for <strong>"<%= params[:category] %>"</strong></p>
       </div>
     <% else -%>
       <%= render partial: 'memories/index', locals: {memories: @memories} %>

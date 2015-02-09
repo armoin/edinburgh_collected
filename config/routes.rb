@@ -25,6 +25,7 @@ Rails.application.routes.draw do
 
   namespace :filter do
     resources :categories, only: [:index]
+    resources :tags, only: [:index]
   end
 
   namespace :admin do

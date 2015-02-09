@@ -71,7 +71,9 @@
           <h3>Tags</h3>
           <ul>
             <% @memory.tags.each do |tag| %>
-              <li><a href="" class="button small not-implemented"><%= tag.name %></a></li>
+              <li>
+                <%= link_to tag.name, filter_tags_path(tag: tag.name), class: "button small" %>
+              </li>
             <% end %>
           </ul>
         </div>
