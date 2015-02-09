@@ -80,7 +80,9 @@
 
         <% if @memory.area.present? -%>
           <div id="memory-area">
-            <a href="" class="button memories not-implemented">See more memories from <%= @memory.area.name %></a>
+            <%= link_to filter_area_path(area: @memory.area.name), class: "button memories" do %>
+              See more memories from <%= @memory.area.name %>
+            <% end -%>
           </div>
         <% end -%>
       </div>

@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   end
 
   namespace :filter do
+    get '/area'     => 'area#index'
     get '/category' => 'category#index'
     get '/tag'      => 'tag#index'
   end

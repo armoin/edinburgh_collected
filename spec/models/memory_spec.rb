@@ -121,6 +121,48 @@ describe Memory do
         end
       end
     end
+
+    describe 'by area' do
+      subject { Memory.filter_by_area(area) }
+
+      before :each do
+        foo_area = Fabricate(:area, name: 'foo')
+        bar_area = Fabricate(:area, name: 'bar')
+
+        @matches_area = Fabricate(:approved_memory, area: foo_area)
+        @does_not_match_area = Fabricate(:approved_memory, area: bar_area)
+      end
+
+      context 'when no area is given' do
+        let(:area) { nil }
+
+        it 'returns all records' do
+          expect(subject).to include(@matches_area)
+          expect(subject).to include(@does_not_match_area)
+        end
+      end
+
+      context 'when blank area is given' do
+        let(:area) { '' }
+
+        it 'returns all records' do
+          expect(subject).to include(@matches_area)
+          expect(subject).to include(@does_not_match_area)
+        end
+      end
+
+      context 'when a area is given' do
+        let(:area) { 'foo' }
+
+        it 'includes records that have the area' do
+          expect(subject).to include(@matches_area)
+        end
+
+        it "doesn't include records that don't have the area" do
+          expect(subject).not_to include(@does_not_match_area)
+        end
+      end
+    end
   end
 
   describe 'searching' do

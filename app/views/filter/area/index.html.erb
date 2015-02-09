@@ -1,7 +1,7 @@
 <div class="container profile memories">
   <div id="grid">
     <header id="contentHeader" class="clearfix">
-      <h1>Tag "<%= params[:tag] %>"</h1>
+      <h1>Area "<%= params[:area] %>"</h1>
 
       <div class="actions clearfix">
         <div class="viewingInfo">
@@ -13,7 +13,7 @@
     <% if @memories.empty? -%>
       <div class="no-results">
         <%= image_tag 'empty-scrapbook.png' %>
-        <p>Sorry, but we couldn't find any approved memories marked with tag <strong>"<%= params[:tag] %>"</strong></p>
+        <p>Sorry, but we couldn't find any approved memories marked with area <strong>"<%= params[:area] %>"</strong></p>
       </div>
     <% else -%>
       <%= render partial: 'memories/index', locals: {memories: @memories} %>

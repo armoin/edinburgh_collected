@@ -30,6 +30,11 @@ class Memory < ActiveRecord::Base
     MemoryModeration
   end
 
+  def self.filter_by_area(area)
+    return approved unless area.present?
+    approved.joins(:area).where('areas.name' => area)
+  end
+
   validates_presence_of :title, :description, :source, :user, :year, :type
   validates_presence_of :categories, message: 'must have at least one'
   validates :type, inclusion: { in: Memory.file_types, message: "must be of type 'photo'", judge: :ignore }

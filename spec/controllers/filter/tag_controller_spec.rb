@@ -17,7 +17,7 @@ describe Filter::TagController do
         expect(session[:current_memory_index_path]).to eql(filter_tag_path)
       end
 
-    it "redirects to the browse memories page" do
+      it "redirects to the browse memories page" do
         expect(response).to redirect_to(memories_path)
       end
     end

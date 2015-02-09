@@ -153,7 +153,7 @@ describe "memories/show.html.erb" do
       end
 
       it "has a 'See more from this area' button" do
-        expect(rendered).to have_css('.memory #memory-area a', text: 'See more memories from Portobello', count: 1)
+        expect(rendered).to have_link("See more memories from #{area.name}", href: filter_area_path(area: area.name))
       end
     end
 
@@ -181,7 +181,7 @@ describe "memories/show.html.erb" do
       let(:area) { nil }
 
       it "does not have a 'See more from this area' button" do
-        expect(rendered).not_to have_css('.memory #memory-area a', text: 'See more memories from Portobello')
+        expect(rendered).not_to have_link("See more memories from Portobello")
       end
     end
   end
