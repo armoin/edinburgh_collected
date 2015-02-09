@@ -1,7 +1,7 @@
-<div class="modal fade" id="create-scrapbook-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true">
+<div class="modal fade" id="create-scrapbook-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-label="Create a new scrapbook">
   <div class="modal-dialog">
     <div class="modal-content">
-      <%= form_for Scrapbook.new, url: my_scrapbooks_path, remote: true, html: {class: 'form-horizontal', id: 'create-scrapbook'} do |f| %>
+      <%= form_for Scrapbook.new, url: my_scrapbooks_path, remote: true, html: {class: 'form-horizontal', id: 'create-scrapbook', role: "form"} do |f| %>
         <div class="modal-header">
           <h4 class="modal-title">Create a new scrapbook</h4>
         </div>
@@ -9,9 +9,9 @@
           <div id="errors"></div>
           <%= render partial: 'my/scrapbooks/form_details', locals: {form: f} %>
         </div>
-        <div class="modal-footer">
-          <button id="cancel-create-scrapbook" class="button cancel" data-dismiss="modal">Cancel</button>
-          <button class="save button scrapbooks">Create scrapbook</button>
+        <div class="modal-footer" aria-label="Actions">
+          <button id="cancel-create-scrapbook" class="button cancel" data-dismiss="modal" role="button">Cancel</button>
+          <button class="save button scrapbooks" role="button">Create scrapbook</button>
         </div>
       <% end %>
     </div>

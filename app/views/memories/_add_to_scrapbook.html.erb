@@ -1,4 +1,4 @@
-<div class="modal fade" id="add-to-scrapbook-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true">
+<div class="modal fade" id="add-to-scrapbook-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true" aria-label="Add to scrapbook popup">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -6,25 +6,24 @@
       </div>
       <div class="guide">
         <p>Select a scrapbook below or
-        <button id="create-scrapbook-button" class="button teal" data-toggle="modal" data-target="#create-scrapbook-modal">
+        <button id="create-scrapbook-button" class="button teal" data-toggle="modal" data-target="#create-scrapbook-modal" aria-label="Create a new scrapbook">
           Create a new scrapbook
         </button></p>
       </div>
       <div class="modal-body">
         <div id="errors"></div>
-        <div class="scrapbook_selector select">
+        <div class="scrapbook_selector select" aria-label="Select a scrapbook to add this memory to">
           <%= render partial: 'scrapbooks/selector', locals: {current_user: current_user} %>
         </div>
       </div>
-      <div class="modal-footer">
-
-          <%= form_tag my_scrapbook_memories_path, remote: true, id: 'add-to-scrapbook', class: 'minimal' do %>
+      <div class="modal-footer" aria-label="actions">
+        <%= form_tag my_scrapbook_memories_path, remote: true, id: 'add-to-scrapbook', class: 'minimal', role: 'form' do %>
           <%= hidden_field_tag "scrapbook_memory[scrapbook_id]" %>
           <%= hidden_field_tag "scrapbook_memory[memory_id]" %>
           <span>
           </span>
           <a href="#" class="cancel button navy" data-dismiss="modal">Cancel</a>
-          <button class="save button teal">Add to scrapbook</button>
+          <button class="save button teal" role="button" aria-label="Add to scrapbook">Add to scrapbook</button>
         <% end %>
       </div>
     </div>

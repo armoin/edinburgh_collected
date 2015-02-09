@@ -40,12 +40,13 @@
         <div id="masthead" class="clearfix container">
           <div id="logo" class="col-xs-12 col-sm-2 col-md-2">
             <a class="navbar-brand" href="/" title="<%= APP_NAME %>">
+              <span class="accessible-label">Home</span>
               <%= image_tag "edinburgh-collected.png", alt: "#{APP_NAME} - Beta" %>
             </a>
           </div>
 
           <div id="theNavBar" role="navigation">
-            <button class="toggleMenu" type="button">
+            <button class="toggleMenu" type="button" role="button" aria-label="Open menu">
               <span id="menuText">MENU</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -99,16 +100,9 @@
           </div>
 
           <div id="searchwrapper" class="dropdowns col-xs-12  col-sm-12 col-md-10">
-            <!--
-              <div class="dropdowns">
-                <%= select_tag 'filter_area', options_from_collection_for_select(Area.all, :id, :name), {prompt: 'Explore by Area', class: "form-control"} %>
-                <%= select_tag 'filter_category', options_from_collection_for_select(Category.all, :id, :name), {prompt: 'Explore by Category', class: "form-control"} %>
-              </div>
-            -->
-
             <div class="searchForm col-xs-12 col-sm-12 col-md-6">
-              <%= form_tag search_memories_path, method: :get do %>
-                <span class="toggleMenu" role="button">
+              <%= form_tag search_memories_path, method: :get, role: 'form' do %>
+                <span class="toggleMenu" role="button" aria-label="Open menu">
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
@@ -116,7 +110,7 @@
                 <div class="input-group ">
                   <%= text_field_tag :query, params[:query], class: 'form-control', title: 'search' %>
                   <span class="input-group-btn">
-                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                    <button class="btn btn-default" type="submit" role="button" aria-label="Search the site"><i class="glyphicon glyphicon-search"></i></button>
                   </span>
                 </div>
               <% end -%>
@@ -144,15 +138,26 @@
         <div class="container clearfix">
           <div class="wrap">
             <ul>
-              <li><%= link_to 'About', about_path, title: 'About this site' %></li>
+              <li>
+                <%= link_to about_path do %>
+                  <span class="accessible-label">About this site</span>
+                  About
+                <% end -%>
+              </li>
               <li><%= link_to 'Contact us', contact_path %></li>
               <li><%= link_to 'Privacy and cookies', p_and_c_path %></li>
               <li><%= link_to 'Terms and conditions', t_and_c_path %></li>
             </ul>
             <p>&copy; The City of Edinburgh Council 2014</p>
           </div>
-          <a href="http://www.edinburgh.gov.uk/" id="councilLogo" class=""><%= image_tag "edinburgh-council.png", alt: "The City of Edinburgh Council" %></a>
-          <a href="http://www.nesta.org.uk/" id="nestaLogo"><%= image_tag "nesta.png", alt: "Nesta" %></a>
+          <a href="http://www.edinburgh.gov.uk/" id="councilLogo" class="">
+            <span class="accessible-label">City of Edinburgh Council website</span>
+            <%= image_tag "edinburgh-council.png", alt: "The City of Edinburgh Council" %>
+          </a>
+          <a href="http://www.nesta.org.uk/" id="nestaLogo">
+            <span class="accessible-label">Nesta website</span>
+            <%= image_tag "nesta.png", alt: "Nesta" %>
+          </a>
         </div>
       </footer>
     </div>

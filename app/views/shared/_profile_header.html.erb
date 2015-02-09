@@ -1,5 +1,8 @@
 <header id="profileHeader" class="clearfix">
-  <a href="#" class="userAvatar"><%= image_tag "avatar.png" %></a>
+  <%= link_to my_profile_path, class: "userAvatar" do %>
+    <span class="accessible-label">View your profile</span>
+    <%= image_tag "avatar.png" %>
+  <% end -%>
   <h1 class="title">
     <%= current_user.try(:screen_name) %>
     <%= link_to 'Edit', my_profile_edit_path, class: 'button navy' %>

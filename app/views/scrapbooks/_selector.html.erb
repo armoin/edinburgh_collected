@@ -1,9 +1,9 @@
 <% if current_user %>
   <% current_user.scrapbooks.sort{|a,b| b.updated_at<=>a.updated_at}.each do |scrapbook| %>
-    <div class="scrapbook" data-id="<%= scrapbook.id %>">
+    <div class="scrapbook" data-id="<%= scrapbook.id %>" role="button" aria-label="Add to scrapbook: <%= scrapbook.title %>">
       <div class="picture">
         <% if scrapbook.ordered_memories.any? %>
-          <%= image_tag cache_busted_url(scrapbook.ordered_memories.first, :mini_thumb) %>
+          <%= image_tag cache_busted_url(scrapbook.ordered_memories.first, :mini_thumb), alt: scrapbook.title %>
         <% else %>
           <%= image_tag 'empty-scrapbook.png', :class => "ph" %>
         <% end %>
