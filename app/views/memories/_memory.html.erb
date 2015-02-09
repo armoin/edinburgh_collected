@@ -61,7 +61,7 @@
           <ul>
             <% @memory.categories.each do |category| %>
               <li>
-                <%= link_to category.name, filter_categories_path(category: category.name), class: "button small" %>
+                <%= link_to category.name, filter_category_path(category: category.name), class: "button small" %>
               </li>
             <% end %>
           </ul>
@@ -72,7 +72,7 @@
           <ul>
             <% @memory.tags.each do |tag| %>
               <li>
-                <%= link_to tag.name, filter_tags_path(tag: tag.name), class: "button small" %>
+                <%= link_to tag.name, filter_tag_path(tag: tag.name), class: "button small" %>
               </li>
             <% end %>
           </ul>

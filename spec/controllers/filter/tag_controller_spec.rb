@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Filter::TagsController do
+describe Filter::TagController do
   describe 'GET index' do
     let(:paged_memory_results) { double('paged_memory_results') }
     let(:memory_results)       { double('memory_results', page: paged_memory_results) }
@@ -14,7 +14,7 @@ describe Filter::TagsController do
       let(:tag) { nil }
     
       it 'stores the memory index path with no tag' do
-        expect(session[:current_memory_index_path]).to eql(filter_tags_path)
+        expect(session[:current_memory_index_path]).to eql(filter_tag_path)
       end
 
     it "redirects to the browse memories page" do
@@ -26,7 +26,7 @@ describe Filter::TagsController do
       let(:tag) { '' }
     
       it 'stores the memory index path with a blank tag' do
-        expect(session[:current_memory_index_path]).to eql(filter_tags_path(tag: tag))
+        expect(session[:current_memory_index_path]).to eql(filter_tag_path(tag: tag))
       end
 
       it "redirects to the browse memories page" do
@@ -38,7 +38,7 @@ describe Filter::TagsController do
       let(:tag) { 'foo' }
     
       it 'stores the memory index path with the given tag' do
-        expect(session[:current_memory_index_path]).to eql(filter_tags_path(tag: tag))
+        expect(session[:current_memory_index_path]).to eql(filter_tag_path(tag: tag))
       end
 
       it 'finds all memories that are under the given tag' do

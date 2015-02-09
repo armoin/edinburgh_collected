@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Filter::CategoriesController do
+describe Filter::CategoryController do
   describe 'GET index' do
     let(:paged_memory_results) { double('paged_memory_results') }
     let(:memory_results)       { double('memory_results', page: paged_memory_results) }
@@ -14,7 +14,7 @@ describe Filter::CategoriesController do
       let(:category) { nil }
     
       it 'stores the memory index path with no category' do
-        expect(session[:current_memory_index_path]).to eql(filter_categories_path)
+        expect(session[:current_memory_index_path]).to eql(filter_category_path)
       end
 
       it "redirects to the browse memories page" do
@@ -26,7 +26,7 @@ describe Filter::CategoriesController do
       let(:category) { '' }
     
       it 'stores the memory index path with a blank category' do
-        expect(session[:current_memory_index_path]).to eql(filter_categories_path(category: category))
+        expect(session[:current_memory_index_path]).to eql(filter_category_path(category: category))
       end
 
       it "redirects to the browse memories page" do
@@ -38,7 +38,7 @@ describe Filter::CategoriesController do
       let(:category) { 'foo' }
     
       it 'stores the memory index path with the given category' do
-        expect(session[:current_memory_index_path]).to eql(filter_categories_path(category: category))
+        expect(session[:current_memory_index_path]).to eql(filter_category_path(category: category))
       end
 
       it 'finds all memories that are under the given category' do

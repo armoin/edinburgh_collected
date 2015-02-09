@@ -1,4 +1,4 @@
-class Filter::CategoriesController < ApplicationController
+class Filter::CategoryController < ApplicationController
   before_action :store_memory_index_path, only: :index
 
   def index

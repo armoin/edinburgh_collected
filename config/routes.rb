@@ -24,8 +24,8 @@ Rails.application.routes.draw do
   end
 
   namespace :filter do
-    resources :categories, only: [:index]
-    resources :tags, only: [:index]
+    get '/category' => 'category#index'
+    get '/tag'      => 'tag#index'
   end
 
   namespace :admin do

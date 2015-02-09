@@ -1,4 +1,4 @@
-class Filter::TagsController < ApplicationController
+class Filter::TagController < ApplicationController
   before_action :store_memory_index_path, only: :index
 
   def index
