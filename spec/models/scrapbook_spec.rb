@@ -39,34 +39,6 @@ describe Scrapbook do
     end
   end
 
-  describe 'filtering' do
-    describe 'by category' do
-      context 'when no category is given' do
-        it 'does not throw and error' do
-          expect {
-            Scrapbook.filter_by_category(nil)
-          }.not_to raise_error
-        end
-      end
-
-      context 'when blank category is given' do
-        it 'does not throw and error' do
-          expect {
-            Scrapbook.filter_by_category('')
-          }.not_to raise_error
-        end
-      end
-
-      context 'when a category is given' do
-        it 'does not throw and error' do
-          expect {
-            Scrapbook.filter_by_category('foo')
-          }.not_to raise_error
-        end
-      end
-    end
-  end
-
   describe 'searching' do
     before :each do
       @term_in_title       = Fabricate(:scrapbook, title: 'Edinburgh Castle test')
