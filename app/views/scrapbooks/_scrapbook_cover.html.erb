@@ -1,10 +1,10 @@
-<a class="scrapbook thumb masonry" data-id="<%= presenter.scrapbook.id %>" href="<%= presenter.path_to_scrapbook %>" title="View details" role="button">
+<a class="scrapbook thumb masonry" data-id="<%= scrapbook_cover.scrapbook_id %>" href="<%= File.join(show_path, scrapbook_cover.scrapbook_id.to_s) %>" title="View details" role="button">
   <div class="padding">
 
-    <h3 class="scrapbookTitle"><%= presenter.scrapbook.title %></h3>
+    <h3 class="scrapbookTitle"><%= scrapbook_cover.title %></h3>
 
-    <% if presenter.cover.main_memory %>
-      <%= image_tag cache_busted_url(presenter.cover.main_memory, :big_thumb), alt: presenter.scrapbook.title, :class => "main" %>
+    <% if scrapbook_cover.main_memory %>
+      <%= image_tag cache_busted_url(scrapbook_cover.main_memory, :big_thumb), alt: scrapbook_cover.title, :class => "main" %>
     <% else %>
       <div class="empty">
         <%= image_tag 'empty-scrapbook.png', :class => "ph" %>
@@ -15,11 +15,11 @@
     <div class="bottom-row clearfix">
       <div class="count">
         <div class="wrapper">
-          <span><%= presenter.cover.memory_count %></span>
-          <i><%= 'memory'.pluralize(presenter.cover.memory_count) %></i>
+          <span><%= scrapbook_cover.memories_count %></span>
+          <i><%= 'memory'.pluralize(scrapbook_cover.memories_count) %></i>
         </div>
       </div>
-      <% presenter.cover.secondary_memories.each do |secondary_memory| -%>
+      <% scrapbook_cover.secondary_memories.each do |secondary_memory| -%>
         <% if secondary_memory -%>
           <%= image_tag cache_busted_url(secondary_memory, :mini_thumb), alt: secondary_memory.title, class: 'mini' %>
         <% else -%>

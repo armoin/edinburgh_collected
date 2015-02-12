@@ -8,12 +8,14 @@ describe My::ScrapbooksController do
   end
 
   describe 'GET index' do
-    let(:num_scrapbooks)     { 2 }
-    let(:scrapbooks)         { Array.new(num_scrapbooks).map.with_index{|s,i| Fabricate.build(:scrapbook, id: i+1)} }
-    let(:stub_scrapbooks)    { Kaminari.paginate_array(scrapbooks).page(1) }
+    let(:scrapbooks)          { Array.new(2).map{|s| Fabricate.build(:scrapbook)} }
+    let(:stub_presenter)      { double('presenter') }
+    let(:stub_memory_fetcher) { double('memory_fetcher') }
 
     before :each do
-      allow(@user).to receive(:scrapbooks).and_return(stub_scrapbooks)
+      allow(@user).to receive(:scrapbooks).and_return(scrapbooks)
+      allow(ScrapbookIndexPresenter).to receive(:new).and_return(stub_presenter)
+      allow(ScrapbookMemoryFetcher).to receive(:new).with(scrapbooks).and_return(stub_memory_fetcher)
     end
 
     context 'when not logged in' do
@@ -37,37 +39,50 @@ describe My::ScrapbooksController do
     context 'when logged in' do
       before :each do
         login_user
-        get :index
       end
 
-      it 'stores the scrapbook index path' do
-        expect(session[:current_scrapbook_index_path]).to eql(my_scrapbooks_path)
-      end
+      context 'when no page is given' do
+        before :each do
+          get :index
+        end
 
-      it 'does not set the current memory index path' do
-        expect(session[:current_memory_index_path]).to be_nil
-      end
+        it 'stores the scrapbook index path with no page' do
+          expect(session[:current_scrapbook_index_path]).to eql(my_scrapbooks_path)
+        end
 
-      it "fetches the user's scrapbooks" do
-        expect(@user).to have_received(:scrapbooks)
-      end
+        it 'does not set the current memory index path' do
+          expect(session[:current_memory_index_path]).to be_nil
+        end
 
-      it "assigns the returned scrapbooks" do
-        expect(assigns[:scrapbooks].length).to eql(num_scrapbooks)
-      end
+        it "fetches the user's scrapbooks" do
+          expect(@user).to have_received(:scrapbooks)
+        end
 
-      it "wraps the results in an OwnedScrapbookCoverPresenter" do
-        assigns[:scrapbooks].each do |scrapbook|
-          expect(scrapbook).to be_a(OwnedScrapbookCoverPresenter)
+        it "generates a ScrapbookIndexPresenter for the user's scrapbooks passing in a nil page" do
+          expect(ScrapbookIndexPresenter).to have_received(:new).with(scrapbooks, stub_memory_fetcher, nil)
+        end
+
+        it "assigns the generated presenter" do
+          expect(assigns[:presenter]).to eql(stub_presenter)
+        end
+
+        it "renders the index page" do
+          expect(response).to render_template(:index)
         end
       end
 
-      it "paginates the results" do
-        expect(assigns[:scrapbooks]).to respond_to(:current_page)
-      end
+      context 'when a page is given' do
+        before :each do
+          get :index, page: 2
+        end
 
-      it "renders the index page" do
-        expect(response).to render_template(:index)
+        it 'stores the scrapbook index path with the page' do
+          expect(session[:current_scrapbook_index_path]).to eql(my_scrapbooks_path(page: 2))
+        end
+
+        it "generates a ScrapbookIndexPresenter for the user's scrapbooks passing in the page" do
+          expect(ScrapbookIndexPresenter).to have_received(:new).with(scrapbooks, stub_memory_fetcher, '2')
+        end
       end
     end
   end

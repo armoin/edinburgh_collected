@@ -1,13 +1,16 @@
 require 'rails_helper'
 
 describe Search::ScrapbooksController do
-  let(:format)            { :html }
-  let(:num_scrapbooks)    { 2 }
-  let(:scrapbook_results) { Array.new(num_scrapbooks).map.with_index{|s,i| Fabricate.build(:scrapbook, id: i+1)} }
-  let(:results)           { double('results', scrapbook_results: scrapbook_results) }
+  let(:format)              { :html }
+  let(:scrapbook_results)   { Array.new(2).map{|s| Fabricate.build(:scrapbook)} }
+  let(:results)             { double('results', scrapbook_results: scrapbook_results) }
+  let(:stub_presenter)      { double('presenter') }
+  let(:stub_memory_fetcher) { double('approved_memory_fetcher') }
 
   before(:each) do
     allow(SearchResults).to receive(:new).and_return(results)
+    allow(ScrapbookIndexPresenter).to receive(:new).and_return(stub_presenter)
+    allow(ApprovedScrapbookMemoryFetcher).to receive(:new).with(scrapbook_results).and_return(stub_memory_fetcher)
   end
 
   describe 'GET index' do
@@ -66,18 +69,12 @@ describe Search::ScrapbooksController do
         expect(assigns(:results)).to eql(results)
       end
 
-      it "assigns the scrapbooks from the results" do
-        expect(assigns[:scrapbooks].length).to eql(num_scrapbooks)
+      it "generates a ScrapbookIndexPresenter for the found scrapbooks passing in the page" do
+        expect(ScrapbookIndexPresenter).to have_received(:new).with(scrapbook_results, stub_memory_fetcher, '1')
       end
 
-      it "paginates the results" do
-        expect(assigns[:scrapbooks]).to respond_to(:current_page)
-      end
-
-      it "wraps the results in a ScrapbookCoverPresenter" do
-        assigns[:scrapbooks].each do |scrapbook|
-          expect(scrapbook).to be_a(ScrapbookCoverPresenter)
-        end
+      it "assigns the generated presenter" do
+        expect(assigns[:presenter]).to eql(stub_presenter)
       end
 
       context 'when request is for HTML' do

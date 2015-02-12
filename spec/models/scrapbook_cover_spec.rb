@@ -1,197 +1,147 @@
 require 'rails_helper'
 
 describe ScrapbookCover do
+  let(:scrapbook)          { double('scrapbook', id: 123, title: 'A test scrapbook')}
+  let(:scrapbook_memories) { [] }
+
+  subject { ScrapbookCover.new(scrapbook, scrapbook_memories) }
+
+  describe '#scrapbook_id' do
+    it 'provides the id for the given scrapbook' do
+      expect(subject.scrapbook_id).to eql(scrapbook.id)
+    end
+  end
+
+  describe '#title' do
+    it 'provides the title for the given scrapbook' do
+      expect(subject.title).to eql(scrapbook.title)
+    end
+  end
+
+  describe '#memories_count' do
+    context 'when cover has been initialized with nil scrapbook_memories' do
+      let(:scrapbook_memories) { nil }
+
+      it 'returns 0' do
+        expect(subject.memories_count).to eql(0)
+      end
+    end
+
+    context 'when cover has been initialized with empty scrapbook_memories' do
+      let(:scrapbook_memories) { nil }
+
+      it 'returns 0' do
+        expect(subject.memories_count).to eql(0)
+      end
+    end
+
+    context 'when cover has been initialized with one scrapbook_memory' do
+      let(:scrapbook_memories) { Array.new(1).map{|sm| Fabricate.build(:scrapbook_memory)} }
+
+      it 'returns 1' do
+        expect(subject.memories_count).to eql(1)
+      end
+    end
+
+    context 'when cover has been initialized with more than one scrapbook_memory' do
+      let(:scrapbook_memories) { Array.new(2).map{|sm| Fabricate.build(:scrapbook_memory)} }
+
+      it 'returns the number of scrapbook_memories' do
+        expect(subject.memories_count).to eql(2)
+      end
+    end
+  end
+
   describe '#main_memory' do
-    subject { ScrapbookCover.new(scrapbook) }
+    context 'when cover has been initialized with nil scrapbook_memories' do
+      let(:scrapbook_memories) { nil }
 
-    context 'when cover has been initialized with a nil scrapbook' do
-      let(:scrapbook) { nil }
+      it 'returns nil' do
+        expect(subject.main_memory).to be_nil
+      end
+    end
+    
+    context 'when cover has been initialized with empty scrapbook_memories' do
+      let(:scrapbook_memories) { [] }
 
       it 'returns nil' do
         expect(subject.main_memory).to be_nil
       end
     end
 
-    context 'when cover has been initialized with something that is not scrapbook' do
-      let(:scrapbook) { ScrapbookCover.new(double('not_scrapbook')) }
+    context 'when cover has been initialized with one scrapbook_memory' do
+      let(:scrapbook_memories) { Array.new(1).map{|sm| Fabricate.build(:scrapbook_memory)} }
 
-      it 'returns nil' do
-        expect(subject.main_memory).to be_nil
+      it "returns the first scrapbook_memory's memory" do
+        expect(subject.main_memory).to eql(scrapbook_memories.first.memory)
       end
     end
 
-    context 'when a scrapbook has been given' do
-      let(:scrapbook) { Fabricate.build(:scrapbook) }
+    context 'when cover has been initialized with more than one scrapbook_memory' do
+      let(:scrapbook_memories) { Array.new(2).map{|sm| Fabricate.build(:scrapbook_memory)} }
 
-      context 'when scrapbook has no memories attached' do
-        it 'returns nil' do
-          expect(subject.main_memory).to be_nil
-        end
-      end
-
-      context 'when scrapbook has one memory attached' do
-        it "returns that memory" do
-          memory = Fabricate.build(:photo_memory)
-          scrapbook.memories << memory
-          scrapbook.save!
-          expect(subject.main_memory).to eql(memory)
-        end
-      end
-
-      context 'when scrapbook has more than one memory attached' do
-        it "returns the first memory" do
-          first_memory = Fabricate.build(:photo_memory)
-          second_memory = Fabricate.build(:photo_memory)
-          scrapbook.memories << first_memory
-          scrapbook.memories << second_memory
-          scrapbook.save!
-          expect(subject.main_memory).to eql(first_memory)
-        end
+      it "returns the first scrapbook_memory's memory" do
+        expect(subject.main_memory).to eql(scrapbook_memories.first.memory)
       end
     end
   end
 
   describe '#secondary_memories' do
-    subject { ScrapbookCover.new(scrapbook) }
+    let(:memories) { scrapbook_memories.map(&:memory) }
 
-    context 'when cover has been initialized with a nil scrapbook' do
-      let(:scrapbook) { nil }
+    context 'when cover has been initialized with nil scrapbook_memories' do
+      let(:scrapbook_memories) { nil }
 
-      it 'returns array of nils' do
+      it 'returns an array of 3 nils' do
+        expect(subject.secondary_memories).to eql([nil, nil, nil])
+      end
+    end
+    
+    context 'when cover has been initialized with empty scrapbook_memories' do
+      let(:scrapbook_memories) { [] }
+
+      it 'returns an array of 3 nils' do
         expect(subject.secondary_memories).to eql([nil, nil, nil])
       end
     end
 
-    context 'when cover has been initialized with something that is not scrapbook' do
-      let(:scrapbook) { ScrapbookCover.new(double('not_scrapbook')) }
+    context 'when cover has been initialized with one scrapbook_memory' do
+      let(:scrapbook_memories) { Array.new(1).map{|sm| Fabricate.build(:scrapbook_memory)} }
 
-      it 'returns array of nils' do
+      it 'returns an array of 3 nils' do
         expect(subject.secondary_memories).to eql([nil, nil, nil])
       end
     end
 
-    context 'when a scrapbook has been given' do
-      let(:scrapbook) { Fabricate.build(:scrapbook) }
+    context 'when cover has been initialized with two scrapbook_memories' do
+      let(:scrapbook_memories) { Array.new(2).map{|sm| Fabricate.build(:scrapbook_memory)} }
 
-      context 'when scrapbook has no memories attached' do
-        it 'returns array of nils' do
-          expect(subject.secondary_memories).to eql([nil, nil, nil])
-        end
-      end
-
-      context 'when scrapbook has one memory attached' do
-        it 'returns array of nils' do
-          memory = Fabricate.build(:photo_memory)
-          scrapbook.memories << memory
-          scrapbook.save!
-          expect(subject.secondary_memories).to eql([nil, nil, nil])
-        end
-      end
-
-      context 'when scrapbook has two memories attached' do
-        it "returns array with second memory first, padded with nils" do
-          first_memory = Fabricate.build(:photo_memory)
-          second_memory = Fabricate.build(:photo_memory)
-          scrapbook.memories << first_memory
-          scrapbook.memories << second_memory
-          scrapbook.save!
-          expect(subject.secondary_memories).to eql([second_memory, nil, nil])
-        end
-      end
-
-      context 'when scrapbook has three memories attached' do
-        it "returns array with second memory then third memory, padded with nils" do
-          first_memory = Fabricate.build(:photo_memory)
-          second_memory = Fabricate.build(:photo_memory)
-          third_memory = Fabricate.build(:photo_memory)
-          scrapbook.memories << first_memory
-          scrapbook.memories << second_memory
-          scrapbook.memories << third_memory
-          scrapbook.save!
-          expect(subject.secondary_memories).to eql([second_memory, third_memory, nil])
-        end
-      end
-
-      context 'when scrapbook has four memories attached' do
-        it "returns array with second memory then third memory then fourth memory" do
-          first_memory = Fabricate.build(:photo_memory)
-          second_memory = Fabricate.build(:photo_memory)
-          third_memory = Fabricate.build(:photo_memory)
-          fourth_memory = Fabricate.build(:photo_memory)
-          scrapbook.memories << first_memory
-          scrapbook.memories << second_memory
-          scrapbook.memories << third_memory
-          scrapbook.memories << fourth_memory
-          scrapbook.save!
-          expect(subject.secondary_memories).to eql([second_memory, third_memory, fourth_memory])
-        end
-      end
-
-      context 'when scrapbook has five memories attached' do
-        it "returns array with second memory then third memory then fourth memory" do
-          first_memory = Fabricate.build(:photo_memory)
-          second_memory = Fabricate.build(:photo_memory)
-          third_memory = Fabricate.build(:photo_memory)
-          fourth_memory = Fabricate.build(:photo_memory)
-          five_memory = Fabricate.build(:photo_memory)
-          scrapbook.memories << first_memory
-          scrapbook.memories << second_memory
-          scrapbook.memories << third_memory
-          scrapbook.memories << fourth_memory
-          scrapbook.memories << five_memory
-          scrapbook.save!
-          expect(subject.secondary_memories).to eql([second_memory, third_memory, fourth_memory])
-        end
-      end
-    end
-  end
-
-  describe '#memory_count' do
-    subject { ScrapbookCover.new(scrapbook) }
-
-    context 'when cover has been initialized with a nil scrapbook' do
-      let(:scrapbook) { nil }
-
-      it 'returns 0' do
-        expect(subject.memory_count).to eql(0)
+      it "returns an array with the second memory padded with 2 nils" do
+        expect(subject.secondary_memories).to eql([memories[1], nil, nil])
       end
     end
 
-    context 'when cover has been initialized with something that is not scrapbook' do
-      let(:scrapbook) { ScrapbookCover.new(double('not_scrapbook')) }
+    context 'when cover has been initialized with three scrapbook_memories' do
+      let(:scrapbook_memories) { Array.new(3).map{|sm| Fabricate.build(:scrapbook_memory)} }
 
-      it 'returns 0' do
-        expect(subject.memory_count).to eql(0)
+      it "returns an array with the second and third memories padded with 1 nil" do
+        expect(subject.secondary_memories).to eql([memories[1], memories[2], nil])
       end
     end
 
-    context 'when a scrapbook has been given' do
-      let(:scrapbook) { Fabricate.build(:scrapbook) }
+    context 'when cover has been initialized with four scrapbook_memories' do
+      let(:scrapbook_memories) { Array.new(4).map{|sm| Fabricate.build(:scrapbook_memory)} }
 
-      context 'when scrapbook has no memories attached' do
-        it 'returns 0' do
-          expect(subject.memory_count).to eql(0)
-        end
+      it "returns an array with the second, third and fourth memories with no nil padding" do
+        expect(subject.secondary_memories).to eql([memories[1], memories[2], memories[3]])
       end
+    end
 
-      context 'when scrapbook has one memory attached' do
-        it "returns 1" do
-          memory = Fabricate.build(:photo_memory)
-          scrapbook.memories << memory
-          scrapbook.save!
-          expect(subject.memory_count).to eql(1)
-        end
-      end
+    context 'when cover has been initialized with five scrapbook_memories' do
+      let(:scrapbook_memories) { Array.new(5).map{|sm| Fabricate.build(:scrapbook_memory)} }
 
-      context 'when scrapbook has two memories attached' do
-        it "returns 2" do
-          first_memory = Fabricate.build(:photo_memory)
-          second_memory = Fabricate.build(:photo_memory)
-          scrapbook.memories << first_memory
-          scrapbook.memories << second_memory
-          scrapbook.save!
-          expect(subject.memory_count).to eql(2)
-        end
+      it "returns an array with the second, third and fourth memories with no nil padding" do
+        expect(subject.secondary_memories).to eql([memories[1], memories[2], memories[3]])
       end
     end
   end

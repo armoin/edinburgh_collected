@@ -15,11 +15,4 @@ class ApplicationController < ActionController::Base
       format.geojson { head :not_found }
     end
   end
-
-  private
-
-  def wrap_and_paginate_scrapbooks(collection, presenter)
-    decorated = collection.map {|scrapbook| presenter.new(scrapbook)}
-    Kaminari.paginate_array(decorated).page(params[:page])
-  end
 end
