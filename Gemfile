@@ -49,6 +49,8 @@ group :development, :test do
   gem 'launchy',                    '~> 2.4.2'
   gem "jasminerice",                :git => 'https://github.com/bradphelan/jasminerice.git'
   gem 'timecop',                    '~> 0.7.1'
+  gem 'jazz_hands', github: 'nixme/jazz_hands', branch: 'bring-your-own-debugger'
+  gem 'pry-byebug'
 end
 
 group :test do
