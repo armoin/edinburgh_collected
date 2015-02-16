@@ -25,12 +25,12 @@ gem 'simple_form',                  '~> 3.0.2'
 gem 'email_validator',              '~> 1.4.0'
 gem 'fabrication',                  '~> 2.11.3'
 gem 'ffaker',                       '~> 1.25.0'
-gem 'fastimage'
-gem 'kaminari'
+gem 'fastimage',                    '~> 1.6.4'
+gem 'kaminari',                     '~> 0.16.1'
 gem 'pg',                           '~> 0.17.1'
-gem 'pg_search'
-gem 'judge'
-gem 'file_validators'
+gem 'pg_search',                    '~> 0.7.8'
+gem 'judge',                        '~> 2.0.5'
+gem 'file_validators',              '~> 1.2.0'
 
 group :doc do
   gem 'sdoc',                       '~> 0.4.0'
@@ -39,7 +39,7 @@ end
 group :development do
   gem 'spring',                     '~> 1.2.0'
   gem 'letter_opener',              '~> 1.2.0'
-  gem 'meta_request'
+  gem 'meta_request',               '~> 0.3.4'
 end
 
 group :development, :test do
@@ -60,5 +60,6 @@ end
 
 group :production do
   gem 'rails_12factor',             '~> 0.0.2'
+  gem 'newrelic_rpm',               '~> 3.9.9.275'
 end
 

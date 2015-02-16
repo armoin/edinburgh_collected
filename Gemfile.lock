@@ -205,6 +205,7 @@ GEM
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.9.1)
+    newrelic_rpm (3.9.9.275)
     nokogiri (1.6.4.1)
       mini_portile (~> 0.6.0)
     oauth (0.4.7)
@@ -341,23 +342,24 @@ DEPENDENCIES
   email_validator (~> 1.4.0)
   fabrication (~> 2.11.3)
   faraday (~> 0.9.0)
-  fastimage
+  fastimage (~> 1.6.4)
   ffaker (~> 1.25.0)
   figaro (~> 1.0.0)
-  file_validators
+  file_validators (~> 1.2.0)
   fog (~> 1.25.0)
   geocoder (~> 1.2.4)
   jasminerice!
   jbuilder (~> 2.2.0)
   jquery-rails (~> 3.1.2)
-  judge
-  kaminari
+  judge (~> 2.0.5)
+  kaminari (~> 0.16.1)
   launchy (~> 2.4.2)
   letter_opener (~> 1.2.0)
-  meta_request
+  meta_request (~> 0.3.4)
   mini_magick (~> 4.0.1)
+  newrelic_rpm (~> 3.9.9.275)
   pg (~> 0.17.1)
-  pg_search
+  pg_search (~> 0.7.8)
   poltergeist (~> 1.5.1)
   rails (~> 4.1.7)
   rails_12factor (~> 0.0.2)
