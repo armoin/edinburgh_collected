@@ -29,7 +29,7 @@ CarrierWave.configure do |config|
       
     end
 
-    config.fog_directory = ENV['BUCKET_NAME']
+    config.fog_directory = ENV['STORE_DIR']
 
     config.cache_dir = "#{Rails.root}/#{ENV['CACHE_DIR']}/uploads"
   end
