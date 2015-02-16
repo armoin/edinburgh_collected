@@ -1,4 +1,16 @@
-# If you use S3 to store images in development (test saves locally)
+# S3 DETAILS
+# If you use S3 to store images in this environment put the details below
+# Please Note: the Test environment uses the local machine by default
 AWS_ACCESS_KEY_ID:     ''
 AWS_SECRET_ACCESS_KEY: ''
 S3_BUCKET_NAME:        ''
+
+# Rackspace details
+# If you use Rackspace to store images in this environment put the details below
+# Please Note: the Test environment uses the local machine by default
+
+# Disqus details
+# The app uses Disqus for commenting. Setup an app on https://disqus.com/, click
+# the Add Disqus To Site button in the Settings menu and then add the resulting
+# shortname below
+DISQUS_SHORTNAME:      'edinburghcollectedstaging'
