@@ -6,6 +6,7 @@ CarrierWave.configure do |config|
     config.fog_public = true
 
     if ENV['PROVIDER'] == 'Rackspace'
+
       config.fog_credentials = {
         :provider           => 'Rackspace',
 
@@ -14,7 +15,10 @@ CarrierWave.configure do |config|
         :rackspace_auth_url  => Fog::Rackspace::UK_AUTH_ENDPOINT,
         :rackspace_region   => :lon
       }
+      config.asset_host    = ENV['ASSET_HOST']
+
     elsif ENV['PROVIDER'] == 'AWS'
+
       config.fog_credentials = {
         :provider           => 'AWS',
 
@@ -22,13 +26,12 @@ CarrierWave.configure do |config|
         :aws_secret_access_key  => ENV['AWS_SECRET_ACCESS_KEY'],
         :region                 => 'eu-west-1',
       }
+      
     end
 
     config.fog_directory = ENV['BUCKET_NAME']
-    config.asset_host    = ENV['ASSET_HOST']
 
-    # To let CarrierWave work on heroku
-    config.cache_dir = "#{Rails.root}/tmp/uploads"
+    config.cache_dir = "#{Rails.root}/#{ENV['CACHE_DIR']}/uploads"
   end
 end
 
