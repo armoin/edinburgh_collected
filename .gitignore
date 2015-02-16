@@ -18,6 +18,9 @@
 
 # Ignore sensitive files
 /config/application.yml
+/config/newrelic.yml
+/config/initializers/carrierwave.rb
+*.my
 
 # Ignore specific tasks
 /lib/tasks/cc_import.rake

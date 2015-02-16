@@ -4,8 +4,6 @@
 # overhead.  For more information, visit www.newrelic.com.
 #
 # Generated February 16, 2015
-#
-# This configuration file is custom generated for app27079571@heroku.com
 
 
 # Here are the settings that are common to all environments
@@ -15,7 +13,7 @@ common: &default_settings
   # You must specify the license key associated with your New Relic
   # account.  This key binds your Agent's data to your account in the
   # New Relic service.
-  license_key: 'b6bc113178d7042271d8a13e89dccfeae91f8ded'
+  license_key: ENV['NEW_RELIC_LICENSE_KEY']
 
   # Agent Enabled (Ruby/Rails Only)
   # Use this setting to force the agent to run or not run.
@@ -107,7 +105,8 @@ common: &default_settings
   # feature, change 'enabled' below to true.
   # See: https://newrelic.com/docs/ruby/audit-log
   audit_log:
-    enabled: false
+    enabled: true
+    path: ENV['NEW_RELIC_LOG']
 
   # Tells transaction tracer and error collector (when enabled)
   # whether or not to capture HTTP params.  When true, frameworks can
