@@ -6,10 +6,19 @@ class Memory < ActiveRecord::Base
 
   include Locatable
   include Taggable
+  
+  def self.file_types
+    ["Photo"]
+  end
+
+  def self.moderation_record
+    MemoryModeration
+  end
+
   include Moderatable
 
   SEARCHABLE_FIELDS       = [:title, :description, :year, :location]
-  SEARCHABLE_ASSOCIATIONS = {categories: :name}
+  SEARCHABLE_ASSOCIATIONS = {categories: :name, tags: :name, area: :name}
 
   include Searchable
 
@@ -19,16 +28,6 @@ class Memory < ActiveRecord::Base
   has_many :scrapbook_memories, dependent: :destroy
   has_many :scrapbooks, through: :scrapbook_memories
   has_many :memory_moderations
-
-  attr_accessor :rotation
-
-  def self.file_types
-    ["Photo"]
-  end
-
-  def self.moderation_record
-    MemoryModeration
-  end
 
   validates_presence_of :title, :description, :source, :user, :year, :type
   validates_presence_of :categories, message: 'must have at least one'
@@ -41,6 +40,18 @@ class Memory < ActiveRecord::Base
   validates :source, file_size: { less_than_or_equal_to: MAX_FILE_SIZE }
 
   scope :by_recent, -> { order('created_at DESC') }
+
+  def self.filter_by_area(area)
+    return approved unless area.present?
+    approved.joins(:area).where('areas.name' => area)
+  end
+
+  def self.filter_by_category(category)
+    return approved unless category.present?
+    approved.joins(:categories).where('categories.name' => category)
+  end
+
+  attr_accessor :rotation
 
   def date
     Date.new(self.year.to_i, the_month, the_day)

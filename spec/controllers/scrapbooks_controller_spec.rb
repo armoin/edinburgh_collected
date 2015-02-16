@@ -2,11 +2,14 @@ require 'rails_helper'
 
 describe ScrapbooksController do
   describe 'GET index' do
-    let(:num_scrapbooks) { 2 }
-    let(:scrapbooks)     { Array.new(num_scrapbooks).map.with_index{|s,i| Fabricate.build(:scrapbook, id: i+1)} }
+    let(:scrapbooks)          { Array.new(2).map{|s| Fabricate.build(:scrapbook)} }
+    let(:stub_presenter)      { double('presenter') }
+    let(:stub_memory_fetcher) { double('approved_memory_fetcher') }
   
     before :each do
       allow(Scrapbook).to receive(:approved).and_return(scrapbooks)
+      allow(ScrapbookIndexPresenter).to receive(:new).and_return(stub_presenter)
+      allow(ApprovedScrapbookMemoryFetcher).to receive(:new).with(scrapbooks).and_return(stub_memory_fetcher)
       get :index
     end
 
@@ -22,18 +25,12 @@ describe ScrapbooksController do
       expect(Scrapbook).to have_received(:approved)
     end
 
-    it "provides the results" do
-      expect(assigns[:scrapbooks].length).to eql(num_scrapbooks)
+    it "generates a ScrapbookIndexPresenter for the scrapbooks" do
+      expect(ScrapbookIndexPresenter).to have_received(:new).with(scrapbooks, stub_memory_fetcher, nil)
     end
 
-    it "wraps the results in a ScrapbookCoverPresenter" do
-      assigns[:scrapbooks].each do |scrapbook|
-        expect(scrapbook).to be_a(ScrapbookCoverPresenter)
-      end
-    end
-
-    it "paginates the results" do
-      expect(assigns[:scrapbooks]).to respond_to(:current_page)
+    it "assigns the generated presenter" do
+      expect(assigns[:presenter]).to eql(stub_presenter)
     end
 
     it 'renders the index page' do

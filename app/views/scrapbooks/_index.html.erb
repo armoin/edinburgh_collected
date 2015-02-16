@@ -1,12 +1,12 @@
 <div class="masonry-loading-spinner"><div class="spinner"></div></div>
 <div class="scrapbooks-container">
-  <%= render partial: 'shared/pagination', locals: {items: scrapbooks} %>
+  <%= render partial: 'shared/pagination', locals: {items: presenter.paginated_scrapbooks} %>
   <div id="scrapbooks" class="masonry-grid">
-    <% scrapbooks.each do |scrapbook| %>
-      <%= render partial: 'scrapbooks/scrapbook_cover', locals: {presenter: scrapbook} %>
+    <% presenter.paginated_scrapbook_covers.each do |scrapbook_cover| %>
+      <%= render partial: 'scrapbooks/scrapbook_cover', locals: {scrapbook_cover: scrapbook_cover, show_path: show_path} %>
     <% end %>
   </div>
-  <%= render partial: 'shared/pagination', locals: {items: scrapbooks} %>
+  <%= render partial: 'shared/pagination', locals: {items: presenter.paginated_scrapbooks} %>
 </div>
 <script type="text/javascript">
   $(".masonry-loading-spinner .spinner").spin();

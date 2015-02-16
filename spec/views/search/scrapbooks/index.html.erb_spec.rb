@@ -1,22 +1,31 @@
 require 'rails_helper'
 
 describe 'search/scrapbooks/index.html.erb' do
-  let(:query)            { 'test search'  }
-  let(:memory_count)     { 0 }
-  let(:scrapbook_count)  { 0 }
-  let(:results)          { double('results', query: query, memory_count: memory_count, scrapbook_count: scrapbook_count) }
-  let(:paged_scrapbooks) { Kaminari.paginate_array([]).page(1) }
+  let(:query)                   { 'test search' }
+
+  let(:memory_count)            { 0 }
+  let(:scrapbook_count)         { 0 }
+  
+  let(:results)                 { double('results', query: query, memory_count: memory_count, scrapbook_count: scrapbook_count) }
+  
+  let(:scrapbooks)              { Array.new(scrapbook_count) { Fabricate.build(:scrapbook) } }
+  let(:paged_scrapbooks)        { Kaminari.paginate_array(scrapbooks) }
+
+  let(:scrapbook_memory_count)  { 0 }
+  let(:scrapbook_memories)      { Array.new(scrapbook_memory_count).map{|sm| Fabricate.build(:scrapbook_memory)} }
+  let(:stub_memory_fetcher)     { double('memory_catcher') }
+  let(:presenter)               { ScrapbookIndexPresenter.new(paged_scrapbooks, stub_memory_fetcher) }
 
   before :each do
     assign(:results, results)
-    assign(:scrapbooks, paged_scrapbooks)
+    
+    allow(stub_memory_fetcher).to receive(:scrapbook_memories_for).and_return(scrapbook_memories)
+    assign(:presenter, presenter)
+
+    render
   end
 
   describe 'action bar' do
-    before :each do
-      render
-    end
-
     it 'it does not show the "Create a scrapbook" button' do
       expect(rendered).not_to have_link('Create a scrapbook')
     end
@@ -79,43 +88,21 @@ describe 'search/scrapbooks/index.html.erb' do
   end
 
   context 'when there are no results' do
-    let(:paged_scrapbooks) { Kaminari.paginate_array([]).page(1) }
-
-    before :each do
-      render
-    end
+    let(:scrapbook_count) { 0 }
 
     it "does not display any results" do
       expect(rendered).not_to have_css('.scrapbook')
     end
 
     it "displays a no results message" do
-      expect(rendered).to have_css('.no-results p', text: "Sorry, but we couldn't find any results for \"#{query}\"")
+      expect(rendered).to have_css('.no-results p', text: "Sorry, but we couldn't find any approved scrapbooks for \"#{query}\"")
     end
   end
 
   context 'when there are results' do
     let(:scrapbook_count)  { 3 }
-    let(:scrapbooks)       { Array.new(scrapbook_count).map.with_index do |s, i|
-                               ScrapbookCoverPresenter.new(Fabricate.build(:scrapbook, id: i+1))
-                             end }
-    let(:paged_scrapbooks) { Kaminari.paginate_array(scrapbooks).page(1) }
-
-    describe 'results' do
-      before :each do
-        render
-      end
-
-      context 'a scrapbook presenter' do
-        let(:presenter) { scrapbooks.first }
-
-        it 'is a link to the show page for that scrapbook' do
-          expect(rendered).to have_css("a.scrapbook[href=\"#{presenter.path_to_scrapbook}\"]")
-        end
-      end
-
-      it_behaves_like 'paginated content'
-    end
+    
+    it_behaves_like 'paginated content'
 
     it_behaves_like 'a scrapbook index'
   end

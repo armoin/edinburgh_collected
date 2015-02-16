@@ -6,6 +6,13 @@ module Taggable
     has_many :tags, through: :taggings
   end
 
+  module ClassMethods
+    def filter_by_tag(tag)
+      return approved unless tag.present?
+      approved.joins(:tags).where('tags.name' => tag)
+    end
+  end
+
   TAG_DELIMITER = ','
 
   def tag_list

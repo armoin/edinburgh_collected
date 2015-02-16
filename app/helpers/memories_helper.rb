@@ -5,6 +5,10 @@ module MemoriesHelper
     Date::MONTHNAMES.map.with_index { |m,i| m.blank? ? ['',''] : [m,i] }
   end
 
+  def sub_text(memory)
+    [memory.address, memory.date_string].reject{|s| s.blank?}.join(', ')
+  end
+
   def scrapbook_modal_data(logged_in, memory)
     if logged_in
       {toggle: "modal", target: "#add-to-scrapbook-modal", memory_id: memory.id, memory_title: memory.title}

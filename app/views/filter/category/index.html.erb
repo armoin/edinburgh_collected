@@ -1,13 +1,11 @@
 <div class="container profile memories">
   <div id="grid">
     <header id="contentHeader" class="clearfix">
-      <h1>Search results</h1>
+      <h1>Category "<%= params[:category] %>"</h1>
 
       <div class="actions clearfix">
         <div class="viewingInfo">
-          <strong>Found</strong>
-          <span class="button memories teal"><%= pluralize(@results.memory_count, 'memory') %></span>
-          <%= link_to pluralize(@results.scrapbook_count, 'scrapbook'), search_scrapbooks_path(query: params[:query]), class: 'button scrapbooks inactive counter', id: 'view_scrapbook_results' %>
+          Found <strong><%= pluralize(@memories.total_count, 'memory') %></strong>
         </div>
       </div>
     </header>
@@ -15,7 +13,7 @@
     <% if @memories.empty? -%>
       <div class="no-results">
         <%= image_tag 'empty-scrapbook.png' %>
-        <p>Sorry, but we couldn't find any approved memories for "<%= @results.query %>"</p>
+        <p>Sorry, but we couldn't find any approved memories marked with category <strong>"<%= params[:category] %>"</strong></p>
       </div>
     <% else -%>
       <%= render partial: 'memories/index', locals: {memories: @memories} %>

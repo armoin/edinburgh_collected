@@ -23,6 +23,12 @@ Rails.application.routes.draw do
     resources :scrapbooks, only: [:index]
   end
 
+  namespace :filter do
+    get '/area'     => 'area#index'
+    get '/category' => 'category#index'
+    get '/tag'      => 'tag#index'
+  end
+
   namespace :admin do
     get '/home' => 'home#index'
     get '/unmoderated' => 'moderation#index'

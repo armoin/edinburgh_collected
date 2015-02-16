@@ -1,4 +1,36 @@
-# If you use S3 to store images in development (test saves locally)
-AWS_ACCESS_KEY_ID:     ''
-AWS_SECRET_ACCESS_KEY: ''
-S3_BUCKET_NAME:        ''
+# STORAGE PROVIDER
+# The name of the storage provider you will be using
+# i.e. AWS or Rackspace
+PROVIDER: 'AWS'
+
+# CACHE DIR
+# Where CarrierWave will cache files to before persisting them
+# Hint: should be `public` locally and `tmp` on Heroku
+CACHE_DIR: "public"
+
+# S3 DETAILS
+# If you use S3 to store images in this environment put the details below
+# Please Note: the Test environment uses the local machine by default
+AWS_ACCESS_KEY_ID:
+AWS_SECRET_ACCESS_KEY:
+BUCKET_NAME:
+
+# RACKSPACE DETAILS
+# If you use Rackspace to store images in this environment put the details below
+# Please Note: the Test environment uses the local machine by default
+# 
+# RACKSPACE_USERNAME:
+# RACKSPACE_API_KEY:
+# ASSET_HOST:
+
+# Disqus details
+# The app uses Disqus for commenting. Setup an app on https://disqus.com/, click
+# the Add Disqus To Site button in the Settings menu and then add the resulting
+# shortname below
+DISQUS_SHORTNAME:
+
+# New Relic details
+# The details needed in order to run New Relic for this environment
+# Please Note: leave blank of not using New Relic
+NEW_RELIC_LICENSE_KEY: ''
+NEW_RELIC_LOG:         ''

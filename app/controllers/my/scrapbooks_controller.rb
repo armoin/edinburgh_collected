@@ -4,7 +4,9 @@ class My::ScrapbooksController < My::AuthenticatedUserController
   before_action :assign_scrapbook, only: [:show, :edit, :update, :destroy]
 
   def index
-    @scrapbooks = wrap_and_paginate_scrapbooks(current_user.scrapbooks, OwnedScrapbookCoverPresenter)
+    scrapbooks = current_user.scrapbooks
+    memory_fetcher = ScrapbookMemoryFetcher.new(scrapbooks)
+    @presenter = ScrapbookIndexPresenter.new(scrapbooks, memory_fetcher, params[:page])
   end
 
   def show

@@ -4,6 +4,8 @@ class Search::ScrapbooksController < ApplicationController
   def index
     redirect_to scrapbooks_path if params[:query].blank?
     @results = SearchResults.new(params[:query])
-    @scrapbooks = wrap_and_paginate_scrapbooks(@results.scrapbook_results, ScrapbookCoverPresenter)
+    scrapbooks = @results.scrapbook_results
+    memory_fetcher = ApprovedScrapbookMemoryFetcher.new(scrapbooks)
+    @presenter = ScrapbookIndexPresenter.new(scrapbooks, memory_fetcher, params[:page])
   end
 end

@@ -11,7 +11,7 @@
             <%= pluralize(current_user.memories.size, 'memory') %>
           <% end %>
 
-          <span class="button scrapbooks"><%= pluralize(@scrapbooks.length, 'scrapbook') %></span>
+          <span class="button scrapbooks"><%= pluralize(@presenter.scrapbooks_count, 'scrapbook') %></span>
         </div>
 
         <% if logged_in? -%>
@@ -20,7 +20,7 @@
       </div>
     </header>
 
-    <%= render partial: 'scrapbooks/index', locals: {scrapbooks: @scrapbooks} %>
+    <%= render partial: 'scrapbooks/index', locals: {presenter: @presenter, show_path: my_scrapbooks_path} %>
   </div>
 </div>
 

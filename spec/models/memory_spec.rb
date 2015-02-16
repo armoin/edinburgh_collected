@@ -17,6 +17,154 @@ describe Memory do
   let(:moderatable_factory) { :photo_memory }
   it_behaves_like 'moderatable'
 
+  describe 'filtering' do
+    describe 'by category' do
+      subject { Memory.filter_by_category(category) }
+
+      before :each do
+        @term_only_category = Fabricate(:approved_memory)
+        @term_only_category.categories << Category.new(name: 'foo')
+
+        @term_in_categories = Fabricate(:approved_memory)
+        @term_in_categories.categories << Category.new(name: 'foo')
+        @term_in_categories.categories << Category.new(name: 'bar')
+
+        @term_not_in_categories = Fabricate(:approved_memory)
+        @term_not_in_categories.categories << Category.new(name: 'bar')
+      end
+
+      context 'when no category is given' do
+        let(:category) { nil }
+
+        it 'returns all records' do
+          expect(subject).to include(@term_only_category)
+          expect(subject).to include(@term_in_categories)
+          expect(subject).to include(@term_not_in_categories)
+        end
+      end
+
+      context 'when blank category is given' do
+        let(:category) { '' }
+
+        it 'returns all records' do
+          expect(subject).to include(@term_only_category)
+          expect(subject).to include(@term_in_categories)
+          expect(subject).to include(@term_not_in_categories)
+        end
+      end
+
+      context 'when a category is given' do
+        let(:category) { 'foo' }
+
+        it 'includes records that have the category but no others' do
+          expect(subject).to include(@term_only_category)
+        end
+
+        it 'includes records that have the category amongst others' do
+          expect(subject).to include(@term_in_categories)
+        end
+
+        it "doesn't include records that don't have the category" do
+          expect(subject).not_to include(@term_not_in_categories)
+        end
+      end
+    end
+
+    describe 'by tag' do
+      subject { Memory.filter_by_tag(tag) }
+
+      before :each do
+        @term_only_tag = Fabricate(:approved_memory)
+        @term_only_tag.tags << Tag.new(name: 'foo')
+
+        @term_in_tags = Fabricate(:approved_memory)
+        @term_in_tags.tags << Tag.new(name: 'foo')
+        @term_in_tags.tags << Tag.new(name: 'bar')
+
+        @term_not_in_tags = Fabricate(:approved_memory)
+        @term_not_in_tags.tags << Tag.new(name: 'bar')
+      end
+
+      context 'when no tag is given' do
+        let(:tag) { nil }
+
+        it 'returns all records' do
+          expect(subject).to include(@term_only_tag)
+          expect(subject).to include(@term_in_tags)
+          expect(subject).to include(@term_not_in_tags)
+        end
+      end
+
+      context 'when blank tag is given' do
+        let(:tag) { '' }
+
+        it 'returns all records' do
+          expect(subject).to include(@term_only_tag)
+          expect(subject).to include(@term_in_tags)
+          expect(subject).to include(@term_not_in_tags)
+        end
+      end
+
+      context 'when a tag is given' do
+        let(:tag) { 'foo' }
+
+        it 'includes records that have the tag but no others' do
+          expect(subject).to include(@term_only_tag)
+        end
+
+        it 'includes records that have the tag amongst others' do
+          expect(subject).to include(@term_in_tags)
+        end
+
+        it "doesn't include records that don't have the tag" do
+          expect(subject).not_to include(@term_not_in_tags)
+        end
+      end
+    end
+
+    describe 'by area' do
+      subject { Memory.filter_by_area(area) }
+
+      before :each do
+        foo_area = Fabricate(:area, name: 'foo')
+        bar_area = Fabricate(:area, name: 'bar')
+
+        @matches_area = Fabricate(:approved_memory, area: foo_area)
+        @does_not_match_area = Fabricate(:approved_memory, area: bar_area)
+      end
+
+      context 'when no area is given' do
+        let(:area) { nil }
+
+        it 'returns all records' do
+          expect(subject).to include(@matches_area)
+          expect(subject).to include(@does_not_match_area)
+        end
+      end
+
+      context 'when blank area is given' do
+        let(:area) { '' }
+
+        it 'returns all records' do
+          expect(subject).to include(@matches_area)
+          expect(subject).to include(@does_not_match_area)
+        end
+      end
+
+      context 'when a area is given' do
+        let(:area) { 'foo' }
+
+        it 'includes records that have the area' do
+          expect(subject).to include(@matches_area)
+        end
+
+        it "doesn't include records that don't have the area" do
+          expect(subject).not_to include(@does_not_match_area)
+        end
+      end
+    end
+  end
+
   describe 'searching' do
     before :each do
       @unapproved_term_in_title = Fabricate(:memory, title: 'Edinburgh Castle test')
@@ -109,10 +257,54 @@ describe Memory do
           @term_in_categories = Fabricate(:approved_memory)
           @term_in_categories.categories << Category.new(name: 'foo')
           @term_in_categories.categories << Category.new(name: 'bar')
+
+          @term_not_in_categories = Fabricate(:approved_memory)
+          @term_not_in_categories.categories << Category.new(name: 'bar')
         end
 
         it 'includes records where at least one category name matches' do
           expect(results).to include(@term_in_categories)
+        end
+
+        it 'does not include records where at least no category names match' do
+          expect(results).not_to include(@term_not_in_categories)
+        end
+      end
+
+      context 'tags' do
+        before :each do
+          @term_in_tags = Fabricate(:approved_memory)
+          @term_in_tags.tags << Tag.new(name: 'foo')
+          @term_in_tags.tags << Tag.new(name: 'bar')
+
+          @term_not_in_tags = Fabricate(:approved_memory)
+          @term_not_in_tags.tags << Tag.new(name: 'bar')
+        end
+
+        it 'includes records where at least one tag name matches' do
+          expect(results).to include(@term_in_tags)
+        end
+
+        it 'does not include records where at least no tag names match' do
+          expect(results).not_to include(@term_not_in_tags)
+        end
+      end
+
+      context 'area' do
+        before :each do
+          foo_area = Fabricate.build(:area, name: 'foo', id: 1)
+          @term_in_area = Fabricate(:approved_memory, area: foo_area)
+          
+          bar_area = Fabricate.build(:area, name: 'bar', id: 2)
+          @term_not_in_area = Fabricate(:approved_memory, area: bar_area)
+        end
+
+        it 'includes records where at least one area name matches' do
+          expect(results).to include(@term_in_area)
+        end
+
+        it 'does not include records where at least no area names match' do
+          expect(results).not_to include(@term_not_in_area)
         end
       end
     end

@@ -1,8 +1,21 @@
 class ScrapbookCover
   NUM_SECONDARY_MEMORIES = 3
 
-  def initialize(scrapbook)
-    @memories = scrapbook.try(:ordered_memories) || []
+  def initialize(scrapbook, scrapbook_memories)
+    @scrapbook = scrapbook
+    @memories = scrapbook_memories.try(:map, &:memory) || []
+  end
+
+  def scrapbook_id
+    @scrapbook.id
+  end
+
+  def title
+    @scrapbook.title
+  end
+
+  def memories_count
+    @memories.length
   end
 
   def main_memory
@@ -14,9 +27,4 @@ class ScrapbookCover
       @memories[i+1] # skip the first memory as that is the main memory
     end
   end
-
-  def memory_count
-    @memories.length
-  end
 end
-

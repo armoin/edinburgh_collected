@@ -1,24 +1,27 @@
 require 'rails_helper'
 
 describe 'scrapbooks/index.html.erb' do
-  let(:logged_in)        { false }
-  let(:scrapbook_count)  { 3 }
-  let(:scrapbooks)       { Array.new(scrapbook_count).map.with_index do |s, i|
-                             ScrapbookCoverPresenter.new(Fabricate.build(:scrapbook, id: i+1))
-                           end }
-  let(:paged_scrapbooks) { Kaminari.paginate_array(scrapbooks).page(1) }
-  let(:memory)           { Fabricate.build(:photo_memory) }
+  let(:logged_in)               { false }
+  
+  let(:scrapbook_count)         { 3 }
+  let(:scrapbooks)              { Array.new(scrapbook_count) { Fabricate.build(:scrapbook) } }
+  let(:paged_scrapbooks)        { Kaminari.paginate_array(scrapbooks) }
+  
+  let(:scrapbook_memory_count)  { 0 }
+  let(:scrapbook_memories)      { Array.new(scrapbook_memory_count).map{|sm| Fabricate.build(:scrapbook_memory)} }
+  let(:stub_memory_fetcher)     { double('memory_catcher') }
+  let(:presenter)               { ScrapbookIndexPresenter.new(paged_scrapbooks, stub_memory_fetcher) }
 
   before :each do
     allow(view).to receive(:logged_in?).and_return(logged_in)
+
+    allow(stub_memory_fetcher).to receive(:scrapbook_memories_for).and_return(scrapbook_memories)
+    assign(:presenter, presenter)
+
+    render
   end
 
   describe 'action bar' do
-    before :each do
-      assign(:scrapbooks, paged_scrapbooks)
-      render
-    end
-
     it "has a link to show all current user's memories" do
       expect(rendered).to have_link('Memories', href: memories_path)
     end
@@ -39,6 +42,8 @@ describe 'scrapbooks/index.html.erb' do
       end
     end
   end
+
+  it_behaves_like 'paginated content'
 
   it_behaves_like 'a scrapbook index'
 end

@@ -16,7 +16,7 @@
       </div>
     </header>
 
-    <%= render partial: 'scrapbooks/index', locals: {scrapbooks: @scrapbooks} %>
+    <%= render partial: 'scrapbooks/index', locals: {presenter: @presenter, show_path: scrapbooks_path} %>
   </div>
 </div>
 

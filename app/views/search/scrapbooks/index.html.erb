@@ -12,13 +12,13 @@
       </div>
     </header>
 
-    <% if @scrapbooks.empty? -%>
+    <% if @results.scrapbook_count > 0 -%>
+      <%= render partial: 'scrapbooks/index', locals: {presenter: @presenter, show_path: scrapbooks_path} %>
+    <% else -%>
       <div class="no-results">
         <%= image_tag 'empty-scrapbook.png' %>
-        <p>Sorry, but we couldn't find any results for "<%= @results.query %>"</p>
+        <p>Sorry, but we couldn't find any approved scrapbooks for "<%= @results.query %>"</p>
       </div>
-    <% else -%>
-      <%= render partial: 'scrapbooks/index', locals: {scrapbooks: @scrapbooks} %>
     <% end -%>
   </div>
 </div>

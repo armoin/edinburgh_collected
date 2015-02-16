@@ -41,9 +41,9 @@ describe Scrapbook do
 
   describe 'searching' do
     before :each do
-      @term_in_title            = Fabricate(:scrapbook, title: 'Edinburgh Castle test')
-      @term_in_description      = Fabricate(:scrapbook, description: 'This is an Edinburgh Castle test')
-      @terms_not_found          = Fabricate(:scrapbook, title: 'test', description: 'test')
+      @term_in_title       = Fabricate(:scrapbook, title: 'Edinburgh Castle test')
+      @term_in_description = Fabricate(:scrapbook, description: 'This is an Edinburgh Castle test')
+      @terms_not_found     = Fabricate(:scrapbook, title: 'test', description: 'test')
     end
 
     let(:results) { Scrapbook.text_search(terms) }
