@@ -46,20 +46,44 @@ class CCAsset
   end
 end
 
+desc "Imports data from Capital Collections"
 task :cc_import => :environment do |t, args|
+  cc_user = User.find_by(screen_name: 'Capital Collections')
+  unless cc_user
+    unless ENV['PASSWORD'] || ENV['DEFAULT_ADMIN_USER_PASSWORD']
+      abort "Please set a DEFAULT_ADMIN_USER_PASSWORD in config/application.yml or supply a password by passing in PASSWORD=<your password>"
+    end
+
+    password = ENV['PASSWORD'] || ENV['DEFAULT_ADMIN_USER_PASSWORD']
+
+    cc_user = User.new(
+      first_name:             'Capital Collections',
+      last_name:              '',
+      email:                  'informationdigital@edinburgh.gov.uk',
+      password:               password,
+      password_confirmation:  password,
+      screen_name:            'Capital Collections',
+      is_group:               true,
+      accepted_t_and_c:       true,
+    )
+    cc_user.save!
+    cc_user.activate!
+  end
+
   IDs.each do |id|
     doc = CCAsset.new(id)
     memory = Memory.new(
       type: 'Photo',
       title: doc.title,
       year: doc.year,
-      description: doc.description,
+      description: doc.description.blank? ? doc.title : doc.description,
     )
-    memory.categories << Category.first
-    memory.user = User.find_by_email('alan+capcollect@armoin.com')
+    memory.categories << Category.find_by_name('Daily Life')
+    memory.user = cc_user
     memory.remote_source_url = doc.remote_source_url
     
     if memory.save
+      memory.approve!
       puts "#{id} (success)"
     else
       puts "#{id} (failed) #{memory.errors.full_messages}"
