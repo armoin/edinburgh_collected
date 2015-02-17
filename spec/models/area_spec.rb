@@ -38,19 +38,56 @@ describe Area do
       expect(subject).to have_received(:geocode)
     end
 
-    it 'does not gets latitude and longitude when an existing area has no changes' do
+    it 'does not get latitude and longitude when a new area is added that has a lat and long' do
+      allow(subject).to receive(:geocode)
+      subject.name = 'Portobello'
+      subject.latitude = 55.952872
+      subject.longitude = -3.113962
+      subject.valid?
+      expect(subject).not_to have_received(:geocode)
+    end
+
+    it 'does not get latitude and longitude when an existing area has no changes' do
       existing = Fabricate(:area)
       allow(existing).to receive(:geocode)
       existing.valid?
       expect(existing).not_to have_received(:geocode)
     end
 
-    it 'gets latitude and longitude when an existing area has a name change' do
+    it 'gets latitude and longitude when an existing area has a name change without a lat and long change' do
       existing = Fabricate(:area)
       allow(existing).to receive(:geocode)
       existing.name = 'Corstorphine'
       existing.valid?
       expect(existing).to have_received(:geocode)
+    end
+
+    it 'does not get latitude and longitude when an existing area has a name change with a lat change' do
+      existing = Fabricate(:area)
+      allow(existing).to receive(:geocode)
+      existing.name = 'Corstorphine'
+      existing.latitude = 123.456
+      existing.valid?
+      expect(existing).not_to have_received(:geocode)
+    end
+
+    it 'does not get latitude and longitude when an existing area has a name change with a long change' do
+      existing = Fabricate(:area)
+      allow(existing).to receive(:geocode)
+      existing.name = 'Corstorphine'
+      existing.longitude = 123.456
+      existing.valid?
+      expect(existing).not_to have_received(:geocode)
+    end
+
+    it 'does not get latitude and longitude when an existing area has a name change with a lat and long change' do
+      existing = Fabricate(:area)
+      allow(existing).to receive(:geocode)
+      existing.name = 'Corstorphine'
+      existing.latitude = 123.456
+      existing.longitude = 123.456
+      existing.valid?
+      expect(existing).not_to have_received(:geocode)
     end
   end
 end
