@@ -1,12 +1,25 @@
 <header id="profileHeader" class="clearfix">
-  <%= link_to my_profile_path, class: "userAvatar" do %>
-    <span class="accessible-label">View your profile</span>
+  
+  <% if requested_user == current_user -%>
+
+    <%= link_to my_profile_path, class: "userAvatar" do %>
+      <span class="accessible-label">View your profile</span>
+      <%= image_tag "avatar.png" %>
+    <% end -%>
+    <h1 class="title">
+      <%= requested_user.try(:screen_name) %>
+      <%= link_to 'Edit', my_profile_edit_path, class: 'button navy' %>
+    </h1>
+
+  <% else -%>
+
     <%= image_tag "avatar.png" %>
+    <h1 class="title">
+      <%= requested_user.try(:screen_name) %>
+    </h1>
+
   <% end -%>
-  <h1 class="title">
-    <%= current_user.try(:screen_name) %>
-    <%= link_to 'Edit', my_profile_edit_path, class: 'button navy' %>
-  </h1>
+
   <p class="sub hide">User bio/description goes here</p>
 </header>
 

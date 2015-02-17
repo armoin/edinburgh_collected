@@ -3,7 +3,8 @@ class My::MemoriesController < My::AuthenticatedUserController
   before_action :assign_memory, only: [:show, :edit, :update, :destroy]
 
   def index
-    @memories = current_user.memories.by_recent.page(params[:page])
+    @presenter = UserMemoriesPresenter.new(current_user, current_user, params[:page])
+    render 'memories/user_index'
   end
 
   def new

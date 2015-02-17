@@ -46,6 +46,8 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:new, :create] do
+    resources :memories,   only: [:index], controller: 'users/memories',   action: 'index'
+    resources :scrapbooks, only: [:index], controller: 'users/scrapbooks', action: 'index'
     member do
       get :activate
     end

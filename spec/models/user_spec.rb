@@ -205,7 +205,7 @@ describe User do
     end
   end
 
-  describe 'find_by_email' do
+  describe '.find_by_email' do
     let!(:user) { Fabricate(:user, email: 'bobby@example.com') }
 
     it 'provides the user if a lower case email is given' do
@@ -231,6 +231,19 @@ describe User do
     it 'does not provide the user if no email is given' do
       email = ''
       expect(User.find_by_email(email)).to be_nil
+    end
+  end
+
+  describe '.active' do
+    let!(:active_user)   { Fabricate(:active_user) }
+    let!(:inactive_user) { Fabricate(:user) }
+
+    it 'provides active users' do
+      expect(User.active).to include(active_user)
+    end
+
+    it 'does not provide users that are not active' do
+      expect(User.active).not_to include(inactive_user)
     end
   end
 
