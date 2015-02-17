@@ -12,7 +12,7 @@ CarrierWave.configure do |config|
 
         :rackspace_username => ENV['RACKSPACE_USERNAME'],
         :rackspace_api_key  => ENV['RACKSPACE_API_KEY'],
-        :rackspace_auth_url  => Fog::Rackspace::UK_AUTH_ENDPOINT,
+        :rackspace_auth_url => Fog::Rackspace::UK_AUTH_ENDPOINT,
         :rackspace_region   => :lon
       }
       config.asset_host    = ENV['ASSET_HOST']
@@ -20,7 +20,7 @@ CarrierWave.configure do |config|
     elsif ENV['PROVIDER'] == 'AWS'
 
       config.fog_credentials = {
-        :provider           => 'AWS',
+        :provider               => 'AWS',
 
         :aws_access_key_id      => ENV['AWS_ACCESS_KEY_ID'],
         :aws_secret_access_key  => ENV['AWS_SECRET_ACCESS_KEY'],

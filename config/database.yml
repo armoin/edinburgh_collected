@@ -5,11 +5,11 @@ common: &common
 
 development:
   <<: *common
-  database: edinburgh-scrapbooks-development
+  database: edinburgh-collected-development
 
 test:
   <<: *common
-  database: edinburgh-scrapbooks-test
+  database: edinburgh-collected-test
 
 production:
   <<: *common
