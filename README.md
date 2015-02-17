@@ -22,7 +22,7 @@ We are currently using **2.1.5**. If you don't want to upgrade your whole system
 sudo curl -L https://get.rvm.io | bash -s stable --ruby=2.1.5
 
 # start rvm in any open shells (will happen automatically in any new shells from now on)
-sudo source /home/edincollect/.rvm/scripts/rvm
+sudo source ~/.rvm/scripts/rvm
 
 # [OPTIONAL] set the installed version to be the system default
 rvm use 2.1.5 --default
@@ -63,8 +63,7 @@ bundle install
 
 ### Setting up environment-specific variables
 
-The app uses certain environment-specific variables to control things such as file uploads and 3rd party services.
-In order to ensure that you have these setup as required, please do as follows:
+The app uses certain environment-specific variables to control things such as file uploads and 3rd party services. In order to ensure that you have these setup as required, please do as follows:
 
 ```bash
 # (from the root directory of the project) copy the example application environment variable file
@@ -72,6 +71,35 @@ cp config/application.yml.example config/application.yml
 
 # now open in your editor of choice and add the required information
 vi config/application.yml
+```
+
+### A note about file storage
+
+The app needs to store the image files that are uploaded when new memories are created. It is currently setup to use Amazon S3 or Rackspace, however other storage options are available. See the documentation on [the CarrierWave github page](https://github.com/carrierwaveuploader/carrierwave) if you want to setup a different storage option. Pull Requests welcome :)
+
+To use S3:
+
+```bash
+# Open config/application.yml in your favourite editor.
+vi config/application.yml
+
+# Set PROVIDER to 'AWS'
+# Set STORE_DIR to your bucket name (i.e. 'my_unique_upload_bucket')
+# Uncomment and set AWS_ACCESS_KEY_ID to your AWS access key
+# Uncomment and set AWS_SECRET_ACCESS_KEY to your AWS secret access key
+```
+
+To use Rackspace:
+
+```bash
+# Open config/application.yml in your favourite editor.
+vi config/application.yml
+
+# Set PROVIDER to 'Rackspace'
+# Set STORE_DIR to your directory name (i.e. 'My unique upload directory')
+# Uncomment and set RACKSPACE_USERNAME to your Rackspace username
+# Uncomment and set RACKSPACE_API_KEY to your Rackspace API key
+# Uncomment and set ASSET_HOST to your Rackspace CDN base URL
 ```
 
 
@@ -93,22 +121,17 @@ To create an admin user:
 
 ```bash
 # Open config/application.yml in your favourite editor.
+vi config/application.yml
+
 # Uncomment and set CREATE_DEFAULT_ADMIN_USER to 'true'
 # Uncomment and set DEFAULT_ADMIN_USER_PASSWORD to a valid password
-vi config/application.yml
+
+# add a default admin user using seed data
+rake db:seed
 ```
 
 Now run the seeds as mentioned below.
 
-
-### Add required seed data to the database
-
-Some data, such as city areas and memory categories, must be pre-poulated in the database. This can be done by running the following command.
-
-```bash
-# pre-populate the database with seed data
-rake db:seed
-```
 
 ### Changing the application to run in a different location
 
@@ -133,5 +156,15 @@ open http://localhost:1080
 
 ## Running
 
-That should be the app all up and running for you now. You can check this by running the test suite `bundle exec rspec` or by starting up the server `rails s` and pointing your favourite browser to [http://localhost:3000](http://localhost:3000).
+That should be the app all up and running for you now. You can check this by
+
+```bash
+# running the test suite
+bundle exec rspec
+
+# starting up the server
+rails s
+```
+
+Once a server is running you can point your favourite browser to [http://localhost:3000](http://localhost:3000).
 

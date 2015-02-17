@@ -1,6 +1,6 @@
 # STORAGE PROVIDER
 # The name of the storage provider you will be using
-# i.e. AWS or Rackspace
+# Can be one of 'AWS' or 'Rackspace'
 #
 PROVIDER: 'AWS'
 
