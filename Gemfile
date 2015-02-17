@@ -38,7 +38,6 @@ end
 
 group :development do
   gem 'spring',                     '~> 1.2.0'
-  gem 'letter_opener',              '~> 1.2.0'
   gem 'meta_request',               '~> 0.3.4'
 end
 

@@ -48,12 +48,12 @@ Installing Postgres on your operating system is beyond the scope of this README,
 ## Installing
 
 ```bash
-  # clone the app (you might want to fork it to your own repo first if you're planning to make any changes)
-  git clone git@github.com:urfolomeus/edinburgh_collected.git
-  cd edinburgh_collected
+# clone the app (you might want to fork it to your own repo first if you're planning to make any changes)
+git clone git@github.com:urfolomeus/edinburgh_collected.git
+cd edinburgh_collected
 
-  # install the required gems
-  bundle install
+# install the required gems
+bundle install
 ```
 
 
@@ -80,8 +80,8 @@ vi config/application.yml
 Once you've setup the environment variables file, you can setup the database.
 
 ```bash
-  # setup the database
-  rake db:setup
+# setup the database
+rake db:setup
 ```
 
 
@@ -92,10 +92,10 @@ The app is currently set up so that any new memory that is created must be moder
 To create an admin user:
 
 ```bash
-  # Open config/application.yml in your favourite editor.
-  # Uncomment and set CREATE_DEFAULT_ADMIN_USER to 'true'
-  # Uncomment and set DEFAULT_ADMIN_USER_PASSWORD to a valid password
-  vi config/application.yml
+# Open config/application.yml in your favourite editor.
+# Uncomment and set CREATE_DEFAULT_ADMIN_USER to 'true'
+# Uncomment and set DEFAULT_ADMIN_USER_PASSWORD to a valid password
+vi config/application.yml
 ```
 
 Now run the seeds as mentioned below.
@@ -106,13 +106,30 @@ Now run the seeds as mentioned below.
 Some data, such as city areas and memory categories, must be pre-poulated in the database. This can be done by running the following command.
 
 ```bash
-  # pre-populate the database with seed data
-  rake db:seed
+# pre-populate the database with seed data
+rake db:seed
 ```
 
 ### Changing the application to run in a different location
 
 Whilst this application is called Edinburgh Collected, it should be possible to run it as <YOUR CITY> Collected. You can change the majority of the application by altering the details in `config/initializers/app_settings.rb`. If you have any questions or issues around this, please raise an issue on this main repository.
+
+
+### Mailcatcher
+
+The app is setup to use [Mailcatcher](http://mailcatcher.me) in development so that you can catch and check the emails generated if you wish. To setup mailcatcher, please do as follows:
+
+```bash
+# install the gem
+gem install mailcatcher
+
+# run mailcatcher (runs as a daemon in the background)
+mailcatcher
+
+# view Mailcatcher inbox
+open http://localhost:1080
+```
+
 
 ## Running
 
