@@ -70,7 +70,7 @@ The app uses certain environment-specific variables to control things such as fi
 cp config/application.yml.example config/application.yml
 
 # now open in your editor of choice and add the required information
-vi config/application.yml
+$EDITOR config/application.yml
 ```
 
 ### A note about file storage
@@ -81,7 +81,7 @@ To use S3:
 
 ```bash
 # Open config/application.yml in your favourite editor.
-vi config/application.yml
+$EDITOR config/application.yml
 
 # Set PROVIDER to 'AWS'
 # Set STORE_DIR to your bucket name (i.e. 'my_unique_upload_bucket')
@@ -93,7 +93,7 @@ To use Rackspace:
 
 ```bash
 # Open config/application.yml in your favourite editor.
-vi config/application.yml
+$EDITOR config/application.yml
 
 # Set PROVIDER to 'Rackspace'
 # Set STORE_DIR to your directory name (i.e. 'My unique upload directory')
@@ -121,7 +121,7 @@ To create an admin user:
 
 ```bash
 # Open config/application.yml in your favourite editor.
-vi config/application.yml
+$EDITOR config/application.yml
 
 # Uncomment and set CREATE_DEFAULT_ADMIN_USER to 'true'
 # Uncomment and set DEFAULT_ADMIN_USER_PASSWORD to a valid password
