@@ -19,12 +19,7 @@ README.html
 
 # Ignore sensitive files
 /config/application.yml
-/config/newrelic.yml
 *.my
-
-# Ignore specific tasks
-/lib/tasks/cc_import.rake
-/lib/tasks/data_transfer.rake
 
 # Ignore todo scratch
 *.todo
