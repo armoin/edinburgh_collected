@@ -23,34 +23,42 @@ describe My::MemoriesController do
     end
 
     context 'when logged in' do
+      let(:presenter_stub) { double('presenter') }
+      let(:page)           { nil }
+      
       before :each do
-        allow(@user).to receive(:memories).and_return(stub_memories)
+        allow(UserMemoriesPresenter).to receive(:new).and_return(presenter_stub)
+
         login_user
-        get :index
+        get :index, page: page
       end
 
       it 'sets the current memory index path if action is index' do
         expect(session[:current_memory_index_path]).to eql(base_path)
       end
 
-      it "fetches the user's memories" do
-        expect(@user).to have_received(:memories)
+      context 'when no page is given' do
+        let(:page) { nil }
+
+        it 'generates a UserMemoriesPresenter with a nil page' do
+          expect(UserMemoriesPresenter).to have_received(:new).with(@user, @user, nil)
+        end
       end
 
-      it "orders by most recent first" do
-        expect(stub_memories).to have_received(:by_recent)
+      context 'when a page is given' do
+        let(:page) { "1" }
+
+        it 'generates a UserMemoriesPresenter with and the page' do
+          expect(UserMemoriesPresenter).to have_received(:new).with(@user, @user, "1")
+        end
       end
 
-      it "paginates the results" do
-        expect(sorted_memories).to have_received(:page)
+      it 'assigns the presenter' do
+        expect(assigns[:presenter]).to eql(presenter_stub)
       end
 
-      it "assigns the returned memories" do
-        expect(assigns[:memories]).to eql(sorted_memories)
-      end
-
-      it "renders the index page" do
-        expect(response).to render_template(:index)
+      it "renders the user index page" do
+        expect(response).to render_template('memories/user_index')
       end
     end
   end

@@ -1,26 +1,25 @@
 <div id="scrapbooks" class="container profile scrapbooks">
-  <%= render partial: 'shared/profile_header', locals: {requested_user: current_user} %>
+  <%= render partial: 'shared/profile_header', locals: {requested_user: @requested_user} %>
 
   <div id="grid">
     <header id="contentHeader" class="clearfix">
-      <h2>Your scrapbooks</h2>
       <div class="actions">
         <div class="viewingInfo">
           <strong>Browse</strong>
-          <%= link_to my_memories_path, :class => "button memories inactive"  do %>
-            <%= pluralize(current_user.memories.size, 'memory') %>
+          <%= link_to user_memories_path(user_id: @requested_user.id), :class => "button memories inactive"  do %>
+            <%= pluralize(@requested_user.memories.approved.size, 'memory') %>
           <% end %>
 
           <span class="button scrapbooks"><%= pluralize(@presenter.scrapbooks_count, 'scrapbook') %></span>
         </div>
 
-        <% if logged_in? -%>
+        <% if logged_in? and @requested_user == current_user -%>
           <%= link_to 'Create a scrapbook', '#', id: 'create-scrapbook-button', class: 'button scrapbooks float-right', data: {toggle: 'modal', target:'#create-scrapbook-modal'} %>
         <% end -%>
       </div>
     </header>
 
-    <%= render partial: 'scrapbooks/index', locals: {presenter: @presenter, show_path: my_scrapbooks_path} %>
+    <%= render partial: 'scrapbooks/index', locals: {presenter: @presenter, show_path: scrapbooks_path} %>
   </div>
 </div>
 

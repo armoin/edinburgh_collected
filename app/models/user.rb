@@ -21,6 +21,10 @@ class User < ActiveRecord::Base
     where('LOWER(email) = ?', email.downcase).first
   end
 
+  def self.active
+    where(activation_state: 'active')
+  end
+
   def can_modify?(object)
     return false unless object
     object.try(:user_id) == self.id || self.is_admin?
