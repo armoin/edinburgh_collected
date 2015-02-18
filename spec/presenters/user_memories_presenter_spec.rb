@@ -14,6 +14,34 @@ describe UserMemoriesPresenter do
     end
   end
 
+  describe '#page_title' do
+    context 'when user is not logged in' do
+      let(:current_user) { nil }
+
+      it "returns 'Your memories'" do
+        expect(subject.page_title).to eql("#{requested_user.screen_name.possessive} memories")
+      end
+    end
+
+    context 'when user is logged in' do
+      context 'and the requested user is not the current user' do
+        let(:current_user) { other_user }
+
+        it "returns 'Your memories'" do
+          expect(subject.page_title).to eql("#{requested_user.screen_name.possessive} memories")
+        end
+      end
+
+      context 'and the requested user is the current user' do
+        let(:current_user) { requested_user }
+
+        it "returns 'Your memories'" do
+          expect(subject.page_title).to eql('Your memories')
+        end
+      end
+    end
+  end
+
   describe '#memories_count' do
     before :each do
       Fabricate(:approved_memory, user: requested_user)
@@ -57,6 +85,34 @@ describe UserMemoriesPresenter do
       # TODO: scrapbooks are not currently moderated. Once they are this should change.
       it "provides the count of the requested user's approved scrapbooks only" do
         expect(subject.scrapbooks_count).to eql(2)
+      end
+    end
+  end
+
+  describe '#can_add_memories?' do
+    context 'when the user is not logged in' do
+      let(:current_user) { nil }
+
+      it 'is false' do
+        expect(subject.can_add_memories?).to be_falsy
+      end
+    end
+
+    context 'when the user is logged in' do
+      context 'but not as the requested user' do
+        let(:current_user) { other_user }
+
+        it 'is false' do
+          expect(subject.can_add_memories?).to be_falsy
+        end
+      end
+
+      context 'as the requested user' do
+        let(:current_user) { requested_user }
+
+        it 'is true' do
+          expect(subject.can_add_memories?).to be_truthy
+        end
       end
     end
   end

@@ -262,6 +262,7 @@ GEM
       cliver (~> 0.3.1)
       multi_json (~> 1.0)
       websocket-driver (>= 0.2.0)
+    possessive (1.0.1)
     pry (0.9.12.6)
       coderay (~> 1.0)
       method_source (~> 0.8)
@@ -419,6 +420,7 @@ DEPENDENCIES
   pg (~> 0.17.1)
   pg_search (~> 0.7.8)
   poltergeist (~> 1.5.1)
+  possessive (~> 1.0.0)
   pry-byebug
   rails (~> 4.1.7)
   rails_12factor (~> 0.0.2)

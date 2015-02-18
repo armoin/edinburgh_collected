@@ -3,6 +3,7 @@
 
   <div id="grid">
     <header id="contentHeader" class="clearfix">
+      <h2><%= @presenter.page_title %></h2>
       <div class="actions clearfix">
         <div class="viewingInfo">
           <strong>Browse</strong>
@@ -13,7 +14,7 @@
           <% end %>
         </div>
 
-        <% if @presenter.requested_user == current_user -%>
+        <% if @presenter.can_add_memories? -%>
           <%= link_to 'Add a memory', new_my_memory_path, :class => "button float-right memories" %>
         <% end -%>
       </div>

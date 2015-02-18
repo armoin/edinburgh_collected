@@ -7,6 +7,11 @@ class UserMemoriesPresenter
     @page = page
   end
 
+  def page_title
+    title = requested_is_current? ? "Your" : @requested_user.screen_name.possessive
+    title << " memories"
+  end
+
   def memories_count
     memories.count
   end
@@ -19,10 +24,14 @@ class UserMemoriesPresenter
     memories.page(@page)
   end
 
+  def can_add_memories?
+    requested_is_current?
+  end
+
   private
 
   def memories
-    @memories ||= if @requested_user == @current_user
+    @memories ||= if requested_is_current?
       @current_user.memories.by_recent
     else
       @requested_user.memories.approved.by_recent
@@ -30,10 +39,14 @@ class UserMemoriesPresenter
   end
 
   def scrapbooks
-    @scrapbooks ||= if @requested_user == @current_user
+    @scrapbooks ||= if requested_is_current?
       @current_user.scrapbooks
     else
       @requested_user.scrapbooks.approved
     end
+  end
+
+  def requested_is_current?
+    @requested_user == @current_user
   end
 end
