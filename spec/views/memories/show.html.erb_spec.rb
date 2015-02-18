@@ -25,33 +25,9 @@ describe "memories/show.html.erb" do
       end
 
       context 'has a subtitle that' do
-        it "includes the location" do
-          expect(rendered).to have_css('.memory .subtitle', text: 'Kings Road', count: 1)
-        end
-
-        it "includes the area" do
-          expect(rendered).to have_css('.memory .subtitle', text: 'Portobello', count: 1)
-        end
-
         it "includes the date" do
           expect(rendered).to have_css('.memory .subtitle', text: '4th May 2014')
         end
-      end
-    end
-
-    context 'when there is no area' do
-      let(:area) { nil }
-
-      it "does not show the area in the header" do
-        expect(rendered).not_to have_css('.memory .subtitle', text: 'Portobello')
-      end
-    end
-
-    context 'when there is no location' do
-      let(:location) { nil }
-
-      it "does not show the area in the header" do
-        expect(rendered).not_to have_css('.memory .subtitle', text: 'Kings Road')
       end
     end
   end
@@ -152,6 +128,10 @@ describe "memories/show.html.erb" do
         end
       end
 
+      it 'has a location that shows the location and area' do
+        expect(rendered).to have_css('#memory-location p', text: "Kings Road, Portobello", count: 1)
+      end
+
       it "has a 'See more from this area' button" do
         expect(rendered).to have_link("See more memories from #{area.name}", href: filter_area_path(area: area.name))
       end
@@ -177,8 +157,30 @@ describe "memories/show.html.erb" do
       end
     end
 
+    context 'when there is no location' do
+      let(:location) { nil }
+
+      context 'and there is no area' do
+        let(:area) { nil }
+
+        it "does not show the location" do
+          expect(rendered).not_to have_css('#memory-location p')
+        end
+      end
+
+      context 'but there is an area' do
+        it "shows the area only in the location" do
+          expect(rendered).to have_css('#memory-location p', text: "Portobello", count: 1)
+        end
+      end
+    end
+
     context 'when there is no area' do
       let(:area) { nil }
+
+      it "only shows the location in the Location" do
+        expect(rendered).to have_css('#memory-location p', text: "Kings Road", count: 1)
+      end
 
       it "does not have a 'See more from this area' button" do
         expect(rendered).not_to have_link("See more memories from Portobello")

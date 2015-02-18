@@ -1,7 +1,7 @@
 <div class="memory full">
   <header  id="contentHeader" class="clearfix col-xs-12">
     <h1 class="title"><%= @memory.title %></h1>
-    <h2 class="subtitle"><%= sub_text(@memory) %></h2>
+    <h2 class="subtitle"><%= @memory.date_string %></h2>
     <div class="actions col-xs-12 clearfix">
       <%= link_to 'Back', current_memory_index_path, class: "button back" %>
       
@@ -76,6 +76,14 @@
             <% end %>
           </ul>
         </div>
+
+        <% if @memory.address.present? -%>
+          <div id="memory-location">
+            <h3>Location</h3>
+            <p><%= @memory.address %></p>
+            </ul>
+          </div>
+        <% end -%>
 
         <% if @memory.area.present? -%>
           <div id="memory-area">
