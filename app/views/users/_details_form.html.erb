@@ -1,0 +1,41 @@
+<div class="form-group" aria-required="true">
+  <div class="formRow">
+    <%= form.label :first_name, class: 'control-label' %>
+    <%= form.text_field :first_name, class: 'form-control' %>
+    <% user.errors[:first_name].each do |error| %>
+      <span class="help-block"><%= error %></span>
+    <% end -%>
+  </div>
+</div>
+
+<% unless user.is_group? -%>
+  <div class="form-group user_last_name" aria-required="true">
+    <div class="formRow">
+      <%= form.label :last_name, class: "control-label" %>
+      <%= form.text_field :last_name, class: 'form-control' %>
+      <% user.errors[:last_name].each do |error| %>
+        <span class="help-block"><%= error %></span>
+      <% end -%>
+    </div>
+  </div>
+<% end -%>
+
+<div class="form-group" aria-required="true">
+  <div class="formRow">
+    <%= form.label :email, class: "control-label" %>
+    <%= form.email_field :email, class: 'form-control' %>
+    <% user.errors[:email].each do |error| %>
+      <span class="help-block"><%= error %></span>
+    <% end -%>
+  </div>
+</div>
+
+<div class="form-group" aria-required="true">
+  <div class="formRow">
+    <%= form.label :screen_name, class: "control-label" %>
+    <%= form.text_field :screen_name, class: 'form-control' %>
+    <% user.errors[:screen_name].each do |error| %>
+      <span class="help-block"><%= error %></span>
+    <% end -%>
+  </div>
+</div>
