@@ -16,6 +16,11 @@
 
         <% if logged_in? -%>
           <%= link_to 'Create a scrapbook', '#', id: 'create-scrapbook-button', class: 'button scrapbooks float-right', data: {toggle: 'modal', target:'#create-scrapbook-modal'} %>
+          <%= render partial: 'memories/create_scrapbook' %>
+
+          <script type="text/javascript">
+            var createScrapbookController = new CreateScrapbookController();
+          </script>
         <% end -%>
       </div>
     </header>
@@ -23,9 +28,3 @@
     <%= render partial: 'scrapbooks/index', locals: {presenter: @presenter, show_path: my_scrapbooks_path} %>
   </div>
 </div>
-
-<%= render partial: 'memories/create_scrapbook' %>
-
-<script type="text/javascript">
-  var createScrapbookController = new CreateScrapbookController();
-</script>
