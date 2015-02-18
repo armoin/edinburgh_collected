@@ -31,6 +31,7 @@ gem 'pg',                           '~> 0.17.1'
 gem 'pg_search',                    '~> 0.7.8'
 gem 'judge',                        '~> 2.0.5'
 gem 'file_validators',              '~> 1.2.0'
+gem 'possessive',                   '~> 1.0.0'
 
 group :doc do
   gem 'sdoc',                       '~> 0.4.0'

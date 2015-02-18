@@ -7,16 +7,19 @@ describe 'memories/user_index.html.erb' do
   let(:scrapbooks_count) { 0 }
   let(:memories)         { Array.new(memories_count) {|i| Fabricate.build(:memory, id: i+1)} }
   let(:paged_memories)   { Kaminari.paginate_array(memories).page(1) }
-  let(:presenter)        { double('presenter') }
+  
+  let(:presenter) { OpenStruct.new(
+    requested_user:    requested_user,
+    memories_count:    memories_count,
+    scrapbooks_count:  scrapbooks_count,
+    paged_memories:    paged_memories,
+    page_title:        'Foo',
+    can_add_memories?: current_user == requested_user
+  )}
 
   before :each do
     allow(view).to receive(:current_user).and_return(current_user)
-    
-    allow(presenter).to receive(:requested_user).and_return(requested_user)
-    allow(presenter).to receive(:memories_count).and_return(memories_count)
-    allow(presenter).to receive(:scrapbooks_count).and_return(scrapbooks_count)
-    allow(presenter).to receive(:paged_memories).and_return(paged_memories)
-
+   
     assign(:presenter, presenter)
   end
 
