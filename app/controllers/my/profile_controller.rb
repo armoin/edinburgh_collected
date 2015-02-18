@@ -22,15 +22,7 @@ class My::ProfileController < My::AuthenticatedUserController
   end
 
   def user_params
-    params.require(:user).permit(
-      :first_name,
-      :last_name,
-      :screen_name,
-      :is_group,
-      :email,
-      :password,
-      :password_confirmation
-    )
+    UserParamCleaner.clean(params)
   end
 end
 

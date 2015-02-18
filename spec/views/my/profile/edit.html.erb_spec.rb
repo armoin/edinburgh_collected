@@ -70,6 +70,20 @@ describe 'my/profile/edit.html.erb' do
         expect(rendered).to have_css('.form-group[aria-required="true"] input[type="text"]#user_screen_name')
       end
     end
+
+    describe 'description' do
+      it 'has the label "How would you describe yourself to other users?"' do
+        expect(rendered).to have_css('label[for="user_description"]', text: "How would you describe yourself to other users?")
+      end
+
+      it "asks the user to give a brief description of themselves" do
+        expect(rendered).to have_css('textarea#user_description')
+      end
+
+      it "is not required" do
+        expect(rendered).not_to have_css('.form-group[aria-required="true"] textarea#user_description')
+      end
+    end
     
     describe 'password' do
       it "asks for the user's password" do
