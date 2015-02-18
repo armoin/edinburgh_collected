@@ -29,4 +29,3 @@ def stub_memories(number=1)
            updated_at: n.days.ago)
   end
 end
-

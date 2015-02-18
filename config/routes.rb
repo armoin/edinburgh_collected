@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
     get '/profile' => 'profile#show'
     get '/profile/edit' => 'profile#edit'
-    put '/profile' => 'profile#update'
+    patch '/profile' => 'profile#update'
   end
   resources :memories
   resources :scrapbooks, only: [:index, :show]
