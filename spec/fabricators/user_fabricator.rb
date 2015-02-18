@@ -6,6 +6,7 @@ Fabricator(:user) do
   password              { generate_password }
   password_confirmation { |attrs| attrs[:password] }
   accepted_t_and_c      true
+  description           "I am a fabricated user."
 end
 
 Fabricator(:active_user, from: :user) do

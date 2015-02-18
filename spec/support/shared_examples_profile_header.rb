@@ -28,6 +28,10 @@ RSpec.shared_examples 'a profile headed page' do
       it "does not display a link to edit the user's profile" do
         expect(rendered).not_to have_link('Edit', href: my_profile_edit_path)
       end
+
+      it "displays the requested user's description" do
+        expect(rendered).to have_css('p.sub', text: requested_user.description)
+      end
     end
 
     context 'when the user is logged in' do
@@ -49,6 +53,10 @@ RSpec.shared_examples 'a profile headed page' do
         it "displays a link to edit the user's profile" do
           expect(rendered).to have_link('Edit', href: my_profile_edit_path)
         end
+
+        it "does not display the requested user's description" do
+          expect(rendered).not_to have_css('p.sub', text: requested_user.description)
+        end
       end
 
       context 'and is not the requested user' do
@@ -68,6 +76,10 @@ RSpec.shared_examples 'a profile headed page' do
 
         it "does not display a link to edit the user's profile" do
           expect(rendered).not_to have_link('Edit', href: my_profile_edit_path)
+        end
+
+        it "displays the requested user's description" do
+          expect(rendered).to have_css('p.sub', text: requested_user.description)
         end
       end
     end
