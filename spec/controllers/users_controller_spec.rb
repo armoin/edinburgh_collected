@@ -11,6 +11,11 @@ describe UsersController do
       expect(assigns[:user]).to be_new_record
     end
 
+    it 'builds a new link' do
+      expect(assigns[:user].links.length).to eql(1)
+      expect(assigns[:user].links.last).to be_new_record
+    end
+
     it 'renders the signup page' do
       expect(response).to render_template(:new)
     end

@@ -7,7 +7,7 @@
 
       <h1 class="form-title">Change details</h1>
 
-      <%= form_for @user, url: my_profile_path, html: {class: 'form-horizontal edit_user', role: 'form'} do |form| %>
+      <%= nested_form_for @user, url: my_profile_path, html: {class: 'form-horizontal edit_user', role: 'form'} do |form| %>
 
         <%= render partial: 'users/details_form', locals: {form: form, user: @user} %>
 

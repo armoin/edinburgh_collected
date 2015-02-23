@@ -5,6 +5,7 @@ class My::ProfileController < My::AuthenticatedUserController
   end
 
   def edit
+    @user.links.build unless @user.links.any?
   end
 
   def update

@@ -295,4 +295,43 @@ describe User do
       end
     end
   end
+
+  describe 'links' do
+    it 'accepts nested link attributes' do
+      expect(subject).to accept_nested_attributes_for(:links).allow_destroy(true)
+    end
+
+    describe 'a user' do
+      it 'can add a link to their profile' do
+        name = 'My site'
+        url = 'http://www.example.com'
+        
+        subject.links.build(name: name, url: url)
+
+        expect(subject.links.length).to eql(1)
+
+        expect(subject.links.first.name).to eql(name)
+        expect(subject.links.first.url).to eql(url)
+      end
+
+      it 'can have more that one URL' do
+        name_1 = 'My site'
+        url_1 = 'http://www.example.com'
+        
+        name_2 = 'My other site'
+        url_2 = 'http://www.other_example.com'
+        
+        subject.links.build(name: name_1, url: url_1)
+        subject.links.build(name: name_2, url: url_2)
+
+        expect(subject.links.length).to eql(2)
+
+        expect(subject.links.first.name).to eql(name_1)
+        expect(subject.links.first.url).to eql(url_1)
+
+        expect(subject.links.last.name).to eql(name_2)
+        expect(subject.links.last.url).to eql(url_2)
+      end
+    end
+  end
 end

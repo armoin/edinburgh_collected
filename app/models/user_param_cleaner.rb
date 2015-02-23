@@ -9,8 +9,8 @@ class UserParamCleaner
       :password,
       :password_confirmation,
       :accepted_t_and_c,
-      :description
+      :description,
+      links_attributes: [:id, :name, :url, :_destroy]
     )
   end
 end
-

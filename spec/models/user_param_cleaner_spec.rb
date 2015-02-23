@@ -10,7 +10,13 @@ def user_allowed_params
     password:              'password',
     password_confirmation: 'password',
     accepted_t_and_c:      true,
-    description:           'Test description.'
+    description:           'Test description.',
+    links_attributes: {
+      0 => {
+        name: 'Test',
+        url:  'http://www.example.com'
+      }
+    }
   }
 end
 

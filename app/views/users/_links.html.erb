@@ -1,0 +1,3 @@
+<% requested_user.links.each do |link| -%>
+  <p class="link"><strong><%= link.name %>:</strong> <%= link_to link.url, link.url %></p>
+<% end -%>
