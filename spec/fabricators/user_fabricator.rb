@@ -1,7 +1,7 @@
 Fabricator(:user) do
   first_name            { Faker::Name.first_name }
   last_name             { Faker::Name.last_name }
-  screen_name           { |attrs| attrs[:first_name] }
+  screen_name           { sequence(:screen_name) {|i| [Faker::Name.first_name, i.to_s].join('_')} }
   email                 { Faker::Internet.email }
   password              { generate_password }
   password_confirmation { |attrs| attrs[:password] }

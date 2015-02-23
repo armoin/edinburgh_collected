@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 RSpec.shared_examples 'a profile headed page' do
+  let(:links) { [] }
+
   before :each do
+    requested_user.links << links
     render
   end
 
@@ -32,6 +35,26 @@ RSpec.shared_examples 'a profile headed page' do
       it "displays the requested user's description" do
         expect(rendered).to have_css('p.sub', text: requested_user.description)
       end
+
+      context "when the user has no links" do
+        let(:links) { [] }
+
+        it "does not display the requested user's links" do
+          expect(rendered).not_to have_css('p.link')
+          expect(rendered).not_to have_css('p.link a')
+        end
+      end
+
+      context "when the user has links" do
+        let(:links) { build_array(2, :link) }
+
+        it "displays the requested user's links" do
+          links.each do |link|
+            expect(rendered).to have_css('p.link', text: link.name, count: 1)
+            expect(rendered).to have_css("p.link a[href=\"#{link.url}\"]", text: link.url, count: 1)
+          end 
+        end
+      end
     end
 
     context 'when the user is logged in' do
@@ -57,6 +80,24 @@ RSpec.shared_examples 'a profile headed page' do
         it "does not display the requested user's description" do
           expect(rendered).not_to have_css('p.sub', text: requested_user.description)
         end
+
+        context "when the user has no links" do
+          let(:links) { [] }
+
+          it "does not display the requested user's links" do
+            expect(rendered).not_to have_css('p.link')
+            expect(rendered).not_to have_css('p.link a')
+          end
+        end
+
+        context "when the user has links" do
+          let(:links) { build_array(2, :link) }
+
+          it "does not display the requested user's links" do
+            expect(rendered).not_to have_css('p.link')
+            expect(rendered).not_to have_css('p.link a')
+          end
+        end
       end
 
       context 'and is not the requested user' do
@@ -80,6 +121,26 @@ RSpec.shared_examples 'a profile headed page' do
 
         it "displays the requested user's description" do
           expect(rendered).to have_css('p.sub', text: requested_user.description)
+        end
+
+        context "when the user has no links" do
+          let(:links) { [] }
+
+          it "does not display the requested user's links" do
+            expect(rendered).not_to have_css('p.link')
+            expect(rendered).not_to have_css('p.link a')
+          end
+        end
+
+        context "when the user has links" do
+          let(:links) { build_array(2, :link) }
+
+          it "displays the requested user's links" do
+            links.each do |link|
+              expect(rendered).to have_css('p.link', text: link.name, count: 1)
+              expect(rendered).to have_css("p.link a[href=\"#{link.url}\"]", text: link.url, count: 1)
+            end 
+          end
         end
       end
     end

@@ -1,8 +1,11 @@
 require 'rails_helper'
 
 describe 'users/new.html.erb' do
+  let(:user) { User.new }
+
   before :each do
-    assign(:user, User.new)
+    user.links.build
+    assign(:user, user)
     render
   end
 
@@ -18,16 +21,8 @@ describe 'users/new.html.erb' do
       end
     end
     
-    describe 'first_name' do
-      it "asks for the user's first name" do
-        expect(rendered).to have_css('input[type="text"]#user_first_name')
-      end
+    it_behaves_like 'a user detail form'
 
-      it "is required" do
-        expect(rendered).to have_css('.form-group[aria-required="true"] input[type="text"]#user_first_name')
-      end
-    end
-    
     describe 'last_name' do
       it "asks for the user's last name" do
         expect(rendered).to have_css('input[type="text"]#user_last_name')
@@ -37,42 +32,20 @@ describe 'users/new.html.erb' do
         expect(rendered).to have_css('.form-group[aria-required="true"] input[type="text"]#user_last_name')
       end
     end
-    
-    describe 'email' do
-      it "asks for the user's email address" do
-        expect(rendered).to have_css('input[type="email"]#user_email')
+
+    describe 'links' do
+      it "allows the user to add a link" do
+        expect(rendered).to have_css('input[type="text"]#user_links_attributes_0_name')
+        expect(rendered).to have_css('input[type="text"]#user_links_attributes_0_url')
       end
 
-      it "is required" do
-        expect(rendered).to have_css('.form-group[aria-required="true"] input[type="email"]#user_email')
-      end
-    end
-    
-    describe 'screen_name' do
-      it 'has the label "Username"' do
-        expect(rendered).to have_css('label[for="user_screen_name"]', text: "Username")
-      end
-
-      it "asks for the user's screen name" do
-        expect(rendered).to have_css('input[type="text"]#user_screen_name')
-      end
-
-      it "is required" do
-        expect(rendered).to have_css('.form-group[aria-required="true"] input[type="text"]#user_screen_name')
-      end
-    end
-
-    describe 'description' do
-      it 'has the label "How would you describe yourself to other users?"' do
-        expect(rendered).to have_css('label[for="user_description"]', text: "How would you describe yourself to other users?")
-      end
-
-      it "asks the user to give a brief description of themselves" do
-        expect(rendered).to have_css('textarea#user_description')
+      it "lets the user add another url" do
+        expect(rendered).to have_css('a.add_nested_fields[data-association="links"]', text: 'Add another')
       end
 
       it "is not required" do
-        expect(rendered).not_to have_css('.form-group[aria-required="true"] textarea#user_description')
+        expect(rendered).not_to have_css('.form-group[aria-required="true"] input[type="text"]#user_links_attributes_0_name')
+        expect(rendered).not_to have_css('.form-group[aria-required="true"] input[type="text"]#user_links_attributes_0_url')
       end
     end
     
