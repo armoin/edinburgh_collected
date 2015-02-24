@@ -16,6 +16,11 @@ describe UsersController do
       expect(assigns[:user].links.last).to be_new_record
     end
 
+    it 'assigns a new TempImage for the file uploader' do
+      expect(assigns[:temp_image]).to be_new_record
+      expect(assigns[:temp_image]).to be_a(TempImage)
+    end
+
     it 'renders the signup page' do
       expect(response).to render_template(:new)
     end

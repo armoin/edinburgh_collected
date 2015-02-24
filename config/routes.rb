@@ -14,6 +14,8 @@ Rails.application.routes.draw do
     get '/profile' => 'profile#show'
     get '/profile/edit' => 'profile#edit'
     patch '/profile' => 'profile#update'
+
+    post '/temp_images' => 'temp_images#create'
   end
   resources :memories
   resources :scrapbooks, only: [:index, :show]

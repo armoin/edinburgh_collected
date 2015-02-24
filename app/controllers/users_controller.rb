@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   def new
     @user = User.new
     @user.links.build
+    @temp_image = TempImage.new
   end
 
   def create
