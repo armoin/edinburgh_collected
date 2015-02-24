@@ -196,6 +196,19 @@ span.button.memories:hover
   background-color: $blue !important
   cursor: default
 
+.button.cancel, .button.forgot
+  background-color: inherit
+  color: $navy-blue
+  text-shadow: none
+  float: left !important
+  margin-left: 0 !important
+
+  &:hover
+    background-color: $navy-blue
+    color: white
+
+
+
 
 
 .search-buttons
@@ -221,7 +234,7 @@ span.button.memories:hover
     color: inherit
     text-shadow: inherit
     border: inherit
-    
+
 
 
 /* ==================================== PAGINATION */
@@ -1719,7 +1732,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     width: 100%
     margin-bottom: 4%
 
-  
+
 
 /* SCREEN SIZE: MOBILES */
 
@@ -2045,7 +2058,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       margin-bottom: 0.2em
       text-align: center
 
-  
+
   /* Memory page */
 
   .memory.full
@@ -2072,7 +2085,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         padding-right: 0
 
         .filters
-          padding-bottom: 1em 
+          padding-bottom: 1em
 
       #comments
         padding-left: 0
@@ -2163,13 +2176,13 @@ header .navbar .navbar-collapse ul.nav li a.feedback
   .modal-body
     max-height: 2400px
 
-  
+
 /* SCREEN SIZE: SMALL MOBILES */
 
 @media (max-width: 480px)
 
   footer
-  
+
     #councilLogo, #nestaLogo
       img
         width: 40%
@@ -2348,4 +2361,4 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 /* IE 10+ (because browser hacks don't work after IE9) */
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
 
-  
+
