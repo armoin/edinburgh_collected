@@ -39,10 +39,10 @@
     <div id="wrapper">
       <header id="main-header" class="container">
         <div id="masthead" class="clearfix container">
-          <div id="logo" class="col-xs-12 col-sm-2 col-md-2">
+          <div id="logo" class="col-xs-6 col-sm-4 col-md-3">
             <a class="navbar-brand" href="/" title="<%= APP_NAME %>">
               <span class="accessible-label">Home</span>
-              <%= image_tag "edinburgh-collected.png", alt: "#{APP_NAME} - Beta" %>
+              <%= image_tag "edinburgh-collected-logo.png", alt: "#{APP_NAME} - Beta" %>
             </a>
           </div>
 
@@ -100,7 +100,7 @@
             </nav>
           </div>
 
-          <div id="searchwrapper" class="dropdowns col-xs-12  col-sm-12 col-md-10">
+          <div id="searchwrapper" class="dropdowns col-xs-12  col-sm-8 col-md-9">
             <div class="searchForm col-xs-12 col-sm-12 col-md-6">
               <%= form_tag search_memories_path, method: :get, role: 'form' do %>
                 <span class="toggleMenu" role="button" aria-label="Open menu">
