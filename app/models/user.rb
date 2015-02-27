@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  extend CarrierWave::Mount
+  mount_uploader :avatar, AvatarUploader
+
   authenticates_with_sorcery!
 
   has_many :memories, dependent: :destroy

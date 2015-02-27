@@ -1,23 +1,7 @@
 require 'rails_helper'
 
 def user_allowed_params
-  {
-    first_name:            'Bobby',
-    last_name:             'Tables',
-    screen_name:           'BobbyT',
-    is_group:              false,
-    email:                 'bobby@example.com',
-    password:              'password',
-    password_confirmation: 'password',
-    accepted_t_and_c:      true,
-    description:           'Test description.',
-    links_attributes: {
-      0 => {
-        name: 'Test',
-        url:  'http://www.example.com'
-      }
-    }
-  }
+  Fabricate.attributes_for(:user)
 end
 
 describe UserParamCleaner do

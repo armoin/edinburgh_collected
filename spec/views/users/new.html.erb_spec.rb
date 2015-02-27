@@ -18,6 +18,12 @@ describe 'users/new.html.erb' do
   end
 
   describe 'form fields' do
+    describe 'remote_avatar_url' do
+      it 'has a hidden field for storing the remote_avatar_url' do
+        expect(rendered).to have_css('input[type="hidden"]#user_remote_avatar_url')
+      end
+    end
+
     describe 'is_group' do
       it 'has the label "How would you describe yourself to other users?"' do
         expect(rendered).to have_css('label[for="user_is_group"]', text: "Who is this account for?")

@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-class TempImageFileUploader < CarrierWave::Uploader::Base
+class AvatarUploader < CarrierWave::Uploader::Base
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
@@ -53,7 +53,7 @@ class TempImageFileUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
-
+  
   protected
 
   def secure_token

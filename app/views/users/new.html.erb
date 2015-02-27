@@ -7,19 +7,12 @@
 
       <h1 class="form-title">Sign up for an account</h1>
 
-      <%= form_for @temp_image, url: my_temp_images_path, html: {class: 'form-horizontal', role: 'form'} do |file_form| %>
-        <div class="form-group" aria-required="true">
-          <div class="formRow">
-            <%= file_form.label :file, 'Avatar', class: 'control-label' %>
-            <%= file_form.file_field :file %>
-            <% @temp_image.errors[:file].each do |error| %>
-              <span class="help-block"><%= error %></span>
-            <% end -%>
-          </div>
-        </div>
-      <% end -%>
+      <%= render partial: 'shared/temp_image_uploader', locals: {temp_image: @temp_image} %>
 
       <%= nested_form_for @user, url: signup_path, html: {class: 'form-horizontal', role: 'form'} do |form| %>
+
+        <%= form.hidden_field :remote_avatar_url, class: 'image_url' %>
+
         <div class="form-group">
           <div id="user_is_group" class="form-group">
             <div class="col-sm-5">

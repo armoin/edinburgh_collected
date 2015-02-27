@@ -1,6 +1,7 @@
 class UserParamCleaner
   def self.clean(params)
     params.require(:user).permit(
+      :remote_avatar_url,
       :first_name,
       :last_name,
       :screen_name,

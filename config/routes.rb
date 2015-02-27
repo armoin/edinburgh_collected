@@ -14,8 +14,6 @@ Rails.application.routes.draw do
     get '/profile' => 'profile#show'
     get '/profile/edit' => 'profile#edit'
     patch '/profile' => 'profile#update'
-
-    post '/temp_images' => 'temp_images#create'
   end
   resources :memories
   resources :scrapbooks, only: [:index, :show]
@@ -61,6 +59,8 @@ Rails.application.routes.draw do
   post '/signup' => 'users#create'
   get '/signin' => 'sessions#new'
   delete '/signout' => 'sessions#destroy'
+
+  post '/temp_images' => 'temp_images#create'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
