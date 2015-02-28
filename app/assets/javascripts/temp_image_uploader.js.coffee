@@ -10,13 +10,12 @@ fileUploading = (e, data) ->
 
 fileDidUpload = (e, data) ->
   imageUrl = data.result.file.url
-  console.log('data', data)
-  console.log('imageUrl', imageUrl)
   $('input[type="hidden"].image_url').val(imageUrl)
   data.context.hide()
 
 $ ->
   $('form#new_temp_image').fileupload
+    dataType: 'json'
     add: fileAdded
     progress: fileUploading
     done: fileDidUpload
