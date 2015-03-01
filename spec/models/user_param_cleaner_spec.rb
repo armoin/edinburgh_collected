@@ -1,7 +1,14 @@
 require 'rails_helper'
 
 def user_allowed_params
-  Fabricate.attributes_for(:user)
+  Fabricate.attributes_for(:user).merge({
+    image_data: {
+      rotation: 90,
+      scale: 0.89,
+      x: 50,
+      y: 90
+    }
+  })
 end
 
 describe UserParamCleaner do

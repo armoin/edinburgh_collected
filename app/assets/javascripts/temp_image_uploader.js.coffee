@@ -10,7 +10,7 @@ fileUploading = (e, data) ->
 
 fileDidUpload = (e, data) ->
   imageUrl = data.result.file.url
-  $('input[type="hidden"].image_url').val(imageUrl)
+  $('input[type="hidden"].image_url').val(imageUrl).trigger('imageUrlDidSet')
   data.context.hide()
 
 $ ->

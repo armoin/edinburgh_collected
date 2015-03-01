@@ -11,6 +11,7 @@ class UserParamCleaner
       :password_confirmation,
       :accepted_t_and_c,
       :description,
+      image_data: [:rotation, :scale, :x, :y],
       links_attributes: [:id, :name, :url, :_destroy]
     )
   end

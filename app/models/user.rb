@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :scrapbooks, dependent: :destroy
   has_many :links, dependent: :destroy
 
-  attr_accessor :password, :password_confirmation
+  attr_accessor :password, :password_confirmation, :image_data
 
   before_validation :downcase_email
   before_update :send_activation, if: :email_changed?

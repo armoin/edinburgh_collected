@@ -296,6 +296,12 @@ describe User do
     end
   end
 
+  describe '#image_data' do
+    it 'can have associated image data' do
+      expect(subject).to respond_to(:image_data)
+    end
+  end
+
   describe 'links' do
     it 'accepts nested link attributes' do
       expect(subject).to accept_nested_attributes_for(:links).allow_destroy(true)
