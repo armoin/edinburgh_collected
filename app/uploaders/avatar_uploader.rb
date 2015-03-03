@@ -1,19 +1,10 @@
 # encoding: utf-8
 
 class AvatarUploader < CarrierWave::Uploader::Base
-
-  # Include RMagick or MiniMagick support:
-  # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
+  include CarrierWave::MiniMagick
 
   WHITE_LIST = %w(JPG JPEG GIF PNG jpg jpeg gif png)
 
-  # Choose what kind of storage to use for this uploader:
-  # storage :file
-  # storage :fog
-
-  # Override the directory where uploaded files will be stored.
-  # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
   end
@@ -22,37 +13,37 @@ class AvatarUploader < CarrierWave::Uploader::Base
     "#{secure_token}.#{ext}" if original_filename.present?
   end
 
-  # Provide a default URL as a default if there hasn't been a file uploaded:
-  # def default_url
-  #   # For Rails 3.1+ asset pipeline compatibility:
-  #   # ActionController::Base.helpers.asset_path("fallback/" + [version_name, "default.png"].compact.join('_'))
-  #
-  #   "/images/fallback/" + [version_name, "default.png"].compact.join('_')
-  # end
+  def rotate
+    manipulate! do |img|
+      img.tap {|i| i.rotate angle }
+    end
+  end
 
-  # Process files as they are uploaded:
-  # process :scale => [200, 300]
-  #
-  # def scale(width, height)
-  #   # do something
-  # end
+  def resize
+    manipulate! do |img|
+      img.tap {|i| i.resize scale_percent }
+    end
+  end
 
-  # Create different versions of your uploaded files:
-  # version :thumb do
-  #   process :resize_to_fit => [50, 50]
-  # end
+  def crop
+    manipulate! do |img|
+      img.tap {|i| i.crop crop_geometry }
+    end
+  end
+
+  process :rotate, if: :is_rotated?
+  process :resize, if: :is_scaled?
+  process :crop,   if: :is_cropped?
 
   # Add a white list of extensions which are allowed to be uploaded.
   # For images you might use something like this:
-  # def extension_white_list
-  #   %w(jpg jpeg gif png)
-  # end
-
-  # Override the filename of the uploaded files:
-  # Avoid using model.id or version_name here, see uploader/store.rb for details.
-  # def filename
-  #   "something.jpg" if original_filename
-  # end
+  def extension_white_list
+    if !WHITE_LIST.include?(file.extension) && WHITE_LIST.include?(filetype)
+      [file.extension]
+    else
+      %w(JPG JPEG GIF PNG jpg jpeg gif png)
+    end
+  end
   
   protected
 
@@ -67,5 +58,40 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   def ext
     @ext ||= WHITE_LIST.include?(file.extension) ? file.extension : filetype
+  end
+
+  private
+
+  def has_image_data?
+  end
+
+  def is_rotated?(file)
+    model.image_data && model.image_data[:angle].present?
+  end
+
+  def is_scaled?(file)
+    model.image_data && model.image_data[:scale].present?
+  end
+
+  def is_cropped?(file)
+    model.image_data && 
+      model.image_data[:w].present? &&
+      model.image_data[:h].present? &&
+      model.image_data[:x].present? &&
+      model.image_data[:y].present?
+  end
+
+  def angle
+    model.image_data[:angle].to_s
+  end
+
+  def scale_percent
+    "#{model.image_data[:scale].to_f * 100}%"
+  end
+
+  def crop_geometry
+    dimensions  = "#{model.image_data[:w]}x#{model.image_data[:h]}"
+    coordinates = "+#{model.image_data[:x]}+#{model.image_data[:y]}"
+    "#{dimensions}#{coordinates}"
   end
 end
