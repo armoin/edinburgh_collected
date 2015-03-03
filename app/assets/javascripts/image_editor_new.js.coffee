@@ -4,6 +4,7 @@ $ ->
   image.on 'load', ->
     image.guillotine { width: 90, height: 90, eventOnChange: 'imageDidChange' }
     image.guillotine 'fit'
+    image.find('.progress').hide()
     image.show()
 
     $('[data-action]').on 'click', (e) ->

@@ -11,7 +11,6 @@ fileUploading = (e, data) ->
 fileDidUpload = (e, data) ->
   imageUrl = data.result.file.url
   $('input[type="hidden"].image_url').val(imageUrl).trigger('imageUrlDidSet')
-  data.context.hide()
 
 $ ->
   $('form#new_temp_image').fileupload
