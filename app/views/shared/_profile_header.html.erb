@@ -14,14 +14,15 @@
   <% else -%>
 
     <%= image_tag "avatar.png" %>
-
     <h1 class="title">
       <%= requested_user.try(:screen_name) %>
     </h1>
 
-    <p class="sub"><%= requested_user.description %></p>
-
-    <%= render partial: 'users/links', locals: {requested_user: requested_user} %>
   <% end -%>
+
+  <p class="sub"><%= requested_user.description %></p>
+
+  <%= render partial: 'users/links', locals: {requested_user: requested_user} %>
+  
 </header>
 

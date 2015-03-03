@@ -77,8 +77,8 @@ RSpec.shared_examples 'a profile headed page' do
           expect(rendered).to have_link('Edit', href: my_profile_edit_path)
         end
 
-        it "does not display the requested user's description" do
-          expect(rendered).not_to have_css('p.sub', text: requested_user.description)
+        it "displays the requested user's description" do
+          expect(rendered).to have_css('p.sub', text: requested_user.description)
         end
 
         context "when the user has no links" do
@@ -93,9 +93,9 @@ RSpec.shared_examples 'a profile headed page' do
         context "when the user has links" do
           let(:links) { build_array(2, :link) }
 
-          it "does not display the requested user's links" do
-            expect(rendered).not_to have_css('p.link')
-            expect(rendered).not_to have_css('p.link a')
+          it "displays the requested user's links" do
+            expect(rendered).to have_css('p.link')
+            expect(rendered).to have_css('p.link a')
           end
         end
       end
