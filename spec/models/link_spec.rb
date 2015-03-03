@@ -33,4 +33,32 @@ describe Link do
       end
     end
   end
+
+  describe 'url_without_protocol' do
+    subject { Fabricate.build(:link) }
+
+    it 'supplies the URL without an http protocol' do
+      subject.url = 'http://www.example.com'
+      expect(subject.url_without_protocol).to eql('www.example.com')
+    end
+
+    it 'supplies the URL without an https protocol' do
+      subject.url = 'https://www.example.com'
+      expect(subject.url_without_protocol).to eql('www.example.com')
+    end
+
+    # this is to make it easy to see when people are adding links with
+    # bad protocols
+    context 'when URL does not begin with http/https' do
+      it 'shows ftp' do
+        subject.url = 'ftp://www.example.com'
+        expect(subject.url_without_protocol).to eql('ftp://www.example.com')
+      end
+
+      it 'shows git' do
+        subject.url = 'git://www.example.com'
+        expect(subject.url_without_protocol).to eql('git://www.example.com')
+      end
+    end
+  end
 end
