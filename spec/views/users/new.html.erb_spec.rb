@@ -39,6 +39,10 @@ describe 'users/new.html.erb' do
         expect(rendered).to have_css('input[type="text"]#user_links_attributes_0_url')
       end
 
+      it "has no autocapitalization on URL field" do
+        expect(rendered).to have_css('input[type="text"]#user_links_attributes_0_url[autocapitalize="none"]')
+      end
+
       it "lets the user add another url" do
         expect(rendered).to have_css('a.add_nested_fields[data-association="links"]', text: 'Add another')
       end

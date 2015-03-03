@@ -62,7 +62,7 @@
         <% end -%>
 
         <%= link_fields.label :url, class: "control-label" %>
-        <%= link_fields.text_field :url, class: 'form-control' %>
+        <%= link_fields.text_field :url, class: 'form-control', autocapitalize: :none %>
         <% link_fields.object.errors[:url].each do |error| -%>
           <span class="help-block"><%= error %></span>
         <% end -%>
