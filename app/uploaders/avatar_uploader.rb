@@ -62,9 +62,6 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   private
 
-  def has_image_data?
-  end
-
   def is_rotated?(file)
     model.image_data && model.image_data[:angle].present?
   end
