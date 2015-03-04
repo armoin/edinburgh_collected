@@ -28,6 +28,7 @@ AWS_SECRET_ACCESS_KEY: <your AWS_SECRET_ACCESS_KEY here>
 # 
 # RACKSPACE_USERNAME: <your RACKSPACE_USERNAME here>
 # RACKSPACE_API_KEY:  <your RACKSPACE_API_KEY here>
+# RACKSPACE_USE_SSL:  <get SSL urls for uploaded files true|false>
 # ASSET_HOST:         <your ASSET_HOST here>
 
 # DEFAULT ADMIN USER

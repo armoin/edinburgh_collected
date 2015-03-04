@@ -3,7 +3,7 @@ CarrierWave.configure do |config|
     config.enable_processing = false
   else
     if ENV['PROVIDER'] == 'Rackspace'
-      
+
       config.storage    = :fog
       config.fog_public = true
 
@@ -13,14 +13,15 @@ CarrierWave.configure do |config|
         :rackspace_username => ENV['RACKSPACE_USERNAME'],
         :rackspace_api_key  => ENV['RACKSPACE_API_KEY'],
         :rackspace_auth_url => Fog::Rackspace::UK_AUTH_ENDPOINT,
-        :rackspace_region   => :lon
+        :rackspace_region   => :lon,
+        :rackspace_cdn_ssl  => ENV['RACKSPACE_USE_SSL']
       }
 
       config.fog_directory = ENV['STORE_DIR']
       config.asset_host    = ENV['ASSET_HOST']
 
     elsif ENV['PROVIDER'] == 'AWS'
-      
+
       config.storage    = :fog
       config.fog_public = true
 
@@ -31,13 +32,13 @@ CarrierWave.configure do |config|
         :aws_secret_access_key  => ENV['AWS_SECRET_ACCESS_KEY'],
         :region                 => 'eu-west-1',
       }
-    
+
       config.fog_directory = ENV['STORE_DIR']
 
     else
 
       config.storage = :file
-      
+
     end
 
     config.cache_dir = "#{Rails.root}/#{ENV['CACHE_DIR']}/uploads"
