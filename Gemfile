@@ -21,7 +21,6 @@ gem 'fog',                          '~> 1.25.0'
 gem 'figaro',                       '~> 1.0.0'
 gem 'sorcery',                      '~> 0.8.6'
 gem 'geocoder',                     '~> 1.2.4'
-gem 'simple_form',                  '~> 3.0.2'
 gem 'email_validator',              '~> 1.4.0'
 gem 'fabrication',                  '~> 2.11.3'
 gem 'ffaker',                       '~> 1.25.0'
@@ -31,6 +30,9 @@ gem 'pg',                           '~> 0.17.1'
 gem 'pg_search',                    '~> 0.7.8'
 gem 'judge',                        '~> 2.0.5'
 gem 'file_validators',              '~> 1.2.0'
+gem 'possessive',                   '~> 1.0.0'
+gem 'validate_url',                 '~> 1.0.0'
+gem 'nested_form',                  '~> 0.3.2'
 
 group :doc do
   gem 'sdoc',                       '~> 0.4.0'
@@ -50,6 +52,7 @@ group :development, :test do
   gem 'timecop',                    '~> 0.7.1'
   gem 'jazz_hands', github: 'nixme/jazz_hands', branch: 'bring-your-own-debugger'
   gem 'pry-byebug'
+  gem 'shoulda-matchers',           require: false
 end
 
 group :test do

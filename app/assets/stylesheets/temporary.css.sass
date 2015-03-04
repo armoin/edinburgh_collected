@@ -773,8 +773,10 @@ button#create-scrapbook-button
 
         a.userAvatar
           vertical-align: top
+          text-decoration: none
 
           img
+            vertical-align: top
             width: 50px
 
         #user-details
@@ -1436,6 +1438,15 @@ form
       .field_with_errors
         display: inline-block
 
+    fieldset
+      border: 1px solid #ccc
+      padding: 0.4em
+      margin-bottom: 0.4em
+
+      .actions
+        margin: 0
+        border-top: 0
+
   div.tagsinput
     +border-radius(4px)
 
@@ -1443,6 +1454,7 @@ form
       border-color: #2e6da4
       background-color: #337ab7
       color: white
+
 
 .modal
   form
@@ -1459,8 +1471,7 @@ form
     label
       text-align: left!important
     .actions > *
-      float: right
-      margin-left: 1em
+      margin-left: 10px
 
   #user_is_group
     text-align: left

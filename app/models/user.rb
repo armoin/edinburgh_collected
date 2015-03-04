@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
 
   has_many :memories, dependent: :destroy
   has_many :scrapbooks, dependent: :destroy
+  has_many :links, dependent: :destroy
 
   attr_accessor :password, :password_confirmation
 
@@ -16,9 +17,15 @@ class User < ActiveRecord::Base
   validates :password, length: { minimum: 3 }, confirmation: true, if: :password_changed?
   validates :accepted_t_and_c, presence: { message: 'must be accepted' }
 
+  accepts_nested_attributes_for :links, allow_destroy: true, reject_if: :all_blank
+
   # Email is downcased before validating so always check for downcased email
   def self.find_by_email(email)
     where('LOWER(email) = ?', email.downcase).first
+  end
+
+  def self.active
+    where(activation_state: 'active')
   end
 
   def can_modify?(object)

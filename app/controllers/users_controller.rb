@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   def new
     @user = User.new
+    @user.links.build
   end
 
   def create
@@ -24,16 +25,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(
-      :first_name,
-      :last_name,
-      :screen_name,
-      :is_group,
-      :email,
-      :password,
-      :password_confirmation,
-      :accepted_t_and_c
-    )
+    UserParamCleaner.clean(params)
   end
 end
 

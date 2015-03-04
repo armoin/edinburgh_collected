@@ -35,14 +35,34 @@ describe My::ProfileController do
     end
 
     context 'when logged in' do
+      let(:link_count) { 0 }
+      let(:links)      { build_array(link_count, :link) }
+
       before :each do
-        @user = Fabricate(:user)
+        @user = Fabricate(:user, links: links)
         login_user
         get :edit
       end
 
       it 'assigns the current user' do
         expect(assigns[:user]).to eql(@user)
+      end
+
+      context 'when the user has not got any links yet' do
+        let(:link_count) { 0 }
+
+        it 'builds a new link' do
+          expect(@user.links.length).to eql(link_count + 1)
+          expect(@user.links.last).to be_new_record
+        end
+      end
+
+      context 'when the user has links already' do
+        let(:link_count) { 2 }
+
+        it 'does not build a new link' do
+          expect(@user.links.length).to eql(link_count)
+        end
       end
 
       it 'renders the edit page' do

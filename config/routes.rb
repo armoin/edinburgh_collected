@@ -13,7 +13,7 @@ Rails.application.routes.draw do
 
     get '/profile' => 'profile#show'
     get '/profile/edit' => 'profile#edit'
-    put '/profile' => 'profile#update'
+    patch '/profile' => 'profile#update'
   end
   resources :memories
   resources :scrapbooks, only: [:index, :show]
@@ -46,6 +46,8 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:new, :create] do
+    resources :memories,   only: [:index], controller: 'users/memories',   action: 'index'
+    resources :scrapbooks, only: [:index], controller: 'users/scrapbooks', action: 'index'
     member do
       get :activate
     end

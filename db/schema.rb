@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150209103025) do
+ActiveRecord::Schema.define(version: 20150220042428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,14 @@ ActiveRecord::Schema.define(version: 20150209103025) do
   create_table "categories_memories", force: true do |t|
     t.integer "category_id"
     t.integer "memory_id"
+  end
+
+  create_table "links", force: true do |t|
+    t.string   "name"
+    t.string   "url"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "memories", force: true do |t|
@@ -113,7 +121,7 @@ ActiveRecord::Schema.define(version: 20150209103025) do
 
   create_table "users", force: true do |t|
     t.string   "first_name",                                      null: false
-    t.string   "last_name",                                       null: false
+    t.string   "last_name"
     t.string   "email",                                           null: false
     t.string   "crypted_password",                                null: false
     t.string   "salt",                                            null: false
@@ -129,6 +137,7 @@ ActiveRecord::Schema.define(version: 20150209103025) do
     t.boolean  "is_group",                        default: false
     t.boolean  "is_admin",                        default: false
     t.boolean  "accepted_t_and_c"
+    t.text     "description"
   end
 
   add_index "users", ["activation_token"], name: "index_users_on_activation_token", using: :btree

@@ -1,39 +1,22 @@
 <div class="container">
- <header id="formHeader" class="row">
-<!--
-  <div class="step step1 col-md-4">
-   <span>1</span> Choose the type of file
-  </div>
-  <div class="step step2 col-md-4">
-   <span>2</span> Upload your memory
-  </div>
-  <div class="step step3 col-md-4">
-   <span>3</span> Upload Complete
-  </div>
- -->
- </header>
+  <header id="formHeader" class="row">
+  </header>
 
- <div id="password" class="formWrapper row">
-  <div id="formPanel" class="col-md-6">
-    <h1 class="form-title">Choose a new password</h1>
+  <div id="password" class="formWrapper row">
+    <div id="formPanel" class="col-md-6">
+      <h1 class="form-title">Choose a new password</h1>
 
-    <%= simple_form_for @user,
-      url: password_reset_path(@token),
-      wrapper: :horizontal_form,
-      html: {method: :put, class: 'form-horizontal', role: 'form'} do |form| %>
+      <%= form_for @user, url: password_reset_path(@token), html: {class: 'form-horizontal reset_password', role: 'form'} do |form| %>
 
-      <%= form.error_notification %>
+        <%= render partial: 'users/password_form', locals: {form: form, user: @user} %>
 
-      <%= form.input :password, required: true, input_html: {class: 'form-control'} %>
-      <%= form.input :password_confirmation, input_html: {class: 'form-control'} %>
-
-      <div class="form-group">
-        <div class="actions">
-          <%= form.submit "Change password", class: "button green" %>
-          <%= link_to "Cancel", root_path, class: "button navy" %>
+        <div class="form-group">
+          <div class="actions col-xs-sm-12">
+            <%= link_to "Cancel", root_path, class: "button cancel" %>
+            <%= form.submit "Change password", class: "button green" %>
+          </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
-</div>
 </div>
