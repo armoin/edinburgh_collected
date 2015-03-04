@@ -65,5 +65,6 @@ end
 group :production do
   gem 'rails_12factor',             '~> 0.0.2'
   gem 'newrelic_rpm',               '~> 3.9.9.275'
+  gem 'therubyracer',               '~> 0.12.1'
 end
 
