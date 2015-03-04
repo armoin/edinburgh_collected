@@ -147,7 +147,8 @@ The app is setup to use [Mailcatcher](http://mailcatcher.me) in development so t
 gem install mailcatcher
 
 # run mailcatcher (runs as a daemon in the background)
-mailcatcher
+# Mailcatcher runs on port 1025 by default if you want to use that port (or another) remember to also change the config/development.rb SMTP settings
+mailcatcher --smtp-port 1035
 
 # view Mailcatcher inbox
 open http://localhost:1080
