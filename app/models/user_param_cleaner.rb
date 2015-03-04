@@ -1,7 +1,6 @@
 class UserParamCleaner
   def self.clean(params)
     params.require(:user).permit(
-      :remote_avatar_url,
       :first_name,
       :last_name,
       :screen_name,
@@ -11,7 +10,13 @@ class UserParamCleaner
       :password_confirmation,
       :accepted_t_and_c,
       :description,
-      image_data: [:rotation, :scale, :x, :y],
+      :image_angle,
+      :image_scale,
+      :image_w,
+      :image_h,
+      :image_x,
+      :image_y,
+      :remote_avatar_url,
       links_attributes: [:id, :name, :url, :_destroy]
     )
   end

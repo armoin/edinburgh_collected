@@ -63,32 +63,41 @@ class AvatarUploader < CarrierWave::Uploader::Base
   private
 
   def is_rotated?(file)
-    model.image_data && model.image_data[:angle].present?
+    present_and_non_zero?(model.image_angle)
   end
 
   def is_scaled?(file)
-    model.image_data && model.image_data[:scale].present?
+    present_and_positive?(model.image_scale)
   end
 
-  def is_cropped?(file)
-    model.image_data && 
-      model.image_data[:w].present? &&
-      model.image_data[:h].present? &&
-      model.image_data[:x].present? &&
-      model.image_data[:y].present?
+  def is_cropped?(file) 
+    present_and_positive?(model.image_w) && present_and_positive?(model.image_h)
   end
 
   def angle
-    model.image_data[:angle].to_s
+    model.image_angle.to_s
   end
 
   def scale_percent
-    "#{model.image_data[:scale].to_f * 100}%"
+    "#{model.image_scale.to_f * 100}%"
   end
 
   def crop_geometry
-    dimensions  = "#{model.image_data[:w]}x#{model.image_data[:h]}"
-    coordinates = "+#{model.image_data[:x]}+#{model.image_data[:y]}"
+    dimensions  = "#{model.image_w}x#{model.image_h}"
+    coordinates = "+#{coord(model.image_x)}+#{coord(model.image_y)}"
     "#{dimensions}#{coordinates}"
+  end
+
+  def present_and_positive?(value)
+    value.present? && value.to_f > 0
+  end
+
+  def present_and_non_zero?(value)
+    value.present? && value.to_f != 0
+  end
+
+  def coord(value)
+    return 0 if value.blank?
+    value
   end
 end

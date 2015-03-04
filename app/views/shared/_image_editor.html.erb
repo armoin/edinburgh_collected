@@ -24,7 +24,12 @@
         <span class="accessible-label">Rotate clockwise</span>
         <span class="glyphicon glyphicon-repeat"></span>
       </a>
-      <%= form.hidden_field :image_data %>
+      <%= form.hidden_field :image_angle %>
+      <%= form.hidden_field :image_scale %>
+      <%= form.hidden_field :image_w %>
+      <%= form.hidden_field :image_h %>
+      <%= form.hidden_field :image_x %>
+      <%= form.hidden_field :image_y %>
     </div>
   </footer>
 </div>

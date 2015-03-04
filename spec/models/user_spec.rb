@@ -297,8 +297,34 @@ describe User do
   end
 
   describe '#image_data' do
-    it 'can have associated image data' do
-      expect(subject).to respond_to(:image_data)
+    it 'can have an image angle' do
+      subject.image_angle = 270
+      expect(subject.image_angle).to eql(270)
+    end
+
+    it 'can have an image scale' do
+      subject.image_scale = 0.12345
+      expect(subject.image_scale).to eql(0.12345)
+    end
+
+    it 'can have an image width' do
+      subject.image_w = 90
+      expect(subject.image_w).to eql(90)
+    end
+
+    it 'can have an image height' do
+      subject.image_h = 90
+      expect(subject.image_h).to eql(90)
+    end
+
+    it 'can have an image x coord' do
+      subject.image_x = 5
+      expect(subject.image_x).to eql(5)
+    end
+
+    it 'can have an image y coord' do
+      subject.image_y = 12
+      expect(subject.image_y).to eql(12)
     end
   end
 

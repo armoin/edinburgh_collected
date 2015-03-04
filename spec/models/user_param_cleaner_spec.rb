@@ -2,12 +2,12 @@ require 'rails_helper'
 
 def user_allowed_params
   Fabricate.attributes_for(:user).merge({
-    image_data: {
-      rotation: 90,
-      scale: 0.89,
-      x: 50,
-      y: 90
-    }
+    image_angle: 270,
+    image_scale: 0.89,
+    image_w:     90,
+    image_h:     90,
+    image_x:      5,
+    image_y:     12
   })
 end
 
