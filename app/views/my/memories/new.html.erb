@@ -44,11 +44,9 @@
 
         <%= render partial: 'details_form', object: @memory, locals: {form: form} %>
 
-        <div class="form-group">
-          <div class="actions">
-            <%= link_to "Cancel", current_memory_index_path, class: "button cancel" %>
-            <%= form.submit "Save", class: "button memories" %>
-          </div>
+        <div class="actions">
+          <%= form.submit "Save", class: "button memories" %>
+          <%= link_to "Cancel", current_memory_index_path, class: "button cancel" %>
         </div>
       <% end -%>
     </div>
