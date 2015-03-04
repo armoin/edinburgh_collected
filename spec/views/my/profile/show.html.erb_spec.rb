@@ -12,7 +12,7 @@ describe 'my/profile/show.html.erb' do
   end
 
   it 'shows the avatar' do
-    expect(rendered).to have_css('img[src="/assets/avatar.png"]')
+    expect(rendered).to have_css('.userAvatar img')
   end
 
   it 'shows the username' do

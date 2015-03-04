@@ -13,6 +13,10 @@ class AvatarUploader < CarrierWave::Uploader::Base
     "#{secure_token}.#{ext}" if original_filename.present?
   end
 
+  def default_url(*args)
+    "fallback/" + [version_name, "default_avatar.png"].compact.join('_')
+  end
+
   def rotate
     manipulate! do |img|
       img.tap {|i| i.rotate angle }

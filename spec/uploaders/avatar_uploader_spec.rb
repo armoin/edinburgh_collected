@@ -26,6 +26,12 @@ describe AvatarUploader, slow: true do
     let(:model_name)   { 'user' }
     it_behaves_like 'a base image uploader'
 
+    describe '#default_url' do
+      it 'fallsback to the default avatar image' do
+        expect(uploader.default_url).to eql('fallback/default_avatar.png')
+      end
+    end
+
     describe "manipulation" do
       describe '#rotate' do
         it "rotates with the given image data" do

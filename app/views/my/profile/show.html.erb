@@ -2,7 +2,7 @@
   <div id="profile" class="row static">
     <div id="detailsPanel" class="col-sm-6">
       <header>
-        <span class="userAvatar"><%= image_tag "avatar.png" %></span>
+        <span class="userAvatar"><%= image_tag @user.avatar_url %></span>
         <h1 class="title"><%= @user.screen_name %></h1>
       </header>
 
