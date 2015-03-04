@@ -43,3 +43,15 @@ $(document).ready(function () {
 });
 
 
+$(document).ready(function () {
+
+ if ($(window).width() > 480) {
+  var windowHeight = $( window ).height();
+  var everythingElseHeight = $('#main-header').outerHeight() + $('#contentHeader').outerHeight() + $('#details header').outerHeight()
+  $('#image img').css( 'height', windowHeight - everythingElseHeight );
+ } else {
+  var windowHeight = $( window ).height();
+  $('#image img').css( 'max-height', windowHeight * 0.8 );
+
+  }
+})

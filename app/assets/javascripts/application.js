@@ -33,4 +33,5 @@
 //= require judge
 //= require jquery.mmenu.min
 //= require jquery_nested_form
+//= require lightbox.min
 //= require_tree .
