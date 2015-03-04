@@ -2,7 +2,6 @@ $ ->
   image = $('#image-rotation-box img')
 
   logData = (data) ->
-    console.log(data)
     $('#user_image_angle').val(data.angle)
     $('#user_image_scale').val(data.scale)
     $('#user_image_w').val(data.w)
@@ -11,7 +10,6 @@ $ ->
     $('#user_image_y').val(data.y)
 
   image.on 'load', ->
-    console.log('loaded...')
     image.guillotine 'remove'
     image.guillotine { width: 90, height: 90, eventOnChange: 'imageDidChange' }
     image.guillotine 'fit'
