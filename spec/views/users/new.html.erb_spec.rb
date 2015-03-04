@@ -20,7 +20,7 @@ describe 'users/new.html.erb' do
         expect(rendered).to have_css('input[type="radio"]#user_is_group_false')
       end
     end
-    
+
     it_behaves_like 'a user detail form'
 
     describe 'last_name' do
@@ -52,7 +52,7 @@ describe 'users/new.html.erb' do
         expect(rendered).not_to have_css('.form-group[aria-required="true"] input[type="text"]#user_links_attributes_0_url')
       end
     end
-    
+
     describe 'password' do
       it "asks for the user's password" do
         expect(rendered).to have_css('input[type="password"]#user_password')
@@ -62,7 +62,7 @@ describe 'users/new.html.erb' do
         expect(rendered).to have_css('.form-group[aria-required="true"] input[type="password"]#user_password')
       end
     end
-    
+
     describe 'password confirmation' do
       it "asks the user to confirm their password" do
         expect(rendered).to have_css('input[type="password"]#user_password_confirmation')
@@ -72,7 +72,7 @@ describe 'users/new.html.erb' do
         expect(rendered).to have_css('.form-group[aria-required="true"] input[type="password"]#user_password_confirmation')
       end
     end
-    
+
     describe 'accepting the T&Cs' do
       it "asks the user to accept the T&Cs" do
         expect(rendered).to have_css('input[type="checkbox"]#user_accepted_t_and_c')
@@ -85,10 +85,6 @@ describe 'users/new.html.erb' do
   end
 
   describe "form actions" do
-    it "cancels back to the home page" do
-      expect(rendered).to have_link('Cancel', root_path)
-    end
-
     describe "submitting" do
       it "submits to the signup path" do
         expect(rendered).to have_css("form#new_user[action=\"#{signup_path}\"]")
