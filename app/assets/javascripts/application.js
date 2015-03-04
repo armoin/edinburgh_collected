@@ -32,4 +32,5 @@
 //= require json2
 //= require judge
 //= require jquery.mmenu.min
+//= require lightbox.min
 //= require_tree .
