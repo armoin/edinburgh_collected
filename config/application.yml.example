@@ -1,4 +1,10 @@
 ##
+# HOST
+# The domain for the site
+#
+# HOST: <your domain here>
+
+##
 # STORAGE PROVIDER
 # The name of the storage provider you will be using
 # Can be one of 'AWS' or 'Rackspace'
