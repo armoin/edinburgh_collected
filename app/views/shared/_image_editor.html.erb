@@ -1,0 +1,35 @@
+<div id="image-editor" class="thumb new">
+  <section id="image-area">
+    <div class="progress"><div class="bar"></div></div>
+    <div id="imgUrl" data-url="<%= image_url %>"></div>
+    <div id="image-rotation-box">
+      <img class="no-max-width" src="" alt="uploaded image" />
+    </div>
+  </section>
+  <footer>
+    <div class="controls">
+      <a data-action="rotateLeft" class="rotate">
+        <span class="accessible-label">Rotate anti-clockwise</span>
+        <span class="glyphicon glyphicon-repeat mirror"></span>
+      </a>
+      <a data-action="zoomIn" class="zoom">
+        <span class="glyphicon glyphicon-zoom-in"></span>
+        <span class="accessible-label">Zoom in</span>
+      </a>
+      <a data-action="zoomOut" class="zoom">
+        <span class="glyphicon glyphicon-zoom-out"></span>
+        <span class="accessible-label">Zoom out</span>
+      </a>
+      <a data-action="rotateRight" class="rotate">
+        <span class="accessible-label">Rotate clockwise</span>
+        <span class="glyphicon glyphicon-repeat"></span>
+      </a>
+      <%= form.hidden_field :image_angle %>
+      <%= form.hidden_field :image_scale %>
+      <%= form.hidden_field :image_w %>
+      <%= form.hidden_field :image_h %>
+      <%= form.hidden_field :image_x %>
+      <%= form.hidden_field :image_y %>
+    </div>
+  </footer>
+</div>

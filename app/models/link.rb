@@ -3,7 +3,7 @@ class Link < ActiveRecord::Base
   PERMITTED_SCHEMES = %w(http https)
 
   belongs_to :user
-  
+
   validates :name, presence: true
   validates :url, presence: true, url: {no_local: true}
 

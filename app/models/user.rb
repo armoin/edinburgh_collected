@@ -1,11 +1,14 @@
 class User < ActiveRecord::Base
+  extend CarrierWave::Mount
+  mount_uploader :avatar, AvatarUploader
+
   authenticates_with_sorcery!
 
   has_many :memories, dependent: :destroy
   has_many :scrapbooks, dependent: :destroy
   has_many :links, dependent: :destroy
 
-  attr_accessor :password, :password_confirmation
+  attr_accessor :password, :password_confirmation, :image_angle, :image_scale, :image_w, :image_h, :image_x, :image_y
 
   before_validation :downcase_email
   before_update :send_activation, if: :email_changed?

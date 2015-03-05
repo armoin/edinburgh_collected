@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   def new
     @user = User.new
-    @user.links.build
+    build_form_data
   end
 
   def create
@@ -9,6 +9,7 @@ class UsersController < ApplicationController
     if @user.save
       redirect_to :root, notice: 'Please click the link in the activation email we have just sent in order to continue.'
     else
+      build_form_data
       render :new
     end
   end
@@ -26,6 +27,11 @@ class UsersController < ApplicationController
 
   def user_params
     UserParamCleaner.clean(params)
+  end
+
+  def build_form_data
+    @user.links.build
+    @temp_image = TempImage.new
   end
 end
 

@@ -296,6 +296,38 @@ describe User do
     end
   end
 
+  describe '#image_data' do
+    it 'can have an image angle' do
+      subject.image_angle = 270
+      expect(subject.image_angle).to eql(270)
+    end
+
+    it 'can have an image scale' do
+      subject.image_scale = 0.12345
+      expect(subject.image_scale).to eql(0.12345)
+    end
+
+    it 'can have an image width' do
+      subject.image_w = 90
+      expect(subject.image_w).to eql(90)
+    end
+
+    it 'can have an image height' do
+      subject.image_h = 90
+      expect(subject.image_h).to eql(90)
+    end
+
+    it 'can have an image x coord' do
+      subject.image_x = 5
+      expect(subject.image_x).to eql(5)
+    end
+
+    it 'can have an image y coord' do
+      subject.image_y = 12
+      expect(subject.image_y).to eql(12)
+    end
+  end
+
   describe 'links' do
     it 'accepts nested link attributes' do
       expect(subject).to accept_nested_attributes_for(:links).allow_destroy(true)
@@ -305,7 +337,7 @@ describe User do
       it 'can add a link to their profile' do
         name = 'My site'
         url = 'http://www.example.com'
-        
+
         subject.links.build(name: name, url: url)
 
         expect(subject.links.length).to eql(1)
@@ -317,10 +349,10 @@ describe User do
       it 'can have more that one URL' do
         name_1 = 'My site'
         url_1 = 'http://www.example.com'
-        
+
         name_2 = 'My other site'
         url_2 = 'http://www.other_example.com'
-        
+
         subject.links.build(name: name_1, url: url_1)
         subject.links.build(name: name_2, url: url_2)
 

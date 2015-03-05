@@ -1,15 +1,29 @@
 require 'rails_helper'
 
 describe 'users/new.html.erb' do
-  let(:user) { User.new }
+  let(:user)       { User.new }
+  let(:temp_image) { TempImage.new }
 
   before :each do
     user.links.build
+    assign(:temp_image, temp_image)
     assign(:user, user)
     render
   end
 
+  describe 'file uploading' do
+    it 'has a separate form for uploading the image initially' do
+      expect(rendered).to have_css('form#new_temp_image input[type="file"]')
+    end
+  end
+
   describe 'form fields' do
+    describe 'remote_avatar_url' do
+      it 'has a hidden field for storing the remote_avatar_url' do
+        expect(rendered).to have_css('input[type="hidden"]#user_remote_avatar_url')
+      end
+    end
+
     describe 'is_group' do
       it 'has the label "How would you describe yourself to other users?"' do
         expect(rendered).to have_css('label[for="user_is_group"]', text: "Who is this account for?")

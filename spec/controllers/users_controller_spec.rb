@@ -16,6 +16,11 @@ describe UsersController do
       expect(assigns[:user].links.last).to be_new_record
     end
 
+    it 'assigns a new TempImage for the file uploader' do
+      expect(assigns[:temp_image]).to be_new_record
+      expect(assigns[:temp_image]).to be_a(TempImage)
+    end
+
     it 'renders the signup page' do
       expect(response).to render_template(:new)
     end
@@ -23,10 +28,12 @@ describe UsersController do
 
   describe 'POST create' do
     let(:user_params) { Fabricate.attributes_for(:user) }
-    let(:stub_user) { double('user', save: true) }
+    let(:stub_user)   { Fabricate.build(:user) }
+    let(:saved)       { true }
 
     before :each do
       allow(User).to receive(:new).and_return(stub_user)
+      allow(stub_user).to receive(:save).and_return(saved)
       post :create, user: user_params
     end
 
@@ -39,6 +46,8 @@ describe UsersController do
     end
 
     context 'when successful' do
+      let(:saved) { true }
+
       it 'sets a flash notice' do
         expect(flash[:notice]).to eql('Please click the link in the activation email we have just sent in order to continue.')
       end
@@ -49,10 +58,19 @@ describe UsersController do
     end
 
     context 'when unsuccessful' do
-      let(:stub_user) { double('user', save: false) }
+      let(:saved) { false }
+
+      it 'builds a new link' do
+        expect(assigns[:user].links.length).to eql(1)
+        expect(assigns[:user].links.last).to be_new_record
+      end
+
+      it 'assigns a new TempImage for the file uploader' do
+        expect(assigns[:temp_image]).to be_new_record
+        expect(assigns[:temp_image]).to be_a(TempImage)
+      end
 
       it 'renders the new page' do
-        post :create, user: user_params
         expect(response).to render_template(:new)
       end
     end
