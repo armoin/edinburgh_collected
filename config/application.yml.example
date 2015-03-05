@@ -1,20 +1,24 @@
+##
 # STORAGE PROVIDER
 # The name of the storage provider you will be using
 # Can be one of 'AWS' or 'Rackspace'
 #
 PROVIDER: 'AWS'
 
+##
 # CACHE DIR
 # Where CarrierWave will cache files to before persisting them
 # Hint: should be `public` locally and `tmp` on Heroku
 #
 CACHE_DIR: "public"
 
+##
 # PERSISTENT STORE DIR
 # Where CarrierWave will perist files to
 #
 STORE_DIR: <your STORE_DIR here>
 
+##
 # S3 DETAILS
 # If you use S3 to store images in this environment put the details below
 # Please Note: the Test environment uses the local machine by default
@@ -22,6 +26,7 @@ STORE_DIR: <your STORE_DIR here>
 AWS_ACCESS_KEY_ID:     <your AWS_ACCESS_KEY_ID here>
 AWS_SECRET_ACCESS_KEY: <your AWS_SECRET_ACCESS_KEY here>
 
+##
 # RACKSPACE DETAILS
 # If you use Rackspace to store images in this environment put the details below
 # Please Note: the Test environment uses the local machine by default
@@ -31,6 +36,17 @@ AWS_SECRET_ACCESS_KEY: <your AWS_SECRET_ACCESS_KEY here>
 # RACKSPACE_USE_SSL:  <get SSL urls for uploaded files true|false>
 # ASSET_HOST:         <your ASSET_HOST here>
 
+##
+# SMTP DETAILS
+# The app currently uses Mailgun in production which needs the following parameters
+#
+# MAILGUN_SMTP_PORT:     <your MAILGUN_SMTP_PORT here>
+# MAILGUN_SMTP_SERVER:   <your MAILGUN_SMTP_SERVER here>
+# MAILGUN_SMTP_LOGIN:    <your MAILGUN_SMTP_LOGIN here>
+# MAILGUN_SMTP_PASSWORD: <your MAILGUN_SMTP_PASSWORD here>
+# MAILGUN_SMTP_DOMAIN:   <your MAILGUN_SMTP_DOMAIN here>
+
+##
 # DEFAULT ADMIN USER
 # To generate a default admin user for the application set CREATE_DEFAULT_ADMIN_USER
 # to 'true' and add a DEFAULT_ADMIN_USER_PASSWORD.
@@ -41,6 +57,7 @@ AWS_SECRET_ACCESS_KEY: <your AWS_SECRET_ACCESS_KEY here>
 # CREATE_DEFAULT_ADMIN_USER: 'true'
 # DEFAULT_ADMIN_USER_PASSWORD: <your DEFAULT_ADMIN_USER_PASSWORD here>
 
+##
 # DISQUS DETAILS
 # The app uses Disqus for commenting. Set up an app on https://disqus.com/, click
 # the Add Disqus To Site button in the Settings menu and then add the resulting
@@ -50,6 +67,7 @@ AWS_SECRET_ACCESS_KEY: <your AWS_SECRET_ACCESS_KEY here>
 #
 DISQUS_SHORTNAME: <your DISQUS_SHORTNAME here>
 
+##
 # NEW RELIC DETAILS
 # The details needed if you want to run New Relic for this environment.
 # Please Note: leave blank of not using New Relic
