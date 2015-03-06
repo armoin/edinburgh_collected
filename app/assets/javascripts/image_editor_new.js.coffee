@@ -1,5 +1,5 @@
 $ ->
-  image = $('#image-rotation-box img')
+  image = $('.new #image-rotation-box img')
 
   logData = (data) ->
     $('#user_image_angle').val(data.angle)
@@ -22,7 +22,7 @@ $ ->
       image.guillotine $(this).data('action')
 
     image.on 'imageDidChange', (e, data, action) -> logData(data)
-  
+
   $('input[type="hidden"].image_url').on 'imageUrlDidSet', ->
     image.prop 'src', $(this).val()
-  
+
