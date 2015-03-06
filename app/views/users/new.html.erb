@@ -11,7 +11,7 @@
 
       <%= nested_form_for @user, url: signup_path, html: {class: 'form-horizontal', role: 'form'} do |form| %>
 
-        <%= render partial: 'shared/image_editor', locals: {form: form, image_url: nil} %>
+        <%= render partial: 'shared/image_editor', locals: {form: form, image_url: @user.avatar_url} %>
 
         <%= form.hidden_field :remote_avatar_url, class: 'image_url' %>
 

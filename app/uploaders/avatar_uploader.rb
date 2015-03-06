@@ -48,7 +48,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
       %w(JPG JPEG GIF PNG jpg jpeg gif png)
     end
   end
-  
+
   protected
 
   def secure_token
@@ -74,7 +74,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
     present_and_positive?(model.image_scale)
   end
 
-  def is_cropped?(file) 
+  def is_cropped?(file)
     present_and_positive?(model.image_w) && present_and_positive?(model.image_h)
   end
 

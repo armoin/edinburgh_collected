@@ -5,11 +5,13 @@ describe 'my/profile/edit.html.erb' do
   let(:links)       { Fabricate.times(links_count, :link) }
   let(:user)        { Fabricate.build(:active_user, id: 123, links: links) }
   let(:is_group)    { false }
+  let(:temp_image)  { TempImage.new }
 
   before :each do
     user.links.build
     allow(user).to receive(:is_group?).and_return(is_group)
     assign(:user, user)
+    assign(:temp_image, temp_image)
     render
   end
 
@@ -80,7 +82,7 @@ describe 'my/profile/edit.html.erb' do
         end
       end
     end
-    
+
     describe 'password' do
       it "asks for the user's password" do
         expect(rendered).to have_css('input[type="password"]#user_password')
@@ -90,7 +92,7 @@ describe 'my/profile/edit.html.erb' do
         expect(rendered).to have_css('.form-group[aria-required="true"] input[type="password"]#user_password')
       end
     end
-    
+
     describe 'password confirmation' do
       it "asks the user to confirm their password" do
         expect(rendered).to have_css('input[type="password"]#user_password_confirmation')

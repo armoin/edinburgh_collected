@@ -1,6 +1,7 @@
 fileAdded = (e, data) ->
-  data.context = $(".progress")
-  data.context.show()
+  data.context = $("#image-editor")
+  data.context.find('#image-rotation-box img').hide()
+  data.context.find('.progress').show()
   data.submit()
 
 fileUploading = (e, data) ->
@@ -10,7 +11,7 @@ fileUploading = (e, data) ->
 
 fileDidUpload = (e, data) ->
   imageUrl = data.result.file.url
-  $('input[type="hidden"].image_url').val(imageUrl).trigger('imageUrlDidSet')
+  $('input[type="hidden"].image_url').val(imageUrl).trigger('imageFileAdded')
 
 $ ->
   $('form#new_temp_image').fileupload

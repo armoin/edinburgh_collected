@@ -7,7 +7,13 @@
 
       <h1 class="form-title">Change details</h1>
 
+      <%= render partial: 'shared/temp_image_uploader', locals: {temp_image: @temp_image} %>
+
       <%= nested_form_for @user, url: my_profile_path, html: {class: 'form-horizontal edit_user', role: 'form'} do |form| %>
+
+        <%= render partial: 'shared/image_editor', locals: {form: form, image_url: @user.avatar_url} %>
+
+        <%= form.hidden_field :remote_avatar_url, class: 'image_url' %>
 
         <%= render partial: 'users/details_form', locals: {form: form, user: @user} %>
 

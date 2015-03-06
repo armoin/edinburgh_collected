@@ -65,6 +65,11 @@ describe My::ProfileController do
         end
       end
 
+      it 'assigns a new TempImage for the file uploader' do
+        expect(assigns[:temp_image]).to be_new_record
+        expect(assigns[:temp_image]).to be_a(TempImage)
+      end
+
       it 'renders the edit page' do
         expect(response).to render_template(:edit)
       end

@@ -6,6 +6,7 @@ class My::ProfileController < My::AuthenticatedUserController
 
   def edit
     @user.links.build unless @user.links.any?
+    @temp_image = TempImage.new
   end
 
   def update
