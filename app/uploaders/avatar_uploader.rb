@@ -67,15 +67,15 @@ class AvatarUploader < CarrierWave::Uploader::Base
   private
 
   def is_rotated?(file)
-    present_and_non_zero?(model.image_angle)
+    model.rotated?
   end
 
   def is_scaled?(file)
-    present_and_positive?(model.image_scale)
+    model.scaled?
   end
 
   def is_cropped?(file)
-    present_and_positive?(model.image_w) && present_and_positive?(model.image_h)
+    model.cropped?
   end
 
   def angle
@@ -90,14 +90,6 @@ class AvatarUploader < CarrierWave::Uploader::Base
     dimensions  = "#{model.image_w}x#{model.image_h}"
     coordinates = "+#{coord(model.image_x)}+#{coord(model.image_y)}"
     "#{dimensions}#{coordinates}"
-  end
-
-  def present_and_positive?(value)
-    value.present? && value.to_f > 0
-  end
-
-  def present_and_non_zero?(value)
-    value.present? && value.to_f != 0
   end
 
   def coord(value)
