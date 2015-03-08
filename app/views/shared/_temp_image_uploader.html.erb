@@ -1,8 +1,11 @@
 <%= form_for @temp_image, html: {class: 'form-horizontal', role: 'form'} do |file_form| %>
-  <div class="form-group" aria-required="true">
+  <div class="form-group">
     <div class="formRow">
       <%= file_form.label :file, 'Avatar', class: 'control-label' %>
-      <%= file_form.file_field :file %>
+      <label class="temp-image-file button small">
+        <%= file_form.file_field :file %>
+        <span>Choose file</span>
+      </label>
       <% @temp_image.errors[:file].each do |error| %>
         <span class="help-block"><%= error %></span>
       <% end -%>

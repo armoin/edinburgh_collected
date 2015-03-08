@@ -1329,7 +1329,7 @@ form
     textarea.form-control
       height: 10em
 
-  label
+  label:not(.button)
     min-width: 230px
 
     &.control-label
@@ -1436,6 +1436,14 @@ form
   &#new_user
     padding-top: 0
 
+  label.temp-image-file
+    display: block
+    width: 6.8em
+
+    input[type="file"]
+      position: fixed
+      top: -1000px
+
   #image-editor.new
     display: block
     background: lightgrey
@@ -1465,11 +1473,13 @@ form
       border: 1px solid $navy-blue
 
       #image-area
-        padding: 0
+        height: 180px
+
+        .errors
+          padding: 5px 3px
 
         #image-rotation-box
           width:       180px
-          height:      180px
           line-height: 180px
 
       footer
@@ -1493,6 +1503,11 @@ form
           width: 0%
           height: 10px
           background: $green
+
+      p.errors
+        display: none
+        color: #a94442
+        text-align: center
 
       #image-rotation-box
 

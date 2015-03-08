@@ -30,7 +30,7 @@ $ ->
     logData $image.guillotine('getData')
 
     $('#image-editor .progress').hide()
-    $image.show()
+    $image.closest('#image-rotation-box').show()
 
   if $remote_url.val() && $remote_url.val().length
     $remote_url.trigger('imageFileAdded')

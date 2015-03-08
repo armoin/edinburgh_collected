@@ -1,11 +1,15 @@
 class TempImagesController < ApplicationController
   def create
-    temp_image = TempImage.create(temp_image_params)
-
     # See https://github.com/blueimp/jQuery-File-Upload/wiki/Setup#content-type-negotiation
     # and https://github.com/blueimp/jQuery-File-Upload/wiki/Frequently-Asked-Questions#why-does-internet-explorer-prompt-to-download-a-file-after-the-upload-completes
     # for explanation of why content_type is required for IE9
-    render json: temp_image, content_type: request.format
+
+    temp_image = TempImage.new(temp_image_params)
+    if temp_image.save
+      render json: temp_image, content_type: request.format
+    else
+      render json: {errors: temp_image.errors}, content_type: request.format, status: 422
+    end
   end
 
   private
