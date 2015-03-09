@@ -89,75 +89,38 @@ describe My::ProfileController do
       let(:links)           { build_array(link_count, :link) }
       let(:updated)         { true }
       let(:image_processed) { true }
+      let(:user_params)     { {first_name: 'Mary'} }
+      let(:update_result)   { true }
 
       before :each do
         @user = Fabricate.build(:user, id: 123, links: links)
         login_user
-        allow(@user).to receive(:update).and_return(updated)
-        allow(@user).to receive(:process_image).and_return(image_processed)
-        put :update, user: {first_name: 'Mary'}
+        allow(controller).to receive(:update_and_process_image).and_return(update_result)
+        put :update, user: user_params
       end
 
       it 'assigns the current user' do
         expect(assigns[:user]).to eql(@user)
       end
 
-      it 'updates the current user' do
-        expect(@user).to have_received(:update).with(first_name: 'Mary')
+      it 'updates and processes the image for the user' do
+        expect(controller).to have_received(:update_and_process_image).with(@user, user_params)
       end
 
       context 'when successfully updated' do
-        let(:updated) { true }
+        let(:update_result) { true }
 
-        it 'processes the attached avatar' do
-          expect(@user).to have_received(:process_image)
+        it 'redirects to the show page' do
+          expect(response).to redirect_to(my_profile_path)
         end
 
-        context 'when image successfully processed' do
-          let(:image_processed) { true }
-
-          it 'redirects to the show page' do
-            expect(response).to redirect_to(my_profile_path)
-          end
-
-          it 'shows a success notice' do
-            expect(flash[:notice]).to eql('Successfully changed your details.')
-          end
+        it 'shows a success notice' do
+          expect(flash[:notice]).to eql('Successfully changed your details.')
         end
       end
 
       context 'when not successfully updated' do
-        let(:updated) { false }
-
-        context 'when the user has not got any links yet' do
-          let(:link_count) { 0 }
-
-          it 'builds a new link' do
-            expect(@user.links.length).to eql(link_count + 1)
-            expect(@user.links.last).to be_new_record
-          end
-        end
-
-        context 'when the user has links already' do
-          let(:link_count) { 2 }
-
-          it 'does not build a new link' do
-            expect(@user.links.length).to eql(link_count)
-          end
-        end
-
-        it 'assigns a new TempImage for the file uploader' do
-          expect(assigns[:temp_image]).to be_new_record
-          expect(assigns[:temp_image]).to be_a(TempImage)
-        end
-
-        it 'renders the edit page' do
-          expect(response).to render_template(:edit)
-        end
-      end
-
-      context 'when not image not successfully processed' do
-        let(:image_processed) { false }
+        let(:update_result) { false }
 
         context 'when the user has not got any links yet' do
           let(:link_count) { 0 }

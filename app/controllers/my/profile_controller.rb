@@ -1,4 +1,6 @@
 class My::ProfileController < My::AuthenticatedUserController
+  include UpdateWithImage
+
   before_action :assign_current_user
 
   def show
@@ -9,7 +11,7 @@ class My::ProfileController < My::AuthenticatedUserController
   end
 
   def update
-    if @user.update(user_params) && @user.process_image
+    if update_and_process_image(@user, user_params)
       redirect_to my_profile_path, notice: 'Successfully changed your details.'
     else
       build_form_data
