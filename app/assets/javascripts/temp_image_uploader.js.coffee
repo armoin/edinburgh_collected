@@ -29,9 +29,6 @@ fileDidFail = (e, data) ->
     data.context.find('.progress').hide()
 
 $ ->
-  $('#temp-file-select-button').on 'click', ->
-    $('input#temp_image_file').click()
-
   $('form#new_temp_image').fileupload
     dataType: 'json'
     add: fileAdded
