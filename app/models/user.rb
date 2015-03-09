@@ -56,18 +56,18 @@ class User < ActiveRecord::Base
     return true unless image_modified?
 
     self.updated_at = Time.now
-    self.avatar.recreate_versions! unless no_image_to_update? || new_image_uploaded?
+    self.avatar.recreate_versions! unless no_image? || new_image_uploaded?
     self.save
   end
 
   private
 
-  def no_image_to_update?
+  def no_image?
     self.avatar.blank?
   end
 
   def new_image_uploaded?
-    self.avatar_changed?
+    self.previous_changes.has_key?(:avatar)
   end
 
   def present_and_positive?(value)

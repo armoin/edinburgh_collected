@@ -23,7 +23,7 @@ class ModelWithImageUpdater
     # A model can have several uploaders so deal with each of them.
     @model.class.uploaders.each do |uploader|
       uploader_name = uploader.first
-      @model_params.delete_if {|k,v| k == "remote_#{uploader_name}_url".to_sym && (v.nil? || v == '') }
+      @model_params.delete_if {|k,v| k == "remote_#{uploader_name}_url" && (v.nil? || v == '') }
     end
 
   end

@@ -29,7 +29,7 @@ end
 
 describe ModelWithImageUpdater do
   let(:model)        { OneUploader.new }
-  let(:base_params)  { {first_name: 'Mary'} }
+  let(:base_params)  { {'first_name' => 'Mary'} }
   let(:model_params) { base_params }
   let(:updated)      { true }
   let(:processed)    { true }
@@ -49,26 +49,26 @@ describe ModelWithImageUpdater do
         let(:model) { NoUploader.new }
 
         context 'and a non-blank remote url is given' do
-          let(:model_params) { base_params.merge(remote_first_url: 'test/path') }
+          let(:model_params) { base_params.merge('remote_first_url' => 'test/path') }
 
           it 'updates the model with the given params' do
-            expect(model).to have_received(:update).with({first_name: 'Mary', remote_first_url: 'test/path'})
+            expect(model).to have_received(:update).with({'first_name' => 'Mary', 'remote_first_url' => 'test/path'})
           end
         end
 
         context 'and a blank remote url is given' do
-          let(:model_params) { base_params.merge(remote_first_url: '') }
+          let(:model_params) { base_params.merge('remote_first_url' => '') }
 
           it 'updates the model with the given params' do
-            expect(model).to have_received(:update).with({first_name: 'Mary', remote_first_url: ''})
+            expect(model).to have_received(:update).with({'first_name' => 'Mary', 'remote_first_url' => ''})
           end
         end
 
         context 'and a nil remote url is given' do
-          let(:model_params) { base_params.merge(remote_first_url: nil) }
+          let(:model_params) { base_params.merge('remote_first_url' => nil) }
 
           it 'updates the model with the given params' do
-            expect(model).to have_received(:update).with({first_name: 'Mary', remote_first_url: nil})
+            expect(model).to have_received(:update).with({'first_name' => 'Mary', 'remote_first_url' => nil})
           end
         end
       end
@@ -78,52 +78,52 @@ describe ModelWithImageUpdater do
 
         context 'and a remote url for that uploader is given' do
           context 'that is not blank' do
-            let(:model_params) { base_params.merge(remote_first_url: 'test/path') }
+            let(:model_params) { base_params.merge('remote_first_url' => 'test/path') }
 
             it 'updates the model with the given params' do
-              expect(model).to have_received(:update).with({first_name: 'Mary', remote_first_url: 'test/path'})
+              expect(model).to have_received(:update).with({'first_name' => 'Mary', 'remote_first_url' => 'test/path'})
             end
           end
 
           context 'that is empty' do
-            let(:model_params) { base_params.merge(remote_first_url: '') }
+            let(:model_params) { base_params.merge('remote_first_url' => '') }
 
             it 'updates the model without the remote url for the uploader' do
-              expect(model).to have_received(:update).with({first_name: 'Mary'})
+              expect(model).to have_received(:update).with({'first_name' => 'Mary'})
             end
           end
 
           context 'that is nil' do
-            let(:model_params) { base_params.merge(remote_first_url: nil) }
+            let(:model_params) { base_params.merge('remote_first_url' => nil) }
 
             it 'updates the model without the remote url for the uploader' do
-              expect(model).to have_received(:update).with({first_name: 'Mary'})
+              expect(model).to have_received(:update).with({'first_name' => 'Mary'})
             end
           end
         end
 
         context 'and a remote url that is not for that uploader is given' do
           context 'that is not blank' do
-            let(:model_params) { base_params.merge(remote_other_url: 'test/path') }
+            let(:model_params) { base_params.merge('remote_other_url' => 'test/path') }
 
             it 'updates the model with the given params' do
-              expect(model).to have_received(:update).with({first_name: 'Mary', remote_other_url: 'test/path'})
+              expect(model).to have_received(:update).with({'first_name' => 'Mary', 'remote_other_url' => 'test/path'})
             end
           end
 
           context 'that is empty' do
-            let(:model_params) { base_params.merge(remote_other_url: '') }
+            let(:model_params) { base_params.merge('remote_other_url' => '') }
 
             it 'updates the model with the given params' do
-              expect(model).to have_received(:update).with({first_name: 'Mary', remote_other_url: ''})
+              expect(model).to have_received(:update).with({'first_name' => 'Mary', 'remote_other_url' => ''})
             end
           end
 
           context 'that is nil' do
-            let(:model_params) { base_params.merge(remote_other_url: nil) }
+            let(:model_params) { base_params.merge('remote_other_url' => nil) }
 
             it 'updates the model with the given params' do
-              expect(model).to have_received(:update).with({first_name: 'Mary', remote_other_url: nil})
+              expect(model).to have_received(:update).with({'first_name' => 'Mary', 'remote_other_url' => nil})
             end
           end
         end
@@ -134,78 +134,78 @@ describe ModelWithImageUpdater do
 
         context 'and a remote url for the first uploader is given' do
           context 'that is not blank' do
-            let(:model_params) { base_params.merge(remote_first_url: 'test/path') }
+            let(:model_params) { base_params.merge('remote_first_url' => 'test/path') }
 
             it 'updates the model with the given params' do
-              expect(model).to have_received(:update).with({first_name: 'Mary', remote_first_url: 'test/path'})
+              expect(model).to have_received(:update).with({'first_name' => 'Mary', 'remote_first_url' => 'test/path'})
             end
           end
 
           context 'that is empty' do
-            let(:model_params) { base_params.merge(remote_first_url: '') }
+            let(:model_params) { base_params.merge('remote_first_url' => '') }
 
             it 'updates the model without the remote url for the uploader' do
-              expect(model).to have_received(:update).with({first_name: 'Mary'})
+              expect(model).to have_received(:update).with({'first_name' => 'Mary'})
             end
           end
 
           context 'that is nil' do
-            let(:model_params) { base_params.merge(remote_first_url: nil) }
+            let(:model_params) { base_params.merge('remote_first_url' => nil) }
 
             it 'updates the model without the remote url for the uploader' do
-              expect(model).to have_received(:update).with({first_name: 'Mary'})
+              expect(model).to have_received(:update).with({'first_name' => 'Mary'})
             end
           end
         end
 
         context 'and a remote url for the second uploader is given' do
           context 'that is not blank' do
-            let(:model_params) { base_params.merge(remote_second_url: 'test/path') }
+            let(:model_params) { base_params.merge('remote_second_url' => 'test/path') }
 
             it 'updates the model with the given params' do
-              expect(model).to have_received(:update).with({first_name: 'Mary', remote_second_url: 'test/path'})
+              expect(model).to have_received(:update).with({'first_name' => 'Mary', 'remote_second_url' => 'test/path'})
             end
           end
 
           context 'that is empty' do
-            let(:model_params) { base_params.merge(remote_second_url: '') }
+            let(:model_params) { base_params.merge('remote_second_url' => '') }
 
             it 'updates the model without the remote url for the uploader' do
-              expect(model).to have_received(:update).with({first_name: 'Mary'})
+              expect(model).to have_received(:update).with({'first_name' => 'Mary'})
             end
           end
 
           context 'that is nil' do
-            let(:model_params) { base_params.merge(remote_second_url: nil) }
+            let(:model_params) { base_params.merge('remote_second_url' => nil) }
 
             it 'updates the model without the remote url for the uploader' do
-              expect(model).to have_received(:update).with({first_name: 'Mary'})
+              expect(model).to have_received(:update).with({'first_name' => 'Mary'})
             end
           end
         end
 
         context 'and a remote url that is not for any uploader is given' do
           context 'that is not blank' do
-            let(:model_params) { base_params.merge(remote_other_url: 'test/path') }
+            let(:model_params) { base_params.merge('remote_other_url' => 'test/path') }
 
             it 'updates the model with the given params' do
-              expect(model).to have_received(:update).with({first_name: 'Mary', remote_other_url: 'test/path'})
+              expect(model).to have_received(:update).with({'first_name' => 'Mary', 'remote_other_url' => 'test/path'})
             end
           end
 
           context 'that is empty' do
-            let(:model_params) { base_params.merge(remote_other_url: '') }
+            let(:model_params) { base_params.merge('remote_other_url' => '') }
 
             it 'updates the model with the given params' do
-              expect(model).to have_received(:update).with({first_name: 'Mary', remote_other_url: ''})
+              expect(model).to have_received(:update).with({'first_name' => 'Mary', 'remote_other_url' => ''})
             end
           end
 
           context 'that is nil' do
-            let(:model_params) { base_params.merge(remote_other_url: nil) }
+            let(:model_params) { base_params.merge('remote_other_url' => nil) }
 
             it 'updates the model with the given params' do
-              expect(model).to have_received(:update).with({first_name: 'Mary', remote_other_url: nil})
+              expect(model).to have_received(:update).with({'first_name' => 'Mary', 'remote_other_url' => nil})
             end
           end
         end

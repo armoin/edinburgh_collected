@@ -502,11 +502,11 @@ describe User do
     end
 
     describe '#process_image' do
-      let(:now)            { Time.now }
-      let(:old)            { 2.days.ago }
-      let(:image)          { nil }
-      let(:remote_url)     { nil }
-      let(:image_modified) { false }
+      let(:now)              { Time.now }
+      let(:old)              { 2.days.ago }
+      let(:image)            { nil }
+      let(:previous_changes) { {} }
+      let(:image_modified)   { false }
 
       subject { Fabricate(:user, avatar: image, updated_at: old) }
 
@@ -514,8 +514,7 @@ describe User do
         allow(subject.avatar).to receive(:recreate_versions!)
         allow(subject).to receive(:save)
         allow(subject).to receive(:image_modified?).and_return(image_modified)
-
-        subject.remote_avatar_url = remote_url if remote_url.present?
+        allow(subject).to receive(:previous_changes).and_return(previous_changes)
       end
 
       context 'when image has been modified' do
@@ -530,16 +529,16 @@ describe User do
             end
           end
 
-          context 'and there is not a new remote URL' do
-            let(:remote_url) { nil }
+          context 'and there were not previously changes to the image' do
+            let(:previous_changes) { {} }
 
             it 'does not recreate the image versions' do
               expect(subject.avatar).not_to have_received(:recreate_versions!)
             end
           end
 
-          context 'and there is a new remote URL' do
-            let(:remote_url) { 'path/to/test.jpg' }
+          context 'and there were previously changes to the image' do
+            let(:previous_changes) { {avatar: []} }
 
             it 'does not recreate the image versions' do
               expect(subject.avatar).not_to have_received(:recreate_versions!)
@@ -556,16 +555,16 @@ describe User do
             end
           end
 
-          context 'and there is not a new remote URL' do
-            let(:remote_url) { nil }
+          context 'and there were not previously changes to the image' do
+            let(:previous_changes) { {} }
 
             it 'recreates the image versions' do
               expect(subject.avatar).to have_received(:recreate_versions!)
             end
           end
 
-          context 'and there is a new remote URL' do
-            let(:remote_url) { 'path/to/test.jpg' }
+          context 'and there were previously changes to the image' do
+            let(:previous_changes) { {avatar: []} }
 
             it 'does not recreate the image versions' do
               expect(subject.avatar).not_to have_received(:recreate_versions!)
@@ -626,16 +625,16 @@ describe User do
         context 'and there is not an attached image' do
           let(:image) { nil }
 
-          context 'and there is not a new remote URL' do
-            let(:remote_url) { nil }
+          context 'and there were not previously changes to the image' do
+            let(:previous_changes) { {} }
 
             it 'does not recreate the image versions' do
               expect(subject.avatar).not_to have_received(:recreate_versions!)
             end
           end
 
-          context 'and there is a new remote URL' do
-            let(:remote_url) { 'path/to/test.jpg' }
+          context 'and there were previously changes to the image' do
+            let(:previous_changes) { {avatar: []} }
 
             it 'does not recreate the image versions' do
               expect(subject.avatar).not_to have_received(:recreate_versions!)
@@ -646,16 +645,16 @@ describe User do
         context 'and there is already an attached image' do
           let(:image) { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec', 'fixtures', 'files', 'test.jpg')) }
 
-          context 'and there is not a new remote URL' do
-            let(:remote_url) { nil }
+          context 'and there were not previously changes to the image' do
+            let(:previous_changes) { {} }
 
             it 'does not recreate the image versions' do
               expect(subject.avatar).not_to have_received(:recreate_versions!)
             end
           end
 
-          context 'and there is a new remote URL' do
-            let(:remote_url) { 'path/to/test.jpg' }
+          context 'and there were previously changes to the image' do
+            let(:previous_changes) { {avatar: []} }
 
             it 'does not recreate the image versions' do
               expect(subject.avatar).not_to have_received(:recreate_versions!)
