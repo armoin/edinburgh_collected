@@ -1,6 +1,8 @@
 class ScrapbookCover
   NUM_SECONDARY_MEMORIES = 3
 
+  attr_reader :scrapbook
+
   def initialize(scrapbook, scrapbook_memories)
     @scrapbook = scrapbook
     @memories = scrapbook_memories.try(:map, &:memory) || []

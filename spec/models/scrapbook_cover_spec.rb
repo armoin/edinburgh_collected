@@ -6,6 +6,12 @@ describe ScrapbookCover do
 
   subject { ScrapbookCover.new(scrapbook, scrapbook_memories) }
 
+  describe '#scrapbook' do
+    it 'provides the given scrapbook' do
+      expect(subject.scrapbook).to eql(scrapbook)
+    end
+  end
+
   describe '#scrapbook_id' do
     it 'provides the id for the given scrapbook' do
       expect(subject.scrapbook_id).to eql(scrapbook.id)
@@ -60,7 +66,7 @@ describe ScrapbookCover do
         expect(subject.main_memory).to be_nil
       end
     end
-    
+
     context 'when cover has been initialized with empty scrapbook_memories' do
       let(:scrapbook_memories) { [] }
 
@@ -96,7 +102,7 @@ describe ScrapbookCover do
         expect(subject.secondary_memories).to eql([nil, nil, nil])
       end
     end
-    
+
     context 'when cover has been initialized with empty scrapbook_memories' do
       let(:scrapbook_memories) { [] }
 

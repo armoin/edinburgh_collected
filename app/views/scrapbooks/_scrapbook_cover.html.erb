@@ -1,6 +1,6 @@
 <a class="scrapbook thumb masonry" data-id="<%= scrapbook_cover.scrapbook_id %>" href="<%= File.join(show_path, scrapbook_cover.scrapbook_id.to_s) %>" title="View details" role="button">
   <div class="padding">
-
+    <%= render partial: 'shared/state_label', locals: {moderatable: scrapbook_cover.scrapbook} %>
     <h3 class="scrapbookTitle"><%= scrapbook_cover.title %></h3>
 
     <% if scrapbook_cover.main_memory %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150310123828) do
+ActiveRecord::Schema.define(version: 20150310164745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,10 +94,13 @@ ActiveRecord::Schema.define(version: 20150310123828) do
 
   create_table "scrapbooks", force: true do |t|
     t.integer  "user_id"
-    t.string   "title",       null: false
+    t.string   "title",             null: false
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "moderation_state"
+    t.string   "moderation_reason"
+    t.datetime "last_moderated_at"
   end
 
   add_index "scrapbooks", ["user_id"], name: "index_scrapbooks_on_user_id", using: :btree

@@ -82,9 +82,8 @@ describe UserMemoriesPresenter do
     context "when the requested user is not the current user" do
       let(:current_user) { other_user }
 
-      # TODO: scrapbooks are not currently moderated. Once they are this should change.
       it "provides the count of the requested user's approved scrapbooks only" do
-        expect(subject.scrapbooks_count).to eql(2)
+        expect(subject.scrapbooks_count).to eql(1)
       end
     end
   end

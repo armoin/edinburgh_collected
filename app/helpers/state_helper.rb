@@ -17,9 +17,9 @@ module StateHelper
     end
   end
 
-  def state_label(memory)
-    label = memory.moderation_state
-    label += " - #{memory.moderation_reason}" unless memory.moderation_reason.blank?
+  def state_label(moderatable)
+    label = moderatable.moderation_state
+    label += " - #{moderatable.moderation_reason}" unless moderatable.moderation_reason.blank?
     label
   end
 

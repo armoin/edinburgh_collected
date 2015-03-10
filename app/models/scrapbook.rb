@@ -7,15 +7,12 @@ class Scrapbook < ActiveRecord::Base
   validates :title, length: {maximum: 200}
   validates :description, length: {maximum: 1000}
 
+  include Moderatable
+
   SEARCHABLE_FIELDS       = [:title, :description]
   SEARCHABLE_ASSOCIATIONS = {}
 
   include Searchable
-
-  # TODO: remove this once moderation is in place
-  def self.approved
-    all
-  end
 
   def cover
     @cover ||= ScrapbookCover.new(self)

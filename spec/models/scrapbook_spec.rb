@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 describe Scrapbook do
+
+  let(:moderatable_model)   { Scrapbook }
+  let(:moderatable_factory) { :scrapbook }
+  it_behaves_like 'moderatable'
+
   describe 'validation' do
     it 'must belong to a user' do
       expect(subject).to be_invalid
@@ -41,9 +46,10 @@ describe Scrapbook do
 
   describe 'searching' do
     before :each do
-      @term_in_title       = Fabricate(:scrapbook, title: 'Edinburgh Castle test')
-      @term_in_description = Fabricate(:scrapbook, description: 'This is an Edinburgh Castle test')
-      @terms_not_found     = Fabricate(:scrapbook, title: 'test', description: 'test')
+      @term_in_title         = Fabricate(:approved_scrapbook, title: 'Edinburgh Castle test')
+      @term_in_description   = Fabricate(:approved_scrapbook, description: 'This is an Edinburgh Castle test')
+      @terms_not_found       = Fabricate(:approved_scrapbook, title: 'test', description: 'test')
+      @unapproved_with_terms = Fabricate(:scrapbook, title: 'Edinburgh Castle test')
     end
 
     let(:results) { Scrapbook.text_search(terms) }
@@ -67,7 +73,7 @@ describe Scrapbook do
     context 'text fields' do
       let(:terms) { 'castle' }
 
-      it 'returns all records matching the given query' do
+      it 'returns all approved records matching the given query' do
         expect(results.count(:all)).to eql(2)
       end
 
@@ -77,6 +83,14 @@ describe Scrapbook do
 
       it "includes records where description matches" do
         expect(results).to include(@term_in_description)
+      end
+
+      it "does not include records where no matches are found" do
+        expect(results).not_to include(@terms_not_found)
+      end
+
+      it "does not include unapporved records even if matches are found" do
+        expect(results).not_to include(@unapproved_with_terms)
       end
     end
   end
