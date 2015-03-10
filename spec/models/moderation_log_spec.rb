@@ -1,10 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe MemoryModeration do
+RSpec.describe ModerationLog do
+  it { expect(subject).to belong_to(:moderatable) }
+
   describe 'validation' do
-    it 'must have a memory' do
+    it 'must have a moderatable model' do
       subject.valid?
-      expect(subject.errors[:memory]).to include("can't be blank")
+      expect(subject.errors[:moderatable]).to include("can't be blank")
     end
 
     describe 'from_state' do

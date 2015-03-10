@@ -6,13 +6,9 @@ class Memory < ActiveRecord::Base
 
   include Locatable
   include Taggable
-  
+
   def self.file_types
     ["Photo"]
-  end
-
-  def self.moderation_record
-    MemoryModeration
   end
 
   include Moderatable
@@ -27,7 +23,6 @@ class Memory < ActiveRecord::Base
   has_and_belongs_to_many :categories
   has_many :scrapbook_memories, dependent: :destroy
   has_many :scrapbooks, through: :scrapbook_memories
-  has_many :memory_moderations
 
   validates_presence_of :title, :description, :source, :user, :year, :type
   validates_presence_of :categories, message: 'must have at least one'
@@ -65,10 +60,6 @@ class Memory < ActiveRecord::Base
 
   def category_list
     categories.map(&:name).join(', ')
-  end
-
-  def moderation_records
-    memory_moderations
   end
 
   private

@@ -2,6 +2,8 @@ module Moderatable
   extend ActiveSupport::Concern
 
   included do
+    has_many :moderation_logs, as: :moderatable
+
     before_create :set_moderation_fields
   end
 
@@ -33,14 +35,6 @@ module Moderatable
     def rejected
       in_state('rejected')
     end
-
-    def moderation_record
-      #TODO raise error if not implemented
-    end
-  end
-
-  def moderation_records
-    #TODO raise error if not implemented
   end
 
   def approve!
@@ -66,7 +60,7 @@ module Moderatable
   private
 
   def update_state!(state, comment='')
-    moderation_records.create!(from_state: moderation_state, to_state: state, comment: comment)
+    moderation_logs.create!(from_state: moderation_state, to_state: state, comment: comment)
     update_attributes(moderation_state: state, moderation_reason: comment, last_moderated_at: DateTime.now)
   end
 end

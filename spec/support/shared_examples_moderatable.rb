@@ -1,6 +1,10 @@
 RSpec.shared_examples 'moderatable' do
   let(:moderatable_instance) { Fabricate(moderatable_factory) }
 
+  describe "logging moderation activity" do
+    it { expect(subject).to have_many(:moderation_logs) }
+  end
+
   describe "scopes" do
     let!(:no_moderation) { Fabricate(moderatable_factory) }
     let!(:unmoderated)   { Fabricate(moderatable_factory) }
@@ -76,7 +80,7 @@ RSpec.shared_examples 'moderatable' do
       it "adds a moderation record to track the moderation" do
         expect {
           moderatable_instance.approve!
-        }.to change{moderatable_model.moderation_record.count}.by(1)
+        }.to change{moderatable_instance.moderation_logs.count}.by(1)
       end
     end
 
@@ -105,7 +109,7 @@ RSpec.shared_examples 'moderatable' do
       it "adds a moderation record to track the moderation" do
         expect {
           moderatable_instance.reject!
-        }.to change{moderatable_model.moderation_record.count}.by(1)
+        }.to change{moderatable_instance.moderation_logs.count}.by(1)
       end
     end
 
@@ -126,7 +130,7 @@ RSpec.shared_examples 'moderatable' do
       it "adds a moderation record to track the moderation" do
         expect {
           moderatable_instance.unmoderate!
-        }.to change{moderatable_model.moderation_record.count}.by(1)
+        }.to change{moderatable_instance.moderation_logs.count}.by(1)
       end
     end
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150227115833) do
+ActiveRecord::Schema.define(version: 20150310123828) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,13 +71,14 @@ ActiveRecord::Schema.define(version: 20150227115833) do
     t.datetime "last_moderated_at"
   end
 
-  create_table "memory_moderations", force: true do |t|
-    t.integer  "memory_id",  null: false
-    t.string   "from_state", null: false
-    t.string   "to_state",   null: false
+  create_table "moderation_logs", force: true do |t|
+    t.integer  "moderatable_id",   null: false
+    t.string   "moderatable_type", null: false
+    t.string   "from_state",       null: false
+    t.string   "to_state",         null: false
+    t.text     "comment"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "comment"
   end
 
   create_table "scrapbook_memories", force: true do |t|

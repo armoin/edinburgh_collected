@@ -1,9 +1,9 @@
-class MemoryModeration < ActiveRecord::Base
+class ModerationLog < ActiveRecord::Base
+  belongs_to :moderatable, polymorphic: true
+
   delegate :valid_state?, to: ModerationStateMachine
 
-  belongs_to :memory
-
-  validates :memory, :from_state, :to_state, presence: true
+  validates :moderatable, :from_state, :to_state, presence: true
   validate :validate_from_state
   validate :validate_to_state
 
