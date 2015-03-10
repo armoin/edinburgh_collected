@@ -5,6 +5,7 @@ fileAdded = (e, data) ->
   progress = data.context.find('.progress')
   progress.find('.bar').css('width', 0)
   progress.show()
+  data.context.show()
   data.submit()
 
 fileUploading = (e, data) ->

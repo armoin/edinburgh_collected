@@ -11,19 +11,7 @@ describe 'users/new.html.erb' do
     render
   end
 
-  describe 'file uploading' do
-    it 'has a separate form for uploading the image initially' do
-      expect(rendered).to have_css('form#new_temp_image input[type="file"]')
-    end
-  end
-
   describe 'form fields' do
-    describe 'remote_avatar_url' do
-      it 'has a hidden field for storing the remote_avatar_url' do
-        expect(rendered).to have_css('input[type="hidden"]#user_remote_avatar_url')
-      end
-    end
-
     describe 'is_group' do
       it 'has the label "How would you describe yourself to other users?"' do
         expect(rendered).to have_css('label[for="user_is_group"]', text: "Who is this account for?")
@@ -44,26 +32,6 @@ describe 'users/new.html.erb' do
 
       it "is required" do
         expect(rendered).to have_css('.form-group[aria-required="true"] input[type="text"]#user_last_name')
-      end
-    end
-
-    describe 'links' do
-      it "allows the user to add a link" do
-        expect(rendered).to have_css('input[type="text"]#user_links_attributes_0_name')
-        expect(rendered).to have_css('input[type="text"]#user_links_attributes_0_url')
-      end
-
-      it "has no autocapitalization on URL field" do
-        expect(rendered).to have_css('input[type="text"]#user_links_attributes_0_url[autocapitalize="none"]')
-      end
-
-      it "lets the user add another url" do
-        expect(rendered).to have_css('a.add_nested_fields[data-association="links"]', text: 'Add another')
-      end
-
-      it "is not required" do
-        expect(rendered).not_to have_css('.form-group[aria-required="true"] input[type="text"]#user_links_attributes_0_name')
-        expect(rendered).not_to have_css('.form-group[aria-required="true"] input[type="text"]#user_links_attributes_0_url')
       end
     end
 

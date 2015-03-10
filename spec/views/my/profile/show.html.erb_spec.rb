@@ -46,13 +46,13 @@ describe 'my/profile/show.html.erb' do
     end
 
     it 'shows the group name' do
-      expect(rendered).to have_css('p', text: "Description:")
-      expect(rendered).to have_css('p', text: user.description)
+      expect(rendered).to have_css('p', text: "Group name: #{user.first_name}")
     end
   end
 
   it 'shows the description' do
-    expect(rendered).to have_css('p', text: "Email: #{user.email}")
+    expect(rendered).to have_css('p', text: "Bio:")
+    expect(rendered).to have_css('p', text: user.description)
   end
 
   it 'shows the email' do

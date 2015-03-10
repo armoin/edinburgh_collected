@@ -7,15 +7,29 @@
 
       <h1 class="form-title">Change details</h1>
 
+      <label class="control-label">Choose a profile photo</label>
       <%= render partial: 'shared/temp_image_uploader', locals: {temp_image: @temp_image} %>
 
       <%= nested_form_for @user, url: my_profile_path, html: {class: 'form-horizontal edit_user', role: 'form'} do |form| %>
 
-        <%= render partial: 'shared/image_editor', locals: {form: form, image_url: @user.avatar_url} %>
+        <% image_url = @user.avatar.present? ? @user.avatar_url : nil %>
+        <%= render partial: 'shared/image_editor', locals: {form: form, image_url: image_url} %>
 
         <%= form.hidden_field :remote_avatar_url, class: 'image_url' %>
 
         <%= render partial: 'users/details_form', locals: {form: form, user: @user} %>
+
+        <div class="form-group">
+          <div class="formRow">
+            <%= form.label :description, class: "control-label" %>
+            <%= form.text_area :description, class: 'form-control' %>
+            <% @user.errors[:description].each do |error| %>
+              <span class="help-block"><%= error %></span>
+            <% end -%>
+          </div>
+        </div>
+
+        <%= render partial: 'users/links_form', locals: {form: form, user: @user} %>
 
         <div class="form-group">
           <h2 class="form-title">Change password</h2>

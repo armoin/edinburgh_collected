@@ -24,7 +24,7 @@ $ ->
 
   $image.on 'load', ->
     $image.guillotine 'remove'
-    $image.guillotine { width: 90, height: 90, eventOnChange: 'imageDidChange' }
+    $image.guillotine { width: 180, height: 180, eventOnChange: 'imageDidChange' }
     $image.guillotine 'fit'
 
     logData $image.guillotine('getData')
@@ -34,5 +34,6 @@ $ ->
 
   if $remote_url.val() && $remote_url.val().length
     $remote_url.trigger('imageFileAdded')
-  else
+  else if $("#image-editor").data('show')
     $image.trigger('load')
+    $("#image-editor").show()

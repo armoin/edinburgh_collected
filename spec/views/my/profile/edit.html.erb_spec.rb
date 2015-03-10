@@ -15,9 +15,21 @@ describe 'my/profile/edit.html.erb' do
     render
   end
 
+  describe 'file uploading' do
+    it 'has a separate form for uploading the image initially' do
+      expect(rendered).to have_css('form#new_temp_image input[type="file"]')
+    end
+  end
+
   describe "form fields" do
 
     it_behaves_like 'a user detail form'
+
+    describe 'remote_avatar_url' do
+      it 'has a hidden field for storing the remote_avatar_url' do
+        expect(rendered).to have_css('input[type="hidden"]#user_remote_avatar_url')
+      end
+    end
 
     describe 'last_name' do
       context 'when the user is not a group' do
@@ -42,6 +54,20 @@ describe 'my/profile/edit.html.erb' do
         it "is not required" do
           expect(rendered).not_to have_css('.form-group[aria-required="true"] input[type="text"]#user_last_name')
         end
+      end
+    end
+
+    describe 'description' do
+      it 'has the label "How would you describe yourself to other users?"' do
+        expect(rendered).to have_css('label[for="user_description"]', text: "Bio (a short description of yourself)")
+      end
+
+      it "asks the user to give a brief description of themselves" do
+        expect(rendered).to have_css('textarea#user_description')
+      end
+
+      it "is not required" do
+        expect(rendered).not_to have_css('.form-group[aria-required="true"] textarea#user_description')
       end
     end
 
