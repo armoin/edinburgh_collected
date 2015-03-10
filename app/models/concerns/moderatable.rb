@@ -10,10 +10,6 @@ module Moderatable
   end
 
   module ClassMethods
-    def moderation_record_query
-      ModerationRecordQuery.new(self, moderation_record)
-    end
-
     def in_state(state)
       where(moderation_state: state)
     end
