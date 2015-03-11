@@ -313,10 +313,11 @@ describe Memory do
   describe 'ordering' do
     describe '.by_recent' do
       it 'sorts them by reverse created at date' do
-        memory1 = Fabricate(:photo_memory, user: test_user, area: area)
-        memory2 = Fabricate(:photo_memory, user: test_user, area: area)
-        expect(Memory.by_recent.first).to eql(memory2)
-        expect(Memory.by_recent.last).to eql(memory1)
+        memory1 = Fabricate(:memory)
+        memory2 = Fabricate(:memory)
+        sorted = Memory.by_recent
+        expect(sorted.first).to eql(memory2)
+        expect(sorted.last).to eql(memory1)
       end
     end
   end

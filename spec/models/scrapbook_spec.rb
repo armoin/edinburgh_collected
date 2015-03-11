@@ -95,6 +95,18 @@ describe Scrapbook do
     end
   end
 
+  describe 'ordering' do
+    describe '.by_recent' do
+      it 'sorts them by reverse created at date' do
+        scrapbook1 = Fabricate(:scrapbook)
+        scrapbook2 = Fabricate(:scrapbook)
+        sorted = Scrapbook.by_recent
+        expect(sorted.first).to eql(scrapbook2)
+        expect(sorted.last).to eql(scrapbook1)
+      end
+    end
+  end
+
   describe '#cover' do
     it 'provides a ScrapbookCover for the scrapbook' do
       allow(ScrapbookCover).to receive(:new)
