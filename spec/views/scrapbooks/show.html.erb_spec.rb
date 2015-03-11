@@ -1,16 +1,17 @@
 require 'rails_helper'
 
 describe "scrapbooks/show.html.erb" do
-  let(:scrapbook)  { Fabricate.build(:scrapbook, id: 123) }
-  let(:user)       { Fabricate.build(:active_user) }
-  let(:can_modify) { false }
-  let(:memories)   { [] }
+  let(:scrapbook)          { Fabricate.build(:scrapbook, id: 123) }
+  let(:user)               { Fabricate.build(:active_user) }
+  let(:can_modify)         { false }
+  let(:memories)           { [] }
+  let(:paginated_memories) { Kaminari.paginate_array(memories).page(nil) }
 
   before :each do
     allow(view).to receive(:current_user).and_return(user)
     allow(user).to receive(:can_modify?).and_return(can_modify)
-    allow(scrapbook).to receive(:approved_ordered_memories).and_return(memories)
     assign(:scrapbook, scrapbook)
+    assign(:memories, paginated_memories)
     render
   end
 
@@ -107,4 +108,3 @@ describe "scrapbooks/show.html.erb" do
     end
   end
 end
-

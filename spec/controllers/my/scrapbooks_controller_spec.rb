@@ -88,6 +88,9 @@ describe My::ScrapbooksController do
   end
 
   describe 'GET show' do
+    let(:memories)           { double('scrapbook memories') }
+    let(:paginated_memories) { double('paginated memories') }
+
     context 'when not logged in' do
       before :each do
         get :show, id: '123'
@@ -110,6 +113,9 @@ describe My::ScrapbooksController do
       before :each do
         login_user
         allow(Scrapbook).to receive(:find).and_return(scrapbook)
+        allow(scrapbook).to receive(:ordered_memories).and_return(memories)
+        allow(Kaminari).to receive(:paginate_array).and_return(paginated_memories)
+        allow(paginated_memories).to receive(:page).and_return(paginated_memories)
       end
 
       it 'does not store the scrapbook index path' do
@@ -137,8 +143,25 @@ describe My::ScrapbooksController do
           expect(assigns[:scrapbook]).to eql(scrapbook)
         end
 
-        it "renders the show page" do
-          expect(response).to render_template(:show)
+        it "fetches the scrapbook's memories in the correct order" do
+          expect(scrapbook).to have_received(:ordered_memories)
+        end
+
+        it "paginates the memories" do
+          expect(Kaminari).to have_received(:paginate_array).with(memories)
+          expect(paginated_memories).to have_received(:page)
+        end
+
+        it "assigns the paginated memories" do
+          expect(assigns[:memories]).to eql(paginated_memories)
+        end
+
+        it "renders the scrapbook show page" do
+          expect(response).to render_template('scrapbooks/show')
+        end
+
+        it 'has a 200 status' do
+          expect(response.status).to eql(200)
         end
       end
 

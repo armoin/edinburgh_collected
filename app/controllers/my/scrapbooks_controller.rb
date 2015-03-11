@@ -10,6 +10,8 @@ class My::ScrapbooksController < My::AuthenticatedUserController
   end
 
   def show
+    @memories = Kaminari.paginate_array(scrapbook_memories).page(params[:page])
+    render 'scrapbooks/show'
   end
 
   def create
@@ -54,6 +56,10 @@ class My::ScrapbooksController < My::AuthenticatedUserController
 
   def scrapbook_params
     ScrapbookParamCleaner.clean(params)
+  end
+
+  def scrapbook_memories
+    @scrapbook.ordered_memories
   end
 end
 
