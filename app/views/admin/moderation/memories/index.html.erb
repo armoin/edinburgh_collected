@@ -2,17 +2,16 @@
   <div class="row">
     <h1>Moderation Inbox</h1>
     <% if action_name == 'moderated' %>
-      <%= link_to 'Unmoderated', admin_unmoderated_path %>
+      <%= link_to 'Unmoderated', admin_moderation_memories_path %>
       | Moderated
     <% else %>
       Unmoderated |
-      <%= link_to 'Moderated', admin_moderated_path %>
+      <%= link_to 'Moderated', moderated_admin_moderation_memories_path %>
     <% end %>
 
     <table class="items table table-striped table-responsive">
       <thead>
         <tr>
-          <th>Type</th>
           <th>Title</th>
           <th>State</th>
           <th>Owner</th>
@@ -23,7 +22,6 @@
       <tbody>
         <% @items.each do |item| %>
           <tr class='item'>
-            <td><%= item.is_a?(Scrapbook) ? 'Scrapbook' : 'Memory' %></td>
             <td><%= item.title %></td>
             <td class="<%= item.moderation_state %>"><%= item.moderation_state %></td>
             <td><%= item.user.email %></td>

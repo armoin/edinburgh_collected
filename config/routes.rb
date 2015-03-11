@@ -31,11 +31,12 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get '/home' => 'home#index'
-    get '/unmoderated' => 'moderation#index'
-    get '/moderated' => 'moderation#moderated'
 
     namespace :moderation do
-      resources :memories, only: [:show, :edit, :update, :destroy] do
+      resources :memories do
+        collection do
+          get :moderated
+        end
         member do
           put :approve
           put :reject

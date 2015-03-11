@@ -11,6 +11,130 @@ describe Admin::Moderation::MemoriesController do
     expect(subject).to be_a(Admin::AuthenticatedAdminController)
   end
 
+  describe 'GET index' do
+    let(:unmoderated_memories) { stub_memories(2) }
+
+    context 'when not logged in' do
+      before :each do
+        get :index
+      end
+
+      it 'does not store the moderated path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it 'redirects to sign in' do
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in but not as an admin' do
+      before :each do
+        @user = Fabricate(:active_user)
+        login_user
+        get :index
+      end
+
+      it 'does not store the moderated path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it 'redirects to sign in' do
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in' do
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+        allow(Memory).to receive(:unmoderated).and_return(unmoderated_memories)
+        get :index
+      end
+
+      it 'stores the index path' do
+        expect(session[:current_memory_index_path]).to eql(admin_moderation_memories_path)
+      end
+
+      it 'fetches all items that need to be moderated' do
+        expect(Memory).to have_received(:unmoderated)
+      end
+
+      it 'assigns the unmoderated items' do
+        expect(assigns[:items]).to eql(unmoderated_memories)
+      end
+
+      it 'renders the index view' do
+        expect(response).to render_template(:index)
+      end
+    end
+  end
+
+  describe 'GET moderated' do
+    let(:moderated_memories) { double('moderated_memories') }
+    let(:ordered_memories)   { double('ordered_memories') }
+
+    context 'when not logged in' do
+      before :each do
+        get :moderated
+      end
+
+      it 'does not store the moderated path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it 'redirects to sign in' do
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in but not as an admin' do
+      before :each do
+        @user = Fabricate(:active_user)
+        login_user
+        get :moderated
+      end
+
+      it 'does not store the moderated path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it 'redirects to sign in' do
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in' do
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+        allow(Memory).to receive(:moderated).and_return(moderated_memories)
+        allow(moderated_memories).to receive(:by_recent).and_return(ordered_memories)
+        get :moderated
+      end
+
+      it 'stores the moderated path' do
+        expect(session[:current_memory_index_path]).to eql(moderated_admin_moderation_memories_path)
+      end
+
+      it 'fetches all items that need to be moderated' do
+        expect(Memory).to have_received(:moderated)
+      end
+
+      it 'sorts the items with newest first' do
+        expect(moderated_memories).to have_received(:by_recent)
+      end
+
+      it 'assigns the sorted items' do
+        expect(assigns[:items]).to eql(ordered_memories)
+      end
+
+      it 'renders the index view' do
+        expect(response).to render_template(:index)
+      end
+    end
+  end
+
   describe 'PUT approve' do
     context 'when not logged in' do
       it 'redirects to sign in' do
@@ -52,7 +176,7 @@ describe Admin::Moderation::MemoriesController do
           let(:format) { 'html' }
 
           it 'redirects to the unmoderated index page' do
-            expect(response).to redirect_to(admin_unmoderated_path)
+            expect(response).to redirect_to(admin_moderation_memories_path)
           end
 
           context "when successful" do
@@ -139,7 +263,7 @@ describe Admin::Moderation::MemoriesController do
           let(:format) { 'html' }
 
           it 'redirects to the unmoderated index page' do
-            expect(response).to redirect_to(admin_unmoderated_path)
+            expect(response).to redirect_to(admin_moderation_memories_path)
           end
 
           context "when successful" do
@@ -225,7 +349,7 @@ describe Admin::Moderation::MemoriesController do
           let(:format) { 'html' }
 
           it 'redirects to the moderated index page' do
-            expect(response).to redirect_to(admin_moderated_path)
+            expect(response).to redirect_to(moderated_admin_moderation_memories_path)
           end
 
           context "when successful" do

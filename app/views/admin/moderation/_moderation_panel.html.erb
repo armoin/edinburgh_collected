@@ -1,7 +1,7 @@
-<ul class="admin-toolbar">
-  <li class="state <%= memory.moderation_state %>">
+<div class="admin-toolbar">
+  <div class="state <%= memory.moderation_state %>">
     <%= state_label(memory) %>
-  </li>
+  </div>
   <ul class="moderation-actions">
     <%= button_for_state('unmoderate', 'unmoderated', memory) %>
     <%= button_for_state('approve', 'approved', memory) %>
@@ -11,5 +11,5 @@
       <%= link_to 'Back to list', current_memory_index_path, class: 'btn btn-default' %>
     </li>
   </ul>
-</ul>
+</div>
 

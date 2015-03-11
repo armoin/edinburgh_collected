@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe "admin/moderation/index.html.erb" do
-  let(:items) { Array.new(3) {|n| Fabricate.build(:photo_memory, id: n+1) } }
+describe "admin/moderation/memories/index.html.erb" do
+  let(:items) { Array.new(3) {|n| Fabricate.build(:memory, id: n+1) } }
 
   before :each do
     assign(:items, items)
@@ -14,11 +14,11 @@ describe "admin/moderation/index.html.erb" do
     end
 
     it "has a link to the Moderated view" do
-      expect(rendered).to have_link('Moderated', href: admin_moderated_path)
+      expect(rendered).to have_link('Moderated', href: moderated_admin_moderation_memories_path)
     end
 
     it "does not have a link to the Unmoderated view" do
-      expect(rendered).not_to have_link('Unmoderated', href: admin_unmoderated_path)
+      expect(rendered).not_to have_link('Unmoderated', href: admin_moderation_memories_path)
     end
   end
 
@@ -29,11 +29,11 @@ describe "admin/moderation/index.html.erb" do
     end
 
     it "does not have a link to the Moderated view" do
-      expect(rendered).not_to have_link('Moderated', href: admin_moderated_path)
+      expect(rendered).not_to have_link('Moderated', href: moderated_admin_moderation_memories_path)
     end
 
     it "has a link to the Unmoderated view" do
-      expect(rendered).to have_link('Unmoderated', href: admin_unmoderated_path)
+      expect(rendered).to have_link('Unmoderated', href: admin_moderation_memories_path)
     end
   end
 
@@ -54,10 +54,6 @@ describe "admin/moderation/index.html.erb" do
       end
 
       context 'when the item is a memory' do
-        it 'has type "Memory"' do
-          expect(rendered).to have_css('td', text: 'Memory')
-        end
-
         it 'has a "View Details" link to the memory show page' do
           expect(rendered).to have_link('View details', memory_path(item.id))
         end
@@ -83,7 +79,7 @@ describe "admin/moderation/index.html.erb" do
         let(:last_moderated_at) { nil }
 
         it 'has a blank last modified date' do
-          expect(rendered).to have_css('td:nth-child(5)', text: '')
+          expect(rendered).to have_css('td:nth-child(4)', text: '')
         end
       end
 
@@ -91,7 +87,7 @@ describe "admin/moderation/index.html.erb" do
         let(:last_moderated_at) { Time.parse('13-Nov-2014 14:44') }
 
         it 'shows the last moderated date' do
-          expect(rendered).to have_css('td:nth-child(5)', text: '13-Nov-2014 14:44')
+          expect(rendered).to have_css('td:nth-child(4)', text: '13-Nov-2014 14:44')
         end
       end
     end

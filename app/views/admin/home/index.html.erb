@@ -1,5 +1,11 @@
 <div class="container">
-  <div class="options">
-    <%= link_to 'Moderation', admin_unmoderated_path %>
+  <div class="row">
+    <h1>Moderation Inbox</h1>
+
+    <h2>Memories</h2>
+    <ul>
+      <li><%= link_to "Unmoderated (#{Memory.unmoderated.count})", admin_moderation_memories_path %></li>
+      <li><%= link_to "Moderated", moderated_admin_moderation_memories_path %></li>
+    </ul>
   </div>
 </div>

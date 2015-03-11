@@ -1757,15 +1757,18 @@ table.items
     color: white
     padding: 0.2em
 
-ul.admin-toolbar
-  list-style: none
-  display: inline-block
-  margin: 0
+.admin-toolbar
+  margin: 1em 0
   padding: 0.4em
   width: 100%
 
-  li.state
+  .state
     margin-bottom: 0
+    top: 0
+
+    &.unmoderated
+      background: $unmoderated
+      color: white
 
   ul.moderation-actions
     list-style: none
