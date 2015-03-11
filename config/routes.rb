@@ -33,7 +33,7 @@ Rails.application.routes.draw do
     get '/home' => 'home#index'
 
     namespace :moderation do
-      resources :memories do
+      resources :memories, only: :index do
         collection do
           get :moderated
         end
@@ -41,6 +41,11 @@ Rails.application.routes.draw do
           put :approve
           put :reject
           put :unmoderate
+        end
+      end
+      resources :scrapbooks, only: :index do
+        collection do
+          get :moderated
         end
       end
     end

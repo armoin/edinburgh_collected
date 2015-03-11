@@ -39,6 +39,44 @@ describe "admin/home/index.html.erb" do
         expect(rendered).to have_link("Moderated", href: moderated_admin_moderation_memories_path)
       end
     end
+
+    describe 'scrapbooks' do
+      describe 'has an Unmoderated scrapbooks link' do
+        before :each do
+          allow(Scrapbook).to receive(:unmoderated).and_return( Array.new(scrapbook_count) {|m| Fabricate.build(:scrapbook)} )
+          render
+        end
+
+        context 'when there are no unmoderated scrapbooks' do
+          let(:scrapbook_count) { 0 }
+
+          it 'includes a scrapbook count of 0' do
+            expect(rendered).to have_link("Unmoderated (0)", href: admin_moderation_scrapbooks_path)
+          end
+        end
+
+        context 'when there is one unmoderated scrapbook' do
+          let(:scrapbook_count) { 1 }
+
+          it 'includes a scrapbook count of 1' do
+            expect(rendered).to have_link("Unmoderated (1)", href: admin_moderation_scrapbooks_path)
+          end
+        end
+
+        context 'when there are more than one unmoderated scrapbooks' do
+          let(:scrapbook_count) { 3 }
+
+          it 'includes a scrapbook count matching the number of scrapbooks' do
+            expect(rendered).to have_link("Unmoderated (3)", href: admin_moderation_scrapbooks_path)
+          end
+        end
+      end
+
+      it "has a Moderated scrapbooks link" do
+        render
+        expect(rendered).to have_link("Moderated", href: moderated_admin_moderation_scrapbooks_path)
+      end
+    end
   end
 end
 

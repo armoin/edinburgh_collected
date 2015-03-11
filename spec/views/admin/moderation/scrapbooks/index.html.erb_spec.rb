@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe "admin/moderation/memories/index.html.erb" do
-  let(:items) { Array.new(3) {|n| Fabricate.build(:memory, id: n+1) } }
+describe "admin/moderation/scrapbooks/index.html.erb" do
+  let(:items) { Array.new(3) {|n| Fabricate.build(:scrapbook, id: n+1) } }
 
   before :each do
     assign(:items, items)
@@ -14,11 +14,11 @@ describe "admin/moderation/memories/index.html.erb" do
     end
 
     it "has a link to the Moderated view" do
-      expect(rendered).to have_link('Moderated', href: moderated_admin_moderation_memories_path)
+      expect(rendered).to have_link('Moderated', href: moderated_admin_moderation_scrapbooks_path)
     end
 
     it "does not have a link to the Unmoderated view" do
-      expect(rendered).not_to have_link('Unmoderated', href: admin_moderation_memories_path)
+      expect(rendered).not_to have_link('Unmoderated', href: admin_moderation_scrapbooks_path)
     end
   end
 
@@ -29,11 +29,11 @@ describe "admin/moderation/memories/index.html.erb" do
     end
 
     it "does not have a link to the Moderated view" do
-      expect(rendered).not_to have_link('Moderated', href: moderated_admin_moderation_memories_path)
+      expect(rendered).not_to have_link('Moderated', href: moderated_admin_moderation_scrapbooks_path)
     end
 
     it "has a link to the Unmoderated view" do
-      expect(rendered).to have_link('Unmoderated', href: admin_moderation_memories_path)
+      expect(rendered).to have_link('Unmoderated', href: admin_moderation_scrapbooks_path)
     end
   end
 
@@ -44,7 +44,7 @@ describe "admin/moderation/memories/index.html.erb" do
     end
 
     describe 'an item' do
-      let(:item)              { Fabricate.build(:photo_memory, id: 123) }
+      let(:item)              { Fabricate.build(:scrapbook, id: 123) }
       let(:last_moderated_at) { nil }
 
       before :each do
@@ -54,7 +54,7 @@ describe "admin/moderation/memories/index.html.erb" do
       end
 
       it 'has a "View Details" link to the item show page' do
-        expect(rendered).to have_link('View details', memory_path(item.id))
+        expect(rendered).to have_link('View details', scrapbook_path(item.id))
       end
 
       it 'shows the title' do
