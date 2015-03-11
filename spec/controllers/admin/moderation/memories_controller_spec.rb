@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 describe Admin::Moderation::MemoriesController do
-  let(:memory) { Fabricate.build(:photo_memory, id: 123) }
-
-  before :each do
-    allow(Memory).to receive(:find).with(memory.to_param).and_return(memory)
-  end
-
   it 'requires the user to be authenticated as an administrator' do
     expect(subject).to be_a(Admin::AuthenticatedAdminController)
   end
@@ -135,7 +129,76 @@ describe Admin::Moderation::MemoriesController do
     end
   end
 
+  describe 'GET show' do
+    let(:memory) { Fabricate.build(:photo_memory, id: 123) }
+
+    context 'when not logged in' do
+      it 'redirects to sign in' do
+        get :show, id: memory.id
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in but not as an admin' do
+      it 'redirects to sign in' do
+        @user = Fabricate(:active_user)
+        login_user
+        get :show, id: memory.id
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in' do
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+      end
+
+      it 'looks for the memory to approve' do
+        allow(Memory).to receive(:find).with(memory.to_param).and_return(memory)
+        get :show, id: memory.id
+        expect(Memory).to have_received(:find).with(memory.to_param)
+      end
+
+      context "when memory is found" do
+        before :each do
+          allow(Memory).to receive(:find).with(memory.to_param).and_return(memory)
+          get :show, id: memory.id
+        end
+
+        it "assigns the memory" do
+          expect(assigns[:memory]).to eql(memory)
+        end
+
+        it 'renders the show page' do
+          expect(response).to render_template(:show)
+        end
+
+        it 'has a 200 status' do
+          expect(response.status).to eql(200)
+        end
+      end
+
+      context "when memory is not found" do
+        before :each do
+          allow(Memory).to receive(:find).with(memory.to_param).and_raise(ActiveRecord::RecordNotFound)
+          get :show, id: memory.id
+        end
+
+        it 'renders the Not Found page' do
+          expect(response).to render_template('exceptions/not_found')
+        end
+
+        it 'has a 404 status' do
+          expect(response.status).to eql(404)
+        end
+      end
+    end
+  end
+
   describe 'PUT approve' do
+    let(:memory) { Fabricate.build(:photo_memory, id: 123) }
+
     context 'when not logged in' do
       it 'redirects to sign in' do
         put :approve, id: memory.id
@@ -153,26 +216,32 @@ describe Admin::Moderation::MemoriesController do
     end
 
     context 'when logged in' do
-      let(:result)          { true }
-      let(:format)          { 'html' }
+      let(:result) { true }
+      let(:format) { 'html' }
 
       before :each do
         @user = Fabricate(:admin_user)
         login_user
         allow(memory).to receive(:approve!).and_return(result)
-        put :approve, id: memory.id, format: format
       end
 
       it 'looks for the memory to approve' do
+        allow(Memory).to receive(:find).with(memory.to_param).and_return(memory)
+        put :approve, id: memory.id, format: format
         expect(Memory).to have_received(:find).with(memory.to_param)
       end
 
       context "when memory is found" do
+        before :each do
+          allow(Memory).to receive(:find).with(memory.to_param).and_return(memory)
+          put :approve, id: memory.id, format: format
+        end
+
         it "updates the memory's status to 'Approved'" do
           expect(memory).to have_received(:approve!)
         end
 
-        context 'when an HTML  request' do
+        context 'when an HTML request' do
           let(:format) { 'html' }
 
           it 'redirects to the unmoderated index page' do
@@ -217,10 +286,30 @@ describe Admin::Moderation::MemoriesController do
           end
         end
       end
+
+      context "when memory is not found" do
+        before :each do
+          allow(Memory).to receive(:find).with(memory.to_param).and_raise(ActiveRecord::RecordNotFound)
+          put :approve, id: memory.id, format: format
+        end
+
+        it 'has a 404 status' do
+          expect(response.status).to eql(404)
+        end
+
+        context 'when an HTML request' do
+          let(:format) { 'html' }
+
+          it 'renders the Not Found page' do
+            expect(response).to render_template('exceptions/not_found')
+          end
+        end
+      end
     end
   end
 
   describe 'PUT reject' do
+    let(:memory) { Fabricate.build(:photo_memory, id: 123) }
     let(:reason) { 'unsuitable' }
     let(:result) { true }
     let(:format) { 'html' }
@@ -242,24 +331,29 @@ describe Admin::Moderation::MemoriesController do
     end
 
     context 'when logged in' do
-
       before :each do
         @user = Fabricate(:admin_user)
         login_user
         allow(memory).to receive(:reject!).and_return(result)
-        put :reject, id: memory.id, reason: reason, format: format
       end
 
       it 'looks for the memory to reject' do
+        allow(Memory).to receive(:find).with(memory.to_param).and_return(memory)
+        put :reject, id: memory.id, reason: reason, format: format
         expect(Memory).to have_received(:find).with(memory.to_param)
       end
 
       context "when memory is found" do
+        before :each do
+          allow(Memory).to receive(:find).with(memory.to_param).and_return(memory)
+          put :reject, id: memory.id, reason: reason, format: format
+        end
+
         it "updates the memory's status to 'Rejected'" do
           expect(memory).to have_received(:reject!).with('unsuitable')
         end
 
-        context 'when an HTML  request' do
+        context 'when an HTML request' do
           let(:format) { 'html' }
 
           it 'redirects to the unmoderated index page' do
@@ -304,10 +398,30 @@ describe Admin::Moderation::MemoriesController do
           end
         end
       end
+
+      context "when memory is not found" do
+        before :each do
+          allow(Memory).to receive(:find).with(memory.to_param).and_raise(ActiveRecord::RecordNotFound)
+          put :reject, id: memory.id, reason: reason, format: format
+        end
+
+        it 'has a 404 status' do
+          expect(response.status).to eql(404)
+        end
+
+        context 'when an HTML request' do
+          let(:format) { 'html' }
+
+          it 'renders the Not Found page' do
+            expect(response).to render_template('exceptions/not_found')
+          end
+        end
+      end
     end
   end
 
   describe 'PUT unmoderate' do
+    let(:memory) { Fabricate.build(:photo_memory, id: 123) }
     let(:result) { true }
     let(:format) { 'html' }
 
@@ -328,24 +442,29 @@ describe Admin::Moderation::MemoriesController do
     end
 
     context 'when logged in' do
-
       before :each do
         @user = Fabricate(:admin_user)
         login_user
         allow(memory).to receive(:unmoderate!).and_return(result)
-        put :unmoderate, id: memory.id, format: format
       end
 
       it 'looks for the memory to unmoderate' do
+        allow(Memory).to receive(:find).with(memory.to_param).and_return(memory)
+        put :unmoderate, id: memory.id, format: format
         expect(Memory).to have_received(:find).with(memory.to_param)
       end
 
       context "when memory is found" do
+        before :each do
+          allow(Memory).to receive(:find).with(memory.to_param).and_return(memory)
+          put :unmoderate, id: memory.id, format: format
+        end
+
         it "updates the memory's status to 'Unmoderated'" do
           expect(memory).to have_received(:unmoderate!)
         end
 
-        context 'when an HTML  request' do
+        context 'when an HTML request' do
           let(:format) { 'html' }
 
           it 'redirects to the moderated index page' do
@@ -390,7 +509,25 @@ describe Admin::Moderation::MemoriesController do
           end
         end
       end
+
+      context "when memory is not found" do
+        before :each do
+          allow(Memory).to receive(:find).with(memory.to_param).and_raise(ActiveRecord::RecordNotFound)
+          put :unmoderate, id: memory.id, format: format
+        end
+
+        it 'has a 404 status' do
+          expect(response.status).to eql(404)
+        end
+
+        context 'when an HTML request' do
+          let(:format) { 'html' }
+
+          it 'renders the Not Found page' do
+            expect(response).to render_template('exceptions/not_found')
+          end
+        end
+      end
     end
   end
 end
-

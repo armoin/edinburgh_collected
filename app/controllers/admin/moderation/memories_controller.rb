@@ -6,6 +6,9 @@ class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminControlle
     @items = Memory.unmoderated
   end
 
+  def show
+  end
+
   def moderated
     @items = Memory.moderated.by_recent
     render :index

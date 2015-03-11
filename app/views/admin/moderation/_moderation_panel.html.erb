@@ -1,14 +1,14 @@
 <div class="admin-toolbar">
-  <div class="state <%= memory.moderation_state %>">
-    <%= state_label(memory) %>
+  <div class="state <%= item.moderation_state %>">
+    <%= state_label(item) %>
   </div>
   <ul class="moderation-actions">
-    <%= button_for_state('unmoderate', 'unmoderated', memory) %>
-    <%= button_for_state('approve', 'approved', memory) %>
-    <%= button_for_state('reject', 'rejected', memory, 'unsuitable') %>
-    <%= button_for_state('reject', 'rejected', memory, 'offensive') %>
+    <%= button_for_state('unmoderate', 'unmoderated', item) %>
+    <%= button_for_state('approve', 'approved', item) %>
+    <%= button_for_state('reject', 'rejected', item, 'unsuitable') %>
+    <%= button_for_state('reject', 'rejected', item, 'offensive') %>
     <li>
-      <%= link_to 'Back to list', current_memory_index_path, class: 'btn btn-default' %>
+      <%= link_to 'Back to list', list_path, class: 'btn btn-default' %>
     </li>
   </ul>
 </div>

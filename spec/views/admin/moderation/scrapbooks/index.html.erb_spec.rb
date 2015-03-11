@@ -54,7 +54,7 @@ describe "admin/moderation/scrapbooks/index.html.erb" do
       end
 
       it 'has a "View Details" link to the item show page' do
-        expect(rendered).to have_link('View details', scrapbook_path(item.id))
+        expect(rendered).to have_link('View details', href: scrapbook_path(item.id))
       end
 
       it 'shows the title' do
