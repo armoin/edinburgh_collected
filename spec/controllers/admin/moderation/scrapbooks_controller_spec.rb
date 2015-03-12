@@ -214,5 +214,252 @@ describe Admin::Moderation::ScrapbooksController do
       end
     end
   end
+
+  describe 'PUT approve' do
+    let(:scrapbook) { Fabricate.build(:scrapbook, id: 123) }
+
+    context 'when not logged in' do
+      it 'redirects to sign in' do
+        put :approve, id: scrapbook.id
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in but not as an admin' do
+      it 'redirects to sign in' do
+        @user = Fabricate(:active_user)
+        login_user
+        put :approve, id: scrapbook.id
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in' do
+      let(:result) { true }
+
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+        allow(scrapbook).to receive(:approve!).and_return(result)
+      end
+
+      it 'looks for the scrapbook to approve' do
+        allow(Scrapbook).to receive(:find).with(scrapbook.to_param).and_return(scrapbook)
+        put :approve, id: scrapbook.id
+        expect(Scrapbook).to have_received(:find).with(scrapbook.to_param)
+      end
+
+      context "when scrapbook is found" do
+        before :each do
+          allow(Scrapbook).to receive(:find).with(scrapbook.to_param).and_return(scrapbook)
+          put :approve, id: scrapbook.id
+        end
+
+        it "updates the scrapbook's status to 'approved'" do
+          expect(scrapbook).to have_received(:approve!)
+        end
+
+        it 'redirects to the unmoderated index page' do
+          expect(response).to redirect_to(admin_moderation_scrapbooks_path)
+        end
+
+        context "when successful" do
+          let(:result) { true }
+
+          it "displays a success message" do
+            expect(flash[:notice]).to eql('Scrapbook approved')
+          end
+        end
+
+        context "when unsuccessful" do
+          let(:result) { false }
+
+          it "displays a failure alert" do
+            expect(flash[:alert]).to eql('Could not approve scrapbook')
+          end
+        end
+      end
+
+      context "when scrapbook is not found" do
+        before :each do
+          allow(Scrapbook).to receive(:find).with(scrapbook.to_param).and_raise(ActiveRecord::RecordNotFound)
+          put :approve, id: scrapbook.id
+        end
+
+        it 'has a 404 status' do
+          expect(response.status).to eql(404)
+        end
+
+        it 'renders the Not Found page' do
+          expect(response).to render_template('exceptions/not_found')
+        end
+      end
+    end
+  end
+
+  describe 'PUT reject' do
+    let(:scrapbook) { Fabricate.build(:scrapbook, id: 123) }
+
+    context 'when not logged in' do
+      it 'redirects to sign in' do
+        put :reject, id: scrapbook.id
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in but not as an admin' do
+      it 'redirects to sign in' do
+        @user = Fabricate(:active_user)
+        login_user
+        put :reject, id: scrapbook.id
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in' do
+      let(:result) { true }
+      let(:reason) { 'unsuitable' }
+
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+        allow(scrapbook).to receive(:reject!).and_return(result)
+      end
+
+      it 'looks for the scrapbook to reject' do
+        allow(Scrapbook).to receive(:find).with(scrapbook.to_param).and_return(scrapbook)
+        put :reject, id: scrapbook.id, reason: reason
+        expect(Scrapbook).to have_received(:find).with(scrapbook.to_param)
+      end
+
+      context "when scrapbook is found" do
+        before :each do
+          allow(Scrapbook).to receive(:find).with(scrapbook.to_param).and_return(scrapbook)
+          put :reject, id: scrapbook.id, reason: reason
+        end
+
+        it "updates the scrapbook's status to 'rejected' and reason to 'unsuitable'" do
+          expect(scrapbook).to have_received(:reject!).with('unsuitable')
+        end
+
+        it 'redirects to the unmoderated index page' do
+          expect(response).to redirect_to(admin_moderation_scrapbooks_path)
+        end
+
+        context "when successful" do
+          let(:result) { true }
+
+          it "displays a success message" do
+            expect(flash[:notice]).to eql('Scrapbook rejected')
+          end
+        end
+
+        context "when unsuccessful" do
+          let(:result) { false }
+
+          it "displays a failure alert" do
+            expect(flash[:alert]).to eql('Could not reject scrapbook')
+          end
+        end
+      end
+
+      context "when scrapbook is not found" do
+        before :each do
+          allow(Scrapbook).to receive(:find).with(scrapbook.to_param).and_raise(ActiveRecord::RecordNotFound)
+          put :reject, id: scrapbook.id, reason: reason
+        end
+
+        it 'has a 404 status' do
+          expect(response.status).to eql(404)
+        end
+
+        it 'renders the Not Found page' do
+          expect(response).to render_template('exceptions/not_found')
+        end
+      end
+    end
+  end
+
+  describe 'PUT unmoderate' do
+    let(:scrapbook) { Fabricate.build(:scrapbook, id: 123) }
+
+    context 'when not logged in' do
+      it 'redirects to sign in' do
+        put :unmoderate, id: scrapbook.id
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in but not as an admin' do
+      it 'redirects to sign in' do
+        @user = Fabricate(:active_user)
+        login_user
+        put :unmoderate, id: scrapbook.id
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in' do
+      let(:result) { true }
+
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+        allow(scrapbook).to receive(:unmoderate!).and_return(result)
+      end
+
+      it 'looks for the scrapbook to unmoderate' do
+        allow(Scrapbook).to receive(:find).with(scrapbook.to_param).and_return(scrapbook)
+        put :unmoderate, id: scrapbook.id
+        expect(Scrapbook).to have_received(:find).with(scrapbook.to_param)
+      end
+
+      context "when scrapbook is found" do
+        before :each do
+          allow(Scrapbook).to receive(:find).with(scrapbook.to_param).and_return(scrapbook)
+          put :unmoderate, id: scrapbook.id
+        end
+
+        it "updates the scrapbook's status to 'unmoderated'" do
+          expect(scrapbook).to have_received(:unmoderate!)
+        end
+
+        it 'redirects to the unmoderated index page' do
+          expect(response).to redirect_to(admin_moderation_scrapbooks_path)
+        end
+
+        context "when successful" do
+          let(:result) { true }
+
+          it "displays a success message" do
+            expect(flash[:notice]).to eql('Scrapbook unmoderated')
+          end
+        end
+
+        context "when unsuccessful" do
+          let(:result) { false }
+
+          it "displays a failure alert" do
+            expect(flash[:alert]).to eql('Could not unmoderate scrapbook')
+          end
+        end
+      end
+
+      context "when scrapbook is not found" do
+        before :each do
+          allow(Scrapbook).to receive(:find).with(scrapbook.to_param).and_raise(ActiveRecord::RecordNotFound)
+          put :approve, id: scrapbook.id
+        end
+
+        it 'has a 404 status' do
+          expect(response.status).to eql(404)
+        end
+
+        it 'renders the Not Found page' do
+          expect(response).to render_template('exceptions/not_found')
+        end
+      end
+    end
+  end
 end
 
