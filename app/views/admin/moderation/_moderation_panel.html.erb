@@ -1,12 +1,12 @@
 <div class="admin-toolbar">
-  <div class="state <%= item.moderation_state %>">
-    <%= state_label(item) %>
+  <div class="state <%= moderatable.moderation_state %>">
+    <%= state_label(moderatable) %>
   </div>
   <ul class="moderation-actions">
-    <%= button_for_state('unmoderate', 'unmoderated', item) %>
-    <%= button_for_state('approve', 'approved', item) %>
-    <%= button_for_state('reject', 'rejected', item, 'unsuitable') %>
-    <%= button_for_state('reject', 'rejected', item, 'offensive') %>
+    <%= button_for_state('unmoderate', 'unmoderated', moderatable, moderatable_name) %>
+    <%= button_for_state('approve', 'approved', moderatable, moderatable_name) %>
+    <%= button_for_state('reject', 'rejected', moderatable, moderatable_name, 'unsuitable') %>
+    <%= button_for_state('reject', 'rejected', moderatable, moderatable_name, 'offensive') %>
     <li>
       <%= link_to 'Back to list', list_path, class: 'btn btn-default' %>
     </li>

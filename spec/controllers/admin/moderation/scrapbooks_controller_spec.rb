@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 describe Admin::Moderation::ScrapbooksController do
-  let(:scrapbook) { Fabricate.build(:scrapbook, id: 123) }
-
   it 'requires the user to be authenticated as an administrator' do
     expect(subject).to be_a(Admin::AuthenticatedAdminController)
   end
@@ -127,6 +125,92 @@ describe Admin::Moderation::ScrapbooksController do
 
       it 'renders the index view' do
         expect(response).to render_template(:index)
+      end
+    end
+  end
+
+  describe 'GET show' do
+    let(:scrapbook) { Fabricate.build(:scrapbook, id: 123) }
+
+    context 'when not logged in' do
+      it 'redirects to sign in' do
+        get :show, id: scrapbook.id
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in but not as an admin' do
+      it 'redirects to sign in' do
+        @user = Fabricate(:active_user)
+        login_user
+        get :show, id: scrapbook.id
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in' do
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+      end
+
+      it 'looks for the requested scrapbook' do
+        allow(Scrapbook).to receive(:find).with(scrapbook.to_param).and_return(scrapbook)
+        get :show, id: scrapbook.id
+        expect(Scrapbook).to have_received(:find).with(scrapbook.to_param)
+      end
+
+      context "when scrapbook is found" do
+        let(:memories)           { double('scrapbook memories') }
+        let(:paginated_memories) { double('paginated memories') }
+
+        before :each do
+          allow(Scrapbook).to receive(:find).with(scrapbook.to_param).and_return(scrapbook)
+          allow(scrapbook).to receive(:ordered_memories).and_return(memories)
+          allow(Kaminari).to receive(:paginate_array).and_return(paginated_memories)
+          allow(paginated_memories).to receive(:page).and_return(paginated_memories)
+          get :show, id: scrapbook.id
+        end
+
+        it "assigns the scrapbook" do
+          expect(assigns[:scrapbook]).to eql(scrapbook)
+        end
+
+        it "fetches the scrapbook's memories in the correct order" do
+          expect(scrapbook).to have_received(:ordered_memories)
+        end
+
+        it "paginates the memories" do
+          expect(Kaminari).to have_received(:paginate_array).with(memories)
+          expect(paginated_memories).to have_received(:page)
+        end
+
+        it "assigns the paginated memories" do
+          expect(assigns[:memories]).to eql(paginated_memories)
+        end
+
+        it 'renders the show page' do
+          expect(response).to render_template(:show)
+        end
+
+        it 'has a 200 status' do
+          expect(response.status).to eql(200)
+        end
+      end
+
+      context "when scrapbook is not found" do
+        before :each do
+          allow(Scrapbook).to receive(:find).with(scrapbook.to_param).and_raise(ActiveRecord::RecordNotFound)
+          get :show, id: scrapbook.id
+        end
+
+        it 'renders the Not Found page' do
+          expect(response).to render_template('exceptions/not_found')
+        end
+
+        it 'has a 404 status' do
+          expect(response.status).to eql(404)
+        end
       end
     end
   end

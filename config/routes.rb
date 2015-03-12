@@ -43,9 +43,14 @@ Rails.application.routes.draw do
           put :unmoderate
         end
       end
-      resources :scrapbooks, only: :index do
+      resources :scrapbooks, only: [:index, :show] do
         collection do
           get :moderated
+        end
+        member do
+          put :approve
+          put :reject
+          put :unmoderate
         end
       end
     end

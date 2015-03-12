@@ -154,7 +154,7 @@ describe Admin::Moderation::MemoriesController do
         login_user
       end
 
-      it 'looks for the memory to approve' do
+      it 'looks for the requested memory' do
         allow(Memory).to receive(:find).with(memory.to_param).and_return(memory)
         get :show, id: memory.id
         expect(Memory).to have_received(:find).with(memory.to_param)

@@ -26,7 +26,7 @@
             <td class="<%= item.moderation_state %>"><%= item.moderation_state %></td>
             <td><%= item.user.email %></td>
             <td><%= item.last_moderated_at.try(:strftime, "%d-%b-%Y %H:%M") %></td>
-            <td><%= link_to 'View details', scrapbook_path(item.id) %></td>
+            <td><%= link_to 'View details', admin_moderation_scrapbook_path(item.id) %></td>
           </tr>
         <% end %>
       </tbody>

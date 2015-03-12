@@ -4,15 +4,15 @@ module StateHelper
     'my/scrapbooks',
   ]
 
-  def button_for_state(action, state, memory, reason=nil)
+  def button_for_state(action, state, moderatable, moderatable_name, reason=nil)
     link_name = action
     if reason
       state += " - #{reason}"
       link_name += " - #{reason}"
     end
 
-    unless state_label(memory) == state
-      url = send("#{action}_admin_moderation_memory_path", memory, reason: reason)
+    unless state_label(moderatable) == state
+      url = send("#{action}_admin_moderation_#{moderatable_name}_path", moderatable, reason: reason)
       content_tag(:li, link_to(link_name.capitalize, url, class: "btn #{action}", method: :put))
     end
   end

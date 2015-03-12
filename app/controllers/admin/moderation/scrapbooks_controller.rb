@@ -9,5 +9,10 @@ class Admin::Moderation::ScrapbooksController < Admin::AuthenticatedAdminControl
     @items = Scrapbook.moderated.by_recent
     render :index
   end
+
+  def show
+    @scrapbook = Scrapbook.find(params[:id])
+    @memories = Kaminari.paginate_array(@scrapbook.ordered_memories).page(params[:page])
+  end
 end
 
