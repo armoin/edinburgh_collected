@@ -10,7 +10,8 @@ module UserAuthenticator
   def not_authenticated
     respond_to do |format|
       format.html { redirect_to signin_path, alert: "Please sign in first" }
-      format.js   { render json: {error: 'You must be signed in to do this.'}, status: :forbidden }
+      format.json { render json: {error: 'You must be signed in to do this.'}, status: :forbidden }
+      format.js   { render 'shared/authentication_error', status: :forbidden }
     end
   end
 end
