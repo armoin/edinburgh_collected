@@ -2,11 +2,12 @@ require 'rails_helper'
 
 describe My::ProfileController do
   describe 'GET show' do
-    context 'when not logged in' do
-      it 'asks user to signin' do
-        get :show
-        expect(response).to redirect_to(:signin)
+    describe 'ensure user is logged in' do
+      before :each do
+        get :show, format: format
       end
+
+      it_behaves_like 'requires logged in user'
     end
 
     context 'when logged in' do
@@ -27,11 +28,12 @@ describe My::ProfileController do
   end
 
   describe 'GET edit' do
-    context 'when not logged in' do
-      it 'asks user to signin' do
-        get :edit
-        expect(response).to redirect_to(:signin)
+    describe 'ensure user is logged in' do
+      before :each do
+        get :edit, format: format
       end
+
+      it_behaves_like 'requires logged in user'
     end
 
     context 'when logged in' do
@@ -77,11 +79,12 @@ describe My::ProfileController do
   end
 
   describe 'PUT update' do
-    context 'when not logged in' do
-      it 'asks user to signin' do
-        put :update
-        expect(response).to redirect_to(:signin)
+    describe 'ensure user is logged in' do
+      before :each do
+        put :update, format: format
       end
+
+      it_behaves_like 'requires logged in user'
     end
 
     context 'when logged in' do

@@ -19,8 +19,10 @@ describe My::ScrapbooksController do
     end
 
     context 'when not logged in' do
+      let(:format) { 'html' }
+
       before :each do
-        get :index
+        get :index, format: format
       end
 
       it 'does not store the scrapbook index path' do
@@ -31,9 +33,7 @@ describe My::ScrapbooksController do
         expect(session[:current_memory_index_path]).to be_nil
       end
 
-      it 'asks user to signin' do
-        expect(response).to redirect_to(:signin)
-      end
+      it_behaves_like 'requires logged in user'
     end
 
     context 'when logged in' do
@@ -92,8 +92,10 @@ describe My::ScrapbooksController do
     let(:paginated_memories) { double('paginated memories') }
 
     context 'when not logged in' do
+      let(:format) { 'html' }
+
       before :each do
-        get :show, id: '123'
+        get :show, id: '123', format: format
       end
 
       it 'does not store the scrapbook index path' do
@@ -104,9 +106,7 @@ describe My::ScrapbooksController do
         expect(session[:current_memory_index_path]).to be_nil
       end
 
-      it 'asks user to signin' do
-        expect(response).to redirect_to(:signin)
-      end
+      it_behaves_like 'requires logged in user'
     end
 
     context 'when logged in' do
@@ -180,11 +180,12 @@ describe My::ScrapbooksController do
 
   describe 'POST create' do
     let(:strong_params) {{ title: 'A title' }}
-    let(:given_params) {{
+    let(:format)        { 'js' }
+    let(:given_params)  {{
       scrapbook: strong_params,
       controller: 'my/scrapbooks',
       action: 'create',
-      format: 'js'
+      format: format
     }}
 
     context 'when not logged in' do
@@ -200,9 +201,7 @@ describe My::ScrapbooksController do
         expect(session[:current_memory_index_path]).to be_nil
       end
 
-      it 'asks user to signin' do
-        expect(response).to redirect_to(:signin)
-      end
+      it_behaves_like 'requires logged in user'
     end
 
     context 'when logged in' do

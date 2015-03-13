@@ -9,6 +9,7 @@ describe My::ScrapbookMemoriesController do
     let(:scrapbooks)    { Array.new(3) { Fabricate.build(:scrapbook) } }
     let(:scrapbook)     { scrapbooks.first }
     let(:memory)        { Fabricate.build(:photo_memory, id: 456) }
+    let(:format)        { 'js' }
     let(:strong_params) {{
       scrapbook_id: scrapbook.id,
       memory_id: memory.id,
@@ -17,14 +18,15 @@ describe My::ScrapbookMemoriesController do
       scrapbook_memory: strong_params,
       controller: 'my/scrapbook_memories',
       action: 'create',
-      format: 'js'
+      format: format
     }}
 
-    context 'when not logged in' do
-      it 'asks user to signin' do
+    describe 'ensure user is logged in' do
+      before :each do
         post :create, given_params
-        expect(response).to redirect_to(:signin)
       end
+
+      it_behaves_like 'requires logged in user'
     end
 
     context 'when logged in' do
@@ -115,11 +117,12 @@ describe My::ScrapbookMemoriesController do
       allow(scrapbook_memory).to receive(:destroy).and_return(true)
     end
 
-    context 'when not logged in' do
-      it 'asks user to signin' do
-        delete :destroy, id: scrapbook_memory.id
-        expect(response).to redirect_to(:signin)
+    describe 'ensure user is logged in' do
+      before :each do
+        delete :destroy, id: scrapbook_memory.id, format: format
       end
+
+      it_behaves_like 'requires logged in user'
     end
 
     context 'when logged in' do
