@@ -14,6 +14,7 @@ class MemoryParamCleaner
       :area_id,
       :location,
       :tag_list,
+      :moderation_reason,
       :category_ids => [],
     )
   end

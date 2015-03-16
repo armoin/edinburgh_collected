@@ -2,18 +2,19 @@ require 'rails_helper'
 
 def memory_allowed_params
   {
-    title:        'A test',
-    type:         'Photo',
-    rotation:     '90',
-    source:       'test.jpg',
-    description:  'This is a test description',
-    year:         '2014',
-    month:        '5',
-    day:          '4',
-    attribution:  'Bobby Tables',
-    area_id:      '1',
-    location:     'Portobello',
-    category_ids: ['category_1', 'category_2'],
+    title:              'A test',
+    type:               'Photo',
+    rotation:           '90',
+    source:             'test.jpg',
+    description:        'This is a test description',
+    year:               '2014',
+    month:              '5',
+    day:                '4',
+    attribution:        'Bobby Tables',
+    area_id:            '1',
+    location:           'Portobello',
+    moderation_reason:  'Some reason',
+    category_ids:       ['category_1', 'category_2'],
   }
 end
 

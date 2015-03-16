@@ -1,10 +1,11 @@
 RSpec.shared_examples 'a memory page' do
   let(:user)        { Fabricate.build(:active_user, id: 123)}
+  let(:owner)       { Fabricate.build(:active_user, id: 456)}
   let(:area)        { Fabricate.build(:area, name: 'Portobello') }
   let(:location)    { 'Kings Road' }
   let(:tags)        { Array.new(2).map.with_index{|m,i| Fabricate.build(:tag, id: i)} }
   let(:attribution) { 'Bobby Tables' }
-  let(:memory)      { Fabricate.build(:photo_memory, id: 123, attribution: attribution, area: area, location: location, tags: tags, user: user) }
+  let(:memory)      { Fabricate.build(:photo_memory, id: 123, attribution: attribution, area: area, location: location, tags: tags, user: owner) }
   let(:edit_path)   { edit_my_memory_path(memory.id) }
   let(:delete_path) { my_memory_path(memory.id) }
 
@@ -38,8 +39,7 @@ RSpec.shared_examples 'a memory page' do
 
     context "when memory belongs to the user" do
       before :each do
-        allow(view).to receive(:current_user).and_return(user)
-        allow(user).to receive(:can_modify?).and_return(true)
+        allow(view).to receive(:current_user).and_return(owner)
         render
       end
 
@@ -55,7 +55,6 @@ RSpec.shared_examples 'a memory page' do
     context "when memory does not belong to the user" do
       before :each do
         allow(view).to receive(:current_user).and_return(user)
-        allow(user).to receive(:can_modify?).and_return(false)
         render
       end
 
@@ -71,11 +70,16 @@ RSpec.shared_examples 'a memory page' do
     context "when the user is logged in" do
       before :each do
         allow(view).to receive(:logged_in?).and_return(true)
+        allow(view).to receive(:current_user).and_return(user)
         render
       end
 
       it "shows the 'Add to scrapbook' button" do
         expect(rendered).to have_link('Add to scrapbook +')
+      end
+
+      it 'has a report button' do
+        expect(rendered).to have_link('Report concern')
       end
     end
 
@@ -105,8 +109,7 @@ RSpec.shared_examples 'a memory page' do
     describe 'user profile' do
       context "when memory belongs to the user" do
         before :each do
-          allow(view).to receive(:current_user).and_return(user)
-          allow(user).to receive(:can_modify?).and_return(true)
+          allow(view).to receive(:current_user).and_return(owner)
           render
         end
 
@@ -118,7 +121,6 @@ RSpec.shared_examples 'a memory page' do
       context "when memory does not belong to the user" do
         before :each do
           allow(view).to receive(:current_user).and_return(user)
-          allow(user).to receive(:can_modify?).and_return(false)
           render
         end
 
@@ -139,7 +141,7 @@ RSpec.shared_examples 'a memory page' do
       end
 
       it "is a link to the owner's user page" do
-        expect(rendered).to have_link(memory.user.screen_name, href: user_memories_path(user_id: user.id))
+        expect(rendered).to have_link(memory.user.screen_name, href: user_memories_path(user_id: owner.id))
       end
     end
 

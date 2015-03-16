@@ -15,7 +15,14 @@ Rails.application.routes.draw do
     get '/profile/edit' => 'profile#edit'
     patch '/profile' => 'profile#update'
   end
-  resources :memories
+
+  resources :memories do
+    member do
+      get 'report' => 'report/memories#edit'
+      put 'report' => 'report/memories#update'
+    end
+  end
+
   resources :scrapbooks, only: [:index, :show]
 
   namespace :search do

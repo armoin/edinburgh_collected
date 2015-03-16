@@ -16,6 +16,7 @@
       <% if logged_in? -%>
         <%= link_to "Add to scrapbook +", '#', class: "button scrapbooks float-right", data: {memory_id: @memory.id, memory_title: @memory.title, toggle: 'modal', target: '#add-to-scrapbook-modal'} %>
       <% end -%>
+      <%= render partial: 'shared/reporting', locals: {item: @memory, report_path: report_memory_path(@memory.id)} %>
     </div>
   </header>
 

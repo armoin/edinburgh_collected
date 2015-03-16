@@ -6,6 +6,56 @@ RSpec.shared_examples 'moderatable' do
     it { expect(subject).to have_many(:moderation_logs).dependent(:destroy) }
   end
 
+  describe 'validation' do
+    describe '#moderation_reason' do
+      context 'when moderation state is not in states that require a reason' do
+        before :each do
+          moderatable_instance.moderation_state = 'not in list'
+        end
+
+        it 'is valid if present' do
+          moderatable_instance.moderation_reason = 'a reason'
+          expect(moderatable_instance).to be_valid
+        end
+
+        it 'is valid is blank' do
+          moderatable_instance.moderation_reason = ''
+          expect(moderatable_instance).to be_valid
+        end
+
+        it 'is valid if nil' do
+          moderatable_instance.moderation_reason = nil
+          expect(moderatable_instance).to be_valid
+        end
+      end
+
+      context 'when moderation state is in states that require a reason' do
+        ModerationStateMachine::REQUIRE_REASON.each do |state|
+          before :each do
+            moderatable_instance.moderation_state = state
+          end
+
+          it 'is valid if present' do
+            moderatable_instance.moderation_reason = 'a reason'
+            expect(moderatable_instance).to be_valid
+          end
+
+          it 'is valid is blank' do
+            moderatable_instance.moderation_reason = ''
+            expect(moderatable_instance).to be_invalid
+            expect(moderatable_instance.errors[:moderation_reason]).to include("can't be blank")
+          end
+
+          it 'is valid if nil' do
+            moderatable_instance.moderation_reason = nil
+            expect(moderatable_instance).to be_invalid
+            expect(moderatable_instance.errors[:moderation_reason]).to include("can't be blank")
+          end
+        end
+      end
+    end
+  end
+
   describe "scopes" do
     let!(:no_moderation) { Fabricate(moderatable_factory) }
     let!(:unmoderated)   { Fabricate(moderatable_factory) }
@@ -120,6 +170,40 @@ RSpec.shared_examples 'moderatable' do
       it "adds a moderation record to track the moderation" do
         expect {
           moderatable_instance.reject!(moderated_by)
+        }.to change{moderatable_instance.moderation_logs.count}.by(1)
+      end
+    end
+
+    describe "#report!" do
+      it "changes the moderation state to 'reported'" do
+        moderatable_instance.report!(moderated_by, 'I am offended!')
+        expect(moderatable_instance.moderation_state).to eql('reported')
+      end
+
+      it "adds the given user as the moderated by user" do
+        moderatable_instance.report!(moderated_by)
+        expect(moderatable_instance.moderated_by).to eql(moderated_by)
+      end
+
+      it "stores the reason if one is given" do
+        moderatable_instance.report!(moderated_by, 'I am offended!')
+        expect(moderatable_instance.moderation_reason).to eql('I am offended!')
+      end
+
+      it "a blank reason if none is given" do
+        moderatable_instance.report!(moderated_by)
+        expect(moderatable_instance.moderation_reason).to eql('')
+      end
+
+      it "adds a last_moderated_at date" do
+        expect(moderatable_instance.last_moderated_at).to be_nil
+        moderatable_instance.report!(moderated_by)
+        expect(moderatable_instance.last_moderated_at).not_to be_nil
+      end
+
+      it "adds a moderation record to track the moderation" do
+        expect {
+          moderatable_instance.report!(moderated_by)
         }.to change{moderatable_instance.moderation_logs.count}.by(1)
       end
     end

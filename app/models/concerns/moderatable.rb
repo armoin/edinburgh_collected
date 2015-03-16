@@ -6,6 +6,8 @@ module Moderatable
     has_many :moderation_logs, as: :moderatable, dependent: :destroy
 
     before_create :set_moderation_fields
+
+    validates :moderation_reason, presence: true, if: :requires_reason
   end
 
   def set_moderation_fields
@@ -46,6 +48,10 @@ module Moderatable
     update_state!('rejected', rejected_by, comment)
   end
 
+  def report!(reported_by, comment='')
+    update_state!('reported', reported_by, comment)
+  end
+
   def unmoderate!(unmoderated_by)
     update_state!('unmoderated', unmoderated_by)
   end
@@ -63,5 +69,9 @@ module Moderatable
   def update_state!(state, moderated_by, comment='')
     moderation_logs.create!(from_state: moderation_state, to_state: state, moderated_by: moderated_by, comment: comment)
     update_attributes(moderation_state: state, moderated_by: moderated_by, moderation_reason: comment, last_moderated_at: DateTime.now)
+  end
+
+  def requires_reason
+    ModerationStateMachine::REQUIRE_REASON.include?(moderation_state)
   end
 end
