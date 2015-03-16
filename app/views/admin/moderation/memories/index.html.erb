@@ -1,13 +1,13 @@
 <div class="container <%= action_name %>">
   <div class="row">
     <h1>Memories</h1>
-    <% if action_name == 'moderated' %>
-      <%= link_to 'Unmoderated', admin_moderation_memories_path %>
-      | Moderated
-    <% else %>
-      Unmoderated |
-      <%= link_to 'Moderated', moderated_admin_moderation_memories_path %>
-    <% end %>
+    <%= link_to 'Back to Inbox', admin_home_path %>
+    |
+    <%= link_to_unless action_name == 'index', 'Unmoderated', admin_moderation_memories_path %>
+    |
+    <%= link_to_unless action_name == 'reported', 'Reported', reported_admin_moderation_memories_path %>
+    |
+    <%= link_to_unless action_name == 'moderated', 'Moderated', moderated_admin_moderation_memories_path %>
 
     <table class="items table table-striped table-responsive">
       <thead>

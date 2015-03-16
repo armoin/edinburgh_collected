@@ -6,7 +6,8 @@ describe Admin::Moderation::MemoriesController do
   end
 
   describe 'GET index' do
-    let(:unmoderated_memories) { stub_memories(2) }
+    let(:unmoderated_memories) { double('unmoderated_memories') }
+    let(:ordered_memories)     { double('ordered_memories') }
 
     context 'when not logged in' do
       before :each do
@@ -43,6 +44,7 @@ describe Admin::Moderation::MemoriesController do
         @user = Fabricate(:admin_user)
         login_user
         allow(Memory).to receive(:unmoderated).and_return(unmoderated_memories)
+        allow(unmoderated_memories).to receive(:order).and_return(ordered_memories)
         get :index
       end
 
@@ -54,8 +56,12 @@ describe Admin::Moderation::MemoriesController do
         expect(Memory).to have_received(:unmoderated)
       end
 
-      it 'assigns the unmoderated items' do
-        expect(assigns[:items]).to eql(unmoderated_memories)
+      it 'sorts the items with first created first' do
+        expect(unmoderated_memories).to have_received(:order).with('created_at')
+      end
+
+      it 'assigns the ordered items' do
+        expect(assigns[:items]).to eql(ordered_memories)
       end
 
       it 'renders the index view' do
@@ -103,7 +109,7 @@ describe Admin::Moderation::MemoriesController do
         @user = Fabricate(:admin_user)
         login_user
         allow(Memory).to receive(:moderated).and_return(moderated_memories)
-        allow(moderated_memories).to receive(:by_recent).and_return(ordered_memories)
+        allow(moderated_memories).to receive(:by_last_moderated).and_return(ordered_memories)
         get :moderated
       end
 
@@ -115,8 +121,73 @@ describe Admin::Moderation::MemoriesController do
         expect(Memory).to have_received(:moderated)
       end
 
-      it 'sorts the items with newest first' do
-        expect(moderated_memories).to have_received(:by_recent)
+      it 'sorts the items with last moderated first' do
+        expect(moderated_memories).to have_received(:by_last_moderated)
+      end
+
+      it 'assigns the sorted items' do
+        expect(assigns[:items]).to eql(ordered_memories)
+      end
+
+      it 'renders the index view' do
+        expect(response).to render_template(:index)
+      end
+    end
+  end
+
+  describe 'GET reported' do
+    let(:reported_memories) { double('reported_memories') }
+    let(:ordered_memories)   { double('ordered_memories') }
+
+    context 'when not logged in' do
+      before :each do
+        get :reported
+      end
+
+      it 'does not store the reported path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it 'redirects to sign in' do
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in but not as an admin' do
+      before :each do
+        @user = Fabricate(:active_user)
+        login_user
+        get :reported
+      end
+
+      it 'does not store the reported path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it 'redirects to sign in' do
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in' do
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+        allow(Memory).to receive(:reported).and_return(reported_memories)
+        allow(reported_memories).to receive(:by_first_moderated).and_return(ordered_memories)
+        get :reported
+      end
+
+      it 'stores the reported path' do
+        expect(session[:current_memory_index_path]).to eql(reported_admin_moderation_memories_path)
+      end
+
+      it 'fetches all items that need to be reported' do
+        expect(Memory).to have_received(:reported)
+      end
+
+      it 'sorts the items with oldest report first' do
+        expect(reported_memories).to have_received(:by_first_moderated)
       end
 
       it 'assigns the sorted items' do

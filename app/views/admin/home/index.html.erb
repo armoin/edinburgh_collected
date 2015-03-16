@@ -5,6 +5,7 @@
     <h2>Memories</h2>
     <ul>
       <li><%= link_to "Unmoderated (#{Memory.unmoderated.count})", admin_moderation_memories_path %></li>
+      <li><%= link_to "Reported (#{Memory.reported.count})", reported_admin_moderation_memories_path %></li>
       <li><%= link_to "Moderated", moderated_admin_moderation_memories_path %></li>
     </ul>
 

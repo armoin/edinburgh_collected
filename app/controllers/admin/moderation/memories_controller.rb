@@ -1,17 +1,24 @@
 class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminController
-  before_action :assign_memory, except: [:index, :moderated]
-  before_action :store_memory_index_path, only: [:index, :moderated]
+  INDEXES = [:index, :moderated, :reported]
+
+  before_action :assign_memory, except: INDEXES
+  before_action :store_memory_index_path, only: INDEXES
 
   def index
-    @items = Memory.unmoderated
-  end
-
-  def show
+    @items = Memory.unmoderated.order('created_at')
   end
 
   def moderated
-    @items = Memory.moderated.by_recent
+    @items = Memory.moderated.by_last_moderated
     render :index
+  end
+
+  def reported
+    @items = Memory.reported.by_first_moderated
+    render :index
+  end
+
+  def show
   end
 
   def approve

@@ -1,6 +1,6 @@
 RSpec.shared_examples 'moderatable' do
   let(:moderatable_instance) { Fabricate(moderatable_factory) }
-  let(:moderated_by)         { Fabricate.build(:user, id: 123) }
+  let(:moderated_by)         { Fabricate.build(:user, id: 789) }
 
   describe "logging moderation activity" do
     it { expect(subject).to have_many(:moderation_logs).dependent(:destroy) }
@@ -58,15 +58,10 @@ RSpec.shared_examples 'moderatable' do
 
   describe "scopes" do
     let!(:no_moderation) { Fabricate(moderatable_factory) }
-    let!(:unmoderated)   { Fabricate(moderatable_factory) }
-    let!(:approved)      { Fabricate(moderatable_factory) }
-    let!(:rejected)      { Fabricate(moderatable_factory) }
-
-    before :each do
-      unmoderated.unmoderate!(moderated_by)
-      approved.approve!(moderated_by)
-      rejected.reject!(moderated_by, 'test')
-    end
+    let!(:unmoderated)   { Fabricate(moderatable_factory, moderation_state: 'unmoderated', moderated_by: moderated_by) }
+    let!(:approved)      { Fabricate(moderatable_factory, moderation_state: 'approved', moderated_by: moderated_by) }
+    let!(:rejected)      { Fabricate(moderatable_factory, moderation_state: 'rejected', moderated_by: moderated_by, moderation_reason: 'test') }
+    let!(:reported)      { Fabricate(moderatable_factory, moderation_state: 'reported', moderated_by: moderated_by, moderation_reason: 'test') }
 
     describe '.in_state' do
       it 'returns records if there are any in the given state' do
@@ -83,7 +78,7 @@ RSpec.shared_examples 'moderatable' do
     describe '.moderated' do
       it 'returns all records that are not unmoderated' do
         moderated_records = moderatable_model.moderated
-        expect(moderated_records.count).to eql(2)
+        expect(moderated_records.count).to eql(3)
         expect(moderated_records).to include(approved)
         expect(moderated_records).to include(rejected)
       end
@@ -111,6 +106,36 @@ RSpec.shared_examples 'moderatable' do
         rejected_records = moderatable_model.rejected
         expect(rejected_records.count).to eql(1)
         expect(rejected_records).to include(rejected)
+      end
+    end
+
+    describe '.reported' do
+      it 'only returns reported records' do
+        reported_records = moderatable_model.reported
+        expect(reported_records.count).to eql(1)
+        expect(reported_records).to include(reported)
+      end
+    end
+  end
+
+  describe 'ordering' do
+    let!(:second_moderated) { Fabricate(moderatable_factory, last_moderated_at: 2.days.ago) }
+    let!(:first_moderated)  { Fabricate(moderatable_factory, last_moderated_at: 3.days.ago) }
+    let!(:last_moderated)   { Fabricate(moderatable_factory, last_moderated_at: 1.days.ago) }
+
+    describe '.by_first_moderated' do
+      it 'returns the scoped models in the order that they were moderated' do
+        expect(moderatable_model.by_first_moderated.first).to eql(first_moderated)
+        expect(moderatable_model.by_first_moderated.second).to eql(second_moderated)
+        expect(moderatable_model.by_first_moderated.last).to eql(last_moderated)
+      end
+    end
+
+    describe '.by_last_moderated' do
+      it 'returns the scoped models in the order that they were moderated' do
+        expect(moderatable_model.by_last_moderated.first).to eql(last_moderated)
+        expect(moderatable_model.by_last_moderated.second).to eql(second_moderated)
+        expect(moderatable_model.by_last_moderated.last).to eql(first_moderated)
       end
     end
   end

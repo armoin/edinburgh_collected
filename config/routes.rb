@@ -43,6 +43,7 @@ Rails.application.routes.draw do
       resources :memories, only: [:index, :show] do
         collection do
           get :moderated
+          get :reported
         end
         member do
           put :approve

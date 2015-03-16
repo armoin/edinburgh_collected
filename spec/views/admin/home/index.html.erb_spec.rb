@@ -34,6 +34,37 @@ describe "admin/home/index.html.erb" do
         end
       end
 
+      describe 'has a Reported memories link' do
+        before :each do
+          allow(Memory).to receive(:reported).and_return( Array.new(memory_count) {|m| Fabricate.build(:memory)} )
+          render
+        end
+
+        context 'when there are no reported memories' do
+          let(:memory_count) { 0 }
+
+          it 'includes a memory count of 0' do
+            expect(rendered).to have_link("Reported (0)", href: reported_admin_moderation_memories_path)
+          end
+        end
+
+        context 'when there is one reported memory' do
+          let(:memory_count) { 1 }
+
+          it 'includes a memory count of 1' do
+            expect(rendered).to have_link("Reported (1)", href: reported_admin_moderation_memories_path)
+          end
+        end
+
+        context 'when there is more than one reported memory' do
+          let(:memory_count) { 3 }
+
+          it 'includes a memory count matching the number of memories' do
+            expect(rendered).to have_link("Reported (3)", href: reported_admin_moderation_memories_path)
+          end
+        end
+      end
+
       it "has a Moderated memories link" do
         render
         expect(rendered).to have_link("Moderated", href: moderated_admin_moderation_memories_path)

@@ -38,6 +38,18 @@ module Moderatable
     def rejected
       in_state('rejected')
     end
+
+    def reported
+      in_state('reported')
+    end
+
+    def by_first_moderated
+      order('last_moderated_at')
+    end
+
+    def by_last_moderated
+      order('last_moderated_at DESC')
+    end
   end
 
   def approve!(approved_by)
