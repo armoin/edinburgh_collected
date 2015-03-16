@@ -16,7 +16,7 @@ class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminControlle
 
   def approve
     respond_to do |format|
-      if @memory.approve!
+      if @memory.approve!(current_user)
         format.html { redirect_to admin_moderation_memories_path, notice: 'Memory approved' }
         format.json { render json: @memory }
       else
@@ -28,7 +28,7 @@ class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminControlle
 
   def reject
     respond_to do |format|
-      if @memory.reject!(params[:reason])
+      if @memory.reject!(current_user, params[:reason])
         format.html { redirect_to admin_moderation_memories_path, notice: 'Memory rejected' }
         format.json { render json: @memory }
       else
@@ -40,7 +40,7 @@ class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminControlle
 
   def unmoderate
     respond_to do |format|
-      if @memory.unmoderate!
+      if @memory.unmoderate!(current_user)
         format.html { redirect_to moderated_admin_moderation_memories_path, notice: 'Memory unmoderated' }
         format.json { render json: @memory }
       else

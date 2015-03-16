@@ -8,5 +8,5 @@ Fabricator(:scrapbook) do
 end
 
 Fabricator(:approved_scrapbook, from: :scrapbook) do
-  after_create {|scrapbook, transients| scrapbook.approve! }
+  after_create {|scrapbook, transients| scrapbook.approve!(scrapbook.user) }
 end

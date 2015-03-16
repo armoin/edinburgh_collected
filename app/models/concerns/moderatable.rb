@@ -2,7 +2,8 @@ module Moderatable
   extend ActiveSupport::Concern
 
   included do
-    has_many :moderation_logs, as: :moderatable
+    belongs_to :moderated_by, class: User
+    has_many :moderation_logs, as: :moderatable, dependent: :destroy
 
     before_create :set_moderation_fields
   end
@@ -37,16 +38,16 @@ module Moderatable
     end
   end
 
-  def approve!
-    update_state!('approved')
+  def approve!(approved_by)
+    update_state!('approved', approved_by)
   end
 
-  def reject!(comment='')
-    update_state!('rejected', comment)
+  def reject!(rejected_by, comment='')
+    update_state!('rejected', rejected_by, comment)
   end
 
-  def unmoderate!
-    update_state!('unmoderated')
+  def unmoderate!(unmoderated_by)
+    update_state!('unmoderated', unmoderated_by)
   end
 
   def approved?
@@ -59,8 +60,8 @@ module Moderatable
 
   private
 
-  def update_state!(state, comment='')
-    moderation_logs.create!(from_state: moderation_state, to_state: state, comment: comment)
-    update_attributes(moderation_state: state, moderation_reason: comment, last_moderated_at: DateTime.now)
+  def update_state!(state, moderated_by, comment='')
+    moderation_logs.create!(from_state: moderation_state, to_state: state, moderated_by: moderated_by, comment: comment)
+    update_attributes(moderation_state: state, moderated_by: moderated_by, moderation_reason: comment, last_moderated_at: DateTime.now)
   end
 end

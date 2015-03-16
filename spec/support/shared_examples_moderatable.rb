@@ -1,8 +1,9 @@
 RSpec.shared_examples 'moderatable' do
   let(:moderatable_instance) { Fabricate(moderatable_factory) }
+  let(:moderated_by)         { Fabricate.build(:user, id: 123) }
 
   describe "logging moderation activity" do
-    it { expect(subject).to have_many(:moderation_logs) }
+    it { expect(subject).to have_many(:moderation_logs).dependent(:destroy) }
   end
 
   describe "scopes" do
@@ -12,9 +13,9 @@ RSpec.shared_examples 'moderatable' do
     let!(:rejected)      { Fabricate(moderatable_factory) }
 
     before :each do
-      unmoderated.unmoderate!
-      approved.approve!
-      rejected.reject!('test')
+      unmoderated.unmoderate!(moderated_by)
+      approved.approve!(moderated_by)
+      rejected.reject!(moderated_by, 'test')
     end
 
     describe '.in_state' do
@@ -67,48 +68,58 @@ RSpec.shared_examples 'moderatable' do
   describe "moderation state" do
     describe "#approve!" do
       it "changes the moderation state to 'approved'" do
-        moderatable_instance.approve!
+        moderatable_instance.approve!(moderated_by)
         expect(moderatable_instance.moderation_state).to eql('approved')
+      end
+
+      it "adds the given user as the moderated by user" do
+        moderatable_instance.approve!(moderated_by)
+        expect(moderatable_instance.moderated_by).to eql(moderated_by)
       end
 
       it "adds a last_moderated_at date" do
         expect(moderatable_instance.last_moderated_at).to be_nil
-        moderatable_instance.approve!
+        moderatable_instance.approve!(moderated_by)
         expect(moderatable_instance.last_moderated_at).not_to be_nil
       end
 
       it "adds a moderation record to track the moderation" do
         expect {
-          moderatable_instance.approve!
+          moderatable_instance.approve!(moderated_by)
         }.to change{moderatable_instance.moderation_logs.count}.by(1)
       end
     end
 
     describe "#reject!" do
       it "changes the moderation state to 'rejected'" do
-        moderatable_instance.reject!('unsuitable')
+        moderatable_instance.reject!(moderated_by, 'unsuitable')
         expect(moderatable_instance.moderation_state).to eql('rejected')
       end
 
+      it "adds the given user as the moderated by user" do
+        moderatable_instance.reject!(moderated_by)
+        expect(moderatable_instance.moderated_by).to eql(moderated_by)
+      end
+
       it "stores the reason if one is given" do
-        moderatable_instance.reject!('unsuitable')
+        moderatable_instance.reject!(moderated_by, 'unsuitable')
         expect(moderatable_instance.moderation_reason).to eql('unsuitable')
       end
 
       it "a blank reason if none is given" do
-        moderatable_instance.reject!
+        moderatable_instance.reject!(moderated_by)
         expect(moderatable_instance.moderation_reason).to eql('')
       end
 
       it "adds a last_moderated_at date" do
         expect(moderatable_instance.last_moderated_at).to be_nil
-        moderatable_instance.reject!
+        moderatable_instance.reject!(moderated_by)
         expect(moderatable_instance.last_moderated_at).not_to be_nil
       end
 
       it "adds a moderation record to track the moderation" do
         expect {
-          moderatable_instance.reject!
+          moderatable_instance.reject!(moderated_by)
         }.to change{moderatable_instance.moderation_logs.count}.by(1)
       end
     end
@@ -117,19 +128,24 @@ RSpec.shared_examples 'moderatable' do
       it "changes the moderation state to 'unmoderated'" do
         moderatable_instance.moderation_state = 'approved'
         expect(moderatable_instance.moderation_state).to eql('approved')
-        moderatable_instance.unmoderate!
+        moderatable_instance.unmoderate!(moderated_by)
         expect(moderatable_instance.moderation_state).to eql('unmoderated')
+      end
+
+      it "adds the given user as the moderated by user" do
+        moderatable_instance.unmoderate!(moderated_by)
+        expect(moderatable_instance.moderated_by).to eql(moderated_by)
       end
 
       it "adds a last_moderated_at date" do
         expect(moderatable_instance.last_moderated_at).to be_nil
-        moderatable_instance.unmoderate!
+        moderatable_instance.unmoderate!(moderated_by)
         expect(moderatable_instance.last_moderated_at).not_to be_nil
       end
 
       it "adds a moderation record to track the moderation" do
         expect {
-          moderatable_instance.unmoderate!
+          moderatable_instance.unmoderate!(moderated_by)
         }.to change{moderatable_instance.moderation_logs.count}.by(1)
       end
     end
@@ -140,14 +156,14 @@ RSpec.shared_examples 'moderatable' do
       end
 
       it 'is true when approved' do
-        moderatable_instance.approve!
+        moderatable_instance.approve!(moderated_by)
         expect(moderatable_instance.approved?).to be_truthy
       end
     end
 
     describe "#unmoderated?" do
       it 'is false when not unmoderated' do
-        moderatable_instance.approve!
+        moderatable_instance.approve!(moderated_by)
         expect(moderatable_instance.unmoderated?).to be_falsy
       end
 

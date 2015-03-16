@@ -1,9 +1,10 @@
 class ModerationLog < ActiveRecord::Base
   belongs_to :moderatable, polymorphic: true
+  belongs_to :moderated_by, class: User
 
   delegate :valid_state?, to: ModerationStateMachine
 
-  validates :moderatable, :from_state, :to_state, presence: true
+  validates :moderatable, :moderated_by, :from_state, :to_state, presence: true
   validate :validate_from_state
   validate :validate_to_state
 

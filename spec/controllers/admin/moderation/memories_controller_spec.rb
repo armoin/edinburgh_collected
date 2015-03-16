@@ -238,7 +238,7 @@ describe Admin::Moderation::MemoriesController do
         end
 
         it "updates the memory's status to 'Approved'" do
-          expect(memory).to have_received(:approve!)
+          expect(memory).to have_received(:approve!).with(@user)
         end
 
         context 'when an HTML request' do
@@ -350,7 +350,7 @@ describe Admin::Moderation::MemoriesController do
         end
 
         it "updates the memory's status to 'Rejected'" do
-          expect(memory).to have_received(:reject!).with('unsuitable')
+          expect(memory).to have_received(:reject!).with(@user, 'unsuitable')
         end
 
         context 'when an HTML request' do
@@ -461,7 +461,7 @@ describe Admin::Moderation::MemoriesController do
         end
 
         it "updates the memory's status to 'Unmoderated'" do
-          expect(memory).to have_received(:unmoderate!)
+          expect(memory).to have_received(:unmoderate!).with(@user)
         end
 
         context 'when an HTML request' do

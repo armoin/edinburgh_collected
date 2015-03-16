@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150310164745) do
+ActiveRecord::Schema.define(version: 20150316132022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(version: 20150310164745) do
     t.string   "moderation_state"
     t.string   "moderation_reason"
     t.datetime "last_moderated_at"
+    t.integer  "moderated_by_id"
   end
 
   create_table "moderation_logs", force: true do |t|
@@ -79,6 +80,7 @@ ActiveRecord::Schema.define(version: 20150310164745) do
     t.text     "comment"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "moderated_by_id"
   end
 
   create_table "scrapbook_memories", force: true do |t|
@@ -101,6 +103,7 @@ ActiveRecord::Schema.define(version: 20150310164745) do
     t.string   "moderation_state"
     t.string   "moderation_reason"
     t.datetime "last_moderated_at"
+    t.integer  "moderated_by_id"
   end
 
   add_index "scrapbooks", ["user_id"], name: "index_scrapbooks_on_user_id", using: :btree

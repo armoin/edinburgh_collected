@@ -15,7 +15,7 @@ Fabricator(:memory, class_name: :photo, aliases: [:photo_memory]) do
 end
 
 Fabricator(:approved_memory, from: :memory) do
-  after_create {|memory, transients| memory.approve! }
+  after_create {|memory, transients| memory.approve!(memory.user) }
 end
 
 def stub_memories(number=1)

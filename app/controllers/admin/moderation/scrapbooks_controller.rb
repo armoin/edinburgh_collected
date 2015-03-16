@@ -16,7 +16,7 @@ class Admin::Moderation::ScrapbooksController < Admin::AuthenticatedAdminControl
   end
 
   def approve
-    if @scrapbook.approve!
+    if @scrapbook.approve!(current_user)
       message = {notice: 'Scrapbook approved'}
     else
       message = {alert: 'Could not approve scrapbook'}
@@ -25,7 +25,7 @@ class Admin::Moderation::ScrapbooksController < Admin::AuthenticatedAdminControl
   end
 
   def reject
-    if @scrapbook.reject!(params[:reason])
+    if @scrapbook.reject!(current_user, params[:reason])
       message = {notice: 'Scrapbook rejected'}
     else
       message = {alert: 'Could not reject scrapbook'}
@@ -34,7 +34,7 @@ class Admin::Moderation::ScrapbooksController < Admin::AuthenticatedAdminControl
   end
 
   def unmoderate
-    if @scrapbook.unmoderate!
+    if @scrapbook.unmoderate!(current_user)
       message = {notice: 'Scrapbook unmoderated'}
     else
       message = {alert: 'Could not unmoderate scrapbook'}

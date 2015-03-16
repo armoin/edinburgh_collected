@@ -9,6 +9,14 @@ RSpec.describe ModerationLog do
       expect(subject.errors[:moderatable]).to include("can't be blank")
     end
 
+    it 'must have a moderated by user' do
+      subject.valid?
+      expect(subject.errors[:moderated_by]).to include("can't be blank")
+      subject.moderated_by = Fabricate.build(:user, id: 123)
+      subject.valid?
+      expect(subject.errors[:moderated_by]).not_to include("can't be blank")
+    end
+
     describe 'from_state' do
       it 'must be present' do
         subject.valid?

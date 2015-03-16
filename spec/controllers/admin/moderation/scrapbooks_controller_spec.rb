@@ -256,7 +256,7 @@ describe Admin::Moderation::ScrapbooksController do
         end
 
         it "updates the scrapbook's status to 'approved'" do
-          expect(scrapbook).to have_received(:approve!)
+          expect(scrapbook).to have_received(:approve!).with(@user)
         end
 
         it 'redirects to the unmoderated index page' do
@@ -339,7 +339,7 @@ describe Admin::Moderation::ScrapbooksController do
         end
 
         it "updates the scrapbook's status to 'rejected' and reason to 'unsuitable'" do
-          expect(scrapbook).to have_received(:reject!).with('unsuitable')
+          expect(scrapbook).to have_received(:reject!).with(@user, 'unsuitable')
         end
 
         it 'redirects to the unmoderated index page' do
@@ -421,7 +421,7 @@ describe Admin::Moderation::ScrapbooksController do
         end
 
         it "updates the scrapbook's status to 'unmoderated'" do
-          expect(scrapbook).to have_received(:unmoderate!)
+          expect(scrapbook).to have_received(:unmoderate!).with(@user)
         end
 
         it 'redirects to the unmoderated index page' do

@@ -104,7 +104,7 @@ describe MemoriesController do
       context 'and memory is approved' do
         before :each do
           memory.save!
-          memory.approve!
+          memory.approve!(user)
           get :show, id: '123', format: format
         end
 
