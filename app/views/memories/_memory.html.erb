@@ -24,7 +24,9 @@
   </header>
 
   <div id="image">
-    <img src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
+    <a href="<%= cache_busted_url(@memory) %>" data-lightbox="<%= @memory.title %>">
+       <img src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>"  />
+    </a>
   </div>
 
   <div id="details" class="col-xs-12">

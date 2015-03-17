@@ -54,7 +54,7 @@ $(document).ready(function () {
  } else {
 
   var windowHeight = $( window ).height();
-  $('#image img').css( 'max-height', windowHeight * 0.8 );
+  $('#image a').css( 'max-height', windowHeight * 0.8 );
 
   }
 })
