@@ -1104,33 +1104,17 @@ a.memory, a.scrapbook
 
 /* ==================================== EDIT SCRAPBOOK */
 
+#pageInfo
+  h2
+    text-align: left
+    margin-top: 1em
 
-#editScrapbookForm
-  position: relative
-  height: 100%
-  background: white
-
-  h1.form-title
-    margin-top: 0
-    display: inline-block
-
-  a.cancel.mobile
-    float: right
-    margin-top: 20px
-
-  #formPanel
-    background: none
-
-
+#contentHeader.editScrapbook
+  border-bottom: $navy-blue 1px solid
 
 #editScrapbook
-  padding-top: 1em
-
-  .memoriesWrapper
-    padding: 1em
-    background-color: $light-grey
-    margin-bottom: 1em
-    text-align: center
+  padding: 0 0 2em 0
+  float: left
 
   h2
     font-weight: 300
@@ -1139,35 +1123,63 @@ a.memory, a.scrapbook
     margin: 10px 0 20px
 
   .memory
-    display: inline-block
-    vertical-align: top
-    width: 49%
-    margin-bottom: 1%
-    background: white
-    border: 1px solid white
+    display: block
+    width: 100%
+    vertical-align: middle
+    border-bottom: $navy-blue 1px solid
+    border-right: $navy-blue 1px solid
+
+
+    &:hover
+      background: darken( $light-grey, 5% )
+      cursor: move
 
     .padding
       background: none
-      padding: 0.15em !important
-      margin: 0.5em
+      padding: 1em 0.5em !important
+      margin: 0em
+      display: table
+      width: 100%
+      vertical-align: middle
+
+      span.glyphicon-resize-vertical
+        margin-right: 1em
+        display: table-cell
+        vertical-align: middle
+        width: 5%
+
+      img
+        display: table-cell
+        max-width: 50px
+        vertical-align: middle
+        margin-right: 1em
 
       button
-        font-size: 10px
+        font-size: 12px
 
       h3
         font-size: 16px
 
     .detail
       text-align: left
+      display: table-cell
+      vertical-align: middle
+      width: 70%
 
     .memory-actions
-      margin-top: 0.4em
       text-align: center
+      display: table-cell
+      vertical-align: middle
+      width: 15%
 
     img
       width: 100%
       float: none
 
+
+#formPanel.editScrapbookForm
+  padding-top: 1em !important
+  float: right
 
 
 /* ==================================== PROFILE */
@@ -1744,10 +1756,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
   #infoPanel
     display: none
 
-  #editScrapbook .memory
-    width: 100%
-    margin-bottom: 4%
-
   form#add-memory
     padding: 0
     .form-group
@@ -1768,6 +1776,43 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 /* SCREEN SIZE: MOBILES */
 
 @media screen and (max-width: 768px)
+
+  #formPanel.editScrapbookForm
+    float: none !important
+    padding: 0
+
+  #contentHeader
+    #pageInfo
+      text-align: left
+
+    div.actions
+      .viewingInfo
+        float: left
+
+      a.float-right
+        float: right !important
+
+
+  #editScrapbook .memory
+    .padding
+      padding-right: 0
+
+      img
+        max-width: 40px
+
+      .detail
+        width: 65%
+        h3
+          margin: 0
+          font-size: 14px
+
+      .memory-actions
+        width 10%
+        button span.text
+          display: none
+
+
+
 
   .desktop
     display: none !important
@@ -2046,8 +2091,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         .viewingInfo
           .float-right
             display: inline-block
-
-
 
   #contentHeader
     text-align: center
