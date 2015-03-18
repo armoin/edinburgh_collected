@@ -4,7 +4,6 @@ describe 'my/profile/show.html.erb' do
   let(:links)    { build_array(2, :link) }
   let(:is_group) { false }
   let(:user)     { Fabricate.build(:active_user, id: 123, is_group: is_group, links: links) }
-  
 
   before :each do
     assign(:user, user)
@@ -12,7 +11,7 @@ describe 'my/profile/show.html.erb' do
   end
 
   it 'shows the avatar' do
-    expect(rendered).to have_css('img[src="/assets/avatar.png"]')
+    expect(rendered).to have_css('.userAvatar img')
   end
 
   it 'shows the username' do
@@ -47,13 +46,13 @@ describe 'my/profile/show.html.erb' do
     end
 
     it 'shows the group name' do
-      expect(rendered).to have_css('p', text: "Description:")
-      expect(rendered).to have_css('p', text: user.description)
+      expect(rendered).to have_css('p', text: "Group name: #{user.first_name}")
     end
   end
 
   it 'shows the description' do
-    expect(rendered).to have_css('p', text: "Email: #{user.email}")
+    expect(rendered).to have_css('p', text: "Bio:")
+    expect(rendered).to have_css('p', text: user.description)
   end
 
   it 'shows the email' do
@@ -76,7 +75,7 @@ describe 'my/profile/show.html.erb' do
       links.each do |link|
         expect(rendered).to have_css('p.link', text: link.name, count: 1)
         expect(rendered).to have_css("p.link a[href=\"#{link.url}\"]", text: link.url_without_protocol, count: 1)
-      end 
+      end
     end
   end
 

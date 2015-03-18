@@ -1,23 +1,14 @@
 require 'rails_helper'
 
 def user_allowed_params
-  {
-    first_name:            'Bobby',
-    last_name:             'Tables',
-    screen_name:           'BobbyT',
-    is_group:              false,
-    email:                 'bobby@example.com',
-    password:              'password',
-    password_confirmation: 'password',
-    accepted_t_and_c:      true,
-    description:           'Test description.',
-    links_attributes: {
-      0 => {
-        name: 'Test',
-        url:  'http://www.example.com'
-      }
-    }
-  }
+  Fabricate.attributes_for(:user).merge({
+    image_angle: 270,
+    image_scale: 0.89,
+    image_w:     90,
+    image_h:     90,
+    image_x:      5,
+    image_y:     12
+  })
 end
 
 describe UserParamCleaner do

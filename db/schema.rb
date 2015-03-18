@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220042428) do
+ActiveRecord::Schema.define(version: 20150227115833) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,6 +119,12 @@ ActiveRecord::Schema.define(version: 20150220042428) do
 
   add_index "tags", ["name"], name: "index_tags_on_name", using: :btree
 
+  create_table "temp_images", force: true do |t|
+    t.string   "file"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", force: true do |t|
     t.string   "first_name",                                      null: false
     t.string   "last_name"
@@ -138,6 +144,7 @@ ActiveRecord::Schema.define(version: 20150220042428) do
     t.boolean  "is_admin",                        default: false
     t.boolean  "accepted_t_and_c"
     t.text     "description"
+    t.string   "avatar"
   end
 
   add_index "users", ["activation_token"], name: "index_users_on_activation_token", using: :btree

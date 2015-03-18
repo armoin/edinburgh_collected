@@ -2,7 +2,7 @@
   <div id="profile" class="row static">
     <div id="detailsPanel" class="col-sm-6">
       <header>
-        <span class="userAvatar"><%= image_tag "avatar.png" %></span>
+        <span class="userAvatar"><%= image_tag @user.avatar_url, class: 'avatar' %></span>
         <h1 class="title"><%= @user.screen_name %></h1>
       </header>
 
@@ -20,7 +20,7 @@
         <strong>Email:</strong> <%= @user.email %>
       </p>
 
-      <p><strong>Description:</strong></p>
+      <p><strong>Bio:</strong></p>
       <p><%= @user.description %></p>
 
       <%= render partial: 'users/links', locals: {requested_user: @user} %>
