@@ -1687,6 +1687,12 @@ li.greeting
 .options
   margin-top: 3em
 
+#tab-bar
+  padding: 1em 0
+
+  a
+    text-decoration: underline
+
 table.items
   background-color: cornsilk
   text-align: left
@@ -1752,10 +1758,19 @@ table.items
   &.approved
     background-color: $approved
 
-  &.rejected
+  &.rejected, &.reported
     background-color: $rejected
     color: white
     padding: 0.2em
+
+.comment
+  background: whitesmoke
+
+  blockquote
+    margin: 0
+    border: 0
+    background: cornsilk
+    font-style: italic
 
 .admin-toolbar
   margin: 1em 0

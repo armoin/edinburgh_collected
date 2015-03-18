@@ -1,49 +1,14 @@
 require 'rails_helper'
 
 describe "admin/moderation/scrapbooks/index.html.erb" do
-  let(:items) { Array.new(3) {|n| Fabricate.build(:scrapbook, id: n+1) } }
+  let(:items)        { Array.new(3) {|n| Fabricate.build(:scrapbook, id: n+1) } }
+  let(:path_segment) { 'scrapbooks' }
 
   before :each do
     assign(:items, items)
   end
 
-  context 'when viewing from the index action' do
-    before :each do
-      allow(view).to receive(:action_name).and_return('index')
-      render
-    end
-
-    it "has a link back to the Inbox view" do
-      expect(rendered).to have_link('Back to Inbox', href: admin_home_path)
-    end
-
-    it "does not have a link to the Unmoderated view" do
-      expect(rendered).not_to have_link('Unmoderated', href: admin_moderation_scrapbooks_path)
-    end
-
-    it "has a link to the Moderated view" do
-      expect(rendered).to have_link('Moderated', href: moderated_admin_moderation_scrapbooks_path)
-    end
-  end
-
-  context 'when viewing from the moderated action' do
-    before :each do
-      allow(view).to receive(:action_name).and_return('moderated')
-      render
-    end
-
-    it "has a link back to the Inbox view" do
-      expect(rendered).to have_link('Back to Inbox', href: admin_home_path)
-    end
-
-    it "has a link to the Unmoderated view" do
-      expect(rendered).to have_link('Unmoderated', href: admin_moderation_scrapbooks_path)
-    end
-
-    it "does not have a link to the Moderated view" do
-      expect(rendered).not_to have_link('Moderated', href: moderated_admin_moderation_scrapbooks_path)
-    end
-  end
+  it_behaves_like 'a moderation index navbar'
 
   context 'when viewing either action' do
     it "shows each of the given items" do
@@ -52,12 +17,11 @@ describe "admin/moderation/scrapbooks/index.html.erb" do
     end
 
     describe 'an item' do
-      let(:item)              { Fabricate.build(:scrapbook, id: 123) }
+      let(:item)              { items.first }
       let(:last_moderated_at) { nil }
 
       before :each do
         allow(item).to receive(:last_moderated_at).and_return(last_moderated_at)
-        assign(:items, [item])
         render
       end
 

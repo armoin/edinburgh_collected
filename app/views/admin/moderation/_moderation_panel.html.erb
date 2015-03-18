@@ -1,7 +1,16 @@
 <div class="admin-toolbar">
   <div class="state <%= moderatable.moderation_state %>">
-    <%= state_label(moderatable) %>
+    <%= moderatable.moderation_state %>
   </div>
+
+  <% if moderatable.moderation_reason.present? -%>
+    <div class="comment">
+      <blockquote>
+        "<%= moderatable.moderation_reason %>"
+      </blockquote>
+    </div>
+  <% end -%>
+
   <ul class="moderation-actions">
     <%= button_for_state('unmoderate', 'unmoderated', moderatable, moderatable_name) %>
     <%= button_for_state('approve', 'approved', moderatable, moderatable_name) %>
@@ -12,4 +21,3 @@
     </li>
   </ul>
 </div>
-

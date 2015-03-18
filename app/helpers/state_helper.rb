@@ -27,4 +27,3 @@ module StateHelper
     VIEWABLE_STATE_PATHS.include? controller_path
   end
 end
-
