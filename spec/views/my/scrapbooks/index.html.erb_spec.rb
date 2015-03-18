@@ -1,16 +1,16 @@
 require 'rails_helper'
 
 describe 'my/scrapbooks/index.html.erb' do
-  let(:user)                    { Fabricate.build(:active_user) }
+  let(:current_user)            { Fabricate.build(:active_user) }
   let(:logged_in)               { false }
 
   let(:memory_count)            { 1 }
   let(:memories)                { Array.new(memory_count) { Fabricate.build(:memory) } }
-  
+
   let(:scrapbook_count)         { 3 }
-  let(:scrapbooks)              { Array.new(scrapbook_count) { Fabricate.build(:scrapbook) } }
+  let(:scrapbooks)              { Array.new(scrapbook_count) { Fabricate.build(:scrapbook, user: current_user) } }
   let(:paged_scrapbooks)        { Kaminari.paginate_array(scrapbooks) }
-  
+
   let(:scrapbook_memory_count)  { 0 }
   let(:scrapbook_memories)      { Array.new(scrapbook_memory_count).map{|sm| Fabricate.build(:scrapbook_memory)} }
   let(:stub_memory_fetcher)     { double('memory_catcher') }
@@ -18,19 +18,20 @@ describe 'my/scrapbooks/index.html.erb' do
 
 
   before :each do
-    allow(view).to receive(:current_user).and_return(user)
+    allow(view).to receive(:current_user).and_return(current_user)
     allow(view).to receive(:logged_in?).and_return(logged_in)
-    
-    allow(user).to receive(:memories).and_return(memories)
-    allow(user).to receive(:scrapbooks).and_return(scrapbooks)
 
     allow(stub_memory_fetcher).to receive(:scrapbook_memories_for).and_return(scrapbook_memories)
     assign(:presenter, presenter)
-
-    render
   end
 
   describe 'action bar' do
+    before :each do
+      allow(current_user).to receive(:memories).and_return(memories)
+      allow(current_user).to receive(:scrapbooks).and_return(scrapbooks)
+      render
+    end
+
     it 'displays the result count on the scrapbook button' do
       expect(rendered).to have_css('span.button.scrapbooks', text: "#{scrapbook_count} scrapbooks")
     end
@@ -56,7 +57,17 @@ describe 'my/scrapbooks/index.html.erb' do
     end
   end
 
-  it_behaves_like 'paginated content'
+  describe 'content' do
+    before :each do
+      render
+    end
 
-  it_behaves_like 'a scrapbook index'
+    it_behaves_like 'paginated content'
+    it_behaves_like 'a scrapbook index'
+  end
+
+  describe 'an individual scrapbook' do
+    let(:moderatable) { scrapbooks.first }
+    it_behaves_like 'state labelled content'
+  end
 end

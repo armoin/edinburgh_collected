@@ -4,7 +4,8 @@ RSpec.shared_examples 'a scrapbook index' do
   end
 
   describe "a scrapbook cover" do
-    let(:scope)     { '.scrapbook:nth-child(1)' }
+    let(:scope)           { '.scrapbook:nth-child(1)' }
+    let(:scrapbook_cover) { presenter.scrapbook_covers.first }
 
     context "that has no memories" do
       let(:scrapbook_memory_count)  { 0 }
@@ -14,7 +15,7 @@ RSpec.shared_examples 'a scrapbook index' do
       end
 
       it "has a title" do
-        expect(rendered).to have_css("#{scope} .scrapbookTitle", text: presenter.scrapbook_covers.first.title)
+        expect(rendered).to have_css("#{scope} .scrapbookTitle", text: scrapbook_cover.title)
       end
 
       it "states that it is empty" do
@@ -30,7 +31,7 @@ RSpec.shared_examples 'a scrapbook index' do
       end
 
       it "has a title" do
-        expect(rendered).to have_css("#{scope} .scrapbookTitle", text: presenter.scrapbook_covers.first.title)
+        expect(rendered).to have_css("#{scope} .scrapbookTitle", text: scrapbook_cover.title)
       end
 
       it "shows how many memories it contains" do

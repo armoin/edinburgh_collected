@@ -1,12 +1,13 @@
 RSpec.shared_examples 'a memory index' do
   context 'a memory' do
-    let(:memory) { memories.first }
 
     it "displays all given memories" do
       expect(rendered).to have_css('.memory:not(.add)', count: 3)
     end
 
     describe 'a memory' do
+      let(:memory) { memories.first }
+
       it 'has a link to add that memory to a scrapbook' do
         expect(rendered).to have_css(".memory a.addScrapbook")
       end

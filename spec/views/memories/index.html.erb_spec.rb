@@ -1,12 +1,12 @@
 require 'rails_helper'
 
 describe 'memories/index.html.erb' do
-  let(:user)           { Fabricate(:user) }
-  let(:memories)       { Fabricate.times(3, :photo_memory, user: user) }
+  let(:current_user)   { nil }
+  let(:memories)       { Array.new(3) {|i| Fabricate.build(:memory, id: i+1) } }
   let(:paged_memories) { Kaminari.paginate_array(memories).page(1) }
 
   before :each do
-    allow(view).to receive(:current_user).and_return(user)
+    allow(view).to receive(:current_user).and_return(current_user)
     assign(:memories, paged_memories)
     render
   end
@@ -22,5 +22,8 @@ describe 'memories/index.html.erb' do
   it_behaves_like 'a memory index'
   it_behaves_like 'paginated content'
   it_behaves_like 'add to scrapbook'
+
+  let(:moderatable) { memories.first }
+  it_behaves_like 'non state labelled content'
 end
 

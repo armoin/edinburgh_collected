@@ -7,7 +7,7 @@ describe 'memories/user_index.html.erb' do
   let(:scrapbooks_count) { 0 }
   let(:memories)         { Array.new(memories_count) {|i| Fabricate.build(:memory, id: i+1)} }
   let(:paged_memories)   { Kaminari.paginate_array(memories).page(1) }
-  
+
   let(:presenter) { OpenStruct.new(
     requested_user:    requested_user,
     memories_count:    memories_count,
@@ -19,7 +19,7 @@ describe 'memories/user_index.html.erb' do
 
   before :each do
     allow(view).to receive(:current_user).and_return(current_user)
-   
+
     assign(:presenter, presenter)
   end
 
@@ -29,7 +29,7 @@ describe 'memories/user_index.html.erb' do
     before :each do
       render
     end
-    
+
     describe 'the total memories count' do
       context 'when there are 0 memories' do
         let(:memories_count) { 0 }
@@ -125,13 +125,16 @@ describe 'memories/user_index.html.erb' do
 
       it_behaves_like 'add to scrapbook'
     end
-    
+
     context 'when there are memories' do
       let(:memories_count)   { 3 }
 
       it_behaves_like 'a memory index'
       it_behaves_like 'paginated content'
       it_behaves_like 'add to scrapbook'
+
+      let(:moderatable) { memories.first }
+      it_behaves_like 'non state labelled content'
     end
   end
 end
