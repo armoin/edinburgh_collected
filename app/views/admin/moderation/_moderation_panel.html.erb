@@ -1,15 +1,5 @@
 <div class="admin-toolbar">
-  <div class="state <%= moderatable.moderation_state %>">
-    <%= moderatable.moderation_state %>
-  </div>
-
-  <% if moderatable.moderation_reason.present? -%>
-    <div class="comment">
-      <blockquote>
-        "<%= moderatable.moderation_reason %>"
-      </blockquote>
-    </div>
-  <% end -%>
+  <%= render partial: 'shared/state_bar', locals: {moderatable: moderatable} %>
 
   <ul class="moderation-actions">
     <%= button_for_state('unmoderate', 'unmoderated', moderatable, moderatable_name) %>
