@@ -4,7 +4,8 @@ class ScrapbookParamCleaner
       :title,
       :description,
       :ordering,
-      :deleted
+      :deleted,
+      :moderation_reason
     )
   end
 end

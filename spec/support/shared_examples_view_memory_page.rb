@@ -1,24 +1,30 @@
 RSpec.shared_examples 'a memory page' do
-  let(:user)        { Fabricate.build(:active_user, id: 123)}
-  let(:owner)       { Fabricate.build(:active_user, id: 456)}
-  let(:area)        { Fabricate.build(:area, name: 'Portobello') }
-  let(:location)    { 'Kings Road' }
-  let(:tags)        { Array.new(2).map.with_index{|m,i| Fabricate.build(:tag, id: i)} }
-  let(:attribution) { 'Bobby Tables' }
-  let(:memory)      { Fabricate.build(:photo_memory, id: 123, attribution: attribution, area: area, location: location, tags: tags, user: owner) }
-  let(:edit_path)   { edit_my_memory_path(memory.id) }
-  let(:delete_path) { my_memory_path(memory.id) }
+  let(:owner)             { Fabricate.build(:active_user, id: 123)}
+  let(:area)              { Fabricate.build(:area, name: 'Portobello') }
+  let(:location)          { 'Kings Road' }
+  let(:tags)              { Array.new(2).map.with_index{|m,i| Fabricate.build(:tag, id: i)} }
+  let(:attribution)       { 'Bobby Tables' }
+  let(:memory)            { Fabricate.build(:photo_memory, id: 123, attribution: attribution, area: area, location: location, tags: tags, user: owner) }
+
+  let(:edit_path)         { edit_my_memory_path(memory.id) }
+  let(:delete_path)       { my_memory_path(memory.id) }
+  let(:memory_index_path) { '/test/memories' }
+
+  let(:user)              { nil }
+  let(:logged_in)         { false }
 
   before :each do
+    allow(view).to receive(:logged_in?).and_return(logged_in)
+    allow(view).to receive(:current_user).and_return(user)
+    session[:current_memory_index_path] = memory_index_path
     assign(:memory, memory)
-    render
-  end
-
-  it "displays a memory" do
-    expect(rendered).to have_css('.memory')
   end
 
   describe "page header" do
+    before :each do
+      render
+    end
+
     context 'when all details are given' do
       it 'has a title' do
         expect(rendered).to have_css('.memory .title', text: memory.title)
@@ -33,69 +39,89 @@ RSpec.shared_examples 'a memory page' do
   end
 
   describe "action bar" do
-    it 'has a link to the current index' do
-      expect(rendered).to have_link('Back', href: '/memories')
-    end
+    context 'when the user is not logged in' do
+      let(:logged_in) { false }
+      let(:user)      { nil }
 
-    context "when memory belongs to the user" do
       before :each do
-        allow(view).to receive(:current_user).and_return(owner)
         render
       end
 
-      it "has an edit link" do
-        expect(rendered).to have_link('Edit', href: edit_path)
+      it "has a back button to the current memory index page" do
+        expect(rendered).to have_link('Back', href: memory_index_path)
       end
 
-      it "has a delete link" do
-        expect(rendered).to have_link('Delete', href: delete_path)
-      end
-    end
-
-    context "when memory does not belong to the user" do
-      before :each do
-        allow(view).to receive(:current_user).and_return(user)
-        render
+      it "does not show the edit link" do
+        expect(rendered).not_to have_link('Edit')
       end
 
-      it "does not have an edit link" do
-        expect(rendered).not_to have_link('Edit', href: edit_path)
-      end
-
-      it "does not have a delete link" do
-        expect(rendered).not_to have_link('Delete', href: delete_path)
-      end
-    end
-
-    context "when the user is logged in" do
-      before :each do
-        allow(view).to receive(:logged_in?).and_return(true)
-        allow(view).to receive(:current_user).and_return(user)
-        render
-      end
-
-      it "shows the 'Add to scrapbook' button" do
-        expect(rendered).to have_link('Add to scrapbook +')
-      end
-
-      it 'has a report button' do
-        expect(rendered).to have_link('Report concern')
-      end
-    end
-
-    context "when the user is not logged in" do
-      before :each do
-        allow(view).to receive(:logged_in?).and_return(false)
-        render
+      it "does not show the delete link" do
+        expect(rendered).not_to have_link('Delete')
       end
 
       it "does not show the 'Add to scrapbook' button" do
         expect(rendered).not_to have_link('Add to scrapbook +')
       end
     end
+
+    context 'when the user is logged in' do
+      let(:logged_in) { true }
+      let(:user)      { Fabricate.build(:active_user, id: 456) }
+
+      before :each do
+        allow(user).to receive(:can_modify?).and_return(can_modify)
+        render
+      end
+
+      context "and the user can modify the memory" do
+        let(:can_modify) { true }
+
+        it "has a back button to the current memory index page" do
+          expect(rendered).to have_link('Back', href: memory_index_path)
+        end
+
+        it "has an edit link" do
+          expect(rendered).to have_link('Edit', href: edit_path)
+        end
+
+        it "has a delete link" do
+          expect(rendered).to have_link('Delete', href: delete_path)
+        end
+
+        it "shows the 'Add to scrapbook' button" do
+          expect(rendered).to have_link('Add to scrapbook +')
+        end
+      end
+
+      context "and the user can't modify the memory" do
+        let(:can_modify) { false }
+
+        it "has a back button to the current memory index page" do
+          expect(rendered).to have_link('Back', href: memory_index_path)
+        end
+
+        it "does not show the edit link" do
+          expect(rendered).not_to have_link('Edit', href: edit_path)
+        end
+
+        it "does not show the delete link" do
+          expect(rendered).not_to have_link('Delete', href: delete_path)
+        end
+
+        it "shows the 'Add to scrapbook' button" do
+          expect(rendered).to have_link('Add to scrapbook +')
+        end
+      end
+    end
+
+    it_behaves_like 'a reportable page'
   end
 
   describe "image" do
+    before :each do
+      render
+    end
+
     it 'has the correct title' do
       expect(rendered).to match /img.*alt="#{memory.title}"/
     end
@@ -106,6 +132,10 @@ RSpec.shared_examples 'a memory page' do
   end
 
   describe "details" do
+    before :each do
+      render
+    end
+
     describe 'user profile' do
       context "when memory belongs to the user" do
         before :each do

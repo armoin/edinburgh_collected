@@ -1,92 +1,153 @@
 RSpec.shared_examples 'a scrapbook page' do
-  let(:scrapbook)          { Fabricate.build(:scrapbook, id: 123) }
-  let(:user)               { Fabricate.build(:active_user) }
-  let(:can_modify)         { false }
-  let(:memories)           { [] }
-  let(:paginated_memories) { Kaminari.paginate_array(memories).page(nil) }
+  let(:scrapbook)            { Fabricate.build(:scrapbook, id: 123) }
+  let(:user)                 { nil }
+  let(:can_modify)           { false }
+  let(:memories)             { [] }
+  let(:paginated_memories)   { Kaminari.paginate_array(memories).page(nil) }
+  let(:scrapbook_index_path) { '/test/scrapbooks' }
 
   before :each do
     allow(view).to receive(:current_user).and_return(user)
-    allow(user).to receive(:can_modify?).and_return(can_modify)
+    session[:current_scrapbook_index_path] = scrapbook_index_path
     assign(:scrapbook, scrapbook)
     assign(:memories, paginated_memories)
-    render
   end
 
   describe "action bar" do
-    context "when scrapbook doesn't belong to the user" do
-      let(:can_modify) { false }
+    context "when the user is not logged in" do
+      let(:user) { nil }
+
+      before :each do
+        render
+      end
+
+      it "has a back button to the current scrapbook index page" do
+        expect(rendered).to have_link('Back', href: scrapbook_index_path)
+      end
 
       it "does not have an edit link" do
-        expect(rendered).not_to have_link('Edit', href: edit_my_scrapbook_path(scrapbook))
+        expect(rendered).not_to have_link('Edit')
       end
 
       it "does not have a delete link" do
-        expect(rendered).not_to have_link('Delete', href: my_scrapbook_path(scrapbook))
+        expect(rendered).not_to have_link('Delete')
+      end
+
+      it "does not have an 'Add memories' link" do
+        expect(rendered).not_to have_link('Add memories')
       end
     end
 
-    context "when scrapbook belongs to the user" do
-      let(:can_modify) { true }
+    context "when the user is logged in" do
+      let(:user) { Fabricate.build(:active_user) }
 
-      it "has an edit link" do
-        expect(rendered).to have_link('Edit', href: edit_my_scrapbook_path(scrapbook))
+      before :each do
+        allow(user).to receive(:can_modify?).and_return(can_modify)
+        render
       end
 
-      it "has a delete link" do
-        expect(rendered).to have_link('Delete', href: my_scrapbook_path(scrapbook))
-      end
+      context "when scrapbook doesn't belong to the user" do
+        let(:can_modify) { false }
 
-      context "and the scrapbook has no memories" do
-        let(:memories) { [] }
+        it "has a back button to the current scrapbook index page" do
+          expect(rendered).to have_link('Back', href: scrapbook_index_path)
+        end
+
+        it "does not have an edit link" do
+          expect(rendered).not_to have_link('Edit', href: edit_my_scrapbook_path(scrapbook))
+        end
+
+        it "does not have a delete link" do
+          expect(rendered).not_to have_link('Delete', href: my_scrapbook_path(scrapbook))
+        end
 
         it "does not have an 'Add memories' link" do
           expect(rendered).not_to have_link('Add memories')
         end
       end
 
-      context "and the scrapbook has memories" do
-        let(:memories) { [Fabricate.build(:memory, id: 123)] }
+      context "when scrapbook belongs to the user" do
+        let(:can_modify) { true }
 
-        it "has an 'Add memories' link" do
-          render
-          expect(rendered).to have_link('Add memories')
+        it "has a back button to the current scrapbook index page" do
+          expect(rendered).to have_link('Back', href: scrapbook_index_path)
+        end
+
+        it "has an edit link" do
+          expect(rendered).to have_link('Edit', href: edit_my_scrapbook_path(scrapbook))
+        end
+
+        it "has a delete link" do
+          expect(rendered).to have_link('Delete', href: my_scrapbook_path(scrapbook))
+        end
+
+        context "and the scrapbook has no memories" do
+          let(:memories) { [] }
+
+          it "does not have an 'Add memories' link" do
+            expect(rendered).not_to have_link('Add memories')
+          end
+        end
+
+        context "and the scrapbook has memories" do
+          let(:memories) { [Fabricate.build(:memory, id: 123)] }
+
+          it "has an 'Add memories' link" do
+            expect(rendered).to have_link('Add memories')
+          end
         end
       end
     end
+
+    it_behaves_like 'a reportable page'
   end
 
   describe "scrapbook details" do
     it "has a title" do
+      render
       expect(rendered).to have_content(scrapbook.title)
     end
 
     it "has a description" do
+      render
       expect(rendered).to have_content(scrapbook.description)
     end
 
     context 'when there are no memories' do
       let(:memories) { [] }
 
-      context "when scrapbook doesn't belong to the user" do
-        let(:can_modify) { false }
+      context 'when the user is logged in' do
+        let(:user) { Fabricate.build(:active_user) }
 
-        it 'does not display the Add Memories instructions' do
-          expect(rendered).not_to have_css('#scrapbookInstructions')
+        before :each do
+          allow(user).to receive(:can_modify?).and_return(can_modify)
+          render
         end
-      end
 
-      context "when scrapbook belongs to the user" do
-        let(:can_modify) { true }
+        context "when scrapbook doesn't belong to the user" do
+          let(:can_modify) { false }
 
-        it 'displays the Add Memories instructions' do
-          expect(rendered).to have_css('#scrapbookInstructions')
+          it 'does not display the Add Memories instructions' do
+            expect(rendered).not_to have_css('#scrapbookInstructions')
+          end
+        end
+
+        context "when scrapbook belongs to the user" do
+          let(:can_modify) { true }
+
+          it 'displays the Add Memories instructions' do
+            expect(rendered).to have_css('#scrapbookInstructions')
+          end
         end
       end
     end
 
     context 'when there are memories' do
       let(:memories) { stub_memories(3) }
+
+      before :each do
+        render
+      end
 
       it "displays a thumbnail for each memory" do
         expect(rendered).to have_css('.memory', count: 3)

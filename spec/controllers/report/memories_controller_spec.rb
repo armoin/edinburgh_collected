@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe Report::MemoriesController do
-  let(:user)          { Fabricate.build(:user, id: 123) }
-  let(:memory)        { Fabricate.build(:memory, id: 213, user: user) }
+  let(:user)   { Fabricate.build(:user, id: 123) }
+  let(:memory) { Fabricate.build(:memory, id: 213, user: user) }
 
   describe 'GET edit' do
     describe 'ensure user is logged in' do
@@ -21,7 +21,6 @@ describe Report::MemoriesController do
 
       context 'and response type is html' do
         let(:format) { 'html' }
-        let(:result) { true }
 
         it 'finds the memory to update' do
           allow(Memory).to receive(:find).and_return(memory)

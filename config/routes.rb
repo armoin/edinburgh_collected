@@ -23,7 +23,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :scrapbooks, only: [:index, :show]
+  resources :scrapbooks, only: [:index, :show] do
+    member do
+      get 'report' => 'report/scrapbooks#edit'
+      put 'report' => 'report/scrapbooks#update'
+    end
+  end
 
   namespace :search do
     resources :memories, only: [:index]
