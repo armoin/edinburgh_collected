@@ -103,6 +103,37 @@ describe "admin/home/index.html.erb" do
         end
       end
 
+      describe 'has a Reported scrapbooks link' do
+        before :each do
+          allow(Scrapbook).to receive(:reported).and_return( Array.new(scrapbook_count) {|m| Fabricate.build(:scrapbook)} )
+          render
+        end
+
+        context 'when there are no reported scrapbooks' do
+          let(:scrapbook_count) { 0 }
+
+          it 'includes a scrapbook count of 0' do
+            expect(rendered).to have_link("Reported (0)", href: reported_admin_moderation_scrapbooks_path)
+          end
+        end
+
+        context 'when there is one reported scrapbook' do
+          let(:scrapbook_count) { 1 }
+
+          it 'includes a scrapbook count of 1' do
+            expect(rendered).to have_link("Reported (1)", href: reported_admin_moderation_scrapbooks_path)
+          end
+        end
+
+        context 'when there is more than one reported scrapbook' do
+          let(:scrapbook_count) { 3 }
+
+          it 'includes a scrapbook count matching the number of scrapbooks' do
+            expect(rendered).to have_link("Reported (3)", href: reported_admin_moderation_scrapbooks_path)
+          end
+        end
+      end
+
       it "has a Moderated scrapbooks link" do
         render
         expect(rendered).to have_link("Moderated", href: moderated_admin_moderation_scrapbooks_path)

@@ -13,7 +13,7 @@ describe Admin::Moderation::ScrapbooksController do
         get :index
       end
 
-      it 'does not store the moderated path' do
+      it 'does not store the index path' do
         expect(session[:current_scrapbook_index_path]).to be_nil
       end
 
@@ -29,7 +29,7 @@ describe Admin::Moderation::ScrapbooksController do
         get :index
       end
 
-      it 'does not store the moderated path' do
+      it 'does not store the index path' do
         expect(session[:current_scrapbook_index_path]).to be_nil
       end
 
@@ -73,7 +73,7 @@ describe Admin::Moderation::ScrapbooksController do
         get :moderated
       end
 
-      it 'does not store the moderated path' do
+      it 'does not store the index path' do
         expect(session[:current_scrapbook_index_path]).to be_nil
       end
 
@@ -89,7 +89,7 @@ describe Admin::Moderation::ScrapbooksController do
         get :moderated
       end
 
-      it 'does not store the moderated path' do
+      it 'does not store the index path' do
         expect(session[:current_scrapbook_index_path]).to be_nil
       end
 
@@ -107,7 +107,7 @@ describe Admin::Moderation::ScrapbooksController do
         get :moderated
       end
 
-      it 'stores the moderated path' do
+      it 'stores the index path' do
         expect(session[:current_scrapbook_index_path]).to eql(moderated_admin_moderation_scrapbooks_path)
       end
 
@@ -117,6 +117,71 @@ describe Admin::Moderation::ScrapbooksController do
 
       it 'sorts the items with newest first' do
         expect(moderated_scrapbooks).to have_received(:by_recent)
+      end
+
+      it 'assigns the sorted items' do
+        expect(assigns[:items]).to eql(ordered_scrapbooks)
+      end
+
+      it 'renders the index view' do
+        expect(response).to render_template(:index)
+      end
+    end
+  end
+
+  describe 'GET reported' do
+    let(:reported_scrapbooks) { double('reported_scrapbooks') }
+    let(:ordered_scrapbooks)  { double('ordered_scrapbooks') }
+
+    context 'when not logged in' do
+      before :each do
+        get :reported
+      end
+
+      it 'does not store the index path' do
+        expect(session[:current_scrapbook_index_path]).to be_nil
+      end
+
+      it 'redirects to sign in' do
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in but not as an admin' do
+      before :each do
+        @user = Fabricate(:active_user)
+        login_user
+        get :reported
+      end
+
+      it 'does not store the index path' do
+        expect(session[:current_scrapbook_index_path]).to be_nil
+      end
+
+      it 'redirects to sign in' do
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context 'when logged in' do
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+        allow(Scrapbook).to receive(:reported).and_return(reported_scrapbooks)
+        allow(reported_scrapbooks).to receive(:by_first_moderated).and_return(ordered_scrapbooks)
+        get :reported
+      end
+
+      it 'stores the index path' do
+        expect(session[:current_scrapbook_index_path]).to eql(reported_admin_moderation_scrapbooks_path)
+      end
+
+      it 'fetches all items that need to be reported' do
+        expect(Scrapbook).to have_received(:reported)
+      end
+
+      it 'sorts the items with oldest report first' do
+        expect(reported_scrapbooks).to have_received(:by_first_moderated)
       end
 
       it 'assigns the sorted items' do

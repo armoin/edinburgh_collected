@@ -12,6 +12,7 @@
     <h2>Scrapbooks</h2>
     <ul>
       <li><%= link_to "Unmoderated (#{Scrapbook.unmoderated.count})", admin_moderation_scrapbooks_path %></li>
+      <li><%= link_to "Reported (#{Scrapbook.reported.count})", reported_admin_moderation_scrapbooks_path %></li>
       <li><%= link_to "Moderated", moderated_admin_moderation_scrapbooks_path %></li>
     </ul>
   </div>

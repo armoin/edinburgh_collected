@@ -1,6 +1,8 @@
 class Admin::Moderation::ScrapbooksController < Admin::AuthenticatedAdminController
-  before_action :store_scrapbook_index_path, only: [:index, :moderated]
-  before_action :assign_scrapbook, except: [:index, :moderated]
+  INDEXES = [:index, :moderated, :reported]
+
+  before_action :store_scrapbook_index_path, only: INDEXES
+  before_action :assign_scrapbook, except: INDEXES
 
   def index
     @items = Scrapbook.unmoderated
@@ -8,6 +10,11 @@ class Admin::Moderation::ScrapbooksController < Admin::AuthenticatedAdminControl
 
   def moderated
     @items = Scrapbook.moderated.by_recent
+    render :index
+  end
+
+  def reported
+    @items = Scrapbook.reported.by_first_moderated
     render :index
   end
 
