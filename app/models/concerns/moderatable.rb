@@ -33,6 +33,12 @@ module Moderatable
 
     def approved
       in_state('approved')
+        .merge(belongs_to_unblocked_user)
+    end
+
+    def belongs_to_unblocked_user
+      joins(:user)
+        .where(users: {is_blocked: false})
     end
 
     def rejected

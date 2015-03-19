@@ -152,7 +152,7 @@ ActiveRecord::Schema.define(version: 20150319161732) do
     t.boolean  "accepted_t_and_c"
     t.text     "description"
     t.string   "avatar"
-    t.boolean  "is_blocked"
+    t.boolean  "is_blocked",                      default: false
   end
 
   add_index "users", ["activation_token"], name: "index_users_on_activation_token", using: :btree
