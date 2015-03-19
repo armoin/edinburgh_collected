@@ -35,9 +35,21 @@ class User < ActiveRecord::Base
     where(activation_state: 'active')
   end
 
+  def self.blocked
+    where(is_blocked: true)
+  end
+
+  def name
+    [first_name, last_name].join(' ').strip
+  end
+
   def can_modify?(object)
     return false unless object
     object.try(:user_id) == self.id || self.is_admin?
+  end
+
+  def active?
+    activation_state == 'active'
   end
 
   def block!

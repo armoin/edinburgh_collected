@@ -247,6 +247,19 @@ describe User do
     end
   end
 
+  describe '.blocked' do
+    let!(:blocked_user)     { Fabricate(:blocked_user) }
+    let!(:non_blocked_user) { Fabricate(:active_user) }
+
+    it 'provides blocked users' do
+      expect(User.blocked).to include(blocked_user)
+    end
+
+    it 'does not provide users that are not blocked' do
+      expect(User.blocked).not_to include(non_blocked_user)
+    end
+  end
+
   describe '#can_modify?' do
     let(:user_id) { 123 }
     let(:thing)   { double('thing') }
@@ -292,6 +305,63 @@ describe User do
       it "is true if thing is theirs" do
         thing = double('thing', user_id: user_id)
         expect(subject.can_modify?(thing)).to be_truthy
+      end
+    end
+  end
+
+  describe '#active?' do
+    let(:user) { Fabricate.build(:user, activation_state: activation_state) }
+    let(:inactive_user) { Fabricate.build(:user) }
+
+    context 'when the activation_state is "active"' do
+      let(:activation_state) { 'active' }
+
+      it 'is true' do
+        expect(user).to be_active
+      end
+    end
+
+    context 'when the activation_state is "pending"' do
+      let(:activation_state) { 'pending' }
+
+      it 'is false' do
+        expect(user).not_to be_active
+      end
+    end
+  end
+
+  describe '#name' do
+    let(:user) { Fabricate.build(:active_user, first_name: 'Bobby', last_name: last_name)}
+
+    context 'when user has a last name' do
+      let(:last_name) { 'Tables' }
+
+      it 'includes the first name and the last name' do
+        expect(user.name).to eql('Bobby Tables')
+      end
+    end
+
+    context 'when user has a nil last name' do
+      let(:last_name) { nil }
+
+      it 'includes the first name and the last name' do
+        expect(user.name).to eql('Bobby')
+      end
+    end
+
+    context 'when user has a blank last name' do
+      let(:last_name) { '' }
+
+      it 'includes the first name and the last name' do
+        expect(user.name).to eql('Bobby')
+      end
+    end
+
+    context 'when user has a last name with spaces' do
+      let(:last_name) { '  ' }
+
+      it 'includes the first name and the last name' do
+        expect(user.name).to eql('Bobby')
       end
     end
   end

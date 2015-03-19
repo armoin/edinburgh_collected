@@ -44,7 +44,10 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/home' => 'home#index'
 
-    resources :users, only: :show do
+    resources :users, only: [:index, :show] do
+      collection do
+        get :blocked
+      end
       member do
         put :block
       end

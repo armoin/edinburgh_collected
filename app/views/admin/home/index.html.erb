@@ -15,5 +15,12 @@
       <li><%= link_to "Reported (#{Scrapbook.reported.count})", reported_admin_moderation_scrapbooks_path %></li>
       <li><%= link_to "Moderated", moderated_admin_moderation_scrapbooks_path %></li>
     </ul>
+
+    <h1>Users</h1>
+
+    <ul>
+      <li><%= link_to "All users (#{User.count})", admin_users_path %></li>
+      <li><%= link_to "Blocked users (#{User.blocked.count})", blocked_admin_users_path %></li>
+    </ul>
   </div>
 </div>

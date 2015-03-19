@@ -1,5 +1,16 @@
 class Admin::UsersController < Admin::AuthenticatedAdminController
-  before_action :assign_user
+  INDEXES = [:index, :blocked]
+
+  before_action :assign_user, except: INDEXES
+
+  def index
+    @users = User.all
+  end
+
+  def blocked
+    @users = User.blocked
+    render :index
+  end
 
   def show
   end

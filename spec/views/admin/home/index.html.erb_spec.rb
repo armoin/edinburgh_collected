@@ -139,6 +139,70 @@ describe "admin/home/index.html.erb" do
         expect(rendered).to have_link("Moderated", href: moderated_admin_moderation_scrapbooks_path)
       end
     end
+
+    describe 'users' do
+      describe 'has an All users link' do
+        before :each do
+          allow(User).to receive(:count).and_return(user_count)
+          render
+        end
+
+        context 'when there are no users' do
+          let(:user_count) { 0 }
+
+          it 'includes a user count of 0' do
+            expect(rendered).to have_link("All users (0)", href: admin_users_path)
+          end
+        end
+
+        context 'when there is one user' do
+          let(:user_count) { 1 }
+
+          it 'includes a user count of 1' do
+            expect(rendered).to have_link("All users (1)", href: admin_users_path)
+          end
+        end
+
+        context 'when there is more than one user' do
+          let(:user_count) { 3 }
+
+          it 'includes a user count matching the number of memories' do
+            expect(rendered).to have_link("All users (3)", href: admin_users_path)
+          end
+        end
+      end
+    end
+
+    describe 'has a Blocked users link' do
+      before :each do
+        allow(User).to receive(:blocked).and_return(Array.new(user_count) {|i| Fabricate.build(:blocked_user)} )
+        render
+      end
+
+      context 'when there are no blocked users' do
+        let(:user_count) { 0 }
+
+        it 'includes a user count of 0' do
+          expect(rendered).to have_link("Blocked users (0)", href: blocked_admin_users_path)
+        end
+      end
+
+      context 'when there is one blocked user' do
+        let(:user_count) { 1 }
+
+        it 'includes a user count of 1' do
+          expect(rendered).to have_link("Blocked users (1)", href: blocked_admin_users_path)
+        end
+      end
+
+      context 'when there is more than one blocked user' do
+        let(:user_count) { 3 }
+
+        it 'includes a user count matching the number of memories' do
+          expect(rendered).to have_link("Blocked users (3)", href: blocked_admin_users_path)
+        end
+      end
+    end
   end
 end
 

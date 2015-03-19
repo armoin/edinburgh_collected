@@ -1,6 +1,68 @@
 require 'rails_helper'
 
 describe Admin::UsersController do
+  describe 'GET index' do
+    context 'user must be an admin' do
+      let(:perform_action) { get :index }
+
+      it_behaves_like 'an admin only controller'
+    end
+
+    context 'when the user is signed in as an admin' do
+      let(:users) { Array.new(3) {|i| Fabricate.build(:user, id: i+1)} }
+
+      before :each do
+        @user = Fabricate.build(:admin_user, id: 789)
+        login_user
+        allow(User).to receive(:all).and_return(users)
+        get :index
+      end
+
+      it 'fetches all users' do
+        expect(User).to have_received(:all)
+      end
+
+      it 'assigns the fetched users' do
+        expect(assigns[:users]).to eql(users)
+      end
+
+      it 'renders the index template' do
+        expect(response).to render_template(:index)
+      end
+    end
+  end
+
+  describe 'GET blocked' do
+    context 'user must be an admin' do
+      let(:perform_action) { get :blocked }
+
+      it_behaves_like 'an admin only controller'
+    end
+
+    context 'when the user is signed in as an admin' do
+      let(:users) { Array.new(3) {|i| Fabricate.build(:user, id: i+1)} }
+
+      before :each do
+        @user = Fabricate.build(:admin_user, id: 789)
+        login_user
+        allow(User).to receive(:blocked).and_return(users)
+        get :blocked
+      end
+
+      it 'fetches only blocked users' do
+        expect(User).to have_received(:blocked)
+      end
+
+      it 'assigns the fetched users' do
+        expect(assigns[:users]).to eql(users)
+      end
+
+      it 'renders the index template' do
+        expect(response).to render_template(:index)
+      end
+    end
+  end
+
   describe 'GET show' do
     let(:requested_user) { Fabricate.build(:active_user, id: 123) }
 
