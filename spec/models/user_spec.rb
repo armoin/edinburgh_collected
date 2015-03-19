@@ -77,18 +77,18 @@ describe User do
 
     context "if password has not yet been set" do
       context "and password has not been given" do
-        it 'must have at least 3 characters' do
+        it 'must have the minimum number of characters' do
           subject.password = ''
           subject.valid?
-          expect(subject.errors[:password]).to include("is too short (minimum is 3 characters)")
+          expect(subject.errors[:password]).to include("is too short (minimum is #{User::PASSWORD_LENGTH} characters)")
         end
       end
 
       context "and password has been given" do
-        it 'must have at least 3 characters' do
+        it 'must have the minimum number of characters' do
           subject.password = 'oo'
           subject.valid?
-          expect(subject.errors[:password]).to include("is too short (minimum is 3 characters)")
+          expect(subject.errors[:password]).to include("is too short (minimum is #{User::PASSWORD_LENGTH} characters)")
         end
 
         it 'must match confirmation' do
@@ -103,10 +103,10 @@ describe User do
       let(:user) { Fabricate(:user) }
 
       context "and password has been changed" do
-        it 'must have at least 3 characters' do
+        it 'must have the minimum number of characters' do
           user.password = 'oo'
           user.valid?
-          expect(user.errors[:password]).to include("is too short (minimum is 3 characters)")
+          expect(user.errors[:password]).to include("is too short (minimum is #{User::PASSWORD_LENGTH} characters)")
         end
 
         it 'must match confirmation' do

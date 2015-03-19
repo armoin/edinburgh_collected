@@ -61,7 +61,7 @@
     var formValid = false;
 
     window.formValidator = new FormValidator();
-    window.formValidator.labelMaxLength($('form#edit-scrapbook'));
+    window.formValidator.labelLengthConstraints($('form#edit-scrapbook'));
 
     $('form#edit-scrapbook').on('submit', function (e) {
       window.formValidator.validateForm(this, {

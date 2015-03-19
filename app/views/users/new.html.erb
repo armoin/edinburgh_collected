@@ -7,7 +7,7 @@
 
       <h1 class="form-title">Sign up for an account</h1>
 
-      <%= nested_form_for @user, url: signup_path, html: {class: 'form-horizontal', role: 'form'} do |form| %>
+      <%= form_for @user, url: signup_path, builder: Judge::FormBuilder, html: {class: 'form-horizontal', role: 'form'} do |form| %>
 
         <div class="form-group">
           <div id="user_is_group" class="form-group">
@@ -58,7 +58,7 @@
 
       <ul class="help-tips">
         <li><span class="glyphicon glyphicon-info-sign"></span>All fields marked with a <span class="required">*</span> are required.</li>
-        <li><span class="glyphicon glyphicon-info-sign"></span>Password must be 3 characters or more.</li>
+        <li><span class="glyphicon glyphicon-info-sign"></span>Password must be <%= User::PASSWORD_LENGTH %> characters or more.</li>
         <li><span class="glyphicon glyphicon-info-sign"></span>Your first name, last name and email are not visible to others on the site. Only your username is used to identify you.</li>
         <li><span class="glyphicon glyphicon-info-sign"></span>You must accept the <a class="underlined" href="" data-toggle="modal" data-target="#t_and_c">Terms and Conditions</a> in order to sign up for an account.
         </li>
@@ -99,6 +99,9 @@
       }
     })
     $('#user_is_group input[type="radio"]').first().trigger('change');
+
+    window.formValidator = new FormValidator();
+    window.formValidator.labelLengthConstraints($('form#new_user'));
   };
 
   var isGroup = function () {

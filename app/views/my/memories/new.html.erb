@@ -69,7 +69,7 @@
 
   var setupForm = function (e) {
     window.formValidator = new FormValidator();
-    window.formValidator.labelMaxLength($('form#add-memory'));
+    window.formValidator.labelLengthConstraints($('form#add-memory'));
 
     fileInputEl = $('#memory_source')[0]
 

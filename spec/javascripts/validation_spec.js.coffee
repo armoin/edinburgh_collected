@@ -1,6 +1,8 @@
+minChars = 6
 maxChars = 10
 
 presenceValidator  = JSON.stringify([{"kind": "presence", "options": {}, "messages": {"blank": "test presence message"}}])
+minLengthValidator = JSON.stringify([{"kind": "length", "options": {"minimum": minChars}, "messages": {"too_short": "text min length message"}}])
 maxLengthValidator = JSON.stringify([{"kind": "length", "options": {"maximum": maxChars}, "messages": {"too_long": "text max length message"}}])
 
 describe "FormValidator", ->
@@ -8,30 +10,43 @@ describe "FormValidator", ->
     @form = affix('form#validatorTest')
     @formGroup = @form.affix('.form-group')
 
-  describe "labelling max length fields", ->
+  describe "adding length constraints to field labels", ->
     describe "when a field has no validations", ->
-      it "is does not have its label changed", ->
+      it "does not have its label changed", ->
         $("<label>Test</label><input type='text' />").appendTo(@formGroup)
-        new FormValidator().labelMaxLength(@form)
+        new FormValidator().labelLengthConstraints(@form)
         expect( $(@formGroup).find('label').text() ).toEqual('Test')
 
-    describe "when a field has validations but not max length", ->
-      it "is does not have its label changed", ->
+    describe "when a field has validations but not on length", ->
+      it "does not have its label changed", ->
         $("<label>Test</label><input type='text' data-validate='#{presenceValidator}' />").appendTo(@formGroup)
-        new FormValidator().labelMaxLength(@form)
+        new FormValidator().labelLengthConstraints(@form)
         expect( $(@formGroup).find('label').text() ).toEqual('Test')
+
+    describe "when a field has validations that include min length", ->
+      describe "if the label has not already got min length text", ->
+        it "has its label changed", ->
+          $("<label>Test</label><input type='text' data-validate='#{minLengthValidator}' />").appendTo(@formGroup)
+          new FormValidator().labelLengthConstraints(@form)
+          expect( $(@formGroup).find('label').text() ).toEqual("Test (min #{minChars} characters)")
+
+      describe "if the label has already got min length text", ->
+        it "does not have its label changed", ->
+          $("<label>Test (min #{minChars} characters)</label><input type='text' data-validate='#{minLengthValidator}' />").appendTo(@formGroup)
+          new FormValidator().labelLengthConstraints(@form)
+          expect( $(@formGroup).find('label').text() ).toEqual("Test (min #{minChars} characters)")
 
     describe "when a field has validations that include max length", ->
       describe "if the label has not already got max length text", ->
-        it "is has its label changed", ->
+        it "has its label changed", ->
           $("<label>Test</label><input type='text' data-validate='#{maxLengthValidator}' />").appendTo(@formGroup)
-          new FormValidator().labelMaxLength(@form)
+          new FormValidator().labelLengthConstraints(@form)
           expect( $(@formGroup).find('label').text() ).toEqual("Test (max #{maxChars} characters)")
 
       describe "if the label has already got max length text", ->
-        it "is does not have its label changed", ->
+        it "does not have its label changed", ->
           $("<label>Test (max #{maxChars} characters)</label><input type='text' data-validate='#{maxLengthValidator}' />").appendTo(@formGroup)
-          new FormValidator().labelMaxLength(@form)
+          new FormValidator().labelLengthConstraints(@form)
           expect( $(@formGroup).find('label').text() ).toEqual("Test (max #{maxChars} characters)")
 
   describe "validating fields", ->

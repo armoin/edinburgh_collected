@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
 
   authenticates_with_sorcery!
 
+  PASSWORD_LENGTH = 6
+
   has_many :memories, dependent: :destroy
   has_many :scrapbooks, dependent: :destroy
   has_many :links, dependent: :destroy
@@ -17,7 +19,7 @@ class User < ActiveRecord::Base
   validates :last_name, presence: true, unless: Proc.new { |u| u.is_group? }
   validates :screen_name, uniqueness: true, presence: true
   validates :email, uniqueness: true, presence: true, email: true
-  validates :password, length: { minimum: 3 }, confirmation: true, if: :password_changed?
+  validates :password, length: { minimum: PASSWORD_LENGTH }, confirmation: true, if: :password_changed?
   validates :accepted_t_and_c, presence: { message: 'must be accepted' }
 
   accepts_nested_attributes_for :links, allow_destroy: true, reject_if: :all_blank
