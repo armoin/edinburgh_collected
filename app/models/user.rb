@@ -40,6 +40,10 @@ class User < ActiveRecord::Base
     object.try(:user_id) == self.id || self.is_admin?
   end
 
+  def block!
+    update_attribute(:is_blocked, true)
+  end
+
   private
 
   def downcase_email

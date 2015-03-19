@@ -336,4 +336,13 @@ describe User do
       end
     end
   end
+
+  describe '#block!' do
+    it 'marks the user as blocked' do
+      user = Fabricate(:active_user)
+      expect {
+        user.block!
+      }.to change{user.is_blocked?}.to(true)
+    end
+  end
 end

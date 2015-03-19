@@ -9,37 +9,13 @@ describe Admin::Moderation::MemoriesController do
     let(:unmoderated_memories) { double('unmoderated_memories') }
     let(:ordered_memories)     { double('ordered_memories') }
 
-    context 'when not logged in' do
-      before :each do
-        get :index
-      end
+    context 'user must be an admin' do
+      let(:perform_action) { get :index }
 
-      it 'does not store the moderated path' do
-        expect(session[:current_memory_index_path]).to be_nil
-      end
-
-      it 'redirects to sign in' do
-        expect(response).to redirect_to(signin_path)
-      end
+      it_behaves_like 'an admin only controller'
     end
 
-    context 'when logged in but not as an admin' do
-      before :each do
-        @user = Fabricate(:active_user)
-        login_user
-        get :index
-      end
-
-      it 'does not store the moderated path' do
-        expect(session[:current_memory_index_path]).to be_nil
-      end
-
-      it 'redirects to sign in' do
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in' do
+    context 'when logged in as an admin' do
       before :each do
         @user = Fabricate(:admin_user)
         login_user
@@ -74,37 +50,13 @@ describe Admin::Moderation::MemoriesController do
     let(:moderated_memories) { double('moderated_memories') }
     let(:ordered_memories)   { double('ordered_memories') }
 
-    context 'when not logged in' do
-      before :each do
-        get :moderated
-      end
+    context 'user must be an admin' do
+      let(:perform_action) { get :moderated }
 
-      it 'does not store the moderated path' do
-        expect(session[:current_memory_index_path]).to be_nil
-      end
-
-      it 'redirects to sign in' do
-        expect(response).to redirect_to(signin_path)
-      end
+      it_behaves_like 'an admin only controller'
     end
 
-    context 'when logged in but not as an admin' do
-      before :each do
-        @user = Fabricate(:active_user)
-        login_user
-        get :moderated
-      end
-
-      it 'does not store the moderated path' do
-        expect(session[:current_memory_index_path]).to be_nil
-      end
-
-      it 'redirects to sign in' do
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in' do
+    context 'when logged in as an admin' do
       before :each do
         @user = Fabricate(:admin_user)
         login_user
@@ -139,37 +91,13 @@ describe Admin::Moderation::MemoriesController do
     let(:reported_memories) { double('reported_memories') }
     let(:ordered_memories)   { double('ordered_memories') }
 
-    context 'when not logged in' do
-      before :each do
-        get :reported
-      end
+    context 'user must be an admin' do
+      let(:perform_action) { get :reported }
 
-      it 'does not store the reported path' do
-        expect(session[:current_memory_index_path]).to be_nil
-      end
-
-      it 'redirects to sign in' do
-        expect(response).to redirect_to(signin_path)
-      end
+      it_behaves_like 'an admin only controller'
     end
 
-    context 'when logged in but not as an admin' do
-      before :each do
-        @user = Fabricate(:active_user)
-        login_user
-        get :reported
-      end
-
-      it 'does not store the reported path' do
-        expect(session[:current_memory_index_path]).to be_nil
-      end
-
-      it 'redirects to sign in' do
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in' do
+    context 'when logged in as an admin' do
       before :each do
         @user = Fabricate(:admin_user)
         login_user
@@ -203,23 +131,17 @@ describe Admin::Moderation::MemoriesController do
   describe 'GET show' do
     let(:memory) { Fabricate.build(:photo_memory, id: 123) }
 
-    context 'when not logged in' do
-      it 'redirects to sign in' do
-        get :show, id: memory.id
-        expect(response).to redirect_to(signin_path)
+    context 'user must be an admin' do
+      let(:perform_action) { get :show, id: memory.id }
+
+      before :each do
+        allow(Memory).to receive(:find)
       end
+
+      it_behaves_like 'an admin only controller'
     end
 
-    context 'when logged in but not as an admin' do
-      it 'redirects to sign in' do
-        @user = Fabricate(:active_user)
-        login_user
-        get :show, id: memory.id
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in' do
+    context 'when logged in as an admin' do
       before :each do
         @user = Fabricate(:admin_user)
         login_user
@@ -270,23 +192,18 @@ describe Admin::Moderation::MemoriesController do
   describe 'PUT approve' do
     let(:memory) { Fabricate.build(:photo_memory, id: 123) }
 
-    context 'when not logged in' do
-      it 'redirects to sign in' do
-        put :approve, id: memory.id
-        expect(response).to redirect_to(signin_path)
+    context 'user must be an admin' do
+      let(:perform_action) { put :approve, id: memory.id }
+
+      before :each do
+        allow(Memory).to receive(:find)
+        allow(memory).to receive(:approve!)
       end
+
+      it_behaves_like 'an admin only controller'
     end
 
-    context 'when logged in but not as an admin' do
-      it 'redirects to sign in' do
-        @user = Fabricate(:active_user)
-        login_user
-        put :approve, id: memory.id
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in' do
+    context 'when logged in as an admin' do
       let(:result) { true }
       let(:format) { 'html' }
 
@@ -385,23 +302,18 @@ describe Admin::Moderation::MemoriesController do
     let(:result) { true }
     let(:format) { 'html' }
 
-    context 'when not logged in' do
-      it 'redirects to sign in' do
-        put :reject, id: memory.id, reason: reason
-        expect(response).to redirect_to(signin_path)
+    context 'user must be an admin' do
+      let(:perform_action) { put :reject, id: memory.id, reason: reason }
+
+      before :each do
+        allow(Memory).to receive(:find)
+        allow(memory).to receive(:reject!)
       end
+
+      it_behaves_like 'an admin only controller'
     end
 
-    context 'when logged in but not as an admin' do
-      it 'redirects to sign in' do
-        @user = Fabricate(:active_user)
-        login_user
-        put :reject, id: memory.id, reason: reason
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in' do
+    context 'when logged in as an admin' do
       before :each do
         @user = Fabricate(:admin_user)
         login_user
@@ -496,23 +408,18 @@ describe Admin::Moderation::MemoriesController do
     let(:result) { true }
     let(:format) { 'html' }
 
-    context 'when not logged in' do
-      it 'redirects to sign in' do
-        put :unmoderate, id: memory.id
-        expect(response).to redirect_to(signin_path)
+    context 'user must be an admin' do
+      let(:perform_action) { put :unmoderate, id: memory.id }
+
+      before :each do
+        allow(Memory).to receive(:find)
+        allow(memory).to receive(:unmoderate!)
       end
+
+      it_behaves_like 'an admin only controller'
     end
 
-    context 'when logged in but not as an admin' do
-      it 'redirects to sign in' do
-        @user = Fabricate(:active_user)
-        login_user
-        put :unmoderate, id: memory.id
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in' do
+    context 'when logged in as an admin' do
       before :each do
         @user = Fabricate(:admin_user)
         login_user

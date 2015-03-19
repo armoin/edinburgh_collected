@@ -8,37 +8,13 @@ describe Admin::Moderation::ScrapbooksController do
   describe 'GET index' do
     let(:unmoderated_scrapbooks) { Array.new(2) {|i| Fabricate.build(:scrapbook, id: i+1)} }
 
-    context 'when not logged in' do
-      before :each do
-        get :index
-      end
+    context 'user must be an admin' do
+      let(:perform_action) { get :index }
 
-      it 'does not store the index path' do
-        expect(session[:current_scrapbook_index_path]).to be_nil
-      end
-
-      it 'redirects to sign in' do
-        expect(response).to redirect_to(signin_path)
-      end
+      it_behaves_like 'an admin only controller'
     end
 
-    context 'when logged in but not as an admin' do
-      before :each do
-        @user = Fabricate(:active_user)
-        login_user
-        get :index
-      end
-
-      it 'does not store the index path' do
-        expect(session[:current_scrapbook_index_path]).to be_nil
-      end
-
-      it 'redirects to sign in' do
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in' do
+    context 'when logged in as an admin' do
       before :each do
         @user = Fabricate(:admin_user)
         login_user
@@ -68,37 +44,13 @@ describe Admin::Moderation::ScrapbooksController do
     let(:moderated_scrapbooks) { double('moderated_scrapbooks') }
     let(:ordered_scrapbooks)   { double('ordered_scrapbooks') }
 
-    context 'when not logged in' do
-      before :each do
-        get :moderated
-      end
+    context 'user must be an admin' do
+      let(:perform_action) { get :moderated }
 
-      it 'does not store the index path' do
-        expect(session[:current_scrapbook_index_path]).to be_nil
-      end
-
-      it 'redirects to sign in' do
-        expect(response).to redirect_to(signin_path)
-      end
+      it_behaves_like 'an admin only controller'
     end
 
-    context 'when logged in but not as an admin' do
-      before :each do
-        @user = Fabricate(:active_user)
-        login_user
-        get :moderated
-      end
-
-      it 'does not store the index path' do
-        expect(session[:current_scrapbook_index_path]).to be_nil
-      end
-
-      it 'redirects to sign in' do
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in' do
+    context 'when logged in as an admin' do
       before :each do
         @user = Fabricate(:admin_user)
         login_user
@@ -133,37 +85,13 @@ describe Admin::Moderation::ScrapbooksController do
     let(:reported_scrapbooks) { double('reported_scrapbooks') }
     let(:ordered_scrapbooks)  { double('ordered_scrapbooks') }
 
-    context 'when not logged in' do
-      before :each do
-        get :reported
-      end
+    context 'user must be an admin' do
+      let(:perform_action) { get :reported }
 
-      it 'does not store the index path' do
-        expect(session[:current_scrapbook_index_path]).to be_nil
-      end
-
-      it 'redirects to sign in' do
-        expect(response).to redirect_to(signin_path)
-      end
+      it_behaves_like 'an admin only controller'
     end
 
-    context 'when logged in but not as an admin' do
-      before :each do
-        @user = Fabricate(:active_user)
-        login_user
-        get :reported
-      end
-
-      it 'does not store the index path' do
-        expect(session[:current_scrapbook_index_path]).to be_nil
-      end
-
-      it 'redirects to sign in' do
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in' do
+    context 'when logged in as an admin' do
       before :each do
         @user = Fabricate(:admin_user)
         login_user
@@ -197,23 +125,17 @@ describe Admin::Moderation::ScrapbooksController do
   describe 'GET show' do
     let(:scrapbook) { Fabricate.build(:scrapbook, id: 123) }
 
-    context 'when not logged in' do
-      it 'redirects to sign in' do
-        get :show, id: scrapbook.id
-        expect(response).to redirect_to(signin_path)
+    context 'user must be an admin' do
+      let(:perform_action) { get :show, id: scrapbook.id }
+
+      before :each do
+        allow(Scrapbook).to receive(:find)
       end
+
+      it_behaves_like 'an admin only controller'
     end
 
-    context 'when logged in but not as an admin' do
-      it 'redirects to sign in' do
-        @user = Fabricate(:active_user)
-        login_user
-        get :show, id: scrapbook.id
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in' do
+    context 'when logged in as an admin' do
       before :each do
         @user = Fabricate(:admin_user)
         login_user
@@ -283,23 +205,18 @@ describe Admin::Moderation::ScrapbooksController do
   describe 'PUT approve' do
     let(:scrapbook) { Fabricate.build(:scrapbook, id: 123) }
 
-    context 'when not logged in' do
-      it 'redirects to sign in' do
-        put :approve, id: scrapbook.id
-        expect(response).to redirect_to(signin_path)
+    context 'user must be an admin' do
+      let(:perform_action) { put :approve, id: scrapbook.id }
+
+      before :each do
+        allow(Scrapbook).to receive(:find)
+        allow(scrapbook).to receive(:approve!)
       end
+
+      it_behaves_like 'an admin only controller'
     end
 
-    context 'when logged in but not as an admin' do
-      it 'redirects to sign in' do
-        @user = Fabricate(:active_user)
-        login_user
-        put :approve, id: scrapbook.id
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in' do
+    context 'when logged in as an admin' do
       let(:result) { true }
 
       before :each do
@@ -364,26 +281,21 @@ describe Admin::Moderation::ScrapbooksController do
 
   describe 'PUT reject' do
     let(:scrapbook) { Fabricate.build(:scrapbook, id: 123) }
+    let(:reason)    { 'unsuitable' }
 
-    context 'when not logged in' do
-      it 'redirects to sign in' do
-        put :reject, id: scrapbook.id
-        expect(response).to redirect_to(signin_path)
+    context 'user must be an admin' do
+      let(:perform_action) { put :reject, id: scrapbook.id, reason: reason }
+
+      before :each do
+        allow(Scrapbook).to receive(:find)
+        allow(scrapbook).to receive(:reject!)
       end
+
+      it_behaves_like 'an admin only controller'
     end
 
-    context 'when logged in but not as an admin' do
-      it 'redirects to sign in' do
-        @user = Fabricate(:active_user)
-        login_user
-        put :reject, id: scrapbook.id
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in' do
+    context 'when logged in as an admin' do
       let(:result) { true }
-      let(:reason) { 'unsuitable' }
 
       before :each do
         @user = Fabricate(:admin_user)
@@ -448,23 +360,18 @@ describe Admin::Moderation::ScrapbooksController do
   describe 'PUT unmoderate' do
     let(:scrapbook) { Fabricate.build(:scrapbook, id: 123) }
 
-    context 'when not logged in' do
-      it 'redirects to sign in' do
-        put :unmoderate, id: scrapbook.id
-        expect(response).to redirect_to(signin_path)
+    context 'user must be an admin' do
+      let(:perform_action) { put :unmoderate, id: scrapbook.id }
+
+      before :each do
+        allow(Scrapbook).to receive(:find)
+        allow(scrapbook).to receive(:unmoderate!)
       end
+
+      it_behaves_like 'an admin only controller'
     end
 
-    context 'when logged in but not as an admin' do
-      it 'redirects to sign in' do
-        @user = Fabricate(:active_user)
-        login_user
-        put :unmoderate, id: scrapbook.id
-        expect(response).to redirect_to(signin_path)
-      end
-    end
-
-    context 'when logged in' do
+    context 'when logged in as an admin' do
       let(:result) { true }
 
       before :each do
