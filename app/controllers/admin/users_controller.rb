@@ -2,6 +2,7 @@ class Admin::UsersController < Admin::AuthenticatedAdminController
   INDEXES = [:index, :blocked]
 
   before_action :assign_user, except: INDEXES
+  before_action :disallow_if_requested_user_is_current_user, only: [:block, :unblock]
 
   def index
     @users = User.all.order('screen_name')
@@ -16,11 +17,11 @@ class Admin::UsersController < Admin::AuthenticatedAdminController
   end
 
   def block
-    toggle_blocked('block')
+    toggle_blocked
   end
 
   def unblock
-    toggle_blocked('unblock')
+    toggle_blocked
   end
 
   private
@@ -29,11 +30,17 @@ class Admin::UsersController < Admin::AuthenticatedAdminController
     @user = User.find(params[:id])
   end
 
-  def toggle_blocked(action)
-    message = if @user.send("#{action}!")
-      {notice: "User #{@user.screen_name} has been #{action}ed."}
+  def disallow_if_requested_user_is_current_user
+    if @user == current_user
+      redirect_to admin_user_path(@user), alert: "You can't #{action_name} your own account." and return
+    end
+  end
+
+  def toggle_blocked
+    message = if @user.send("#{action_name}!")
+      {notice: "User #{@user.screen_name} has been #{action_name}ed."}
     else
-      {alert: "User #{@user.screen_name} could not be #{action}ed."}
+      {alert: "User #{@user.screen_name} could not be #{action_name}ed."}
     end
     redirect_to admin_user_path(@user), message
   end

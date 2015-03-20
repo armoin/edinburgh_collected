@@ -103,14 +103,28 @@ describe Admin::UsersController do
       end
 
       context 'when the user is found' do
-        let(:find_result) { requested_user }
+        context 'and the requested user is not the current user' do
+          let(:find_result) { requested_user }
 
-        it 'assigns the requested user' do
-          expect(assigns[:user]).to eql(requested_user)
+          it 'assigns the requested user' do
+            expect(assigns[:user]).to eql(requested_user)
+          end
+
+          it 'renders the profile page' do
+            expect(response).to render_template(:show)
+          end
         end
 
-        it 'renders the profile page' do
-          expect(response).to render_template(:show)
+        context 'and the requested user is the current user' do
+          let(:find_result) { @user }
+
+          it 'assigns the requested user' do
+            expect(assigns[:user]).to eql(@user)
+          end
+
+          it 'renders the profile page' do
+            expect(response).to render_template(:show)
+          end
         end
       end
 
@@ -155,37 +169,51 @@ describe Admin::UsersController do
       end
 
       context 'when the user is found' do
-        let(:find_result) { requested_user }
+        context 'and the requested user is not the current user' do
+          let(:find_result) { requested_user }
 
-        it 'assigns the requested user' do
-          expect(assigns[:user]).to eql(requested_user)
-        end
-
-        it 'blocks the user' do
-          expect(requested_user).to have_received(:block!)
-        end
-
-        context 'when user is successfully blocked' do
-          let(:block_result) { true }
-
-          it 'shows a success message' do
-            expect(flash[:notice]).to eql("User #{requested_user.screen_name} has been blocked.")
+          it 'assigns the requested user' do
+            expect(assigns[:user]).to eql(requested_user)
           end
+
+          it 'blocks the user' do
+            expect(requested_user).to have_received(:block!)
+          end
+
+          context 'when user is successfully blocked' do
+            let(:block_result) { true }
+
+            it 'shows a success message' do
+              expect(flash[:notice]).to eql("User #{requested_user.screen_name} has been blocked.")
+            end
+
+            it 'redirects to the show page' do
+              expect(response).to redirect_to(admin_user_path(requested_user))
+            end
+          end
+
+          context 'when user is not successfully blocked' do
+            let(:block_result) { false }
+
+            it 'shows a failure alert' do
+              expect(flash[:alert]).to eql("User #{requested_user.screen_name} could not be blocked.")
+            end
+
+            it 'redirects to the show page' do
+              expect(response).to redirect_to(admin_user_path(requested_user))
+            end
+          end
+        end
+
+        context 'and the current user is the requested user' do
+          let(:find_result) { @user }
 
           it 'redirects to the show page' do
-            expect(response).to redirect_to(admin_user_path(requested_user))
-          end
-        end
-
-        context 'when user is not successfully blocked' do
-          let(:block_result) { false }
-
-          it 'shows a failure alert' do
-            expect(flash[:alert]).to eql("User #{requested_user.screen_name} could not be blocked.")
+            expect(response).to redirect_to(admin_user_path(@user))
           end
 
-          it 'redirects to the show page' do
-            expect(response).to redirect_to(admin_user_path(requested_user))
+          it 'shows an error' do
+            expect(flash[:alert]).to eql("You can't block your own account.")
           end
         end
       end
@@ -231,37 +259,51 @@ describe Admin::UsersController do
       end
 
       context 'when the user is found' do
-        let(:find_result) { requested_user }
+        context 'and the requested user is not the current user' do
+          let(:find_result) { requested_user }
 
-        it 'assigns the requested user' do
-          expect(assigns[:user]).to eql(requested_user)
-        end
-
-        it 'unblocks the user' do
-          expect(requested_user).to have_received(:unblock!)
-        end
-
-        context 'when user is successfully unblocked' do
-          let(:unblock_result) { true }
-
-          it 'shows a success message' do
-            expect(flash[:notice]).to eql("User #{requested_user.screen_name} has been unblocked.")
+          it 'assigns the requested user' do
+            expect(assigns[:user]).to eql(requested_user)
           end
+
+          it 'unblocks the user' do
+            expect(requested_user).to have_received(:unblock!)
+          end
+
+          context 'when user is successfully unblocked' do
+            let(:unblock_result) { true }
+
+            it 'shows a success message' do
+              expect(flash[:notice]).to eql("User #{requested_user.screen_name} has been unblocked.")
+            end
+
+            it 'redirects to the show page' do
+              expect(response).to redirect_to(admin_user_path(requested_user))
+            end
+          end
+
+          context 'when user is not successfully unblocked' do
+            let(:unblock_result) { false }
+
+            it 'shows a failure alert' do
+              expect(flash[:alert]).to eql("User #{requested_user.screen_name} could not be unblocked.")
+            end
+
+            it 'redirects to the show page' do
+              expect(response).to redirect_to(admin_user_path(requested_user))
+            end
+          end
+        end
+
+        context 'and the current user is the requested user' do
+          let(:find_result) { @user }
 
           it 'redirects to the show page' do
-            expect(response).to redirect_to(admin_user_path(requested_user))
-          end
-        end
-
-        context 'when user is not successfully unblocked' do
-          let(:unblock_result) { false }
-
-          it 'shows a failure alert' do
-            expect(flash[:alert]).to eql("User #{requested_user.screen_name} could not be unblocked.")
+            expect(response).to redirect_to(admin_user_path(@user))
           end
 
-          it 'redirects to the show page' do
-            expect(response).to redirect_to(admin_user_path(requested_user))
+          it 'shows an error' do
+            expect(flash[:alert]).to eql("You can't unblock your own account.")
           end
         end
       end
