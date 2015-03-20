@@ -19,7 +19,7 @@ gem 'carrierwave',                  '~> 0.10.0', github: "carrierwaveuploader/ca
 gem 'mini_magick',                  '~> 4.0.1'
 gem 'fog',                          '~> 1.25.0'
 gem 'figaro',                       '~> 1.0.0'
-gem 'sorcery',                      '~> 0.8.6'
+gem 'sorcery',                      '~> 0.9.0'
 gem 'geocoder',                     '~> 1.2.4'
 gem 'email_validator',              '~> 1.4.0'
 gem 'fabrication',                  '~> 2.11.3'
