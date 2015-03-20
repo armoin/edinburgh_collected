@@ -53,7 +53,11 @@ class User < ActiveRecord::Base
   end
 
   def block!
-    update_attribute(:is_blocked, true)
+    toggle_blocked(true)
+  end
+
+  def unblock!
+    toggle_blocked(false)
   end
 
   private
@@ -70,5 +74,9 @@ class User < ActiveRecord::Base
   def send_activation
     send(:setup_activation)
     send(:send_activation_needed_email!)
+  end
+
+  def toggle_blocked(value)
+    update_attribute(:is_blocked, value)
   end
 end

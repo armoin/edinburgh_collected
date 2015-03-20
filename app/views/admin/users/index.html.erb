@@ -26,7 +26,7 @@
           <tr class='user'>
             <td><%= link_to user.screen_name, admin_user_path(user) %></td>
             <td><%= user.name %></td>
-            <td><%= user.email %></td>
+            <td><%= mail_to user.email %></td>
             <td><%= user.active? %></td>
             <td><%= user.is_group? %></td>
             <td><%= user.is_blocked? %></td>

@@ -29,8 +29,8 @@
       <%= render partial: 'users/links', locals: {requested_user: @user} %>
 
       <div class="actions">
-        <%= link_to 'Edit', my_profile_edit_path, class: 'button' %>
-        <%= link_to 'Block user', block_admin_user_path(@user), method: :put, data: {confirm: 'Are you sure?'}, class: 'button red' %>
+        <%= user_list_button_for(@user) %>
+        <%= block_toggle_button_for(@user) %>
       </div>
     </div>
 

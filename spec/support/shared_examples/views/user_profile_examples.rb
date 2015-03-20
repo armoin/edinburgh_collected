@@ -94,8 +94,4 @@ RSpec.shared_examples 'a user profile' do
       end
     end
   end
-
-  it 'has an Edit link' do
-    expect(rendered).to have_link('Edit', href: my_profile_edit_path)
-  end
 end

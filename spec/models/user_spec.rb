@@ -415,4 +415,13 @@ describe User do
       }.to change{user.is_blocked?}.to(true)
     end
   end
+
+  describe '#unblock!' do
+    it 'marks the user as unblocked' do
+      user = Fabricate(:blocked_user)
+      expect {
+        user.unblock!
+      }.to change{user.is_blocked?}.to(false)
+    end
+  end
 end
