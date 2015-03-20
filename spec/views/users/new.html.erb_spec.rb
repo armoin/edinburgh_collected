@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 describe 'users/new.html.erb' do
-  let(:user) { User.new }
+  let(:user)       { User.new }
+  let(:temp_image) { TempImage.new }
 
   before :each do
     user.links.build
+    assign(:temp_image, temp_image)
     assign(:user, user)
     render
   end
@@ -30,26 +32,6 @@ describe 'users/new.html.erb' do
 
       it "is required" do
         expect(rendered).to have_css('.form-group[aria-required="true"] input[type="text"]#user_last_name')
-      end
-    end
-
-    describe 'links' do
-      it "allows the user to add a link" do
-        expect(rendered).to have_css('input[type="text"]#user_links_attributes_0_name')
-        expect(rendered).to have_css('input[type="text"]#user_links_attributes_0_url')
-      end
-
-      it "has no autocapitalization on URL field" do
-        expect(rendered).to have_css('input[type="text"]#user_links_attributes_0_url[autocapitalize="none"]')
-      end
-
-      it "lets the user add another url" do
-        expect(rendered).to have_css('a.add_nested_fields[data-association="links"]', text: 'Add another')
-      end
-
-      it "is not required" do
-        expect(rendered).not_to have_css('.form-group[aria-required="true"] input[type="text"]#user_links_attributes_0_name')
-        expect(rendered).not_to have_css('.form-group[aria-required="true"] input[type="text"]#user_links_attributes_0_url')
       end
     end
 

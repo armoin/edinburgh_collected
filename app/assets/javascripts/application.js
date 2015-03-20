@@ -34,4 +34,6 @@
 //= require jquery.mmenu.min
 //= require jquery_nested_form
 //= require lightbox.min
+//= require jquery-fileupload/basic
+//= require jquery.guillotine.min
 //= require_tree .

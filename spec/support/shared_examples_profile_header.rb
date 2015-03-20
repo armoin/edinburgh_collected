@@ -21,7 +21,7 @@ RSpec.shared_examples 'a profile headed page' do
       end
 
       it "displays the requested user's avatar" do
-        expect(rendered).to have_css('img[src="/assets/avatar.png"]')
+        expect(rendered).to have_css('img.avatar')
       end
 
       it "displays the requested user's username" do
@@ -66,7 +66,7 @@ RSpec.shared_examples 'a profile headed page' do
         end
 
         it "displays the requested user's avatar" do
-          expect(rendered).to have_css('img[src="/assets/avatar.png"]')
+          expect(rendered).to have_css('img.avatar')
         end
 
         it "displays the requested user's username" do
@@ -108,7 +108,7 @@ RSpec.shared_examples 'a profile headed page' do
         end
 
         it "displays the requested user's avatar" do
-          expect(rendered).to have_css('img[src="/assets/avatar.png"]')
+          expect(rendered).to have_css('img.avatar')
         end
 
         it "displays the requested user's username" do

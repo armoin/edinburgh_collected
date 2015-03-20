@@ -10,6 +10,13 @@ class UserParamCleaner
       :password_confirmation,
       :accepted_t_and_c,
       :description,
+      :image_angle,
+      :image_scale,
+      :image_w,
+      :image_h,
+      :image_x,
+      :image_y,
+      :remote_avatar_url,
       links_attributes: [:id, :name, :url, :_destroy]
     )
   end

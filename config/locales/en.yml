@@ -19,7 +19,7 @@ en:
       user:
         screen_name: 'Username'
         is_group:    'Who is this account for?'
-        description: "How would you describe yourself to other users?"
+        description: "Bio (a short description of yourself)"
     errors:
       messages:
         too_long: "text is too long (maximum is %{count} characters)"

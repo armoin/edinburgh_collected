@@ -5,41 +5,17 @@ describe ImageUploader, slow: true do
   include CarrierWave::Test::Matchers
 
   let(:memory)       { Fabricate.build(:photo_memory, id: 123) }
+  let(:model_name)   { 'memory' }
   let(:filename)     { 'test.jpg' }
   let(:path_to_file) { File.join(Rails.root, 'spec', 'fixtures', 'files', filename) }
   let(:uploader)     { ImageUploader.new(memory, :source) }
 
-  describe 'without manipulation' do
-    before do
-      allow(SecureRandom).to receive(:uuid).and_return('random_sample')
-      uploader.store!(File.open(path_to_file))
-    end
+  after do
+    uploader.remove!
+  end
 
-    after do
-      uploader.remove!
-    end
-
-    describe '#store_dir' do
-      before :each do
-        @root, @model, @mounted_as, @id = uploader.store_dir.split('/')
-      end
-
-      it 'has a root of uploads' do
-        expect(@root).to eql('uploads')
-      end
-
-      it 'has a model of memory' do
-        expect(@model).to eql('memory')
-      end
-
-      it 'has a mounted_as of source' do
-        expect(@mounted_as).to eql('source')
-      end
-
-      it 'has an id of 123' do
-        expect(@id).to eql('123')
-      end
-    end
+  describe 'without processing' do
+    it_behaves_like 'a base image uploader'
 
     describe "#is_rotated?" do
       let(:file) { nil }
@@ -64,31 +40,9 @@ describe ImageUploader, slow: true do
         expect(uploader.is_rotated?(file)).to be_truthy
       end
     end
-
-    describe '#filename' do
-      it "randomly generates a filename" do
-        expect(uploader.filename).to eql('random_sample.jpg')
-      end
-
-      context 'when the extension is valid' do
-        let(:filename) { 'test.jpg' }
-
-        it 'provides the file name with the given extension' do
-          expect(File.extname(uploader.filename)).to eql('.jpg')
-        end
-      end
-
-      context 'when the extension is not valid' do
-        let(:filename) { 'test.oops' }
-
-        it 'provides the file name with the filetype extension' do
-          expect(File.extname(uploader.filename)).to eql('.jpeg')
-        end
-      end
-    end
   end
 
-  describe 'with manipulation' do
+  describe 'with processing' do
     before do
       ImageUploader.enable_processing = true
       uploader.store!(File.open(path_to_file))
@@ -96,10 +50,9 @@ describe ImageUploader, slow: true do
 
     after do
       ImageUploader.enable_processing = false
-      uploader.remove!
     end
 
-    it "should scale down a thumb image to 90x90 pixels" do
+    it "should scale down a mini thumb image to 90x90 pixels" do
       expect(uploader.mini_thumb).to have_dimensions(90, 90)
     end
 

@@ -37,7 +37,7 @@
 
       <div id="user-profile" class="col-xs-12 col-md-6">
         <%= link_to user_memories_path(user_id: memory.user_id), class: "userAvatar" do %>
-          <%= image_tag "avatar.png" %>
+          <%= image_tag @memory.user.avatar_url %>
           <div id="user-details">
             <p>Added by</p>
             <p class="username">
