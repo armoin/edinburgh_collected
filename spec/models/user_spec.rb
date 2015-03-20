@@ -260,6 +260,19 @@ describe User do
     end
   end
 
+  describe '.unblocked' do
+    let!(:blocked_user)     { Fabricate(:blocked_user) }
+    let!(:non_blocked_user) { Fabricate(:active_user) }
+
+    it 'provides unblocked users' do
+      expect(User.unblocked).to include(non_blocked_user)
+    end
+
+    it 'does not provide users that are blocked' do
+      expect(User.unblocked).not_to include(blocked_user)
+    end
+  end
+
   describe '#can_modify?' do
     let(:user_id) { 123 }
     let(:thing)   { double('thing') }

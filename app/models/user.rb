@@ -39,6 +39,10 @@ class User < ActiveRecord::Base
     where(is_blocked: true)
   end
 
+  def self.unblocked
+    where(is_blocked: false)
+  end
+
   def name
     [first_name, last_name].join(' ').strip
   end
