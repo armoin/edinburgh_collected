@@ -1,12 +1,14 @@
 require 'rails_helper'
 
 describe Users::ScrapbooksController do
-  let(:requested_user)      { Fabricate.build(:active_user, id: 123) }
-  let(:active_users_stub)   { double('active_users') }
+  let(:requested_user)       { Fabricate.build(:active_user, id: 123) }
+  let(:active_users_stub)    { double('active_users') }
+  let(:unblocked_users_stub) { double('unblocked_users') }
 
   before :each do
     allow(User).to receive(:active).and_return(active_users_stub)
-    allow(active_users_stub).to receive(:find).and_return(requested_user)
+    allow(active_users_stub).to receive(:unblocked).and_return(unblocked_users_stub)
+    allow(unblocked_users_stub).to receive(:find).and_return(requested_user)
   end
 
   describe 'GET index' do
@@ -17,12 +19,12 @@ describe Users::ScrapbooksController do
 
     it 'finds the requested user' do
       get :index, user_id: requested_user.to_param
-      expect(User.active).to have_received(:find).with(requested_user.to_param)
+      expect(User.active.unblocked).to have_received(:find).with(requested_user.to_param)
     end
 
     context 'when no user is found' do
       before :each do
-        allow(active_users_stub).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        allow(unblocked_users_stub).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
         get :index, user_id: requested_user.to_param
       end
 
@@ -59,7 +61,7 @@ describe Users::ScrapbooksController do
           allow(approved_scrapbooks_stub).to receive(:page).and_return(approved_scrapbooks_stub)
           allow(ScrapbookIndexPresenter).to receive(:new).and_return(stub_presenter)
           allow(ApprovedScrapbookMemoryFetcher).to receive(:new).with(approved_scrapbooks_stub).and_return(stub_memory_fetcher)
-          
+
           get :index, user_id: requested_user.to_param
         end
 

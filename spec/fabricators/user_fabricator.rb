@@ -7,6 +7,7 @@ Fabricator(:user) do
   password_confirmation { |attrs| attrs[:password] }
   accepted_t_and_c      true
   description           "I am a fabricated user."
+  is_blocked            false
 end
 
 Fabricator(:active_user, from: :user) do
@@ -21,6 +22,10 @@ Fabricator(:pending_user, from: :user) do
   activation_state            'pending'
   activation_token            '123abc'
   activation_token_expires_at 1.hour.from_now
+end
+
+Fabricator(:blocked_user, from: :user) do
+  is_blocked true
 end
 
 def generate_password

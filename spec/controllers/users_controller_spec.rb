@@ -38,6 +38,7 @@ describe UsersController do
     end
 
     it 'builds a new user' do
+      user_params.delete(:is_blocked)
       expect(User).to have_received(:new).with(user_params)
     end
 
