@@ -4,15 +4,13 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = login(params[:email], params[:password])
+    authenticator = Authenticator.new(params[:email], params[:password])
 
-    redirect_to :signin, alert: 'Email or password was incorrect.' and return unless @user
-
-    if @user.is_blocked?
-      logout
-      redirect_to :signin, alert: 'Your account has been blocked. Please contact an administrator if you would like to have it unblocked.'
-    else
+    if authenticator.user_authenticated?
+      @user = login(params[:email], params[:password])
       redirect_back_or_to default_land_page, notice: 'Successfully signed in'
+    else
+      redirect_to :signin, alert: authenticator.error_message
     end
   end
 
