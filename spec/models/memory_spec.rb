@@ -167,16 +167,17 @@ describe Memory do
 
   describe 'searching' do
     before :each do
-      @unapproved_term_in_title = Fabricate(:memory, title: 'Edinburgh Castle test')
-      @term_in_title            = Fabricate(:approved_memory, title: 'Edinburgh Castle test')
-      @term_in_description      = Fabricate(:approved_memory, description: 'This is an Edinburgh Castle test')
-      @term_in_location         = Fabricate(:approved_memory, location: 'Edinburgh Castle')
-      @term_in_year             = Fabricate(:approved_memory, year: '1975')
-      @terms_not_found          = Fabricate(:approved_memory,
-                                              title:       'test',
-                                              description: 'test',
-                                              location:    'test',
-                                              year:        '2014')
+      @unapproved_term_in_title   = Fabricate(:memory, title: 'Edinburgh Castle test')
+      @pending_user_term_in_title = Fabricate(:approved_memory, user: Fabricate(:pending_user), title: 'Edinburgh Castle test')
+      @term_in_title              = Fabricate(:approved_memory, title: 'Edinburgh Castle test')
+      @term_in_description        = Fabricate(:approved_memory, description: 'This is an Edinburgh Castle test')
+      @term_in_location           = Fabricate(:approved_memory, location: 'Edinburgh Castle')
+      @term_in_year               = Fabricate(:approved_memory, year: '1975')
+      @terms_not_found            = Fabricate(:approved_memory,
+                                                title:       'test',
+                                                description: 'test',
+                                                location:    'test',
+                                                year:        '2014')
     end
 
     let(:results) { Memory.text_search(terms) }
@@ -191,6 +192,10 @@ describe Memory do
       it 'does not return unapproved records' do
         expect(results).not_to include(@unapproved_term_in_title)
       end
+
+      it 'does not return records belonging to inactive users' do
+        expect(results).not_to include(@pending_user_term_in_title)
+      end
     end
 
     context 'when blank terms are given' do
@@ -202,6 +207,10 @@ describe Memory do
 
       it 'does not return unapproved records' do
         expect(results).not_to include(@unapproved_term_in_title)
+      end
+
+      it 'does not return records belonging to inactive users' do
+        expect(results).not_to include(@pending_user_term_in_title)
       end
     end
 
@@ -231,6 +240,10 @@ describe Memory do
       it 'does not include unapproved records that have fields that match' do
         expect(results).not_to include(@terms_not_found)
       end
+
+      it 'does not return records belonging to inactive users' do
+        expect(results).not_to include(@pending_user_term_in_title)
+      end
     end
 
     context 'date fields' do
@@ -246,6 +259,10 @@ describe Memory do
 
       it 'does not include records that have no fields that match' do
         expect(results).not_to include(@terms_not_found)
+      end
+
+      it 'does not return records belonging to inactive users' do
+        expect(results).not_to include(@pending_user_term_in_title)
       end
     end
 

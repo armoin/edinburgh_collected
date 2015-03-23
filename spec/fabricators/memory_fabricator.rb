@@ -1,5 +1,5 @@
 Fabricator(:memory, class_name: :photo, aliases: [:photo_memory]) do
-  user
+  user        { Fabricate(:active_user) }
   area
   year        "2014"
   month       "5"

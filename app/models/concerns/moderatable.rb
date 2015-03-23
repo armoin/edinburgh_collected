@@ -33,7 +33,13 @@ module Moderatable
 
     def approved
       in_state('approved')
+        .merge(belongs_to_active_user)
         .merge(belongs_to_unblocked_user)
+    end
+
+    def belongs_to_active_user
+      joins(:user)
+        .where(users: {activation_state: 'active'})
     end
 
     def belongs_to_unblocked_user

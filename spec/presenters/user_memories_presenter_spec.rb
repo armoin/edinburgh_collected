@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe UserMemoriesPresenter do
-  let(:requested_user) { Fabricate.build(:active_user, id: 123) }
-  let(:other_user)     { Fabricate.build(:active_user, id: 456) }
+  let(:requested_user) { Fabricate(:active_user, id: 123) }
+  let(:other_user)     { Fabricate(:active_user, id: 456) }
   let(:current_user)   { nil }
   let(:page)           { nil }
 

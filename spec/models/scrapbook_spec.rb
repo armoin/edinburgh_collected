@@ -46,10 +46,13 @@ describe Scrapbook do
 
   describe 'searching' do
     before :each do
-      @term_in_title         = Fabricate(:approved_scrapbook, title: 'Edinburgh Castle test')
-      @term_in_description   = Fabricate(:approved_scrapbook, description: 'This is an Edinburgh Castle test')
-      @terms_not_found       = Fabricate(:approved_scrapbook, title: 'test', description: 'test')
-      @unapproved_with_terms = Fabricate(:scrapbook, title: 'Edinburgh Castle test')
+      @active_user             = Fabricate(:active_user)
+      @pending_user            = Fabricate(:pending_user)
+      @term_in_title           = Fabricate(:approved_scrapbook, user: @active_user, title: 'Edinburgh Castle test')
+      @term_in_description     = Fabricate(:approved_scrapbook, user: @active_user, description: 'This is an Edinburgh Castle test')
+      @terms_not_found         = Fabricate(:approved_scrapbook, user: @active_user, title: 'test', description: 'test')
+      @unapproved_with_terms   = Fabricate(:scrapbook, user: @active_user, title: 'Edinburgh Castle test')
+      @pending_user_with_terms = Fabricate(:approved_scrapbook, user: @pending_user, title: 'Edinburgh Castle test')
     end
 
     let(:results) { Scrapbook.text_search(terms) }
@@ -57,7 +60,7 @@ describe Scrapbook do
     context 'when no terms are given' do
       let(:terms) { nil }
 
-      it 'returns all records' do
+      it 'returns all approved records' do
         expect(results.count(:all)).to eql(3)
       end
     end
@@ -65,7 +68,7 @@ describe Scrapbook do
     context 'when blank terms are given' do
       let(:terms) { '' }
 
-      it 'returns all records' do
+      it 'returns all approved records' do
         expect(results.count(:all)).to eql(3)
       end
     end
@@ -89,8 +92,12 @@ describe Scrapbook do
         expect(results).not_to include(@terms_not_found)
       end
 
-      it "does not include unapporved records even if matches are found" do
+      it "does not include unapproved records even if matches are found" do
         expect(results).not_to include(@unapproved_with_terms)
+      end
+
+      it "does not include records belonging to inactive users even if approved and matches are found" do
+        expect(results).not_to include(@pending_user_with_terms)
       end
     end
   end

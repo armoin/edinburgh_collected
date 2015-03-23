@@ -59,9 +59,11 @@ RSpec.shared_examples 'moderatable' do
   describe "scopes" do
     let(:active_user)    { Fabricate(:active_user) }
     let(:blocked_user)   { Fabricate(:blocked_user) }
+    let(:pending_user)   { Fabricate(:pending_user) }
     let!(:no_moderation) { Fabricate(moderatable_factory) }
     let!(:unmoderated)   { Fabricate(moderatable_factory, moderation_state: 'unmoderated', moderated_by: moderated_by) }
     let!(:approved)      { Fabricate(moderatable_factory, moderation_state: 'approved', moderated_by: moderated_by, user: active_user) }
+    let!(:pending)       { Fabricate(moderatable_factory, moderation_state: 'approved', moderated_by: moderated_by, user: pending_user) }
     let!(:blocked)       { Fabricate(moderatable_factory, moderation_state: 'approved', moderated_by: moderated_by, user: blocked_user) }
     let!(:rejected)      { Fabricate(moderatable_factory, moderation_state: 'rejected', moderated_by: moderated_by, moderation_reason: 'test') }
     let!(:reported)      { Fabricate(moderatable_factory, moderation_state: 'reported', moderated_by: moderated_by, moderation_reason: 'test') }
@@ -69,7 +71,7 @@ RSpec.shared_examples 'moderatable' do
     describe '.in_state' do
       it 'returns records if there are any in the given state' do
         expect(moderatable_model.in_state('unmoderated').count).to eql(2)
-        expect(moderatable_model.in_state('approved').count).to eql(2)
+        expect(moderatable_model.in_state('approved').count).to eql(3)
         expect(moderatable_model.in_state('rejected').count).to eql(1)
       end
 
@@ -81,7 +83,7 @@ RSpec.shared_examples 'moderatable' do
     describe '.moderated' do
       it 'returns all records that are not unmoderated' do
         moderated_records = moderatable_model.moderated
-        expect(moderated_records.count).to eql(4)
+        expect(moderated_records.count).to eql(5)
         expect(moderated_records).to include(approved)
         expect(moderated_records).to include(rejected)
       end
@@ -97,7 +99,7 @@ RSpec.shared_examples 'moderatable' do
     end
 
     describe '.approved' do
-      it 'only returns approved records that belong to non-blocked users' do
+      it 'only returns approved records that belong to non-blocked, active users' do
         approved_records = moderatable_model.approved
         expect(approved_records.count).to eql(1)
         expect(approved_records).to include(approved)
