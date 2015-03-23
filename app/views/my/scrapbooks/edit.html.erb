@@ -3,7 +3,7 @@
     <h1><span>Editing</span> <%= @scrapbook.title %></h1>
     <div class="actions clearfix">
       <div class="viewingInfo">
-        <%= link_to 'Back', current_scrapbook_index_path, :class => "button back" %>
+        <%= link_to 'Back', my_scrapbook_path(@scrapbook.id), :class => "button back" %>
       </div>
         <%= link_to "Save changes", my_scrapbook_path(@scrapbook.id), class: 'button green float-right' %>
     </div>

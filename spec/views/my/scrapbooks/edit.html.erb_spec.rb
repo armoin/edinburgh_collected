@@ -23,12 +23,12 @@ describe 'my/scrapbooks/edit.html.erb' do
       expect(rendered).to have_css('textarea#scrapbook_description', count: 1)
     end
 
-    it "lets the user cancel the edit" do
-      expect(rendered).to have_link('Cancel', href: my_scrapbook_path(scrapbook))
+    it "lets the user go back to the scrapbook page" do
+      expect(rendered).to have_link('Back', href: my_scrapbook_path(scrapbook))
     end
 
     it "lets the user save the edit" do
-      expect(rendered).to have_css('input[type="submit"][value="Save changes"]')
+      expect(rendered).to have_link('Save changes', href: my_scrapbook_path(scrapbook))
     end
   end
 
