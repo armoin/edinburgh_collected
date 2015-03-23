@@ -1,5 +1,5 @@
 <div class="memory full">
-  <header  id="contentHeader" class="clearfix col-xs-12">
+  <header  id="contentHeader" class="clearfix">
     <h1 class="title"><%= @memory.title %></h1>
     <h2 class="subtitle"><%= @memory.date_string %></h2>
     <div class="actions col-xs-12 clearfix">
@@ -20,8 +20,10 @@
     </div>
   </header>
 
-  <div id="image" class="col-xs-12">
-    <img src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
+  <div id="image">
+    <a href="<%= cache_busted_url(@memory) %>" data-lightbox="<%= @memory.title %>">
+       <img src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>"  />
+    </a>
   </div>
 
   <div id="details" class="col-xs-12">
