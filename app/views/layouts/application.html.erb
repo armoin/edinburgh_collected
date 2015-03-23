@@ -122,6 +122,15 @@
       </header>
       <div id="main">
         <div class="flashes container">
+
+          <% if show_verification_warning? -%>
+            <div class="warn">
+              <span class="close">&times;</span>
+              Looks like you are haven't verified your account yet. We can't show anything you add to other users until you do so.
+              <%= link_to "Click here to resend the verification email", resend_activation_email_users_path %>.
+            </div>
+          <% end -%>
+
           <% flash.each do |class_name, message| %>
             <div class="<%= class_name %>">
               <%= message %>

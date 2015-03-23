@@ -324,7 +324,6 @@ describe User do
 
   describe '#active?' do
     let(:user) { Fabricate.build(:user, activation_state: activation_state) }
-    let(:inactive_user) { Fabricate.build(:user) }
 
     context 'when the activation_state is "active"' do
       let(:activation_state) { 'active' }
@@ -339,6 +338,50 @@ describe User do
 
       it 'is false' do
         expect(user).not_to be_active
+      end
+    end
+  end
+
+  describe '#pending?' do
+    let(:user) { Fabricate.build(:user, activation_state: state, activation_token: token) }
+
+    context 'when the activation_state is "active"' do
+      let(:state) { 'active' }
+
+      context 'and activation token is present' do
+        let(:token) { '123abc' }
+
+        it 'is false' do
+          expect(user).not_to be_pending
+        end
+      end
+
+      context 'and no activation token is present' do
+        let(:token) { nil }
+
+        it 'is false' do
+          expect(user).not_to be_pending
+        end
+      end
+    end
+
+    context 'when the activation_state is "pending"' do
+      let(:state) { 'pending' }
+
+      context 'and activation token is present' do
+        let(:token) { '123abc' }
+
+        it 'is true' do
+          expect(user).to be_pending
+        end
+      end
+
+      context 'and no activation token is present' do
+        let(:token) { nil }
+
+        it 'is false' do
+          expect(user).not_to be_pending
+        end
       end
     end
   end

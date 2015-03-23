@@ -85,5 +85,43 @@ describe UserHelper do
       end
     end
   end
+
+  describe '#show_verification_warning?' do
+    before :each do
+      allow(helper).to receive(:current_user).and_return(user)
+    end
+
+    context 'when there is not a current user' do
+      let(:user) { nil }
+
+      it 'is false' do
+        expect(helper.show_verification_warning?).to be_falsy
+      end
+    end
+
+    context 'when there is a current user' do
+      let(:user) { Fabricate.build(:user, id: 123) }
+
+      before :each do
+        allow(user).to receive(:pending?).and_return(is_pending)
+      end
+
+      context 'and the user does not need to verify' do
+        let(:is_pending) { false }
+
+        it 'is false' do
+          expect(helper.show_verification_warning?).to be_falsy
+        end
+      end
+
+      context 'and the user needs to verify' do
+        let(:is_pending) { true }
+
+        it 'is true' do
+          expect(helper.show_verification_warning?).to be_truthy
+        end
+      end
+    end
+  end
 end
 

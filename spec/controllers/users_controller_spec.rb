@@ -119,4 +119,57 @@ describe UsersController do
       end
     end
   end
+
+  describe 'GET resend_activation_email' do
+    let(:user)          { Fabricate(:user, id: 123) }
+    let(:is_pending)    { true }
+    let(:mailer_double) { double(AuthenticationMailer) }
+
+    before :each do
+      @user = user
+      login_user
+      allow(user).to receive(:pending?).and_return(is_pending)
+
+      allow(AuthenticationMailer).to receive(:activation_needed_email).with(user).and_return(mailer_double)
+      allow(mailer_double).to receive(:deliver)
+
+      get :resend_activation_email
+    end
+
+    it 'checks to see if the current user needs to be activated' do
+      expect(user).to have_received(:pending?)
+    end
+
+    context 'when the user needs to be activated' do
+      let(:is_pending)    { true }
+
+      it 'resends the activation email' do
+        expect(mailer_double).to have_received(:deliver)
+      end
+
+      it 'redirects to the root page' do
+        expect(response).to redirect_to(:root)
+      end
+
+      it 'gives the user the instructions for what will happen next' do
+        expect(flash[:notice]).to eql('We have resent your activation email. Please check you spam filter if it has still not appeared within the next hour.')
+      end
+    end
+
+    context 'when the user does not need to be activated' do
+      let(:is_pending) { false }
+
+      it 'does not resend the activation email' do
+        expect(AuthenticationMailer).not_to have_received(:activation_needed_email)
+      end
+
+      it 'redirects to the root page' do
+        expect(response).to redirect_to(:root)
+      end
+
+      it 'gives the user an error' do
+        expect(flash[:alert]).to eql('It does not look like you need to be activated.')
+      end
+    end
+  end
 end

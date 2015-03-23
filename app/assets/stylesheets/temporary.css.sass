@@ -561,7 +561,7 @@ footer
   margin-bottom: 0.4em
 
 .flashes
-  .alert, .notice
+  .alert, .notice, .warn
     padding: 15px
     border: 1px solid transparent
     border-radius: 4px
@@ -570,11 +570,15 @@ footer
 
     .close
       text-shadow: 0 0 0 white
-      margin-top: -2px
+      margin: -2px 0 5px 5px
       opacity: 1
 
-  .alert
+  .alert, .warn
     background: $coral
+
+    a
+      color: inherit
+      text-decoration: underline
 
     .close
       color: white

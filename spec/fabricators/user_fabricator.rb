@@ -11,6 +11,10 @@ Fabricator(:user) do
 end
 
 Fabricator(:active_user, from: :user) do
+  activation_state            'active'
+  activation_token            nil
+  activation_token_expires_at nil
+
   after_create { |u, transients| u.activate! }
 end
 

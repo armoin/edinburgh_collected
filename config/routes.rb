@@ -86,6 +86,9 @@ Rails.application.routes.draw do
     member do
       get :activate
     end
+    collection do
+      get :resend_activation_email
+    end
   end
   resources :sessions, only: [:new, :create, :destroy]
   resources :password_resets

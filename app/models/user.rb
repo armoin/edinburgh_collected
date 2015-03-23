@@ -56,6 +56,10 @@ class User < ActiveRecord::Base
     activation_state == 'active'
   end
 
+  def pending?
+    activation_state == 'pending' && activation_token.present?
+  end
+
   def block!
     toggle_blocked(true)
   end

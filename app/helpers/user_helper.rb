@@ -23,5 +23,9 @@ module UserHelper
     path = user.is_blocked? ? blocked_admin_users_path : admin_users_path
     link_to "Back", path, class: 'button'
   end
+
+  def show_verification_warning?
+    current_user && current_user.pending?
+  end
 end
 
