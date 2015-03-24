@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 describe User do
+  describe '#user_id' do
+    it 'is an alias for id' do
+      user = Fabricate.build(:user, id: 123)
+      expect(user.user_id).to eql(123)
+    end
+  end
+
   describe 'validation' do
     it 'needs a first_name' do
       expect(subject).to be_invalid

@@ -32,6 +32,10 @@ RSpec.shared_examples 'a profile headed page' do
         expect(rendered).not_to have_link('Edit', href: my_profile_edit_path)
       end
 
+      it 'does not have a report button' do
+        expect(rendered).not_to have_link('Report concern')
+      end
+
       it "displays the requested user's description" do
         expect(rendered).to have_css('p.sub', text: requested_user.description)
       end
@@ -52,7 +56,7 @@ RSpec.shared_examples 'a profile headed page' do
           links.each do |link|
             expect(rendered).to have_css('p.link', text: link.name, count: 1)
             expect(rendered).to have_css("p.link a[href=\"#{link.url}\"]", text: link.url_without_protocol, count: 1)
-          end 
+          end
         end
       end
     end
@@ -75,6 +79,10 @@ RSpec.shared_examples 'a profile headed page' do
 
         it "displays a link to edit the user's profile" do
           expect(rendered).to have_link('Edit', href: my_profile_edit_path)
+        end
+
+        it 'does not have a report button' do
+          expect(rendered).not_to have_link('Report concern')
         end
 
         it "displays the requested user's description" do
@@ -119,6 +127,10 @@ RSpec.shared_examples 'a profile headed page' do
           expect(rendered).not_to have_link('Edit', href: my_profile_edit_path)
         end
 
+        it 'has a report button' do
+          expect(rendered).to have_link('Report concern')
+        end
+
         it "displays the requested user's description" do
           expect(rendered).to have_css('p.sub', text: requested_user.description)
         end
@@ -139,7 +151,7 @@ RSpec.shared_examples 'a profile headed page' do
             links.each do |link|
               expect(rendered).to have_css('p.link', text: link.name, count: 1)
               expect(rendered).to have_css("p.link a[href=\"#{link.url}\"]", text: link.url_without_protocol, count: 1)
-            end 
+            end
           end
         end
       end

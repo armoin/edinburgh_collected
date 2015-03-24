@@ -26,6 +26,8 @@ class User < ActiveRecord::Base
 
   accepts_nested_attributes_for :links, allow_destroy: true, reject_if: :all_blank
 
+  alias :user_id :id
+
   # Email is downcased before validating so always check for downcased email
   def self.find_by_email(email)
     where('LOWER(email) = ?', email.downcase).first

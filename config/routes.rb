@@ -85,6 +85,8 @@ Rails.application.routes.draw do
     resources :scrapbooks, only: [:index], controller: 'users/scrapbooks', action: 'index'
     member do
       get :activate
+      get 'report' => 'report/users#edit'
+      put 'report' => 'report/users#update'
     end
     collection do
       get :resend_activation_email
