@@ -1,4 +1,4 @@
-<% if current_user.try(:can_modify?, moderatable) && show_state? && !moderatable.approved? %>
+<% if show_state_label?(moderatable) %>
   <div class="state <%= moderatable.moderation_state %>">
     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <%= state_label(moderatable) %>
   </div>

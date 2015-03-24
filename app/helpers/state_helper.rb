@@ -18,10 +18,18 @@ module StateHelper
   end
 
   def state_label(moderatable)
-    label = moderatable.moderation_state
-    label += " - #{moderatable.moderation_reason}" unless moderatable.moderation_reason.blank?
-    label
+    label = [moderatable.moderation_state]
+    label << moderatable.moderation_reason if moderatable.moderation_state == 'rejected'
+    label.compact.join(' - ').strip
   end
+
+  def show_state_label?(moderatable)
+    current_user.try(:can_modify?, moderatable) &&
+      show_state? &&
+      !moderatable.approved?
+  end
+
+  private
 
   def show_state?
     VIEWABLE_STATE_PATHS.include? controller_path
