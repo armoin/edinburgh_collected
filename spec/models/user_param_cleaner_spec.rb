@@ -15,7 +15,8 @@ def user_allowed_params
     image_w:               90,
     image_h:               90,
     image_x:               5,
-    image_y:               12
+    image_y:               12,
+    moderation_reason:     'Do not want'
   }
 end
 

@@ -38,13 +38,21 @@ module Moderatable
     end
 
     def belongs_to_active_user
-      joins(:user)
-        .where(users: {activation_state: 'active'})
+      if class_name == 'User'
+        where(activation_state: 'active')
+      else
+        joins(:user)
+          .where(users: {activation_state: 'active'})
+      end
     end
 
     def belongs_to_unblocked_user
-      joins(:user)
-        .where(users: {is_blocked: false})
+      if class_name == 'User'
+        where(is_blocked: false)
+      else
+        joins(:user)
+          .where(users: {is_blocked: false})
+      end
     end
 
     def rejected

@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   mount_uploader :avatar, AvatarUploader
 
   include ImageManipulator
+  include Moderatable
 
   authenticates_with_sorcery!
 

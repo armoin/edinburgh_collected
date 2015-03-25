@@ -1,3 +1,5 @@
+<% cancel_path ||= moderatable_name %>
+
 <div class="container">
   <header id="formHeader" class="row">
   </header>
@@ -20,7 +22,7 @@
 
         <div class="form-group">
           <div class="actions col-xs-sm-12">
-            <%= link_to "Cancel", send("#{moderatable_name}_path", moderatable), class: "button cancel" %>
+            <%= link_to "Cancel", send("#{cancel_path}_path", moderatable), class: "button cancel" %>
             <%= form.submit "Send report", class: "button green" %>
           </div>
         </div>

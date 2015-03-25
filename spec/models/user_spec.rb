@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe User do
+  let(:moderatable_model)   { User }
+  let(:moderatable_factory) { :user }
+  it_behaves_like 'moderatable'
+
   describe '#user_id' do
     it 'is an alias for id' do
       user = Fabricate.build(:user, id: 123)

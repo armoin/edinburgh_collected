@@ -27,7 +27,17 @@ describe UsersController do
   end
 
   describe 'POST create' do
-    let(:user_params) { Fabricate.attributes_for(:user) }
+    let(:user_params) {{
+      first_name:            'Bobby',
+      last_name:             'Tables',
+      screen_name:           'little_bobby_tables',
+      email:                 'bobby@example.com',
+      password:              's3cr3t',
+      password_confirmation: 's3cr3t',
+      accepted_t_and_c:      true,
+      description:           "I am a fabricated user.",
+      is_blocked:            false
+    }}
     let(:stub_user)   { Fabricate.build(:user) }
     let(:saved)       { true }
 

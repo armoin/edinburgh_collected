@@ -8,6 +8,7 @@ Fabricator(:user) do
   accepted_t_and_c      true
   description           "I am a fabricated user."
   is_blocked            false
+  moderation_state      ModerationStateMachine::DEFAULT_STATE
 end
 
 Fabricator(:active_user, from: :user) do
