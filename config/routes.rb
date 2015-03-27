@@ -44,6 +44,8 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    get '/home' => 'home#index'
+
     namespace :moderation do
       resources :memories, only: [:index, :show] do
         collection do
