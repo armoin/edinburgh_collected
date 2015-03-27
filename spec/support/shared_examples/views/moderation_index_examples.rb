@@ -42,7 +42,7 @@ RSpec.shared_examples 'a moderation index' do
     end
 
     it 'has a link to the owning user' do
-      expect(rendered).to have_link(owner.screen_name, href: admin_user_path(owner))
+      expect(rendered).to have_link(owner.screen_name, href: admin_moderation_user_path(owner))
     end
 
     context 'when not yet moderated' do
@@ -67,7 +67,7 @@ RSpec.shared_examples 'a moderation index' do
       end
 
       it 'has a link to the moderating user' do
-        expect(rendered).to have_link(admin.screen_name, href: admin_user_path(admin))
+        expect(rendered).to have_link(admin.screen_name, href: admin_moderation_user_path(admin))
       end
     end
   end

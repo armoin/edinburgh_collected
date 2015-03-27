@@ -11,7 +11,7 @@ module UserHelper
     action = user.is_blocked? ? 'unblock' : 'block'
 
     link_to "#{action.capitalize} user",
-      send("#{action}_admin_user_path", user),
+      send("#{action}_admin_moderation_user_path", user),
       {
         method: :put,
         data: {confirm: 'Are you sure?'},
@@ -20,7 +20,7 @@ module UserHelper
   end
 
   def user_list_button_for(user)
-    path = user.is_blocked? ? blocked_admin_users_path : admin_users_path
+    path = user.is_blocked? ? blocked_admin_moderation_users_path : admin_moderation_users_path
     link_to "Back", path, class: 'button'
   end
 

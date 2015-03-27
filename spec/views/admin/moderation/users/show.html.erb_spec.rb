@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'admin/users/show.html.erb' do
+describe 'admin/moderation/users/show.html.erb' do
   it_behaves_like 'a user profile'
 
   describe 'actions' do
@@ -20,11 +20,11 @@ describe 'admin/users/show.html.erb' do
         let(:requested_user) { Fabricate.build(:active_user, id: 123) }
 
         it 'has a Back link to the Show all users index page' do
-          expect(rendered).to have_link('Back', href: admin_users_path)
+          expect(rendered).to have_link('Back', href: admin_moderation_users_path)
         end
 
         it 'allows the admin to block a user' do
-          expect(rendered).to have_link('Block user', href: block_admin_user_path(requested_user))
+          expect(rendered).to have_link('Block user', href: block_admin_moderation_user_path(requested_user))
         end
 
         it 'confirms a block request with the admin' do
@@ -36,7 +36,7 @@ describe 'admin/users/show.html.erb' do
         let(:requested_user) { Fabricate.build(:blocked_user, id: 123) }
 
         it 'allows the admin to unblock a user' do
-          expect(rendered).to have_link('Unblock user', href: unblock_admin_user_path(requested_user))
+          expect(rendered).to have_link('Unblock user', href: unblock_admin_moderation_user_path(requested_user))
         end
 
         it 'confirms an unblock request with the admin' do
