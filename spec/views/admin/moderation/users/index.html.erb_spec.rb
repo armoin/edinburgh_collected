@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-describe "admin/users/index.html.erb" do
+describe "admin/moderation/users/index.html.erb" do
   let(:users) { Array.new(3) {|i| Fabricate.build(:user, id: i+1) } }
 
   before :each do
-    assign(:users, users)
+    assign(:items, users)
   end
 
   describe 'the navbar' do
@@ -20,12 +20,68 @@ describe "admin/users/index.html.erb" do
         expect(rendered).to have_link('Back to Inbox', href: admin_home_path)
       end
 
-      it "does not have a link to the Show all view" do
-        expect(rendered).not_to have_link('Show all')
+      it "does not have a link to the all users view" do
+        expect(rendered).not_to have_link('All')
       end
 
-      it "has a link to the Show blocked view" do
-        expect(rendered).to have_link('Show blocked', href: blocked_admin_users_path)
+      it "has a link to the unmoderated users view" do
+        expect(rendered).to have_link('Unmoderated', href: unmoderated_admin_moderation_users_path)
+      end
+
+      it "has a link to the reported users view" do
+        expect(rendered).to have_link('Reported', href: reported_admin_moderation_users_path)
+      end
+
+      it "has a link to the blocked users view" do
+        expect(rendered).to have_link('Blocked', href: blocked_admin_moderation_users_path)
+      end
+    end
+
+    context 'when viewing from the unmoderated action' do
+      let(:action) { 'unmoderated' }
+
+      it "has a link back to the Inbox view" do
+        expect(rendered).to have_link('Back to Inbox', href: admin_home_path)
+      end
+
+      it "has a link to the all users view" do
+        expect(rendered).to have_link('All', href: admin_moderation_users_path)
+      end
+
+      it "does not have a link to the unmoderated users view" do
+        expect(rendered).not_to have_link('Unmoderated')
+      end
+
+      it "has a link to the reported users view" do
+        expect(rendered).to have_link('Reported', href: reported_admin_moderation_users_path)
+      end
+
+      it "has a link to the blocked users view" do
+        expect(rendered).to have_link('Blocked', href: blocked_admin_moderation_users_path)
+      end
+    end
+
+    context 'when viewing from the reported action' do
+      let(:action) { 'reported' }
+
+      it "has a link back to the Inbox view" do
+        expect(rendered).to have_link('Back to Inbox', href: admin_home_path)
+      end
+
+      it "has a link to the all users view" do
+        expect(rendered).to have_link('All', href: admin_moderation_users_path)
+      end
+
+      it "has a link to the unmoderated users view" do
+        expect(rendered).to have_link('Unmoderated', href: unmoderated_admin_moderation_users_path)
+      end
+
+      it "does not have a link to the reported users view" do
+        expect(rendered).not_to have_link('Reported')
+      end
+
+      it "has a link to the blocked users view" do
+        expect(rendered).to have_link('Blocked', href: blocked_admin_moderation_users_path)
       end
     end
 
@@ -36,12 +92,20 @@ describe "admin/users/index.html.erb" do
         expect(rendered).to have_link('Back to Inbox', href: admin_home_path)
       end
 
-      it "has a link to the Show all view" do
-        expect(rendered).to have_link('Show all', href: admin_users_path)
+      it "has a link to the all users view" do
+        expect(rendered).to have_link('All', href: admin_moderation_users_path)
       end
 
-      it "does not have a link to the Show blocked view" do
-        expect(rendered).not_to have_link('Show blocked')
+      it "has a link to the unmoderated users view" do
+        expect(rendered).to have_link('Unmoderated', href: unmoderated_admin_moderation_users_path)
+      end
+
+      it "has a link to the reported users view" do
+        expect(rendered).to have_link('Reported', href: reported_admin_moderation_users_path)
+      end
+
+      it "does not have a link to the blocked users view" do
+        expect(rendered).not_to have_link('Blocked')
       end
     end
   end
@@ -66,7 +130,7 @@ describe "admin/users/index.html.erb" do
       end
 
       it 'has a link to the user' do
-        expect(rendered).to have_link(user.screen_name, href: admin_user_path(user))
+        expect(rendered).to have_link(user.screen_name, href: admin_moderation_user_path(user))
       end
 
       it "shows the user's name" do

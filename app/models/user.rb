@@ -71,6 +71,22 @@ class User < ActiveRecord::Base
     toggle_blocked(false)
   end
 
+  def is_starting?
+    !(has_memories? && has_scrapbooks? && has_profile?)
+  end
+
+  def has_memories?
+    memories.any?
+  end
+
+  def has_scrapbooks?
+    scrapbooks.any?
+  end
+
+  def has_profile?
+    avatar.present? || description.present? || links.any?
+  end
+
   private
 
   def downcase_email

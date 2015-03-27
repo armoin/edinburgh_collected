@@ -491,4 +491,158 @@ describe User do
       }.to change{user.is_blocked?}.to(false)
     end
   end
+
+  describe '#is_starting?' do
+    context 'when the user has no memories yet' do
+      context 'and no scrapbooks' do
+        context 'and no profile' do
+          it 'is true' do
+            expect(subject.is_starting?).to be_truthy
+          end
+        end
+
+        context 'but has a profile' do
+          before :each do
+            subject.description = 'a description'
+          end
+
+          it 'is true' do
+            expect(subject.is_starting?).to be_truthy
+          end
+        end
+      end
+
+      context 'but has a scrapbook' do
+        before :each do
+          subject.scrapbooks.build
+        end
+
+        context 'but no profile' do
+          it 'is true' do
+            expect(subject.is_starting?).to be_truthy
+          end
+        end
+
+        context 'and a profile' do
+          before :each do
+            subject.description = 'a description'
+          end
+
+          it 'is true' do
+            expect(subject.is_starting?).to be_truthy
+          end
+        end
+      end
+    end
+
+    context 'when the user has a memory' do
+      before :each do
+        subject.memories.build
+      end
+
+      context 'but no scrapbook' do
+        context 'and no profile' do
+          it 'is true' do
+            expect(subject.is_starting?).to be_truthy
+          end
+        end
+
+        context 'but has a profile' do
+          before :each do
+            subject.description = 'a description'
+          end
+
+          it 'is true' do
+            expect(subject.is_starting?).to be_truthy
+          end
+        end
+      end
+
+      context 'and a scrapbook' do
+        before :each do
+          subject.scrapbooks.build
+        end
+
+        context 'but no profile' do
+          it 'is true' do
+            expect(subject.is_starting?).to be_truthy
+          end
+        end
+
+        context 'and a profile' do
+          before :each do
+            subject.description = 'a description'
+          end
+
+          it 'is false' do
+            expect(subject.is_starting?).to be_falsy
+          end
+        end
+      end
+    end
+
+    # context 'when the user has no scrapbooks yet' do
+    #   it 'is false' do
+    #     expect(user.is_starting?).to be_falsy
+    #   end
+    # end
+
+    # context 'when the user has not added profile information yet' do
+    #   it 'is false' do
+    #     expect(user.is_starting?).to be_falsy
+    #   end
+    # end
+
+    # context 'when the user has memories, scrapbooks and has added profile information' do
+    #   it 'is true' do
+    #     user.memories << Fabricate.build(:memory)
+    #     user.scrapbooks << Fabricate.build(:scrapbook)
+    #     user.description = "My description"
+    #     expect(user.is_starting?).to be_truthy
+    #   end
+    # end
+  end
+
+  describe '#has_memories?' do
+    it 'is false if the user has no memories' do
+      expect(subject).not_to have_memories
+    end
+
+    it 'is true if the user has at least one memory' do
+      subject.memories.build
+      expect(subject).to have_memories
+    end
+  end
+
+  describe '#has_scrapbooks?' do
+    it 'is false if the user has no scrapbooks' do
+      expect(subject).not_to have_scrapbooks
+    end
+
+    it 'is true if the user has at least one scrapbook' do
+      subject.scrapbooks.build
+      expect(subject).to have_scrapbooks
+    end
+  end
+
+  describe '#has_profile?' do
+    it 'is false if the user has no description, avatar and links' do
+      expect(subject).not_to have_profile
+    end
+
+    it 'is true if the user has a description' do
+      subject.description = 'a description'
+      expect(subject).to have_profile
+    end
+
+    it 'is true if the user has an avatar' do
+      subject.avatar = File.open(File.join(Rails.root, 'spec', 'fixtures', 'files', 'test.jpg'))
+      expect(subject).to have_profile
+    end
+
+    it 'is true if the user has a link' do
+      subject.links.build
+      expect(subject).to have_profile
+    end
+  end
 end

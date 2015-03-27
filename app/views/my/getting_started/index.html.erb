@@ -1,0 +1,13 @@
+<div class="container">
+  <h1>Welcome!</h1>
+
+  <h2>Memories</h2>
+  Has memories? <%= current_user.has_memories? %>
+
+  <h2>Scrapbooks</h2>
+  Has scrapbooks? <%= current_user.has_scrapbooks? %>
+
+  <h2>Profile</h2>
+  Has profile? <%= current_user.has_profile? %>
+  <p><%= link_to 'Do eet!', my_profile_edit_path %></p>
+</div>

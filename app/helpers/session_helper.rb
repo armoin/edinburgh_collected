@@ -18,6 +18,17 @@ module SessionHelper
     path_or_default(:current_scrapbook_index_path, DEFAULT_SCRAPBOOK_PATH)
   end
 
+  def landing_page_for(user)
+    case
+    when user.is_admin?
+      admin_home_path
+    when show_getting_started?(user)
+      my_getting_started_path
+    else
+      my_memories_path
+    end
+  end
+
   private
 
   def store_current_path_in(path)
@@ -27,6 +38,10 @@ module SessionHelper
   def path_or_default(path, default_path)
     return default_path unless session[path].present?
     session[path]
+  end
+
+  def show_getting_started?(user)
+    user.is_starting? && !user.hide_getting_started?
   end
 end
 

@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
 
     if authenticator.user_authenticated?
       @user = login(params[:email], params[:password])
-      redirect_back_or_to default_land_page, notice: 'Successfully signed in'
+      redirect_back_or_to landing_page_for(@user), notice: 'Successfully signed in'
     else
       redirect_to :signin, alert: authenticator.error_message
     end
@@ -17,11 +17,5 @@ class SessionsController < ApplicationController
   def destroy
     logout
     redirect_to :root, notice: 'Signed out'
-  end
-
-  private
-
-  def default_land_page
-    @user.try(:is_admin?) ? admin_home_path : my_memories_path
   end
 end
