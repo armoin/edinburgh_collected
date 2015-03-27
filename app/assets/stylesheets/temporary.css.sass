@@ -428,11 +428,10 @@ h1, h2, h3
 
     #logo
       padding-left: 0
-      margin-top: 1.25em
-      position: absolute
-      bottom: 0
+      float: left
 
       .navbar-brand
+        background: $cream
         display: block
         float: none
         height: auto
@@ -441,11 +440,15 @@ h1, h2, h3
         font-size: inherit
         line-height: 100%
         margin-bottom: 0
+        border-right: 5px $cream solid
 
 
   #searchwrapper
+    background: $navy-blue
     margin: 0
     padding: 0
+    display: table
+    width: 100%
 
     .toggleMenu
       display: none
@@ -467,14 +470,18 @@ h1, h2, h3
         margin: 0em 0.5em 0em 0
 
     .searchForm
-      background: $navy-blue
-      padding: 0.65em
+      padding-right: 0
+      display: table-cell
+      vertical-align: middle
+      float: none
+
 
       form
         background: none
         margin-bottom: 0
-        padding: 0
         float: right
+        margin-left: 1em !important
+        margin-right: 1em !important
 
       input
         display: inline-block
@@ -482,6 +489,13 @@ h1, h2, h3
         transition: opacity .25s ease-in-out
         -moz-transition: opacity .25s ease-in-out
         -webkit-transition: opacity .25s ease-in-out
+
+        &#query
+          width: 100%
+          float: right
+
+      .input-group-btn
+        width: 5%
 
         &:focus
           opacity: 1
@@ -1999,10 +2013,10 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         padding-left: 0
         margin-top: 1.25em
         position: absolute
-        bottom: 1em
-        right: -1em
-        padding-right: 1.2em
+        top: -4em
+        right: 0
         width: 60%
+        max-width: 200px
 
         .navbar-brand
           float: right
@@ -2010,6 +2024,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
           img
             margin: 0 auto
+
 
       #theNavBar
         padding: 0
@@ -2103,6 +2118,11 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
       .searchForm
         padding: 0.25em
+        background: $navy-blue
+
+        form
+          margin-left: 0 !important
+          margin-right: 0 !important
 
       .fix-search &
         position: fixed
@@ -2437,7 +2457,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 @media (min-width: 769px)
 
   #searchwrapper
-    height: 47px
+
 
   .mobile
     display: none !important
@@ -2538,9 +2558,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
 
 @media (min-width: 992px)
-
-  #searchwrapper
-    height: 45px
 
 
   .masonry-grid .masonry .bottom-row
