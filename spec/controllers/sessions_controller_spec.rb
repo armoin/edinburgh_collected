@@ -17,13 +17,13 @@ describe SessionsController do
   end
 
   describe 'POST create' do
-    let(:user)          { Fabricate(:active_user, id: 123) }
-    let(:authenticator) { double(Authenticator) }
-    let(:authenticated) { true }
-    let(:email)         { 'bobby@example.com' }
-    let(:pass)          { 's3cr3t' }
-    let(:admin)         { false }
-    let(:error_message) { nil }
+    let(:user)              { Fabricate(:active_user, id: 123) }
+    let(:authenticator)     { double(Authenticator) }
+    let(:authenticated)     { true }
+    let(:email)             { 'bobby@example.com' }
+    let(:pass)              { 's3cr3t' }
+    let(:error_message)     { nil }
+    let(:landing_page_path) { '/my/test/landing/path' }
 
     let(:signin_params) {{
       email:    email,
@@ -36,7 +36,8 @@ describe SessionsController do
       allow(authenticator).to receive(:error_message).and_return(error_message)
 
       allow(controller).to receive(:login).and_return(user)
-      allow(user).to receive(:is_admin?).and_return(admin)
+
+      allow(controller).to receive(:landing_page_for).with(user).and_return(landing_page_path)
 
       post :create, signin_params
     end
@@ -56,20 +57,8 @@ describe SessionsController do
         expect(assigns[:user]).to eql(user)
       end
 
-      context 'when the user is not an admin' do
-        let(:admin) { false }
-
-        it 'redirects to the my memories page' do
-          expect(response).to redirect_to(my_memories_path)
-        end
-      end
-
-      context 'and the user is an admin' do
-        let(:admin) { true }
-
-        it 'redirects to the admin home page' do
-          expect(response).to redirect_to(admin_home_path)
-        end
+      it 'redirects to the landing page for the user' do
+        expect(response).to redirect_to(landing_page_path)
       end
 
       it 'displays a success notice' do
