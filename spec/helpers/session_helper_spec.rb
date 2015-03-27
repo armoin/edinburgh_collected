@@ -74,5 +74,55 @@ describe SessionHelper do
       end
     end
   end
+
+  describe '#landing_page_for' do
+    let(:user) { Fabricate.build(:active_user) }
+
+    before :each do
+      allow(user).to receive(:is_admin?).and_return(is_admin)
+    end
+
+    context 'when the user is an admin' do
+      let(:is_admin) { true }
+
+      it "provides the path to the admin home page" do
+        expect(helper.landing_page_for(user)).to eql(admin_home_path)
+      end
+    end
+
+    context 'when the user is not an admin' do
+      let(:is_admin) { false }
+
+      before :each do
+        allow(user).to receive(:is_starting?).and_return(is_starting)
+      end
+
+      context 'and the user is starting' do
+        let(:is_starting) { true }
+
+        context 'and they have not asked for getting started to be hidden' do
+          it "provides the path to the getting started page" do
+            allow(user).to receive(:hide_getting_started?).and_return(false)
+            expect(helper.landing_page_for(user)).to eql(my_getting_started_path)
+          end
+        end
+
+        context 'but they have asked getting started to be hidden' do
+          it "provides the path to the user's memory page page" do
+            allow(user).to receive(:hide_getting_started?).and_return(true)
+            expect(helper.landing_page_for(user)).to eql(my_memories_path)
+          end
+        end
+      end
+
+      context 'and the user is not starting' do
+        let(:is_starting) { false }
+
+        it "provides the path to the user's memory page page" do
+          expect(helper.landing_page_for(user)).to eql(my_memories_path)
+        end
+      end
+    end
+  end
 end
 

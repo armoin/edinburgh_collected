@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get 't_and_c' => 'static#t_and_c'
 
   namespace :my do
+    get '/getting_started' => 'getting_started#index'
+
     resources :memories
     resources :scrapbooks
     resources :scrapbook_memories
