@@ -27,7 +27,7 @@ describe UserHelper do
 
       it 'allows the admin to block a user' do
         expect(result).to include('Block user')
-        expect(result).to include('href="/admin/users/123/block"')
+        expect(result).to include("href=\"#{block_admin_moderation_user_path(user.id)}\"")
       end
 
       it 'sends a PUT request' do
@@ -49,7 +49,7 @@ describe UserHelper do
 
       it 'allows the admin to unblock a user' do
         expect(result).to include('Unblock user')
-        expect(result).to include('href="/admin/users/123/unblock"')
+        expect(result).to include("href=\"#{unblock_admin_moderation_user_path(user.id)}\"")
       end
 
       it 'sends a PUT request' do
@@ -72,7 +72,7 @@ describe UserHelper do
       let(:result) { helper.user_list_button_for(user) }
 
       it 'links back to the Show all users index page' do
-        expect(result).to have_link('Back', href: admin_users_path)
+        expect(result).to have_link('Back', href: admin_moderation_users_path)
       end
     end
 
@@ -81,7 +81,7 @@ describe UserHelper do
       let(:result) { helper.user_list_button_for(user) }
 
       it 'links back to the Show blocked users index page' do
-        expect(result).to have_link('Back', href: blocked_admin_users_path)
+        expect(result).to have_link('Back', href: blocked_admin_moderation_users_path)
       end
     end
   end

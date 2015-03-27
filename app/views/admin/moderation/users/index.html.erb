@@ -1,16 +1,20 @@
-<div class="container">
+<div class="container <%= action_name %>">
   <div class="row">
     <h1>Users</h1>
 
     <div role="navigation" id="tab-bar">
       <%= link_to 'Back to Inbox', admin_home_path %>
       |
-      <%= link_to_unless action_name == 'index', 'Show all', send("admin_users_path") %>
+      <%= link_to_unless action_name == 'index', 'All', send("admin_moderation_users_path") %>
       |
-      <%= link_to_unless action_name == 'blocked', 'Show blocked', send("blocked_admin_users_path") %>
+      <%= link_to_unless action_name == 'unmoderated', 'Unmoderated', send("unmoderated_admin_moderation_users_path") %>
+      |
+      <%= link_to_unless action_name == 'reported', 'Reported', send("reported_admin_moderation_users_path") %>
+      |
+      <%= link_to_unless action_name == 'blocked', 'Blocked', send("blocked_admin_moderation_users_path") %>
     </div>
 
-    <table class="users table table-striped table-responsive">
+    <table class="items table table-striped table-responsive">
       <thead>
         <tr>
           <th>Username</th>
@@ -22,9 +26,9 @@
         </tr>
       </thead>
       <tbody>
-        <% @users.each do |user| %>
+        <% @items.each do |user| %>
           <tr class='user'>
-            <td><%= link_to user.screen_name, admin_user_path(user) %></td>
+            <td><%= link_to user.screen_name, admin_moderation_user_path(user) %></td>
             <td><%= user.name %></td>
             <td><%= mail_to user.email %></td>
             <td><%= user.active? %></td>

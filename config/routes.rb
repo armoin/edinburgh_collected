@@ -44,18 +44,6 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    get '/home' => 'home#index'
-
-    resources :users, only: [:index, :show, :edit] do
-      collection do
-        get :blocked
-      end
-      member do
-        put :block
-        put :unblock
-      end
-    end
-
     namespace :moderation do
       resources :memories, only: [:index, :show] do
         collection do
@@ -68,6 +56,7 @@ Rails.application.routes.draw do
           put :unmoderate
         end
       end
+
       resources :scrapbooks, only: [:index, :show] do
         collection do
           get :moderated
@@ -77,6 +66,18 @@ Rails.application.routes.draw do
           put :approve
           put :reject
           put :unmoderate
+        end
+      end
+
+      resources :users, only: [:index, :show] do
+        collection do
+          get :unmoderated
+          get :reported
+          get :blocked
+        end
+        member do
+          put :block
+          put :unblock
         end
       end
     end
