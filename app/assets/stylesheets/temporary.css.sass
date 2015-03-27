@@ -331,7 +331,7 @@ h1, h2, h3
         margin-left: 23px
 
       button
-        padding: 40px 1em 1em 1em
+        padding: 0.75em 1em 1em 1em
         background: none
         border: none
         position: relative
@@ -444,10 +444,8 @@ h1, h2, h3
 
 
   #searchwrapper
-    background: $navy-blue
-    padding: 0.5em
-    margin: 0em 0 0 0
-    float: right
+    margin: 0
+    padding: 0
 
     .toggleMenu
       display: none
@@ -469,15 +467,14 @@ h1, h2, h3
         margin: 0em 0.5em 0em 0
 
     .searchForm
-      padding: 0
-
-      float: right
-      text-align: right
+      background: $navy-blue
+      padding: 0.65em
 
       form
         background: none
         margin-bottom: 0
         padding: 0
+        float: right
 
       input
         display: inline-block
@@ -1991,14 +1988,16 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       background-color: $light-grey
       margin-top: 0
       top: 0
+      padding-top: 1em
 
       #logo
-        margin-top: 30px
-        position: relative
-        margin-bottom: 1em
-        padding: 0
-        float: right
-        display: inline-block
+        padding-left: 0
+        margin-top: 1.25em
+        position: absolute
+        bottom: 1em
+        right: -1em
+        padding-right: 1.2em
+        width: 60%
 
         .navbar-brand
           float: right
@@ -2008,9 +2007,11 @@ header .navbar .navbar-collapse ul.nav li a.feedback
             margin: 0 auto
 
       #theNavBar
+        padding: 0
 
         .toggleMenu
           display: block
+          margin-right: 0 !important
 
           &:focus
             outline: none
@@ -2095,12 +2096,19 @@ header .navbar .navbar-collapse ul.nav li a.feedback
           background-color: white
           font-size: 1.2em
 
+      .searchForm
+        padding: 0.25em
+
       .fix-search &
         position: fixed
         top: 0
         left: 0
         z-index: 1030
         float: none
+
+      .fix-search #searchwrapper
+        width: 100% !important
+
 
         .input-group
           width: 90%
@@ -2425,7 +2433,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
   #searchwrapper
     height: 47px
-    padding: 0.35em !important
 
   .mobile
     display: none !important
@@ -2477,8 +2484,11 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         ul
           display: block
 
-  #searchwrapper .searchForm input
-    width: 100%
+  #searchwrapper
+    .searchForm
+      float: right
+      input
+        width: 100%
 
   #scrapbooks .masonry.thumb,
     width: 33%!important
@@ -2526,7 +2536,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
   #searchwrapper
     height: 45px
-    padding: 0.35em !important
 
 
   .masonry-grid .masonry .bottom-row
@@ -2557,7 +2566,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
   #searchwrapper
     height: 55px
-    padding: 0.65em!important
 
   .masonry-grid .masonry .bottom-row
     .count
@@ -2604,11 +2612,17 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       float: none
       right: 0
       bottom: 0
-      img
-        position: relative
-        top: 5px
+
     #searchwrapper
       float: left
+
+      .searchForm
+        width: 62% !important
+
+      #logo
+        width: 35% !important
+        padding: 0
+
 
 
 
