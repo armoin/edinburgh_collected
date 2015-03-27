@@ -48,7 +48,7 @@ $(document).ready(function () {
  if ($(window).width() > 480) {
   var windowHeight = $( window ).height();
   var everythingElseHeight = $('#main-header').outerHeight() + $('#contentHeader').outerHeight() + $('#details header').outerHeight()
-  $('#image img').css( 'height', windowHeight - everythingElseHeight );
+  $('#image img').css( 'max-height', windowHeight - everythingElseHeight );
   $('#memoryImage').css( 'height', windowHeight - everythingElseHeight );
 
  } else {

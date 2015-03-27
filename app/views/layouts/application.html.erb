@@ -94,7 +94,15 @@
           </div>
 
           <div id="searchwrapper" class="dropdowns col-sm-10 col-md-12">
-            <div class="searchForm col-xs-12 col-sm-8 col-md-9">
+
+          <div id="logo" class="">
+            <a class="navbar-brand" href="/" title="<%= APP_NAME %>">
+              <span class="accessible-label">Home</span>
+              <%= image_tag "edinburgh-collected-logo.png", alt: "#{APP_NAME} - Beta" %>
+            </a>
+          </div>
+
+            <div class="searchForm">
               <%= form_tag search_memories_path, method: :get, role: 'form' do %>
                 <span class="toggleMenu" role="button" aria-label="Open menu">
                   <span class="icon-bar"></span>
@@ -109,13 +117,6 @@
                 </div>
               <% end -%>
             </div>
-
-          <div id="logo" class="col-xs-6 col-sm-4 col-md-3">
-            <a class="navbar-brand" href="/" title="<%= APP_NAME %>">
-              <span class="accessible-label">Home</span>
-              <%= image_tag "edinburgh-collected-logo.png", alt: "#{APP_NAME} - Beta" %>
-            </a>
-          </div>
 
           </div> <!-- end search/browse box -->
         </div> <!-- end masthead -->
