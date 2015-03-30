@@ -30,14 +30,34 @@ class Scrapbook < ActiveRecord::Base
   end
 
   def ordered_memories
-    scrapbook_memories.by_ordering.includes(:memory).map(&:memory)
+    Memory.find_by_sql query(true)
   end
 
   def approved_ordered_memories
-    ordered_memories.select(&:approved?)
+    Memory.find_by_sql query(false)
   end
 
   private
+
+  def query(include_unapproved)
+    memories_table = Memory.arel_table
+    scrapbook_memories_table = ScrapbookMemory.arel_table
+
+    query = scrapbook_memories_table
+      .project( memories_table[Arel.star] )
+      .join( memories_table )
+        .on( scrapbook_memories_table[:memory_id].eq(memories_table[:id]) )
+      .where( scrapbook_memories_table[:scrapbook_id].eq(self.id) )
+      .order( scrapbook_memories_table[:ordering] )
+
+    if include_unapproved
+      query.where(
+        memories_table[:moderation_state].eq('approved')
+          .or( memories_table[:user_id].eq(self.user_id) ) )
+    else
+      query.where( memories_table[:moderation_state].eq('approved') )
+    end
+  end
 
   def reorder_memories(ordering_string)
     if ordering_string.present?
