@@ -39,12 +39,14 @@ describe ScrapbooksController do
   end
 
   describe 'GET show' do
-    let(:scrapbook)          { Fabricate.build(:scrapbook, id: 123) }
-    let(:memories)           { double('scrapbook memories') }
-    let(:paginated_memories) { double('paginated memories') }
+    let(:scrapbook)           { Fabricate.build(:scrapbook, id: 123) }
+    let(:approved_scrapbooks) { double('approved scrapbooks') }
+    let(:memories)            { double('scrapbook memories') }
+    let(:paginated_memories)  { double('paginated memories') }
 
     before :each do
-      allow(Scrapbook).to receive(:find).and_return(scrapbook)
+      allow(Scrapbook).to receive(:approved).and_return(approved_scrapbooks)
+      allow(approved_scrapbooks).to receive(:find).and_return(scrapbook)
       allow(scrapbook).to receive(:approved_ordered_memories).and_return(memories)
       allow(Kaminari).to receive(:paginate_array).and_return(paginated_memories)
       allow(paginated_memories).to receive(:page).and_return(paginated_memories)
@@ -60,7 +62,7 @@ describe ScrapbooksController do
     end
 
     it 'fetches the requested scrapbook' do
-      expect(Scrapbook).to have_received(:find).with(scrapbook.to_param)
+      expect(approved_scrapbooks).to have_received(:find).with(scrapbook.to_param)
     end
 
     context "when the scrapbook is found" do
@@ -92,7 +94,7 @@ describe ScrapbooksController do
 
     context "when the scrapbook is not found" do
       before :each do
-        allow(Scrapbook).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        allow(approved_scrapbooks).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
         get :show, id: scrapbook.id
       end
 

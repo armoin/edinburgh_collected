@@ -9,7 +9,7 @@ class ScrapbooksController < ApplicationController
   end
 
   def show
-    @scrapbook = Scrapbook.find(params[:id])
+    @scrapbook = Scrapbook.approved.find(params[:id])
     @memories = Kaminari.paginate_array(scrapbook_memories).page(params[:page])
   end
 
