@@ -211,215 +211,45 @@ describe Scrapbook do
     end
   end
 
-  describe '#ordered_memories' do
-    let(:user)       { Fabricate.build(:active_user, id: 123) }
-    let(:other_user) { Fabricate.build(:active_user, id: 456) }
+  describe 'fetching memories' do
+    let(:query_builder_double)                  { double('query builder') }
 
-    subject { Fabricate(:scrapbook, user: user) }
+    let(:approved_query_double)                 { double('approved_query', to_sql: 'approved query sql') }
+    let(:approved_or_owned_query_double)        { double('approved_query', to_sql: 'approved or owned query sql') }
 
-    context 'when the scrapbook has no memories' do
-      it 'provides an empty collection' do
-        expect(subject.ordered_memories).to be_empty
+    let(:approved_memories_double)              { double('approved memories') }
+    let(:approved_or_owned_memories_double)     { double('approved or owned memories') }
+
+    before :each do
+      allow(MemoryQueryBuilder).to receive(:new).and_return(query_builder_double)
+
+      allow(query_builder_double).to receive(:approved_query).and_return(approved_query_double)
+      allow(query_builder_double).to receive(:approved_or_owned_by_query).and_return(approved_or_owned_query_double)
+
+      allow(Memory).to receive(:find_by_sql)
+        .with(approved_query_double.to_sql)
+        .and_return(approved_memories_double)
+
+      allow(Memory).to receive(:find_by_sql)
+        .with(approved_or_owned_query_double.to_sql)
+        .and_return(approved_or_owned_memories_double)
+    end
+
+    describe '#ordered_memories' do
+      it 'provides only memories that are approved or that belong to the owner of the scrapbook' do
+        result = subject.ordered_memories
+
+        expect(Memory).to have_received(:find_by_sql).with(approved_or_owned_query_double.to_sql)
+        expect(result).to eql(approved_or_owned_memories_double)
       end
     end
 
-    context 'when the scrapbook has one memory' do
-      let!(:scrapbook_memory) { Fabricate(:scrapbook_memory, scrapbook: subject, memory: memory) }
+    describe '#approved_ordered_memories' do
+      it 'provides only memories that are approved' do
+        result = subject.approved_ordered_memories
 
-      context 'and it is not approved' do
-        context 'and it belongs to the scrapbook user' do
-          let(:memory) { Fabricate(:memory, user: user) }
-
-          it 'provides a collection with just that memory' do
-            expect(subject.ordered_memories.length).to eql(1)
-            expect(subject.ordered_memories).to eql([memory])
-          end
-        end
-
-        context 'and it does not belong to the scrapbook user' do
-          let(:memory) { Fabricate(:memory, user: other_user) }
-
-          it 'provides an empty collection' do
-            expect(subject.ordered_memories).to be_empty
-          end
-        end
-      end
-
-      context 'and it is approved' do
-        context 'and it belongs to the scrapbook user' do
-          let(:memory) { Fabricate(:approved_memory, user: user) }
-
-          it 'provides a collection with just that memory' do
-            expect(subject.ordered_memories.length).to eql(1)
-            expect(subject.ordered_memories).to eql([memory])
-          end
-        end
-
-        context 'and it does not belong to the scrapbook user' do
-          let(:memory) { Fabricate(:approved_memory, user: other_user) }
-
-          it 'provides a collection with just that memory' do
-            expect(subject.ordered_memories.length).to eql(1)
-            expect(subject.ordered_memories).to eql([memory])
-          end
-        end
-      end
-    end
-
-    context 'when the scrapbook has more than one memory' do
-      let!(:sm_1)    { Fabricate(:scrapbook_memory, scrapbook: subject, memory: memory_1) }
-      let!(:sm_2)    { Fabricate(:scrapbook_memory, scrapbook: subject, memory: memory_2) }
-      let!(:sm_3)    { Fabricate(:scrapbook_memory, scrapbook: subject, memory: memory_3) }
-
-      context 'and the memories are approved' do
-        context 'and the memories belong to the scrapbook user' do
-          let(:memory_1) { Fabricate(:approved_memory, user: user) }
-          let(:memory_2) { Fabricate(:approved_memory, user: user) }
-          let(:memory_3) { Fabricate(:approved_memory, user: user) }
-
-
-          it 'provides a collection with all memories in order' do
-            expect(subject.ordered_memories.length).to eql(3)
-            expect(subject.ordered_memories).to eql([memory_1, memory_2, memory_3])
-          end
-
-          it 'includes any memories that are not approved' do
-            memory_2.report!(other_user, 'test')
-            expect(subject.ordered_memories.length).to eql(3)
-            expect(subject.ordered_memories).to eql([memory_1, memory_2, memory_3])
-          end
-
-          it 'provides a collection with all memories in order if the order is changed' do
-            subject.update({ordering: "#{sm_2.id},#{sm_3.id},#{sm_1.id}"})
-            expect(subject.ordered_memories.length).to eql(3)
-            expect(subject.ordered_memories).to eql([memory_2, memory_3, memory_1])
-          end
-        end
-
-        context 'and the memories do not belong to the scrapbook user' do
-          let(:memory_1) { Fabricate(:approved_memory, user: other_user) }
-          let(:memory_2) { Fabricate(:approved_memory, user: other_user) }
-          let(:memory_3) { Fabricate(:approved_memory, user: other_user) }
-
-          context 'when no memories are unapproved' do
-            it 'provides a collection with all memories in order' do
-              expect(subject.ordered_memories.length).to eql(3)
-              expect(subject.ordered_memories).to eql([memory_1, memory_2, memory_3])
-            end
-
-            it 'provides a collection with all memories in order if the order is changed' do
-              subject.update({ordering: "#{sm_2.id},#{sm_3.id},#{sm_1.id}"})
-              expect(subject.ordered_memories.length).to eql(3)
-              expect(subject.ordered_memories).to eql([memory_2, memory_3, memory_1])
-            end
-          end
-
-          context 'when one of the memories is unapproved' do
-            before :each do
-              memory_2.report!(user, 'test')
-            end
-
-            it 'ignores the unapproved memory' do
-              expect(subject.ordered_memories.length).to eql(2)
-              expect(subject.ordered_memories).to eql([memory_1, memory_3])
-            end
-
-            context 'and the order is changed' do
-              before :each do
-                subject.update({ordering: "#{sm_2.id},#{sm_3.id},#{sm_1.id}"})
-              end
-
-              it 'ignores the unapproved memory but keeps changed ordering' do
-                expect(subject.ordered_memories.length).to eql(2)
-                expect(subject.ordered_memories).to eql([memory_3, memory_1])
-              end
-
-              context 'then the memory is reapproved' do
-                before :each do
-                  memory_2.approve!(user)
-                end
-
-                it 'provides a collection with all memories in changed order' do
-                  expect(subject.ordered_memories.length).to eql(3)
-                  expect(subject.ordered_memories).to eql([memory_2, memory_3, memory_1])
-                end
-              end
-            end
-          end
-        end
-      end
-    end
-  end
-
-  describe '#approved_ordered_memories' do
-    let(:user)       { Fabricate.build(:active_user, id: 123) }
-    let(:other_user) { Fabricate.build(:active_user, id: 456) }
-
-    subject { Fabricate(:scrapbook, user: user) }
-
-    context 'when the scrapbook has no memories' do
-      it 'provides an empty collection' do
-        expect(subject.approved_ordered_memories).to be_empty
-      end
-    end
-
-    context 'when the scrapbook has one memory' do
-      let!(:scrapbook_memory) { Fabricate(:scrapbook_memory, scrapbook: subject, memory: memory) }
-
-      context 'and it is not approved' do
-        context 'and it belongs to the scrapbook user' do
-          let(:memory) { Fabricate(:memory, user: user) }
-
-          it 'provides an empty collection' do
-            expect(subject.approved_ordered_memories).to be_empty
-          end
-        end
-
-        context 'and it belongs to another user' do
-          let(:memory) { Fabricate(:memory, user: other_user) }
-
-          it 'provides an empty collection' do
-            expect(subject.approved_ordered_memories).to be_empty
-          end
-        end
-      end
-
-      context 'and it is approved' do
-        context 'and it belongs to the scrapbook user' do
-          let(:memory) { Fabricate(:approved_memory, user: user) }
-
-          it 'provides a collection with that memory' do
-            expect(subject.approved_ordered_memories).to eql([memory])
-          end
-        end
-
-        context 'and it belongs to another user' do
-          let(:memory) { Fabricate(:approved_memory, user: other_user) }
-
-          it 'provides a collection with that memory' do
-            expect(subject.approved_ordered_memories).to eql([memory])
-          end
-        end
-      end
-    end
-
-    context 'when the scrapbook has more than one memory and not all are approved' do
-      let(:memory_1) { Fabricate(:memory) }
-      let(:memory_2) { Fabricate(:approved_memory) }
-      let(:memory_3) { Fabricate(:approved_memory) }
-      let!(:sm_1)    { Fabricate(:scrapbook_memory, scrapbook: subject, memory: memory_1) }
-      let!(:sm_2)    { Fabricate(:scrapbook_memory, scrapbook: subject, memory: memory_2) }
-      let!(:sm_3)    { Fabricate(:scrapbook_memory, scrapbook: subject, memory: memory_3) }
-
-      it 'provides a collection with only approved memories in order' do
-        expect(subject.approved_ordered_memories.length).to eql(2)
-        expect(subject.approved_ordered_memories).to eql([memory_2, memory_3])
-      end
-
-      it 'provides a collection with only approved memories in order if the order is changed' do
-        subject.update({ordering: "#{sm_3.id},#{sm_2.id},#{sm_1.id}"})
-        expect(subject.approved_ordered_memories.length).to eql(2)
-        expect(subject.approved_ordered_memories).to eql([memory_3, memory_2])
+        expect(Memory).to have_received(:find_by_sql).with(approved_query_double.to_sql)
+        expect(result).to eql(approved_memories_double)
       end
     end
   end

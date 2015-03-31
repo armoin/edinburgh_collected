@@ -30,33 +30,25 @@ class Scrapbook < ActiveRecord::Base
   end
 
   def ordered_memories
-    Memory.find_by_sql query(true)
+    Memory.find_by_sql approved_or_same_owner_query.to_sql
   end
 
   def approved_ordered_memories
-    Memory.find_by_sql query(false)
+    Memory.find_by_sql approved_query.to_sql
   end
 
   private
 
-  def query(include_unapproved)
-    memories_table = Memory.arel_table
-    scrapbook_memories_table = ScrapbookMemory.arel_table
+  def approved_or_same_owner_query
+    query_builder.approved_or_owned_by_query(self.user_id)
+  end
 
-    query = scrapbook_memories_table
-      .project( memories_table[Arel.star] )
-      .join( memories_table )
-        .on( scrapbook_memories_table[:memory_id].eq(memories_table[:id]) )
-      .where( scrapbook_memories_table[:scrapbook_id].eq(self.id) )
-      .order( scrapbook_memories_table[:ordering] )
+  def approved_query
+    query_builder.approved_query
+  end
 
-    if include_unapproved
-      query.where(
-        memories_table[:moderation_state].eq('approved')
-          .or( memories_table[:user_id].eq(self.user_id) ) )
-    else
-      query.where( memories_table[:moderation_state].eq('approved') )
-    end
+  def query_builder
+    MemoryQueryBuilder.new(self.id)
   end
 
   def reorder_memories(ordering_string)
