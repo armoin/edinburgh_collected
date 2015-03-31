@@ -2,10 +2,6 @@ class ApprovedScrapbookMemoryFetcher < ScrapbookMemoryFetcher
   private
 
   def scrapbook_memories
-    @sm ||= ScrapbookMemory
-              .joins(:memory)
-              .where(scrapbook_id: @scrapbook_ids, memories: {moderation_state: 'approved'})
-              .order('scrapbook_id, ordering')
-              .includes(:memory)
+    @sm ||= ScrapbookMemory.find_by_sql(ScrapbookMemoryQueryBuilder.new(@scrapbook_ids).approved_query)
   end
 end

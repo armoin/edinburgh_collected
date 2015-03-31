@@ -15,7 +15,7 @@ describe My::ScrapbooksController do
     before :each do
       allow(@user).to receive(:scrapbooks).and_return(scrapbooks)
       allow(ScrapbookIndexPresenter).to receive(:new).and_return(stub_presenter)
-      allow(ScrapbookMemoryFetcher).to receive(:new).with(scrapbooks).and_return(stub_memory_fetcher)
+      allow(ScrapbookMemoryFetcher).to receive(:new).with(scrapbooks, @user.id).and_return(stub_memory_fetcher)
     end
 
     context 'when not logged in' do

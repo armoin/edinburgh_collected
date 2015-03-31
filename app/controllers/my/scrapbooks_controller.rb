@@ -5,7 +5,7 @@ class My::ScrapbooksController < My::AuthenticatedUserController
 
   def index
     scrapbooks = current_user.scrapbooks
-    memory_fetcher = ScrapbookMemoryFetcher.new(scrapbooks)
+    memory_fetcher = ScrapbookMemoryFetcher.new(scrapbooks, current_user.id)
     @presenter = ScrapbookIndexPresenter.new(scrapbooks, memory_fetcher, params[:page])
   end
 

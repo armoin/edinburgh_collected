@@ -2,7 +2,7 @@
 
   <%
     scrapbooks = current_user.scrapbooks
-    presenter = ScrapbookIndexPresenter.new(scrapbooks, ScrapbookMemoryFetcher.new(scrapbooks))
+    presenter = ScrapbookIndexPresenter.new(scrapbooks, ScrapbookMemoryFetcher.new(scrapbooks, current_user.id))
   -%>
 
   <% presenter.scrapbook_covers.each do |scrapbook_cover| %>
