@@ -57,7 +57,6 @@ RSpec.shared_examples 'moderatable' do
   end
 
   ##
-  #
   # TODO: clean this up. Had to branch this "shared" example as User works differently from
   #       other moderatables
   describe "scopes" do

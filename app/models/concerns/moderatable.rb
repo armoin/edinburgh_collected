@@ -32,27 +32,18 @@ module Moderatable
     end
 
     def approved
-      in_state('approved')
-        .merge(belongs_to_active_user)
-        .merge(belongs_to_unblocked_user)
-    end
-
-    def belongs_to_active_user
       if class_name == 'User'
-        where(activation_state: 'active')
+        where(approved_sql)
       else
         joins(:user)
-          .where(users: {activation_state: 'active'})
+          .where(approved_sql)
       end
     end
 
-    def belongs_to_unblocked_user
-      if class_name == 'User'
-        where(is_blocked: false)
-      else
-        joins(:user)
-          .where(users: {is_blocked: false})
-      end
+    def approved_sql
+      arel_table[:moderation_state].eq('approved')
+        .and( User.arel_table[:activation_state].eq('active') )
+        .and( User.arel_table[:is_blocked].eq(false) )
     end
 
     def rejected
