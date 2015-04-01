@@ -219,6 +219,162 @@ describe Admin::Moderation::UsersController do
     end
   end
 
+  describe 'PUT approve' do
+    let(:requested_user) { Fabricate.build(:active_user, id: 123) }
+
+    context 'user must be an admin' do
+      let(:perform_action) { put :approve, id: requested_user.id }
+
+      before :each do
+        allow(User).to receive(:find) { requested_user }
+        allow(requested_user).to receive(:approve!)
+      end
+
+      it_behaves_like 'an admin only controller'
+    end
+
+    context 'when the admin is signed in' do
+      let(:find_result)    { requested_user }
+      let(:approve_result) { true }
+
+      before :each do
+        @user = Fabricate.build(:admin_user, id: 789)
+        login_user
+
+        allow(User).to receive(:find) { find_result }
+        allow(requested_user).to receive(:approve!) { approve_result }
+
+        put :approve, id: requested_user.id
+      end
+
+      it 'fetches the requested user' do
+        expect(User).to have_received(:find).with('123')
+      end
+
+      context 'when the user is found' do
+        let(:find_result) { requested_user }
+
+        it 'assigns the requested user' do
+          expect(assigns[:user]).to eql(requested_user)
+        end
+
+        it 'approves the user' do
+          expect(requested_user).to have_received(:approve!)
+        end
+
+        context 'when user is successfully approved' do
+          let(:approve_result) { true }
+
+          it 'shows a success message' do
+            expect(flash[:notice]).to eql("User #{requested_user.screen_name} has been approved.")
+          end
+
+          it 'redirects to the show page' do
+            expect(response).to redirect_to(admin_moderation_user_path(requested_user))
+          end
+        end
+
+        context 'when user is not successfully approved' do
+          let(:approve_result) { false }
+
+          it 'shows a failure alert' do
+            expect(flash[:alert]).to eql("User #{requested_user.screen_name} could not be approved.")
+          end
+
+          it 'redirects to the show page' do
+            expect(response).to redirect_to(admin_moderation_user_path(requested_user))
+          end
+        end
+      end
+
+      context 'when the user is not found' do
+        let(:find_result) { raise(ActiveRecord::RecordNotFound) }
+
+        it 'is not found' do
+          expect(response).to be_not_found
+        end
+      end
+    end
+  end
+
+  describe 'PUT unmoderate' do
+    let(:requested_user) { Fabricate.build(:active_user, id: 123) }
+
+    context 'user must be an admin' do
+      let(:perform_action) { put :unmoderate, id: requested_user.id }
+
+      before :each do
+        allow(User).to receive(:find) { requested_user }
+        allow(requested_user).to receive(:unmoderate!)
+      end
+
+      it_behaves_like 'an admin only controller'
+    end
+
+    context 'when the admin is signed in' do
+      let(:find_result)    { requested_user }
+      let(:unmoderate_result) { true }
+
+      before :each do
+        @user = Fabricate.build(:admin_user, id: 789)
+        login_user
+
+        allow(User).to receive(:find) { find_result }
+        allow(requested_user).to receive(:unmoderate!) { unmoderate_result }
+
+        put :unmoderate, id: requested_user.id
+      end
+
+      it 'fetches the requested user' do
+        expect(User).to have_received(:find).with('123')
+      end
+
+      context 'when the user is found' do
+        let(:find_result) { requested_user }
+
+        it 'assigns the requested user' do
+          expect(assigns[:user]).to eql(requested_user)
+        end
+
+        it 'unmoderates the user' do
+          expect(requested_user).to have_received(:unmoderate!)
+        end
+
+        context 'when user is successfully unmoderated' do
+          let(:unmoderate_result) { true }
+
+          it 'shows a success message' do
+            expect(flash[:notice]).to eql("User #{requested_user.screen_name} has been unmoderated.")
+          end
+
+          it 'redirects to the show page' do
+            expect(response).to redirect_to(admin_moderation_user_path(requested_user))
+          end
+        end
+
+        context 'when user is not successfully unmoderated' do
+          let(:unmoderate_result) { false }
+
+          it 'shows a failure alert' do
+            expect(flash[:alert]).to eql("User #{requested_user.screen_name} could not be unmoderated.")
+          end
+
+          it 'redirects to the show page' do
+            expect(response).to redirect_to(admin_moderation_user_path(requested_user))
+          end
+        end
+      end
+
+      context 'when the user is not found' do
+        let(:find_result) { raise(ActiveRecord::RecordNotFound) }
+
+        it 'is not found' do
+          expect(response).to be_not_found
+        end
+      end
+    end
+  end
+
   describe 'PUT block' do
     let(:requested_user) { Fabricate.build(:active_user, id: 123) }
 

@@ -26,6 +26,24 @@ class Admin::Moderation::UsersController < Admin::AuthenticatedAdminController
   def show
   end
 
+  def approve
+    message = if @user.approve!(current_user)
+      {notice: "User #{@user.screen_name} has been approved."}
+    else
+      {alert: "User #{@user.screen_name} could not be approved."}
+    end
+    redirect_to admin_moderation_user_path(@user), message
+  end
+
+  def unmoderate
+    message = if @user.unmoderate!(current_user)
+      {notice: "User #{@user.screen_name} has been unmoderated."}
+    else
+      {alert: "User #{@user.screen_name} could not be unmoderated."}
+    end
+    redirect_to admin_moderation_user_path(@user), message
+  end
+
   def block
     toggle_blocked
   end

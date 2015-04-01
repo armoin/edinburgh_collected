@@ -78,8 +78,11 @@ Rails.application.routes.draw do
           get :blocked
         end
         member do
+          put :approve
           put :block
           put :unblock
+          put :reject
+          put :unmoderate
         end
       end
     end

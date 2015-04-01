@@ -22,7 +22,7 @@
       <li><%= link_to "All users (#{User.count})", admin_moderation_users_path %></li>
       <li><%= link_to "Unmoderated (#{User.unmoderated.count})", unmoderated_admin_moderation_users_path %></li>
       <li><%= link_to "Reported (#{User.reported.count})", reported_admin_moderation_users_path %></li>
-      <li><%= link_to "Blocked users (#{User.blocked.count})", blocked_admin_moderation_users_path %></li>
+      <li><%= link_to "Blocked (#{User.blocked.count})", blocked_admin_moderation_users_path %></li>
     </ul>
   </div>
 </div>
