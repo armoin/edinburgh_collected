@@ -282,37 +282,78 @@ RSpec.shared_examples 'moderatable' do
     describe "#approved?" do
       context 'when not approved' do
         it 'is false' do
-          if moderatable_factory == :user
-            moderatable_instance.moderation_state = 'unmoderated'
-          end
+          moderatable_instance.moderation_state = 'unmoderated'
           expect(moderatable_instance.approved?).to be_falsy
         end
       end
 
-      context 'when approved' do
-        before :each do
-          moderatable_instance.approve!(moderated_by)
+      context 'when moderatable is not a User' do
+        context 'when approved' do
+          before :each do
+            moderatable_instance.approve!(moderated_by)
 
-          unless moderatable_factory == :user
-            allow(moderatable_instance).to receive(:user).and_return(user_double)
-          end
-        end
-
-        context 'and belongs to a user that is not approved' do
-          let(:user_double) { double(User, approved?: false) }
-
-          it 'is false' do
             unless moderatable_factory == :user
-              expect(moderatable_instance.approved?).to be_falsy
+              allow(moderatable_instance).to receive(:user).and_return(user_double)
+            end
+          end
+
+          context 'and belongs to a user that is not approved' do
+            let(:user_double) { double(User, approved?: false) }
+
+            it 'is false' do
+              unless moderatable_factory == :user
+                expect(moderatable_instance.approved?).to be_falsy
+              end
+            end
+          end
+
+          context 'and belongs to a user that is approved' do
+            let(:user_double) { double(User, approved?: true) }
+
+            it 'is true' do
+              unless moderatable_factory == :user
+                expect(moderatable_instance.approved?).to be_truthy
+              end
             end
           end
         end
+      end
 
-        context 'and belongs to a user that is approved' do
-          let(:user_double) { double(User, approved?: true) }
+      context 'when moderatable is a User' do
+        context 'when approved' do
+          before :each do
+            moderatable_instance.approve!(moderated_by)
+          end
 
-          it 'is true' do
-            expect(moderatable_instance.approved?).to be_truthy
+          context 'but is blocked' do
+            it 'is false' do
+              if moderatable_factory == :user
+                moderatable_instance.is_blocked = true
+                expect(moderatable_instance.approved?).to be_falsy
+              end
+            end
+          end
+
+          context 'and is not blocked' do
+            context 'but is not active' do
+              it 'is false' do
+                if moderatable_factory == :user
+                  moderatable_instance.is_blocked = false
+                  moderatable_instance.activation_state = 'pending'
+                  expect(moderatable_instance.approved?).to be_falsy
+                end
+              end
+            end
+
+            context 'and is active' do
+              it 'is true' do
+                if moderatable_factory == :user
+                  moderatable_instance.is_blocked = false
+                  moderatable_instance.activation_state = 'active'
+                  expect(moderatable_instance.approved?).to be_truthy
+                end
+              end
+            end
           end
         end
       end

@@ -82,7 +82,7 @@ module Moderatable
 
   def approved?
     if is_a?(User)
-      moderation_state == 'approved'
+      moderation_state == 'approved' && !is_blocked? && activation_state == 'active'
     else
       moderation_state == 'approved' && user.approved?
     end
