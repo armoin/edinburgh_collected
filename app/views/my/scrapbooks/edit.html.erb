@@ -40,7 +40,7 @@
       <% end %>
       <!-- h2>Reorder your memories:</h2 -->
       <div class="memories">
-        <% @scrapbook.scrapbook_memories.by_ordering.each do |scrapbook_memory| %>
+        <% @scrapbook.approved_or_owned_scrapbook_memories.each do |scrapbook_memory| %>
           <% memory = scrapbook_memory.memory %>
           <div class="memory thumb masonry" data-id="<%= scrapbook_memory.id %>">
             <div class="padding">

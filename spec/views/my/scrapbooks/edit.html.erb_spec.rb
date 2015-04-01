@@ -2,11 +2,10 @@ require 'rails_helper'
 
 describe 'my/scrapbooks/edit.html.erb' do
   let(:scrapbook)           { Fabricate.build(:scrapbook, id: 132) }
-  let(:memories)            { stub_memories(3).map.with_index{|m,i| double(id: i, scrapbook: scrapbook, memory: m)} }
-  let(:scrapbook_memories)  { double('scrapbook_memories', by_ordering: memories) }
+  let(:scrapbook_memories)  { Array.new(3) {|i| Fabricate.build(:scrapbook_memory)} }
 
   before :each do
-    allow(scrapbook).to receive(:scrapbook_memories).and_return(scrapbook_memories)
+    allow(scrapbook).to receive(:approved_or_owned_scrapbook_memories).and_return(scrapbook_memories)
     assign(:scrapbook, scrapbook)
   end
 

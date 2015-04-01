@@ -215,7 +215,7 @@ describe Scrapbook do
     let(:query_builder_double)                  { double('query builder') }
 
     let(:approved_query_double)                 { double('approved_query', to_sql: 'approved query sql') }
-    let(:approved_or_owned_query_double)        { double('approved_query', to_sql: 'approved or owned query sql') }
+    let(:approved_or_owned_query_double)        { double('approved_or_owned_query', to_sql: 'approved or owned query sql') }
 
     let(:approved_memories_double)              { double('approved memories') }
     let(:approved_or_owned_memories_double)     { double('approved or owned memories') }
@@ -250,6 +250,49 @@ describe Scrapbook do
 
         expect(Memory).to have_received(:find_by_sql).with(approved_query_double.to_sql)
         expect(result).to eql(approved_memories_double)
+      end
+    end
+  end
+
+  describe 'fetching scrapbook_memories' do
+    let(:query_builder_double)                  { double('query builder') }
+
+    let(:approved_query_double)                 { double('approved_query', to_sql: 'approved query sql') }
+    let(:approved_or_owned_query_double)        { double('approved_or_owned_query', to_sql: 'approved or owned query sql') }
+
+    let(:approved_sb_memories_double)           { double('approved scrapbook memories') }
+    let(:approved_or_owned_sb_memories_double)  { double('approved or owned scrapbook memories') }
+
+    before :each do
+      allow(ScrapbookMemoryQueryBuilder).to receive(:new).and_return(query_builder_double)
+
+      allow(query_builder_double).to receive(:approved_query).and_return(approved_query_double)
+      allow(query_builder_double).to receive(:approved_or_owned_by_query).and_return(approved_or_owned_query_double)
+
+      allow(ScrapbookMemory).to receive(:find_by_sql)
+        .with(approved_query_double.to_sql)
+        .and_return(approved_sb_memories_double)
+
+      allow(ScrapbookMemory).to receive(:find_by_sql)
+        .with(approved_or_owned_query_double.to_sql)
+        .and_return(approved_or_owned_sb_memories_double)
+    end
+
+    describe '#approved_or_owned_scrapbook_memories' do
+      it 'provides only scrapbook memories that are approved or that belong to the owner of the scrapbook' do
+        result = subject.approved_or_owned_scrapbook_memories
+
+        expect(ScrapbookMemory).to have_received(:find_by_sql).with(approved_or_owned_query_double.to_sql)
+        expect(result).to eql(approved_or_owned_sb_memories_double)
+      end
+    end
+
+    describe '#approved_scrapbook_memories' do
+      it 'provides only memories that are approved' do
+        result = subject.approved_scrapbook_memories
+
+        expect(ScrapbookMemory).to have_received(:find_by_sql).with(approved_query_double.to_sql)
+        expect(result).to eql(approved_sb_memories_double)
       end
     end
   end
