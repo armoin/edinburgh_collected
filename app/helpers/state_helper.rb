@@ -26,7 +26,7 @@ module StateHelper
   def show_state_label?(moderatable)
     current_user.try(:can_modify?, moderatable) &&
       show_state? &&
-      !moderatable.approved?
+      !(moderatable.moderation_state == 'approved')
   end
 
   private

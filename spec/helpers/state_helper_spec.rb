@@ -54,7 +54,7 @@ describe StateHelper do
 
   describe '#show_state_label?' do
     let(:user)        { double('user', can_modify?: can_modify) }
-    let(:moderatable) { double('moderatable', approved?: approved) }
+    let(:moderatable) { double('moderatable', moderation_state: state) }
     let(:approved)    { false }
     let(:can_modify)  { true }
 
@@ -66,7 +66,7 @@ describe StateHelper do
       let(:can_modify)  { true }
 
       context 'and the item is not approved' do
-        let(:approved) { false }
+        let(:state) { 'unmoderated' }
 
         context 'and the user is on a page where state labels are shown' do
           it "shows state on the show page of memories that belong to the user" do
@@ -89,7 +89,7 @@ describe StateHelper do
       end
 
       context 'and the item is approved' do
-        let(:approved) { true }
+        let(:state) { 'approved' }
 
         context 'and the user is on a page where state labels are shown' do
           it "does not show state on the show page of memories that belong to the user" do
@@ -116,7 +116,7 @@ describe StateHelper do
       let(:can_modify)  { false }
 
       context 'and the item is not approved' do
-        let(:approved) { false }
+        let(:state) { 'unmoderated' }
 
         context 'and the user is on a page where state labels are shown' do
           it "does not show state on the show page of memories that belong to the user" do
@@ -139,7 +139,7 @@ describe StateHelper do
       end
 
       context 'and the item is approved' do
-        let(:approved) { true }
+        let(:state) { 'approved' }
 
         context 'and the user is on a page where state labels are shown' do
           it "does not show state on the show page of memories that belong to the user" do
