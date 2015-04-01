@@ -92,8 +92,11 @@ describe MemoriesController do
     end
 
     context "when record is found" do
+      let(:approved) { false }
+
       before :each do
         allow(Memory).to receive(:find).and_return(memory)
+        allow(memory).to receive(:approved?).and_return(approved)
       end
 
       it "assigns fetched memory" do
@@ -102,9 +105,9 @@ describe MemoriesController do
       end
 
       context 'and memory is approved' do
+        let(:approved) { true }
+
         before :each do
-          memory.save!
-          memory.approve!(user)
           get :show, id: '123', format: format
         end
 
@@ -112,6 +115,8 @@ describe MemoriesController do
       end
 
       context 'and the memory is not approved' do
+        let(:approved) { false }
+
         context 'when there is no current user' do
           before :each do
             get :show, id: '123', format: format

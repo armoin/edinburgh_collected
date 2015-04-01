@@ -1,6 +1,6 @@
 RSpec.shared_examples 'moderatable' do
   let(:moderatable_instance) { Fabricate(moderatable_factory) }
-  let(:moderated_by)         { Fabricate.build(:active_user, id: 789) }
+  let(:moderated_by)         { Fabricate.build(:approved_user, id: 789) }
 
   describe "logging moderation activity" do
     it { expect(subject).to have_many(:moderation_logs).dependent(:destroy) }
@@ -66,7 +66,7 @@ RSpec.shared_examples 'moderatable' do
       @moderated_by = Fabricate(:active_user)
       @moderated_by.approve!(@moderated_by)
 
-      @no_moderation = Fabricate(moderatable_factory)
+      @no_moderation = Fabricate(moderatable_factory, moderation_state: nil)
       @unmoderated   = Fabricate(moderatable_factory, moderation_state: 'unmoderated', moderated_by: @moderated_by)
 
       if moderatable_factory == :user
@@ -74,7 +74,7 @@ RSpec.shared_examples 'moderatable' do
         @pending  = Fabricate(:pending_user, moderation_state: 'approved', moderated_by: @moderated_by)
         @blocked  = Fabricate(:blocked_user, moderation_state: 'approved', moderated_by: @moderated_by)
       else
-        @approved = Fabricate(moderatable_factory, moderation_state: 'approved', moderated_by: @moderated_by, user: Fabricate(:active_user))
+        @approved = Fabricate(moderatable_factory, moderation_state: 'approved', moderated_by: @moderated_by, user: Fabricate(:approved_user))
         @pending  = Fabricate(moderatable_factory, moderation_state: 'approved', moderated_by: @moderated_by, user: Fabricate(:pending_user))
         @blocked  = Fabricate(moderatable_factory, moderation_state: 'approved', moderated_by: @moderated_by, user: Fabricate(:blocked_user))
       end
@@ -114,7 +114,7 @@ RSpec.shared_examples 'moderatable' do
     end
 
     describe '.approved' do
-      it 'only returns approved records that belong to non-blocked, active users' do
+      it 'only returns approved records that belong to approved, active users' do
         approved_records = moderatable_model.approved
         expect(approved_records.count).to eql(1)
         expect(approved_records).to include(@approved)
@@ -280,13 +280,41 @@ RSpec.shared_examples 'moderatable' do
     end
 
     describe "#approved?" do
-      it 'is false when not approved' do
-        expect(moderatable_instance.approved?).to be_falsy
+      context 'when not approved' do
+        it 'is false' do
+          if moderatable_factory == :user
+            moderatable_instance.moderation_state = 'unmoderated'
+          end
+          expect(moderatable_instance.approved?).to be_falsy
+        end
       end
 
-      it 'is true when approved' do
-        moderatable_instance.approve!(moderated_by)
-        expect(moderatable_instance.approved?).to be_truthy
+      context 'when approved' do
+        before :each do
+          moderatable_instance.approve!(moderated_by)
+
+          unless moderatable_factory == :user
+            allow(moderatable_instance).to receive(:user).and_return(user_double)
+          end
+        end
+
+        context 'and belongs to a user that is not approved' do
+          let(:user_double) { double(User, approved?: false) }
+
+          it 'is false' do
+            unless moderatable_factory == :user
+              expect(moderatable_instance.approved?).to be_falsy
+            end
+          end
+        end
+
+        context 'and belongs to a user that is approved' do
+          let(:user_double) { double(User, approved?: true) }
+
+          it 'is true' do
+            expect(moderatable_instance.approved?).to be_truthy
+          end
+        end
       end
     end
 
@@ -297,6 +325,7 @@ RSpec.shared_examples 'moderatable' do
       end
 
       it 'is true when unmoderated' do
+        moderatable_instance.unmoderate!(moderated_by)
         expect(moderatable_instance.unmoderated?).to be_truthy
       end
     end

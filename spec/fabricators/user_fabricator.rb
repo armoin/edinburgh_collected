@@ -8,7 +8,7 @@ Fabricator(:user) do
   accepted_t_and_c      true
   description           "I am a fabricated user."
   is_blocked            false
-  moderation_state      ModerationStateMachine::DEFAULT_STATE
+  moderation_state      'approved'
 end
 
 Fabricator(:active_user, from: :user) do
@@ -17,6 +17,10 @@ Fabricator(:active_user, from: :user) do
   activation_token_expires_at nil
 
   after_create { |u, transients| u.activate! }
+end
+
+Fabricator(:approved_user, from: :active_user) do
+  after_create { |u, transients| u.approve!(u) }
 end
 
 Fabricator(:admin_user, from: :active_user) do

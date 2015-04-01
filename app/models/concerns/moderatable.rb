@@ -43,6 +43,7 @@ module Moderatable
     def approved_sql
       arel_table[:moderation_state].eq('approved')
         .and( User.arel_table[:activation_state].eq('active') )
+        .and( User.arel_table[:moderation_state].eq('approved') )
         .and( User.arel_table[:is_blocked].eq(false) )
     end
 
@@ -80,7 +81,11 @@ module Moderatable
   end
 
   def approved?
-    moderation_state == 'approved'
+    if is_a?(User)
+      moderation_state == 'approved'
+    else
+      moderation_state == 'approved' && user.approved?
+    end
   end
 
   def unmoderated?

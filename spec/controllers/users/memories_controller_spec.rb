@@ -1,14 +1,12 @@
 require 'rails_helper'
 
 describe Users::MemoriesController do
-  let(:requested_user)       { Fabricate.build(:active_user, id: 123) }
-  let(:active_users_stub)    { double('active_users') }
-  let(:unblocked_users_stub) { double('unblocked_users') }
+  let(:requested_user)      { Fabricate.build(:active_user, id: 123) }
+  let(:approved_users_stub) { double('approved_users') }
 
   before :each do
-    allow(User).to receive(:active).and_return(active_users_stub)
-    allow(active_users_stub).to receive(:unblocked).and_return(unblocked_users_stub)
-    allow(unblocked_users_stub).to receive(:find).and_return(requested_user)
+    allow(User).to receive(:approved).and_return(approved_users_stub)
+    allow(approved_users_stub).to receive(:find).and_return(requested_user)
   end
 
   describe 'GET index' do
@@ -19,12 +17,12 @@ describe Users::MemoriesController do
 
     it 'finds the requested user' do
       get :index, user_id: requested_user.to_param
-      expect(User.active.unblocked).to have_received(:find).with(requested_user.to_param)
+      expect(User.approved).to have_received(:find).with(requested_user.to_param)
     end
 
     context 'when no user is found' do
       before :each do
-        allow(unblocked_users_stub).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        allow(approved_users_stub).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
         get :index, user_id: requested_user.to_param
       end
 
