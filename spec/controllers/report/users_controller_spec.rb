@@ -69,7 +69,6 @@ describe Report::UsersController do
 
     context 'when user is logged in' do
       let(:find_result) { reported_user }
-      let(:test_path)   { '/stored/memory/index/path' }
 
       before :each do
         @user = current_user
@@ -77,8 +76,6 @@ describe Report::UsersController do
 
         allow(User).to receive(:find) { find_result }
         allow(reported_user).to receive(:report!).and_return(result)
-
-        session[:current_memory_index_path] = test_path
 
         put :update, id: reported_user.id, user: user_params, format: format
       end
@@ -103,8 +100,8 @@ describe Report::UsersController do
           context 'when report is successful' do
             let(:result) { true }
 
-            it 'redirects back to the current memory index path as the user and associated user page is no longer viewable' do
-              expect(response.body).to redirect_to(test_path)
+            it 'redirects to the all memories index path as the user and associated user page is no longer viewable' do
+              expect(response.body).to redirect_to(memories_path)
             end
 
             it 'shows a success message' do
