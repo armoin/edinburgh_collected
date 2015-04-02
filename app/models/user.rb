@@ -38,14 +38,6 @@ class User < ActiveRecord::Base
     where(activation_state: 'active')
   end
 
-  def self.blocked
-    where(is_blocked: true)
-  end
-
-  def self.unblocked
-    where(is_blocked: false)
-  end
-
   def name
     [first_name, last_name].join(' ').strip
   end
@@ -61,14 +53,6 @@ class User < ActiveRecord::Base
 
   def pending?
     activation_state == 'pending' && activation_token.present?
-  end
-
-  def block!
-    toggle_blocked(true)
-  end
-
-  def unblock!
-    toggle_blocked(false)
   end
 
   def is_starting?
@@ -101,9 +85,5 @@ class User < ActiveRecord::Base
   def send_activation
     send(:setup_activation)
     send(:send_activation_needed_email!)
-  end
-
-  def toggle_blocked(value)
-    update_attribute(:is_blocked, value)
   end
 end

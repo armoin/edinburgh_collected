@@ -22,7 +22,7 @@
           <th>Email</th>
           <th>Active?</th>
           <th>Group?</th>
-          <th>Blocked?</th>
+          <th>Current state</th>
         </tr>
       </thead>
       <tbody>
@@ -33,7 +33,7 @@
             <td><%= mail_to user.email %></td>
             <td><%= user.active? %></td>
             <td><%= user.is_group? %></td>
-            <td><%= user.is_blocked? %></td>
+            <td><%= user.moderation_state %></td>
           </tr>
         <% end %>
       </tbody>

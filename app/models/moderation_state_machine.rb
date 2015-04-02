@@ -1,5 +1,5 @@
 class ModerationStateMachine
-  VALID_STATES   = %w(unmoderated approved rejected reported)
+  VALID_STATES   = %w(unmoderated approved rejected reported blocked)
   REQUIRE_REASON = %w(rejected reported)
   DEFAULT_STATE  = 'unmoderated'
 

@@ -2,9 +2,8 @@
   <div id="profile" class="row static">
     <div id="detailsPanel" class="col-sm-6">
       <header>
-        <% if @user.is_blocked? -%>
-          <div class="blocked">Blocked</div>
-        <% end -%>
+        <%= render partial: 'shared/state_bar', locals: {moderatable: @user} %>
+
         <span class="userAvatar"><%= image_tag @user.avatar_url %></span>
         <h1 class="title"><%= @user.screen_name %></h1>
       </header>
@@ -33,10 +32,10 @@
         <% unless @user.unmoderated? %>
           <%= link_to "Unmoderate", unmoderate_admin_moderation_user_path(@user), method: :put, data: {confirm: 'Are you sure?'}, class: 'button unmoderate' %>
         <% end %>
-        <% unless @user.moderation_state == 'approved' && !@user.is_blocked? %>
+        <% unless @user.moderation_state == 'approved' %>
           <%= link_to "Approve", approve_admin_moderation_user_path(@user), method: :put, data: {confirm: 'Are you sure?'}, class: 'button green' %>
         <% end %>
-        <% unless @user.is_blocked? %>
+        <% unless @user.blocked? %>
           <%= link_to "Block", block_admin_moderation_user_path(@user), method: :put, data: {confirm: 'Are you sure?'}, class: 'button red' %>
         <% end %>
       </div>

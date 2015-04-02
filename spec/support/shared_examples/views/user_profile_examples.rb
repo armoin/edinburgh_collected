@@ -2,28 +2,10 @@ RSpec.shared_examples 'a user profile' do
   let(:links)    { build_array(2, :link) }
   let(:is_group) { false }
   let(:user)     { Fabricate.build(:active_user, id: 123, is_group: is_group, links: links) }
-  let(:blocked)  { false }
 
   before :each do
     assign(:user, user)
-    allow(user).to receive(:is_blocked?).and_return(blocked)
     render
-  end
-
-  context 'when the user has not been blocked' do
-    let(:blocked) { false }
-
-    it 'does not show a blocked label' do
-      expect(rendered).not_to have_css('.blocked', text: 'Blocked')
-    end
-  end
-
-  context 'when the user has been blocked' do
-    let(:blocked) { true }
-
-    it 'shows a blocked label' do
-      expect(rendered).to have_css('.blocked', text: 'Blocked')
-    end
   end
 
   it 'shows the avatar' do

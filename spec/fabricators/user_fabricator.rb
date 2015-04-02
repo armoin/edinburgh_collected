@@ -7,7 +7,6 @@ Fabricator(:user) do
   password_confirmation { |attrs| attrs[:password] }
   accepted_t_and_c      true
   description           "I am a fabricated user."
-  is_blocked            false
   moderation_state      'approved'
 end
 
@@ -31,10 +30,10 @@ Fabricator(:reported_user, from: :active_user) do
 end
 
 Fabricator(:approved_user, from: :active_user) do
-  after_create { |u, transients| u.approve!(u) }
+  moderation_state 'approved'
 end
 
-Fabricator(:admin_user, from: :active_user) do
+Fabricator(:admin_user, from: :approved_user) do
   is_admin true
 end
 
@@ -45,7 +44,7 @@ Fabricator(:pending_user, from: :user) do
 end
 
 Fabricator(:blocked_user, from: :user) do
-  is_blocked true
+  moderation_state 'blocked'
 end
 
 def generate_password

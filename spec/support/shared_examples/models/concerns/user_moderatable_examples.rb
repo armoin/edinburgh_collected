@@ -1,4 +1,4 @@
-RSpec.shared_examples 'moderatable' do
+RSpec.shared_examples 'a moderatable user' do
   let(:moderatable_instance) { Fabricate(moderatable_factory) }
   let(:moderated_by)         { Fabricate.build(:approved_user, id: 789) }
 
@@ -60,17 +60,15 @@ RSpec.shared_examples 'moderatable' do
   # TODO: clean this up. Had to branch this "shared" example as User works differently from
   #       other moderatables
   describe "scopes" do
-    let(:owner) { Fabricate(:approved_user) }
+    let(:moderated_by) { nil } # so that we don't get extra user appearing when we do user tests
 
     before :each do
       @no_moderation = Fabricate(moderatable_factory, moderation_state: nil)
       @unmoderated   = Fabricate(moderatable_factory, moderation_state: 'unmoderated')
-
-      @approved = Fabricate(moderatable_factory, moderation_state: 'approved', user: owner)
-
-      @blocked  = Fabricate(moderatable_factory, moderation_state: 'blocked')
-      @rejected = Fabricate(moderatable_factory, moderation_state: 'rejected', moderation_reason: 'test')
-      @reported = Fabricate(moderatable_factory, moderation_state: 'reported', moderation_reason: 'test')
+      @approved      = Fabricate(moderatable_factory, moderation_state: 'approved')
+      @blocked       = Fabricate(moderatable_factory, moderation_state: 'blocked')
+      @rejected      = Fabricate(moderatable_factory, moderation_state: 'rejected', moderation_reason: 'test')
+      @reported      = Fabricate(moderatable_factory, moderation_state: 'reported', moderation_reason: 'test')
     end
 
     describe '.in_state' do
@@ -108,53 +106,20 @@ RSpec.shared_examples 'moderatable' do
     end
 
     describe '.approved' do
-      context 'when owner is pending' do
-        let(:owner) { Fabricate(:pending_user) }
+      it 'only returns approved records from active users' do
+        @approved.update_attribute(:activation_state, 'pending')
+        approved_records = moderatable_model.approved
+        expect(approved_records.count).to eql(0)
 
-        it 'returns no records' do
-          expect(moderatable_model.approved).to be_empty
-        end
-      end
-
-      context 'when owner is active' do
-        context 'but unmoderated' do
-          let(:owner) { Fabricate(:unmoderated_user) }
-
-          it 'returns no records' do
-            expect(moderatable_model.approved).to be_empty
-          end
-        end
-
-        context 'but blocked' do
-          let(:owner) { Fabricate(:blocked_user) }
-
-          it 'returns no records' do
-            expect(moderatable_model.approved).to be_empty
-          end
-        end
-
-        context 'but reported' do
-          let(:owner) { Fabricate(:reported_user) }
-
-          it 'returns no records' do
-            expect(moderatable_model.approved).to be_empty
-          end
-        end
-
-        context 'and approved' do
-          let(:owner) { Fabricate(:approved_user) }
-
-          it 'returns the approved record' do
-            approved_records = moderatable_model.approved
-            expect(approved_records.count).to eql(1)
-            expect(approved_records).to include(@approved)
-          end
-        end
+        @approved.update_attribute(:activation_state, 'active')
+        approved_records = moderatable_model.approved
+        expect(approved_records.count).to eql(1)
+        expect(approved_records).to include(@approved)
       end
     end
 
     describe '.rejected' do
-      it 'returns just the rejected record' do
+      it 'only returns rejected records' do
         rejected_records = moderatable_model.rejected
         expect(rejected_records.count).to eql(1)
         expect(rejected_records).to include(@rejected)
@@ -162,7 +127,7 @@ RSpec.shared_examples 'moderatable' do
     end
 
     describe '.reported' do
-      it 'returns just the reported record' do
+      it 'only returns reported records' do
         reported_records = moderatable_model.reported
         expect(reported_records.count).to eql(1)
         expect(reported_records).to include(@reported)
@@ -170,7 +135,7 @@ RSpec.shared_examples 'moderatable' do
     end
 
     describe '.blocked' do
-      it 'returns just the blocked record' do
+      it 'only returns blocked records' do
         blocked_records = moderatable_model.blocked
         expect(blocked_records.count).to eql(1)
         expect(blocked_records).to include(@blocked)
@@ -225,36 +190,26 @@ RSpec.shared_examples 'moderatable' do
       end
     end
 
-    describe "#reject!" do
-      it "changes the moderation state to 'rejected'" do
-        moderatable_instance.reject!(moderated_by, 'unsuitable')
-        expect(moderatable_instance.moderation_state).to eql('rejected')
+    describe "#block!" do
+      it "changes the moderation state to 'blocked'" do
+        moderatable_instance.block!(moderated_by)
+        expect(moderatable_instance.moderation_state).to eql('blocked')
       end
 
       it "adds the given user as the moderated by user" do
-        moderatable_instance.reject!(moderated_by)
+        moderatable_instance.block!(moderated_by)
         expect(moderatable_instance.moderated_by).to eql(moderated_by)
       end
 
-      it "stores the reason if one is given" do
-        moderatable_instance.reject!(moderated_by, 'unsuitable')
-        expect(moderatable_instance.moderation_reason).to eql('unsuitable')
-      end
-
-      it "a blank reason if none is given" do
-        moderatable_instance.reject!(moderated_by)
-        expect(moderatable_instance.moderation_reason).to eql('')
-      end
-
       it "adds a last_moderated_at date" do
-        expect(moderatable_instance.last_moderated_at).to be_nil
-        moderatable_instance.reject!(moderated_by)
-        expect(moderatable_instance.last_moderated_at).not_to be_nil
+        expect{
+          moderatable_instance.block!(moderated_by)
+        }.to change{ moderatable_instance.last_moderated_at }
       end
 
       it "adds a moderation record to track the moderation" do
         expect {
-          moderatable_instance.reject!(moderated_by)
+          moderatable_instance.block!(moderated_by)
         }.to change{moderatable_instance.moderation_logs.count}.by(1)
       end
     end
@@ -330,21 +285,18 @@ RSpec.shared_examples 'moderatable' do
       context 'when approved' do
         before :each do
           moderatable_instance.moderation_state = 'approved'
-          allow(moderatable_instance).to receive(:user).and_return(user_double)
         end
 
-        context 'and belongs to a user that is not approved' do
-          let(:user_double) { double(User, approved?: false) }
-
+        context 'but is not active' do
           it 'is false' do
+            moderatable_instance.activation_state = 'pending'
             expect(moderatable_instance.approved?).to be_falsy
           end
         end
 
-        context 'and belongs to a user that is approved' do
-          let(:user_double) { double(User, approved?: true) }
-
+        context 'and is active' do
           it 'is true' do
+            moderatable_instance.activation_state = 'active'
             expect(moderatable_instance.approved?).to be_truthy
           end
         end
@@ -360,6 +312,18 @@ RSpec.shared_examples 'moderatable' do
       it 'is true when unmoderated' do
         moderatable_instance.unmoderate!(moderated_by)
         expect(moderatable_instance.unmoderated?).to be_truthy
+      end
+    end
+
+    describe "#blocked?" do
+      it 'is false when not blocked' do
+        moderatable_instance.approve!(moderated_by)
+        expect(moderatable_instance.blocked?).to be_falsy
+      end
+
+      it 'is true when blocked' do
+        moderatable_instance.block!(moderated_by)
+        expect(moderatable_instance.blocked?).to be_truthy
       end
     end
   end

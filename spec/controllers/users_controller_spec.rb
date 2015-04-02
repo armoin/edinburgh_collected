@@ -35,8 +35,7 @@ describe UsersController do
       password:              's3cr3t',
       password_confirmation: 's3cr3t',
       accepted_t_and_c:      true,
-      description:           "I am a fabricated user.",
-      is_blocked:            false
+      description:           "I am a fabricated user."
     }}
     let(:stub_user)   { Fabricate.build(:user) }
     let(:saved)       { true }
@@ -48,7 +47,6 @@ describe UsersController do
     end
 
     it 'builds a new user' do
-      user_params.delete(:is_blocked)
       expect(User).to have_received(:new).with(user_params)
     end
 

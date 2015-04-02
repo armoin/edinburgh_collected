@@ -120,12 +120,10 @@ describe "admin/moderation/users/index.html.erb" do
       let(:user)       { users.first }
       let(:active)     { false }
       let(:is_group)   { false }
-      let(:is_blocked) { false }
 
       before :each do
         allow(user).to receive(:active?).and_return(active)
         allow(user).to receive(:is_group?).and_return(is_group)
-        allow(user).to receive(:is_blocked?).and_return(is_blocked)
         render
       end
 
@@ -177,22 +175,8 @@ describe "admin/moderation/users/index.html.erb" do
         end
       end
 
-      describe 'shows the whether the user is blocked or not' do
-        context 'when the user is not blocked' do
-          let(:is_blocked) { false }
-
-          it 'displays false' do
-            expect(rendered).to have_css('td:nth-child(6)', text: "false")
-          end
-        end
-
-        context 'when the user is blocked' do
-          let(:is_blocked) { true }
-
-          it 'displays true' do
-            expect(rendered).to have_css('td:nth-child(6)', text: "true")
-          end
-        end
+      it 'shows the current moderation stats for the user' do
+        expect(rendered).to have_css('td', text: user.moderation_state)
       end
     end
   end

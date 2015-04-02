@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150327140747) do
+ActiveRecord::Schema.define(version: 20150402165819) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -152,7 +152,6 @@ ActiveRecord::Schema.define(version: 20150327140747) do
     t.boolean  "accepted_t_and_c"
     t.text     "description"
     t.string   "avatar"
-    t.boolean  "is_blocked",                      default: false
     t.string   "moderation_state"
     t.integer  "moderated_by_id"
     t.string   "moderation_reason"

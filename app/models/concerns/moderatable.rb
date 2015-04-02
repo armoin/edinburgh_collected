@@ -44,7 +44,6 @@ module Moderatable
       arel_table[:moderation_state].eq('approved')
         .and( User.arel_table[:activation_state].eq('active') )
         .and( User.arel_table[:moderation_state].eq('approved') )
-        .and( User.arel_table[:is_blocked].eq(false) )
     end
 
     def rejected
@@ -53,6 +52,10 @@ module Moderatable
 
     def reported
       in_state('reported')
+    end
+
+    def blocked
+      in_state('blocked')
     end
 
     def by_first_moderated
@@ -72,6 +75,10 @@ module Moderatable
     update_state!('rejected', rejected_by, comment)
   end
 
+  def block!(blocked_by)
+    update_state!('blocked', blocked_by)
+  end
+
   def report!(reported_by, comment='')
     update_state!('reported', reported_by, comment)
   end
@@ -82,7 +89,7 @@ module Moderatable
 
   def approved?
     if is_a?(User)
-      moderation_state == 'approved' && !is_blocked? && activation_state == 'active'
+      moderation_state == 'approved' && activation_state == 'active'
     else
       moderation_state == 'approved' && user.approved?
     end
@@ -90,6 +97,10 @@ module Moderatable
 
   def unmoderated?
     moderation_state == 'unmoderated'
+  end
+
+  def blocked?
+    moderation_state == 'blocked'
   end
 
   private

@@ -34,7 +34,7 @@ describe Authenticator do
 
       context 'and blocked' do
         before :each do
-          user.block!
+          user.block! Fabricate(:admin_user)
         end
 
         context 'when the correct credentials are given' do

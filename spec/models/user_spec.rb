@@ -3,7 +3,7 @@ require 'rails_helper'
 describe User do
   let(:moderatable_model)   { User }
   let(:moderatable_factory) { :user }
-  it_behaves_like 'moderatable'
+  it_behaves_like 'a moderatable user'
 
   describe '#user_id' do
     it 'is an alias for id' do
@@ -258,32 +258,6 @@ describe User do
     end
   end
 
-  describe '.blocked' do
-    let!(:blocked_user)     { Fabricate(:blocked_user) }
-    let!(:non_blocked_user) { Fabricate(:active_user) }
-
-    it 'provides blocked users' do
-      expect(User.blocked).to include(blocked_user)
-    end
-
-    it 'does not provide users that are not blocked' do
-      expect(User.blocked).not_to include(non_blocked_user)
-    end
-  end
-
-  describe '.unblocked' do
-    let!(:blocked_user)     { Fabricate(:blocked_user) }
-    let!(:non_blocked_user) { Fabricate(:active_user) }
-
-    it 'provides unblocked users' do
-      expect(User.unblocked).to include(non_blocked_user)
-    end
-
-    it 'does not provide users that are blocked' do
-      expect(User.unblocked).not_to include(blocked_user)
-    end
-  end
-
   describe '#can_modify?' do
     let(:user_id) { 123 }
     let(:thing)   { double('thing') }
@@ -471,24 +445,6 @@ describe User do
         expect(subject.links.last.name).to eql(name_2)
         expect(subject.links.last.url).to eql(url_2)
       end
-    end
-  end
-
-  describe '#block!' do
-    it 'marks the user as blocked' do
-      user = Fabricate(:active_user)
-      expect {
-        user.block!
-      }.to change{user.is_blocked?}.to(true)
-    end
-  end
-
-  describe '#unblock!' do
-    it 'marks the user as unblocked' do
-      user = Fabricate(:blocked_user)
-      expect {
-        user.unblock!
-      }.to change{user.is_blocked?}.to(false)
     end
   end
 

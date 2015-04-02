@@ -2,7 +2,7 @@ class Admin::Moderation::UsersController < Admin::AuthenticatedAdminController
   INDEXES = [:index, :blocked, :unmoderated, :reported]
 
   before_action :assign_requested_user, except: INDEXES
-  before_action :disallow_if_requested_user_is_current_user, only: [:block, :unblock]
+  before_action :disallow_if_requested_user_is_current_user, only: :block
 
   def index
     @items = User.all.order('created_at')
@@ -27,29 +27,15 @@ class Admin::Moderation::UsersController < Admin::AuthenticatedAdminController
   end
 
   def approve
-    message = if @user.approve!(current_user)
-      {notice: "User #{@user.screen_name} has been approved."}
-    else
-      {alert: "User #{@user.screen_name} could not be approved."}
-    end
-    redirect_to admin_moderation_user_path(@user), message
+    moderate_user('approved')
   end
 
   def unmoderate
-    message = if @user.unmoderate!(current_user)
-      {notice: "User #{@user.screen_name} has been unmoderated."}
-    else
-      {alert: "User #{@user.screen_name} could not be unmoderated."}
-    end
-    redirect_to admin_moderation_user_path(@user), message
+    moderate_user('unmoderated')
   end
 
   def block
-    toggle_blocked
-  end
-
-  def unblock
-    toggle_blocked
+    moderate_user('blocked')
   end
 
   private
@@ -64,11 +50,11 @@ class Admin::Moderation::UsersController < Admin::AuthenticatedAdminController
     end
   end
 
-  def toggle_blocked
-    message = if @user.send("#{action_name}!")
-      {notice: "User #{@user.screen_name} has been #{action_name}ed."}
+  def moderate_user(to_state)
+    message = if @user.send("#{action_name}!", current_user)
+      {notice: "User #{@user.screen_name} has been #{to_state}."}
     else
-      {alert: "User #{@user.screen_name} could not be #{action_name}ed."}
+      {alert: "User #{@user.screen_name} could not be #{to_state}."}
     end
     redirect_to admin_moderation_user_path(@user), message
   end
