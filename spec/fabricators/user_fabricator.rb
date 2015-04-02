@@ -19,6 +19,17 @@ Fabricator(:active_user, from: :user) do
   after_create { |u, transients| u.activate! }
 end
 
+Fabricator(:unmoderated_user, from: :active_user) do
+  moderation_state ModerationStateMachine::DEFAULT_STATE
+end
+
+Fabricator(:reported_user, from: :active_user) do
+  moderation_state  'reported'
+  moderated_by      { Fabricate(:admin_user) }
+  last_moderated_at { Time.now }
+  moderation_reason { "Don't like it." }
+end
+
 Fabricator(:approved_user, from: :active_user) do
   after_create { |u, transients| u.approve!(u) }
 end

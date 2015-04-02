@@ -183,7 +183,7 @@ describe "admin/home/index.html.erb" do
         let(:user_count) { 0 }
 
         it 'includes a user count of 0' do
-          expect(rendered).to have_link("Blocked users (0)", href: blocked_admin_moderation_users_path)
+          expect(rendered).to have_link("Blocked (0)", href: blocked_admin_moderation_users_path)
         end
       end
 
@@ -191,7 +191,7 @@ describe "admin/home/index.html.erb" do
         let(:user_count) { 1 }
 
         it 'includes a user count of 1' do
-          expect(rendered).to have_link("Blocked users (1)", href: blocked_admin_moderation_users_path)
+          expect(rendered).to have_link("Blocked (1)", href: blocked_admin_moderation_users_path)
         end
       end
 
@@ -199,7 +199,7 @@ describe "admin/home/index.html.erb" do
         let(:user_count) { 3 }
 
         it 'includes a user count matching the number of memories' do
-          expect(rendered).to have_link("Blocked users (3)", href: blocked_admin_moderation_users_path)
+          expect(rendered).to have_link("Blocked (3)", href: blocked_admin_moderation_users_path)
         end
       end
     end

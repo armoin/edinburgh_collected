@@ -29,15 +29,15 @@
       <%= render partial: 'users/links', locals: {requested_user: @user} %>
 
       <div class="actions">
-        <%= user_list_button_for(@user) %>
+        <%= link_to "Back", admin_moderation_users_path, class: 'button' %>
         <% unless @user.unmoderated? %>
           <%= link_to "Unmoderate", unmoderate_admin_moderation_user_path(@user), method: :put, data: {confirm: 'Are you sure?'}, class: 'button unmoderate' %>
         <% end %>
-        <% unless @user.moderation_state == 'approved' %>
+        <% unless @user.moderation_state == 'approved' && !@user.is_blocked? %>
           <%= link_to "Approve", approve_admin_moderation_user_path(@user), method: :put, data: {confirm: 'Are you sure?'}, class: 'button green' %>
         <% end %>
         <% unless @user.is_blocked? %>
-          <%= link_to "Block", reject_admin_moderation_user_path(@user), method: :put, data: {confirm: 'Are you sure?'}, class: 'button red' %>
+          <%= link_to "Block", block_admin_moderation_user_path(@user), method: :put, data: {confirm: 'Are you sure?'}, class: 'button red' %>
         <% end %>
       </div>
     </div>
