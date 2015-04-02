@@ -1,12 +1,10 @@
 require 'rails_helper'
 
 describe Users::MemoriesController do
-  let(:requested_user)      { Fabricate.build(:active_user, id: 123) }
-  let(:approved_users_stub) { double('approved_users') }
+  let(:requested_user) { Fabricate.build(:active_user, id: 123) }
 
   before :each do
-    allow(User).to receive(:approved).and_return(approved_users_stub)
-    allow(approved_users_stub).to receive(:find).and_return(requested_user)
+    allow(User).to receive(:find).and_return(requested_user)
   end
 
   describe 'GET index' do
@@ -17,12 +15,12 @@ describe Users::MemoriesController do
 
     it 'finds the requested user' do
       get :index, user_id: requested_user.to_param
-      expect(User.approved).to have_received(:find).with(requested_user.to_param)
+      expect(User).to have_received(:find).with(requested_user.to_param)
     end
 
     context 'when no user is found' do
       before :each do
-        allow(approved_users_stub).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        allow(User).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
         get :index, user_id: requested_user.to_param
       end
 
@@ -52,28 +50,40 @@ describe Users::MemoriesController do
           get :index, user_id: requested_user.to_param, page: page
         end
 
-        context 'when no page is given' do
-          let(:page) { nil }
+        context 'but the requested user is not approved' do
+          let(:requested_user) { Fabricate.build(:pending_user, id: 123) }
 
-          it 'generates an UserMemoriesPresenter with a nil page' do
-            expect(UserMemoriesPresenter).to have_received(:new).with(requested_user, other_user, nil)
+          it 'returns a 404 error' do
+            expect(response).to be_not_found
           end
         end
 
-        context 'when a page is given' do
-          let(:page) { "1" }
+        context 'and the requested user is approved' do
+          let(:requested_user) { Fabricate.build(:active_user, id: 123) }
 
-          it 'generates an UserMemoriesPresenter with the page' do
-            expect(UserMemoriesPresenter).to have_received(:new).with(requested_user, other_user, "1")
+          context 'when no page is given' do
+            let(:page) { nil }
+
+            it 'generates an UserMemoriesPresenter with a nil page' do
+              expect(UserMemoriesPresenter).to have_received(:new).with(requested_user, other_user, nil)
+            end
           end
-        end
 
-        it 'assigns the presenter' do
-          expect(assigns[:presenter]).to eql(presenter_stub)
-        end
+          context 'when a page is given' do
+            let(:page) { "1" }
 
-        it 'renders the user index page' do
-          expect(response).to render_template('memories/user_index')
+            it 'generates an UserMemoriesPresenter with the page' do
+              expect(UserMemoriesPresenter).to have_received(:new).with(requested_user, other_user, "1")
+            end
+          end
+
+          it 'assigns the presenter' do
+            expect(assigns[:presenter]).to eql(presenter_stub)
+          end
+
+          it 'renders the user index page' do
+            expect(response).to render_template('memories/user_index')
+          end
         end
       end
     end

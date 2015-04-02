@@ -1,12 +1,10 @@
 require 'rails_helper'
 
 describe Users::ScrapbooksController do
-  let(:requested_user)       { Fabricate.build(:active_user, id: 123) }
-  let(:approved_users_stub)  { double('approved_users') }
+  let(:requested_user) { Fabricate.build(:active_user, id: 123) }
 
   before :each do
-    allow(User).to receive(:approved).and_return(approved_users_stub)
-    allow(approved_users_stub).to receive(:find).and_return(requested_user)
+    allow(User).to receive(:find).and_return(requested_user)
   end
 
   describe 'GET index' do
@@ -17,12 +15,12 @@ describe Users::ScrapbooksController do
 
     it 'finds the requested user' do
       get :index, user_id: requested_user.to_param
-      expect(User.approved).to have_received(:find).with(requested_user.to_param)
+      expect(User).to have_received(:find).with(requested_user.to_param)
     end
 
     context 'when no user is found' do
       before :each do
-        allow(approved_users_stub).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        allow(User).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
         get :index, user_id: requested_user.to_param
       end
 
@@ -63,21 +61,33 @@ describe Users::ScrapbooksController do
           get :index, user_id: requested_user.to_param
         end
 
-        it 'fetches approved scrapbooks for the requested user' do
-          expect(requested_user).to have_received(:scrapbooks)
-          expect(scrapbooks_stub).to have_received(:approved)
+        context 'but the requested user is not approved' do
+          let(:requested_user) { Fabricate.build(:pending_user, id: 123) }
+
+          it 'returns a 404 error' do
+            expect(response).to be_not_found
+          end
         end
 
-        it "generates a ScrapbookIndexPresenter for the requested user's scrapbooks" do
-          expect(ScrapbookIndexPresenter).to have_received(:new).with(approved_scrapbooks_stub, stub_memory_fetcher, nil)
-        end
+        context 'and the requested user is approved' do
+          let(:requested_user) { Fabricate.build(:active_user, id: 123) }
 
-        it "assigns the generated presenter" do
-          expect(assigns[:presenter]).to eql(stub_presenter)
-        end
+          it 'fetches approved scrapbooks for the requested user' do
+            expect(requested_user).to have_received(:scrapbooks)
+            expect(scrapbooks_stub).to have_received(:approved)
+          end
 
-        it 'renders the index page' do
-          expect(response).to render_template(:index)
+          it "generates a ScrapbookIndexPresenter for the requested user's scrapbooks" do
+            expect(ScrapbookIndexPresenter).to have_received(:new).with(approved_scrapbooks_stub, stub_memory_fetcher, nil)
+          end
+
+          it "assigns the generated presenter" do
+            expect(assigns[:presenter]).to eql(stub_presenter)
+          end
+
+          it 'renders the index page' do
+            expect(response).to render_template(:index)
+          end
         end
       end
     end
