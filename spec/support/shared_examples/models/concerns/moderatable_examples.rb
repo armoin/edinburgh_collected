@@ -61,22 +61,24 @@ RSpec.shared_examples 'moderatable' do
   #       other moderatables
   describe "scopes" do
     let(:owner) { Fabricate(:approved_user) }
+    let(:other) { Fabricate(:approved_user) }
 
     before :each do
       @no_moderation = Fabricate(moderatable_factory, moderation_state: nil)
       @unmoderated   = Fabricate(moderatable_factory, moderation_state: 'unmoderated')
 
-      @approved = Fabricate(moderatable_factory, moderation_state: 'approved', user: owner)
+      @approved_owner = Fabricate(moderatable_factory, moderation_state: 'approved', user: owner)
+      @approved_other = Fabricate(moderatable_factory, moderation_state: 'approved', user: other)
+      @reported       = Fabricate(moderatable_factory, moderation_state: 'reported', moderation_reason: 'test')
 
       @blocked  = Fabricate(moderatable_factory, moderation_state: 'blocked')
       @rejected = Fabricate(moderatable_factory, moderation_state: 'rejected', moderation_reason: 'test')
-      @reported = Fabricate(moderatable_factory, moderation_state: 'reported', moderation_reason: 'test')
     end
 
     describe '.in_state' do
       it 'returns records if there are any in the given state' do
         expect(moderatable_model.in_state('unmoderated').count).to eql(2)
-        expect(moderatable_model.in_state('approved').count).to eql(1)
+        expect(moderatable_model.in_state('approved').count).to eql(2)
         expect(moderatable_model.in_state('rejected').count).to eql(1)
         expect(moderatable_model.in_state('reported').count).to eql(1)
         expect(moderatable_model.in_state('blocked').count).to eql(1)
@@ -90,8 +92,9 @@ RSpec.shared_examples 'moderatable' do
     describe '.moderated' do
       it 'returns all records that are not unmoderated' do
         moderated_records = moderatable_model.moderated
-        expect(moderated_records.count).to eql(4)
-        expect(moderated_records).to include(@approved)
+        expect(moderated_records.count).to eql(5)
+        expect(moderated_records).to include(@approved_owner)
+        expect(moderated_records).to include(@approved_other)
         expect(moderated_records).to include(@rejected)
         expect(moderated_records).to include(@reported)
         expect(moderated_records).to include(@blocked)
@@ -104,52 +107,6 @@ RSpec.shared_examples 'moderatable' do
         expect(unmoderated_records.count).to eql(2)
         expect(unmoderated_records).to include(@no_moderation)
         expect(unmoderated_records).to include(@unmoderated)
-      end
-    end
-
-    describe '.approved' do
-      context 'when owner is pending' do
-        let(:owner) { Fabricate(:pending_user) }
-
-        it 'returns no records' do
-          expect(moderatable_model.approved).to be_empty
-        end
-      end
-
-      context 'when owner is active' do
-        context 'but unmoderated' do
-          let(:owner) { Fabricate(:unmoderated_user) }
-
-          it 'returns no records' do
-            expect(moderatable_model.approved).to be_empty
-          end
-        end
-
-        context 'but blocked' do
-          let(:owner) { Fabricate(:blocked_user) }
-
-          it 'returns no records' do
-            expect(moderatable_model.approved).to be_empty
-          end
-        end
-
-        context 'but reported' do
-          let(:owner) { Fabricate(:reported_user) }
-
-          it 'returns no records' do
-            expect(moderatable_model.approved).to be_empty
-          end
-        end
-
-        context 'and approved' do
-          let(:owner) { Fabricate(:approved_user) }
-
-          it 'returns the approved record' do
-            approved_records = moderatable_model.approved
-            expect(approved_records.count).to eql(1)
-            expect(approved_records).to include(@approved)
-          end
-        end
       end
     end
 
@@ -174,6 +131,65 @@ RSpec.shared_examples 'moderatable' do
         blocked_records = moderatable_model.blocked
         expect(blocked_records.count).to eql(1)
         expect(blocked_records).to include(@blocked)
+      end
+    end
+
+    describe '.publicly_visible' do
+      context 'when owner is pending' do
+        let(:owner) { Fabricate(:pending_user) }
+
+        it 'returns no records for owner' do
+          publicly_visible_records = moderatable_model.publicly_visible
+          expect(publicly_visible_records.count).to eql(1)
+          expect(publicly_visible_records).to include(@approved_other)
+          expect(publicly_visible_records).not_to include(@approved_owner)
+        end
+      end
+
+      context 'when owner is active' do
+        context 'but unmoderated' do
+          let(:owner) { Fabricate(:unmoderated_user) }
+
+          it 'returns no records for owner' do
+            publicly_visible_records = moderatable_model.publicly_visible
+            expect(publicly_visible_records.count).to eql(1)
+            expect(publicly_visible_records).to include(@approved_other)
+            expect(publicly_visible_records).not_to include(@approved_owner)
+          end
+        end
+
+        context 'but blocked' do
+          let(:owner) { Fabricate(:blocked_user) }
+
+          it 'returns no records for owner' do
+            publicly_visible_records = moderatable_model.publicly_visible
+            expect(publicly_visible_records.count).to eql(1)
+            expect(publicly_visible_records).to include(@approved_other)
+            expect(publicly_visible_records).not_to include(@approved_owner)
+          end
+        end
+
+        context 'but reported' do
+          let(:owner) { Fabricate(:reported_user) }
+
+          it 'returns no records for owner' do
+            publicly_visible_records = moderatable_model.publicly_visible
+            expect(publicly_visible_records.count).to eql(1)
+            expect(publicly_visible_records).to include(@approved_other)
+            expect(publicly_visible_records).not_to include(@approved_owner)
+          end
+        end
+
+        context 'and approved' do
+          let(:owner) { Fabricate(:approved_user) }
+
+          it 'returns all approved records' do
+            publicly_visible_records = moderatable_model.publicly_visible
+            expect(publicly_visible_records.count).to eql(2)
+            expect(publicly_visible_records).to include(@approved_other)
+            expect(publicly_visible_records).to include(@approved_owner)
+          end
+        end
       end
     end
   end

@@ -48,11 +48,14 @@ describe Scrapbook do
     before :each do
       @active_user             = Fabricate(:active_user)
       @pending_user            = Fabricate(:pending_user)
+
       @term_in_title           = Fabricate(:approved_scrapbook, user: @active_user, title: 'Edinburgh Castle test')
       @term_in_description     = Fabricate(:approved_scrapbook, user: @active_user, description: 'This is an Edinburgh Castle test')
       @terms_not_found         = Fabricate(:approved_scrapbook, user: @active_user, title: 'test', description: 'test')
-      @unapproved_with_terms   = Fabricate(:scrapbook, user: @active_user, title: 'Edinburgh Castle test')
+
       @pending_user_with_terms = Fabricate(:approved_scrapbook, user: @pending_user, title: 'Edinburgh Castle test')
+
+      @unapproved_with_terms   = Fabricate(:scrapbook, user: @active_user, title: 'Edinburgh Castle test')
     end
 
     let(:results) { Scrapbook.text_search(terms) }
@@ -60,7 +63,7 @@ describe Scrapbook do
     context 'when no terms are given' do
       let(:terms) { nil }
 
-      it 'returns all approved records' do
+      it 'returns all publicly visible records' do
         expect(results.count(:all)).to eql(3)
       end
     end
@@ -68,7 +71,7 @@ describe Scrapbook do
     context 'when blank terms are given' do
       let(:terms) { '' }
 
-      it 'returns all approved records' do
+      it 'returns all publicly visible records' do
         expect(results.count(:all)).to eql(3)
       end
     end
@@ -76,7 +79,7 @@ describe Scrapbook do
     context 'text fields' do
       let(:terms) { 'castle' }
 
-      it 'returns all approved records matching the given query' do
+      it 'returns all publicly visible records matching the given query' do
         expect(results.count(:all)).to eql(2)
       end
 

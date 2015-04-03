@@ -31,21 +31,6 @@ module Moderatable
       in_state('unmoderated')
     end
 
-    def approved
-      if class_name == 'User'
-        where(approved_sql)
-      else
-        joins(:user)
-          .where(approved_sql)
-      end
-    end
-
-    def approved_sql
-      arel_table[:moderation_state].eq('approved')
-        .and( User.arel_table[:activation_state].eq('active') )
-        .and( User.arel_table[:moderation_state].eq('approved') )
-    end
-
     def rejected
       in_state('rejected')
     end
@@ -56,6 +41,21 @@ module Moderatable
 
     def blocked
       in_state('blocked')
+    end
+
+    def publicly_visible
+      if class_name == 'User'
+        where(publicly_visible_sql)
+      else
+        joins(:user)
+          .where(publicly_visible_sql)
+      end
+    end
+
+    def publicly_visible_sql
+      arel_table[:moderation_state].eq('approved')
+        .and( User.arel_table[:activation_state].eq('active') )
+        .and( User.arel_table[:moderation_state].eq('approved') )
     end
 
     def by_first_moderated

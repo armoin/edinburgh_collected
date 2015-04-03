@@ -34,7 +34,7 @@ class UserMemoriesPresenter
     @memories ||= if requested_is_current?
       @current_user.memories.by_recent
     else
-      @requested_user.memories.approved.by_recent
+      @requested_user.memories.publicly_visible.by_recent
     end
   end
 
@@ -42,7 +42,7 @@ class UserMemoriesPresenter
     @scrapbooks ||= if requested_is_current?
       @current_user.scrapbooks
     else
-      @requested_user.scrapbooks.approved
+      @requested_user.scrapbooks.publicly_visible
     end
   end
 

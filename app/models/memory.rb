@@ -37,13 +37,13 @@ class Memory < ActiveRecord::Base
   scope :by_recent, -> { order('created_at DESC') }
 
   def self.filter_by_area(area)
-    return approved unless area.present?
-    approved.joins(:area).where('areas.name' => area)
+    return publicly_visible unless area.present?
+    publicly_visible.joins(:area).where('areas.name' => area)
   end
 
   def self.filter_by_category(category)
-    return approved unless category.present?
-    approved.joins(:categories).where('categories.name' => category)
+    return publicly_visible unless category.present?
+    publicly_visible.joins(:categories).where('categories.name' => category)
   end
 
   attr_accessor :rotation

@@ -65,10 +65,12 @@ RSpec.shared_examples 'a moderatable user' do
     before :each do
       @no_moderation = Fabricate(moderatable_factory, moderation_state: nil)
       @unmoderated   = Fabricate(moderatable_factory, moderation_state: 'unmoderated')
+
       @approved      = Fabricate(moderatable_factory, moderation_state: 'approved')
+      @reported      = Fabricate(moderatable_factory, moderation_state: 'reported', moderation_reason: 'test')
+
       @blocked       = Fabricate(moderatable_factory, moderation_state: 'blocked')
       @rejected      = Fabricate(moderatable_factory, moderation_state: 'rejected', moderation_reason: 'test')
-      @reported      = Fabricate(moderatable_factory, moderation_state: 'reported', moderation_reason: 'test')
     end
 
     describe '.in_state' do
@@ -105,19 +107,6 @@ RSpec.shared_examples 'a moderatable user' do
       end
     end
 
-    describe '.approved' do
-      it 'only returns approved records from active users' do
-        @approved.update_attribute(:activation_state, 'pending')
-        approved_records = moderatable_model.approved
-        expect(approved_records.count).to eql(0)
-
-        @approved.update_attribute(:activation_state, 'active')
-        approved_records = moderatable_model.approved
-        expect(approved_records.count).to eql(1)
-        expect(approved_records).to include(@approved)
-      end
-    end
-
     describe '.rejected' do
       it 'only returns rejected records' do
         rejected_records = moderatable_model.rejected
@@ -139,6 +128,21 @@ RSpec.shared_examples 'a moderatable user' do
         blocked_records = moderatable_model.blocked
         expect(blocked_records.count).to eql(1)
         expect(blocked_records).to include(@blocked)
+      end
+    end
+
+    describe '.publicly_visible' do
+      it 'does not return approved inactive users' do
+        @approved.update_attribute(:activation_state, 'pending')
+        publicly_visible_records = moderatable_model.publicly_visible
+        expect(publicly_visible_records.count).to eql(0)
+      end
+
+      it 'returns approved active users' do
+        @approved.update_attribute(:activation_state, 'active')
+        publicly_visible_records = moderatable_model.publicly_visible
+        expect(publicly_visible_records.count).to eql(1)
+        expect(publicly_visible_records).to include(@approved)
       end
     end
   end

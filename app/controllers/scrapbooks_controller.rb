@@ -3,13 +3,13 @@ class ScrapbooksController < ApplicationController
   before_action :store_memory_index_path, only: :show
 
   def index
-    scrapbooks = Scrapbook.approved
+    scrapbooks = Scrapbook.publicly_visible
     memory_fetcher = ApprovedScrapbookMemoryFetcher.new(scrapbooks)
     @presenter = ScrapbookIndexPresenter.new(scrapbooks, memory_fetcher, params[:page])
   end
 
   def show
-    @scrapbook = Scrapbook.approved.find(params[:id])
+    @scrapbook = Scrapbook.publicly_visible.find(params[:id])
     @memories = Kaminari.paginate_array(scrapbook_memories).page(params[:page])
   end
 

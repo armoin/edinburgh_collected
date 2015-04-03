@@ -8,11 +8,11 @@ class ScrapbookQueryBuilder
   end
 
   def approved_query
-    all_query.where(Memory.approved_sql)
+    all_query.where(Memory.publicly_visible_sql)
   end
 
   def approved_or_owned_by_query(user_id)
-    all_query.where(Memory.approved_sql.or owned_by_user(user_id))
+    all_query.where(Memory.publicly_visible_sql.or owned_by_user(user_id))
   end
 
   private

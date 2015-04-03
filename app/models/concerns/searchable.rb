@@ -12,10 +12,10 @@ module Searchable
   end
 
   module ClassMethods
-    # searches only content that has been approved by a moderator
+    # searches only content that is publicly visible (see moderatable.rb)
     def text_search(query)
-      return approved unless query.present?
-      approved.search(query)
+      return publicly_visible unless query.present?
+      publicly_visible.search(query)
     end
   end
 end

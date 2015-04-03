@@ -44,19 +44,19 @@ describe Users::ScrapbooksController do
       end
 
       context 'if the requested user is not the current user' do
-        let(:other_user)               { Fabricate.build(:active_user, id: 456) }
-        let(:scrapbooks_stub)          { double('scrapbooks') }
-        let(:approved_scrapbooks_stub) { double('approved_scrapbooks') }
-        let(:stub_presenter)           { double('presenter') }
-        let(:stub_memory_fetcher)      { double('memory_fetcher') }
+        let(:other_user)              { Fabricate.build(:active_user, id: 456) }
+        let(:scrapbooks_stub)         { double('scrapbooks') }
+        let(:visible_scrapbooks_stub) { double('visible_scrapbooks') }
+        let(:stub_presenter)          { double('presenter') }
+        let(:stub_memory_fetcher)     { double('memory_fetcher') }
 
         before :each do
           allow(controller).to receive(:current_user).and_return(other_user)
           allow(requested_user).to receive(:scrapbooks).and_return(scrapbooks_stub)
-          allow(scrapbooks_stub).to receive(:approved).and_return(approved_scrapbooks_stub)
-          allow(approved_scrapbooks_stub).to receive(:page).and_return(approved_scrapbooks_stub)
+          allow(scrapbooks_stub).to receive(:publicly_visible).and_return(visible_scrapbooks_stub)
+          allow(visible_scrapbooks_stub).to receive(:page).and_return(visible_scrapbooks_stub)
           allow(ScrapbookIndexPresenter).to receive(:new).and_return(stub_presenter)
-          allow(ApprovedScrapbookMemoryFetcher).to receive(:new).with(approved_scrapbooks_stub).and_return(stub_memory_fetcher)
+          allow(ApprovedScrapbookMemoryFetcher).to receive(:new).with(visible_scrapbooks_stub).and_return(stub_memory_fetcher)
 
           get :index, user_id: requested_user.to_param
         end
@@ -72,13 +72,13 @@ describe Users::ScrapbooksController do
         context 'and the requested user is approved' do
           let(:requested_user) { Fabricate.build(:active_user, id: 123) }
 
-          it 'fetches approved scrapbooks for the requested user' do
+          it 'fetches publicly visible scrapbooks for the requested user' do
             expect(requested_user).to have_received(:scrapbooks)
-            expect(scrapbooks_stub).to have_received(:approved)
+            expect(scrapbooks_stub).to have_received(:publicly_visible)
           end
 
           it "generates a ScrapbookIndexPresenter for the requested user's scrapbooks" do
-            expect(ScrapbookIndexPresenter).to have_received(:new).with(approved_scrapbooks_stub, stub_memory_fetcher, nil)
+            expect(ScrapbookIndexPresenter).to have_received(:new).with(visible_scrapbooks_stub, stub_memory_fetcher, nil)
           end
 
           it "assigns the generated presenter" do

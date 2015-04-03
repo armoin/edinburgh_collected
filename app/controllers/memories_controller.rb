@@ -17,7 +17,7 @@ class MemoriesController < ApplicationController
   private
 
   def memories
-    Memory.approved
+    Memory.publicly_visible
   end
 
   def viewable?(memory)

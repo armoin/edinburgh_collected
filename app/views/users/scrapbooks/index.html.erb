@@ -8,7 +8,7 @@
         <div class="viewingInfo">
           <strong>Browse</strong>
           <%= link_to user_memories_path(user_id: @requested_user.id), :class => "button memories inactive"  do %>
-            <%= pluralize(@requested_user.memories.approved.size, 'memory') %>
+            <%= pluralize(@requested_user.memories.publicly_visible.size, 'memory') %>
           <% end %>
 
           <span class="button scrapbooks"><%= pluralize(@presenter.scrapbooks_count, 'scrapbook') %></span>
