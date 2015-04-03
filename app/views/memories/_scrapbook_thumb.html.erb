@@ -1,0 +1,29 @@
+<div class="memory thumb masonry">
+  <div class="padding">
+    <%= render partial: 'shared/state_label', locals: {moderatable: memory} %>
+    <div class="imageWrapper">
+      <div class="hoverButtons">
+        <div id="memory-<%= memory.id %>" class="buttonsWrapper vCenterAlign">
+          <%= link_to '#', class: "addScrapbook button scrapbooks", data: scrapbook_modal_data(logged_in?, memory), tabindex: 0, role: 'button' do %>
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Scrapbook
+          <% end -%>
+          <a href="<%= memory_path(memory) %>" class="view button memories"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>View</a>
+        </div>
+      </div>
+      <%= image_tag cache_busted_url(memory, :thumb), alt: memory.title %>
+    </div>
+    <div class="detail">
+      <a data-id="<%= memory.id %>" href="<%= memory_path(memory) %>" title="View details" role="button">
+        <h3 class="title"><%= memory.title %></h3>
+        <p><%= truncate(memory.description, :length => 50) %></p>
+      </a>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('[data-toggle="popover"]').popover({placement: 'bottom', html: true}).on('click', function (e) { e.preventDefault(); })
+    $('.imageWrapper').on('mouseleave', function (e) { $(e.currentTarget).find('[data-toggle="popover"]').popover('hide') })
+  });
+</script>

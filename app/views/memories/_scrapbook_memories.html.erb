@@ -1,0 +1,18 @@
+<div class="masonry-loading-spinner"><div class="spinner"></div></div>
+<div class="memory-container">
+  <%= render partial: 'shared/pagination', locals: {items: memories} %>
+  <div id="memories" class="masonry-grid">
+    <div class="grid-sizer"></div>
+    <% memories.each do |memory| %>
+      <%= render partial: 'memories/scrapbook_thumb', locals: {memory: memory} %>
+    <% end %>
+  </div>
+  <%= render partial: 'shared/pagination', locals: {items: memories} %>
+</div>
+
+<%= render partial: 'memories/add_to_scrapbook' %>
+
+<script type="text/javascript">
+  $(".masonry-loading-spinner .spinner").spin();
+</script>
+
