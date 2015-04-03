@@ -5,7 +5,7 @@ class Users::ScrapbooksController < ApplicationController
     @requested_user = User.find(params[:user_id])
 
     redirect_to my_scrapbooks_path and return if @requested_user == current_user
-    raise ActiveRecord::RecordNotFound unless @requested_user.approved?
+    raise ActiveRecord::RecordNotFound unless @requested_user.publicly_visible?
 
     scrapbooks = @requested_user.scrapbooks.publicly_visible.page(params[:page])
     memory_fetcher = ApprovedScrapbookMemoryFetcher.new(scrapbooks)

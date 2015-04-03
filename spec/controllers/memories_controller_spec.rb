@@ -92,11 +92,11 @@ describe MemoriesController do
     end
 
     context "when record is found" do
-      let(:approved) { false }
+      let(:visible) { false }
 
       before :each do
         allow(Memory).to receive(:find).and_return(memory)
-        allow(memory).to receive(:approved?).and_return(approved)
+        allow(memory).to receive(:publicly_visible?).and_return(visible)
       end
 
       it "assigns fetched memory" do
@@ -104,8 +104,8 @@ describe MemoriesController do
         expect(assigns(:memory)).to eql(memory)
       end
 
-      context 'and memory is approved' do
-        let(:approved) { true }
+      context 'and memory is visible' do
+        let(:visible) { true }
 
         before :each do
           get :show, id: '123', format: format
@@ -114,8 +114,8 @@ describe MemoriesController do
         it_behaves_like 'a found memory'
       end
 
-      context 'and the memory is not approved' do
-        let(:approved) { false }
+      context 'and the memory is not visible' do
+        let(:visible) { false }
 
         context 'when there is no current user' do
           before :each do

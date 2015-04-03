@@ -35,7 +35,7 @@ describe 'MemoryQueryBuilder' do
     let(:memory_approved_2)       { Fabricate(:approved_memory, user: owner) }
     let(:memory_rejected)         { Fabricate(:rejected_memory, user: owner) }
     let(:memory_reported)         { Fabricate(:reported_memory, user: owner) }
-    let(:memory_other)            { Fabricate(:reported_memory, user: other_user) }
+    let(:memory_other)            { Fabricate(:rejected_memory, user: other_user) }
 
     let(:query_builder)           { MemoryQueryBuilder.new(scrapbook_ids) }
 
@@ -147,10 +147,11 @@ describe 'MemoryQueryBuilder' do
           expect(memories).to be_empty
         end
 
-        it "does not provide reported memories that belong to the requested scrapbook" do
+        it "provides reported memories that belong to the requested scrapbook" do
           Fabricate(:scrapbook_memory, scrapbook: scrapbook_1, memory: memory_reported)
 
-          expect(memories).to be_empty
+          expect(memories.count).to eql(1)
+          expect(memories.first).to eql(memory_reported)
         end
 
         it "does not provide memories that do not belong to the requested scrapbook" do
@@ -282,8 +283,9 @@ describe 'MemoryQueryBuilder' do
           context "and it doesn't belong to the given user" do
             let(:given_user) { other_user }
 
-            it "is not provided" do
-              expect(memories).to be_empty
+            it "is provided" do
+              expect(memories.count).to eql(1)
+              expect(memories.first).to eql(memory_reported)
             end
           end
 

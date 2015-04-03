@@ -67,9 +67,9 @@ RSpec.shared_examples 'moderatable' do
       @no_moderation = Fabricate(moderatable_factory, moderation_state: nil)
       @unmoderated   = Fabricate(moderatable_factory, moderation_state: 'unmoderated')
 
-      @approved_owner = Fabricate(moderatable_factory, moderation_state: 'approved', user: owner)
-      @approved_other = Fabricate(moderatable_factory, moderation_state: 'approved', user: other)
-      @reported       = Fabricate(moderatable_factory, moderation_state: 'reported', moderation_reason: 'test')
+      @approved_owner = Fabricate(moderatable_factory, user: owner, moderation_state: 'approved')
+      @approved_other = Fabricate(moderatable_factory, user: other, moderation_state: 'approved')
+      @reported       = Fabricate(moderatable_factory, user: owner, moderation_state: 'reported', moderation_reason: 'test')
 
       @blocked  = Fabricate(moderatable_factory, moderation_state: 'blocked')
       @rejected = Fabricate(moderatable_factory, moderation_state: 'rejected', moderation_reason: 'test')
@@ -169,25 +169,27 @@ RSpec.shared_examples 'moderatable' do
           end
         end
 
-        context 'but reported' do
+        context 'and reported' do
           let(:owner) { Fabricate(:reported_user) }
 
-          it 'returns no records for owner' do
+          it 'returns all publicly visible records' do
             publicly_visible_records = moderatable_model.publicly_visible
-            expect(publicly_visible_records.count).to eql(1)
+            expect(publicly_visible_records.count).to eql(3)
             expect(publicly_visible_records).to include(@approved_other)
-            expect(publicly_visible_records).not_to include(@approved_owner)
+            expect(publicly_visible_records).to include(@approved_owner)
+            expect(publicly_visible_records).to include(@reported)
           end
         end
 
         context 'and approved' do
           let(:owner) { Fabricate(:approved_user) }
 
-          it 'returns all approved records' do
+          it 'returns all publicly visible records' do
             publicly_visible_records = moderatable_model.publicly_visible
-            expect(publicly_visible_records.count).to eql(2)
+            expect(publicly_visible_records.count).to eql(3)
             expect(publicly_visible_records).to include(@approved_other)
             expect(publicly_visible_records).to include(@approved_owner)
+            expect(publicly_visible_records).to include(@reported)
           end
         end
       end
@@ -335,33 +337,87 @@ RSpec.shared_examples 'moderatable' do
       end
     end
 
-    describe "#approved?" do
-      context 'when not approved' do
-        it 'is false' do
-          moderatable_instance.moderation_state = 'unmoderated'
-          expect(moderatable_instance.approved?).to be_falsy
-        end
+    describe "#publicly_visible?" do
+      let(:user_double) { double(User, publicly_visible?: visible) }
+
+      before :each do
+        allow(moderatable_instance).to receive(:user).and_return(user_double)
       end
 
-      context 'when approved' do
-        before :each do
-          moderatable_instance.moderation_state = 'approved'
-          allow(moderatable_instance).to receive(:user).and_return(user_double)
-        end
+      context 'when user is not publicly visible' do
+        let(:visible) { false }
 
-        context 'and belongs to a user that is not approved' do
-          let(:user_double) { double(User, approved?: false) }
-
-          it 'is false' do
-            expect(moderatable_instance.approved?).to be_falsy
+        context 'and moderatable is unmoderated' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'unmoderated'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
           end
         end
 
-        context 'and belongs to a user that is approved' do
-          let(:user_double) { double(User, approved?: true) }
+        context 'and moderatable is approved' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'approved'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
 
-          it 'is true' do
-            expect(moderatable_instance.approved?).to be_truthy
+        context 'and moderatable is blocked' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'blocked'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+
+        context 'and moderatable is rejected' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'rejected'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+
+        context 'and moderatable is reported' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'reported'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+      end
+
+      context 'when user is publicly visible' do
+        let(:visible) { true }
+
+        context 'and moderatable is unmoderated' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'unmoderated'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+
+        context 'and moderatable is approved' do
+          it 'is publicly visible' do
+            moderatable_instance.moderation_state = 'approved'
+            expect(moderatable_instance.publicly_visible?).to be_truthy
+          end
+        end
+
+        context 'and moderatable is blocked' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'blocked'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+
+        context 'and moderatable is rejected' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'rejected'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+
+        context 'and moderatable is reported' do
+          it 'is publicly visible' do
+            moderatable_instance.moderation_state = 'reported'
+            expect(moderatable_instance.publicly_visible?).to be_truthy
           end
         end
       end

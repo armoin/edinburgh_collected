@@ -52,17 +52,21 @@ describe Users::ScrapbooksController do
 
         before :each do
           allow(controller).to receive(:current_user).and_return(other_user)
+
           allow(requested_user).to receive(:scrapbooks).and_return(scrapbooks_stub)
+          allow(requested_user).to receive(:publicly_visible?).and_return(visible)
+
           allow(scrapbooks_stub).to receive(:publicly_visible).and_return(visible_scrapbooks_stub)
           allow(visible_scrapbooks_stub).to receive(:page).and_return(visible_scrapbooks_stub)
-          allow(ScrapbookIndexPresenter).to receive(:new).and_return(stub_presenter)
+
           allow(ApprovedScrapbookMemoryFetcher).to receive(:new).with(visible_scrapbooks_stub).and_return(stub_memory_fetcher)
+          allow(ScrapbookIndexPresenter).to receive(:new).and_return(stub_presenter)
 
           get :index, user_id: requested_user.to_param
         end
 
         context 'but the requested user is not approved' do
-          let(:requested_user) { Fabricate.build(:pending_user, id: 123) }
+          let(:visible) { false }
 
           it 'returns a 404 error' do
             expect(response).to be_not_found
@@ -70,7 +74,7 @@ describe Users::ScrapbooksController do
         end
 
         context 'and the requested user is approved' do
-          let(:requested_user) { Fabricate.build(:active_user, id: 123) }
+          let(:visible) { true }
 
           it 'fetches publicly visible scrapbooks for the requested user' do
             expect(requested_user).to have_received(:scrapbooks)

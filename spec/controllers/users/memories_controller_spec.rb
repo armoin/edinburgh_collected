@@ -46,20 +46,21 @@ describe Users::MemoriesController do
         before :each do
           allow(controller).to receive(:current_user).and_return(other_user)
           allow(UserMemoriesPresenter).to receive(:new).and_return(presenter_stub)
+          allow(requested_user).to receive(:publicly_visible?).and_return(visible)
 
           get :index, user_id: requested_user.to_param, page: page
         end
 
-        context 'but the requested user is not approved' do
-          let(:requested_user) { Fabricate.build(:pending_user, id: 123) }
+        context 'but the requested user is not publicly visible' do
+          let(:visible) { false }
 
           it 'returns a 404 error' do
             expect(response).to be_not_found
           end
         end
 
-        context 'and the requested user is approved' do
-          let(:requested_user) { Fabricate.build(:active_user, id: 123) }
+        context 'and the requested user is publicly visible' do
+          let(:visible) { true }
 
           context 'when no page is given' do
             let(:page) { nil }

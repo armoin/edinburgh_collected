@@ -21,7 +21,7 @@ class MemoriesController < ApplicationController
   end
 
   def viewable?(memory)
-    memory.approved? ||
+    memory.publicly_visible? ||
       current_user.try(:can_modify?, memory)
   end
 end

@@ -53,9 +53,9 @@ module Moderatable
     end
 
     def publicly_visible_sql
-      arel_table[:moderation_state].eq('approved')
+      arel_table[:moderation_state].in(ModerationStateMachine::PUBLICLY_VISIBLE)
         .and( User.arel_table[:activation_state].eq('active') )
-        .and( User.arel_table[:moderation_state].eq('approved') )
+        .and( User.arel_table[:moderation_state].in(ModerationStateMachine::PUBLICLY_VISIBLE) )
     end
 
     def by_first_moderated
@@ -87,11 +87,11 @@ module Moderatable
     update_state!('unmoderated', unmoderated_by)
   end
 
-  def approved?
+  def publicly_visible?
     if is_a?(User)
-      moderation_state == 'approved' && activation_state == 'active'
+      publicly_visible_state? && active?
     else
-      moderation_state == 'approved' && user.approved?
+      publicly_visible_state?  && user.publicly_visible?
     end
   end
 
@@ -104,6 +104,10 @@ module Moderatable
   end
 
   private
+
+  def publicly_visible_state?
+    ModerationStateMachine::PUBLICLY_VISIBLE.include?(moderation_state)
+  end
 
   def update_state!(state, moderated_by, comment='')
     moderation_logs.create!(from_state: moderation_state, to_state: state, moderated_by: moderated_by, comment: comment)

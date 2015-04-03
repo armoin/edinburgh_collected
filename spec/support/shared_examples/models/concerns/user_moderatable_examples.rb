@@ -132,17 +132,62 @@ RSpec.shared_examples 'a moderatable user' do
     end
 
     describe '.publicly_visible' do
-      it 'does not return approved inactive users' do
-        @approved.update_attribute(:activation_state, 'pending')
-        publicly_visible_records = moderatable_model.publicly_visible
-        expect(publicly_visible_records.count).to eql(0)
+      context 'when user is unmoderated' do
+        it 'does not return inactive users' do
+          @unmoderated.update_attribute(:activation_state, 'pending')
+          publicly_visible_records = moderatable_model.publicly_visible
+          expect(publicly_visible_records.count).to eql(0)
+        end
+
+        it 'does not return active users' do
+          @unmoderated.update_attribute(:activation_state, 'active')
+          publicly_visible_records = moderatable_model.publicly_visible
+          expect(publicly_visible_records.count).to eql(0)
+        end
       end
 
-      it 'returns approved active users' do
-        @approved.update_attribute(:activation_state, 'active')
-        publicly_visible_records = moderatable_model.publicly_visible
-        expect(publicly_visible_records.count).to eql(1)
-        expect(publicly_visible_records).to include(@approved)
+      context 'when user is blocked' do
+        it 'does not return inactive users' do
+          @blocked.update_attribute(:activation_state, 'pending')
+          publicly_visible_records = moderatable_model.publicly_visible
+          expect(publicly_visible_records.count).to eql(0)
+        end
+
+        it 'does not return active users' do
+          @blocked.update_attribute(:activation_state, 'active')
+          publicly_visible_records = moderatable_model.publicly_visible
+          expect(publicly_visible_records.count).to eql(0)
+        end
+      end
+
+      context 'when user is approved' do
+        it 'does not return inactive users' do
+          @approved.update_attribute(:activation_state, 'pending')
+          publicly_visible_records = moderatable_model.publicly_visible
+          expect(publicly_visible_records.count).to eql(0)
+        end
+
+        it 'returns active users' do
+          @approved.update_attribute(:activation_state, 'active')
+          publicly_visible_records = moderatable_model.publicly_visible
+          expect(publicly_visible_records.count).to eql(1)
+          expect(publicly_visible_records).to include(@approved)
+        end
+      end
+
+      context 'when user is reported' do
+        it 'does not return inactive users' do
+          @reported.update_attribute(:activation_state, 'pending')
+          publicly_visible_records = moderatable_model.publicly_visible
+          expect(publicly_visible_records.count).to eql(0)
+        end
+
+        it 'returns active users' do
+          @reported.update_attribute(:activation_state, 'active')
+          publicly_visible_records = moderatable_model.publicly_visible
+          expect(publicly_visible_records.count).to eql(1)
+          expect(publicly_visible_records).to include(@reported)
+        end
       end
     end
   end
@@ -278,30 +323,85 @@ RSpec.shared_examples 'a moderatable user' do
       end
     end
 
-    describe "#approved?" do
-      context 'when not approved' do
-        it 'is false' do
-          moderatable_instance.moderation_state = 'unmoderated'
-          expect(moderatable_instance.approved?).to be_falsy
-        end
+    describe "#publicly_visible?" do
+      before :each do
+        moderatable_instance.activation_state = activation_state
       end
 
-      context 'when approved' do
-        before :each do
-          moderatable_instance.moderation_state = 'approved'
-        end
+      context 'when user is pending' do
+        let(:activation_state) { 'pending' }
 
-        context 'but is not active' do
-          it 'is false' do
-            moderatable_instance.activation_state = 'pending'
-            expect(moderatable_instance.approved?).to be_falsy
+        context 'and unmoderated' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'unmoderated'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
           end
         end
 
-        context 'and is active' do
-          it 'is true' do
-            moderatable_instance.activation_state = 'active'
-            expect(moderatable_instance.approved?).to be_truthy
+        context 'and approved' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'approved'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+
+        context 'and rejected' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'rejected'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+
+        context 'and blocked' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'blocked'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+
+        context 'and reported' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'reported'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+      end
+
+      context 'when user is active' do
+        let(:activation_state) { 'active' }
+
+        context 'and unmoderated' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'unmoderated'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+
+        context 'and approved' do
+          it 'is publicly visible' do
+            moderatable_instance.moderation_state = 'approved'
+            expect(moderatable_instance.publicly_visible?).to be_truthy
+          end
+        end
+
+        context 'and rejected' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'rejected'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+
+        context 'and blocked' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'blocked'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+
+        context 'and reported' do
+          it 'is publicly visible' do
+            moderatable_instance.moderation_state = 'reported'
+            expect(moderatable_instance.publicly_visible?).to be_truthy
           end
         end
       end
