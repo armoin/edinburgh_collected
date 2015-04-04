@@ -71,6 +71,14 @@ class User < ActiveRecord::Base
     avatar.present? || description.present? || links.any?
   end
 
+  def access_denied?
+    blocked?
+  end
+
+  def access_denied_reason
+    'Your account has been blocked. Please contact us if you would like more information.'
+  end
+
   private
 
   def downcase_email

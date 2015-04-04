@@ -4,13 +4,10 @@ class SessionsController < ApplicationController
   end
 
   def create
-    authenticator = Authenticator.new(params[:email], params[:password])
-
-    if authenticator.user_authenticated?
-      @user = login(params[:email], params[:password])
+    if @user = login(params[:email], params[:password])
       redirect_back_or_to landing_page_for(@user), notice: 'Successfully signed in'
     else
-      redirect_to :signin, alert: authenticator.error_message
+      redirect_to :signin, alert: 'Email or password was incorrect.'
     end
   end
 
