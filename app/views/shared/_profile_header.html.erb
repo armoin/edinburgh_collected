@@ -17,7 +17,6 @@
 
     <h1 class="title">
       <%= requested_user.try(:screen_name) %>
-      <%= render partial: 'shared/reporting', locals: {item: requested_user, report_path: report_user_path(requested_user.id), classes: ''} %>
     </h1>
 
   <% end -%>
@@ -26,5 +25,6 @@
 
   <%= render partial: 'users/links', locals: {requested_user: requested_user} %>
 
+  <%= render partial: 'shared/reporting', locals: {item: requested_user, report_path: report_user_path(requested_user.id), classes: 'profile'} %>
 </header>
 

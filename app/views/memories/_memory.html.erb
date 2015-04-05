@@ -16,9 +16,10 @@
       <% if logged_in? -%>
         <%= link_to "Add to scrapbook +", '#', class: "button scrapbooks float-right", data: {memory_id: @memory.id, memory_title: @memory.title, toggle: 'modal', target: '#add-to-scrapbook-modal'} %>
       <% end -%>
-      <%= render partial: 'shared/reporting', locals: {item: @memory, report_path: report_memory_path(@memory.id), classes: 'float-right'} %>
     </div>
   </header>
+
+  <%= render partial: 'shared/reporting', locals: {item: @memory, report_path: report_memory_path(@memory.id), classes: ''} %>
 
   <div id="image">
     <a href="#" data-featherlight="<%= cache_busted_url(@memory) %>">

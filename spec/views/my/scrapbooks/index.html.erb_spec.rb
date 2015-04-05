@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe 'my/scrapbooks/index.html.erb' do
-  let(:current_user)            { Fabricate.build(:active_user) }
+  let(:current_user)            { Fabricate.build(:active_user, id: 123) }
   let(:logged_in)               { false }
 
   let(:memory_count)            { 1 }

@@ -14,9 +14,10 @@
       <% if current_user.try(:can_modify?, @scrapbook) && @memories.any? -%>
         <a href="#" class="button add-memories memories float-right" data-toggle="modal" data-target="#add-memories-modal">Add memories</a>
       <% end -%>
-      <%= render partial: 'shared/reporting', locals: {item: @scrapbook, report_path: report_scrapbook_path(@scrapbook.id), classes: ''} %>
     </div>
   </header>
+
+  <%= render partial: 'shared/reporting', locals: {item: @scrapbook, report_path: report_scrapbook_path(@scrapbook.id), classes: ''} %>
 
   <div id="description">
     <p><%= @scrapbook.description %></p>
