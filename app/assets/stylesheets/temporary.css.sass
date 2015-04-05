@@ -319,6 +319,11 @@ h1, h2, h3
   &:hover
     color: $coral
 
+a.report
+  font-weight: bold
+  color: $coral
+  text-decoration: none
+
 /* ==================================== HEADER */
 
 #main-header
@@ -1109,6 +1114,39 @@ a.memory, a.scrapbook
     border: 3px solid $navy-blue
     text-align: center
 
+  .heroImage
+    margin: 0.5em 0.5em 1em
+    background: white
+    padding: 1em
+
+  .masonry-grid .masonry
+    width: 33%
+
+  .scrapbookDescription
+    margin-bottom: 1em
+    text-style: italic
+
+  .scrapbookCreator
+    border-bottom: 1px solid $navy-blue
+    padding-bottom: 1em
+
+    img
+      float: left
+      margin-right: 0.5em
+      padding: 0.25em
+      background: white
+      border: 1px solid #cccccc
+    span
+      display: block
+      font-weight: 600
+
+  #share-links
+    padding-bottom: 1em
+    border-bottom: 1px solid $navy-blue
+    margin-bottom: 1em
+
+
+
 .instructionsWrapper
   text-align: center
 
@@ -1133,6 +1171,8 @@ a.memory, a.scrapbook
 #add-memories-modal
   .modal-header, .modal-footer
     border: none
+
+
 
 
 /* ==================================== EDIT SCRAPBOOK */
@@ -1213,6 +1253,63 @@ a.memory, a.scrapbook
 #formPanel.editScrapbookForm
   padding-top: 1em !important
   float: right
+
+
+/* ============================ GETTING STARTED */
+
+#gettingStarted
+  #welcomeMessage
+    background-color: white
+    padding-bottom: 1em
+
+    h1
+      padding-bottom: 0
+      em
+        font-weight: 300
+        text-style: normal
+    h2
+      font-size: 18px
+      margin: 5px 0 0 0
+      font-weight: normal
+
+    .step
+      margin: 1em 0
+      background: lighten( $navy-blue, 65% )
+
+      .inner
+        padding: 0.5em
+        &.top
+          font-size: 21px
+          border-bottom: 1px solid white
+          span.number
+            background: lighten( $navy-blue, 15% )
+            color: white
+            padding: 0.25em 0.5em
+            display: inline-block
+            width: 40px
+            text-align: center
+            margin-right: 0.25em
+          span.glyphicon
+            float: right
+            font-size: 36px
+
+      &.checked
+        background: white
+        border: 1px solid $green
+
+        span.number
+          background: $navy-blue
+
+        span.glyphicon
+          color: $green
+
+    a.hideThis
+      display: block
+      text-align: center
+      text-decoration: none
+
+  .photo img
+    margin: 2em
 
 
 /* ==================================== PROFILE */
@@ -2031,6 +2128,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         .navbar-brand
           float: right
           display: inline-block
+          border-right: none
 
           img
             margin: 0 auto

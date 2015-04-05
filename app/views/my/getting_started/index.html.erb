@@ -1,13 +1,70 @@
 <div class="container">
-  <h1>Welcome!</h1>
+ <div id="gettingStarted" class="row static">
+  <div id="welcomeMessage" class="col-sm-6">
+    <h1>Welcome <em><%= current_user.screen_name %></em></h1>
+    <h2>Welcome to Edinburgh Collected</h2>
 
-  <h2>Memories</h2>
-  Has memories? <%= current_user.has_memories? %>
 
-  <h2>Scrapbooks</h2>
-  Has scrapbooks? <%= current_user.has_scrapbooks? %>
+    <% if current_user.has_profile? %>
+    <div class="step checked">
+     <div class="inner top">
+     <span class="number"> 1.</span> Fill out your profile <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+     </div>
+    </div>
+    <% else %>
+    <div class="step">
+     <div class="inner top">
+     <span class="number"> 1.</span> Fill out your profile <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+     </div>
+     <div class="inner bottom">
+      <p>Fill in your profile with a little bit about yourself and upload a profile picture: <%= link_to 'Edit your profile', my_profile_edit_path %></p>
+     </div>
+    </div>
+    <% end %>
 
-  <h2>Profile</h2>
-  Has profile? <%= current_user.has_profile? %>
-  <p><%= link_to 'Do eet!', my_profile_edit_path %></p>
+    <% if current_user.has_memories? %>
+    <div class="step checked">
+     <div class="inner top">
+     <span class="number"> 2.</span> Upload memories <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+     </div>
+    </div>
+    <% else %>
+    <div class="step">
+     <div class="inner top">
+     <span class="number"> 2.</span> Upload memories <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+     </div>
+     <div class="inner bottom">
+      <p>Start uploading your memories of Edinburgh to the site: <%= link_to 'Add a memory', new_my_memory_path %></p>
+     </div>
+    </div>
+    <% end %>
+
+    <% if current_user.has_scrapbooks? %>
+    <div class="step checked">
+     <div class="inner top">
+     <span class="number"> 3.</span> Create your first Scrapbook <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+     </div>
+    </div>
+    <% else %>
+    <div class="step">
+     <div class="inner top">
+     <span class="number"> 3.</span> Create your first Scrapbook <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+     </div>
+     <div class="inner bottom">
+      <p>Create a scrapbook and start adding memories from your own collection or from around the site.</p>
+     </div>
+    </div>
+    <% end %>
+
+    <a href="#" class="hideThis button navy">OK, got it. Don't show me this page again</a>
+
+    </div>
+
+
+
+    <div class="photo col-sm-6">
+     <%= image_tag "photos/edinburgh-collected-girl-bike.jpg", alt: "Edinburgh Collected" %>
+    </div>
+
+  </div>
 </div>
