@@ -29,7 +29,7 @@ describe 'my/scrapbooks/edit.html.erb' do
     end
 
     it "lets the user save the edit" do
-      expect(rendered).to have_link('Save changes', href: my_scrapbook_path(scrapbook))
+      expect(rendered).to have_link('Save changes')
     end
   end
 
