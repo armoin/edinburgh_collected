@@ -44,7 +44,7 @@ module Moderatable
     end
 
     def publicly_visible
-      if class_name == 'User'
+      if name == 'User'
         where(publicly_visible_sql)
       else
         joins(:user)
