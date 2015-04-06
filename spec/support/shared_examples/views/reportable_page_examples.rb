@@ -4,12 +4,12 @@ RSpec.shared_examples 'a reportable page' do
 
     it 'does not have a report button' do
       render
-      expect(rendered).not_to have_link('Report concern')
+      expect(rendered).not_to have_link('Report a concern')
     end
   end
 
   context 'when the user is logged in' do
-    let(:user) { Fabricate.build(:active_user) }
+    let(:user) { Fabricate.build(:active_user, id: 123) }
 
     before :each do
       allow(user).to receive(:can_modify?).and_return(can_modify)
@@ -20,7 +20,7 @@ RSpec.shared_examples 'a reportable page' do
       let(:can_modify) { false }
 
       it 'has a report button' do
-        expect(rendered).to have_link('Report concern')
+        expect(rendered).to have_link('Report a concern')
       end
     end
 
@@ -28,7 +28,7 @@ RSpec.shared_examples 'a reportable page' do
       let(:can_modify) { true }
 
       it 'does not have a report button' do
-        expect(rendered).not_to have_link('Report concern')
+        expect(rendered).not_to have_link('Report a concern')
       end
     end
   end

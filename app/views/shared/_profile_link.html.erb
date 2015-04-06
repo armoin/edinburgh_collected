@@ -1,0 +1,11 @@
+<div class="user-profile">
+  <%= link_to send("user_#{url_segment}_path", {user_id: user.id}), class: "userAvatar" do %>
+    <%= image_tag user.avatar_url %>
+    <div id="user-details">
+      <p><%= label %></p>
+      <p class="username">
+        <%= user == current_user ? 'You' : user.screen_name %>
+      </p>
+    </div>
+  <% end -%>
+</div>

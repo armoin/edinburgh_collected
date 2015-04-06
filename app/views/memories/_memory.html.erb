@@ -19,7 +19,7 @@
     </div>
   </header>
 
-  <%= render partial: 'shared/reporting', locals: {item: @memory, report_path: report_memory_path(@memory.id), classes: ''} %>
+  <%= render partial: 'shared/reporting', locals: {item: @memory, report_path: report_memory_path(@memory.id)} %>
 
   <div id="image">
     <a href="#" data-featherlight="<%= cache_busted_url(@memory) %>">
@@ -33,16 +33,8 @@
         <%= render partial: 'shared/sharing' %>
       </div>
 
-      <div id="user-profile" class="col-xs-12 col-md-6">
-        <%= link_to user_memories_path(user_id: memory.user_id), class: "userAvatar" do %>
-          <%= image_tag @memory.user.avatar_url %>
-          <div id="user-details">
-            <p>Added by</p>
-            <p class="username">
-              <%= @memory.user == current_user ? 'You' : @memory.user.screen_name %>
-            </p>
-          </div>
-        <% end -%>
+      <div class="float-left col-xs-12 col-md-6">
+        <%= render partial: 'shared/profile_link', locals: {user: @memory.user, label: 'Added by', url_segment: 'memories'} %>
       </div>
     </header>
     <div id="metadata" class="col-xs-12 col-md-6">

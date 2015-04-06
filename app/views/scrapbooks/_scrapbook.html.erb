@@ -17,47 +17,46 @@
     </div>
   </header>
 
-  <%= render partial: 'shared/reporting', locals: {item: @scrapbook, report_path: report_scrapbook_path(@scrapbook.id), classes: ''} %>
+  <div class="row">
+    <div class="col-md-8">
+      <% if @memories.any? -%>
 
-  <div id="description">
-    <p><%= @scrapbook.description %></p>
+        <div class="heroImage">
+          <img src="http://placehold.it/800x600" />
+        </div>
+
+        <%= render partial: 'memories/index', locals: {memories: @memories} %>
+
+      <% elsif current_user.try(:can_modify?, @scrapbook) -%>
+
+        <div id="scrapbookInstructions" class="container">
+          <h3>Your scrapbook is empty!</h3>
+          <p>Start adding memories now...</p>
+
+          <%= render partial: 'scrapbooks/add_memories' %>
+        </div>
+
+      <% end -%>
+    </div>
+
+    <div class="col-md-4">
+      <h2>About this scrapbook</h2>
+
+      <div class="scrapbookDescription">
+        <%= @scrapbook.description %>
+      </div>
+
+      <div class="scrapbookCreator">
+        <%= render partial: 'shared/profile_link', locals: {user: @scrapbook.user, label: 'Collated by', url_segment: 'scrapbooks'} %>
+      </div>
+
+      <div id="share-links">
+        <%= render partial: 'shared/sharing' %>
+      </div>
+
+      <%= render partial: 'shared/reporting', locals: {item: @scrapbook, report_path: report_scrapbook_path(@scrapbook.id)} %>
+    </div>
   </div>
-
-  <% if @memories.any? -%>
-    <div class="row">
-      <div class="col-md-8">
-       <div class="heroImage">
-         <img src="http://placehold.it/800x600" />
-       </div>
-      <%= render partial: 'memories/index', locals: {memories: @memories} %>
-      </div>
-      <div class="col-md-4">
-       <h2>About the scrapbook</h2>
-       <div class="scrapbookDescription">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer viverra tincidunt commodo. Nunc tempus lectus at neque pulvinar finibus. Curabitur sed enim eleifend, ultricies tortor sed, pretium est. Curabitur consectetur dictum dapibus. Quisque eget libero non tortor dapibus sollicitudin in ut mauris
-       <%= @scrapbook.description %>
-       </div>
-       <div class="scrapbookCreator">
-        <img src="http://placehold.it/36x36">
-        Collated by
-          <span>Username</span>
-       </div>
-       <div id="share-links">
-         <%= render partial: 'shared/sharing' %>
-       </div>
-
-       <a href="#" class="report"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span> Report a concern</a>
-
-      </div>
-    </div>
-  <% elsif current_user.try(:can_modify?, @scrapbook) %>
-    <div id="scrapbookInstructions" class="container">
-      <h3>Your scrapbook is empty!</h3>
-      <p>Start adding memories now...</p>
-
-      <%= render partial: 'scrapbooks/add_memories' %>
-    </div>
-  <% end -%>
 </div>
 
 <%= render partial: 'scrapbooks/add_memories_modal' %>

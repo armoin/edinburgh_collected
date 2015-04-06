@@ -1,14 +1,16 @@
 require 'rails_helper'
 
 RSpec.shared_examples 'a profile headed page' do
-  let(:links) { [] }
-
-  before :each do
-    requested_user.links << links
-    render
-  end
+  it_behaves_like 'a reportable page'
 
   describe 'profile header' do
+    let(:links) { [] }
+
+    before :each do
+      requested_user.links << links
+      render
+    end
+
     it 'displays the profile for the requested user' do
       expect(rendered).to have_css('#profileHeader')
     end
@@ -125,10 +127,6 @@ RSpec.shared_examples 'a profile headed page' do
 
         it "does not display a link to edit the user's profile" do
           expect(rendered).not_to have_link('Edit', href: my_profile_edit_path)
-        end
-
-        it 'has a report button' do
-          expect(rendered).to have_link('Report concern')
         end
 
         it "displays the requested user's description" do

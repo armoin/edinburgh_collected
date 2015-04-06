@@ -208,16 +208,18 @@ span.button.memories:hover
     color: white
 
 .report
-  color: red
-  margin: -15px 0 15px
-  display: block
+  font-weight: bold
+  color: $coral
+  margin: 0
+  display: inline-block
+  text-decoration: none
 
   &:hover
     color: red
+    text-decoration: none
 
-  &.profile
-    margin-top: 15px
-    margin-bottom: 0
+.memory .report
+  margin: -15px 0 15px
 
 
 
@@ -318,11 +320,6 @@ h1, h2, h3
 
   &:hover
     color: $coral
-
-a.report
-  font-weight: bold
-  color: $coral
-  text-decoration: none
 
 /* ==================================== HEADER */
 
@@ -780,7 +777,7 @@ button#create-scrapbook-button
     background: $navy-blue
     text-align: center
     margin: 0
-    margin-bottom: 2em
+    margin-bottom: 1em
     padding: 2em
     display: table
     width: 100%
@@ -802,29 +799,7 @@ button#create-scrapbook-button
       padding: 0
       padding-bottom: 1em
 
-      #user-profile
-        float: left
-        padding: 0
 
-        a.userAvatar, #user-details
-          display: inline-block
-
-        a.userAvatar
-          vertical-align: top
-          text-decoration: none
-
-          img
-            vertical-align: top
-            width: 50px
-
-        #user-details
-          padding: 0 0.6em
-
-          p
-            margin-bottom: 5px
-
-          .username
-            font-weight: bold
 
       #share-links
         float: right
@@ -855,7 +830,28 @@ button#create-scrapbook-button
       padding-right: 0
       margin-bottom: 2em
 
+.user-profile
+  padding: 0
 
+  a.userAvatar, #user-details
+    display: inline-block
+
+  a.userAvatar
+    vertical-align: top
+    text-decoration: none
+
+    img
+      vertical-align: top
+      width: 50px
+
+  #user-details
+    padding: 0 0.6em
+
+    p
+      margin-bottom: 5px
+
+    .username
+      font-weight: bold
 
 a#add-memory-button
   width: 150px
@@ -1143,7 +1139,7 @@ a.memory, a.scrapbook
   #share-links
     padding-bottom: 1em
     border-bottom: 1px solid $navy-blue
-    margin-bottom: 1em
+    margin: 1em 0
 
 
 
@@ -2445,7 +2441,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
     #details
       header
-        #user-profile
+        .user-profile
           float: none
 
         #share-links

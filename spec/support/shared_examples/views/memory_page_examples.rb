@@ -136,43 +136,15 @@ RSpec.shared_examples 'a memory page' do
       render
     end
 
-    describe 'user profile' do
-      context "when memory belongs to the user" do
-        before :each do
-          allow(view).to receive(:current_user).and_return(owner)
-          render
-        end
+    describe "owner details" do
+      let(:user_page_link) { user_memories_path(user_id: owner.id) }
+      let(:label)          { 'Added by' }
 
-        it 'shows that the user owns that memory' do
-          expect(rendered).to have_css('#user-profile .username', text: 'You')
-        end
+      before :each do
+        allow(view).to receive(:current_user).and_return(user)
       end
 
-      context "when memory does not belong to the user" do
-        before :each do
-          allow(view).to receive(:current_user).and_return(user)
-          render
-        end
-
-        it 'shows the username of the user who owns the memory' do
-          expect(rendered).to have_css('#user-profile .username', text: memory.user.screen_name)
-        end
-      end
-
-      context "when the user is not logged in" do
-        before :each do
-          allow(view).to receive(:logged_in?).and_return(false)
-          render
-        end
-
-        it 'shows the username of the user who owns the memory' do
-          expect(rendered).to have_css('#user-profile .username', text: memory.user.screen_name)
-        end
-      end
-
-      it "is a link to the owner's user page" do
-        expect(rendered).to have_link(memory.user.screen_name, href: user_memories_path(user_id: owner.id))
-      end
+      it_behaves_like 'an owner details page'
     end
 
     describe 'metadata' do

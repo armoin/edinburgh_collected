@@ -1,6 +1,7 @@
 RSpec.shared_examples 'a scrapbook page' do
-  let(:scrapbook)            { Fabricate.build(:scrapbook, id: 123) }
+  let(:owner)                { Fabricate.build(:user, id: 456) }
   let(:user)                 { nil }
+  let(:scrapbook)            { Fabricate.build(:scrapbook, id: 123, user: owner) }
   let(:can_modify)           { false }
   let(:memories)             { [] }
   let(:paginated_memories)   { Kaminari.paginate_array(memories).page(nil) }
@@ -39,7 +40,7 @@ RSpec.shared_examples 'a scrapbook page' do
     end
 
     context "when the user is logged in" do
-      let(:user) { Fabricate.build(:active_user) }
+      let(:user) { Fabricate.build(:active_user, id: 123) }
 
       before :each do
         allow(user).to receive(:can_modify?).and_return(can_modify)
@@ -98,21 +99,9 @@ RSpec.shared_examples 'a scrapbook page' do
         end
       end
     end
-
-    it_behaves_like 'a reportable page'
   end
 
-  describe "scrapbook details" do
-    it "has a title" do
-      render
-      expect(rendered).to have_content(scrapbook.title)
-    end
-
-    it "has a description" do
-      render
-      expect(rendered).to have_content(scrapbook.description)
-    end
-
+  describe "memories" do
     context 'when there are no memories' do
       let(:memories) { [] }
 
@@ -166,4 +155,31 @@ RSpec.shared_examples 'a scrapbook page' do
       end
     end
   end
+
+  describe "scrapbook details" do
+    it "displays the title" do
+      render
+      expect(rendered).to have_content(scrapbook.title)
+    end
+
+    it "displays the description" do
+      render
+      expect(rendered).to have_content(scrapbook.description)
+    end
+
+    describe "owner details" do
+      let(:user_page_link) { user_scrapbooks_path(user_id: owner.id) }
+      let(:label)          { 'Collated by' }
+
+      before :each do
+        render
+      end
+
+      it_behaves_like 'an owner details page'
+    end
+  end
+
+  it_behaves_like 'a shareable page'
+
+  it_behaves_like 'a reportable page'
 end

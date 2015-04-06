@@ -23,7 +23,12 @@ describe 'memories/user_index.html.erb' do
     assign(:presenter, presenter)
   end
 
-  it_behaves_like 'a profile headed page'
+  describe 'the profile header' do
+    let(:user)         { nil }
+    let(:current_user) { user }
+
+    it_behaves_like 'a profile headed page'
+  end
 
   describe 'the action bar' do
     before :each do
