@@ -9,17 +9,19 @@ describe 'my/scrapbooks/edit.html.erb' do
     assign(:scrapbook, scrapbook)
   end
 
-  describe 'editing the scrapbook details' do
+  describe 'header' do
     before :each do
       render
     end
 
-    it 'lets the user edit the title' do
-      expect(rendered).to have_css('input#scrapbook_title', count: 1)
+    it 'displays the title of the scrapbook being edited' do
+      expect(rendered).to have_css('h1', text: "Editing #{scrapbook.title}")
     end
+  end
 
-    it 'lets the user edit the description' do
-      expect(rendered).to have_css('textarea#scrapbook_description', count: 1)
+  describe 'action bar' do
+    before :each do
+      render
     end
 
     it "lets the user go back to the scrapbook page" do
@@ -28,6 +30,20 @@ describe 'my/scrapbooks/edit.html.erb' do
 
     it "lets the user save the edit" do
       expect(rendered).to have_link('Save changes', href: my_scrapbook_path(scrapbook))
+    end
+  end
+
+  describe 'editing the scrapbook details' do
+    before :each do
+      render
+    end
+
+    it 'lets the user edit the title' do
+      expect(rendered).to have_css('#edit-scrapbook input#scrapbook_title', count: 1)
+    end
+
+    it 'lets the user edit the description' do
+      expect(rendered).to have_css('#edit-scrapbook textarea#scrapbook_description', count: 1)
     end
   end
 
