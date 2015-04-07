@@ -1252,12 +1252,17 @@ a.memory, a.scrapbook
     width: 100%
     vertical-align: middle
     border: $navy-blue 1px solid
-    margin-bottom: 2px
+    margin-bottom: 10px
     background-color: $light-grey
 
+    &.ui-sortable-helper
+      background: $navy-blue !important
+      color: $cream
+      margin-bottom: 10px
+      box-shadow: 0px 5px 0px rgba($navy-blue , 0.5)
 
     &:hover
-      background: darken( $light-grey, 5% )
+      background: rgba($navy-blue, 0.15)
       cursor: move
 
     .padding
@@ -2112,6 +2117,14 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
       *
         float: none !important
+
+  #editScrapbook
+    .memories.ui-sortable
+      margin: 0 10px
+
+    .memory .padding .detail
+      width: 60% !important
+
 
 
 
