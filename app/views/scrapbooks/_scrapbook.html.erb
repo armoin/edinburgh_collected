@@ -18,28 +18,8 @@
   </header>
 
   <div class="row">
-    <div class="col-md-8">
-      <% if @memories.any? -%>
 
-        <div class="heroImage">
-          <img src="<%= cache_busted_url(@memories.first) %>" alt="<%= @memories.first.title %>" title="<%= @memories.first.title %>" />
-        </div>
-
-        <%= render partial: 'memories/index', locals: {memories: @memories} %>
-
-      <% elsif current_user.try(:can_modify?, @scrapbook) -%>
-
-        <div id="scrapbookInstructions" class="container">
-          <h3>Your scrapbook is empty!</h3>
-          <p>Start adding memories now...</p>
-
-          <%= render partial: 'scrapbooks/add_memories' %>
-        </div>
-
-      <% end -%>
-    </div>
-
-    <div class="col-md-4">
+    <div id="scrapbookInfo" class="col-md-4">
       <h2>About this scrapbook</h2>
 
       <div class="scrapbookDescription">
@@ -56,6 +36,30 @@
 
       <%= render partial: 'shared/reporting', locals: {item: @scrapbook, report_path: report_scrapbook_path(@scrapbook.id)} %>
     </div>
+
+
+    <div id="scrapbookContent" class="col-md-8">
+      <% if @memories.any? -%>
+       <div class="heroContainer">
+        <div class="heroImage">
+          <img src="<%= cache_busted_url(@memories.first) %>" alt="<%= @memories.first.title %>" title="<%= @memories.first.title %>" />
+        </div>
+       </div>
+
+        <%= render partial: 'memories/index', locals: {memories: @memories} %>
+
+      <% elsif current_user.try(:can_modify?, @scrapbook) -%>
+
+        <div id="scrapbookInstructions" class="container">
+          <h3>Your scrapbook is empty!</h3>
+          <p>Start adding memories now...</p>
+
+          <%= render partial: 'scrapbooks/add_memories' %>
+        </div>
+
+      <% end -%>
+    </div>
+
   </div>
 </div>
 
