@@ -338,6 +338,7 @@ h1, h2, h3
       border-radius: 1px
 
     #theNavBar
+      padding: 0
       #menuText
         float: right
         margin-left: 23px
@@ -695,15 +696,18 @@ button#create-scrapbook-button
     a
       min-width: 20%
       display: inline-block
+      font-size: 21px
+
 
     h1
       color: white
+      font-size: 48px
 
   #descriptionText
     text-align: center
     font-weight: 300
     font-style: italic
-    font-size: 3em
+    font-size: 48px
     margin: 1em 10%
 
   #featuredScrapbook
@@ -2092,6 +2096,11 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
 @media screen and (max-width: 768px)
 
+  #formPanel
+    padding-bottom: 1em
+    .form-horizontal .form-group
+      margin: 15px 0 0 0
+
   #formPanel.editScrapbookForm
     float: none !important
     padding: 0
@@ -2528,6 +2537,31 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
 
   /* Home Page */
+
+  #homeContent
+    h2#descriptionText
+      font-size: 28px
+      margin: 1em 0
+
+    #heroImage
+      margin-top: 0
+      #imageInfo
+        width: 100%
+        margin: 0
+        position: relative
+
+      #cta
+        position: relative
+        padding: 1em 0
+        h1
+          margin-top: 0
+          font-size: 26px
+          color: $navy-blue
+        a
+          font-size: 16px
+          padding: 0.5em
+
+
   #featuredScrapbook
     text-align: center
     padding: 0 1em 1em 0
@@ -2584,6 +2618,13 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 /* SCREEN SIZE: SMALL MOBILES */
 
 @media (max-width: 480px)
+
+  #formHeader
+    display: none
+
+  h1.form-title
+    border-bottom: 1px solid $navy-blue
+    padding-bottom: 0.5em
 
   footer
 
@@ -2678,6 +2719,11 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
     h1
       margin-top: 0
+
+
+  h1.form-title
+    border-bottom: none
+    padding-bottom: 0
 
   #detailsPanel
     background: white

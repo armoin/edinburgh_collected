@@ -36,5 +36,4 @@
 //= require jquery-fileupload/basic
 //= require jquery.guillotine.min
 //= require featherlight.min
-//= require jquery.collagePlus.min
 //= require_tree .
