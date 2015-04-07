@@ -3,7 +3,7 @@ class ScrapbooksController < ApplicationController
   before_action :store_memory_index_path, only: :show
 
   def index
-    scrapbooks = Scrapbook.publicly_visible
+    scrapbooks = Scrapbook.publicly_visible.by_last_created
     memory_fetcher = ApprovedScrapbookMemoryFetcher.new(scrapbooks)
     @presenter = ScrapbookIndexPresenter.new(scrapbooks, memory_fetcher, params[:page])
   end
