@@ -1,7 +1,7 @@
 <% if current_user %>
 
   <%
-    scrapbooks = current_user.scrapbooks
+    scrapbooks = current_user.scrapbooks.by_last_updated
     presenter = ScrapbookIndexPresenter.new(scrapbooks, ScrapbookMemoryFetcher.new(scrapbooks, current_user.id))
   -%>
 
