@@ -1,54 +1,37 @@
 <div id="homeContent" class="container">
 
-  <div id="contentModules" class="row">
+   <div id="heroImage">
 
-    <div id="siteDescription" class="col-md-4 col-sm-4">
-      <div class="module">
-        <%= image_tag 'Pod-1-Newton-Street-Coronation-Party-Edinburgh.jpg', alt: "Newton Street Coronation Party, Edinburgh" %>
-        <h1>Create history...</h1>
-        <p><%= t '.about', app_name: APP_NAME, city: CITY %></p>
-        <a href="signup" class="button green">Get started</a>
+    <div id="cta">
+      <h1>Share your memories and make history</h1>
+      <div class="buttons">
+       <a href="signup" class="button green">Get started</a>
+       <a href="browse" class="button blue">Browse memories</a>
       </div>
     </div>
 
-    <div id="featuredMemory" class="col-md-4  col-sm-4">
-      <div class="module">
-        <%= image_tag 'Pod-2-Olympic-Torch-on-George-IV-Bridge.jpg', alt: "Olympic Torch on George IV Bridge" %>
-        <h3>Olympic Torch on George IV Bridge</h3>
-        <p>Crowds line the street to watch the Olympic torch passing.</p>
-        <a href="memories" class="button blue">Browse more memories</a>
-      </div>
+    <figure class="tint">
+      <img src="/assets/photos/wombles.jpg" />
+    </figure>
+
+    <div id="imageInfo">
+     <p>Underground, Overground, Wombling Free</p>
+     <p><small><strong>1982</strong> added by <a href="#">TheLibrarian</a></small></p>
     </div>
 
-    <div id="joinES" class="col-md-4  col-sm-4">
-      <div class="module">
-        <%= image_tag 'Pod-3-Granny-dancing.jpg', alt: "Granny Dancing" %>
-        <h3>Featured memory</h3>
-        <p>
-          This is a photo of my granny who was a very good Highland dancer and won a lot of medals.
-          The man in the photo is her uncle who played the fiddle.
-        </p>
-        <a href="//edinburghcollected.org/memories/213" class="button blue">View featured memory</a>
-      </div>
-    </div>
+   </div>
 
-  </div>
+   <h2 id="descriptionText">Edinburgh Collected is a community archive of Edinburgh memories</h2>
 
-  <div id="featuredScrapbook" class="row">
-    <div class="col-md-3  col-sm-3 col-xs-12 scrapbookInfo">
-      <h2><%= t '.scrapbook', city: CITY %></h2>
 
+  <div id="featuredScrapbook" class="container">
+    <header>
       <h3>Featured scrapbook</h3>
-      <p><em>James Thomson & Sons Ltd., Licensed Grocer & Victualler</em></p>
+      <h4>Save your favourite memories in a scrapbook</h4>
+    </header>
 
-      <a href="//edinburghcollected.org/scrapbooks/10" class="button teal desktop">View this scrapbook</a>
-    </div>
-
-    <div class="col-md-9  col-sm-9  col-xs-12"><div class="spinner"></div></div>
-    <div class="scrapbooks-container">
-      <div id="scrapbookImages" class="col-sm-9 col-xs-12">
-       <div class="grid-sizer"></div>
-
+      <div id="images" class="clearfix">
+       <div class="inner clearfix">
        <a class="item" href="//edinburghcollected.org/memories/185" title="View memory details">
          <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/185/thumb_0a424551-ed63-487a-a3fc-f9dc08ac38f0.jpeg?1416186543", alt="Dividend Payments to James Thomson & Sons Ltd Shareholders in 1921/22" />
        </a>
@@ -64,20 +47,22 @@
        <a class="item" href="//edinburghcollected.org/memories/182" title="View memory details">
          <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/182/thumb_5dfbcb4f-3509-49c6-9cb5-1c415eecc1b3.jpeg?1416185295", alt="Charlie Taylor (owner of James Thomson & Sons Ltd) winning a TV" />
        </a>
-
-       <a class="item" href="//edinburghcollected.org/memories/181" title="View memory details">
-         <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/181/thumb_e245c658-4944-4d3b-9038-0f204d77d888.JPG?1416190117", alt="James Thomson & Son Ltd before it closed down in 1971" />
-       </a>
-
-       <a class="item" href="//edinburghcollected.org/memories/180" title="View memory details">
-         <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/180/thumb_71e5281f-92d5-4b2a-9a9d-959ce497eb15.jpg?1416185458", alt="James Thomson & Son Ltd pre 1905 before the King's Theatre was built" />
-       </a>
       </div>
-      <a href="//edinburghcollected.org/scrapbooks/10" class="button teal mobile">View this Scrapbook</a>
-    </div>
+      </div>
+      <footer class="container">
+       <div class="col-md-8">
+         James Thomson & Sons Ltd., Licensed Grocer & Victualler<br>
+         by TheLibrarian
+       </div>
+
+       <div class="col-md-4">
+         <a href="#" class="button teal">View scrapbook</a>
+       </div>
+      </footer>
   </div>
 </div>
 
 <script type="text/javascript">
   $(".item-loading-spinner .spinner").spin();
+
 </script>
