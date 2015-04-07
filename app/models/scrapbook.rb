@@ -15,6 +15,7 @@ class Scrapbook < ActiveRecord::Base
   include Searchable
 
   scope :by_last_created, -> { order('created_at DESC') }
+  scope :by_last_updated, -> { order('updated_at DESC') }
 
   def cover
     @cover ||= ScrapbookCover.new(self)

@@ -1,5 +1,5 @@
 class ScrapbookMemory < ActiveRecord::Base
-  belongs_to :scrapbook
+  belongs_to :scrapbook, touch: true
   belongs_to :memory
 
   scope :by_ordering, -> { order(:ordering) }

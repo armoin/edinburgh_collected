@@ -8,14 +8,16 @@ describe My::ScrapbooksController do
   end
 
   describe 'GET index' do
-    let(:scrapbooks)          { Array.new(2).map{|s| Fabricate.build(:scrapbook)} }
+    let(:scrapbooks)          { double('scrapbooks') }
+    let(:ordered_scrapbooks)  { Array.new(2).map{|s| Fabricate.build(:scrapbook)} }
     let(:stub_presenter)      { double('presenter') }
     let(:stub_memory_fetcher) { double('memory_fetcher') }
 
     before :each do
       allow(@user).to receive(:scrapbooks).and_return(scrapbooks)
+      allow(scrapbooks).to receive(:by_last_updated).and_return(ordered_scrapbooks)
       allow(ScrapbookIndexPresenter).to receive(:new).and_return(stub_presenter)
-      allow(ScrapbookMemoryFetcher).to receive(:new).with(scrapbooks, @user.id).and_return(stub_memory_fetcher)
+      allow(ScrapbookMemoryFetcher).to receive(:new).with(ordered_scrapbooks, @user.id).and_return(stub_memory_fetcher)
     end
 
     context 'when not logged in' do
@@ -58,8 +60,12 @@ describe My::ScrapbooksController do
           expect(@user).to have_received(:scrapbooks)
         end
 
+        it 'orders the scrapbooks by the most recently updated' do
+          expect(scrapbooks).to have_received(:by_last_updated)
+        end
+
         it "generates a ScrapbookIndexPresenter for the user's scrapbooks passing in a nil page" do
-          expect(ScrapbookIndexPresenter).to have_received(:new).with(scrapbooks, stub_memory_fetcher, nil)
+          expect(ScrapbookIndexPresenter).to have_received(:new).with(ordered_scrapbooks, stub_memory_fetcher, nil)
         end
 
         it "assigns the generated presenter" do
@@ -81,7 +87,7 @@ describe My::ScrapbooksController do
         end
 
         it "generates a ScrapbookIndexPresenter for the user's scrapbooks passing in the page" do
-          expect(ScrapbookIndexPresenter).to have_received(:new).with(scrapbooks, stub_memory_fetcher, '2')
+          expect(ScrapbookIndexPresenter).to have_received(:new).with(ordered_scrapbooks, stub_memory_fetcher, '2')
         end
       end
     end

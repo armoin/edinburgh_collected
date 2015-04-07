@@ -115,6 +115,17 @@ describe Scrapbook do
         expect(sorted.last).to eql(scrapbook1)
       end
     end
+
+    describe '.by_last_updated' do
+      it 'sorts them by reverse updated at date' do
+        scrapbook1 = Fabricate(:scrapbook)
+        scrapbook2 = Fabricate(:scrapbook)
+        scrapbook1.update(title: 'testing update')
+        sorted = Scrapbook.by_last_updated
+        expect(sorted.first).to eql(scrapbook1)
+        expect(sorted.last).to eql(scrapbook2)
+      end
+    end
   end
 
   describe '#cover' do
