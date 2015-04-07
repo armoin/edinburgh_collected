@@ -153,7 +153,6 @@
             </div>
           <% end -%>
 
-          <% flash[:notice] = "Got it. We'll not show you the Getting Started page when you log in. You can access the Getting Started page from the My account menu at any time." %>
           <% flash.each do |class_name, message| %>
             <div class="<%= class_name %>">
               <span class="close">&times;</span>
