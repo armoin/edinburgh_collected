@@ -1148,30 +1148,36 @@ a.memory, a.scrapbook
     font-size: 1.5em
     padding: 0 0 1em 0
 
+  #scrapbookContent, #scrapbookInfo
+    float: right
+
   #scrapbookInstructions
     margin-bottom: 3em
     background: rgba($navy-blue, 0.20)
     text-align: center
     width: auto
 
-  .heroImage
-    margin: 0.5em 0.5em 1em
-    background: white
-    padding: 1em
+  .heroContainer
 
-    text-align: center
-
-    height: 100%
+    display: table
     width: 100%
+    margin-bottom: 1em
 
-    img
-      width: auto
-      height: auto
-      max-height: 100%
-      max-width: 100%
+    .heroImage
+      margin: 0.5em 0.5em 1em
+      background: white
+      padding: 1em
+      height: 500px
+      text-align: center
+      width: 100%
+      display: table-cell
+      vertical-align: middle
+
+      img
+        vertical-align: middle
 
   .masonry-grid .masonry
-    width: 33%
+    width: 33.33%
 
   .scrapbookDescription
     margin-bottom: 1em
@@ -2597,6 +2603,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
   #scrapbookInstructions
     width: 90%
 
+
   /* Static pages */
 
   section
@@ -2652,6 +2659,16 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     #councilLogo, #nestaLogo
       img
         width: 40%
+
+
+  #scrapbookContent, #scrapbookInfo
+    float: none !important
+
+    h2
+      text-align: left
+
+    .heroContainer
+      display: none!important
 
 
 /* SCREEN SIZE: TABLETS */
