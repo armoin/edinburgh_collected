@@ -18,6 +18,7 @@ class UserParamCleaner
       :image_y,
       :remote_avatar_url,
       :moderation_reason,
+      :hide_getting_started,
       links_attributes: [:id, :name, :url, :_destroy]
     )
   end

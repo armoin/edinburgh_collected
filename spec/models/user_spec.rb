@@ -448,115 +448,139 @@ describe User do
     end
   end
 
+  describe '#show_getting_started?' do
+    before :each do
+      allow(subject).to receive(:hide_getting_started?).and_return(hide_getting_started)
+      allow(subject).to receive(:is_starting?).and_return(is_starting)
+    end
+
+    context 'if the user does not want to hide getting started' do
+      let(:hide_getting_started) { false }
+
+      context 'and the user is starting' do
+        let(:is_starting) { true }
+
+        it 'is true' do
+          expect(subject.show_getting_started?).to be_truthy
+        end
+      end
+
+      context 'and the user is not starting' do
+        let(:is_starting) { false }
+
+        it 'is false' do
+          expect(subject.show_getting_started?).to be_falsy
+        end
+      end
+    end
+
+    context 'if the user wants to hide getting started' do
+      let(:hide_getting_started) { true }
+
+      context 'and the user is starting' do
+        let(:is_starting) { true }
+
+        it 'is true' do
+          expect(subject.show_getting_started?).to be_falsy
+        end
+      end
+
+      context 'and the user is not starting' do
+        let(:is_starting) { false }
+
+        it 'is true' do
+          expect(subject.show_getting_started?).to be_falsy
+        end
+      end
+    end
+  end
+
   describe '#is_starting?' do
-    context 'when the user has no memories yet' do
-      context 'and no scrapbooks' do
-        context 'and no profile' do
-          it 'is true' do
-            expect(subject.is_starting?).to be_truthy
-          end
-        end
+    before :each do
+      allow(subject).to receive(:has_profile?).and_return(has_profile)
+      allow(subject).to receive(:has_memories?).and_return(has_memories)
+      allow(subject).to receive(:has_scrapbooks?).and_return(has_scrapbooks)
+    end
 
-        context 'but has a profile' do
-          before :each do
-            subject.description = 'a description'
-          end
+    context 'with unedited profile, no memory, no scrapbook' do
+      let(:has_profile)    { false }
+      let(:has_memories)   { false }
+      let(:has_scrapbooks) { false }
 
-          it 'is true' do
-            expect(subject.is_starting?).to be_truthy
-          end
-        end
-      end
-
-      context 'but has a scrapbook' do
-        before :each do
-          subject.scrapbooks.build
-        end
-
-        context 'but no profile' do
-          it 'is true' do
-            expect(subject.is_starting?).to be_truthy
-          end
-        end
-
-        context 'and a profile' do
-          before :each do
-            subject.description = 'a description'
-          end
-
-          it 'is true' do
-            expect(subject.is_starting?).to be_truthy
-          end
-        end
+      it 'is true' do
+        expect(subject.is_starting?).to be_truthy
       end
     end
 
-    context 'when the user has a memory' do
-      before :each do
-        subject.memories.build
-      end
+    context 'with unedited profile, a memory, no scrapbook' do
+      let(:has_profile)    { false }
+      let(:has_memories)   { true }
+      let(:has_scrapbooks) { false }
 
-      context 'but no scrapbook' do
-        context 'and no profile' do
-          it 'is true' do
-            expect(subject.is_starting?).to be_truthy
-          end
-        end
-
-        context 'but has a profile' do
-          before :each do
-            subject.description = 'a description'
-          end
-
-          it 'is true' do
-            expect(subject.is_starting?).to be_truthy
-          end
-        end
-      end
-
-      context 'and a scrapbook' do
-        before :each do
-          subject.scrapbooks.build
-        end
-
-        context 'but no profile' do
-          it 'is true' do
-            expect(subject.is_starting?).to be_truthy
-          end
-        end
-
-        context 'and a profile' do
-          before :each do
-            subject.description = 'a description'
-          end
-
-          it 'is false' do
-            expect(subject.is_starting?).to be_falsy
-          end
-        end
+      it 'is true' do
+        expect(subject.is_starting?).to be_truthy
       end
     end
 
-    # context 'when the user has no scrapbooks yet' do
-    #   it 'is false' do
-    #     expect(user.is_starting?).to be_falsy
-    #   end
-    # end
+    context 'with unedited profile, no memory, a scrapbook' do
+      let(:has_profile)    { false }
+      let(:has_memories)   { false }
+      let(:has_scrapbooks) { true }
 
-    # context 'when the user has not added profile information yet' do
-    #   it 'is false' do
-    #     expect(user.is_starting?).to be_falsy
-    #   end
-    # end
+      it 'is true' do
+        expect(subject.is_starting?).to be_truthy
+      end
+    end
 
-    # context 'when the user has memories, scrapbooks and has added profile information' do
-    #   it 'is true' do
-    #     user.memories << Fabricate.build(:memory)
-    #     user.scrapbooks << Fabricate.build(:scrapbook)
-    #     user.description = "My description"
-    #     expect(user.is_starting?).to be_truthy
-    #   end
-    # end
+    context 'with unedited profile, a memory, a scrapbook' do
+      let(:has_profile)    { false }
+      let(:has_memories)   { true }
+      let(:has_scrapbooks) { true }
+
+      it 'is true' do
+        expect(subject.is_starting?).to be_truthy
+      end
+    end
+
+    context 'with edited profile, no memory, no scrapbook' do
+      let(:has_profile)    { true }
+      let(:has_memories)   { false }
+      let(:has_scrapbooks) { false }
+
+      it 'is true' do
+        expect(subject.is_starting?).to be_truthy
+      end
+    end
+
+    context 'with edited profile, a memory, no scrapbook' do
+      let(:has_profile)    { true }
+      let(:has_memories)   { true }
+      let(:has_scrapbooks) { false }
+
+      it 'is true' do
+        expect(subject.is_starting?).to be_truthy
+      end
+    end
+
+    context 'with edited profile, no memory, a scrapbook' do
+      let(:has_profile)    { true }
+      let(:has_memories)   { false }
+      let(:has_scrapbooks) { true }
+
+      it 'is true' do
+        expect(subject.is_starting?).to be_truthy
+      end
+    end
+
+    context 'with edited profile, a memory, a scrapbook' do
+      let(:has_profile)    { true }
+      let(:has_memories)   { true }
+      let(:has_scrapbooks) { true }
+
+      it 'is false' do
+        expect(subject.is_starting?).to be_falsy
+      end
+    end
   end
 
   describe '#has_memories?' do

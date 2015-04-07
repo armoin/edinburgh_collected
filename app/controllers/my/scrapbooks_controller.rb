@@ -14,13 +14,19 @@ class My::ScrapbooksController < My::AuthenticatedUserController
     render 'scrapbooks/show'
   end
 
+  def new
+    @scrapbook = Scrapbook.new
+  end
+
   def create
     @scrapbook = Scrapbook.new(scrapbook_params)
     @scrapbook.user = current_user
     respond_to do |format|
       if @scrapbook.save
+        format.html { redirect_to my_scrapbook_path(@scrapbook), notice: 'Scrapbook created successfully.' }
         format.js
       else
+        format.html { render :new }
         format.js { render 'error', status: :unprocessable_entity }
       end
     end

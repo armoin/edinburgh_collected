@@ -321,6 +321,9 @@ h1, h2, h3
   &:hover
     color: $coral
 
+.nb
+  color: $green
+
 /* ==================================== HEADER */
 
 #main-header
@@ -398,7 +401,7 @@ h1, h2, h3
             ul
               position: absolute
               right: 0
-              width: 130px
+              width: 150px
               text-align: right
               background: $navy-blue
               z-index: 100
@@ -593,7 +596,7 @@ footer
 
     .close
       text-shadow: 0 0 0 white
-      margin: -2px 0 5px 5px
+      margin: -2px 0 5px 10px
       opacity: 1
 
   .alert, .warn
@@ -1254,6 +1257,14 @@ a.memory, a.scrapbook
 /* ============================ GETTING STARTED */
 
 #gettingStarted
+  .protip
+    margin: 1em
+    padding: 1em
+    background-color: cornsilk
+
+  a
+    text-decoration: none
+
   #welcomeMessage
     background-color: white
     padding-bottom: 1em
@@ -1299,10 +1310,8 @@ a.memory, a.scrapbook
         span.glyphicon
           color: $green
 
-    a.hideThis
-      display: block
-      text-align: center
-      text-decoration: none
+    input[type="submit"].hideThis
+      width: 100%
 
   .photo img
     margin: 2em

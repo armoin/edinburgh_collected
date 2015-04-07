@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   namespace :my do
     get '/getting_started' => 'getting_started#index'
+    patch '/skip_getting_started' => 'getting_started#skip_getting_started'
 
     resources :memories
     resources :scrapbooks

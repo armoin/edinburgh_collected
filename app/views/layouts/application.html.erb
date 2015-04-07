@@ -89,6 +89,9 @@
                     <span>My account</span>
                     <ul>
                       <li>
+                        <%= link_to 'Getting started'.html_safe, my_getting_started_path %>
+                      </li>
+                      <li>
                         <%= link_to 'View profile'.html_safe, my_profile_path %>
                       </li>
                       <li>
@@ -150,10 +153,11 @@
             </div>
           <% end -%>
 
+          <% flash[:notice] = "Got it. We'll not show you the Getting Started page when you log in. You can access the Getting Started page from the My account menu at any time." %>
           <% flash.each do |class_name, message| %>
             <div class="<%= class_name %>">
-              <%= message %>
               <span class="close">&times;</span>
+              <%= message %>
             </div>
           <% end %>
         </div>

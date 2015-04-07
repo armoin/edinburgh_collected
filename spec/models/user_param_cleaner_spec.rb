@@ -16,7 +16,8 @@ def user_allowed_params
     image_h:               90,
     image_x:               5,
     image_y:               12,
-    moderation_reason:     'Do not want'
+    moderation_reason:     'Do not want',
+    hide_getting_started:  false
   }
 end
 

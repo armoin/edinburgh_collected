@@ -55,6 +55,10 @@ class User < ActiveRecord::Base
     activation_state == 'pending' && activation_token.present?
   end
 
+  def show_getting_started?
+    !hide_getting_started? && is_starting?
+  end
+
   def is_starting?
     !(has_memories? && has_scrapbooks? && has_profile?)
   end

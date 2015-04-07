@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe My::ScrapbooksController do
-  let(:scrapbook)          { Fabricate.build(:scrapbook, id: 123, user: @user) }
+  let(:scrapbook) { Fabricate.build(:scrapbook, id: 123, user: @user) }
 
   before :each do
     @user = Fabricate.build(:user)
@@ -178,6 +178,34 @@ describe My::ScrapbooksController do
     end
   end
 
+  describe 'GET new' do
+    context 'when not logged in' do
+      let(:format) { 'html' }
+
+      before :each do
+        get :new, format: format
+      end
+
+      it_behaves_like 'requires logged in user'
+    end
+
+    context 'when logged in' do
+      before :each do
+        login_user
+        get :new
+      end
+
+      it "assigns a new scrapbook" do
+        expect(assigns[:scrapbook]).to be_new_record
+        expect(assigns[:scrapbook]).to be_a(Scrapbook)
+      end
+
+      it 'renders the new page' do
+        expect(response).to render_template(:new)
+      end
+    end
+  end
+
   describe 'POST create' do
     let(:strong_params) {{ title: 'A title' }}
     let(:format)        { 'js' }
@@ -205,12 +233,18 @@ describe My::ScrapbooksController do
     end
 
     context 'when logged in' do
+      let(:save_result) { true }
+      let(:errors)      { {} }
+
       before :each do
         login_user
+
         allow(ScrapbookParamCleaner).to receive(:clean).and_return(strong_params)
         allow(Scrapbook).to receive(:new).and_return(scrapbook)
         allow(scrapbook).to receive(:user=)
-        allow(scrapbook).to receive(:save).and_return(true)
+        allow(scrapbook).to receive(:save).and_return(save_result)
+        allow(scrapbook).to receive(:errors).and_return(errors)
+
         post :create, given_params
       end
 
@@ -243,30 +277,56 @@ describe My::ScrapbooksController do
       end
 
       context "save is successful" do
+        let(:save_result) { true }
+        let(:errors)      { {} }
+
         it "is successful" do
           expect(response.status).to eql(200)
         end
 
-        it "renders the create javascript" do
-          expect(response.body).to render_template('create')
+        context 'when format is html' do
+          let(:format) { 'html' }
+
+          it "redirects to the newly created scrapbook's page" do
+            expect(response.body).to redirect_to(my_scrapbook_path(scrapbook))
+          end
+
+          it "shows a success notice" do
+            expect(flash[:notice]).to eql('Scrapbook created successfully.')
+          end
+        end
+
+        context 'when format is js' do
+          let(:format) { 'js' }
+
+          it "renders the create javascript" do
+            expect(response.body).to render_template('create')
+          end
         end
       end
 
       context "save is not successful" do
-        let(:errors) { {title: 'is invalid'} }
-
-        before :each do
-          allow(scrapbook).to receive(:save).and_return(false)
-          allow(scrapbook).to receive(:errors).and_return(errors)
-          post :create, given_params
-        end
+        let(:save_result) { false }
+        let(:errors)      { {title: 'is invalid'} }
 
         it "is not successful" do
           expect(response.status).to eql(422)
         end
 
-        it "renders the error javascript" do
-          expect(response.body).to render_template('error')
+        context 'when format is html' do
+          let(:format) { 'html' }
+
+          it "re-renders the new page" do
+            expect(response.body).to render_template(:new)
+          end
+        end
+
+        context 'when format is js' do
+          let(:format) { 'js' }
+
+          it "renders the error javascript" do
+            expect(response.body).to render_template('error')
+          end
         end
       end
     end

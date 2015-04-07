@@ -1,69 +1,139 @@
 <div class="container">
- <div id="gettingStarted" class="row static">
-  <div id="welcomeMessage" class="col-sm-6">
-    <h1>Welcome <em><%= current_user.screen_name %></em></h1>
-    <h2>Welcome to Edinburgh Collected</h2>
+  <div id="gettingStarted" class="row static">
+    <div id="welcomeMessage" class="col-sm-6">
+      <h1>Welcome <em><%= current_user.screen_name %></em></h1>
+      <h2>Welcome to <%= APP_NAME %></h2>
 
+      <% if current_user.show_getting_started? %>
+        <p class="protip">
+          You can view this page again at any time by choosing <strong>Getting started</strong> from the <strong>My account</strong> menu at the top of the page.
+        </p>
+      <% end -%>
 
-    <% if current_user.has_profile? %>
-    <div class="step checked">
-     <div class="inner top">
-     <span class="number"> 1.</span> Fill out your profile <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
-     </div>
+      <div id="profile-step">
+        <% if current_user.has_profile? %>
+          <div class="step checked">
+            <%= link_to my_profile_path do %>
+              <div class="inner top">
+                <span class="number"> 1.</span> Fill out your profile
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+              </div>
+              <div class="inner bottom">
+                <p>
+                  Great! That's your profile ready now. You can click here (or the <strong>View profile</strong> link in the <strong>My account</strong> menu at the top of the page) at any time to view your profile.
+                </p>
+                <p class="nb">
+                  Your profile has to be moderated by the <%= APP_NAME %> team before others will be able to see it.
+                </p>
+              </div>
+            <% end -%>
+          </div>
+        <% else %>
+          <div class="step">
+            <%= link_to my_profile_edit_path do %>
+              <div class="inner top">
+                <span class="number"> 1.</span> Fill out your profile
+                <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+              </div>
+              <div class="inner bottom">
+                <p>
+                  Fill in your profile with a little bit about yourself and upload a profile picture.
+                </p>
+              </div>
+            <% end -%>
+          </div>
+        <% end %>
+      </div>
+
+      <div id="memories-step">
+        <% if current_user.has_memories? %>
+          <div class="step checked">
+            <%= link_to my_memories_path do %>
+              <div class="inner top">
+                <span class="number"> 2.</span> Upload your first memory
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+              </div>
+              <div class="inner bottom">
+                <p>
+                  Now that you've uploaded your first memory, you can view your list of memories by clicking here or by clicking the <strong>My collection</strong> link at the top of the page.
+                </p>
+                <p class="nb">
+                  Memories have to be moderated by the <%= APP_NAME %> team before others will be able to see them.
+                </p>
+              </div>
+            <% end -%>
+          </div>
+        <% else %>
+          <div class="step">
+            <%= link_to new_my_memory_path do %>
+              <div class="inner top">
+                <span class="number"> 2.</span> Upload your first memory
+                <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+              </div>
+              <div class="inner bottom">
+                <p>
+                  Start uploading your memories of Edinburgh to the site.
+                </p>
+              </div>
+            <% end -%>
+          </div>
+        <% end %>
+      </div>
+
+      <div id="scrapbooks-step">
+        <% if current_user.has_scrapbooks? %>
+          <div class="step checked">
+            <%= link_to my_scrapbooks_path do %>
+              <div class="inner top">
+                <span class="number"> 3.</span> Create your first scrapbook
+                <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+              </div>
+              <div class="inner bottom">
+                <p>
+                  Now that you've created your first scrapbook, you can view your scrapbooks by clicking here or by clicking the <strong>My collection</strong> link at the top of the page and then clicking the <strong>Scrapbooks</strong> button on the My Collection page.
+                </p>
+                <p class="nb">
+                  Scrapbooks have to be moderated by the <%= APP_NAME %> team before others will be able to see them.
+                </p>
+              </div>
+            <% end -%>
+          </div>
+        <% else %>
+          <div class="step">
+            <%= link_to new_my_scrapbook_path do %>
+              <div class="inner top">
+                <span class="number"> 3.</span> Create your first scrapbook
+                <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+              </div>
+              <div class="inner bottom">
+                <p>
+                  Create a scrapbook and start adding memories from your own collection or from around the site.
+                </p>
+              </div>
+            <% end -%>
+          </div>
+        <% end %>
+      </div>
+
+      <% if current_user.show_getting_started? %>
+        <%= form_for current_user, url: my_skip_getting_started_path, method: :patch do |form| %>
+          <div class="form-group">
+            <div class="formRow">
+              <label for="user_accepted_t_and_c">
+                <%= form.check_box :hide_getting_started %>
+                Don't show me this page again when I sign in.
+              </label>
+            </div>
+          </div>
+
+          <%= form.submit "Skip this for now", class: "hideThis button navy" %>
+        <% end -%>
+      <% end -%>
+
     </div>
-    <% else %>
-    <div class="step">
-     <div class="inner top">
-     <span class="number"> 1.</span> Fill out your profile <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
-     </div>
-     <div class="inner bottom">
-      <p>Fill in your profile with a little bit about yourself and upload a profile picture: <%= link_to 'Edit your profile', my_profile_edit_path %></p>
-     </div>
-    </div>
-    <% end %>
-
-    <% if current_user.has_memories? %>
-    <div class="step checked">
-     <div class="inner top">
-     <span class="number"> 2.</span> Upload memories <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
-     </div>
-    </div>
-    <% else %>
-    <div class="step">
-     <div class="inner top">
-     <span class="number"> 2.</span> Upload memories <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
-     </div>
-     <div class="inner bottom">
-      <p>Start uploading your memories of Edinburgh to the site: <%= link_to 'Add a memory', new_my_memory_path %></p>
-     </div>
-    </div>
-    <% end %>
-
-    <% if current_user.has_scrapbooks? %>
-    <div class="step checked">
-     <div class="inner top">
-     <span class="number"> 3.</span> Create your first Scrapbook <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
-     </div>
-    </div>
-    <% else %>
-    <div class="step">
-     <div class="inner top">
-     <span class="number"> 3.</span> Create your first Scrapbook <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
-     </div>
-     <div class="inner bottom">
-      <p>Create a scrapbook and start adding memories from your own collection or from around the site.</p>
-     </div>
-    </div>
-    <% end %>
-
-    <a href="#" class="hideThis button navy">OK, got it. Don't show me this page again</a>
-
-    </div>
-
-
 
     <div class="photo col-sm-6">
-     <%= image_tag "photos/edinburgh-collected-girl-bike.jpg", alt: "Edinburgh Collected" %>
+      <%= image_tag "photos/edinburgh-collected-girl-bike.jpg", alt: "Edinburgh Collected" %>
     </div>
 
   </div>

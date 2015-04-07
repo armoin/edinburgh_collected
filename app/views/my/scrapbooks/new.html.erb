@@ -1,0 +1,25 @@
+<div class="container">
+  <header id="formHeader" class="row">
+  </header>
+
+  <div id="createScrapbookForm" class="formWrapper row">
+    <div id="formPanel" class="col-md-6">
+
+      <h1 class="form-title">Create scrapbook</h1>
+
+      <%= form_for @scrapbook, url: my_scrapbooks_path, html: {class: 'form-horizontal', role: "form"} do |form| %>
+        <%= render partial: 'form_details', locals: {form: form} %>
+
+        <div class="form-group">
+          <div class="actions col-xs-sm-12" aria-label="actions">
+            <%= link_to 'Cancel', my_scrapbooks_path, class: "button cancel", role: "button" %>
+            <%= form.submit 'Create scrapbook', class: "button save scrapbooks", role: "button" %>
+          </div>
+        </div>
+      <% end -%>
+    </div>
+    <div id="infoPanel" class="col-md-6">
+    </div>
+
+  </div>
+</div>

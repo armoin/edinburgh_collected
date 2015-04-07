@@ -22,7 +22,7 @@ module SessionHelper
     case
     when user.is_admin?
       admin_home_path
-    when show_getting_started?(user)
+    when user.show_getting_started?
       my_getting_started_path
     else
       my_memories_path
@@ -38,10 +38,6 @@ module SessionHelper
   def path_or_default(path, default_path)
     return default_path unless session[path].present?
     session[path]
-  end
-
-  def show_getting_started?(user)
-    user.is_starting? && !user.hide_getting_started?
   end
 end
 
