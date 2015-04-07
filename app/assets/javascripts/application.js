@@ -18,6 +18,7 @@
 //= require exif
 //= require jquery.placeholder
 //= require jquery-ui.min
+//= require jquery.ui.touch-punch.min
 //= require imagesloaded.pkgd.min
 //= require jquery.waitforimages.min
 //= require masonry.pkgd.min

@@ -1,26 +1,23 @@
 class @ScrapbookEditor
   constructor: () ->
-    # temporarily removing the reordering
-    #
-    # $('.memories').sortable({
-    #   stop: @recordOrdering
-    # })
+    $('.memories').sortable({
+      stop: @recordOrdering
+    })
 
     $('.remove-memory').on 'click', (e) =>
       memory = $(e.currentTarget).closest('.memory')
       $(memory).addClass('deleted')
       @recordDeletions()
 
-    $('.undo-remove').on 'click', (e) =>
-      memory = $(e.currentTarget).closest('.memory')
-      $(memory).removeClass('deleted')
-      @recordDeletions()
+    $('#save-scrapbook-edits').on 'click', (e) ->
+      e.preventDefault()
+      $('form#edit-scrapbook input[type="submit"]').trigger('click')
 
   recordDeletions: =>
     deleted = $.map($('.memory.deleted'), (el) -> $(el).data('id') )
     $('input#scrapbook_deleted').val(deleted)
-    # @recordOrdering()
+    @recordOrdering()
 
-  # recordOrdering: (e) =>
-  #   ordering = $.map($('.memory').not('.deleted'), (el) -> $(el).data('id') )
-  #   $('input#scrapbook_ordering').val(ordering)
+  recordOrdering: (e) =>
+    ordering = $.map($('.memory').not('.deleted'), (el) -> $(el).data('id') )
+    $('input#scrapbook_ordering').val(ordering)

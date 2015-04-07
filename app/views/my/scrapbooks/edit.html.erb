@@ -8,14 +8,7 @@
       <div class="viewingInfo">
         <%= link_to 'Back', my_scrapbook_path(@scrapbook.id), :class => "button back" %>
       </div>
-      <%= link_to "Save changes", '#', class: 'button green float-right' %>
-    </div>
-
-    <div id="pageInfo">
-      <h2>Reorder or remove memories</h2>
-      <p>
-        Removing memories will only remove them from this scrapbook. They will still be available in your collection.
-      </p>
+      <%= link_to "Save changes", '#', class: 'button green float-right', id: 'save-scrapbook-edits' %>
     </div>
   </header>
 
@@ -31,11 +24,19 @@
       <div class="form-group">
         <%= hidden_field_tag 'scrapbook[ordering]' %>
         <%= hidden_field_tag 'scrapbook[deleted]' %>
+        <%= form.submit class: 'hide' %>
       </div>
     <% end %>
   </div>
 
   <div id="editScrapbook" class="col-md-8">
+    <div id="pageInfo">
+      <h2>Reorder or remove memories</h2>
+      <p>
+        Removing memories will only remove them from this scrapbook. They will still be available in your collection. Please remember to <strong>save your changes</strong> when you're done.
+      </p>
+    </div>
+
     <div class="memoriesWrapper">
       <% if @scrapbook.errors.messages.has_key?(:scrapbook_memories) %>
         <div class="alert">
@@ -59,10 +60,6 @@
                 <button class='button red small remove-memory'>
                   <span class="glyphicon glyphicon-remove"></span>
                   <span class="text">Remove</span>
-                </button>
-                <button class='button blue small undo-remove'>
-                  <span class="glyphicon glyphicon-repeat"></span>
-                  <span class="text">Undo Remove</span>
                 </button>
               </div>
             </div>

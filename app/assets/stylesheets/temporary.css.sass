@@ -908,10 +908,10 @@ a.memory, a.scrapbook
     text-decoration: none
 
 .memory, .scrapbook
+  display: block
+
   button.remove-memory
     display: inline-block
-  button.undo-remove
-    display: none
 
   &.thumb
 
@@ -989,10 +989,7 @@ a.memory, a.scrapbook
       max-width: 100%
 
   &.deleted
-    button.remove-memory
-      display: none
-    button.undo-remove
-      display: inline-block
+    display: none !important
 
   &.moderation
     text-align: left
@@ -1232,9 +1229,6 @@ a.memory, a.scrapbook
     text-align: left
     margin-top: 1em
 
-#contentHeader.editScrapbook
-  border-bottom: $navy-blue 1px solid
-
 #editScrapbook
   padding: 0 0 2em 0
   float: left
@@ -1249,8 +1243,9 @@ a.memory, a.scrapbook
     display: block
     width: 100%
     vertical-align: middle
-    border-bottom: $navy-blue 1px solid
-    border-right: $navy-blue 1px solid
+    border: $navy-blue 1px solid
+    margin-bottom: 2px
+    background-color: $light-grey
 
 
     &:hover
