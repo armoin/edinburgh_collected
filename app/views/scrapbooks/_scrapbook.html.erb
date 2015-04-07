@@ -22,7 +22,7 @@
       <% if @memories.any? -%>
 
         <div class="heroImage">
-          <img src="http://placehold.it/800x600" />
+          <img src="<%= cache_busted_url(@memories.first) %>" alt="<%= @memories.first.title %>" title="<%= @memories.first.title %>" />
         </div>
 
         <%= render partial: 'memories/index', locals: {memories: @memories} %>
