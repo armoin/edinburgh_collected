@@ -4,7 +4,7 @@ class My::ScrapbooksController < My::AuthenticatedUserController
   before_action :assign_scrapbook, only: [:show, :edit, :update, :destroy]
 
   def index
-    scrapbooks = current_user.scrapbooks
+    scrapbooks = current_user.scrapbooks.by_last_updated
     memory_fetcher = ScrapbookMemoryFetcher.new(scrapbooks, current_user.id)
     @presenter = ScrapbookIndexPresenter.new(scrapbooks, memory_fetcher, params[:page])
   end

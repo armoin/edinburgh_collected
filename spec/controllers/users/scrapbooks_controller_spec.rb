@@ -47,6 +47,7 @@ describe Users::ScrapbooksController do
         let(:other_user)              { Fabricate.build(:active_user, id: 456) }
         let(:scrapbooks_stub)         { double('scrapbooks') }
         let(:visible_scrapbooks_stub) { double('visible_scrapbooks') }
+        let(:ordered_scrapbooks_stub) { double('ordered_scrapbooks') }
         let(:stub_presenter)          { double('presenter') }
         let(:stub_memory_fetcher)     { double('memory_fetcher') }
 
@@ -57,9 +58,9 @@ describe Users::ScrapbooksController do
           allow(requested_user).to receive(:publicly_visible?).and_return(visible)
 
           allow(scrapbooks_stub).to receive(:publicly_visible).and_return(visible_scrapbooks_stub)
-          allow(visible_scrapbooks_stub).to receive(:page).and_return(visible_scrapbooks_stub)
+          allow(visible_scrapbooks_stub).to receive(:by_last_created).and_return(ordered_scrapbooks_stub)
 
-          allow(ApprovedScrapbookMemoryFetcher).to receive(:new).with(visible_scrapbooks_stub).and_return(stub_memory_fetcher)
+          allow(ApprovedScrapbookMemoryFetcher).to receive(:new).with(ordered_scrapbooks_stub).and_return(stub_memory_fetcher)
           allow(ScrapbookIndexPresenter).to receive(:new).and_return(stub_presenter)
 
           get :index, user_id: requested_user.to_param
@@ -81,8 +82,12 @@ describe Users::ScrapbooksController do
             expect(scrapbooks_stub).to have_received(:publicly_visible)
           end
 
+          it 'orders them with the last created first' do
+            expect(visible_scrapbooks_stub).to have_received(:by_last_created)
+          end
+
           it "generates a ScrapbookIndexPresenter for the requested user's scrapbooks" do
-            expect(ScrapbookIndexPresenter).to have_received(:new).with(visible_scrapbooks_stub, stub_memory_fetcher, nil)
+            expect(ScrapbookIndexPresenter).to have_received(:new).with(ordered_scrapbooks_stub, stub_memory_fetcher, nil)
           end
 
           it "assigns the generated presenter" do

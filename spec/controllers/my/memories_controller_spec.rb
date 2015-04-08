@@ -1,17 +1,13 @@
 require 'rails_helper'
 
 describe My::MemoriesController do
-  let(:stub_memories)   { double('memories', find: memory, by_recent: true) }
-  let(:sorted_memories) { double('sorted_memories') }
+  let(:stub_memories)   { double('memories', find: memory) }
   let(:memory)          { Fabricate.build(:photo_memory, id: 123, user: @user) }
   let(:base_path)       { my_memories_path }
 
   before :each do
     @user = Fabricate.build(:user)
     allow(Memory).to receive(:find).and_return(memory)
-    allow(stub_memories).to receive(:by_recent).and_return(sorted_memories)
-    allow(sorted_memories).to receive(:page).and_return(sorted_memories)
-    allow(sorted_memories).to receive(:per).and_return(sorted_memories)
   end
 
   describe 'GET index' do

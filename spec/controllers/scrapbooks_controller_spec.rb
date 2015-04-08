@@ -2,14 +2,16 @@ require 'rails_helper'
 
 describe ScrapbooksController do
   describe 'GET index' do
-    let(:scrapbooks)          { Array.new(2).map{|s| Fabricate.build(:scrapbook)} }
+    let(:scrapbooks)          { double('scrapbooks') }
+    let(:ordered_scrapbooks)  { Array.new(2).map{|s| Fabricate.build(:scrapbook)} }
     let(:stub_presenter)      { double('presenter') }
     let(:stub_memory_fetcher) { double('approved_memory_fetcher') }
 
     before :each do
       allow(Scrapbook).to receive(:publicly_visible).and_return(scrapbooks)
+      allow(scrapbooks).to receive(:by_last_created).and_return(ordered_scrapbooks)
       allow(ScrapbookIndexPresenter).to receive(:new).and_return(stub_presenter)
-      allow(ApprovedScrapbookMemoryFetcher).to receive(:new).with(scrapbooks).and_return(stub_memory_fetcher)
+      allow(ApprovedScrapbookMemoryFetcher).to receive(:new).with(ordered_scrapbooks).and_return(stub_memory_fetcher)
       get :index
     end
 
@@ -25,8 +27,12 @@ describe ScrapbooksController do
       expect(Scrapbook).to have_received(:publicly_visible)
     end
 
+    it 'orders the scrapbooks by most recently created' do
+      expect(scrapbooks).to have_received(:by_last_created)
+    end
+
     it "generates a ScrapbookIndexPresenter for the scrapbooks" do
-      expect(ScrapbookIndexPresenter).to have_received(:new).with(scrapbooks, stub_memory_fetcher, nil)
+      expect(ScrapbookIndexPresenter).to have_received(:new).with(ordered_scrapbooks, stub_memory_fetcher, nil)
     end
 
     it "assigns the generated presenter" do

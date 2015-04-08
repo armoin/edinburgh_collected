@@ -9,7 +9,7 @@ class Admin::Moderation::ScrapbooksController < Admin::AuthenticatedAdminControl
   end
 
   def moderated
-    @items = Scrapbook.moderated.by_recent
+    @items = Scrapbook.moderated.by_last_moderated
     render :index
   end
 

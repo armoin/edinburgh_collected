@@ -375,11 +375,11 @@ describe Memory do
   end
 
   describe 'ordering' do
-    describe '.by_recent' do
+    describe '.by_last_created' do
       it 'sorts them by reverse created at date' do
         memory1 = Fabricate(:memory)
         memory2 = Fabricate(:memory)
-        sorted = Memory.by_recent
+        sorted = Memory.by_last_created
         expect(sorted.first).to eql(memory2)
         expect(sorted.last).to eql(memory1)
       end

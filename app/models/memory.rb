@@ -34,7 +34,7 @@ class Memory < ActiveRecord::Base
   MAX_FILE_SIZE = 4.megabyte
   validates :source, file_size: { less_than_or_equal_to: MAX_FILE_SIZE }
 
-  scope :by_recent, -> { order('created_at DESC') }
+  scope :by_last_created, -> { order('created_at DESC') }
 
   def self.filter_by_area(area)
     return publicly_visible unless area.present?
