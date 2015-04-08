@@ -1238,8 +1238,6 @@ a.memory, a.scrapbook
     margin-top: 1em
 
 #editScrapbook
-  padding: 0 0 2em 0
-  float: left
 
   h2
     font-weight: 300
@@ -1284,6 +1282,8 @@ a.memory, a.scrapbook
         max-width: 50px
         vertical-align: middle
         margin-right: 1em
+        background: white
+        border: 1px solid $navy-blue
 
       button
         font-size: 12px
@@ -2119,8 +2119,19 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         float: none !important
 
   #editScrapbook
-    .memories.ui-sortable
-      margin: 0 10px
+    #formPanel
+      padding: 0 15px
+    #pageInfo
+      h2
+        font-size: 18px
+        text-align: left
+        margin-bottom: 10px
+        font-style: normal
+        font-weight: 600
+
+      p
+        font-size: 14px
+
 
     .memory .padding .detail
       width: 60% !important
@@ -2142,34 +2153,55 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     padding: 0
 
   #contentHeader
+    padding: 0
     #pageInfo
       text-align: left
 
     div.actions
       .viewingInfo
-        float: left
+        position: relative
+        left: 4px
+        float: none
 
-      a.float-right
-        float: right !important
+        span, a
+          width: 49%
 
+  #scrapbook
+    .actions
+      .viewingInfo
+        left: 0 !important
+        a
+          width: 30% !important
 
-  #editScrapbook .memory
-    .padding
-      padding-right: 0
+  #editScrapbook
+    .viewingInfo
+      float: left !important
+      width: auto
+      padding-bottom: 0
 
-      img
-        max-width: 40px
+      a
+        width: auto !important
 
-      .detail
-        width: 65%
-        h3
-          margin: 0
-          font-size: 14px
+    a.float-right
+      float: right !important
 
-      .memory-actions
-        width 10%
-        button span.text
-          display: none
+    .memory
+      .padding
+        padding-right: 0
+
+        img
+          max-width: 40px
+
+        .detail
+          width: 65%
+          h3
+            margin: 0
+            font-size: 14px
+
+        .memory-actions
+          width 10%
+          button span.text
+            display: none
 
 
 
@@ -2492,6 +2524,8 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
   .actions
     .viewingInfo
+      float: none
+      width: 100%
       display: block !important
       padding-bottom: 1em
 
@@ -2499,11 +2533,11 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         display: block !important
         padding-bottom: 0.25em
 
-      a, span
-        padding: 0.25em 0.5em
+    a, span
+      padding: 0.25em 0.5em
 
     a.float-right
-      float: none
+      float: none !important
       display: block
       margin-bottom: 0.2em
       text-align: center
@@ -2532,12 +2566,29 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
       #metadata
         padding-right: 0
+        word-break: break-all
 
         .filters
           padding-bottom: 1em
 
       #comments
         padding-left: 0
+
+    .actions
+      a
+        width: auto !important
+        display: inline-block
+        float: right !important
+        &.back
+          float: left !important
+
+    .actions.currentUser
+      a
+        float: none !important
+        width: 32%!important
+        &.scrapbooks
+          width: 100%!important
+          margin: 5px 0 0 0
 
 
 
