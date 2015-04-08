@@ -306,7 +306,12 @@ span.button.memories:hover
 a
   color: $navy-blue
 
-h1, h2, h3
+h1
+  font-family: 'Open Sans Condensed', sans-serif
+  font-weight: normal
+  font-size: 48px
+
+h2, h3
   font-family: 'Open Sans', sans-serif
   font-weight: 600
 
@@ -1408,40 +1413,21 @@ img.avatar
   width: 90px
   height: 90px
 
-#profileHeader
-  margin: 2em 0 0 0
-  text-align: center
+#profile
+  h1
+    padding-top: 0
 
-  #userContent
-    float: right
-    display: table
-    position: relative
-    right: -15px
+  a.edit
+    max-width: 90px
+    display: block
+    text-align: center
+    margin-top: 1em
 
-    div
-      display: table-cell
-      text-align: center
-      vertical-align: middle
+  #profileDetails
+    strong
+      width: 25%
+      display: inline-block
 
-      a
-        display: block
-        padding: 1.5em 0
-
-        span
-          font-size: 1.5em
-          font-weight: 600
-
-      &.active
-        background: $navy-blue
-        a
-          color: white
-
-      &:hover
-        text-decoration: none
-        pointer: default !important
-
-      span
-        display: block
 
 .memories #userMemories a:hover, .scrapbook #userScrapbooks a:hover
   text-decoration: none
@@ -1471,6 +1457,10 @@ img.avatar
     font-weight: bold
 
 /* ==================================== FORMS */
+
+#newMemoryForm, #editProfileForm, #profile
+  background: rgba($navy-blue, 0.25)
+
 
 #formHeader
   padding: 0em 0 2em 0
