@@ -326,6 +326,9 @@ h1, h2, h3
 
 /* ==================================== HEADER */
 
+.mm-menu
+  background: $navy-blue !important
+
 #main-header
 
   #masthead
@@ -394,21 +397,20 @@ h1, h2, h3
 
             & > span
               display: inline-block
+              cursor: pointer
 
             & > a, & > span
               padding: 0.25em 1em 0.25em 1em !important
-              +border-radius(4px)
+              +border-radius(4px 4px 0 0)
 
             ul
               position: absolute
               right: 0
               width: 150px
               text-align: right
-              background: $navy-blue
               z-index: 100
               padding: 0.5em 0 0.5em 0 !important
               list-style: none
-              +border-radius(4px 0 4px 4px)
               display: none
 
               li
@@ -419,16 +421,25 @@ h1, h2, h3
                   color: $cream
                   padding: 0 !important
                   border-bottom: none !important
+                  &:hover
+                    text-decoration: underline
+                    color: lighten( $green, 10% ) !important
+
 
 
             &:hover
-              background: $navy-blue
+
               a, span
                 color: $cream !important
                 border-bottom: none !important
+                background: $navy-blue
+                cursor: pointer
+
 
               ul
                 display: block
+                background: $navy-blue
+                +border-radius(4px 0 4px 4px)
 
 
 
@@ -2748,45 +2759,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     .navbar .navbar-collapse ul.nav li.profile
       margin: 0 !important
 
-  .navbar-nav
-    li.profile
-      position: relative
-      margin: 0 !important
-
-      & > a
-        padding: 0.25em 1em 0.25em 1em !important
-        +border-radius(4px)
-
-      ul
-        position: absolute
-        right: 0
-        width: 160px
-        text-align: right
-        background: $navy-blue
-        z-index: 100
-        padding: 0.5em 0 0.5em 0 !important
-        list-style: none
-        +border-radius(4px 0 4px 4px)
-        display: none
-
-        li
-          margin: 0 !important
-          padding: 0.25em 1em !important
-
-          a
-            color: $cream
-            padding: 0 !important
-            border-bottom: none !important
-
-
-      &:hover
-        background: $navy-blue
-        a
-          color: $cream !important
-          border-bottom: none !important
-
-        ul
-          display: block
 
   #searchwrapper
     .searchForm
