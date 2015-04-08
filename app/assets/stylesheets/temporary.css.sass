@@ -664,7 +664,7 @@ button#create-scrapbook-button
 
     .tint
       position: relative
-      cursor: pointer
+      cursor: normal
       z-index: 0
 
     .tint:before
@@ -675,7 +675,7 @@ button#create-scrapbook-button
       bottom: 0
       left: 0
       right: 0
-      background: rgba($navy-blue, 0.25)
+      background: rgba($navy-blue, 0.5)
       transition: all .3s linear
 
     .tint:hover:before
@@ -715,7 +715,9 @@ button#create-scrapbook-button
 
     h1
       color: white
-      font-size: 48px
+      font-size: 62px
+      font-family: 'Open Sans Condensed', sans-serif
+      font-weight: normal
 
   #descriptionText
     text-align: center
@@ -1479,7 +1481,7 @@ img.avatar
   margin: 0 0 15px 0
 
 .formWrapper
-  background:  darken( $light-grey, 5% )
+  background:  white
   margin: 0 0 2em 0
 
   #formPanel
@@ -1498,11 +1500,19 @@ img.avatar
         font-weight: 400
 
   #extraPanel
-    padding-bottom: 2em
+    padding: 0em
+    position: relative
 
     #signposting
+      position: absolute
+      top: 0
+      width: 100%
       text-align: center
       padding: 0.5em 0 2em
+
+      h3
+        font-family: 'Open Sans Condensed', sans-serif
+        font-weight: normal
 
       a.button
         font-size: 1.25em
@@ -1810,7 +1820,67 @@ form
 
 #signIn, #signUp, #password
 
-  h1
+.formWrapper
+  background:  white
+  margin: 0 0 2em 0
+  position: relative
+  height: 100%
+  overflow: hidden
+
+  #formPanel
+    background: white
+
+  #extraPanel
+    padding: 0em
+    position: absolute
+    right: 0
+    top: 0
+    height: 100%
+    -webkit-background-size: cover
+    -moz-background-size: cover
+    -o-background-size: cover
+    background-size: cover
+
+
+    #signposting
+      position: absolute
+      top: 30px
+      width: 100%
+      text-align: center
+
+      .inner
+        display: inline-block
+        padding: 1em
+
+        h2
+          color: white
+          font-family: 'Open Sans Condensed', sans-serif
+          font-weight: normal
+          font-size: 36px
+
+#signIn
+  #extraPanel
+    background: url(photos/edinburgh-collected-girl-mum-beach.jpg) no-repeat center bottom
+    .inner
+      background: rgba($blue, 0.75)
+
+
+#signUp
+  #extraPanel
+    background: url(photos/edinburgh-collected-rubix.jpg) no-repeat center top
+    .inner
+      background: rgba($navy-blue, 0.5)
+      margin: 0 30px
+
+      ul.help-tips
+        margin: 1em 2em
+
+#password
+  #extraPanel
+    background: url(photos/edinburgh-collected-crowd.jpg) no-repeat center top
+
+
+
 
   form
     label
@@ -2093,6 +2163,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 /* ==================================== HELP TIPS */
 
 .help-tips
+  text-align: left
 
   .required
     color: $required
@@ -2395,6 +2466,15 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       margin: 0
 
   #signIn, #signUp, #password
+
+    #extraPanel
+      position: relative !important
+
+      #signposting
+        position: relative
+        margin: 3em 0
+
+
     form
       .actions > *
         margin: 0 0 1em 0
@@ -2796,6 +2876,8 @@ header .navbar .navbar-collapse ul.nav li a.feedback
   h1.form-title
     border-bottom: none
     padding-bottom: 0
+    font-family: 'Open Sans Condensed', sans-serif
+    font-weight: normal
 
   #detailsPanel
     background: white
