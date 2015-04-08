@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 
   def create
     if @user = login(params[:email], params[:password])
-      redirect_back_or_to landing_page_for(@user), notice: 'Successfully signed in'
+      redirect_back_or_to landing_page_for(@user), notice: "Welcome #{@user.screen_name}"
     else
       redirect_to :signin, alert: 'Email or password was incorrect.'
     end

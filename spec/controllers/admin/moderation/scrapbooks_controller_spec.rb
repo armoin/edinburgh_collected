@@ -55,7 +55,7 @@ describe Admin::Moderation::ScrapbooksController do
         @user = Fabricate(:admin_user)
         login_user
         allow(Scrapbook).to receive(:moderated).and_return(moderated_scrapbooks)
-        allow(moderated_scrapbooks).to receive(:by_recent).and_return(ordered_scrapbooks)
+        allow(moderated_scrapbooks).to receive(:by_last_moderated).and_return(ordered_scrapbooks)
         get :moderated
       end
 
@@ -68,7 +68,7 @@ describe Admin::Moderation::ScrapbooksController do
       end
 
       it 'sorts the items with newest first' do
-        expect(moderated_scrapbooks).to have_received(:by_recent)
+        expect(moderated_scrapbooks).to have_received(:by_last_moderated)
       end
 
       it 'assigns the sorted items' do

@@ -743,15 +743,28 @@ button#create-scrapbook-button
         height: 100%
         width: 100%
 
+        // this class is removed once the images are sized
+        &.initial
+          visibility: hidden
+
+          // start with a 1px wide non-overflowing wrapper or the page width is incorrect on mobile
+          a
+            width: 1px
+            overflow: hidden
 
         a
           float: left
           width: auto
-          max-width: 25%
           height: 100%
+          margin: 20px 0
+          margin-right: 5px
+
+          &:last-child
+            margin-right: 0
 
           img
             width: auto
+            max-width: none
             height: 100%
             border: 1px solid #cccccc
             border-radius: 3px

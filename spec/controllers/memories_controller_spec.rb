@@ -13,7 +13,7 @@ describe MemoriesController do
 
   describe 'GET index' do
     before(:each) do
-      allow(visible_memories).to receive(:by_recent).and_return(sorted_memories)
+      allow(visible_memories).to receive(:by_last_created).and_return(sorted_memories)
       get :index, format: format
     end
 
@@ -26,7 +26,7 @@ describe MemoriesController do
     end
 
     it "orders them by most recent first" do
-      expect(visible_memories).to have_received(:by_recent)
+      expect(visible_memories).to have_received(:by_last_created)
     end
 
     it "paginates the results" do

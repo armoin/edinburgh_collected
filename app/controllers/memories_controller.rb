@@ -4,7 +4,7 @@ class MemoriesController < ApplicationController
   respond_to :html, :json, :geojson
 
   def index
-    @memories = memories.by_recent.page(params[:page])
+    @memories = memories.by_last_created.page(params[:page])
     respond_with @memories
   end
 
