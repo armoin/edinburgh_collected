@@ -22,7 +22,7 @@
         <div class="form-group" aria-required="true">
           <div class="formRow">
             <%= form.label :type, class: 'control-label' %>
-            <%= form.select :type, Memory.file_types, {include_blank: true, validate: true}, {class: 'form-control'} %>
+            <%= form.select :type, Memory.file_types, {validate: true}, {class: 'form-control'} %>
           </div>
           <% @memory.errors[:type].each do |error| %>
             <span class="help-block"><%= error %></span>
