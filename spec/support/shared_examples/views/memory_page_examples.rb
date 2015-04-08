@@ -174,7 +174,7 @@ RSpec.shared_examples 'a memory page' do
         end
 
         it "has a 'See more from this area' button" do
-          expect(rendered).to have_link("See more memories from #{area.name}", href: filter_area_path(area: area.name))
+          expect(rendered).to have_link("See more memories from the #{area.name} area", href: filter_area_path(area: area.name))
         end
       end
 
