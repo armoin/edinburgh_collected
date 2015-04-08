@@ -52,7 +52,7 @@ describe SessionsController do
       end
 
       it 'displays a success notice' do
-        expect(flash[:notice]).to eql('Successfully signed in')
+        expect(flash[:notice]).to eql("Welcome #{user.screen_name}")
       end
     end
 
