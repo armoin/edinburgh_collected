@@ -118,12 +118,14 @@ describe "admin/moderation/users/index.html.erb" do
 
     describe 'a user' do
       let(:user)       { users.first }
+      let(:moderator)  { Fabricate.build(:admin_user, id: 789) }
       let(:active)     { false }
       let(:is_group)   { false }
 
       before :each do
         allow(user).to receive(:active?).and_return(active)
         allow(user).to receive(:is_group?).and_return(is_group)
+        allow(user).to receive(:moderated_by).and_return(moderator)
         render
       end
 
@@ -175,8 +177,12 @@ describe "admin/moderation/users/index.html.erb" do
         end
       end
 
-      it 'shows the current moderation stats for the user' do
+      it 'shows the current moderation state for the user' do
         expect(rendered).to have_css('td', text: user.moderation_state)
+      end
+
+      it 'has a link to the moderator' do
+        expect(rendered).to have_link(moderator.screen_name, href: admin_moderation_user_path(moderator))
       end
     end
   end

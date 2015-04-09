@@ -23,6 +23,7 @@
           <th>Active?</th>
           <th>Group?</th>
           <th>Current state</th>
+          <th>Moderated by</th>
         </tr>
       </thead>
       <tbody>
@@ -34,6 +35,11 @@
             <td><%= user.active? %></td>
             <td><%= user.is_group? %></td>
             <td><%= user.moderation_state %></td>
+            <td>
+              <% if user.moderated_by.present? -%>
+                <%= link_to user.moderated_by.screen_name, admin_moderation_user_path(user.moderated_by) %>
+              <% end -%>
+            </td>
           </tr>
         <% end %>
       </tbody>
