@@ -5,6 +5,7 @@ $ ->
   imageAttached = ->
     url = $remote_url.val()
     $image.prop('src', url) if url
+    $('#image-editor').trigger('imageDidShow')
 
   $remote_url.on 'imageFileAdded', imageAttached
 
