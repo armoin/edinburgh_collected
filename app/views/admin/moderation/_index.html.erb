@@ -11,7 +11,11 @@
           <th>Owner</th>
           <th>State</th>
           <th>Last Moderated</th>
-          <th>Moderated By</th>
+          <% if action_name == 'reported' -%>
+            <th>Reported By</th>
+          <% else -%>
+            <th>Moderated By</th>
+          <% end -%>
           <th></th>
         </tr>
       </thead>

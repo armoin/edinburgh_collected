@@ -23,7 +23,11 @@
           <th>Active?</th>
           <th>Group?</th>
           <th>Current state</th>
-          <th>Moderated by</th>
+          <% if action_name == 'reported' -%>
+            <th>Reported By</th>
+          <% else -%>
+            <th>Moderated By</th>
+          <% end -%>
         </tr>
       </thead>
       <tbody>
