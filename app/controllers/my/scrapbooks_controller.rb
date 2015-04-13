@@ -14,6 +14,13 @@ class My::ScrapbooksController < My::AuthenticatedUserController
     render 'scrapbooks/show'
   end
 
+  # TODO: this is a terrible idea and should never have happened. It's entirely my fault and I'm very sorry.
+  # It is purely here to set the scrapbook index path.
+  def view
+    session[:current_scrapbook_index_path] = request.referrer
+    redirect_to my_scrapbook_path(params[:id])
+  end
+
   def new
     @scrapbook = Scrapbook.new
   end
