@@ -11,7 +11,11 @@ Rails.application.routes.draw do
     patch '/skip_getting_started' => 'getting_started#skip_getting_started'
 
     resources :memories
-    resources :scrapbooks
+    resources :scrapbooks do
+      member do
+        get :view
+      end
+    end
     resources :scrapbook_memories
 
     get '/profile' => 'profile#show'

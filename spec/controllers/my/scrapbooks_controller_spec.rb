@@ -184,6 +184,50 @@ describe My::ScrapbooksController do
     end
   end
 
+  describe 'GET view' do
+    context 'when not logged in' do
+      let(:format) { 'html' }
+
+      before :each do
+        get :view, id: '123', format: format
+      end
+
+      it 'does not store the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to be_nil
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it_behaves_like 'requires logged in user'
+    end
+
+    context 'when logged in' do
+      let(:referer) { 'test/referer' }
+
+      before :each do
+        login_user
+
+        request.env['HTTP_REFERER'] = referer
+
+        get :view, id: 123
+      end
+
+      it 'stores the referer as the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to eql(referer)
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it "redirects to the show action using the given id" do
+        expect(response).to redirect_to(my_scrapbook_path(123))
+      end
+    end
+  end
+
   describe 'GET new' do
     context 'when not logged in' do
       let(:format) { 'html' }
