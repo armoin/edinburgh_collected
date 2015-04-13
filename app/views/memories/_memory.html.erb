@@ -22,7 +22,9 @@
   <%= render partial: 'shared/reporting', locals: {item: @memory, report_path: report_memory_path(@memory.id)} %>
 
   <div id="image">
-    <img src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
+    <a href="#">
+      <img src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
+    </a>
   </div>
 
   <div id="details" class="col-xs-12">
@@ -99,9 +101,11 @@
 
 <script type="text/javascript">
   $(document).on('ready', function (e) {
-    $('#image img').on('click', function (e) {
+    $('#image a').on('click', function (e) {
+      e.preventDefault();
+
       if (window.matchMedia("(min-width: 768px)").matches) {
-        $.featherlight( $(this) );
+        $.featherlight( $(this).find('img').prop('src') );
       }
     });
   });
