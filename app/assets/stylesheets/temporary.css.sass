@@ -2219,7 +2219,57 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       *
         float: none !important
 
+  #scrapbook, .memory.full
+    #contentHeader
+      text-align: center
+      .actions
+        .viewingInfo
+          width: 100%
+          margin-bottom: 0.5em
+
+          a
+            width: 31%
+
+        a.float-right
+          display: block
+          margin: 0
+          float: none
+
+  .memories, .scrapbooks
+    #contentHeader
+      text-align: center
+      .viewingInfo
+        width: 100%
+        margin-bottom: 0.5em
+
+        strong
+          display: block
+          padding-bottom: 0.5em
+
+        span.button, a.button
+          width: 49% !important
+          display: inline-block
+
+      a.float-right
+        display: block
+        margin: 0
+        float: none
+
+
+
+
   #editScrapbook
+    .viewingInfo
+      float: left !important
+      width: auto
+      padding-bottom: 0
+
+      a
+        width: auto !important
+
+    a.float-right
+      float: right !important
+
     #formPanel
       padding: 0 15px
     #pageInfo
@@ -2254,37 +2304,20 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     padding: 0
 
   #contentHeader
-    padding: 0
+
     #pageInfo
       text-align: left
 
     div.actions
       .viewingInfo
         position: relative
-        left: 4px
-        float: none
-
-        span, a
-          width: 49%
 
   #scrapbook
-    .actions
-      .viewingInfo
-        left: 0 !important
-        a
-          width: 30% !important
+
+    .heroImage
+      height: 250px !important
 
   #editScrapbook
-    .viewingInfo
-      float: left !important
-      width: auto
-      padding-bottom: 0
-
-      a
-        width: auto !important
-
-    a.float-right
-      float: right !important
 
     .memory
       .padding
@@ -2471,7 +2504,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
   h2
     font-size: 24px
-    text-align: center
     margin-top: 0
 
   .dropdowns
@@ -2490,12 +2522,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         position: relative
         margin: 3em 0
 
-
-    form
-      .actions > *
-        margin: 0 0 1em 0
-        width: 100%
-        float: none
 
     #signposting
       padding: 1em 0 1em !important
@@ -2611,9 +2637,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
           .float-right
             display: inline-block
 
-  #contentHeader
-    text-align: center
-
     h1
       margin-bottom: 0.5em
 
@@ -2631,25 +2654,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     .check_boxes .checkbox
       width: 100% !important
 
-  .actions
-    .viewingInfo
-      float: none
-      width: 100%
-      display: block !important
-      padding-bottom: 1em
-
-      strong
-        display: block !important
-        padding-bottom: 0.25em
-
-    a, span
-      padding: 0.25em 0.5em
-
-    a.float-right
-      float: none !important
-      display: block
-      margin-bottom: 0.2em
-      text-align: center
 
 
   /* Memory page */
@@ -2682,14 +2686,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
       #comments
         padding-left: 0
-
-    .actions
-      a
-        width: auto !important
-        display: inline-block
-        float: right !important
-        &.back
-          float: left !important
 
     .actions.currentUser
       a
