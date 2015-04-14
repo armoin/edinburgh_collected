@@ -169,7 +169,7 @@ RSpec.shared_examples 'a scrapbook page' do
 
     describe "owner details" do
       let(:user_page_link) { user_scrapbooks_path(user_id: owner.id) }
-      let(:label)          { 'Collated by' }
+      let(:label)          { 'Created by' }
 
       before :each do
         render

@@ -2,7 +2,7 @@
   <div id="gettingStarted" class="row static">
     <div id="welcomeMessage" class="col-sm-6">
       <h1>Welcome <em><%= current_user.screen_name %></em></h1>
-      <h2>Welcome to <%= APP_NAME %></h2>
+      <!--h2>Welcome to <%#= APP_NAME %></h2-->
 
       <% if current_user.show_getting_started? %>
         <p class="protip">
@@ -20,7 +20,7 @@
               </div>
               <div class="inner bottom">
                 <p>
-                  Great! That's your profile ready now. You can click here (or the <strong>View profile</strong> link in the <strong>My account</strong> menu at the top of the page) at any time to view your profile.
+                  Done! You can view and edit your profile any time from the <strong>My account</strong> menu at the top of the screen.
                 </p>
                 <p class="nb">
                   Your profile has to be moderated by the <%= APP_NAME %> team before others will be able to see it.
@@ -37,7 +37,7 @@
               </div>
               <div class="inner bottom">
                 <p>
-                  Fill in your profile with a little bit about yourself and upload a profile picture.
+                  Add a bio and profile picture.
                 </p>
               </div>
             <% end -%>
@@ -55,10 +55,10 @@
               </div>
               <div class="inner bottom">
                 <p>
-                  Now that you've uploaded your first memory, you can view your list of memories by clicking here or by clicking the <strong>My collection</strong> link at the top of the page.
+                  Done! View your memories by selecting <strong>My collection</strong> from the links at the top of the screen.
                 </p>
                 <p class="nb">
-                  Memories have to be moderated by the <%= APP_NAME %> team before others will be able to see them.
+                  Memories not showing? They have to be approved by a moderator before others will be able to see them.
                 </p>
               </div>
             <% end -%>
@@ -90,10 +90,10 @@
               </div>
               <div class="inner bottom">
                 <p>
-                  Now that you've created your first scrapbook, you can view your scrapbooks by clicking here or by clicking the <strong>My collection</strong> link at the top of the page and then clicking the <strong>Scrapbooks</strong> button on the My Collection page.
+                  Done! View your scrapbooks by selecting <strong>My collection</strong> from the links at the top of the screen.
                 </p>
                 <p class="nb">
-                  Scrapbooks have to be moderated by the <%= APP_NAME %> team before others will be able to see them.
+                  Scrapbooks not showing? They have to be approved by a moderator before others will be able to see them.
                 </p>
               </div>
             <% end -%>

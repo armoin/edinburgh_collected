@@ -53,7 +53,7 @@ describe 'my/getting_started/index.html.erb' do
       end
 
       it 'shows the "Fill in your profile" instructions' do
-        expect(rendered).to have_css('#profile-step .inner.bottom p', text: "Fill in your profile")
+        expect(rendered).to have_css('#profile-step .inner.bottom p', text: "Add a bio and profile picture.")
       end
     end
 
@@ -69,7 +69,7 @@ describe 'my/getting_started/index.html.erb' do
       end
 
       it 'shows the "That\'s your profile ready" instructions' do
-        expect(rendered).to have_css('#profile-step .inner.bottom p', text: "That's your profile ready now")
+        expect(rendered).to have_css('#profile-step .inner.bottom p', text: "Done!")
       end
     end
   end
@@ -103,7 +103,7 @@ describe 'my/getting_started/index.html.erb' do
       end
 
       it 'shows the "Now that you\'ve added your first memory" instructions' do
-        expect(rendered).to have_css('#memories-step .inner.bottom p', text: "Now that you've uploaded your first memory")
+        expect(rendered).to have_css('#memories-step .inner.bottom p', text: "Done!")
       end
     end
   end
@@ -137,7 +137,7 @@ describe 'my/getting_started/index.html.erb' do
       end
 
       it 'shows the "Now that you\'ve created your first scrapbook" instructions' do
-        expect(rendered).to have_css('#scrapbooks-step .inner.bottom p', text: "Now that you've created your first scrapbook")
+        expect(rendered).to have_css('#scrapbooks-step .inner.bottom p', text: "Done!")
       end
     end
   end

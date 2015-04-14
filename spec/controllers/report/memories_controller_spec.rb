@@ -112,7 +112,7 @@ describe Report::MemoriesController do
             end
 
             it 'shows a success message' do
-              expect(flash[:notice]).to eql('Thank you for reporting your concern. We will address it as soon as we can.')
+              expect(flash[:notice]).to eql('Thank you for reporting your concern.')
             end
           end
 

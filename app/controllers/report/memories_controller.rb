@@ -10,7 +10,7 @@ class Report::MemoriesController < ApplicationController
   def update
     @memory = Memory.find(params[:id])
     if @memory.report!(current_user, memory_params[:moderation_reason])
-      redirect_to current_memory_index_path, notice: 'Thank you for reporting your concern. We will address it as soon as we can.'
+      redirect_to current_memory_index_path, notice: 'Thank you for reporting your concern.'
     else
       render :edit
     end
