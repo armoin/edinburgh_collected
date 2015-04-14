@@ -1368,7 +1368,7 @@ a.memory, a.scrapbook
 
 #gettingStarted
   .protip
-    margin: 1em
+    margin: 1em 0
     padding: 1em
     background-color: cornsilk
 
@@ -1422,9 +1422,6 @@ a.memory, a.scrapbook
 
     input[type="submit"].hideThis
       width: 100%
-
-  .photo img
-    margin: 2em
 
 
 /* ==================================== PROFILE */
@@ -1890,7 +1887,7 @@ form
 
 #signIn
   #extraPanel
-    background: image-url('photos/edinburgh-collected-girl-mum-beach.jpg') no-repeat center bottom
+    background: image-url('photos/edinburgh-collected-funfair.jpg') no-repeat center bottom
     .inner
       background: rgba($blue, 0.75)
 
@@ -2385,6 +2382,12 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       float: right !important
 
 
+  #password
+    #extraPanel
+      display: none
+
+
+
 /* SCREEN SIZE: MOBILES */
 
 @media screen and (max-width: 768px)
@@ -2617,19 +2620,45 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
     #extraPanel
       position: relative !important
+      background-position: right bottom
+      min-height: 450px
 
       #signposting
         position: relative
         margin: 3em 0
+        padding: 1em 0 1em !important
+
+        h2
+          padding-top: 0
+
+  #signIn
+    #extraPanel
+      position: relative !important
+      background-position: center left
+      min-height: 450px
+
+  #signUp
+    #extraPanel
+      position: relative !important
+      background-position: center top
+      min-height: 450px
+
+      #signposting
+        margin: 0
+        .inner
+          margin: 0 15px
+          .help-tips
+            font-size: 0.9em
+            margin: 1em 0 !important
+            padding: 1em 1em 1em 2em
+
+  #password
+    #extraPanel
+      position: relative !important
+      background-position: center top
+      min-height: 350px
 
 
-    #signposting
-      padding: 1em 0 1em !important
-
-    #extraPanel .help-tips
-      font-size: 0.9em
-      margin: 0 0.5em
-      padding: 1em 1em 1em 2.5em
 
   form
     background-color: #ccc
@@ -2661,7 +2690,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
       input[type="submit"], .button.cancel
         width: 100%
-        margin-left: 0
+        margin-left: 0 !important
         margin-bottom: 0.4em
 
       // a.btn
