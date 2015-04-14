@@ -53,7 +53,7 @@
     <%end%>
   </head>
   <body>
-    <a class="desktop feedback" href="mailto:<%= CONTACT_EMAIL %>?subject=<%= URI::escape "#{APP_NAME} Feedback" %>">Feedback</a>
+    <!--a class="desktop feedback" href="mailto:<%#= CONTACT_EMAIL %>?subject=<%#= URI::escape "#{APP_NAME} Feedback" %>">Feedback</a-->
     <div id="wrapper">
       <header id="main-header" class="container">
         <div id="masthead" class="clearfix container">
@@ -107,9 +107,9 @@
                     <%= link_to 'Sign in', signin_path, class: 'signin button green' %>
                   </li>
                 <% end %>
-                <li class="mobile">
-                  <a class="feedback" href="mailto:<%= CONTACT_EMAIL %>?subject=<%= URI::escape "#{APP_NAME} Feedback" %>">Feedback</a>
-                </li>
+                <!--li class="mobile">
+                  <a class="feedback" href="mailto:<%#= CONTACT_EMAIL %>?subject=<%#= URI::escape "#{APP_NAME} Feedback" %>">Feedback</a>
+                </li-->
               </ul>
             </nav>
           </div>
