@@ -144,7 +144,6 @@
       </header>
       <div id="main">
         <div class="flashes container">
-
           <% if show_verification_warning? -%>
             <div class="warn">
               <span class="close">&times;</span>
@@ -193,6 +192,8 @@
         </div>
       </footer>
     </div>
+
+    <%= content_for :modals %>
 
     <script type="text/javascript">
       $(document).ready(function () {
