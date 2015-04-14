@@ -162,6 +162,8 @@
 
         <div class="background">
           <%= yield %>
+
+          <%= content_for :modals %>
         </div>
 
       </div>
@@ -192,8 +194,6 @@
         </div>
       </footer>
     </div>
-
-    <%= content_for :modals %>
 
     <script type="text/javascript">
       $(document).ready(function () {
