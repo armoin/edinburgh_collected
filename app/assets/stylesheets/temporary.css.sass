@@ -861,7 +861,6 @@ button#create-scrapbook-button
     background: $navy-blue
     text-align: center
     margin: 0
-    margin-bottom: 1em
     padding: 2em
     display: table
     width: 100%
@@ -880,14 +879,15 @@ button#create-scrapbook-button
 
     header
       border-bottom: 1px solid $navy-blue
-      padding: 0
+      padding: 1em 0
       padding-bottom: 1em
 
-
+      .float-left
+        padding: 0
 
       #share-links
         float: right
-        padding: 0
+        padding: 1em 0 0 0
         text-align: right
 
 
@@ -2262,6 +2262,24 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         float: none
 
 
+  .memory.full
+    #details
+      header
+        padding: 1em 0
+        .float-left
+          float: none
+          .user-profile
+            float: none
+
+        > div
+          padding: 0
+
+        #share-links
+          border-top: 1px solid $navy-blue
+          padding: 1em 0 0 0
+          float: none
+          text-align: left
+          margin: 1em 0 0 0
 
 
   #editScrapbook
@@ -2311,6 +2329,9 @@ header .navbar .navbar-collapse ul.nav li a.feedback
           margin: 0 0 5px 0
         textarea
           height: 4em !important
+
+
+
 
 
 /* iPad Portrait */
@@ -2734,19 +2755,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
       img
         max-width: 100%
-
-    #details
-      header
-        .user-profile
-          float: none
-
-        > div
-          padding: 0
-
-        #share-links
-          float: none
-          text-align: center
-          margin-bottom: 2em
 
       #metadata
         padding-right: 0

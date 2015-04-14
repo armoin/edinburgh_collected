@@ -31,12 +31,11 @@
 
   <div id="details" class="col-xs-12">
     <header class="col-xs-12">
-      <div id="share-links" class="col-xs-12 col-md-6">
-        <%= render partial: 'shared/sharing' %>
-      </div>
-
-      <div class="float-left col-xs-12 col-md-6">
+      <div class="float-left col-xs-12 col-sm-6 col-md-6">
         <%= render partial: 'shared/profile_link', locals: {user: @memory.user, label: 'Added by', url_segment: 'memories'} %>
+      </div>
+      <div id="share-links" class="col-xs-12 col-sm-6 col-md-6">
+        <%= render partial: 'shared/sharing' %>
       </div>
     </header>
     <div id="metadata" class="col-xs-12 col-md-6">
