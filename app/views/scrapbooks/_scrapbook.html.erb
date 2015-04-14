@@ -3,7 +3,7 @@
     <h1><%= @scrapbook.title %></h1>
     <div class="actions clearfix">
       <div class="viewingInfo">
-        <%= link_to 'Back', current_scrapbook_index_path, :class => "button back" %>
+        <%= link_to 'Back', current_scrapbook_index_path, :class => "button back full-width-mobile" %>
 
         <% if current_user.try(:can_modify?, @scrapbook) %>
           <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id), :class => "button navy edit float-right"  %>
