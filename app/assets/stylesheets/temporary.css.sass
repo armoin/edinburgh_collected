@@ -215,18 +215,15 @@ span.button.memories:hover
 
 .report
   font-weight: bold
-  color: $coral
+  color: rgba($navy-blue, 0.5)
   margin: 0
+  padding: 1em 0
   display: inline-block
   text-decoration: none
 
   &:hover
     color: red
     text-decoration: none
-
-.memory .report
-  margin: -15px 0 15px
-
 
 
 .search-buttons
@@ -919,6 +916,13 @@ button#create-scrapbook-button
       padding-right: 0
       margin-bottom: 2em
 
+    a.report
+      display: block
+      border-top: 1px solid $navy-blue
+
+
+
+
 .user-profile
   padding: 0
 
@@ -1244,7 +1248,7 @@ a.memory, a.scrapbook
   #share-links
     padding-bottom: 1em
     border-bottom: 1px solid $navy-blue
-    margin: 1em 0
+    margin: 1em 0 0 0
 
 
 
@@ -2281,6 +2285,9 @@ header .navbar .navbar-collapse ul.nav li a.feedback
           text-align: left
           margin: 1em 0 0 0
 
+    #comments
+      padding-left: 0
+
 
   #editScrapbook
     .viewingInfo
@@ -2330,6 +2337,11 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         textarea
           height: 4em !important
 
+  .memory.full #details header
+    #share-links, .float-left
+      width: 49%
+
+
 
 
 
@@ -2348,7 +2360,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait)
 
   #memories .masonry
-    width: 33%
+    width: 33% !important
 
   #main-header
     #masthead #logo
