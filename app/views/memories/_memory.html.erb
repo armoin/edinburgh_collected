@@ -21,8 +21,6 @@
     </div>
   </header>
 
-  <%= render partial: 'shared/reporting', locals: {item: @memory, report_path: report_memory_path(@memory.id)} %>
-
   <div id="image">
     <a href="#">
       <img src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
@@ -63,16 +61,18 @@
           </ul>
         </div>
 
-        <div id="memory-tags" class="search-buttons">
-          <h3>Tags</h3>
-          <ul>
-            <% @memory.tags.each do |tag| %>
-              <li>
-                <%= link_to tag.name, filter_tag_path(tag: tag.name), class: "button small" %>
-              </li>
-            <% end %>
-          </ul>
-        </div>
+       <% if @memory.tags.any? -%>
+         <div id="memory-tags" class="search-buttons">
+           <h3>Tags</h3>
+           <ul>
+             <% @memory.tags.each do |tag| %>
+               <li>
+                 <%= link_to tag.name, filter_tag_path(tag: tag.name), class: "button small" %>
+               </li>
+             <% end %>
+           </ul>
+         </div>
+       <% end -%>
 
         <% if @memory.address.present? -%>
           <div id="memory-location">
@@ -90,6 +90,7 @@
           </div>
         <% end -%>
       </div>
+  <%= render partial: 'shared/reporting', locals: {item: @memory, report_path: report_memory_path(@memory.id)} %>
     </div>
     <div id="comments" class="col-xs-12 col-md-6">
       <h3>Latest comments</h3>
