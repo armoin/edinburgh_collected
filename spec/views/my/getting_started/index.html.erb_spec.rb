@@ -121,7 +121,7 @@ describe 'my/getting_started/index.html.erb' do
       end
 
       it 'shows the "Create your first scrapbook" instructions' do
-        expect(rendered).to have_css('#scrapbooks-step .inner.bottom p', text: "Create a scrapbook and start adding memories")
+        expect(rendered).to have_css('#scrapbooks-step .inner.bottom p', text: "Create a scrapbook and start saving your favourites")
       end
     end
 
