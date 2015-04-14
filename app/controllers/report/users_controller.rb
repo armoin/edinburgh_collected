@@ -10,7 +10,7 @@ class Report::UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
     if @user.report!(current_user, user_params[:moderation_reason])
-      redirect_to memories_path, notice: 'Thank you for reporting your concern. We will address it as soon as we can.'
+      redirect_to memories_path, notice: 'Thank you for reporting your concern.'
     else
       render :edit
     end

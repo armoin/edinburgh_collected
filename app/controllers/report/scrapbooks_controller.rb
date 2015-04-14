@@ -10,7 +10,7 @@ class Report::ScrapbooksController < ApplicationController
   def update
     @scrapbook = Scrapbook.find(params[:id])
     if @scrapbook.report!(current_user, scrapbook_params[:moderation_reason])
-      redirect_to current_scrapbook_index_path, notice: 'Thank you for reporting your concern. We will address it as soon as we can.'
+      redirect_to current_scrapbook_index_path, notice: 'Thank you for reporting your concern.'
     else
       render :edit
     end
