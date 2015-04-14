@@ -189,8 +189,8 @@ RSpec.shared_examples 'a memory page' do
       context 'when there are no tags' do
         let(:tags) { [] }
 
-        it "shows the tags header" do
-          expect(rendered).to have_css('.memory #memory-tags h3', text: 'Tags', count: 1)
+        it "does not show the tags header" do
+          expect(rendered).not_to have_css('.memory #memory-tags h3', text: 'Tags')
         end
 
         it "does not have any tags" do

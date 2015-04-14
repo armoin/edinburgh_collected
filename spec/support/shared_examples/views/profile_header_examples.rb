@@ -56,8 +56,7 @@ RSpec.shared_examples 'a profile headed page' do
 
         it "displays the requested user's links" do
           links.each do |link|
-            expect(rendered).to have_css('p.link', text: link.name, count: 1)
-            expect(rendered).to have_css("p.link a[href=\"#{link.url}\"]", text: link.url_without_protocol, count: 1)
+            expect(rendered).to have_css("p.link a[href=\"#{link.url}\"]", text: link.name, count: 1)
           end
         end
       end
@@ -147,8 +146,7 @@ RSpec.shared_examples 'a profile headed page' do
 
           it "displays the requested user's links" do
             links.each do |link|
-              expect(rendered).to have_css('p.link', text: link.name, count: 1)
-              expect(rendered).to have_css("p.link a[href=\"#{link.url}\"]", text: link.url_without_protocol, count: 1)
+              expect(rendered).to have_css("p.link a[href=\"#{link.url}\"]", text: link.name, count: 1)
             end
           end
         end
