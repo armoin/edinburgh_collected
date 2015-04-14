@@ -893,6 +893,10 @@ button#create-scrapbook-button
 
     #metadata
       padding-left: 0
+      word-break: break-word
+
+      #about
+        overflow: hidden
 
       #author
         font-weight: bold
@@ -2296,6 +2300,11 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
 @media screen and (max-width: 768px)
 
+  .button
+    &.view-scrapbook
+      width: 100%
+      margin-top: 1em
+
   #formPanel
     padding-bottom: 1em
     .form-horizontal .form-group
@@ -2690,6 +2699,9 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         padding-right: 0
         word-break: break-word
 
+        #about
+          overflow: hidden
+
         .filters
           padding-bottom: 1em
 
@@ -2765,7 +2777,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
   #featuredScrapbook
     text-align: center
-    padding: 0 1em 1em 0
 
 
     #scrapbookImages
