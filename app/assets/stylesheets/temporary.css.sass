@@ -2290,6 +2290,59 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       width: 60% !important
 
 
+/* iPhone Portrait */
+@media only screen and (max-device-width: 375px) and (orientation: portrait)
+
+
+
+/* iPhone Landscape */
+@media only screen and (max-width: 767px) and (orientation: landscape)
+  .modal-content
+    form
+      .modal-header, .modal-footer
+        padding: 10px
+      .modal-body
+        padding: 10px
+        .form-group
+          margin: 0 0 5px 0
+        textarea
+          height: 4em !important
+
+
+/* iPad Portrait */
+@media only screen and (max-device-width: 750px) and (orientation: portrait)
+
+  #scrapbook
+    #scrapbookContent, #scrapbookInfo
+      float: none !important
+      width: 100%
+
+
+/* iPad Portrait */
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait)
+
+  #memories .masonry
+    width: 33%
+
+  #main-header
+    #masthead #logo
+      margin-top: 1em
+      position: absolute
+      margin-bottom: 0
+      float: none
+      right: 0
+      bottom: 0
+
+    #searchwrapper
+      .fix-search &
+        .input-group
+          width: 95%
+
+
+  #scrapbook
+    #scrapbookContent, #scrapbookInfo
+      float: right !important
 
 
 /* SCREEN SIZE: MOBILES */
@@ -2832,9 +2885,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         width: 40%
 
 
-  #scrapbookContent, #scrapbookInfo
-    float: none !important
-
     h2
       text-align: left
 
@@ -2976,42 +3026,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
   #scrapbookInstructions
     width: 60%
-
-
-
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait)
-
-  #memories .masonry
-    width: 33%
-
-  #main-header
-    #masthead #logo
-      margin-top: 1em
-      position: absolute
-      margin-bottom: 0
-      float: none
-      right: 0
-      bottom: 0
-
-    #searchwrapper
-      .fix-search &
-        .input-group
-          width: 95%
-
-
-
-/* iPhone Landscape */
-@media only screen and (max-width: 767px) and (orientation: landscape)
-  .modal-content
-    form
-      .modal-header, .modal-footer
-        padding: 10px
-      .modal-body
-        padding: 10px
-        .form-group
-          margin: 0 0 5px 0
-        textarea
-          height: 4em !important
 
 
 
