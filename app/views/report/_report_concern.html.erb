@@ -22,8 +22,8 @@
 
         <div class="form-group">
           <div class="actions col-xs-sm-12">
-            <%= link_to "Cancel", send("#{cancel_path}_path", moderatable), class: "button cancel" %>
             <%= form.submit "Send", class: "button green" %>
+            <%= link_to "Cancel", send("#{cancel_path}_path", moderatable), class: "button cancel" %>
           </div>
         </div>
       <% end -%>
