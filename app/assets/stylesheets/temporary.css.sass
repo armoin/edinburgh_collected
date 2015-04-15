@@ -1482,9 +1482,13 @@ img.avatar
 
 /* ==================================== FORMS */
 
-#newMemoryForm, #editProfileForm, #profile
+#newMemoryForm, #editMemoryForm, #editProfileForm, #profile, #reportConcernForm, #password
   background: rgba($navy-blue, 0.25)
 
+#editProfileForm
+  .link
+    .formRow
+      margin-top: 15px
 
 #formHeader
   padding: 0em 0 2em 0
@@ -2394,10 +2398,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
 @media screen and (max-width: 768px)
 
-  .modal h4
-    text-align: left !important
-
-
   #formPanel
     padding-bottom: 1em
     .form-horizontal .form-group
@@ -2662,16 +2662,20 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
 
 
+  #password
+    form
+      .actions > *
+        margin-left: 0
+
   form
     background-color: #ccc
 
     input[type="file"]
       max-width: 260px
 
-    label:not(.button).control-label
-      float: left
+    #image-editor.old
+      margin-top: 15px
 
-    #image-editor
       #image-area
         #image-rotation-box
           width: 230px
@@ -2814,13 +2818,13 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       #comments
         padding-left: 0
 
-    .actions.currentUser
-      a
-        float: none !important
-        width: 32%!important
-        &.scrapbooks
-          width: 100%!important
-          margin: 5px 0 0 0
+    //.actions.currentUser
+    //  a
+    //    float: none !important
+    //    width: 32%!important
+    //    &.scrapbooks
+    //      width: 100%!important
+    //      margin: 5px 0 0 0
 
 
 
@@ -2940,7 +2944,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
   .button
     &.full-width-mobile
-      width: 100%
+      width: 100% !important
       text-align: center
 
 

@@ -16,7 +16,9 @@
 
         <% if logged_in? -%>
           <%= link_to 'Create a scrapbook', '#', id: 'create-scrapbook-button', class: 'button scrapbooks float-right', data: {toggle: 'modal', target:'#create-scrapbook-modal'} %>
-          <%= render partial: 'memories/create_scrapbook' %>
+          <% content_for :modals do %>
+            <%= render partial: 'memories/create_scrapbook' %>
+          <% end -%>
 
           <script type="text/javascript">
             var createScrapbookController = new CreateScrapbookController();

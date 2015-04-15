@@ -17,14 +17,14 @@ RSpec.shared_examples 'add to scrapbook' do
 
     it 'contains a Create Scrapbook modal' do
       render
-      expect(rendered).to have_css('#create-scrapbook-modal')
+      expect(view.content_for(:modals)).to have_css('#create-scrapbook-modal')
     end
   end
 
   describe 'after the memory has been added to the scrapbook' do
     it 'shows a success message modal' do
       render
-      expect(rendered).to have_css('#after-add-to-scrapbook-modal')
+      expect(view.content_for(:modals)).to have_css('#after-add-to-scrapbook-modal')
     end
   end
 end
