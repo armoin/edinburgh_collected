@@ -8,7 +8,7 @@ class PasswordResetsController < ApplicationController
       @user.deliver_reset_password_instructions!
       redirect_to root_path, notice: 'Instructions have been sent to your email.'
     else
-      flash[:alert] = "Sorry but we don't recognise the email address \"#{params[:email]}\"."
+      flash.now[:alert] = "Sorry but we don't recognise the email address \"#{params[:email]}\"."
       render :new
     end
   end
