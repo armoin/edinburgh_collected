@@ -2418,6 +2418,14 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       display: none
 
 
+  #newMemoryForm
+    #extraPanel
+      min-height: 900px
+
+  #editMemoryForm
+    #extraPanel
+      min-height: 550px
+
 
 /* SCREEN SIZE: MOBILES */
 
@@ -2685,12 +2693,23 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       background-position: center top
       min-height: 350px
 
-
-
-  #password
     form
       .actions > *
         margin-left: 0
+
+
+  #newMemoryForm, #editMemoryForm
+    #extraPanel
+      position: relative !important
+      background-position: center top
+
+  #newMemoryForm
+    #extraPanel
+      min-height: 900px
+
+  #editMemoryForm
+    #extraPanel
+      min-height: 550px
 
   form
     background-color: #ccc
@@ -2971,6 +2990,19 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     &.full-width-mobile
       width: 100% !important
       text-align: center
+
+
+/* iPad Portrait */
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait)
+
+  #newMemoryForm
+    #extraPanel
+      min-height: 350px
+
+  #editMemoryForm
+    #extraPanel
+      min-height: 260px
 
 
 /* SCREEN SIZE: SMALL MOBILES */
