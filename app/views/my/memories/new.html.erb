@@ -60,19 +60,27 @@
           <ul class="help-tips">
             <li>
               <span class="glyphicon glyphicon-info-sign"></span>
-              All fields marked with a <span class="required">*</span> are required.
+              All fields marked with a <span class="required">*</span> are required
             </li>
             <li>
               <span class="glyphicon glyphicon-info-sign"></span>
-              Files must be of type .gif, .jpg, .jpeg or .png.
+              Files must be of type .gif, .jpg, .jpeg or .png
             </li>
             <li>
               <span class="glyphicon glyphicon-info-sign"></span>
-              Files must be less than <%= Memory::MAX_FILE_SIZE / 1024 / 1024 %> megabytes in size.
+              Files must be less than <%= Memory::MAX_FILE_SIZE / 1024 / 1024 %> megabytes in size
             </li>
             <li>
               <span class="glyphicon glyphicon-info-sign"></span>
-              Fields that have text limits have their maximum length denoted.
+              Some text fields have a maximum character limit (as indicated)
+            </li>
+            <li>
+              <span class="glyphicon glyphicon-info-sign"></span>
+              Please note that we do not store image files at their original size
+            </li>
+            <li>
+              <span class="glyphicon glyphicon-info-sign"></span>
+              For more information, please see our <%= link_to "terms and conditions", t_and_c_path, class: 'underlined' %>.
             </li>
           </ul>
 
