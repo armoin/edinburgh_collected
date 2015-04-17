@@ -4,7 +4,7 @@
   <div id="grid">
     <header id="contentHeader" class="clearfix">
       <h2><%= @requested_user.screen_name.possessive %> scrapbooks</h2>
-      <div class="actions">
+      <div class="actions clearfix">
         <div class="viewingInfo">
           <strong>Browse</strong>
           <%= link_to user_memories_path(user_id: @requested_user.id), :class => "button memories inactive"  do %>
