@@ -7,16 +7,35 @@ Rails.application.routes.draw do
   get 't_and_c' => 'static#t_and_c'
 
   namespace :my do
+    get '/getting_started' => 'getting_started#index'
+    patch '/skip_getting_started' => 'getting_started#skip_getting_started'
+
     resources :memories
-    resources :scrapbooks
+    resources :scrapbooks do
+      member do
+        get :view
+      end
+    end
     resources :scrapbook_memories
 
     get '/profile' => 'profile#show'
     get '/profile/edit' => 'profile#edit'
     patch '/profile' => 'profile#update'
   end
-  resources :memories
-  resources :scrapbooks, only: [:index, :show]
+
+  resources :memories do
+    member do
+      get 'report' => 'report/memories#edit'
+      put 'report' => 'report/memories#update'
+    end
+  end
+
+  resources :scrapbooks, only: [:index, :show] do
+    member do
+      get 'report' => 'report/scrapbooks#edit'
+      put 'report' => 'report/scrapbooks#update'
+    end
+  end
 
   namespace :search do
     resources :memories, only: [:index]
@@ -31,13 +50,42 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get '/home' => 'home#index'
-    get '/unmoderated' => 'moderation#index'
-    get '/moderated' => 'moderation#moderated'
 
     namespace :moderation do
-      resources :memories, only: [:show, :edit, :update, :destroy] do
+      resources :memories, only: [:index, :show] do
+        collection do
+          get :moderated
+          get :reported
+        end
         member do
           put :approve
+          put :reject
+          put :unmoderate
+        end
+      end
+
+      resources :scrapbooks, only: [:index, :show] do
+        collection do
+          get :moderated
+          get :reported
+        end
+        member do
+          put :approve
+          put :reject
+          put :unmoderate
+        end
+      end
+
+      resources :users, only: [:index, :show] do
+        collection do
+          get :unmoderated
+          get :reported
+          get :blocked
+        end
+        member do
+          put :approve
+          put :block
+          put :unblock
           put :reject
           put :unmoderate
         end
@@ -50,6 +98,11 @@ Rails.application.routes.draw do
     resources :scrapbooks, only: [:index], controller: 'users/scrapbooks', action: 'index'
     member do
       get :activate
+      get 'report' => 'report/users#edit'
+      put 'report' => 'report/users#update'
+    end
+    collection do
+      get :resend_activation_email
     end
   end
   resources :sessions, only: [:new, :create, :destroy]

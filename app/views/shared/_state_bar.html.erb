@@ -1,0 +1,11 @@
+<div class="state <%= moderatable.moderation_state %>">
+  <%= moderatable.moderation_state %>
+</div>
+
+<% if moderatable.moderation_reason.present? -%>
+  <div class="comment">
+    <blockquote>
+      "<%= moderatable.moderation_reason %>"
+    </blockquote>
+  </div>
+<% end -%>

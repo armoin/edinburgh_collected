@@ -4,7 +4,7 @@ class MemoriesController < ApplicationController
   respond_to :html, :json, :geojson
 
   def index
-    @memories = memories.by_recent.page(params[:page])
+    @memories = memories.by_last_created.page(params[:page])
     respond_with @memories
   end
 
@@ -17,11 +17,11 @@ class MemoriesController < ApplicationController
   private
 
   def memories
-    Memory.approved
+    Memory.publicly_visible
   end
 
   def viewable?(memory)
-    memory.approved? ||
+    memory.publicly_visible? ||
       current_user.try(:can_modify?, memory)
   end
 end

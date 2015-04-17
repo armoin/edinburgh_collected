@@ -1,15 +1,13 @@
-<ul class="admin-toolbar">
-  <li class="state <%= memory.moderation_state %>">
-    <%= state_label(memory) %>
-  </li>
+<div class="admin-toolbar">
+  <%= render partial: 'shared/state_bar', locals: {moderatable: moderatable} %>
+
   <ul class="moderation-actions">
-    <%= button_for_state('unmoderate', 'unmoderated', memory) %>
-    <%= button_for_state('approve', 'approved', memory) %>
-    <%= button_for_state('reject', 'rejected', memory, 'unsuitable') %>
-    <%= button_for_state('reject', 'rejected', memory, 'offensive') %>
+    <%= button_for_state('unmoderate', 'unmoderated', moderatable, moderatable_name) %>
+    <%= button_for_state('approve', 'approved', moderatable, moderatable_name) %>
+    <%= button_for_state('reject', 'rejected', moderatable, moderatable_name, 'unsuitable') %>
+    <%= button_for_state('reject', 'rejected', moderatable, moderatable_name, 'offensive') %>
     <li>
-      <%= link_to 'Back to list', current_memory_index_path, class: 'btn btn-default' %>
+      <%= link_to 'Back to list', list_path, class: 'btn btn-default' %>
     </li>
   </ul>
-</ul>
-
+</div>

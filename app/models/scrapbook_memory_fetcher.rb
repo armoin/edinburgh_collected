@@ -1,6 +1,7 @@
 class ScrapbookMemoryFetcher
-  def initialize(scrapbooks)
+  def initialize(scrapbooks, user_id=nil)
     @scrapbook_ids = scrapbooks.map(&:id)
+    @user_id = user_id
   end
 
   def scrapbook_memories_for(scrapbook)
@@ -14,9 +15,7 @@ class ScrapbookMemoryFetcher
   end
 
   def scrapbook_memories
-    @sm ||= ScrapbookMemory
-              .where(scrapbook_id: @scrapbook_ids)
-              .order('scrapbook_id, ordering')
-              .includes(:memory)
+    sql = ScrapbookMemoryQueryBuilder.new(@scrapbook_ids).approved_or_owned_by_query(@user_id)
+    @sm ||= ScrapbookMemory.find_by_sql(sql)
   end
 end

@@ -25,9 +25,13 @@ describe Memory do
         @term_only_category = Fabricate(:approved_memory)
         @term_only_category.categories << Category.new(name: 'foo')
 
-        @term_in_categories = Fabricate(:approved_memory)
-        @term_in_categories.categories << Category.new(name: 'foo')
-        @term_in_categories.categories << Category.new(name: 'bar')
+        @term_in_categories_visible = Fabricate(:approved_memory, user: Fabricate(:active_user))
+        @term_in_categories_visible.categories << Category.new(name: 'foo')
+        @term_in_categories_visible.categories << Category.new(name: 'bar')
+
+        @term_in_categories_hidden = Fabricate(:approved_memory, user: Fabricate(:pending_user))
+        @term_in_categories_hidden.categories << Category.new(name: 'foo')
+        @term_in_categories_hidden.categories << Category.new(name: 'bar')
 
         @term_not_in_categories = Fabricate(:approved_memory)
         @term_not_in_categories.categories << Category.new(name: 'bar')
@@ -36,9 +40,11 @@ describe Memory do
       context 'when no category is given' do
         let(:category) { nil }
 
-        it 'returns all records' do
+        it 'returns all visible records' do
+          expect(subject.count).to eql(3)
           expect(subject).to include(@term_only_category)
-          expect(subject).to include(@term_in_categories)
+          expect(subject).to include(@term_in_categories_visible)
+          expect(subject).not_to include(@term_in_categories_hidden)
           expect(subject).to include(@term_not_in_categories)
         end
       end
@@ -46,9 +52,11 @@ describe Memory do
       context 'when blank category is given' do
         let(:category) { '' }
 
-        it 'returns all records' do
+        it 'returns all visible records' do
+          expect(subject.count).to eql(3)
           expect(subject).to include(@term_only_category)
-          expect(subject).to include(@term_in_categories)
+          expect(subject).to include(@term_in_categories_visible)
+          expect(subject).not_to include(@term_in_categories_hidden)
           expect(subject).to include(@term_not_in_categories)
         end
       end
@@ -56,12 +64,20 @@ describe Memory do
       context 'when a category is given' do
         let(:category) { 'foo' }
 
+        before :each do
+          expect(subject.count).to eql(2)
+        end
+
         it 'includes records that have the category but no others' do
           expect(subject).to include(@term_only_category)
         end
 
-        it 'includes records that have the category amongst others' do
-          expect(subject).to include(@term_in_categories)
+        it 'includes records that have the category amongst others that are visible' do
+          expect(subject).to include(@term_in_categories_visible)
+        end
+
+        it 'does not include records that have the category amongst others that are not visible' do
+          expect(subject).not_to include(@term_in_categories_hidden)
         end
 
         it "doesn't include records that don't have the category" do
@@ -77,9 +93,13 @@ describe Memory do
         @term_only_tag = Fabricate(:approved_memory)
         @term_only_tag.tags << Tag.new(name: 'foo')
 
-        @term_in_tags = Fabricate(:approved_memory)
-        @term_in_tags.tags << Tag.new(name: 'foo')
-        @term_in_tags.tags << Tag.new(name: 'bar')
+        @term_in_tags_visible = Fabricate(:approved_memory, user: Fabricate(:active_user))
+        @term_in_tags_visible.tags << Tag.new(name: 'foo')
+        @term_in_tags_visible.tags << Tag.new(name: 'bar')
+
+        @term_in_tags_hidden = Fabricate(:approved_memory, user: Fabricate(:pending_user))
+        @term_in_tags_hidden.tags << Tag.new(name: 'foo')
+        @term_in_tags_hidden.tags << Tag.new(name: 'bar')
 
         @term_not_in_tags = Fabricate(:approved_memory)
         @term_not_in_tags.tags << Tag.new(name: 'bar')
@@ -88,9 +108,11 @@ describe Memory do
       context 'when no tag is given' do
         let(:tag) { nil }
 
-        it 'returns all records' do
+        it 'returns all visible records' do
+          expect(subject.count).to eql(3)
           expect(subject).to include(@term_only_tag)
-          expect(subject).to include(@term_in_tags)
+          expect(subject).to include(@term_in_tags_visible)
+          expect(subject).not_to include(@term_in_tags_hidden)
           expect(subject).to include(@term_not_in_tags)
         end
       end
@@ -98,9 +120,11 @@ describe Memory do
       context 'when blank tag is given' do
         let(:tag) { '' }
 
-        it 'returns all records' do
+        it 'returns all visible records' do
+          expect(subject.count).to eql(3)
           expect(subject).to include(@term_only_tag)
-          expect(subject).to include(@term_in_tags)
+          expect(subject).to include(@term_in_tags_visible)
+          expect(subject).not_to include(@term_in_tags_hidden)
           expect(subject).to include(@term_not_in_tags)
         end
       end
@@ -108,15 +132,23 @@ describe Memory do
       context 'when a tag is given' do
         let(:tag) { 'foo' }
 
-        it 'includes records that have the tag but no others' do
+        before :each do
+          expect(subject.count).to eql(2)
+        end
+
+        it 'includes visible records that have the tag but no others' do
           expect(subject).to include(@term_only_tag)
         end
 
-        it 'includes records that have the tag amongst others' do
-          expect(subject).to include(@term_in_tags)
+        it 'includes visible records that have the tag amongst others' do
+          expect(subject).to include(@term_in_tags_visible)
         end
 
-        it "doesn't include records that don't have the tag" do
+        it 'does not include hidden records that have the tag amongst others' do
+          expect(subject).not_to include(@term_in_tags_hidden)
+        end
+
+        it "doesn't include visible records that don't have the tag" do
           expect(subject).not_to include(@term_not_in_tags)
         end
       end
@@ -129,15 +161,18 @@ describe Memory do
         foo_area = Fabricate(:area, name: 'foo')
         bar_area = Fabricate(:area, name: 'bar')
 
-        @matches_area = Fabricate(:approved_memory, area: foo_area)
-        @does_not_match_area = Fabricate(:approved_memory, area: bar_area)
+        @matches_area_visible = Fabricate(:approved_memory, area: foo_area, user: Fabricate(:active_user))
+        @matches_area_hidden  = Fabricate(:approved_memory, area: foo_area, user: Fabricate(:pending_user))
+        @does_not_match_area  = Fabricate(:approved_memory, area: bar_area)
       end
 
       context 'when no area is given' do
         let(:area) { nil }
 
-        it 'returns all records' do
-          expect(subject).to include(@matches_area)
+        it 'returns all visible records' do
+          expect(subject.count).to eql(2)
+          expect(subject).to include(@matches_area_visible)
+          expect(subject).not_to include(@matches_area_hidden)
           expect(subject).to include(@does_not_match_area)
         end
       end
@@ -145,8 +180,10 @@ describe Memory do
       context 'when blank area is given' do
         let(:area) { '' }
 
-        it 'returns all records' do
-          expect(subject).to include(@matches_area)
+        it 'returns all visible records' do
+          expect(subject.count).to eql(2)
+          expect(subject).to include(@matches_area_visible)
+          expect(subject).not_to include(@matches_area_hidden)
           expect(subject).to include(@does_not_match_area)
         end
       end
@@ -154,8 +191,16 @@ describe Memory do
       context 'when a area is given' do
         let(:area) { 'foo' }
 
-        it 'includes records that have the area' do
-          expect(subject).to include(@matches_area)
+        before :each do
+          expect(subject.count).to eql(1)
+        end
+
+        it 'includes visible records that have the area' do
+          expect(subject).to include(@matches_area_visible)
+        end
+
+        it 'does not include hidden records that have the area' do
+          expect(subject).not_to include(@matches_area_hidden)
         end
 
         it "doesn't include records that don't have the area" do
@@ -167,16 +212,19 @@ describe Memory do
 
   describe 'searching' do
     before :each do
-      @unapproved_term_in_title = Fabricate(:memory, title: 'Edinburgh Castle test')
-      @term_in_title            = Fabricate(:approved_memory, title: 'Edinburgh Castle test')
-      @term_in_description      = Fabricate(:approved_memory, description: 'This is an Edinburgh Castle test')
-      @term_in_location         = Fabricate(:approved_memory, location: 'Edinburgh Castle')
-      @term_in_year             = Fabricate(:approved_memory, year: '1975')
-      @terms_not_found          = Fabricate(:approved_memory,
-                                              title:       'test',
-                                              description: 'test',
-                                              location:    'test',
-                                              year:        '2014')
+      @unapproved_term_in_title   = Fabricate(:memory, title: 'Edinburgh Castle test')
+
+      @pending_user_term_in_title = Fabricate(:approved_memory, user: Fabricate(:pending_user), title: 'Edinburgh Castle test')
+
+      @term_in_title              = Fabricate(:approved_memory, title: 'Edinburgh Castle test')
+      @term_in_description        = Fabricate(:approved_memory, description: 'This is an Edinburgh Castle test')
+      @term_in_location           = Fabricate(:approved_memory, location: 'Edinburgh Castle')
+      @term_in_year               = Fabricate(:approved_memory, year: '1975')
+      @terms_not_found            = Fabricate(:approved_memory,
+                                                title:       'test',
+                                                description: 'test',
+                                                location:    'test',
+                                                year:        '2014')
     end
 
     let(:results) { Memory.text_search(terms) }
@@ -184,24 +232,32 @@ describe Memory do
     context 'when no terms are given' do
       let(:terms) { nil }
 
-      it 'returns all approved records' do
+      it 'returns all publicly visible records' do
         expect(results.count(:all)).to eql(5)
       end
 
       it 'does not return unapproved records' do
         expect(results).not_to include(@unapproved_term_in_title)
+      end
+
+      it 'does not return records belonging to inactive users' do
+        expect(results).not_to include(@pending_user_term_in_title)
       end
     end
 
     context 'when blank terms are given' do
       let(:terms) { '' }
 
-      it 'returns all approved records' do
+      it 'returns all publicly visible records' do
         expect(results.count(:all)).to eql(5)
       end
 
       it 'does not return unapproved records' do
         expect(results).not_to include(@unapproved_term_in_title)
+      end
+
+      it 'does not return records belonging to inactive users' do
+        expect(results).not_to include(@pending_user_term_in_title)
       end
     end
 
@@ -231,6 +287,10 @@ describe Memory do
       it 'does not include unapproved records that have fields that match' do
         expect(results).not_to include(@terms_not_found)
       end
+
+      it 'does not return records belonging to inactive users' do
+        expect(results).not_to include(@pending_user_term_in_title)
+      end
     end
 
     context 'date fields' do
@@ -246,6 +306,10 @@ describe Memory do
 
       it 'does not include records that have no fields that match' do
         expect(results).not_to include(@terms_not_found)
+      end
+
+      it 'does not return records belonging to inactive users' do
+        expect(results).not_to include(@pending_user_term_in_title)
       end
     end
 
@@ -294,7 +358,7 @@ describe Memory do
         before :each do
           foo_area = Fabricate.build(:area, name: 'foo', id: 1)
           @term_in_area = Fabricate(:approved_memory, area: foo_area)
-          
+
           bar_area = Fabricate.build(:area, name: 'bar', id: 2)
           @term_not_in_area = Fabricate(:approved_memory, area: bar_area)
         end
@@ -311,12 +375,13 @@ describe Memory do
   end
 
   describe 'ordering' do
-    describe '.by_recent' do
+    describe '.by_last_created' do
       it 'sorts them by reverse created at date' do
-        memory1 = Fabricate(:photo_memory, user: test_user, area: area)
-        memory2 = Fabricate(:photo_memory, user: test_user, area: area)
-        expect(Memory.by_recent.first).to eql(memory2)
-        expect(Memory.by_recent.last).to eql(memory1)
+        memory1 = Fabricate(:memory)
+        memory2 = Fabricate(:memory)
+        sorted = Memory.by_last_created
+        expect(sorted.first).to eql(memory2)
+        expect(sorted.last).to eql(memory1)
       end
     end
   end

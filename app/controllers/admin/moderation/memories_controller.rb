@@ -1,13 +1,33 @@
 class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminController
-  before_filter :assign_memory
+  INDEXES = [:index, :moderated, :reported]
+
+  before_action :assign_memory, except: INDEXES
+  before_action :store_memory_index_path, only: INDEXES
+
+  def index
+    @items = Memory.unmoderated.order('created_at')
+  end
+
+  def moderated
+    @items = Memory.moderated.by_last_moderated
+    render :index
+  end
+
+  def reported
+    @items = Memory.reported.by_first_moderated
+    render :index
+  end
+
+  def show
+  end
 
   def approve
     respond_to do |format|
-      if @memory.approve!
-        format.html { redirect_to admin_unmoderated_path, notice: 'Memory approved' }
+      if @memory.approve!(current_user)
+        format.html { redirect_to admin_moderation_memories_path, notice: 'Memory approved' }
         format.json { render json: @memory }
       else
-        format.html { redirect_to admin_unmoderated_path, alert: 'Could not approve memory' }
+        format.html { redirect_to admin_moderation_memories_path, alert: 'Could not approve memory' }
         format.json { render json: 'Unable to approve', status: :unprocessable_entity }
       end
     end
@@ -15,11 +35,11 @@ class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminControlle
 
   def reject
     respond_to do |format|
-      if @memory.reject!(params[:reason])
-        format.html { redirect_to admin_unmoderated_path, notice: 'Memory rejected' }
+      if @memory.reject!(current_user, params[:reason])
+        format.html { redirect_to admin_moderation_memories_path, notice: 'Memory rejected' }
         format.json { render json: @memory }
       else
-        format.html { redirect_to admin_unmoderated_path, alert: 'Could not reject memory' }
+        format.html { redirect_to admin_moderation_memories_path, alert: 'Could not reject memory' }
         format.json { render json: 'Unable to reject', status: :unprocessable_entity }
       end
     end
@@ -27,11 +47,11 @@ class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminControlle
 
   def unmoderate
     respond_to do |format|
-      if @memory.unmoderate!
-        format.html { redirect_to admin_moderated_path, notice: 'Memory unmoderated' }
+      if @memory.unmoderate!(current_user)
+        format.html { redirect_to moderated_admin_moderation_memories_path, notice: 'Memory unmoderated' }
         format.json { render json: @memory }
       else
-        format.html { redirect_to admin_moderated_path, alert: 'Could not unmoderate memory' }
+        format.html { redirect_to moderated_admin_moderation_memories_path, alert: 'Could not unmoderate memory' }
         format.json { render json: 'Unable to unmoderate', status: :unprocessable_entity }
       end
     end

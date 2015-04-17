@@ -13,9 +13,8 @@ module MemoriesHelper
     if logged_in
       {toggle: "modal", target: "#add-to-scrapbook-modal", memory_id: memory.id, memory_title: memory.title}
     else
-      signed_in_link = link_to('sign in', new_session_path, class: 'signin button green')
-      {toggle: "popover", trigger: "click", title: "Please sign in ...", content: "Sorry you must #{signed_in_link} before you can do this."}
+      signed_in_link = link_to('Sign in', new_session_path, class: 'signin button green')
+      {toggle: "popover", trigger: "click", title: "Not signed in", content: "#{signed_in_link} to add this to a scrapbook."}
     end
   end
 end
-

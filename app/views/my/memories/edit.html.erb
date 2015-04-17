@@ -13,15 +13,33 @@
 
         <div class="form-group">
           <div class="actions col-xs-sm-12">
-            <%= link_to "Cancel", memory_path(@memory), class: "button cancel" %>
             <%= form.submit "Save", class: "button memories" %>
+            <%= link_to "Cancel", memory_path(@memory), class: "button cancel" %>
           </div>
         </div>
       <% end -%>
     </div>
-    <div class="col-md-6">
-      <div id="infoPanel">
 
+    <div id="extraPanel" class="col-md-6">
+      <div id="signposting">
+        <div class="inner">
+
+          <ul class="help-tips">
+            <li>
+              <span class="glyphicon glyphicon-info-sign"></span>
+              All fields marked with a <span class="required">*</span> are required
+            </li>
+            <li>
+              <span class="glyphicon glyphicon-info-sign"></span>
+              Some text fields have a maximum character limit (as indicated)
+            </li>
+            <li>
+              <span class="glyphicon glyphicon-info-sign"></span>
+              For more information, please see our <%= link_to "terms and conditions", t_and_c_path, class: 'underlined' %>.
+            </li>
+          </ul>
+
+        </div>
       </div>
     </div>
   </div>
@@ -30,7 +48,7 @@
 <script type="text/javascript">
   var setupForm = function (e) {
     window.formValidator = new FormValidator();
-    window.formValidator.labelMaxLength($('form#edit-memory'));
+    window.formValidator.labelLengthConstraints($('form#edit-memory'));
 
     editorEl   = $('#image-editor')[0];
     rotationEl = $('#memory_rotation')[0];

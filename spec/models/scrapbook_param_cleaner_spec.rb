@@ -2,10 +2,11 @@ require 'rails_helper'
 
 def scrapbook_allowed_params
   {
-    title:        'A test',
-    description:  'This is a test description',
-    ordering: '1,2,3',
-    deleted: '4,5',
+    title:             'A test',
+    description:       'This is a test description',
+    ordering:          '1,2,3',
+    deleted:           '4,5',
+    moderation_reason: 'A test reason'
   }
 end
 

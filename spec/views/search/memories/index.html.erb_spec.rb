@@ -1,13 +1,18 @@
 require 'rails_helper'
 
 describe 'search/memories/index.html.erb' do
+  let(:current_user)    { nil }
   let(:query)           { 'test search'  }
   let(:paged_memories)  { [] }
   let(:memory_count)    { 0 }
   let(:scrapbook_count) { 0 }
   let(:results)         { double('results', query: query, memory_count: memory_count, scrapbook_count: scrapbook_count) }
 
+  let(:memories)        { Array.new(memory_count) {|i| Fabricate.build(:memory, id: i+1) } }
+  let(:paged_memories)  { Kaminari.paginate_array(memories).page(1) }
+
   before :each do
+    allow(view).to receive(:current_user).and_return(current_user)
     assign(:results, results)
     assign(:memories, paged_memories)
     render
@@ -80,7 +85,7 @@ describe 'search/memories/index.html.erb' do
   end
 
   context 'when there are no results' do
-    let(:paged_memories) { Kaminari.paginate_array([]).page(1) }
+    let(:memory_count) { 0 }
 
     it "does not display any results" do
       expect(rendered).not_to have_css('.memory')
@@ -92,15 +97,14 @@ describe 'search/memories/index.html.erb' do
   end
 
   context 'when there are results' do
-    let(:memory_count)   { 3 }
-    let(:memories)       { Array.new(memory_count).map.with_index do |m, i|
-                             Fabricate.build(:memory, id: i+1)
-                           end }
-    let(:paged_memories) { Kaminari.paginate_array(memories).page(1) }
+    let(:memory_count) { 3 }
 
     it_behaves_like 'a memory index'
     it_behaves_like 'paginated content'
     it_behaves_like 'add to scrapbook'
+
+    let(:moderatable) { memories.first }
+    it_behaves_like 'non state labelled content'
   end
 end
 

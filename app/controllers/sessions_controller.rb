@@ -5,10 +5,9 @@ class SessionsController < ApplicationController
 
   def create
     if @user = login(params[:email], params[:password])
-      redirect_back_or_to my_memories_path, notice: 'Successfully signed in'
+      redirect_back_or_to landing_page_for(@user), notice: "Welcome #{@user.screen_name}"
     else
-      flash[:alert] = 'Could not sign in'
-      render :new
+      redirect_to :signin, alert: 'Email or password was incorrect.'
     end
   end
 
@@ -17,4 +16,3 @@ class SessionsController < ApplicationController
     redirect_to :root, notice: 'Signed out'
   end
 end
-

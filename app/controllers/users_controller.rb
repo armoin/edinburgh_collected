@@ -23,6 +23,16 @@ class UsersController < ApplicationController
     end
   end
 
+  def resend_activation_email
+    if current_user && current_user.pending?
+      AuthenticationMailer.activation_needed_email(current_user).deliver
+      message = { notice: 'We have resent your activation email. Please check you spam filter if it has still not appeared within the next hour.' }
+    else
+      message = { alert: 'It does not look like you need to be activated.' }
+    end
+    redirect_to :root, message
+  end
+
   private
 
   def user_params

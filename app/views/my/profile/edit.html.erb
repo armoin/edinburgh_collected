@@ -43,8 +43,8 @@
 
         <div class="form-group">
           <div class="actions col-xs-sm-12">
-            <%= link_to "Cancel", my_profile_path, class: "button cancel" %>
             <%= form.submit "Save changes", class: "button green" %>
+            <%= link_to "Cancel", my_profile_path, class: "button cancel" %>
           </div>
         </div>
       <% end %>
@@ -54,3 +54,13 @@
 
   </div>
 </div>
+
+<script type="text/javascript">
+  $('form#new_temp_image').bind('fileuploadadd', function (e, data) {
+    $('form.edit_user input[type="submit"]').prop('disabled', true);
+  });
+
+  $('#image-editor').bind('imageDidShow', function (e, data) {
+    $('form.edit_user input[type="submit"]').prop('disabled', false);
+  });
+</script>

@@ -1,14 +1,24 @@
 require 'rails_helper'
 
 def user_allowed_params
-  Fabricate.attributes_for(:user).merge({
-    image_angle: 270,
-    image_scale: 0.89,
-    image_w:     90,
-    image_h:     90,
-    image_x:      5,
-    image_y:     12
-  })
+  {
+    first_name:            'Tester',
+    last_name:             'Bennington',
+    screen_name:           'tester',
+    email:                 'test@example.com',
+    password:              'secret',
+    password_confirmation: 'secret',
+    description:           'A test description',
+    accepted_t_and_c:      true,
+    image_angle:           270,
+    image_scale:           0.89,
+    image_w:               90,
+    image_h:               90,
+    image_x:               5,
+    image_y:               12,
+    moderation_reason:     'Do not want',
+    hide_getting_started:  false
+  }
 end
 
 describe UserParamCleaner do

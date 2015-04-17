@@ -5,5 +5,5 @@ if ( $('.scrapbook_selector').length > 0 ) {
 
   $('a#view_scrapbooks.counter').text('<%=j pluralize(current_user.scrapbooks.size, 'scrapbook') %>');
 } else {
-  window.location = '<%= scrapbook_path(@scrapbook) %>'
+  window.location = '<%= my_scrapbook_path(@scrapbook) %>'
 }

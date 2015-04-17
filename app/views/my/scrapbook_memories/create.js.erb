@@ -4,5 +4,5 @@ $('#add-to-scrapbook-modal').modal('hide');
 
 var afterModal = $('#after-add-to-scrapbook-modal');
 afterModal.find('.scrapbook-name').text('<%= @scrapbook.title %>');
-afterModal.find('.view-scrapbook').attr('href', '<%= my_scrapbook_path(@scrapbook) %>');
+afterModal.find('.view-scrapbook').attr('href', '<%= view_my_scrapbook_path(@scrapbook) %>');
 afterModal.modal('show');

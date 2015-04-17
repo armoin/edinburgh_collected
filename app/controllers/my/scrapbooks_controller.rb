@@ -4,12 +4,25 @@ class My::ScrapbooksController < My::AuthenticatedUserController
   before_action :assign_scrapbook, only: [:show, :edit, :update, :destroy]
 
   def index
-    scrapbooks = current_user.scrapbooks
-    memory_fetcher = ScrapbookMemoryFetcher.new(scrapbooks)
+    scrapbooks = current_user.scrapbooks.by_last_updated
+    memory_fetcher = ScrapbookMemoryFetcher.new(scrapbooks, current_user.id)
     @presenter = ScrapbookIndexPresenter.new(scrapbooks, memory_fetcher, params[:page])
   end
 
   def show
+    @memories = Kaminari.paginate_array(scrapbook_memories).page(params[:page])
+    render 'scrapbooks/show'
+  end
+
+  # TODO: this is a terrible idea and should never have happened. It's entirely my fault and I'm very sorry.
+  # It is purely here to set the scrapbook index path.
+  def view
+    session[:current_scrapbook_index_path] = request.referrer
+    redirect_to my_scrapbook_path(params[:id])
+  end
+
+  def new
+    @scrapbook = Scrapbook.new
   end
 
   def create
@@ -17,8 +30,10 @@ class My::ScrapbooksController < My::AuthenticatedUserController
     @scrapbook.user = current_user
     respond_to do |format|
       if @scrapbook.save
+        format.html { redirect_to my_scrapbook_path(@scrapbook), notice: 'Scrapbook created successfully.' }
         format.js
       else
+        format.html { render :new }
         format.js { render 'error', status: :unprocessable_entity }
       end
     end
@@ -54,6 +69,10 @@ class My::ScrapbooksController < My::AuthenticatedUserController
 
   def scrapbook_params
     ScrapbookParamCleaner.clean(params)
+  end
+
+  def scrapbook_memories
+    @scrapbook.ordered_memories
   end
 end
 

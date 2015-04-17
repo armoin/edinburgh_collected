@@ -1,0 +1,9 @@
+<div role="navigation" id="tab-bar">
+  <%= link_to 'Back to Inbox', admin_home_path %>
+  |
+  <%= link_to_unless action_name == 'index', 'Unmoderated', send("admin_moderation_#{path_segment}_path") %>
+  |
+  <%= link_to_unless action_name == 'reported', 'Reported', send("reported_admin_moderation_#{path_segment}_path") %>
+  |
+  <%= link_to_unless action_name == 'moderated', 'Moderated', send("moderated_admin_moderation_#{path_segment}_path") %>
+</div>

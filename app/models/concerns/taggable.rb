@@ -8,8 +8,8 @@ module Taggable
 
   module ClassMethods
     def filter_by_tag(tag)
-      return approved unless tag.present?
-      approved.joins(:tags).where('tags.name' => tag)
+      return publicly_visible unless tag.present?
+      publicly_visible.joins(:tags).where('tags.name' => tag)
     end
   end
 

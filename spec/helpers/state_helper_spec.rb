@@ -4,69 +4,16 @@ describe StateHelper do
   let(:memory) { Fabricate.build(:photo_memory, id: 123) }
 
   describe '#button_for_state' do
-    let(:action) { 'reject' }
-    let(:state)  { 'rejected' }
-    let(:button) { helper.button_for_state(action, state, memory, reason) }
+    describe 'for memories' do
+      let(:moderatable_name) { :memory }
 
-    before :each do
-      allow(memory).to receive(:moderation_state).and_return(moderation_state)
-      allow(memory).to receive(:moderation_reason).and_return(reason)
+      it_behaves_like 'a button for state helper'
     end
 
-    context 'when button is not for current moderation state' do
-      let(:moderation_state) { 'approved' }
+    describe 'for scrapbooks' do
+      let(:moderatable_name) { :scrapbook }
 
-      context 'when there is no reason' do
-        let(:reason) { nil }
-
-        before :each do
-          allow(memory).to receive(:moderation_reason).and_return(nil)
-        end
-
-        it 'provides a link button for the action wrapped in a list item' do
-          expect(button).to have_css("li a.btn.#{action}")
-        end
-
-        it 'has a URL for the given action with no reason' do
-          expect(button).to have_link('Reject', href: reject_admin_moderation_memory_path(memory))
-        end
-      end
-
-      context 'when there is a reason' do
-        let(:reason) { 'unsuitable' }
-
-        before :each do
-          allow(memory).to receive(:moderation_reason).and_return('unsuitable')
-        end
-
-        it 'provides a link button for the action wrapped in a list item' do
-          expect(button).to have_css("li a.btn.#{action}")
-        end
-
-        it 'has a URL for the given action with the given reason' do
-          expect(button).to have_link('Reject - unsuitable', href: reject_admin_moderation_memory_path(memory, reason: reason))
-        end
-      end
-    end
-
-    context 'when button is for current moderation state' do
-      let(:moderation_state) { 'rejected' }
-
-      context 'when there is no reason' do
-        let(:reason) { nil }
-
-        it 'is nil' do
-          expect(button).to be_nil
-        end
-      end
-
-      context 'when there is a reason' do
-        let(:reason) { 'unsuitable' }
-
-        it 'is nil' do
-          expect(button).to be_nil
-        end
-      end
+      it_behaves_like 'a button for state helper'
     end
   end
 
@@ -99,26 +46,120 @@ describe StateHelper do
         allow(memory).to receive(:moderation_reason).and_return('unsuitable')
       end
 
-      it 'just provides the moderation state' do
+      it 'provides the moderation state and the reason' do
         expect(helper.state_label(memory)).to eql('rejected - unsuitable')
       end
     end
   end
 
-  describe '#show_state?' do
-    it "shows state on the show page of memories that belong to the user" do
-      allow(helper).to receive(:controller_path).and_return('my/memories')
-      expect(helper.show_state?).to be_truthy
+  describe '#show_state_label?' do
+    let(:user)        { double('user', can_modify?: can_modify) }
+    let(:moderatable) { double('moderatable', moderation_state: state) }
+    let(:approved)    { false }
+    let(:can_modify)  { true }
+
+    before :each do
+      allow(helper).to receive(:current_user).and_return(user)
     end
 
-    it "shows state on the show page of scrapbooks that belong to the user" do
-      allow(helper).to receive(:controller_path).and_return('my/scrapbooks')
-      expect(helper.show_state?).to be_truthy
+    context 'when the user is able to modify the item' do
+      let(:can_modify)  { true }
+
+      context 'and the item is not approved' do
+        let(:state) { 'unmoderated' }
+
+        context 'and the user is on a page where state labels are shown' do
+          it "shows state on the show page of memories that belong to the user" do
+            allow(helper).to receive(:controller_path).and_return('my/memories')
+            expect(helper.show_state_label?(moderatable)).to be_truthy
+          end
+
+          it "shows state on the show page of scrapbooks that belong to the user" do
+            allow(helper).to receive(:controller_path).and_return('my/scrapbooks')
+            expect(helper.show_state_label?(moderatable)).to be_truthy
+          end
+        end
+
+        context 'and the user is on a page where state labels are not shown' do
+          it 'does not show state' do
+            allow(helper).to receive(:controller_path).and_return('test/not/viewable')
+            expect(helper.show_state_label?(moderatable)).to be_falsy
+          end
+        end
+      end
+
+      context 'and the item is approved' do
+        let(:state) { 'approved' }
+
+        context 'and the user is on a page where state labels are shown' do
+          it "does not show state on the show page of memories that belong to the user" do
+            allow(helper).to receive(:controller_path).and_return('my/memories')
+            expect(helper.show_state_label?(moderatable)).to be_falsy
+          end
+
+          it "does not show state on the show page of scrapbooks that belong to the user" do
+            allow(helper).to receive(:controller_path).and_return('my/scrapbooks')
+            expect(helper.show_state_label?(moderatable)).to be_falsy
+          end
+        end
+
+        context 'and the user is on a page where state labels are not shown' do
+          it 'does not show state' do
+            allow(helper).to receive(:controller_path).and_return('test/not/viewable')
+            expect(helper.show_state_label?(moderatable)).to be_falsy
+          end
+        end
+      end
     end
 
-    it 'does not show state if the controller path is not in viewable state paths' do
-      allow(helper).to receive(:controller_path).and_return('test/not/viewable')
-      expect(helper.show_state?).to be_falsy
+    context 'when the user is not able to modify the item' do
+      let(:can_modify)  { false }
+
+      context 'and the item is not approved' do
+        let(:state) { 'unmoderated' }
+
+        context 'and the user is on a page where state labels are shown' do
+          it "does not show state on the show page of memories that belong to the user" do
+            allow(helper).to receive(:controller_path).and_return('my/memories')
+            expect(helper.show_state_label?(moderatable)).to be_falsy
+          end
+
+          it "does not show state on the show page of scrapbooks that belong to the user" do
+            allow(helper).to receive(:controller_path).and_return('my/scrapbooks')
+            expect(helper.show_state_label?(moderatable)).to be_falsy
+          end
+        end
+
+        context 'and the user is on a page where state labels are not shown' do
+          it 'does not show state' do
+            allow(helper).to receive(:controller_path).and_return('test/not/viewable')
+            expect(helper.show_state_label?(moderatable)).to be_falsy
+          end
+        end
+      end
+
+      context 'and the item is approved' do
+        let(:state) { 'approved' }
+
+        context 'and the user is on a page where state labels are shown' do
+          it "does not show state on the show page of memories that belong to the user" do
+            allow(helper).to receive(:controller_path).and_return('my/memories')
+            expect(helper.show_state_label?(moderatable)).to be_falsy
+          end
+
+          it "does not show state on the show page of scrapbooks that belong to the user" do
+            allow(helper).to receive(:controller_path).and_return('my/scrapbooks')
+            expect(helper.show_state_label?(moderatable)).to be_falsy
+          end
+        end
+
+        context 'and the user is on a page where state labels are not shown' do
+          it 'does not show state' do
+            allow(helper).to receive(:controller_path).and_return('test/not/viewable')
+            expect(helper.show_state_label?(moderatable)).to be_falsy
+          end
+        end
+      end
     end
   end
 end

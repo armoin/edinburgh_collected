@@ -1,30 +1,30 @@
 <div class="form-group">
   <h3>Website Links</h3>
-  <p>
-    You can use the website links to add links to your other content on the web such as Facebook, Twitter or perhaps your own website.
-  </p>
+  <p>Add links to your other content on the web such as Facebook, Twitter or your own site.</p>
   <%= form.fields_for :links do |link_fields| %>
-    <div class="formRow">
-      <fieldset>
+    <fieldset class="link">
+      <div class="formRow">
         <%= link_fields.label :name, class: "control-label" %>
         <%= link_fields.text_field :name, class: 'form-control' %>
         <% link_fields.object.errors[:name].each do |error| -%>
           <span class="help-block"><%= error %></span>
         <% end -%>
+      </div>
 
+      <div class="formRow">
         <%= link_fields.label :url, class: "control-label" %>
         <%= link_fields.text_field :url, class: 'form-control', autocapitalize: :none %>
         <% link_fields.object.errors[:url].each do |error| -%>
           <span class="help-block"><%= error %></span>
         <% end -%>
+      </div>
 
-        <% if link_fields.object.persisted? -%>
-          <div class="actions">
-            <%= link_fields.link_to_remove "Delete", class: "button small red" %>
-          </div>
-        <% end -%>
-      </fieldset>
-    </div>
+      <% if link_fields.object.persisted? -%>
+        <div class="actions">
+          <%= link_fields.link_to_remove "Delete", class: "button small red float-right" %>
+        </div>
+      <% end -%>
+    </fieldset>
   <% end %>
-  <%= form.link_to_add "Add another", :links, class: "button small" %>
+  <%= form.link_to_add "Add another link", :links, class: "button small" %>
 </div>

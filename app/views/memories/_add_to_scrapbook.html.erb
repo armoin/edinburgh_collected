@@ -30,8 +30,10 @@
   </div>
 </div>
 
-<%= render partial: 'memories/create_scrapbook' %>
-<%= render partial: 'memories/after_add_to_scrapbook' %>
+<% content_for :modals do %>
+  <%= render partial: 'memories/create_scrapbook' %>
+  <%= render partial: 'memories/after_add_to_scrapbook' %>
+<% end -%>
 
 <script type="text/javascript">
   $(document).ready(function () {

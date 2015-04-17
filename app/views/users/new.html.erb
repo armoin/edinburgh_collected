@@ -7,7 +7,7 @@
 
       <h1 class="form-title">Sign up for an account</h1>
 
-      <%= nested_form_for @user, url: signup_path, html: {class: 'form-horizontal', role: 'form'} do |form| %>
+      <%= form_for @user, url: signup_path, builder: Judge::FormBuilder, html: {class: 'form-horizontal', role: 'form'} do |form| %>
 
         <div class="form-group">
           <div id="user_is_group" class="form-group">
@@ -52,17 +52,25 @@
 
     <div id="extraPanel" class="col-md-6">
       <div id="signposting">
-        <h3>Already have an account?</h3>
+       <div class="inner">
+        <h2>Already have an account?</h2>
+
         <a href="/signin" class="green button">Sign in now</a>
+
+        <ul class="help-tips">
+          <li><span class="glyphicon glyphicon-info-sign"></span><a class="underlined" href="about">Find out more about <%= APP_NAME %></a></li>
+          <li>
+            <span class="glyphicon glyphicon-info-sign"></span>
+            You must accept the <a class="underlined" href="" data-toggle="modal" data-target="#t_and_c">terms and conditions</a> in order to sign up for an account.
+          </li>
+          <li><span class="glyphicon glyphicon-info-sign"></span>All fields marked with a <span class="required">*</span> are required.</li>
+          <li><span class="glyphicon glyphicon-info-sign"></span>Password must be <%= User::PASSWORD_LENGTH %> characters or more.</li>
+          <li><span class="glyphicon glyphicon-info-sign"></span>Your first name, last name and email are not visible to others. Your username will be visible to others on the site.</li>
+        </ul>
       </div>
 
-      <ul class="help-tips">
-        <li><span class="glyphicon glyphicon-info-sign"></span>All fields marked with a <span class="required">*</span> are required.</li>
-        <li><span class="glyphicon glyphicon-info-sign"></span>Password must be 3 characters or more.</li>
-        <li><span class="glyphicon glyphicon-info-sign"></span>Your first name, last name and email are not visible to others on the site. Only your username is used to identify you.</li>
-        <li><span class="glyphicon glyphicon-info-sign"></span>You must accept the <a class="underlined" href="" data-toggle="modal" data-target="#t_and_c">Terms and Conditions</a> in order to sign up for an account.
-        </li>
-      </ul>
+
+      </div>
     </div>
 
   </div>
@@ -99,6 +107,9 @@
       }
     })
     $('#user_is_group input[type="radio"]').first().trigger('change');
+
+    window.formValidator = new FormValidator();
+    window.formValidator.labelLengthConstraints($('form#new_user'));
   };
 
   var isGroup = function () {

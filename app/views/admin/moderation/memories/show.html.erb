@@ -1,0 +1,6 @@
+<div class="container">
+  <%= render partial: 'admin/moderation/moderation_panel',
+              locals: {moderatable: @memory, moderatable_name: 'memory', list_path: current_memory_index_path} %>
+
+  <%= render partial: 'memories/memory', object: @memory %>
+</div>

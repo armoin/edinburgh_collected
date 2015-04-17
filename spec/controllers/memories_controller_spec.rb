@@ -1,19 +1,19 @@
 require 'rails_helper'
 
 describe MemoriesController do
-  let(:approved_memories) { double('approved_memories') }
-  let(:sorted_memories)   { double('sorted_memories') }
-  let(:format)            { :html }
+  let(:visible_memories) { double('visible_memories') }
+  let(:sorted_memories)  { double('sorted_memories') }
+  let(:format)           { :html }
 
   before(:each) do
-    allow(Memory).to receive(:approved).and_return(approved_memories)
+    allow(Memory).to receive(:publicly_visible).and_return(visible_memories)
     allow(sorted_memories).to receive(:page).and_return(sorted_memories)
     allow(sorted_memories).to receive(:per).and_return(sorted_memories)
   end
 
   describe 'GET index' do
     before(:each) do
-      allow(approved_memories).to receive(:by_recent).and_return(sorted_memories)
+      allow(visible_memories).to receive(:by_last_created).and_return(sorted_memories)
       get :index, format: format
     end
 
@@ -21,19 +21,19 @@ describe MemoriesController do
       expect(session[:current_memory_index_path]).to eql(memories_path(format: format))
     end
 
-    it "fetches the approved memories" do
-      expect(Memory).to have_received(:approved)
+    it "fetches the publicly visible memories" do
+      expect(Memory).to have_received(:publicly_visible)
     end
 
     it "orders them by most recent first" do
-      expect(approved_memories).to have_received(:by_recent)
+      expect(visible_memories).to have_received(:by_last_created)
     end
 
     it "paginates the results" do
       expect(sorted_memories).to have_received(:page)
     end
 
-    it "assigns the approved and sorted memories" do
+    it "assigns the sorted memories" do
       expect(assigns(:memories)).to eql(sorted_memories)
     end
 
@@ -79,7 +79,7 @@ describe MemoriesController do
 
   describe 'GET show' do
     let(:user)   { Fabricate.build(:user) }
-    let(:memory) { Fabricate.build(:photo_memory) }
+    let(:memory) { Fabricate.build(:memory) }
 
     it 'does not set the current memory index path' do
       expect(session[:current_memory_index_path]).to be_nil
@@ -92,8 +92,11 @@ describe MemoriesController do
     end
 
     context "when record is found" do
+      let(:visible) { false }
+
       before :each do
         allow(Memory).to receive(:find).and_return(memory)
+        allow(memory).to receive(:publicly_visible?).and_return(visible)
       end
 
       it "assigns fetched memory" do
@@ -101,17 +104,19 @@ describe MemoriesController do
         expect(assigns(:memory)).to eql(memory)
       end
 
-      context 'and memory is approved' do
+      context 'and memory is visible' do
+        let(:visible) { true }
+
         before :each do
-          memory.save!
-          memory.approve!
           get :show, id: '123', format: format
         end
 
         it_behaves_like 'a found memory'
       end
 
-      context 'and the memory is not approved' do
+      context 'and the memory is not visible' do
+        let(:visible) { false }
+
         context 'when there is no current user' do
           before :each do
             get :show, id: '123', format: format

@@ -1,6 +1,17 @@
 require 'rails_helper'
 
 describe User do
+  let(:moderatable_model)   { User }
+  let(:moderatable_factory) { :user }
+  it_behaves_like 'a moderatable user'
+
+  describe '#user_id' do
+    it 'is an alias for id' do
+      user = Fabricate.build(:user, id: 123)
+      expect(user.user_id).to eql(123)
+    end
+  end
+
   describe 'validation' do
     it 'needs a first_name' do
       expect(subject).to be_invalid
@@ -77,18 +88,18 @@ describe User do
 
     context "if password has not yet been set" do
       context "and password has not been given" do
-        it 'must have at least 3 characters' do
+        it 'must have the minimum number of characters' do
           subject.password = ''
           subject.valid?
-          expect(subject.errors[:password]).to include("is too short (minimum is 3 characters)")
+          expect(subject.errors[:password]).to include("is too short (minimum is #{User::PASSWORD_LENGTH} characters)")
         end
       end
 
       context "and password has been given" do
-        it 'must have at least 3 characters' do
+        it 'must have the minimum number of characters' do
           subject.password = 'oo'
           subject.valid?
-          expect(subject.errors[:password]).to include("is too short (minimum is 3 characters)")
+          expect(subject.errors[:password]).to include("is too short (minimum is #{User::PASSWORD_LENGTH} characters)")
         end
 
         it 'must match confirmation' do
@@ -103,10 +114,10 @@ describe User do
       let(:user) { Fabricate(:user) }
 
       context "and password has been changed" do
-        it 'must have at least 3 characters' do
+        it 'must have the minimum number of characters' do
           user.password = 'oo'
           user.valid?
-          expect(user.errors[:password]).to include("is too short (minimum is 3 characters)")
+          expect(user.errors[:password]).to include("is too short (minimum is #{User::PASSWORD_LENGTH} characters)")
         end
 
         it 'must match confirmation' do
@@ -296,386 +307,107 @@ describe User do
     end
   end
 
-  describe 'attached image' do
-    describe 'image data' do
-      it 'can have an image angle' do
-        subject.image_angle = 270
-        expect(subject.image_angle).to eql(270)
-      end
+  describe '#active?' do
+    let(:user) { Fabricate.build(:user, activation_state: activation_state) }
 
-      it 'can have an image scale' do
-        subject.image_scale = 0.12345
-        expect(subject.image_scale).to eql(0.12345)
-      end
+    context 'when the activation_state is "active"' do
+      let(:activation_state) { 'active' }
 
-      it 'can have an image width' do
-        subject.image_w = 90
-        expect(subject.image_w).to eql(90)
-      end
-
-      it 'can have an image height' do
-        subject.image_h = 90
-        expect(subject.image_h).to eql(90)
-      end
-
-      it 'can have an image x coord' do
-        subject.image_x = 5
-        expect(subject.image_x).to eql(5)
-      end
-
-      it 'can have an image y coord' do
-        subject.image_y = 12
-        expect(subject.image_y).to eql(12)
+      it 'is true' do
+        expect(user).to be_active
       end
     end
 
-    describe '#rotated?' do
-      it 'is false if the image_angle is nil' do
-        subject.image_angle = nil
-        expect(subject).not_to be_rotated
+    context 'when the activation_state is "pending"' do
+      let(:activation_state) { 'pending' }
+
+      it 'is false' do
+        expect(user).not_to be_active
+      end
+    end
+  end
+
+  describe '#pending?' do
+    let(:user) { Fabricate.build(:user, activation_state: state, activation_token: token) }
+
+    context 'when the activation_state is "active"' do
+      let(:state) { 'active' }
+
+      context 'and activation token is present' do
+        let(:token) { '123abc' }
+
+        it 'is false' do
+          expect(user).not_to be_pending
+        end
       end
 
-      it 'is false if the image_angle is blank' do
-        subject.image_angle = ''
-        expect(subject).not_to be_rotated
-      end
+      context 'and no activation token is present' do
+        let(:token) { nil }
 
-      it 'is false if the image_angle is 0' do
-        subject.image_angle = '0'
-        expect(subject).not_to be_rotated
-      end
-
-      it 'is true if the image_angle is less than 0' do
-        subject.image_angle = '-90'
-        expect(subject).to be_rotated
-      end
-
-      it 'is true if the image_angle is greater than 0' do
-        subject.image_angle = '90'
-        expect(subject).to be_rotated
+        it 'is false' do
+          expect(user).not_to be_pending
+        end
       end
     end
 
-    describe '#scaled?' do
-      it 'is false if the image_scale is nil' do
-        subject.image_scale = nil
-        expect(subject).not_to be_scaled
-      end
+    context 'when the activation_state is "pending"' do
+      let(:state) { 'pending' }
 
-      it 'is false if the image_scale is blank' do
-        subject.image_scale = ''
-        expect(subject).not_to be_scaled
-      end
+      context 'and activation token is present' do
+        let(:token) { '123abc' }
 
-      it 'is false if the image_scale is 0' do
-        subject.image_scale = '0'
-        expect(subject).not_to be_scaled
-      end
-
-      it 'is false if the image_scale is less than 0' do
-        subject.image_scale = '-0.00001'
-        expect(subject).not_to be_scaled
-      end
-
-      it 'is true if the image_scale is greater than 0' do
-        subject.image_scale = '0.00001'
-        expect(subject).to be_scaled
-      end
-    end
-
-    describe '#cropped?' do
-      it 'is false if the image_w and the image_h are nil' do
-        subject.image_w = nil
-        subject.image_h = nil
-        expect(subject).not_to be_cropped
-      end
-
-      it 'is false if the image_w is not nil but the image_h is nil' do
-        subject.image_w = '1'
-        subject.image_h = nil
-        expect(subject).not_to be_cropped
-      end
-
-      it 'is false if the image_w is nil but the image_h is not nil' do
-        subject.image_w = nil
-        subject.image_h = '1'
-        expect(subject).not_to be_cropped
-      end
-
-      it 'is false if the image_w and the image_h are blank' do
-        subject.image_w = ''
-        subject.image_h = ''
-        expect(subject).not_to be_cropped
-      end
-
-      it 'is false if the image_w is not blank but the image_h is blank' do
-        subject.image_w = '1'
-        subject.image_h = ''
-        expect(subject).not_to be_cropped
-      end
-
-      it 'is false if the image_w is blank but the image_h is not blank' do
-        subject.image_w = ''
-        subject.image_h = '1'
-        expect(subject).not_to be_cropped
-      end
-
-      it 'is false if the image_w and the image_h are both 0' do
-        subject.image_w = '0'
-        subject.image_h = '0'
-        expect(subject).not_to be_cropped
-      end
-
-      it 'is false if the image_w is not 0 but the image_h is 0' do
-        subject.image_w = '1'
-        subject.image_h = '0'
-        expect(subject).not_to be_cropped
-      end
-
-      it 'is false if the image_w is 0 but the image_h is not 0' do
-        subject.image_w = '0'
-        subject.image_h = '1'
-        expect(subject).not_to be_cropped
-      end
-
-      it 'is false if the image_w and the image_h are both less than 0' do
-        subject.image_w = '-1'
-        subject.image_h = '-1'
-        expect(subject).not_to be_cropped
-      end
-
-      it 'is false if the image_w is not less than 0 but the image_h is less than 0' do
-        subject.image_w = '1'
-        subject.image_h = '-1'
-        expect(subject).not_to be_cropped
-      end
-
-      it 'is false if the image_w is less than 0 but the image_h is not less than 0' do
-        subject.image_w = '-1'
-        subject.image_h = '1'
-        expect(subject).not_to be_cropped
-      end
-
-      it 'is true if the image_w and the image_h are both greater than 0' do
-        subject.image_w = '1'
-        subject.image_h = '1'
-        expect(subject).to be_cropped
-      end
-    end
-
-    describe '#image_modified?' do
-      it 'is false if the image has not been rotated, scaled or cropped' do
-        subject.image_angle = '0'
-        subject.image_scale = '0'
-        subject.image_w     = '0'
-        subject.image_h     = '0'
-
-        expect(subject.image_modified?).to be_falsy
-      end
-
-      it 'is true if the image has been rotated' do
-        subject.image_angle = '90'
-        subject.image_scale = '0'
-        subject.image_w     = '0'
-        subject.image_h     = '0'
-
-        expect(subject.image_modified?).to be_truthy
-      end
-
-      it 'is true if the image has been scaled' do
-        subject.image_angle = '0'
-        subject.image_scale = '0.12345'
-        subject.image_w     = '0'
-        subject.image_h     = '0'
-
-        expect(subject.image_modified?).to be_truthy
-      end
-
-      it 'is true if the image has been cropped' do
-        subject.image_angle = '0'
-        subject.image_scale = '0'
-        subject.image_w     = '5'
-        subject.image_h     = '12'
-
-        expect(subject.image_modified?).to be_truthy
-      end
-    end
-
-    describe '#process_image' do
-      let(:now)              { Time.now }
-      let(:old)              { 2.days.ago }
-      let(:image)            { nil }
-      let(:previous_changes) { {} }
-      let(:image_modified)   { false }
-
-      subject { Fabricate(:user, avatar: image, updated_at: old) }
-
-      before :each do
-        allow(subject.avatar).to receive(:recreate_versions!)
-        allow(subject).to receive(:save)
-        allow(subject).to receive(:image_modified?).and_return(image_modified)
-        allow(subject).to receive(:previous_changes).and_return(previous_changes)
-      end
-
-      context 'when image has been modified' do
-        let(:image_modified) { true }
-
-        context 'and there is not an attached image' do
-          let(:image) { nil }
-
-          before :each do
-            Timecop.freeze(now) do
-              @result = subject.process_image
-            end
-          end
-
-          context 'and there were not previously changes to the image' do
-            let(:previous_changes) { {} }
-
-            it 'does not recreate the image versions' do
-              expect(subject.avatar).not_to have_received(:recreate_versions!)
-            end
-          end
-
-          context 'and there were previously changes to the image' do
-            let(:previous_changes) { {avatar: []} }
-
-            it 'does not recreate the image versions' do
-              expect(subject.avatar).not_to have_received(:recreate_versions!)
-            end
-          end
-        end
-
-        context 'and there is already an attached image' do
-          let(:image) { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec', 'fixtures', 'files', 'test.jpg')) }
-
-          before :each do
-            Timecop.freeze(now) do
-              @result = subject.process_image
-            end
-          end
-
-          context 'and there were not previously changes to the image' do
-            let(:previous_changes) { {} }
-
-            it 'recreates the image versions' do
-              expect(subject.avatar).to have_received(:recreate_versions!)
-            end
-          end
-
-          context 'and there were previously changes to the image' do
-            let(:previous_changes) { {avatar: []} }
-
-            it 'does not recreate the image versions' do
-              expect(subject.avatar).not_to have_received(:recreate_versions!)
-            end
-          end
-        end
-
-        it 'changes updated at' do
-          Timecop.freeze(now) do
-            @result = subject.process_image
-          end
-          expect(subject.updated_at).to eql(now)
-        end
-
-        it 'saves the record so that the image is properly updated' do
-          Timecop.freeze(now) do
-            @result = subject.process_image
-          end
-          expect(subject).to have_received(:save).once
-        end
-
-        context 'when the save is successful' do
-          before :each do
-            allow(subject).to receive(:save).and_return(true)
-            Timecop.freeze(now) do
-              @result = subject.process_image
-            end
-          end
-
-          it 'returns true' do
-            expect(@result).to be_truthy
-          end
-        end
-
-        context 'when the save fails' do
-          before :each do
-            allow(subject).to receive(:save).and_return(false)
-            Timecop.freeze(now) do
-              @result = subject.process_image
-            end
-          end
-
-          it 'returns false' do
-            expect(@result).to be_falsy
-          end
+        it 'is true' do
+          expect(user).to be_pending
         end
       end
 
-      context 'when image has not been modified' do
-        let(:image_modified) { false }
+      context 'and no activation token is present' do
+        let(:token) { nil }
 
-        before :each do
-          Timecop.freeze(now) do
-            @result = subject.process_image
-          end
-        end
-
-        context 'and there is not an attached image' do
-          let(:image) { nil }
-
-          context 'and there were not previously changes to the image' do
-            let(:previous_changes) { {} }
-
-            it 'does not recreate the image versions' do
-              expect(subject.avatar).not_to have_received(:recreate_versions!)
-            end
-          end
-
-          context 'and there were previously changes to the image' do
-            let(:previous_changes) { {avatar: []} }
-
-            it 'does not recreate the image versions' do
-              expect(subject.avatar).not_to have_received(:recreate_versions!)
-            end
-          end
-        end
-
-        context 'and there is already an attached image' do
-          let(:image) { Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec', 'fixtures', 'files', 'test.jpg')) }
-
-          context 'and there were not previously changes to the image' do
-            let(:previous_changes) { {} }
-
-            it 'does not recreate the image versions' do
-              expect(subject.avatar).not_to have_received(:recreate_versions!)
-            end
-          end
-
-          context 'and there were previously changes to the image' do
-            let(:previous_changes) { {avatar: []} }
-
-            it 'does not recreate the image versions' do
-              expect(subject.avatar).not_to have_received(:recreate_versions!)
-            end
-          end
-        end
-
-        it 'does not change updated at' do
-          expect(subject.updated_at).to eql(old)
-        end
-
-        it 'does not recreate the image versions' do
-          expect(subject.avatar).not_to have_received(:recreate_versions!)
-        end
-
-        it 'returns true' do
-          expect(@result).to be_truthy
+        it 'is false' do
+          expect(user).not_to be_pending
         end
       end
     end
   end
+
+  describe '#name' do
+    let(:user) { Fabricate.build(:active_user, first_name: 'Bobby', last_name: last_name)}
+
+    context 'when user has a last name' do
+      let(:last_name) { 'Tables' }
+
+      it 'includes the first name and the last name' do
+        expect(user.name).to eql('Bobby Tables')
+      end
+    end
+
+    context 'when user has a nil last name' do
+      let(:last_name) { nil }
+
+      it 'includes the first name and the last name' do
+        expect(user.name).to eql('Bobby')
+      end
+    end
+
+    context 'when user has a blank last name' do
+      let(:last_name) { '' }
+
+      it 'includes the first name and the last name' do
+        expect(user.name).to eql('Bobby')
+      end
+    end
+
+    context 'when user has a last name with spaces' do
+      let(:last_name) { '  ' }
+
+      it 'includes the first name and the last name' do
+        expect(user.name).to eql('Bobby')
+      end
+    end
+  end
+
+  it_behaves_like 'an image manipulator'
 
   describe 'links' do
     it 'accepts nested link attributes' do
@@ -713,6 +445,211 @@ describe User do
         expect(subject.links.last.name).to eql(name_2)
         expect(subject.links.last.url).to eql(url_2)
       end
+    end
+  end
+
+  describe '#show_getting_started?' do
+    before :each do
+      allow(subject).to receive(:hide_getting_started?).and_return(hide_getting_started)
+      allow(subject).to receive(:is_starting?).and_return(is_starting)
+    end
+
+    context 'if the user does not want to hide getting started' do
+      let(:hide_getting_started) { false }
+
+      context 'and the user is starting' do
+        let(:is_starting) { true }
+
+        it 'is true' do
+          expect(subject.show_getting_started?).to be_truthy
+        end
+      end
+
+      context 'and the user is not starting' do
+        let(:is_starting) { false }
+
+        it 'is false' do
+          expect(subject.show_getting_started?).to be_falsy
+        end
+      end
+    end
+
+    context 'if the user wants to hide getting started' do
+      let(:hide_getting_started) { true }
+
+      context 'and the user is starting' do
+        let(:is_starting) { true }
+
+        it 'is true' do
+          expect(subject.show_getting_started?).to be_falsy
+        end
+      end
+
+      context 'and the user is not starting' do
+        let(:is_starting) { false }
+
+        it 'is true' do
+          expect(subject.show_getting_started?).to be_falsy
+        end
+      end
+    end
+  end
+
+  describe '#is_starting?' do
+    before :each do
+      allow(subject).to receive(:has_profile?).and_return(has_profile)
+      allow(subject).to receive(:has_memories?).and_return(has_memories)
+      allow(subject).to receive(:has_scrapbooks?).and_return(has_scrapbooks)
+    end
+
+    context 'with unedited profile, no memory, no scrapbook' do
+      let(:has_profile)    { false }
+      let(:has_memories)   { false }
+      let(:has_scrapbooks) { false }
+
+      it 'is true' do
+        expect(subject.is_starting?).to be_truthy
+      end
+    end
+
+    context 'with unedited profile, a memory, no scrapbook' do
+      let(:has_profile)    { false }
+      let(:has_memories)   { true }
+      let(:has_scrapbooks) { false }
+
+      it 'is true' do
+        expect(subject.is_starting?).to be_truthy
+      end
+    end
+
+    context 'with unedited profile, no memory, a scrapbook' do
+      let(:has_profile)    { false }
+      let(:has_memories)   { false }
+      let(:has_scrapbooks) { true }
+
+      it 'is true' do
+        expect(subject.is_starting?).to be_truthy
+      end
+    end
+
+    context 'with unedited profile, a memory, a scrapbook' do
+      let(:has_profile)    { false }
+      let(:has_memories)   { true }
+      let(:has_scrapbooks) { true }
+
+      it 'is true' do
+        expect(subject.is_starting?).to be_truthy
+      end
+    end
+
+    context 'with edited profile, no memory, no scrapbook' do
+      let(:has_profile)    { true }
+      let(:has_memories)   { false }
+      let(:has_scrapbooks) { false }
+
+      it 'is true' do
+        expect(subject.is_starting?).to be_truthy
+      end
+    end
+
+    context 'with edited profile, a memory, no scrapbook' do
+      let(:has_profile)    { true }
+      let(:has_memories)   { true }
+      let(:has_scrapbooks) { false }
+
+      it 'is true' do
+        expect(subject.is_starting?).to be_truthy
+      end
+    end
+
+    context 'with edited profile, no memory, a scrapbook' do
+      let(:has_profile)    { true }
+      let(:has_memories)   { false }
+      let(:has_scrapbooks) { true }
+
+      it 'is true' do
+        expect(subject.is_starting?).to be_truthy
+      end
+    end
+
+    context 'with edited profile, a memory, a scrapbook' do
+      let(:has_profile)    { true }
+      let(:has_memories)   { true }
+      let(:has_scrapbooks) { true }
+
+      it 'is false' do
+        expect(subject.is_starting?).to be_falsy
+      end
+    end
+  end
+
+  describe '#has_memories?' do
+    it 'is false if the user has no memories' do
+      expect(subject).not_to have_memories
+    end
+
+    it 'is true if the user has at least one memory' do
+      subject.memories.build
+      expect(subject).to have_memories
+    end
+  end
+
+  describe '#has_scrapbooks?' do
+    it 'is false if the user has no scrapbooks' do
+      expect(subject).not_to have_scrapbooks
+    end
+
+    it 'is true if the user has at least one scrapbook' do
+      subject.scrapbooks.build
+      expect(subject).to have_scrapbooks
+    end
+  end
+
+  describe '#has_profile?' do
+    it 'is false if the user has no description, avatar and links' do
+      expect(subject).not_to have_profile
+    end
+
+    it 'is true if the user has a description' do
+      subject.description = 'a description'
+      expect(subject).to have_profile
+    end
+
+    it 'is true if the user has an avatar' do
+      subject.avatar = File.open(File.join(Rails.root, 'spec', 'fixtures', 'files', 'test.jpg'))
+      expect(subject).to have_profile
+    end
+
+    it 'is true if the user has a link' do
+      subject.links.build
+      expect(subject).to have_profile
+    end
+  end
+
+  describe '#access_denied?' do
+    subject { Fabricate.build(:active_user, moderation_state: moderation_state) }
+
+    context 'when user is not blocked' do
+      let(:moderation_state) { 'approved' }
+
+      it 'is false' do
+        expect(subject.access_denied?).to be_falsy
+      end
+    end
+
+    context 'when the user is blocked' do
+      let(:moderation_state) { 'blocked' }
+
+      it 'is true' do
+        expect(subject.access_denied?).to be_truthy
+      end
+    end
+  end
+
+  describe '#access_denied_reason' do
+    it 'provides the access denied reason' do
+      expected = 'Your account has been blocked. Please contact us if you would like more information.'
+      expect(subject.access_denied_reason).to eql(expected)
     end
   end
 end

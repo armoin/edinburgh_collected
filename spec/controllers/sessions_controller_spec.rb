@@ -17,42 +17,54 @@ describe SessionsController do
   end
 
   describe 'POST create' do
+    let(:user)              { Fabricate(:active_user, id: 123) }
+    let(:email)             { 'bobby@example.com' }
+    let(:pass)              { 's3cr3t' }
+    let(:login_result)      { user }
+    let(:landing_page_path) { '/my/test/landing/path' }
+
     let(:signin_params) {{
-      email: 'bobby@example.com',
-      password: 's3cr3t'
+      email:    email,
+      password: pass
     }}
 
     before :each do
-      allow(controller).to receive(:login).and_return(true)
+      allow(controller).to receive(:login) { login_result }
+
+      allow(controller).to receive(:landing_page_for).with(user).and_return(landing_page_path)
+
       post :create, signin_params
     end
 
-    it 'logs the user in' do
-      expect(controller).to have_received(:login).with('bobby@example.com', 's3cr3t')
+    it 'signs the user in' do
+      expect(controller).to have_received(:login).with(email, pass)
     end
 
     context 'when successful' do
-      it 'redirects to the my memories page' do
-        expect(response).to redirect_to(my_memories_path)
+      let(:login_result) { user }
+
+      it 'assigns the signed in user' do
+        expect(assigns[:user]).to eql(user)
+      end
+
+      it 'redirects to the landing page for the user' do
+        expect(response).to redirect_to(landing_page_path)
       end
 
       it 'displays a success notice' do
-        expect(flash[:notice]).to eql('Successfully signed in')
+        expect(flash[:notice]).to eql("Welcome #{user.screen_name}")
       end
     end
 
     context 'when unsuccessful' do
-      before :each do
-        allow(controller).to receive(:login).and_return(false)
-        post :create, signin_params
-      end
+      let(:login_result) { nil }
 
-      it 'renders the signin page' do
-        expect(response).to render_template(:new)
+      it 'redirects to the signin page' do
+        expect(response).to redirect_to(:signin)
       end
 
       it 'displays a failure alert' do
-        expect(flash[:alert]).to eql('Could not sign in')
+        expect(flash[:alert]).to eql('Email or password was incorrect.')
       end
     end
   end

@@ -1,33 +1,40 @@
 <div class="container">
   <div id="profile" class="row static">
     <div id="detailsPanel" class="col-sm-6">
-      <header>
-        <span class="userAvatar"><%= image_tag @user.avatar_url, class: 'avatar' %></span>
-        <h1 class="title"><%= @user.screen_name %></h1>
-      </header>
 
-      <p>
-        <strong><%= user_name_label(@user) %>:</strong> <%= @user.first_name %>
-      </p>
-
-      <% unless @user.is_group? %>
-        <p>
-          <strong>Last name:</strong> <%= @user.last_name %>
-        </p>
-      <% end %>
-
-      <p>
-        <strong>Email:</strong> <%= @user.email %>
-      </p>
-
-      <p><strong>Bio:</strong></p>
-      <p><%= @user.description %></p>
-
-      <%= render partial: 'users/links', locals: {requested_user: @user} %>
-
-      <div class="actions">
-        <%= link_to 'Edit', my_profile_edit_path, class: 'button' %>
+     <div class="row">
+      <div class="col-sm-3">
+       <span class="userAvatar"><%= image_tag @user.avatar_url, class: 'avatar' %></span>
+       <%= link_to 'Edit profile', my_profile_edit_path, class: 'edit button small' %>
       </div>
+
+      <div class="col-sm-9">
+
+        <h1 class="title"><%= @user.screen_name %></h1>
+
+        <div id="profileDetails">
+        <p>
+          <strong><%= user_name_label(@user) %>:</strong> <%= @user.first_name %>
+        </p>
+
+        <% unless @user.is_group? %>
+          <p>
+            <strong>Last name:</strong> <%= @user.last_name %>
+          </p>
+        <% end %>
+
+        <p>
+          <strong>Email:</strong> <%= @user.email %>
+        </p>
+
+        <p><strong>Bio:</strong></p>
+        <p><%= @user.description %></p>
+
+        <%= render partial: 'users/links', locals: {requested_user: @user} %>
+      </div>
+
+    </div>
+    </div>
     </div>
 
     <div id="infoPanel" class="col-sm-6">

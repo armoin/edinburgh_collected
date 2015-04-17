@@ -25,5 +25,6 @@
 
   <%= render partial: 'users/links', locals: {requested_user: requested_user} %>
 
+  <%= render partial: 'shared/reporting', locals: {item: requested_user, report_path: report_user_path(requested_user.id)} %>
 </header>
 

@@ -19,16 +19,10 @@ describe My::AuthenticatedUserController do
     context 'authenticates pages by default' do
       before :each do
         routes.draw { get 'secret' => 'protected#secret' }
-        get :secret
+        get :secret, format: format
       end
 
-      it "redirects to the signin page" do
-        expect(response).to redirect_to(:signin)
-      end
-
-      it "alerts the user to sign in" do
-        expect(flash[:alert]).to eql('Please sign in first')
-      end
+      it_behaves_like 'requires logged in user'
     end
 
     it 'ignores any pages marked as unauthenticated' do

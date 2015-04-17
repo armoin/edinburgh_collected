@@ -33,6 +33,14 @@ describe PasswordResetsController do
       it "delivers the password reset email" do
         expect(user).to have_received(:deliver_reset_password_instructions!)
       end
+
+      it "redirects to the root path" do
+        expect(response).to redirect_to(:root)
+      end
+
+      it "lets the user know that instructions have been sent" do
+        expect(flash[:notice]).to eql('Instructions have been sent to your email.')
+      end
     end
 
     context "when user does not exist" do
@@ -41,14 +49,14 @@ describe PasswordResetsController do
       it "does not deliver the password reset email" do
         expect(user).not_to have_received(:deliver_reset_password_instructions!)
       end
-    end
 
-    it "redirects to the root path" do
-      expect(response).to redirect_to(:root)
-    end
+      it "re-renders the password reset page" do
+        expect(response).to render_template(:new)
+      end
 
-    it "lets the user know that instructions have been sent" do
-      expect(flash[:notice]).to eql('Instructions have been sent to your email.')
+      it "shows an email not found error" do
+        expect(flash[:alert]).to eql("Sorry but we don't recognise the email address \"#{email}\".")
+      end
     end
   end
 

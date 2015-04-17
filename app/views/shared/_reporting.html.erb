@@ -1,0 +1,6 @@
+<% if current_user && !current_user.can_modify?(item) -%>
+  <%= link_to report_path, class: "report" do %>
+    <span class="glyphicon glyphicon-flag"></span>
+    Report a concern
+  <% end -%>
+<% end -%>

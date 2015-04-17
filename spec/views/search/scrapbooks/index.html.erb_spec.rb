@@ -1,13 +1,14 @@
 require 'rails_helper'
 
 describe 'search/scrapbooks/index.html.erb' do
+  let(:current_user)            { nil }
   let(:query)                   { 'test search' }
 
   let(:memory_count)            { 0 }
   let(:scrapbook_count)         { 0 }
-  
+
   let(:results)                 { double('results', query: query, memory_count: memory_count, scrapbook_count: scrapbook_count) }
-  
+
   let(:scrapbooks)              { Array.new(scrapbook_count) { Fabricate.build(:scrapbook) } }
   let(:paged_scrapbooks)        { Kaminari.paginate_array(scrapbooks) }
 
@@ -17,8 +18,10 @@ describe 'search/scrapbooks/index.html.erb' do
   let(:presenter)               { ScrapbookIndexPresenter.new(paged_scrapbooks, stub_memory_fetcher) }
 
   before :each do
+    allow(view).to receive(:current_user).and_return(current_user)
+
     assign(:results, results)
-    
+
     allow(stub_memory_fetcher).to receive(:scrapbook_memories_for).and_return(scrapbook_memories)
     assign(:presenter, presenter)
 
@@ -101,10 +104,12 @@ describe 'search/scrapbooks/index.html.erb' do
 
   context 'when there are results' do
     let(:scrapbook_count)  { 3 }
-    
-    it_behaves_like 'paginated content'
 
+    it_behaves_like 'paginated content'
     it_behaves_like 'a scrapbook index'
+
+    let(:moderatable) { scrapbooks.first }
+    it_behaves_like 'non state labelled content'
   end
 end
 

@@ -20,7 +20,9 @@
   </div>
 </div>
 
-<%= render partial: 'memories/create_scrapbook' %>
+<% content_for :modals do %>
+  <%= render partial: 'memories/create_scrapbook' %>
+<% end -%>
 
 <script type="text/javascript">
   var createScrapbookController = new CreateScrapbookController();

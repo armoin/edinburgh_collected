@@ -50,11 +50,12 @@ html, body
 
 /* ==================================== BUTTONS */
 
-h1 a
+h1 a.button
   font-size: 14px !important
   padding: 0.25em !important
   position: relative !important
   top: -0.25em !important
+  font-family: 'Open Sans', sans-serif
 
 a.delete
   background-color: $coral
@@ -96,6 +97,9 @@ a span.accessible-label
   &.float-right
     margin-left: 0.25em
 
+  &[disabled]
+    opacity: 0.6
+
 
 .button.navy, .button.edit, .button.back
   background-color: $navy-blue
@@ -115,13 +119,16 @@ a span.accessible-label
   &:hover
     background-color: darken( $green, 20% )
 
+    &[disabled]
+      background-color: darken( $green, 10% )
+
 .button.red, .button.delete
   background-color: $coral
   border: 1px solid darken( $coral, 10% )
   text-shadow: 0px 1px 0px darken( $coral, 20% )
 
   &:hover
-    background-color: darken( $coral, 5% )
+    background-color: darken( $coral, 20% )
     cursor: pointer
 
 .button.purple, .button.scrapbooks
@@ -130,7 +137,7 @@ a span.accessible-label
   text-shadow: 0px 1px 0px darken( $teal, 20% )
 
   &:hover
-    background-color: darken( $teal, 5% )
+    background-color: darken( $teal, 20% )
     cursor: pointer
 
 .button.white, .button.white
@@ -140,7 +147,7 @@ a span.accessible-label
   text-shadow: 0px 1px 0px white
 
   &:hover
-    background-color: darken( white, 5% )
+    background-color: darken( white, 20% )
     cursor: pointer
 
 
@@ -152,7 +159,7 @@ a span.accessible-label
   color: white
 
   &:hover
-    background-color: darken( $teal, 5% )
+    background-color: darken( $teal, 20% )
 
 
 .button.blue, .button.memories
@@ -163,7 +170,7 @@ a span.accessible-label
   color: white
 
   &:hover
-    background-color: darken( $blue, 5% )
+    background-color: darken( $blue, 20% )
 
 .button.small
   padding: 0.25em 0.5em
@@ -207,8 +214,17 @@ span.button.memories:hover
     background-color: $navy-blue
     color: white
 
+.report
+  font-weight: bold
+  color: rgba($navy-blue, 0.5)
+  margin: 0
+  padding: 1em 0
+  display: inline-block
+  text-decoration: none
 
-
+  &:hover
+    color: red
+    text-decoration: none
 
 
 .search-buttons
@@ -294,7 +310,12 @@ span.button.memories:hover
 a
   color: $navy-blue
 
-h1, h2, h3
+h1
+  font-family: 'Open Sans Condensed', sans-serif
+  font-weight: normal
+  font-size: 48px
+
+h2, h3
   font-family: 'Open Sans', sans-serif
   font-weight: 600
 
@@ -309,7 +330,13 @@ h1, h2, h3
   &:hover
     color: $coral
 
+.nb
+  color: $green
+
 /* ==================================== HEADER */
+
+.mm-menu
+  background: $navy-blue !important
 
 #main-header
 
@@ -326,12 +353,13 @@ h1, h2, h3
       border-radius: 1px
 
     #theNavBar
+      padding: 0
       #menuText
         float: right
         margin-left: 23px
 
       button
-        padding: 40px 1em 1em 1em
+        padding: 0.75em 1em 1em 1em
         background: none
         border: none
         position: relative
@@ -378,21 +406,20 @@ h1, h2, h3
 
             & > span
               display: inline-block
+              cursor: pointer
 
             & > a, & > span
               padding: 0.25em 1em 0.25em 1em !important
-              +border-radius(4px)
+              +border-radius(4px 4px 0 0)
 
             ul
               position: absolute
               right: 0
-              width: 130px
+              width: 150px
               text-align: right
-              background: $navy-blue
               z-index: 100
               padding: 0.5em 0 0.5em 0 !important
               list-style: none
-              +border-radius(4px 0 4px 4px)
               display: none
 
               li
@@ -403,16 +430,25 @@ h1, h2, h3
                   color: $cream
                   padding: 0 !important
                   border-bottom: none !important
+                  &:hover
+                    text-decoration: underline
+                    color: lighten( $green, 10% ) !important
+
 
 
             &:hover
-              background: $navy-blue
+
               a, span
                 color: $cream !important
                 border-bottom: none !important
+                background: $navy-blue
+                cursor: pointer
+
 
               ul
                 display: block
+                background: $navy-blue
+                +border-radius(4px 0 4px 4px)
 
 
 
@@ -428,11 +464,10 @@ h1, h2, h3
 
     #logo
       padding-left: 0
-      margin-top: 1.25em
-      position: absolute
-      bottom: 0
+      float: left
 
       .navbar-brand
+        background: $cream
         display: block
         float: none
         height: auto
@@ -441,13 +476,15 @@ h1, h2, h3
         font-size: inherit
         line-height: 100%
         margin-bottom: 0
+        border-right: 5px $cream solid
 
 
   #searchwrapper
     background: $navy-blue
-    padding: 0.5em
-    margin: 0em 0 0 0
-    float: right
+    margin: 0
+    padding: 0
+    display: table
+    width: 100%
 
     .toggleMenu
       display: none
@@ -469,15 +506,18 @@ h1, h2, h3
         margin: 0em 0.5em 0em 0
 
     .searchForm
-      padding: 0
+      padding-right: 0
+      display: table-cell
+      vertical-align: middle
+      float: none
 
-      float: right
-      text-align: right
 
       form
         background: none
         margin-bottom: 0
-        padding: 0
+        float: right
+        margin-left: 1em !important
+        margin-right: 1em !important
 
       input
         display: inline-block
@@ -485,6 +525,13 @@ h1, h2, h3
         transition: opacity .25s ease-in-out
         -moz-transition: opacity .25s ease-in-out
         -webkit-transition: opacity .25s ease-in-out
+
+        &#query
+          width: 100%
+          float: right
+
+      .input-group-btn
+        width: 5%
 
         &:focus
           opacity: 1
@@ -561,7 +608,7 @@ footer
   margin-bottom: 0.4em
 
 .flashes
-  .alert, .notice
+  .alert, .notice, .warn
     padding: 15px
     border: 1px solid transparent
     border-radius: 4px
@@ -570,11 +617,15 @@ footer
 
     .close
       text-shadow: 0 0 0 white
-      margin-top: -2px
+      margin: -2px 0 5px 10px
       opacity: 1
 
-  .alert
+  .alert, .warn
     background: $coral
+
+    a
+      color: inherit
+      text-decoration: underline
 
     .close
       color: white
@@ -616,82 +667,138 @@ button#create-scrapbook-button
 /* ==================================== HOME PAGE */
 
 #homeContent
-  h1
-
-
-  #contentModules
-    padding: 2em 0 0 0
+  #heroImage
     position: relative
+    margin-top: 2em
 
-    .module
-      padding-bottom: 6em
+    .tint
+      position: relative
+      cursor: normal
+      z-index: 0
 
-      a.button
-        margin-bottom: 0
-        text-align: center
-        display: block
-        position: absolute
-        bottom: 1em
-        width: 90%
+    .tint:before
+      content: ""
+      display: block
+      position: absolute
+      top: 0
+      bottom: 0
+      left: 0
+      right: 0
+      background: rgba($navy-blue, 0.5)
+      transition: all .3s linear
 
-        &:active
-          top: inherit
+    .tint:hover:before
+      background: none
 
-    img
-      border: 1px solid #ccc
-      +border-radius(3px)
+
+  #imageInfo
+    z-index: 20
+    position: absolute
+    bottom: 0
+    width: 50%
+    margin-left: 25%
+    background: $navy-blue
+    background: rgba($navy-blue, 0.75)
+    color: white
+    padding: 10px
+    text-align: center
+
+    p
       margin-bottom: 0
-      padding: 5px
-      background: white
+
+      a
+        color: white
+
+  #cta
+    z-index: 20
+    position: absolute
+    top: 35%
+    text-align: center
+    width: 100%
+
+    a
+      min-width: 20%
+      display: inline-block
+      font-size: 21px
 
 
+    h1
+      color: white
+      font-size: 62px
+      font-family: 'Open Sans Condensed', sans-serif
+      font-weight: normal
 
-      a.signin
-        font-size: 0.8em
-
-      p
-        margin: 0
+  #descriptionText
+    text-align: center
+    font-weight: 300
+    font-style: italic
+    font-size: 48px
+    margin: 1em 10%
 
   #featuredScrapbook
-    border: 1px solid $navy-blue
-    +border-radius(3px)
-    padding-bottom: 1em
-    background: lighten( $cream, 5% )
-    margin: 2em 0
+    background: white
+    margin-bottom: 3em
+    width: 100%
 
-    .scrapbookInfo
-      padding-top: 1em
+    header
+      border-bottom: 1px solid $navy-blue
 
-      h3
-        text-transform: uppercase
-        font-size: 1em
-        border-bottom: 1px solid
-        padding-bottom: 0.25em
-        display: inline-block
+    #images
+      position: relative
+      height: 100%
 
-      h2
-        font-weight: 600
-        margin: 0 0 1em 0
-        font-size: 27px
+      .inner
+        position: relative
+        height: 100%
+        width: 100%
 
-    #scrapbookImages
-      padding-top: 1em
-      .item
-        width: 23%
-        margin-bottom: 1%
+        // this class is removed once the images are sized
+        &.initial
+          visibility: hidden
 
-        img
-          border: 1px solid #cccccc
-          border-radius: 3px
-          margin-bottom: 0
-          padding: 5px
-          background: white
+          // start with a 1px wide non-overflowing wrapper or the page width is incorrect on mobile
+          a
+            width: 1px
+            overflow: hidden
 
+        a
+          float: left
+          width: auto
+          height: 100%
+          margin: 20px 0
+          margin-right: 5px
+
+          &:last-child
+            margin-right: 0
+
+          img
+            width: auto
+            max-width: none
+            height: 100%
+            border: 1px solid #cccccc
+            border-radius: 3px
+            margin-bottom: 0
+            padding: 5px
+            background: white
+
+    footer
+      width: 100%
+      display: block
+      border-top: 1px solid $navy-blue
+      background: inherit
+      height: auto
+      color: $navy-blue
+      padding: 1em 0
+
+      a.button
+        float: right
 
 
 
 /* ==================================== BROWSE */
 
+.viewingInfo
+  float: left
 
 #contentHeader
   padding: 2em 0
@@ -714,15 +821,19 @@ button#create-scrapbook-button
       display: inline-block
 
       strong
-        padding-right: 0.25em
+        padding: 0.5em 1em 0.5em 0
+        float: left
 
       a.scrapbooks, span.scrapbooks
         +border-radius(0 3px 3px 0)
         position: relative
-        left: -5px
+        float: left
+
 
       span.memories, a.memories
         +border-radius(3px 0 0 3px)
+        float: left
+
 
       a:active, span:active
         top: 0
@@ -735,8 +846,18 @@ button#create-scrapbook-button
     text-decoration: none
     text-shadow: 0px 1px 0px $navy-blue
 
+.filter
+  #contentHeader
+    div.actions
+      .viewingInfo
+        strong
+          float: none
 
 /* ==================================== MEMORIES */
+
+// ensure that the featherlight lightbox floats over all other elements
+.featherlight
+  z-index: 1050
 
 .memory.full
 
@@ -750,52 +871,42 @@ button#create-scrapbook-button
     background: $navy-blue
     text-align: center
     margin: 0
-    margin-bottom: 2em
     padding: 2em
+    display: table
+    width: 100%
 
-    img
-      max-width: 80%
+    a
+      display: table-cell
+      vertical-align: middle
+      max-height: 100%
+
+      img
+        max-width: 80%
+        max-height: 100%
 
   #details
     padding: 0
 
     header
       border-bottom: 1px solid $navy-blue
-      padding: 0
+      padding: 1em 0
       padding-bottom: 1em
 
-      #user-profile
-        float: left
+      .float-left
         padding: 0
-
-        a.userAvatar, #user-details
-          display: inline-block
-
-        a.userAvatar
-          vertical-align: top
-          text-decoration: none
-
-          img
-            vertical-align: top
-            width: 50px
-
-        #user-details
-          padding: 0 0.6em
-
-          p
-            margin-bottom: 5px
-
-          .username
-            font-weight: bold
 
       #share-links
         float: right
-        padding: 0
+        padding: 1em 0 0 0
         text-align: right
 
 
     #metadata
       padding-left: 0
+      word-break: break-word
+
+      #about
+        overflow: hidden
 
       #author
         font-weight: bold
@@ -812,12 +923,41 @@ button#create-scrapbook-button
           a.button
             width: 100%
             text-align: center
+            word-break: normal
 
     #comments
       padding-right: 0
       margin-bottom: 2em
 
+    a.report
+      display: block
+      border-top: 1px solid $navy-blue
 
+
+
+
+.user-profile
+  padding: 0
+
+  a.userAvatar, #user-details
+    display: inline-block
+
+  a.userAvatar
+    vertical-align: top
+    text-decoration: none
+
+    img
+      vertical-align: top
+      width: 50px
+
+  #user-details
+    padding: 0 0.6em
+
+    p
+      margin-bottom: 5px
+
+    .username
+      font-weight: bold
 
 a#add-memory-button
   width: 150px
@@ -831,10 +971,10 @@ a.memory, a.scrapbook
     text-decoration: none
 
 .memory, .scrapbook
+  display: block
+
   button.remove-memory
     display: inline-block
-  button.undo-remove
-    display: none
 
   &.thumb
 
@@ -912,10 +1052,7 @@ a.memory, a.scrapbook
       max-width: 100%
 
   &.deleted
-    button.remove-memory
-      display: none
-    button.undo-remove
-      display: inline-block
+    display: none !important
 
   &.moderation
     text-align: left
@@ -1071,10 +1208,62 @@ a.memory, a.scrapbook
     font-size: 1.5em
     padding: 0 0 1em 0
 
+  #scrapbookContent, #scrapbookInfo
+    float: right
+
   #scrapbookInstructions
     margin-bottom: 3em
-    border: 3px solid $navy-blue
+    background: rgba($navy-blue, 0.20)
     text-align: center
+    width: auto
+
+  .heroContainer
+
+    display: table
+    width: 100%
+    margin-bottom: 1em
+
+    .heroImage
+      margin: 0.5em 0.5em 1em
+      background: white
+      padding: 1em
+      height: 500px
+      text-align: center
+      width: 100%
+      display: table-cell
+      vertical-align: middle
+
+      img
+        vertical-align: middle
+        max-height: 100%
+
+  .masonry-grid .masonry
+    width: 33.33%
+
+  .scrapbookDescription
+    margin-bottom: 1em
+    text-style: italic
+
+  .scrapbookCreator
+    border-bottom: 1px solid $navy-blue
+    padding-bottom: 1em
+
+    img
+      float: left
+      margin-right: 0.5em
+      padding: 0.25em
+      background: white
+      border: 1px solid #cccccc
+    span
+      display: block
+      font-weight: 600
+
+  #share-links
+    padding-bottom: 1em
+    border-bottom: 1px solid $navy-blue
+    margin: 1em 0 0 0
+
+
 
 .instructionsWrapper
   text-align: center
@@ -1102,35 +1291,16 @@ a.memory, a.scrapbook
     border: none
 
 
+
+
 /* ==================================== EDIT SCRAPBOOK */
 
-
-#editScrapbookForm
-  position: relative
-  height: 100%
-  background: white
-
-  h1.form-title
-    margin-top: 0
-    display: inline-block
-
-  a.cancel.mobile
-    float: right
-    margin-top: 20px
-
-  #formPanel
-    background: none
-
-
+#pageInfo
+  h2
+    text-align: left
+    margin-top: 1em
 
 #editScrapbook
-  padding-top: 1em
-
-  .memoriesWrapper
-    padding: 1em
-    background-color: $light-grey
-    margin-bottom: 1em
-    text-align: center
 
   h2
     font-weight: 300
@@ -1139,35 +1309,132 @@ a.memory, a.scrapbook
     margin: 10px 0 20px
 
   .memory
-    display: inline-block
-    vertical-align: top
-    width: 49%
-    margin-bottom: 1%
-    background: white
-    border: 1px solid white
+    display: block
+    width: 100%
+    vertical-align: middle
+    border: $navy-blue 1px solid
+    margin-bottom: 10px
+    background-color: $light-grey
+
+    &.ui-sortable-helper
+      background: $navy-blue !important
+      color: $cream
+      margin-bottom: 10px
+      box-shadow: 0px 5px 0px rgba($navy-blue , 0.5)
+
+    &:hover
+      background: rgba($navy-blue, 0.15)
+      cursor: move
 
     .padding
       background: none
-      padding: 0.15em !important
-      margin: 0.5em
+      padding: 1em 0.5em !important
+      margin: 0em
+      display: table
+      width: 100%
+      vertical-align: middle
+
+      span.glyphicon-resize-vertical
+        margin-right: 1em
+        display: table-cell
+        vertical-align: middle
+        width: 5%
+        font-size: 150%
+
+      img
+        display: table-cell
+        max-width: 50px
+        vertical-align: middle
+        margin-right: 1em
+        background: white
+        border: 1px solid $navy-blue
 
       button
-        font-size: 10px
+        font-size: 12px
 
       h3
         font-size: 16px
 
     .detail
       text-align: left
+      display: table-cell
+      vertical-align: middle
+      width: 70%
 
     .memory-actions
-      margin-top: 0.4em
       text-align: center
+      display: table-cell
+      vertical-align: middle
+      width: 15%
 
     img
       width: 100%
       float: none
 
+
+#formPanel.editScrapbookForm
+  padding-top: 1em !important
+  float: right
+
+
+/* ============================ GETTING STARTED */
+
+#gettingStarted
+  .protip
+    margin: 1em 0
+    padding: 1em
+    background-color: cornsilk
+
+  a
+    text-decoration: none
+
+  #welcomeMessage
+    background-color: white
+    padding-bottom: 1em
+
+    h1
+      padding-bottom: 0
+      em
+        font-weight: 300
+        text-style: normal
+    h2
+      font-size: 18px
+      margin: 5px 0 0 0
+      font-weight: normal
+
+    .step
+      margin: 1em 0
+      background: lighten( $navy-blue, 65% )
+
+      .inner
+        padding: 0.5em
+        &.top
+          font-size: 21px
+          border-bottom: 1px solid white
+          span.number
+            background: lighten( $navy-blue, 15% )
+            color: white
+            padding: 0.25em 0.5em
+            display: inline-block
+            width: 40px
+            text-align: center
+            margin-right: 0.25em
+          span.glyphicon
+            float: right
+            font-size: 36px
+
+      &.checked
+        background: white
+        border: 1px solid $green
+
+        span.number
+          background: $navy-blue
+
+        span.glyphicon
+          color: $green
+
+    input[type="submit"].hideThis
+      width: 100%
 
 
 /* ==================================== PROFILE */
@@ -1176,40 +1443,21 @@ img.avatar
   width: 90px
   height: 90px
 
-#profileHeader
-  margin: 2em 0 0 0
-  text-align: center
+#profile
+  h1
+    padding-top: 0
 
-  #userContent
-    float: right
-    display: table
-    position: relative
-    right: -15px
+  a.edit
+    max-width: 90px
+    display: block
+    text-align: center
+    margin-top: 1em
 
-    div
-      display: table-cell
-      text-align: center
-      vertical-align: middle
+  #profileDetails
+    strong
+      width: 25%
+      display: inline-block
 
-      a
-        display: block
-        padding: 1.5em 0
-
-        span
-          font-size: 1.5em
-          font-weight: 600
-
-      &.active
-        background: $navy-blue
-        a
-          color: white
-
-      &:hover
-        text-decoration: none
-        pointer: default !important
-
-      span
-        display: block
 
 .memories #userMemories a:hover, .scrapbook #userScrapbooks a:hover
   text-decoration: none
@@ -1226,9 +1474,37 @@ img.avatar
     background: none !important
 
 
+#profile
 
+  .blocked
+    text-align: center
+    font-variant: small-caps
+    font-size: 1.4em
+    background: $rejected
+    padding: 0.4em
+    margin-bottom: 1em
+    color: white
+    font-weight: bold
+
+#profileHeader
+  text-align: center
+  margin-top: 2em
+
+  .report
+    font-size: 0.7em
 
 /* ==================================== FORMS */
+
+#newMemoryForm, #editMemoryForm, #editProfileForm, #profile, #reportConcernForm, #password
+  background: rgba($navy-blue, 0.25)
+
+  &[type="password"]
+    background: inherit
+
+#editProfileForm
+  .link
+    .formRow
+      margin-top: 15px
 
 #formHeader
   padding: 0em 0 2em 0
@@ -1252,7 +1528,7 @@ img.avatar
   margin: 0 0 15px 0
 
 .formWrapper
-  background:  darken( $light-grey, 5% )
+  background:  white
   margin: 0 0 2em 0
 
   #formPanel
@@ -1271,11 +1547,19 @@ img.avatar
         font-weight: 400
 
   #extraPanel
-    padding-bottom: 2em
+    padding: 0em
+    position: relative
 
     #signposting
+      position: absolute
+      top: 0
+      width: 100%
       text-align: center
       padding: 0.5em 0 2em
+
+      h3
+        font-family: 'Open Sans Condensed', sans-serif
+        font-weight: normal
 
       a.button
         font-size: 1.25em
@@ -1583,7 +1867,67 @@ form
 
 #signIn, #signUp, #password
 
-  h1
+.formWrapper
+  background:  white
+  margin: 0 0 2em 0
+  position: relative
+  height: 100%
+  overflow: hidden
+
+  #formPanel
+    background: white
+
+  #extraPanel
+    padding: 0em
+    position: absolute
+    right: 0
+    top: 0
+    height: 100%
+    -webkit-background-size: cover
+    -moz-background-size: cover
+    -o-background-size: cover
+    background-size: cover
+
+
+    #signposting
+      position: absolute
+      top: 30px
+      width: 100%
+      text-align: center
+
+      .inner
+        display: inline-block
+        padding: 1em
+
+        h2
+          color: white
+          font-family: 'Open Sans Condensed', sans-serif
+          font-weight: normal
+          font-size: 36px
+
+#signIn
+  #extraPanel
+    background: image-url('photos/edinburgh-collected-funfair.jpg') no-repeat center bottom
+    .inner
+      background: rgba($blue, 0.75)
+
+
+#signUp
+  #extraPanel
+    background: image-url('photos/edinburgh-collected-rubix.jpg') no-repeat center top
+    .inner
+      background: rgba($navy-blue, 0.5)
+      margin: 0 30px
+
+      ul.help-tips
+        margin: 1em 2em
+
+#password
+  #extraPanel
+    background: image-url('photos/edinburgh-collected-crowd.jpg') no-repeat center top
+
+
+
 
   form
     label
@@ -1655,18 +1999,21 @@ li.greeting
 
 .static
   margin: 2em 0
-  background: #d9dbd7
+  background: white
 
   #staticText
     background: white
     padding-bottom: 1em
 
   #staticOther
+    padding: 0
 
 
   h1
     margin: 0
     padding: 1em 0 0.5em 0
+    font-family: 'Open Sans Condensed', sans-serif
+    font-weight: normal
 
 
   nav
@@ -1690,7 +2037,13 @@ li.greeting
 .options
   margin-top: 3em
 
-table.items
+#tab-bar
+  padding: 1em 0
+
+  a
+    text-decoration: underline
+
+table.items, table.users
   background-color: cornsilk
   text-align: left
 
@@ -1708,7 +2061,10 @@ table.items
     &.rejected
       background-color: $rejected
 
-.btn
+    a
+      text-decoration: underline
+
+.btn, .button
   &.unmoderate, &.approve, &.reject
     color: white
 
@@ -1755,20 +2111,32 @@ table.items
   &.approved
     background-color: $approved
 
-  &.rejected
+  &.rejected, &.reported
     background-color: $rejected
     color: white
     padding: 0.2em
 
-ul.admin-toolbar
-  list-style: none
-  display: inline-block
-  margin: 0
+.comment
+  background: whitesmoke
+
+  blockquote
+    margin: 0
+    border: 0
+    background: cornsilk
+    font-style: italic
+
+.admin-toolbar
+  margin: 1em 0
   padding: 0.4em
   width: 100%
 
-  li.state
+  .state
     margin-bottom: 0
+    top: 0
+
+    &.unmoderated
+      background: $unmoderated
+      color: white
 
   ul.moderation-actions
     list-style: none
@@ -1843,6 +2211,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 /* ==================================== HELP TIPS */
 
 .help-tips
+  text-align: left
 
   .required
     color: $required
@@ -1866,10 +2235,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
   #infoPanel
     display: none
 
-  #editScrapbook .memory
-    width: 100%
-    margin-bottom: 4%
-
   form#add-memory
     padding: 0
     .form-group
@@ -1885,11 +2250,242 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       *
         float: none !important
 
+  .viewingInfo
+    float: none
+
+  #scrapbook, .memory.full
+    #contentHeader
+      text-align: center
+      .actions
+        .viewingInfo
+          width: 100%
+          margin-bottom: 0.5em
+
+          a
+            width: 31.5%
+            float: left
+            margin-right: 1.25%
+            &:last-child
+              margin-right: 0
+
+            &.edit
+              margin-left: 3px
+
+        a.float-right
+          display: block
+          margin: 0
+          float: none
+
+  .memories, .scrapbooks
+    #contentHeader
+      text-align: center
+      .viewingInfo
+        width: 100%
+        margin-bottom: 0.5em
+
+        strong
+          float: none !important
+          display: block
+          padding: 0.5em !important
+
+        span.button, a.button
+          width: 50% !important
+          padding: 0.5em 0.25em !important
+
+      a.float-right
+        display: block
+        margin: 0
+        float: none
+
+
+  .memory.full
+    #details
+      header
+        padding: 1em 0
+        .float-left
+          float: none
+          .user-profile
+            float: none
+
+        > div
+          padding: 0
+
+        #share-links
+          border-top: 1px solid $navy-blue
+          padding: 1em 0 0 0
+          float: none
+          text-align: left
+          margin: 1em 0 0 0
+
+    #comments
+      padding-left: 0
+
+
+  #editScrapbook
+    .viewingInfo
+      float: left !important
+      width: auto
+      padding-bottom: 0
+
+      a
+        width: auto !important
+
+    a.float-right
+      float: right !important
+
+    #formPanel
+      padding: 0 15px
+    #pageInfo
+      h2
+        font-size: 18px
+        text-align: left
+        margin-bottom: 10px
+        font-style: normal
+        font-weight: 600
+
+      p
+        font-size: 14px
+
+
+    .memory .padding .detail
+      width: 60% !important
+
+
+/* iPhone Portrait */
+@media only screen and (max-device-width: 375px) and (orientation: portrait)
+
+
+/* iPhone Landscape */
+@media only screen and (max-width: 767px) and (orientation: landscape)
+  .modal-content
+    form
+      .modal-header, .modal-footer
+        padding: 10px
+      .modal-body
+        padding: 10px
+        .form-group
+          margin: 0 0 5px 0
+        textarea
+          height: 4em !important
+
+  .memory.full #details header
+    #share-links, .float-left
+      width: 49%
+
+  #memories .masonry
+    width: 50% !important
+    .padding
+      padding: 0.5em
+
+
+
+
+
+
+/* iPad Portrait */
+@media only screen and (max-device-width: 750px) and (orientation: portrait)
+
+  #scrapbook
+    #scrapbookContent, #scrapbookInfo
+      float: none !important
+      width: 100%
+
+
+
+
+/* iPad Portrait */
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait)
+
+  #memories .masonry
+    width: 33% !important
+    .padding
+      padding: 0.5em
+
+  #main-header
+    #masthead #logo
+      margin-top: 1em
+      position: absolute
+      margin-bottom: 0
+      float: none
+      right: 0
+      bottom: 0
+
+    #searchwrapper
+      .fix-search &
+        .input-group
+          width: 95%
+
+
+  #scrapbook
+    #scrapbookContent, #scrapbookInfo
+      float: right !important
+
+
+  #password
+    #extraPanel
+      display: none
+
+
+  #newMemoryForm
+    #extraPanel
+      min-height: 900px
+
+  #editMemoryForm
+    #extraPanel
+      min-height: 550px
 
 
 /* SCREEN SIZE: MOBILES */
 
 @media screen and (max-width: 768px)
+
+  #formPanel
+    padding-bottom: 1em
+    .form-horizontal .form-group
+      margin: 15px 0 0 0
+
+  #formPanel.editScrapbookForm
+    float: none !important
+    padding: 0
+
+  #contentHeader
+
+    #pageInfo
+      text-align: left
+
+    div.actions
+      .viewingInfo
+        position: relative
+
+  #scrapbook
+
+    .heroImage
+      height: 250px !important
+
+  #editScrapbook
+
+    .memory
+      .padding
+        padding-right: 0
+
+        img
+          max-width: 40px
+
+        .detail
+          width: 65%
+          h3
+            margin: 0
+            font-size: 14px
+
+        .memory-actions
+          width 10%
+          button span.text
+          display: none
+
+
+  #scrapbook #scrapbookContent, #scrapbook #scrapbookInfo
+    float: none
 
   .desktop
     display: none !important
@@ -1908,26 +2504,32 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       background-color: $light-grey
       margin-top: 0
       top: 0
+      padding-top: 1em
 
       #logo
-        margin-top: 30px
-        position: relative
-        margin-bottom: 1em
-        padding: 0
-        float: right
-        display: inline-block
+        padding-left: 0
+        margin-top: 1.25em
+        position: absolute
+        top: -4em
+        right: 0
+        width: 60%
+        max-width: 200px
 
         .navbar-brand
-          float: none
+          float: right
           display: inline-block
+          border-right: none
 
           img
             margin: 0 auto
 
+
       #theNavBar
+        padding: 0
 
         .toggleMenu
           display: block
+          margin-right: 0 !important
 
           &:focus
             outline: none
@@ -2012,12 +2614,23 @@ header .navbar .navbar-collapse ul.nav li a.feedback
           background-color: white
           font-size: 1.2em
 
+      .searchForm
+        padding: 0.25em
+        background: $navy-blue
+
+        form
+          margin-left: 0 !important
+          margin-right: 0 !important
+
       .fix-search &
         position: fixed
         top: 0
         left: 0
         z-index: 1030
         float: none
+
+        & #searchwrapper
+          width: 100% !important
 
         .input-group
           width: 90%
@@ -2038,7 +2651,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
   h2
     font-size: 24px
-    text-align: center
     margin-top: 0
 
   .dropdowns
@@ -2049,19 +2661,64 @@ header .navbar .navbar-collapse ul.nav li a.feedback
       margin: 0
 
   #signIn, #signUp, #password
+
+    #extraPanel
+      position: relative !important
+      background-position: right bottom
+      min-height: 450px
+
+      #signposting
+        position: relative
+        margin: 3em 0
+        padding: 1em 0 1em !important
+
+        h2
+          padding-top: 0
+
+  #signIn
+    #extraPanel
+      position: relative !important
+      background-position: center left
+      min-height: 450px
+
+  #signUp
+    #extraPanel
+      position: relative !important
+      background-position: center top
+      min-height: 450px
+
+      #signposting
+        margin: 0
+        .inner
+          margin: 0 15px
+          .help-tips
+            font-size: 0.9em
+            margin: 1em 0 !important
+            padding: 1em 1em 1em 2em
+
+  #password
+    #extraPanel
+      position: relative !important
+      background-position: center top
+      min-height: 350px
+
     form
       .actions > *
-        margin: 0 0 1em 0
-        width: 100%
-        float: none
+        margin-left: 0
 
-    #signposting
-      padding: 1em 0 1em !important
 
-    #extraPanel .help-tips
-      font-size: 0.9em
-      margin: 0 0.5em
-      padding: 1em 1em 1em 2.5em
+  #newMemoryForm, #editMemoryForm
+    #extraPanel
+      position: relative !important
+      background-position: center top
+
+  #newMemoryForm
+    #extraPanel
+      min-height: 900px
+
+  #editMemoryForm
+    #extraPanel
+      min-height: 550px
 
   form
     background-color: #ccc
@@ -2069,7 +2726,9 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     input[type="file"]
       max-width: 260px
 
-    #image-editor
+    #image-editor.old
+      margin-top: 15px
+
       #image-area
         #image-rotation-box
           width: 230px
@@ -2090,7 +2749,7 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
       input[type="submit"], .button.cancel
         width: 100%
-        margin-left: 0
+        margin-left: 0 !important
         margin-bottom: 0.4em
 
       // a.btn
@@ -2169,11 +2828,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
           .float-right
             display: inline-block
 
-
-
-  #contentHeader
-    text-align: center
-
     h1
       margin-bottom: 0.5em
 
@@ -2191,23 +2845,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     .check_boxes .checkbox
       width: 100% !important
 
-  .actions
-    .viewingInfo
-      display: block !important
-      padding-bottom: 1em
-
-      strong
-        display: block !important
-        padding-bottom: 0.25em
-
-      a, span
-        padding: 0.25em 0.5em
-
-    a.float-right
-      float: none
-      display: block
-      margin-bottom: 0.2em
-      text-align: center
 
 
   /* Memory page */
@@ -2215,31 +2852,32 @@ header .navbar .navbar-collapse ul.nav li a.feedback
   .memory.full
 
     #image
-      background-color: inherit
-      padding: 0
-      margin-bottom: 1em
+      padding: 1em
+      margin-bottom: 0
 
       img
         max-width: 100%
 
-    #details
-      header
-        #user-profile
-          float: none
-
-        #share-links
-          float: none
-          text-align: center
-          margin-bottom: 2em
-
       #metadata
         padding-right: 0
+        word-break: break-word
+
+        #about
+          overflow: hidden
 
         .filters
           padding-bottom: 1em
 
       #comments
         padding-left: 0
+
+    //.actions.currentUser
+    //  a
+    //    float: none !important
+    //    width: 32%!important
+    //    &.scrapbooks
+    //      width: 100%!important
+    //      margin: 5px 0 0 0
 
 
 
@@ -2275,9 +2913,33 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
 
   /* Home Page */
+
+  #homeContent
+    h2#descriptionText
+      font-size: 28px
+      margin: 1em 0
+
+    #heroImage
+      margin-top: 0
+      #imageInfo
+        width: 100%
+        margin: 0
+        position: relative
+
+      #cta
+        position: relative
+        padding: 1em 0
+        h1
+          margin-top: 0
+          font-size: 26px
+          color: $navy-blue
+        a
+          font-size: 16px
+          padding: 0.5em
+
+
   #featuredScrapbook
     text-align: center
-    padding: 0 1em 1em 0
 
 
     #scrapbookImages
@@ -2286,8 +2948,14 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         width: 47% !important
         margin-bottom: 0 !important
 
+    .button
+      &.view-scrapbook
+        width: 100%
+        margin-top: 1em
+
   #scrapbookInstructions
     width: 90%
+
 
   /* Static pages */
 
@@ -2327,10 +2995,35 @@ header .navbar .navbar-collapse ul.nav li a.feedback
   .modal-body
     max-height: 2400px
 
+  .button
+    &.full-width-mobile
+      width: 100% !important
+      text-align: center
+
+
+/* iPad Portrait */
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait)
+
+  #newMemoryForm
+    #extraPanel
+      min-height: 350px
+
+  #editMemoryForm
+    #extraPanel
+      min-height: 260px
+
 
 /* SCREEN SIZE: SMALL MOBILES */
 
 @media (max-width: 480px)
+
+  #formHeader
+    display: none
+
+  h1.form-title
+    border-bottom: 1px solid $navy-blue
+    padding-bottom: 0.5em
 
   footer
 
@@ -2339,13 +3032,19 @@ header .navbar .navbar-collapse ul.nav li a.feedback
         width: 40%
 
 
+    h2
+      text-align: left
+
+    .heroContainer
+      display: none!important
+
+
 /* SCREEN SIZE: TABLETS */
 
 @media (min-width: 769px)
 
   #searchwrapper
-    height: 47px
-    padding: 0.35em !important
+
 
   .mobile
     display: none !important
@@ -2357,48 +3056,12 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     .navbar .navbar-collapse ul.nav li.profile
       margin: 0 !important
 
-  .navbar-nav
-    li.profile
-      position: relative
-      margin: 0 !important
 
-      & > a
-        padding: 0.25em 1em 0.25em 1em !important
-        +border-radius(4px)
-
-      ul
-        position: absolute
-        right: 0
-        width: 160px
-        text-align: right
-        background: $navy-blue
-        z-index: 100
-        padding: 0.5em 0 0.5em 0 !important
-        list-style: none
-        +border-radius(4px 0 4px 4px)
-        display: none
-
-        li
-          margin: 0 !important
-          padding: 0.25em 1em !important
-
-          a
-            color: $cream
-            padding: 0 !important
-            border-bottom: none !important
-
-
-      &:hover
-        background: $navy-blue
-        a
-          color: $cream !important
-          border-bottom: none !important
-
-        ul
-          display: block
-
-  #searchwrapper .searchForm input
-    width: 100%
+  #searchwrapper
+    .searchForm
+      float: right
+      input
+        width: 100%
 
   #scrapbooks .masonry.thumb,
     width: 33%!important
@@ -2424,6 +3087,13 @@ header .navbar .navbar-collapse ul.nav li a.feedback
     h1
       margin-top: 0
 
+
+  h1.form-title
+    border-bottom: none
+    padding-bottom: 0
+    font-family: 'Open Sans Condensed', sans-serif
+    font-weight: normal
+
   #detailsPanel
     background: white
 
@@ -2443,10 +3113,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
 
 @media (min-width: 992px)
-
-  #searchwrapper
-    height: 45px
-    padding: 0.35em !important
 
 
   .masonry-grid .masonry .bottom-row
@@ -2477,7 +3143,6 @@ header .navbar .navbar-collapse ul.nav li a.feedback
 
   #searchwrapper
     height: 55px
-    padding: 0.65em!important
 
   .masonry-grid .masonry .bottom-row
     .count

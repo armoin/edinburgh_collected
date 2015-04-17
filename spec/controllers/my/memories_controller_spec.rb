@@ -1,31 +1,28 @@
 require 'rails_helper'
 
 describe My::MemoriesController do
-  let(:stub_memories)   { double('memories', find: memory, by_recent: true) }
-  let(:sorted_memories) { double('sorted_memories') }
+  let(:stub_memories)   { double('memories', find: memory) }
   let(:memory)          { Fabricate.build(:photo_memory, id: 123, user: @user) }
   let(:base_path)       { my_memories_path }
 
   before :each do
     @user = Fabricate.build(:user)
     allow(Memory).to receive(:find).and_return(memory)
-    allow(stub_memories).to receive(:by_recent).and_return(sorted_memories)
-    allow(sorted_memories).to receive(:page).and_return(sorted_memories)
-    allow(sorted_memories).to receive(:per).and_return(sorted_memories)
   end
 
   describe 'GET index' do
-    context 'when not logged in' do
-      it 'asks user to signin' do
-        get :index
-        expect(response).to redirect_to(:signin)
+    describe 'ensure user is logged in' do
+      before :each do
+        get :index, format: format
       end
+
+      it_behaves_like 'requires logged in user'
     end
 
     context 'when logged in' do
       let(:presenter_stub) { double('presenter') }
       let(:page)           { nil }
-      
+
       before :each do
         allow(UserMemoriesPresenter).to receive(:new).and_return(presenter_stub)
 
@@ -64,11 +61,12 @@ describe My::MemoriesController do
   end
 
   describe 'GET new' do
-    context 'when not logged in' do
-      it 'asks user to sign in' do
-        get :new
-        expect(response).to redirect_to(:signin)
+    describe 'ensure user is logged in' do
+      before :each do
+        get :new, format: format
       end
+
+      it_behaves_like 'requires logged in user'
     end
 
     context 'when logged in' do
@@ -99,17 +97,20 @@ describe My::MemoriesController do
 
   describe 'POST create' do
     let(:strong_params) {{ title: 'A title' }}
-    let(:given_params) {{
+    let(:format)        { 'html' }
+    let(:given_params)  {{
       memory: strong_params,
       controller: "my/memories",
-      action: "create"
+      action: "create",
+      format: format
     }}
 
-    context 'when not logged in' do
-      it 'asks user to signin' do
+    describe 'ensure user is logged in' do
+      before :each do
         post :create, given_params
-        expect(response).to redirect_to(:signin)
       end
+
+      it_behaves_like 'requires logged in user'
     end
 
     context 'when logged in' do
@@ -174,11 +175,12 @@ describe My::MemoriesController do
   end
 
   describe 'GET edit' do
-    context 'when not logged in' do
-      it 'asks user to signin' do
-        get :edit, id: 123
-        expect(response).to redirect_to(:signin)
+    describe 'ensure user is logged in' do
+      before :each do
+        get :edit, id: 123, format: format
       end
+
+      it_behaves_like 'requires logged in user'
     end
 
     context "when logged in" do
@@ -231,18 +233,21 @@ describe My::MemoriesController do
 
   describe 'PUT upate' do
     let(:strong_params) {{ title: 'New title' }}
-    let(:given_params) {{
+    let(:format)        { 'html' }
+    let(:given_params)  {{
       memory: strong_params,
       id: '123',
       controller: "my/memories",
-      action: "update"
+      action: "update",
+      format: format
     }}
 
-    context 'when not logged in' do
-      it 'asks user to signin' do
+    describe 'ensure user is logged in' do
+      before :each do
         put :update, given_params
-        expect(response).to redirect_to(:signin)
       end
+
+      it_behaves_like 'requires logged in user'
     end
 
     context 'when logged in' do
@@ -309,11 +314,12 @@ describe My::MemoriesController do
   end
 
   describe 'DELETE destroy' do
-    context 'when not logged in' do
-      it 'asks user to signin' do
-        delete :destroy, id: '123'
-        expect(response).to redirect_to(:signin)
+    describe 'ensure user is logged in' do
+      before :each do
+        delete :destroy, id: '123', format: format
       end
+
+      it_behaves_like 'requires logged in user'
     end
 
     context 'when logged in' do

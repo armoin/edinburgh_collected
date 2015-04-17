@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 describe Scrapbook do
+
+  let(:moderatable_model)   { Scrapbook }
+  let(:moderatable_factory) { :scrapbook }
+  it_behaves_like 'moderatable'
+
   describe 'validation' do
     it 'must belong to a user' do
       expect(subject).to be_invalid
@@ -41,9 +46,16 @@ describe Scrapbook do
 
   describe 'searching' do
     before :each do
-      @term_in_title       = Fabricate(:scrapbook, title: 'Edinburgh Castle test')
-      @term_in_description = Fabricate(:scrapbook, description: 'This is an Edinburgh Castle test')
-      @terms_not_found     = Fabricate(:scrapbook, title: 'test', description: 'test')
+      @active_user             = Fabricate(:active_user)
+      @pending_user            = Fabricate(:pending_user)
+
+      @term_in_title           = Fabricate(:approved_scrapbook, user: @active_user, title: 'Edinburgh Castle test')
+      @term_in_description     = Fabricate(:approved_scrapbook, user: @active_user, description: 'This is an Edinburgh Castle test')
+      @terms_not_found         = Fabricate(:approved_scrapbook, user: @active_user, title: 'test', description: 'test')
+
+      @pending_user_with_terms = Fabricate(:approved_scrapbook, user: @pending_user, title: 'Edinburgh Castle test')
+
+      @unapproved_with_terms   = Fabricate(:scrapbook, user: @active_user, title: 'Edinburgh Castle test')
     end
 
     let(:results) { Scrapbook.text_search(terms) }
@@ -51,7 +63,7 @@ describe Scrapbook do
     context 'when no terms are given' do
       let(:terms) { nil }
 
-      it 'returns all records' do
+      it 'returns all publicly visible records' do
         expect(results.count(:all)).to eql(3)
       end
     end
@@ -59,7 +71,7 @@ describe Scrapbook do
     context 'when blank terms are given' do
       let(:terms) { '' }
 
-      it 'returns all records' do
+      it 'returns all publicly visible records' do
         expect(results.count(:all)).to eql(3)
       end
     end
@@ -67,7 +79,7 @@ describe Scrapbook do
     context 'text fields' do
       let(:terms) { 'castle' }
 
-      it 'returns all records matching the given query' do
+      it 'returns all publicly visible records matching the given query' do
         expect(results.count(:all)).to eql(2)
       end
 
@@ -77,6 +89,41 @@ describe Scrapbook do
 
       it "includes records where description matches" do
         expect(results).to include(@term_in_description)
+      end
+
+      it "does not include records where no matches are found" do
+        expect(results).not_to include(@terms_not_found)
+      end
+
+      it "does not include unapproved records even if matches are found" do
+        expect(results).not_to include(@unapproved_with_terms)
+      end
+
+      it "does not include records belonging to inactive users even if approved and matches are found" do
+        expect(results).not_to include(@pending_user_with_terms)
+      end
+    end
+  end
+
+  describe 'ordering' do
+    describe '.by_last_created' do
+      it 'sorts them by reverse created at date' do
+        scrapbook1 = Fabricate(:scrapbook)
+        scrapbook2 = Fabricate(:scrapbook)
+        sorted = Scrapbook.by_last_created
+        expect(sorted.first).to eql(scrapbook2)
+        expect(sorted.last).to eql(scrapbook1)
+      end
+    end
+
+    describe '.by_last_updated' do
+      it 'sorts them by reverse updated at date' do
+        scrapbook1 = Fabricate(:scrapbook)
+        scrapbook2 = Fabricate(:scrapbook)
+        scrapbook1.update(title: 'testing update')
+        sorted = Scrapbook.by_last_updated
+        expect(sorted.first).to eql(scrapbook1)
+        expect(sorted.last).to eql(scrapbook2)
       end
     end
   end
@@ -178,87 +225,88 @@ describe Scrapbook do
     end
   end
 
-  describe '#ordered_memories' do
-    subject { Fabricate(:scrapbook) }
+  describe 'fetching memories' do
+    let(:query_builder_double)                  { double('query builder') }
 
-    context 'when the scrapbook has no memories' do
-      it 'provides and empty collection' do
-        expect(subject.ordered_memories).to be_empty
+    let(:approved_query_double)                 { double('approved_query', to_sql: 'approved query sql') }
+    let(:approved_or_owned_query_double)        { double('approved_or_owned_query', to_sql: 'approved or owned query sql') }
+
+    let(:approved_memories_double)              { double('approved memories') }
+    let(:approved_or_owned_memories_double)     { double('approved or owned memories') }
+
+    before :each do
+      allow(MemoryQueryBuilder).to receive(:new).and_return(query_builder_double)
+
+      allow(query_builder_double).to receive(:approved_query).and_return(approved_query_double)
+      allow(query_builder_double).to receive(:approved_or_owned_by_query).and_return(approved_or_owned_query_double)
+
+      allow(Memory).to receive(:find_by_sql)
+        .with(approved_query_double.to_sql)
+        .and_return(approved_memories_double)
+
+      allow(Memory).to receive(:find_by_sql)
+        .with(approved_or_owned_query_double.to_sql)
+        .and_return(approved_or_owned_memories_double)
+    end
+
+    describe '#ordered_memories' do
+      it 'provides only memories that are approved or that belong to the owner of the scrapbook' do
+        result = subject.ordered_memories
+
+        expect(Memory).to have_received(:find_by_sql).with(approved_or_owned_query_double.to_sql)
+        expect(result).to eql(approved_or_owned_memories_double)
       end
     end
 
-    context 'when the scrapbook has one memory' do
-      let!(:scrapbook_memory) { Fabricate(:scrapbook_memory, scrapbook: subject) }
-      let(:memory)           { scrapbook_memory.memory }
+    describe '#approved_ordered_memories' do
+      it 'provides only memories that are approved' do
+        result = subject.approved_ordered_memories
 
-      it 'provides a collection with just that memory' do
-        expect(subject.ordered_memories.length).to eql(1)
-        expect(subject.ordered_memories).to eql([memory])
-      end
-    end
-
-    context 'when the scrapbook has more than one memory' do
-      let!(:sm_1)    { Fabricate(:scrapbook_memory, scrapbook: subject) }
-      let!(:sm_2)    { Fabricate(:scrapbook_memory, scrapbook: subject) }
-      let!(:sm_3)    { Fabricate(:scrapbook_memory, scrapbook: subject) }
-      let(:memory_1) { sm_1.memory }
-      let(:memory_2) { sm_2.memory }
-      let(:memory_3) { sm_3.memory }
-
-      it 'provides a collection with all memories in order' do
-        expect(subject.ordered_memories.length).to eql(3)
-        expect(subject.ordered_memories).to eql([memory_1, memory_2, memory_3])
-      end
-
-      it 'provides a collection with all memories in order if the order is changed' do
-        subject.update({ordering: "#{sm_2.id},#{sm_3.id},#{sm_1.id}"})
-        expect(subject.ordered_memories.length).to eql(3)
-        expect(subject.ordered_memories).to eql([memory_2, memory_3, memory_1])
+        expect(Memory).to have_received(:find_by_sql).with(approved_query_double.to_sql)
+        expect(result).to eql(approved_memories_double)
       end
     end
   end
 
-  describe '#approved_ordered_memories' do
-    subject { Fabricate(:scrapbook) }
+  describe 'fetching scrapbook_memories' do
+    let(:query_builder_double)                  { double('query builder') }
 
-    context 'when the scrapbook has one memory' do
-      let!(:scrapbook_memory) { Fabricate(:scrapbook_memory, scrapbook: subject, memory: memory) }
+    let(:approved_query_double)                 { double('approved_query', to_sql: 'approved query sql') }
+    let(:approved_or_owned_query_double)        { double('approved_or_owned_query', to_sql: 'approved or owned query sql') }
 
-      context 'and it is not approved' do
-        let(:memory) { Fabricate(:memory) }
+    let(:approved_sb_memories_double)           { double('approved scrapbook memories') }
+    let(:approved_or_owned_sb_memories_double)  { double('approved or owned scrapbook memories') }
 
-        it 'provides a collection with just that memory' do
-          expect(subject.approved_ordered_memories).to be_empty
-        end
-      end
+    before :each do
+      allow(ScrapbookMemoryQueryBuilder).to receive(:new).and_return(query_builder_double)
 
-      context 'and it is approved' do
-        let(:memory) { Fabricate(:approved_memory) }
+      allow(query_builder_double).to receive(:approved_query).and_return(approved_query_double)
+      allow(query_builder_double).to receive(:approved_or_owned_by_query).and_return(approved_or_owned_query_double)
 
-        it 'provides a collection with just that memory' do
-          expect(subject.approved_ordered_memories.length).to eql(1)
-          expect(subject.approved_ordered_memories).to eql([memory])
-        end
+      allow(ScrapbookMemory).to receive(:find_by_sql)
+        .with(approved_query_double.to_sql)
+        .and_return(approved_sb_memories_double)
+
+      allow(ScrapbookMemory).to receive(:find_by_sql)
+        .with(approved_or_owned_query_double.to_sql)
+        .and_return(approved_or_owned_sb_memories_double)
+    end
+
+    describe '#approved_or_owned_scrapbook_memories' do
+      it 'provides only scrapbook memories that are approved or that belong to the owner of the scrapbook' do
+        result = subject.approved_or_owned_scrapbook_memories
+
+        expect(ScrapbookMemory).to have_received(:find_by_sql).with(approved_or_owned_query_double.to_sql)
+        expect(result).to eql(approved_or_owned_sb_memories_double)
       end
     end
 
-    context 'when the scrapbook has more than one memory and not all are approved' do
-      let(:memory_1) { Fabricate(:memory) }
-      let(:memory_2) { Fabricate(:approved_memory) }
-      let(:memory_3) { Fabricate(:approved_memory) }
-      let!(:sm_1)    { Fabricate(:scrapbook_memory, scrapbook: subject, memory: memory_1) }
-      let!(:sm_2)    { Fabricate(:scrapbook_memory, scrapbook: subject, memory: memory_2) }
-      let!(:sm_3)    { Fabricate(:scrapbook_memory, scrapbook: subject, memory: memory_3) }
+    describe '#approved_scrapbook_memories' do
+      it 'provides only memories that are approved' do
+        result = subject.approved_scrapbook_memories
 
-      it 'provides a collection with only approved memories in order' do
-        expect(subject.approved_ordered_memories.length).to eql(2)
-        expect(subject.approved_ordered_memories).to eql([memory_2, memory_3])
-      end
-
-      it 'provides a collection with only approved memories in order if the order is changed' do
-        subject.update({ordering: "#{sm_3.id},#{sm_2.id},#{sm_1.id}"})
-        expect(subject.approved_ordered_memories.length).to eql(2)
-        expect(subject.approved_ordered_memories).to eql([memory_3, memory_2])
+        expect(ScrapbookMemory).to have_received(:find_by_sql).with(approved_query_double.to_sql)
+        expect(result).to eql(approved_sb_memories_double)
       end
     end
   end

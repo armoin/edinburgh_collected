@@ -1,0 +1,52 @@
+<div class="container <%= action_name %>">
+  <div class="row">
+    <h1>Users</h1>
+
+    <div role="navigation" id="tab-bar">
+      <%= link_to 'Back to Inbox', admin_home_path %>
+      |
+      <%= link_to_unless action_name == 'index', 'All', send("admin_moderation_users_path") %>
+      |
+      <%= link_to_unless action_name == 'unmoderated', 'Unmoderated', send("unmoderated_admin_moderation_users_path") %>
+      |
+      <%= link_to_unless action_name == 'reported', 'Reported', send("reported_admin_moderation_users_path") %>
+      |
+      <%= link_to_unless action_name == 'blocked', 'Blocked', send("blocked_admin_moderation_users_path") %>
+    </div>
+
+    <table class="items table table-striped table-responsive">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Active?</th>
+          <th>Group?</th>
+          <th>Current state</th>
+          <% if action_name == 'reported' -%>
+            <th>Reported By</th>
+          <% else -%>
+            <th>Moderated By</th>
+          <% end -%>
+        </tr>
+      </thead>
+      <tbody>
+        <% @items.each do |user| %>
+          <tr class='user'>
+            <td><%= link_to user.screen_name, admin_moderation_user_path(user) %></td>
+            <td><%= user.name %></td>
+            <td><%= mail_to user.email %></td>
+            <td><%= user.active? %></td>
+            <td><%= user.is_group? %></td>
+            <td><%= user.moderation_state %></td>
+            <td>
+              <% if user.moderated_by.present? -%>
+                <%= link_to user.moderated_by.screen_name, admin_moderation_user_path(user.moderated_by) %>
+              <% end -%>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

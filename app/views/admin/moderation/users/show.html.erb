@@ -1,0 +1,47 @@
+<div class="container">
+  <div id="profile" class="row static">
+    <div id="detailsPanel" class="col-sm-6">
+      <header>
+        <%= render partial: 'shared/state_bar', locals: {moderatable: @user} %>
+
+        <span class="userAvatar"><%= image_tag @user.avatar_url %></span>
+        <h1 class="title"><%= @user.screen_name %></h1>
+      </header>
+
+      <p>
+        <strong><%= user_name_label(@user) %>:</strong> <%= @user.first_name %>
+      </p>
+
+      <% unless @user.is_group? %>
+        <p>
+          <strong>Last name:</strong> <%= @user.last_name %>
+        </p>
+      <% end %>
+
+      <p>
+        <strong>Email:</strong> <%= @user.email %>
+      </p>
+
+      <p><strong>Bio:</strong></p>
+      <p><%= @user.description %></p>
+
+      <%= render partial: 'users/links', locals: {requested_user: @user} %>
+
+      <div class="actions">
+        <%= link_to "Back", admin_moderation_users_path, class: 'button' %>
+        <% unless @user.unmoderated? %>
+          <%= link_to "Unmoderate", unmoderate_admin_moderation_user_path(@user), method: :put, data: {confirm: 'Are you sure?'}, class: 'button unmoderate' %>
+        <% end %>
+        <% unless @user.moderation_state == 'approved' %>
+          <%= link_to "Approve", approve_admin_moderation_user_path(@user), method: :put, data: {confirm: 'Are you sure?'}, class: 'button green' %>
+        <% end %>
+        <% unless @user.blocked? %>
+          <%= link_to "Block", block_admin_moderation_user_path(@user), method: :put, data: {confirm: 'Are you sure?'}, class: 'button red' %>
+        <% end %>
+      </div>
+    </div>
+
+    <div id="infoPanel" class="col-sm-6">
+    </div>
+  </div>
+</div>

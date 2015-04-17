@@ -1,6 +1,6 @@
 <div class="memory thumb masonry">
   <div class="padding">
-    <%= render partial: 'memories/state_label', locals: {memory: memory} %>
+    <%= render partial: 'shared/state_label', locals: {moderatable: memory} %>
     <div class="imageWrapper">
       <div class="hoverButtons">
         <div id="memory-<%= memory.id %>" class="buttonsWrapper vCenterAlign">

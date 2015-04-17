@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe UserMemoriesPresenter do
-  let(:requested_user) { Fabricate.build(:active_user, id: 123) }
-  let(:other_user)     { Fabricate.build(:active_user, id: 456) }
+  let(:requested_user) { Fabricate(:active_user, id: 123) }
+  let(:other_user)     { Fabricate(:active_user, id: 456) }
   let(:current_user)   { nil }
   let(:page)           { nil }
 
@@ -59,7 +59,7 @@ describe UserMemoriesPresenter do
     context "when the requested user is not the current user" do
       let(:current_user) { other_user }
 
-      it "provides the count of the requested user's approved memories only" do
+      it "provides the count of the requested user's publicly visible memories only" do
         expect(subject.memories_count).to eql(1)
       end
     end
@@ -82,9 +82,8 @@ describe UserMemoriesPresenter do
     context "when the requested user is not the current user" do
       let(:current_user) { other_user }
 
-      # TODO: scrapbooks are not currently moderated. Once they are this should change.
-      it "provides the count of the requested user's approved scrapbooks only" do
-        expect(subject.scrapbooks_count).to eql(2)
+      it "provides the count of the requested user's publicly visible scrapbooks only" do
+        expect(subject.scrapbooks_count).to eql(1)
       end
     end
   end

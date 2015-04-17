@@ -178,7 +178,7 @@ end
 
 # Setup an admin user
 if ENV['CREATE_DEFAULT_ADMIN_USER']
-  
+
   # PLEASE NOTE: you will need to setup a DEFAULT_ADMIN_USER_PASSWORD in config/application.yml
   admin_user_details = {
     first_name:       'Default',
@@ -191,6 +191,7 @@ if ENV['CREATE_DEFAULT_ADMIN_USER']
   admin_user.password = ENV['DEFAULT_ADMIN_USER_PASSWORD']
   admin_user.password_confirmation = ENV['DEFAULT_ADMIN_USER_PASSWORD']
   admin_user.is_admin = true
+  admin_user.moderation_state = 'approved'
   begin
     admin_user.save!
     admin_user.activate!

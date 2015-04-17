@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150227115833) do
+ActiveRecord::Schema.define(version: 20150402165819) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,15 +69,18 @@ ActiveRecord::Schema.define(version: 20150227115833) do
     t.string   "moderation_state"
     t.string   "moderation_reason"
     t.datetime "last_moderated_at"
+    t.integer  "moderated_by_id"
   end
 
-  create_table "memory_moderations", force: true do |t|
-    t.integer  "memory_id",  null: false
-    t.string   "from_state", null: false
-    t.string   "to_state",   null: false
+  create_table "moderation_logs", force: true do |t|
+    t.integer  "moderatable_id",   null: false
+    t.string   "moderatable_type", null: false
+    t.string   "from_state",       null: false
+    t.string   "to_state",         null: false
+    t.text     "comment"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "comment"
+    t.integer  "moderated_by_id"
   end
 
   create_table "scrapbook_memories", force: true do |t|
@@ -93,10 +96,14 @@ ActiveRecord::Schema.define(version: 20150227115833) do
 
   create_table "scrapbooks", force: true do |t|
     t.integer  "user_id"
-    t.string   "title",       null: false
+    t.string   "title",             null: false
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "moderation_state"
+    t.string   "moderation_reason"
+    t.datetime "last_moderated_at"
+    t.integer  "moderated_by_id"
   end
 
   add_index "scrapbooks", ["user_id"], name: "index_scrapbooks_on_user_id", using: :btree
@@ -145,6 +152,11 @@ ActiveRecord::Schema.define(version: 20150227115833) do
     t.boolean  "accepted_t_and_c"
     t.text     "description"
     t.string   "avatar"
+    t.string   "moderation_state"
+    t.integer  "moderated_by_id"
+    t.string   "moderation_reason"
+    t.datetime "last_moderated_at"
+    t.boolean  "hide_getting_started"
   end
 
   add_index "users", ["activation_token"], name: "index_users_on_activation_token", using: :btree

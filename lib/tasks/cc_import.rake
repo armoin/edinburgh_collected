@@ -81,9 +81,9 @@ task :cc_import => :environment do |t, args|
     memory.categories << Category.find_by_name('Daily Life')
     memory.user = cc_user
     memory.remote_source_url = doc.remote_source_url
-    
+
     if memory.save
-      memory.approve!
+      memory.approve!(cc_user)
       puts "#{id} (success)"
     else
       puts "#{id} (failed) #{memory.errors.full_messages}"

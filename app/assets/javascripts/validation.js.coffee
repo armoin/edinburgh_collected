@@ -1,13 +1,19 @@
 class @FormValidator
-  labelMaxLength: (form) ->
+  labelLengthConstraints: (form) ->
     validatedFields(form)
       .filter (i, field) -> hasLengthValidation(field)
       .each   (i, field) ->
         currentLabelText = $(field).siblings('label').text()
         maxLength = lengthValidationFor(field).options.maximum
-        maxLengthText = '(max ' + maxLength + ' characters)'
-        unless currentLabelText.match(".*#{maxLengthText}")
-          $(field).siblings('label').text(currentLabelText + ' ' + maxLengthText)
+        minLength = lengthValidationFor(field).options.minimum
+        if maxLength
+          maxLengthText = '(max ' + maxLength + ' characters)'
+          unless currentLabelText.match(".*#{maxLengthText}")
+            $(field).siblings('label').text(currentLabelText + ' ' + maxLengthText)
+        else if minLength
+          minLengthText = '(min ' + minLength + ' characters)'
+          unless currentLabelText.match(".*#{minLengthText}")
+            $(field).siblings('label').text(currentLabelText + ' ' + minLengthText)
 
   validateForm: (form, opts) ->
     reset(form)

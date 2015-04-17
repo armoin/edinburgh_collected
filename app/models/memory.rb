@@ -6,13 +6,9 @@ class Memory < ActiveRecord::Base
 
   include Locatable
   include Taggable
-  
+
   def self.file_types
     ["Photo"]
-  end
-
-  def self.moderation_record
-    MemoryModeration
   end
 
   include Moderatable
@@ -27,7 +23,6 @@ class Memory < ActiveRecord::Base
   has_and_belongs_to_many :categories
   has_many :scrapbook_memories, dependent: :destroy
   has_many :scrapbooks, through: :scrapbook_memories
-  has_many :memory_moderations
 
   validates_presence_of :title, :description, :source, :user, :year, :type
   validates_presence_of :categories, message: 'must have at least one'
@@ -39,16 +34,16 @@ class Memory < ActiveRecord::Base
   MAX_FILE_SIZE = 4.megabyte
   validates :source, file_size: { less_than_or_equal_to: MAX_FILE_SIZE }
 
-  scope :by_recent, -> { order('created_at DESC') }
+  scope :by_last_created, -> { order('created_at DESC') }
 
   def self.filter_by_area(area)
-    return approved unless area.present?
-    approved.joins(:area).where('areas.name' => area)
+    return publicly_visible unless area.present?
+    publicly_visible.joins(:area).where('areas.name' => area)
   end
 
   def self.filter_by_category(category)
-    return approved unless category.present?
-    approved.joins(:categories).where('categories.name' => category)
+    return publicly_visible unless category.present?
+    publicly_visible.joins(:categories).where('categories.name' => category)
   end
 
   attr_accessor :rotation
@@ -65,10 +60,6 @@ class Memory < ActiveRecord::Base
 
   def category_list
     categories.map(&:name).join(', ')
-  end
-
-  def moderation_records
-    memory_moderations
   end
 
   private

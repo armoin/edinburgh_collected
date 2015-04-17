@@ -22,7 +22,7 @@
         <div class="form-group" aria-required="true">
           <div class="formRow">
             <%= form.label :type, class: 'control-label' %>
-            <%= form.select :type, Memory.file_types, {include_blank: true, validate: true}, {class: 'form-control'} %>
+            <%= form.select :type, Memory.file_types, {validate: true}, {class: 'form-control'} %>
           </div>
           <% @memory.errors[:type].each do |error| %>
             <span class="help-block"><%= error %></span>
@@ -53,9 +53,38 @@
       <% end -%>
     </div>
 
-    <div class="col-md-6">
-      <div id="infoPanel">
+    <div id="extraPanel" class="col-md-6">
+      <div id="signposting">
+        <div class="inner">
 
+          <ul class="help-tips">
+            <li>
+              <span class="glyphicon glyphicon-info-sign"></span>
+              All fields marked with a <span class="required">*</span> are required
+            </li>
+            <li>
+              <span class="glyphicon glyphicon-info-sign"></span>
+              Files must be of type .gif, .jpg, .jpeg or .png
+            </li>
+            <li>
+              <span class="glyphicon glyphicon-info-sign"></span>
+              Files must be less than <%= Memory::MAX_FILE_SIZE / 1024 / 1024 %> megabytes in size
+            </li>
+            <li>
+              <span class="glyphicon glyphicon-info-sign"></span>
+              Please note that we do not store image files at their original size
+            </li>
+            <li>
+              <span class="glyphicon glyphicon-info-sign"></span>
+              Some text fields have a maximum character limit (as indicated)
+            </li>
+            <li>
+              <span class="glyphicon glyphicon-info-sign"></span>
+              For more information, please see our <%= link_to "terms and conditions", t_and_c_path, class: 'underlined' %>.
+            </li>
+          </ul>
+
+        </div>
       </div>
     </div>
 
@@ -69,7 +98,7 @@
 
   var setupForm = function (e) {
     window.formValidator = new FormValidator();
-    window.formValidator.labelMaxLength($('form#add-memory'));
+    window.formValidator.labelLengthConstraints($('form#add-memory'));
 
     fileInputEl = $('#memory_source')[0]
 

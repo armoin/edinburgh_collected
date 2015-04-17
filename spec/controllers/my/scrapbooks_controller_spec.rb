@@ -1,26 +1,30 @@
 require 'rails_helper'
 
 describe My::ScrapbooksController do
-  let(:scrapbook)          { Fabricate.build(:scrapbook, id: 123, user: @user) }
+  let(:scrapbook) { Fabricate.build(:scrapbook, id: 123, user: @user) }
 
   before :each do
     @user = Fabricate.build(:user)
   end
 
   describe 'GET index' do
-    let(:scrapbooks)          { Array.new(2).map{|s| Fabricate.build(:scrapbook)} }
+    let(:scrapbooks)          { double('scrapbooks') }
+    let(:ordered_scrapbooks)  { Array.new(2).map{|s| Fabricate.build(:scrapbook)} }
     let(:stub_presenter)      { double('presenter') }
     let(:stub_memory_fetcher) { double('memory_fetcher') }
 
     before :each do
       allow(@user).to receive(:scrapbooks).and_return(scrapbooks)
+      allow(scrapbooks).to receive(:by_last_updated).and_return(ordered_scrapbooks)
       allow(ScrapbookIndexPresenter).to receive(:new).and_return(stub_presenter)
-      allow(ScrapbookMemoryFetcher).to receive(:new).with(scrapbooks).and_return(stub_memory_fetcher)
+      allow(ScrapbookMemoryFetcher).to receive(:new).with(ordered_scrapbooks, @user.id).and_return(stub_memory_fetcher)
     end
 
     context 'when not logged in' do
+      let(:format) { 'html' }
+
       before :each do
-        get :index
+        get :index, format: format
       end
 
       it 'does not store the scrapbook index path' do
@@ -31,9 +35,7 @@ describe My::ScrapbooksController do
         expect(session[:current_memory_index_path]).to be_nil
       end
 
-      it 'asks user to signin' do
-        expect(response).to redirect_to(:signin)
-      end
+      it_behaves_like 'requires logged in user'
     end
 
     context 'when logged in' do
@@ -58,8 +60,12 @@ describe My::ScrapbooksController do
           expect(@user).to have_received(:scrapbooks)
         end
 
+        it 'orders the scrapbooks by the most recently updated' do
+          expect(scrapbooks).to have_received(:by_last_updated)
+        end
+
         it "generates a ScrapbookIndexPresenter for the user's scrapbooks passing in a nil page" do
-          expect(ScrapbookIndexPresenter).to have_received(:new).with(scrapbooks, stub_memory_fetcher, nil)
+          expect(ScrapbookIndexPresenter).to have_received(:new).with(ordered_scrapbooks, stub_memory_fetcher, nil)
         end
 
         it "assigns the generated presenter" do
@@ -81,16 +87,21 @@ describe My::ScrapbooksController do
         end
 
         it "generates a ScrapbookIndexPresenter for the user's scrapbooks passing in the page" do
-          expect(ScrapbookIndexPresenter).to have_received(:new).with(scrapbooks, stub_memory_fetcher, '2')
+          expect(ScrapbookIndexPresenter).to have_received(:new).with(ordered_scrapbooks, stub_memory_fetcher, '2')
         end
       end
     end
   end
 
   describe 'GET show' do
+    let(:memories)           { double('scrapbook memories') }
+    let(:paginated_memories) { double('paginated memories') }
+
     context 'when not logged in' do
+      let(:format) { 'html' }
+
       before :each do
-        get :show, id: '123'
+        get :show, id: '123', format: format
       end
 
       it 'does not store the scrapbook index path' do
@@ -101,15 +112,16 @@ describe My::ScrapbooksController do
         expect(session[:current_memory_index_path]).to be_nil
       end
 
-      it 'asks user to signin' do
-        expect(response).to redirect_to(:signin)
-      end
+      it_behaves_like 'requires logged in user'
     end
 
     context 'when logged in' do
       before :each do
         login_user
         allow(Scrapbook).to receive(:find).and_return(scrapbook)
+        allow(scrapbook).to receive(:ordered_memories).and_return(memories)
+        allow(Kaminari).to receive(:paginate_array).and_return(paginated_memories)
+        allow(paginated_memories).to receive(:page).and_return(paginated_memories)
       end
 
       it 'does not store the scrapbook index path' do
@@ -137,8 +149,25 @@ describe My::ScrapbooksController do
           expect(assigns[:scrapbook]).to eql(scrapbook)
         end
 
-        it "renders the show page" do
-          expect(response).to render_template(:show)
+        it "fetches the scrapbook's memories in the correct order" do
+          expect(scrapbook).to have_received(:ordered_memories)
+        end
+
+        it "paginates the memories" do
+          expect(Kaminari).to have_received(:paginate_array).with(memories)
+          expect(paginated_memories).to have_received(:page)
+        end
+
+        it "assigns the paginated memories" do
+          expect(assigns[:memories]).to eql(paginated_memories)
+        end
+
+        it "renders the scrapbook show page" do
+          expect(response).to render_template('scrapbooks/show')
+        end
+
+        it 'has a 200 status' do
+          expect(response.status).to eql(200)
         end
       end
 
@@ -155,13 +184,86 @@ describe My::ScrapbooksController do
     end
   end
 
+  describe 'GET view' do
+    context 'when not logged in' do
+      let(:format) { 'html' }
+
+      before :each do
+        get :view, id: '123', format: format
+      end
+
+      it 'does not store the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to be_nil
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it_behaves_like 'requires logged in user'
+    end
+
+    context 'when logged in' do
+      let(:referer) { 'test/referer' }
+
+      before :each do
+        login_user
+
+        request.env['HTTP_REFERER'] = referer
+
+        get :view, id: 123
+      end
+
+      it 'stores the referer as the scrapbook index path' do
+        expect(session[:current_scrapbook_index_path]).to eql(referer)
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it "redirects to the show action using the given id" do
+        expect(response).to redirect_to(my_scrapbook_path(123))
+      end
+    end
+  end
+
+  describe 'GET new' do
+    context 'when not logged in' do
+      let(:format) { 'html' }
+
+      before :each do
+        get :new, format: format
+      end
+
+      it_behaves_like 'requires logged in user'
+    end
+
+    context 'when logged in' do
+      before :each do
+        login_user
+        get :new
+      end
+
+      it "assigns a new scrapbook" do
+        expect(assigns[:scrapbook]).to be_new_record
+        expect(assigns[:scrapbook]).to be_a(Scrapbook)
+      end
+
+      it 'renders the new page' do
+        expect(response).to render_template(:new)
+      end
+    end
+  end
+
   describe 'POST create' do
     let(:strong_params) {{ title: 'A title' }}
-    let(:given_params) {{
+    let(:format)        { 'js' }
+    let(:given_params)  {{
       scrapbook: strong_params,
       controller: 'my/scrapbooks',
       action: 'create',
-      format: 'js'
+      format: format
     }}
 
     context 'when not logged in' do
@@ -177,18 +279,22 @@ describe My::ScrapbooksController do
         expect(session[:current_memory_index_path]).to be_nil
       end
 
-      it 'asks user to signin' do
-        expect(response).to redirect_to(:signin)
-      end
+      it_behaves_like 'requires logged in user'
     end
 
     context 'when logged in' do
+      let(:save_result) { true }
+      let(:errors)      { {} }
+
       before :each do
         login_user
+
         allow(ScrapbookParamCleaner).to receive(:clean).and_return(strong_params)
         allow(Scrapbook).to receive(:new).and_return(scrapbook)
         allow(scrapbook).to receive(:user=)
-        allow(scrapbook).to receive(:save).and_return(true)
+        allow(scrapbook).to receive(:save).and_return(save_result)
+        allow(scrapbook).to receive(:errors).and_return(errors)
+
         post :create, given_params
       end
 
@@ -221,30 +327,56 @@ describe My::ScrapbooksController do
       end
 
       context "save is successful" do
+        let(:save_result) { true }
+        let(:errors)      { {} }
+
         it "is successful" do
           expect(response.status).to eql(200)
         end
 
-        it "renders the create javascript" do
-          expect(response.body).to render_template('create')
+        context 'when format is html' do
+          let(:format) { 'html' }
+
+          it "redirects to the newly created scrapbook's page" do
+            expect(response.body).to redirect_to(my_scrapbook_path(scrapbook))
+          end
+
+          it "shows a success notice" do
+            expect(flash[:notice]).to eql('Scrapbook created successfully.')
+          end
+        end
+
+        context 'when format is js' do
+          let(:format) { 'js' }
+
+          it "renders the create javascript" do
+            expect(response.body).to render_template('create')
+          end
         end
       end
 
       context "save is not successful" do
-        let(:errors) { {title: 'is invalid'} }
-
-        before :each do
-          allow(scrapbook).to receive(:save).and_return(false)
-          allow(scrapbook).to receive(:errors).and_return(errors)
-          post :create, given_params
-        end
+        let(:save_result) { false }
+        let(:errors)      { {title: 'is invalid'} }
 
         it "is not successful" do
           expect(response.status).to eql(422)
         end
 
-        it "renders the error javascript" do
-          expect(response.body).to render_template('error')
+        context 'when format is html' do
+          let(:format) { 'html' }
+
+          it "re-renders the new page" do
+            expect(response.body).to render_template(:new)
+          end
+        end
+
+        context 'when format is js' do
+          let(:format) { 'js' }
+
+          it "renders the error javascript" do
+            expect(response.body).to render_template('error')
+          end
         end
       end
     end
