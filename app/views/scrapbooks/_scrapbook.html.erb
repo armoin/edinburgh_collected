@@ -42,11 +42,11 @@
 
     <div id="scrapbookContent" class="col-sm-8">
       <% if @memories.any? -%>
-       <div class="heroContainer">
-        <div class="heroImage">
-          <img src="<%= cache_busted_url(@memories.first) %>" alt="<%= @memories.first.title %>" title="<%= @memories.first.title %>" />
+        <div class="heroContainer desktop">
+          <div class="heroImage">
+            <img src="<%= cache_busted_url(@memories.first) %>" alt="<%= @memories.first.title %>" title="<%= @memories.first.title %>" />
+          </div>
         </div>
-       </div>
 
         <%= render partial: 'memories/index', locals: {memories: @memories} %>
 
