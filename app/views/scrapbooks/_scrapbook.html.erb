@@ -6,8 +6,8 @@
         <% if current_user.try(:can_modify?, @scrapbook) %>
           <%= link_to 'Back', current_scrapbook_index_path, :class => "button back" %>
 
+          <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), :class => "button delete" , method: :delete, data: {confirm: 'Are you sure?'} %>
           <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id), :class => "button navy edit"  %>
-          <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), :class => "button delete float-right" , method: :delete, data: {confirm: 'Are you sure?'} %>
         <% else -%>
           <%= link_to 'Back', current_scrapbook_index_path, :class => "button back full-width-mobile" %>
         <% end %>
