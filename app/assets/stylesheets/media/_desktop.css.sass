@@ -1,0 +1,2178 @@
+/* ==================================== BASICS */
+
+html, body
+  overflow-x: hidden
+  background-color: $light-grey
+  font-family: 'Open Sans', sans-serif
+  font-size: 16px
+  color: $navy-blue
+
+
+
+/* ==================================== BUTTONS */
+
+h1 a.button
+  font-size: 14px !important
+  padding: 0.25em !important
+  position: relative !important
+  top: -0.25em !important
+  font-family: 'Open Sans', sans-serif
+
+a.delete
+  background-color: $coral
+
+a.underlined
+  text-decoration: underline
+
+a span.accessible-label
+  height: 1px
+  width: 1px
+  position: absolute
+  overflow: hidden
+  top: -10px
+
+.button
+  background-color: $navy-blue
+  border: 1px solid $navy-blue
+  text-shadow: 0px 1px 0px $navy-blue
+  font-size: 1em
+  +border-radius(4px)
+  display: inline-block
+  padding: 0.5em 1em
+  color: white
+  text-decoration: none
+  text-shadow: 0px 1px 0px darken( $navy-blue, 10% )
+  margin-bottom: 0.2em
+
+  &:hover, &:focus
+    background-color: lighten($navy-blue, 10)
+    color: white
+    text-decoration: none
+
+  &:active
+    color: white
+    text-decoration: none
+    position: relative
+    top: 1px
+
+  &.float-right
+    margin-left: 0.25em
+
+  &[disabled]
+    opacity: 0.6
+
+
+.button.navy, .button.edit, .button.back
+  background-color: $navy-blue
+  border: 1px solid $navy-blue
+  text-shadow: 0px 1px 0px $navy-blue
+  font-size: 1em
+
+  &:hover
+    background-color: darken( $navy-blue, 20% )
+
+
+.button.green
+  background-color: darken( $green, 10% )
+  border: 1px solid darken( $green, 20% )
+  text-shadow: 0px 1px 0px darken( $green, 20% )
+
+  &:hover
+    background-color: darken( $green, 20% )
+
+    &[disabled]
+      background-color: darken( $green, 10% )
+
+.button.red, .button.delete
+  background-color: $coral
+  border: 1px solid darken( $coral, 10% )
+  text-shadow: 0px 1px 0px darken( $coral, 20% )
+
+  &:hover
+    background-color: darken( $coral, 20% )
+    cursor: pointer
+
+.button.purple, .button.scrapbooks
+  background-color: $teal
+  border: 1px solid darken( $teal, 10% )
+  text-shadow: 0px 1px 0px darken( $teal, 20% )
+
+  &:hover
+    background-color: darken( $teal, 20% )
+    cursor: pointer
+
+.button.white, .button.white
+  background-color: white
+  color: $navy-blue
+  border: 1px solid lighten( $navy-blue, 50% )
+  text-shadow: 0px 1px 0px white
+
+  &:hover
+    background-color: darken( white, 20% )
+    cursor: pointer
+
+
+.button.teal
+  background-color: $teal
+  border: 1px solid darken( $teal, 10% )
+  text-shadow: 0px 1px 0px darken( $teal, 20% )
+  text-decoration: none
+  color: white
+
+  &:hover
+    background-color: darken( $teal, 20% )
+
+
+.button.blue, .button.memories
+  background-color: $blue
+  border: 1px solid darken( $blue, 10% )
+  text-shadow: 0px 1px 0px $blue
+  text-decoration: none
+  color: white
+
+  &:hover
+    background-color: darken( $blue, 20% )
+
+.button.small
+  padding: 0.25em 0.5em
+  font-size: 12px
+
+.button.inactive
+  border: 1px solid #bcc0c1
+  border: 1px solid rgba($navy-blue, 0.25)
+  background-color: #bcc0c1
+  background-color: rgba($navy-blue, 0.25)
+  color: $navy-blue
+  text-shadow: none
+
+  &.scrapbooks:hover
+    background-color: $teal
+    border: 1px solid $teal
+    color: white
+
+  &.memories:hover
+    background-color: $blue
+    border: 1px solid  $blue
+    color: white
+
+
+span.button.scrapbooks:hover
+  background-color: $teal !important
+  cursor: default
+
+span.button.memories:hover
+  background-color: $blue !important
+  cursor: default
+
+.button.cancel, .button.forgot
+  background-color: transparent
+  color: $navy-blue
+  text-shadow: none
+  float: left !important
+  margin-left: 0 !important
+
+  &:hover
+    background-color: $navy-blue
+    color: white
+
+.report
+  font-weight: bold
+  color: rgba($navy-blue, 0.5)
+  margin: 0
+  padding: 1em 0
+  display: inline-block
+  text-decoration: none
+
+  &:hover
+    color: red
+    text-decoration: none
+
+
+.search-buttons
+  min-height: 4em
+
+  ul
+    list-style: none
+    margin: 0
+    padding: 0
+
+    li
+      display: inline-block
+
+
+#mm-menu
+
+  .button.green, .feedback
+    background-color: inherit
+    color: inherit
+    text-shadow: inherit
+    border: inherit
+
+
+
+/* ==================================== PAGINATION */
+
+.memories
+  .pagination-container
+    text-align: center
+
+    .pagination
+      span.disabled
+        color: lighten( $blue, 50% )
+        background: #eee
+
+        &:hover
+          color: lighten( $blue, 50% )
+
+      li
+        a
+          color: $blue
+        span.disabled, &:hover
+          color: lighten( $blue, 20% )
+          &:hover
+            color: lighten( $blue, 20% )
+
+        &.active
+          a
+            color: white
+            background: $blue
+            border: 1px solid darken( $blue, 5% )
+
+
+
+.scrapbooks
+  .pagination-container
+    text-align: center
+
+    .pagination
+      span.disabled
+        color: lighten( $teal, 50% )
+        background: #eee
+
+        &:hover
+          color: lighten( $teal, 50% )
+
+      li
+        a
+          color: $teal
+        span.disabled, &:hover
+          color: lighten( $teal, 20% )
+          &:hover
+            color: lighten( $teal, 20% )
+
+        &.active
+          a
+            color: white
+            background: $teal
+            border: 1px solid darken( $teal, 5% )
+
+/* ==================================== TYPOGRAPHY */
+
+a
+  color: $navy-blue
+
+h1
+  font-family: 'Open Sans Condensed', sans-serif
+  font-weight: normal
+  font-size: 48px
+
+h2, h3
+  font-family: 'Open Sans', sans-serif
+  font-weight: 600
+
+.back_button
+  margin: 1em 0
+  display: block
+  font-weight: 300
+
+  &:before
+    content: "< "
+
+  &:hover
+    color: $coral
+
+.nb
+  color: $green
+
+/* ==================================== HEADER */
+
+.mm-menu
+  background: $navy-blue !important
+
+#main-header
+
+  #masthead
+    position: relative
+    margin-top: 1em
+
+    .icon-bar
+      background-color: $navy-blue
+      display: block
+      margin-top: 3px
+      width: 15px
+      height: 3px
+      border-radius: 1px
+
+    #theNavBar
+      padding: 0
+      #menuText
+        float: right
+        margin-left: 23px
+
+      button
+        padding: 0.75em 1em 1em 1em
+        background: none
+        border: none
+        position: relative
+        left: -15px
+        display: none
+
+      ul.menu
+        float: right
+        position: relative
+        margin-top: 0.5em
+
+        li
+          margin: 0 1em
+          display: inline-block
+
+          &.signinli
+            margin-right: 0
+
+
+          a
+            padding: 0.25em 0
+            +border-radius(0px)
+            border-bottom: 2px solid transparent
+
+            &:hover, &:active
+              color: $navy-blue
+              background: none
+              border-bottom: 2px solid
+              text-decoration: none
+
+            &.signin
+              padding: 0.25em 0.5em
+              border: 1px darken( $green, 10% ) solid
+              +border-radius(3px)
+
+              &:hover, &:active
+                color: white
+                background: darken( $green, 10% )
+                border: 1px darken( $green, 10% ) solid
+
+          &.profile
+            position: relative
+            margin: 0 !important
+
+            & > span
+              display: inline-block
+              cursor: pointer
+
+            & > a, & > span
+              padding: 0.25em 1em 0.25em 1em !important
+              +border-radius(4px 4px 0 0)
+
+            ul
+              position: absolute
+              right: 0
+              width: 150px
+              text-align: right
+              z-index: 100
+              padding: 0.5em 0 0.5em 0 !important
+              list-style: none
+              display: none
+
+              li
+                margin: 0 !important
+                padding: 0.25em 1em !important
+
+                a, span
+                  color: $cream
+                  padding: 0 !important
+                  border-bottom: none !important
+                  &:hover
+                    text-decoration: underline
+                    color: lighten( $green, 10% ) !important
+
+
+
+            &:hover
+
+              a, span
+                color: $cream !important
+                border-bottom: none !important
+                background: $navy-blue
+                cursor: pointer
+
+
+              ul
+                display: block
+                background: $navy-blue
+                +border-radius(4px 0 4px 4px)
+
+
+
+          ul
+            padding: 0
+            display: none
+
+            li a
+              padding: 10px 15px
+              line-height: 20px
+              display: block
+
+
+    #logo
+      padding-left: 0
+      float: left
+
+      .navbar-brand
+        background: $cream
+        display: block
+        float: none
+        height: auto
+        position: relative
+        padding: 0
+        font-size: inherit
+        line-height: 100%
+        margin-bottom: 0
+        border-right: 5px $cream solid
+
+
+  #searchwrapper
+    background: $navy-blue
+    margin: 0
+    padding: 0
+    display: table
+    width: 100%
+
+    .toggleMenu
+      display: none
+
+    a
+      color: white
+
+      &:hover
+        text-decoration: none
+
+    .dropdowns
+      display: inline-block
+      z-index: 1035
+      padding: 0
+
+      select
+        display: inline
+        width: auto
+        margin: 0em 0.5em 0em 0
+
+    .searchForm
+      padding-right: 0
+      display: table-cell
+      vertical-align: middle
+      float: none
+
+
+      form
+        background: none
+        margin-bottom: 0
+        float: right
+        margin-left: 1em !important
+        margin-right: 1em !important
+
+      input
+        display: inline-block
+        border: none
+        transition: opacity .25s ease-in-out
+        -moz-transition: opacity .25s ease-in-out
+        -webkit-transition: opacity .25s ease-in-out
+
+        &#query
+          width: 100%
+          float: right
+
+      .input-group-btn
+        width: 5%
+
+        &:focus
+          opacity: 1
+          outline: 0
+
+      button
+        border-color: white
+
+
+
+/* ==================================== LAYOUT */
+
+.module
+  border: 1px solid $navy-blue
+  padding: 1em 5%
+  +border-radius(3px)
+  background: darken( $cream, 5% )
+  position: relative
+
+
+/* ================= STICKY FOOTER */
+
+
+html, body, #wrapper
+  height: 100%
+
+#wrapper
+  display: table
+  width: 100%
+
+/* ie7 and under*/
+#main-header, footer, #main
+  display: block
+#main-header, footer, #main
+  display: table-row
+
+/* height 1px on the header and footer is the sticky footer technique */
+#main-header, footer
+  height: 1px
+
+footer
+  height: $desktop-footer-height
+  background: $navy-blue
+  color: $cream
+  padding: 1em
+
+  .wrap
+    float: left
+
+  ul
+    margin: 0
+    padding: 0
+    li
+      display: inline-block
+
+      a
+        color:  white
+        padding: 1em 1em 1em 0
+        display: inline-block
+
+        &:hover
+          color: white
+          text-decoration: underline
+
+  #councilLogo, #nestaLogo
+    float: right
+    display: inline-block
+    margin: 1.5em 0 0 1.5em
+
+.error-message
+  border: 1px solid darken( $coral, 10% )
+  color: darken( $coral, 10% )
+  padding: 0.6em
+  margin-bottom: 0.4em
+
+.flashes
+  .alert, .notice, .warn
+    padding: 15px
+    border: 1px solid transparent
+    border-radius: 4px
+    color: white
+    margin: 16px 0 0 0
+
+    .close
+      text-shadow: 0 0 0 white
+      margin: -2px 0 5px 10px
+      opacity: 1
+
+  .alert, .warn
+    background: $coral
+
+    a
+      color: inherit
+      text-decoration: underline
+
+    .close
+      color: white
+
+      &:hover
+        color: rgba(white, 0.5)
+
+  .notice
+    background: $green
+
+    .close
+      color: white
+
+      &:hover
+        color: rgba(white, 0.5)
+
+
+ul.nav.nav-pills
+  display: inline-block
+
+  li
+    background: #ddd
+    border-radius: 0px
+
+    a
+      color: $navy-blue
+      border-radius: 0px
+
+    &.active a
+      background: #333
+      color: white
+
+button#create-scrapbook-button
+  margin-bottom: 10px
+
+.photo
+  padding: 0
+
+/* ==================================== HOME PAGE */
+
+#homeContent
+  #heroImage
+    position: relative
+    margin-top: 2em
+
+    .tint
+      position: relative
+      cursor: normal
+      z-index: 0
+
+    .tint:before
+      content: ""
+      display: block
+      position: absolute
+      top: 0
+      bottom: 0
+      left: 0
+      right: 0
+      background: rgba($navy-blue, 0.5)
+      transition: all .3s linear
+
+    .tint:hover:before
+      background: none
+
+
+  #imageInfo
+    z-index: 20
+    position: absolute
+    bottom: 0
+    width: 50%
+    margin-left: 25%
+    background: $navy-blue
+    background: rgba($navy-blue, 0.75)
+    color: white
+    padding: 10px
+    text-align: center
+
+    p
+      margin-bottom: 0
+
+      a
+        color: white
+
+  #cta
+    z-index: 20
+    position: absolute
+    top: 35%
+    text-align: center
+    width: 100%
+
+    a
+      min-width: 20%
+      display: inline-block
+      font-size: 21px
+
+
+    h1
+      color: white
+      font-size: 62px
+      font-family: 'Open Sans Condensed', sans-serif
+      font-weight: normal
+
+  #descriptionText
+    text-align: center
+    font-weight: 300
+    font-style: italic
+    font-size: 48px
+    margin: 1em 10%
+
+  #featuredScrapbook
+    background: white
+    margin-bottom: 3em
+    width: 100%
+
+    header
+      border-bottom: 1px solid $navy-blue
+
+    #images
+      position: relative
+      height: 100%
+
+      .inner
+        position: relative
+        height: 100%
+        width: 100%
+
+        // this class is removed once the images are sized
+        &.initial
+          visibility: hidden
+
+          // start with a 1px wide non-overflowing wrapper or the page width is incorrect on mobile
+          a
+            width: 1px
+            overflow: hidden
+
+        a
+          float: left
+          width: auto
+          height: 100%
+          margin: 20px 0
+          margin-right: 5px
+
+          &:last-child
+            margin-right: 0
+
+          img
+            width: auto
+            max-width: none
+            height: 100%
+            border: 1px solid #cccccc
+            border-radius: 3px
+            margin-bottom: 0
+            padding: 5px
+            background: white
+
+    footer
+      width: 100%
+      display: block
+      border-top: 1px solid $navy-blue
+      background: inherit
+      height: auto
+      color: $navy-blue
+      padding: 1em 0
+
+      a.button
+        float: right
+
+
+
+/* ==================================== BROWSE */
+
+.viewingInfo
+  float: left
+
+#contentHeader
+  padding: 2em 0
+
+  h1, h2
+    margin: 0
+    text-align: center
+    span
+      display: block
+      font-size: 0.8em
+      font-weight: 300
+
+  div.actions
+    margin: 2em 0 0 0
+    padding: 1em 0 0.8em 0
+    border-top: $navy-blue 1px solid
+    border-bottom: $navy-blue 1px solid
+
+    .viewingInfo
+      display: inline-block
+
+      strong
+        padding: 0.5em 1em 0.5em 0
+        float: left
+
+      a.scrapbooks, span.scrapbooks
+        +border-radius(0 3px 3px 0)
+        position: relative
+        float: left
+
+
+      span.memories, a.memories
+        +border-radius(3px 0 0 3px)
+        float: left
+
+
+      a:active, span:active
+        top: 0
+        text-decoration: none
+
+  a.add-memories:hover, a.add-memories.active
+    background-color: $navy-blue
+    border-color: $navy-blue
+    color: white
+    text-decoration: none
+    text-shadow: 0px 1px 0px $navy-blue
+
+.filter
+  #contentHeader
+    div.actions
+      .viewingInfo
+        strong
+          float: none
+
+/* ==================================== MEMORIES */
+
+// ensure that the featherlight lightbox floats over all other elements
+.featherlight
+  z-index: 1050
+
+.memory.full
+
+  h2.subtitle
+    font-style: italic
+    font-weight: lighter
+    font-size: 1.4em
+    padding-top: 0.6em
+
+  #image
+    background: $navy-blue
+    text-align: center
+    margin: 0
+    padding: 2em
+    display: table
+    width: 100%
+
+    a
+      display: table-cell
+      vertical-align: middle
+      max-height: 100%
+
+      img
+        max-width: 80%
+        max-height: 100%
+
+  #details
+    padding: 0
+
+    header
+      border-bottom: 1px solid $navy-blue
+      padding: 1em 0
+      padding-bottom: 1em
+
+      .float-left
+        padding: 0
+
+      #share-links
+        float: right
+        padding: 1em 0 0 0
+        text-align: right
+
+
+    #metadata
+      padding-left: 0
+      word-break: break-word
+
+      #about
+        overflow: hidden
+
+      #author
+        font-weight: bold
+
+      .filters
+        padding-top: 0.2em
+        padding-bottom: 2em
+
+        #memory-area
+          margin-top: 1em
+          border-top: 1px solid $navy-blue
+          padding-top: 1.4em
+
+          a.button
+            width: 100%
+            text-align: center
+            word-break: normal
+
+    #comments
+      padding-right: 0
+      margin-bottom: 2em
+
+    a.report
+      display: block
+      border-top: 1px solid $navy-blue
+
+
+
+
+.user-profile
+  padding: 0
+
+  a.userAvatar, #user-details
+    display: inline-block
+
+  a.userAvatar
+    vertical-align: top
+    text-decoration: none
+
+    img
+      vertical-align: top
+      width: 50px
+
+  #user-details
+    padding: 0 0.6em
+
+    p
+      margin-bottom: 5px
+
+    .username
+      font-weight: bold
+
+a#add-memory-button
+  width: 150px
+  margin-bottom: 1px
+
+
+a.memory, a.scrapbook
+  text-decoration: none
+
+  &:hover
+    text-decoration: none
+
+.memory, .scrapbook
+  display: block
+
+  button.remove-memory
+    display: inline-block
+
+  &.thumb
+
+    .imageWrapper
+      position: relative
+      height: 100%
+      cursor: pointer
+
+      &:hover
+        .hoverButtons
+          display: block
+
+      .hoverButtons
+        background: rgba( black, 0.5 )
+        position: absolute
+        height: 100%
+        text-align: center
+        width: 100%
+        display: none
+
+        div.buttonsWrapper
+          padding: 1em 10%
+          display: block
+
+          a
+            display: inline-block
+            padding: 0.25em 0.5em
+            font-size: 0.9em
+            margin-bottom: 0.4em
+
+            span
+              margin-right: 0.5em
+
+    div
+      &.img, &.button
+        text-align: center
+        padding: 0.5em
+
+      &.button
+        span.glyphicon.glyphicon-plus
+          font-size: 128px
+          vertical-align: middle
+
+      &.detail
+        margin: 0 0px 0px 0px
+
+        a:hover
+          color: $blue
+
+        h3
+          font-size: 20px
+          margin: 0.5em 0 0 0
+
+        p
+          margin: 10px 0 0 0
+
+  &.add.memory
+    text-align: center
+
+    span
+      padding: 50px
+      background: $blue
+      font-size: 7em
+      width: 100%
+      display: block
+      color: white
+
+      &:hover
+        background: darken( $blue, 5% )
+
+
+
+  &.full
+    img
+      max-width: 100%
+
+  &.deleted
+    display: none !important
+
+  &.moderation
+    text-align: left
+    padding: 0.4em
+    vertical-align: top
+
+    .actions, .details, .info, .media
+      display: inline-block
+      vertical-align: top
+
+    .actions
+      margin-top: 10px
+      background: #aaa
+      padding:  10px
+
+      ul
+        padding-left: 0
+
+      li
+        list-style: none
+        margin-bottom: 5px
+
+      a.btn
+        width: 150px
+
+    .details
+      border: 5px solid #aaa
+      background: white
+      margin-top: 10px
+      margin-left: -3px
+
+    .info
+      width: 500px
+      padding: 0.4em
+
+.no-results
+  text-align: center
+  margin-bottom: 4em
+
+  img
+    margin-bottom: 2em
+
+
+/* ==================================== MASONRY STUFF */
+
+.masonry-loading-spinner
+  position: relative
+  margin-bottom: 2em
+
+  .spinner
+    height: 100px
+
+.memory-container, .scrapbooks-container
+  display: none
+
+.masonry-grid
+  margin: 0 auto
+
+  .grid-sizer
+    width: 25%
+
+  .masonry
+    width: 25%
+    margin-bottom: 0
+
+    .padding
+      margin: 0.5em 0.5em 1em
+      background: white
+      padding: 1em
+
+      img
+        border: 1px solid #ccc
+        +border-radius(3px)
+        margin-bottom: 0
+        padding: 2px
+
+    .detail
+      margin: 0 10px 10px 10px
+
+    h3.scrapbookTitle
+      margin-top: 0
+
+    .empty
+      display: block
+      text-align: center
+      border: 1px solid #ccc
+      +border-radius(3px)
+      padding: 2em 2px
+
+      img
+        border: none
+      h4
+        margin: 1em 0 0 0
+        font-style: italic
+        color: lighten( $navy-blue, 30% )
+
+
+    .bottom-row
+      padding-top: 1em
+
+      .count
+        width: 24%
+        +border-radius(3px)
+        float: left
+        background: $blue
+        color: white
+        text-align: center
+        padding: 23% 0 0
+        position: relative
+        font-size: 1em
+        margin-right: 2%
+
+        .wrapper
+          position: absolute
+          top: 0
+          left: 0
+          width: 100%
+          top: 25%
+          line-height: 150%
+
+        i
+          font-style: normal
+          font-size: 0.9em
+
+        span
+          display: block
+          font-weight: 700
+          position: relative
+          font-size: 1.5em
+
+      .mini
+        margin-left: 3%
+        width: 24%
+        float: left
+
+        &:nth-child(2)
+          margin-left: 0
+
+        &.empty
+          height: 30px
+          padding: 11.5% 0
+          background: #eee
+          display: inline-block
+
+
+/* ==================================== SCRAPBOOKS */
+
+#scrapbook
+
+  #description
+    text-align: center
+    font-style: italic
+    font-size: 1.5em
+    padding: 0 0 1em 0
+
+  #scrapbookContent, #scrapbookInfo
+    float: right
+
+  #scrapbookInstructions
+    margin-bottom: 3em
+    background: rgba($navy-blue, 0.20)
+    text-align: center
+    width: auto
+
+  .heroContainer
+
+    display: table
+    width: 100%
+    margin-bottom: 1em
+
+    .heroImage
+      margin: 0.5em 0.5em 1em
+      background: white
+      padding: 1em
+      height: 500px
+      text-align: center
+      width: 100%
+      display: table-cell
+      vertical-align: middle
+
+      img
+        vertical-align: middle
+        max-height: 100%
+
+  .masonry-grid .masonry
+    width: 33.33%
+
+  .scrapbookDescription
+    margin-bottom: 1em
+    text-style: italic
+
+  .scrapbookCreator
+    border-bottom: 1px solid $navy-blue
+    padding-bottom: 1em
+
+    img
+      float: left
+      margin-right: 0.5em
+      padding: 0.25em
+      background: white
+      border: 1px solid #cccccc
+    span
+      display: block
+      font-weight: 600
+
+  #share-links
+    padding-bottom: 1em
+    border-bottom: 1px solid $navy-blue
+    margin: 1em 0 0 0
+
+
+
+.instructionsWrapper
+  text-align: center
+
+  a.actionLink
+    background: $blue
+    padding: 1em
+    color: $cream
+    display: block
+    text-align: center
+    margin: 0 0 1em 0
+    +border-radius(5px)
+    span
+      display: block
+    img
+      margin: 0 auto 0.5em auto
+
+    &:hover
+      background: $navy-blue
+      text-decoration: none
+
+
+#add-memories-modal
+  .modal-header, .modal-footer
+    border: none
+
+
+
+
+/* ==================================== EDIT SCRAPBOOK */
+
+#pageInfo
+  h2
+    text-align: left
+    margin-top: 1em
+
+#editScrapbook
+
+  h2
+    font-weight: 300
+    font-style: italic
+    text-align: center
+    margin: 10px 0 20px
+
+  .memory
+    display: block
+    width: 100%
+    vertical-align: middle
+    border: $navy-blue 1px solid
+    margin-bottom: 10px
+    background-color: $light-grey
+
+    &.ui-sortable-helper
+      background: $navy-blue !important
+      color: $cream
+      margin-bottom: 10px
+      box-shadow: 0px 5px 0px rgba($navy-blue , 0.5)
+
+    &:hover
+      background: rgba($navy-blue, 0.15)
+      cursor: move
+
+    .padding
+      background: none
+      padding: 1em 0.5em !important
+      margin: 0em
+      display: table
+      width: 100%
+      vertical-align: middle
+
+      span.glyphicon-resize-vertical
+        margin-right: 1em
+        display: table-cell
+        vertical-align: middle
+        width: 5%
+        font-size: 150%
+
+      img
+        display: table-cell
+        max-width: 50px
+        vertical-align: middle
+        margin-right: 1em
+        background: white
+        border: 1px solid $navy-blue
+
+      button
+        font-size: 12px
+
+      h3
+        font-size: 16px
+
+    .detail
+      text-align: left
+      display: table-cell
+      vertical-align: middle
+      width: 70%
+
+    .memory-actions
+      text-align: center
+      display: table-cell
+      vertical-align: middle
+      width: 15%
+
+    img
+      width: 100%
+      float: none
+
+
+#formPanel.editScrapbookForm
+  padding-top: 1em !important
+  float: right
+
+
+/* ============================ GETTING STARTED */
+
+#gettingStarted
+  .protip
+    margin: 1em 0
+    padding: 1em
+    background-color: cornsilk
+
+  a
+    text-decoration: none
+
+  #welcomeMessage
+    background-color: white
+    padding-bottom: 1em
+
+    h1
+      padding-bottom: 0
+      em
+        font-weight: 300
+        text-style: normal
+    h2
+      font-size: 18px
+      margin: 5px 0 0 0
+      font-weight: normal
+
+    .step
+      margin: 1em 0
+      background: lighten( $navy-blue, 65% )
+
+      .inner
+        padding: 0.5em
+        &.top
+          font-size: 21px
+          border-bottom: 1px solid white
+          span.number
+            background: lighten( $navy-blue, 15% )
+            color: white
+            padding: 0.25em 0.5em
+            display: inline-block
+            width: 40px
+            text-align: center
+            margin-right: 0.25em
+          span.glyphicon
+            float: right
+            font-size: 36px
+
+      &.checked
+        background: white
+        border: 1px solid $green
+
+        span.number
+          background: $navy-blue
+
+        span.glyphicon
+          color: $green
+
+    input[type="submit"].hideThis
+      width: 100%
+
+
+/* ==================================== PROFILE */
+
+img.avatar
+  width: 90px
+  height: 90px
+
+#profile
+  h1
+    padding-top: 0
+
+  a.edit
+    max-width: 90px
+    display: block
+    text-align: center
+    margin-top: 1em
+
+  #profileDetails
+    strong
+      width: 25%
+      display: inline-block
+
+
+.memories #userMemories a:hover, .scrapbook #userScrapbooks a:hover
+  text-decoration: none
+  pointer: auto
+
+.memories #userScrapbooks a:hover, .scrapbook #userMemories a:hover
+  background: $teal
+  text-decoration: none
+  color: white
+
+
+.profile, .user-card
+  .details
+    background: none !important
+
+
+#profile
+
+  .blocked
+    text-align: center
+    font-variant: small-caps
+    font-size: 1.4em
+    background: $rejected
+    padding: 0.4em
+    margin-bottom: 1em
+    color: white
+    font-weight: bold
+
+#profileHeader
+  text-align: center
+  margin-top: 2em
+
+  .report
+    font-size: 0.7em
+
+/* ==================================== FORMS */
+
+#newMemoryForm, #editMemoryForm, #editProfileForm, #profile, #reportConcernForm, #password
+  background: rgba($navy-blue, 0.25)
+
+  &[type="password"]
+    background: inherit
+
+#editProfileForm
+  .link
+    .formRow
+      margin-top: 15px
+
+#formHeader
+  padding: 0em 0 2em 0
+  text-transform: uppercase
+
+  .step > span
+    background: $navy-blue
+    color: white
+    margin-right: 0.25em
+    padding: 0.25em 0.75em
+    +border-radius(50%)
+
+  .step1
+    text-align: left
+
+  .step3
+    text-align: right
+
+
+.form-horizontal .form-group
+  margin: 0 0 15px 0
+
+.formWrapper
+  background:  white
+  margin: 0 0 2em 0
+
+  #formPanel
+    background: white
+
+    select
+      width: auto
+
+    .check_boxes
+      display: block
+      padding-bottom: 0
+
+      .checkbox
+        display: inline-block
+        width: 40%
+        font-weight: 400
+
+  #extraPanel
+    padding: 0em
+    position: relative
+
+    #signposting
+      position: absolute
+      top: 0
+      width: 100%
+      text-align: center
+      padding: 0.5em 0 2em
+
+      h3
+        font-family: 'Open Sans Condensed', sans-serif
+        font-weight: normal
+
+      a.button
+        font-size: 1.25em
+
+    .help-tips
+      background: $light-grey
+      margin: 0 2em
+      padding: 2em 3em
+      list-style: none
+
+      li
+        margin-bottom: 0.5em
+
+        span.glyphicon
+          margin-right: 0.5em
+          margin-left: -1.5em
+
+
+
+
+form
+  background-color: transparent !important
+  margin: 0 0 0 0 !important
+  position: relative
+
+  label
+    text-align: left !important
+
+  #user_is_group_label
+    padding: 0
+
+form, .form-title
+  max-width: 750px
+
+form
+  background-color: white
+
+  &.minimal
+    padding: 0
+
+  // &#add-memory img, &#edit-memory img
+  //   max-width: 720px
+  //   margin-bottom: 1em
+
+  .form-group
+    &[aria-required="true"]
+      label
+        &:not(.sub-label)
+          &:after
+            margin-left: 5px
+            content: "*"
+            color: $required
+
+    textarea.form-control
+      height: 10em
+
+  label:not(.button)
+    min-width: 230px
+
+    &.control-label
+      padding-right: 5px
+
+    &.collection_radio_buttons
+      min-width: 10px
+      margin: 0.4em 0.6em
+
+    &.checkbox
+      margin-left: 1.3em
+
+  .actions
+    border-top: 1px solid $navy-blue
+    padding-top: 1em
+    width: 100%
+    text-align: right
+    margin-top: 1em
+
+    input[type="submit"]
+      margin-left: 10px
+
+  .field_with_errors, span.help-block
+    color: $error
+    padding: 2px
+
+    input, select
+      border-color: $error
+
+  p.error-text
+    margin-left: -15px
+    color: $error
+
+  #image-editor.old
+    display: none
+    background: lightgrey
+    margin-left: -15px
+    margin-right: -15px
+    margin-bottom: 0.6em
+
+    #image-area
+      text-align: center
+      padding: 50px 10px
+      overflow: hidden
+
+      #image-rotation-box
+        width: 350px
+        height: 350px
+        line-height: 350px
+        margin: 0 auto
+        position: relative
+        @include transform(rotate(0deg))
+        @include transition(all 0.5s)
+
+        &.rotate90
+          @include transform(rotate(90deg))
+
+        &.rotate180
+          @include transform(rotate(180deg))
+
+        &.rotate270
+          @include transform(rotate(270deg))
+
+        &.rotate-90
+          @include transform(rotate(-90deg))
+
+        &.rotate-180
+          @include transform(rotate(-180deg))
+
+        &.rotate-270
+          @include transform(rotate(-270deg))
+
+        img.image
+          max-width: 100%
+          max-height: 100%
+          vertical-align: middle
+
+
+    .controls
+      padding: 0.4em
+      background: darkgrey
+      text-align: center
+
+      a.rotate
+        text-decoration: none
+
+        &#rotate-left:hover
+          img
+            @include transform(rotate(-30deg))
+
+        &#rotate-right:hover
+          img
+            @include transform(rotate(30deg))
+
+        img
+          width: 25px
+          margin-bottom: 0
+
+  // new
+
+  &#new_temp_image
+    padding-bottom: 0
+
+  &#new_user
+    padding-top: 0
+
+  label.temp-image-file
+    display: block
+    width: 6.8em
+
+    input[type="file"]
+      position: fixed
+      top: -1000px
+
+  #image-editor.new
+    display: none
+    background: lightgrey
+    position: relative
+    //margin-left: -15px
+    //margin-right: -15px
+    margin-bottom: 1em
+
+    &.full
+
+      #image-area
+        padding: 75px 0
+
+        #image-rotation-box
+          width:       350px
+          height:      350px
+          line-height: 350px
+
+      footer
+        .controls
+          a.zoom
+            display: none
+
+    &.thumb
+      width: 182px
+      height: 217px
+      border: 1px solid $navy-blue
+
+      #image-area
+        height: 180px
+
+        .errors
+          padding: 5px 3px
+
+        #image-rotation-box
+          width:       180px
+          line-height: 180px
+
+      footer
+        padding: 0
+
+
+    #image-area
+
+      .progress
+        display: none
+        margin: 0
+        height: auto
+        border: solid 1px #555
+        +border-radius(4px)
+        position: absolute
+        width: 95%
+        margin-left: 2.5%
+        top: 42%
+
+        .bar
+          width: 0%
+          height: 10px
+          background: $green
+
+      p.errors
+        display: none
+        color: #a94442
+        text-align: center
+
+      #image-rotation-box
+
+        img
+          vertical-align: none
+
+          &[src=""]
+            display: none
+
+    footer
+      height: auto
+      width: 100%
+      display: block
+      padding: 0.4em
+
+      .controls
+        height: 35px
+        padding: 0.4em
+        background-color: inherit
+        text-align: center
+
+        a
+          color: white
+          font-size: 1.2em
+          margin: 0 0.4em
+          text-decoration: none
+          @include user-select(none)
+          cursor: pointer
+
+          &:hover
+            text-decoration: none
+
+          .mirror
+            @include transform( scaleX(-1) )
+
+  .info
+    font-style: italic
+
+  .form-group
+    &.t_and_c
+      margin-top: 2em
+
+      .field_with_errors
+        display: inline-block
+
+    fieldset
+      border: 1px solid #ccc
+      padding: 0.4em
+      margin-bottom: 0.4em
+
+      .actions
+        margin: 0
+        border-top: 0
+
+  div.tagsinput
+    +border-radius(4px)
+
+    span.tag
+      border-color: #2e6da4
+      background-color: #337ab7
+      color: white
+
+
+.modal
+  form
+    label
+      min-width: 180px
+
+/* ==================================== SIGN IN / SIGN OUT */
+
+#signIn, #signUp, #password
+
+.formWrapper
+  background:  white
+  margin: 0 0 2em 0
+  position: relative
+  height: 100%
+  overflow: hidden
+
+  #formPanel
+    background: white
+
+  #extraPanel
+    padding: 0em
+    position: absolute
+    right: 0
+    top: 0
+    height: 100%
+    -webkit-background-size: cover
+    -moz-background-size: cover
+    -o-background-size: cover
+    background-size: cover
+
+
+    #signposting
+      position: absolute
+      top: 30px
+      width: 100%
+      text-align: center
+
+      .inner
+        display: inline-block
+        padding: 1em
+
+        h2
+          color: white
+          font-family: 'Open Sans Condensed', sans-serif
+          font-weight: normal
+          font-size: 36px
+
+#signIn
+  #extraPanel
+    background: image-url('photos/edinburgh-collected-funfair.jpg') no-repeat center bottom
+    .inner
+      background: rgba($blue, 0.75)
+
+
+#signUp
+  #extraPanel
+    background: image-url('photos/edinburgh-collected-rubix.jpg') no-repeat center top
+    .inner
+      background: rgba($navy-blue, 0.5)
+      margin: 0 30px
+
+      ul.help-tips
+        margin: 1em 2em
+
+#password
+  #extraPanel
+    background: image-url('photos/edinburgh-collected-crowd.jpg') no-repeat center top
+
+
+
+
+  form
+    label
+      text-align: left!important
+    .actions > *
+      margin-left: 10px
+
+  #user_is_group
+    text-align: left
+
+
+
+/* ==================================== MESSAGES */
+
+li.greeting
+  padding-top: 15px
+  color: white
+
+.navbar-inverse .navbar-nav > li.greeting > a
+  margin: 0
+  padding: 0
+  color: white
+
+  &:hover
+    color: #777777
+
+
+/* ==================================== MISC */
+
+.float-right
+  float: right
+
+.container
+  img
+    max-width: 100%
+    height: auto
+
+    &.no-max-width
+      max-width: none
+
+
+.override .mailto.ninja
+  // put any override styles in here
+
+/* hides and disables the element */
+.hide
+  display: none
+
+/* hides the element without disabling it */
+.hide-whilst-enabled
+  width: 0
+  height: 0
+  overflow: hidden
+
+.float-left
+  float: left
+.float-right
+  float: right
+
+.not-implemented
+  //display: none !important
+
+.exception
+  text-align: center
+  margin: 5em 0
+
+
+/* ==================================== STATIC */
+
+.static
+  margin: 2em 0
+  background: white
+
+  #staticText
+    background: white
+    padding-bottom: 1em
+
+  #staticOther
+    padding: 0
+
+
+  h1
+    margin: 0
+    padding: 1em 0 0.5em 0
+    font-family: 'Open Sans Condensed', sans-serif
+    font-weight: normal
+
+
+  nav
+    ul
+      list-style: none
+
+#contactPage
+  section
+    padding: 0 0 1em 0
+
+    p
+      margin-bottom: 0
+
+.static, #t_and_c_content
+  a
+    text-decoration: underline
+
+
+/* ==================================== ADMIN */
+
+.options
+  margin-top: 3em
+
+#tab-bar
+  padding: 1em 0
+
+  a
+    text-decoration: underline
+
+table.items, table.users
+  background-color: cornsilk
+  text-align: left
+
+  thead
+    background-color: black
+    color: white
+
+  td
+    &.approved, &.rejected
+      color: white
+
+    &.approved
+      background-color: $approved
+
+    &.rejected
+      background-color: $rejected
+
+    a
+      text-decoration: underline
+
+.btn, .button
+  &.unmoderate, &.approve, &.reject
+    color: white
+
+  &.unmoderate
+    background-color: $unmoderated
+    border-color: darken($unmoderated, 5)
+
+    &:hover
+      background-color: darken($unmoderated, 5)
+      border-color: darken($unmoderated, 10)
+
+  &.approve
+    background-color: $approved
+    border-color: darken($approved, 5)
+
+    &:hover
+      background-color: darken($approved, 5)
+      border-color: darken($approved, 10)
+
+  &.reject
+    background-color: $rejected
+    border-color: darken($rejected, 5)
+
+    &:hover
+      background-color: darken($rejected, 5)
+      border-color: darken($rejected, 10)
+
+
+.state
+  text-align: center
+  font-size: 1.2em
+  font-weight: 600
+  font-variant: small-caps
+  position: relative
+  top: -0.5em
+
+  span
+    position: relative
+    top: 0.25em
+
+  &.unmoderated
+    color: $coral
+
+  &.approved
+    background-color: $approved
+
+  &.rejected, &.reported
+    background-color: $rejected
+    color: white
+    padding: 0.2em
+
+.comment
+  background: whitesmoke
+
+  blockquote
+    margin: 0
+    border: 0
+    background: cornsilk
+    font-style: italic
+
+.admin-toolbar
+  margin: 1em 0
+  padding: 0.4em
+  width: 100%
+
+  .state
+    margin-bottom: 0
+    top: 0
+
+    &.unmoderated
+      background: $unmoderated
+      color: white
+
+  ul.moderation-actions
+    list-style: none
+    display: inline-block
+    background: whitesmoke
+    margin: 0
+    padding: 0.4em
+    width: 100%
+
+    li
+      float: left
+      margin-right: 10px
+
+      .btn-disabled
+        border: 1px solid #ccc
+        border-bottom: -1px
+        color: #ccc
+
+
+
+/* ==================================== BETA */
+
+.beta
+  font-size: smaller
+  margin: 0 3px
+
+.user-card
+  .details
+    background: white
+    padding-bottom: 1em
+
+  .actions
+    a
+      float: right
+      margin: 10px 0
+
+    &:hover
+      background: $teal
+      color: white
+      text-decoration: none
+
+a.feedback
+  display: block
+  background: $coral
+  color: #fff
+  text-decoration: none
+
+  &.desktop
+    @include transform(rotate(90deg))
+    position: fixed
+    left: -33px
+    top: 40%
+    z-index: 1000
+    height: 40px
+    width: 105px
+    padding: 8px 16px
+    border: solid 1px darken( $coral, 20% )
+    border-bottom: 0
+
+    &:hover
+      background: $green
+      border: solid 1px darken( $green, 20% )
+      border-bottom: 0
+
+header .navbar .navbar-collapse ul.nav li a.feedback
+  border-radius: 4px
+  padding-right: 0.6em
+  margin-top: 0.3em
+
+
+
+/* ==================================== HELP TIPS */
+
+.help-tips
+  text-align: left
+
+  .required
+    color: $required
