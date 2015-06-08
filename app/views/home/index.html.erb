@@ -11,12 +11,12 @@
     </div>
 
     <figure class="tint">
-      <%= image_tag "photos/wombles.jpg" %>
+      <%= image_tag ENV['HOME_HERO_IMG'] %>
     </figure>
 
     <div id="imageInfo">
-      <p>Underground, Overground, Wombling Free!</p>
-      <p><small><strong>1976</strong> added by <a href="https://edinburghcollected.org/users/57/memories">TheLibrarian</a></small></p>
+      <p>Leith Academy sponsored walk in Queen's Park</p>
+      <p><small><strong>1984</strong> added by <a href="https://edinburghcollected.org/users/57/memories">TheLibrarian</a></small></p>
     </div>
   </div>
 
@@ -30,36 +30,32 @@
     <div id="images" class="clearfix">
       <div class="spinner"></div>
       <div class="inner clearfix initial">
-        <a class="item" href="//edinburghcollected.org/memories/183" title="View memory details">
-          <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/183/cb460fee-946f-4d0c-9c42-be6ddf4fc502.jpeg?1423076395", alt="James Thomson & Son Ltd Flour Bag" />
+        <a class="item" href="//edinburghcollected.org/memories/385" title="View memory details">
+          <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/385/thumb_2a85f362-e418-4bc0-967c-3b96cbb0886c.png", alt="Focus on Guiding Event, 1977" />
         </a>
 
-        <a class="item" href="//edinburghcollected.org/memories/184" title="View memory details">
-          <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/184/6082cd5f-ac17-41c7-b90b-dcee35ca62f9.jpeg?1423124496", alt="James Thomson & Son Ltd Shortbread Mixture" />
+        <a class="item" href="//edinburghcollected.org/memories/379" title="View memory details">
+          <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/379/0500426f-119a-4356-9848-e4af0e3e86d5.png", alt="The Music Hall at the Assembly Rooms" />
         </a>
 
-        <a class="item" href="//edinburghcollected.org/memories/182" title="View memory details">
-          <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/182/98bb17ae-7280-4752-a76d-c06cb4cd2c75.jpeg?1423076388", alt="Charlie Taylor (owner of James Thomson & Sons Ltd) winning a TV" />
+        <a class="item" href="//edinburghcollected.org/memories/384" title="View memory details">
+          <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/384/bdbbe0c5-afd8-4c90-8c08-6a58c9cecb00.png", alt="Dinner dances at the Assembly Rooms" />
         </a>
 
-        <a class="item" href="//edinburghcollected.org/memories/181" title="View memory details">
-          <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/181/c3e8c265-a06e-43e2-91ad-2d70ddeb5f40.JPG?1423124490", alt="James Thomson & Son Ltd before it closed down in 1971" />
+        <a class="item" href="//edinburghcollected.org/memories/386" title="View memory details">
+          <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/386/8dbd963e-1c6a-44b7-918e-4eac2f5bb694.JPG", alt="May I have this dance?!" />
         </a>
-
-        <!--a class="item" href="//edinburghcollected.org/memories/180" title="View memory details">
-          <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/180/8c5dc5a2-12ad-4548-8713-4ac812ea93ea.jpg?1423076398", alt="James Thomson & Son Ltd pre 1905 before the King's Theatre was built" />
-        </a-->
       </div>
     </div>
 
     <footer class="container">
       <div class="col-md-8">
-        <strong>James Thomson & Sons Ltd., Licensed Grocer & Victualler</strong><br>
-        A scrapbook by <em><a href="https://edinburghcollected.org/users/53/scrapbooks">CV</a></em>
+        <strong>Assembly Rooms Memories</strong><br>
+        A scrapbook by <em><a href="https://www.edinburghcollected.org/users/92/scrapbooks">Assembly Rooms Edinburgh</a></em>
       </div>
 
       <div class="col-md-4">
-        <a href="https://edinburghcollected.org/scrapbooks/10" class="button teal view-scrapbook">View scrapbook</a>
+        <a href="https://edinburghcollected.org/scrapbooks/<%= ENV['HOME_FEATURED_SCRAPBOOK_ID'] %>" class="button teal view-scrapbook">View scrapbook</a>
       </div>
     </footer>
   </div>
