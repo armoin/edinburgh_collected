@@ -208,6 +208,30 @@ RSpec.shared_examples "a memory" do
           expect(memory).to be_valid
           expect(memory.errors[:base]).to be_empty
         end
+
+        it "is invalid when a string" do
+          memory.year = 'NA'
+          expect(memory).to be_invalid
+          expect(memory.errors[:year]).to include('is not a valid year')
+        end
+
+        it "is invalid when 0" do
+          memory.year = '0'
+          expect(memory).to be_invalid
+          expect(memory.errors[:year]).to include('is not a valid year')
+        end
+
+        it "is invalid when less than 0" do
+          memory.year = '-1'
+          expect(memory).to be_invalid
+          expect(memory.errors[:year]).to include('is not a valid year')
+        end
+
+        it "is invalid when a float" do
+          memory.year = '1.2'
+          expect(memory).to be_invalid
+          expect(memory.errors[:year]).to include('is not a valid year')
+        end
       end
 
       describe "month" do
