@@ -1,34 +1,70 @@
-#scrapbooks .masonry, #scrapbook .masonry
-  &.thumb
-    width: 100% !important
-
-#memories .masonry, #scrapbook .masonry
-  width: 100% !important
-
-
-#scrapbookInstructions
-  width: 90%
+/* hide on small mobile */
+#formHeader
+  display: none
 
 #infoPanel
   display: none
 
-form#add-memory
-  padding: 0
-  .form-group
-    margin: 0 0 35px 0
 
-    &:last-child
-      margin-bottom: 15px
-
-  .actions
-    margin-bottom: 0
-    padding-bottom: 15px
-
-    *
-      float: none !important
+/* content header */
 
 .viewingInfo
   float: none
+
+.memories, .scrapbooks
+  #contentHeader
+    text-align: center
+
+    .viewingInfo
+      width: 100%
+      margin-bottom: 0.5em
+
+      strong
+        float: none !important
+        display: block
+        padding: 0.5em !important
+
+      span.button, a.button
+        width: 50% !important
+        padding: 0.5em 0.25em !important
+
+    a.float-right
+      display: block
+      margin: 0
+      float: none
+
+
+/* memory page */
+.memory.full
+  #details
+    header
+      padding: 1em 0
+      .float-left
+        float: none
+        .user-profile
+          float: none
+
+      > div
+        padding: 0
+
+      #share-links
+        border-top: 1px solid $navy-blue
+        padding: 1em 0 0 0
+        float: none
+        text-align: left
+        margin: 1em 0 0 0
+
+  #comments
+    padding-left: 0
+
+
+/* scrapbooks */
+#scrapbooks .masonry, #scrapbook .masonry
+  &.thumb
+    width: 100% !important
+
+#scrapbookInstructions
+  width: 90%
 
 #scrapbook, .memory.full
   #contentHeader
@@ -52,51 +88,6 @@ form#add-memory
         display: block
         margin: 0
         float: none
-
-.memories, .scrapbooks
-  #contentHeader
-    text-align: center
-    .viewingInfo
-      width: 100%
-      margin-bottom: 0.5em
-
-      strong
-        float: none !important
-        display: block
-        padding: 0.5em !important
-
-      span.button, a.button
-        width: 50% !important
-        padding: 0.5em 0.25em !important
-
-    a.float-right
-      display: block
-      margin: 0
-      float: none
-
-
-.memory.full
-  #details
-    header
-      padding: 1em 0
-      .float-left
-        float: none
-        .user-profile
-          float: none
-
-      > div
-        padding: 0
-
-      #share-links
-        border-top: 1px solid $navy-blue
-        padding: 1em 0 0 0
-        float: none
-        text-align: left
-        margin: 1em 0 0 0
-
-  #comments
-    padding-left: 0
-
 
 #editScrapbook
   .viewingInfo
@@ -126,3 +117,44 @@ form#add-memory
 
   .memory .padding .detail
     width: 60% !important
+
+
+/* masonry */
+#memories .masonry, #scrapbook .masonry
+  width: 100% !important
+
+
+/* forms */
+
+h1.form-title
+  border-bottom: 1px solid $navy-blue
+  padding-bottom: 0.5em
+
+form#add-memory
+  padding: 0
+
+  .form-group
+    margin: 0 0 35px 0
+
+    &:last-child
+      margin-bottom: 15px
+
+  .actions
+    margin-bottom: 0
+    padding-bottom: 15px
+
+    *
+      float: none !important
+
+
+/* footer */
+footer
+  #councilLogo, #nestaLogo
+    img
+      width: 40%
+
+  h2
+    text-align: left
+
+  .heroContainer
+    display: none!important
