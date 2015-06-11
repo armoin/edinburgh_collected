@@ -21,7 +21,7 @@
 
   <div class="row">
 
-    <div id="scrapbookInfo" class="col-sm-4">
+    <div class="col-sm-4 scrapbook__info">
       <h2>About this scrapbook</h2>
 
       <div class="scrapbookDescription">
@@ -39,11 +39,10 @@
       <%= render partial: 'shared/reporting', locals: {item: @scrapbook, report_path: report_scrapbook_path(@scrapbook.id)} %>
     </div>
 
-
-    <div id="scrapbookContent" class="col-sm-8">
+    <div class="col-sm-8 scrapbook__content">
       <% if @memories.any? -%>
-        <div class="heroContainer desktop">
-          <div class="heroImage">
+        <div class="scrapbook__hero__container desktop">
+          <div class="scrapbook__hero__image">
             <img src="<%= cache_busted_url(@memories.first) %>" alt="<%= @memories.first.title %>" title="<%= @memories.first.title %>" />
           </div>
         </div>
@@ -61,7 +60,6 @@
 
       <% end -%>
     </div>
-
   </div>
 </div>
 
