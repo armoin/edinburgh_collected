@@ -21,14 +21,14 @@
 
   <div class="row">
 
-    <div id="scrapbookInfo" class="col-sm-4">
+    <div class="col-sm-4 scrapbook__info">
       <h2>About this scrapbook</h2>
 
-      <div class="scrapbookDescription">
+      <div class="scrapbook__info__description">
         <%= @scrapbook.description %>
       </div>
 
-      <div class="scrapbookCreator">
+      <div class="scrapbook__info__creator">
         <%= render partial: 'shared/profile_link', locals: {user: @scrapbook.user, label: 'Created by', url_segment: 'scrapbooks'} %>
       </div>
 
@@ -39,11 +39,10 @@
       <%= render partial: 'shared/reporting', locals: {item: @scrapbook, report_path: report_scrapbook_path(@scrapbook.id)} %>
     </div>
 
-
-    <div id="scrapbookContent" class="col-sm-8">
+    <div class="col-sm-8 scrapbook__content">
       <% if @memories.any? -%>
-        <div class="heroContainer desktop">
-          <div class="heroImage">
+        <div class="scrapbook__hero__container desktop">
+          <div class="scrapbook__hero__image">
             <img src="<%= cache_busted_url(@memories.first) %>" alt="<%= @memories.first.title %>" title="<%= @memories.first.title %>" />
           </div>
         </div>
@@ -52,7 +51,7 @@
 
       <% elsif current_user.try(:can_modify?, @scrapbook) -%>
 
-        <div id="scrapbookInstructions" class="container">
+        <div class="container scrapbook__instructions">
           <h3>Your scrapbook is empty!</h3>
           <p>Start adding memories now...</p>
 
@@ -61,7 +60,6 @@
 
       <% end -%>
     </div>
-
   </div>
 </div>
 

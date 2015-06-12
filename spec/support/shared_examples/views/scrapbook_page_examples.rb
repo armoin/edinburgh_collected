@@ -117,7 +117,7 @@ RSpec.shared_examples 'a scrapbook page' do
           let(:can_modify) { false }
 
           it 'does not display the Add Memories instructions' do
-            expect(rendered).not_to have_css('#scrapbookInstructions')
+            expect(rendered).not_to have_css('.scrapbook__instructions')
           end
         end
 
@@ -125,7 +125,7 @@ RSpec.shared_examples 'a scrapbook page' do
           let(:can_modify) { true }
 
           it 'displays the Add Memories instructions' do
-            expect(rendered).to have_css('#scrapbookInstructions')
+            expect(rendered).to have_css('.scrapbook__instructions')
           end
         end
       end
