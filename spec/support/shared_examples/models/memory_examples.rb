@@ -209,6 +209,24 @@ RSpec.shared_examples "a memory" do
           expect(memory.errors[:base]).to be_empty
         end
 
+        it "is invalid when not 4 digits long" do
+          memory.year = '1'
+          expect(memory).to be_invalid
+          expect(memory.errors[:year]).to include('must be in the format YYYY')
+
+          memory.year = '12'
+          expect(memory).to be_invalid
+          expect(memory.errors[:year]).to include('must be in the format YYYY')
+
+          memory.year = '123'
+          expect(memory).to be_invalid
+          expect(memory.errors[:year]).to include('must be in the format YYYY')
+
+          memory.year = '1234'
+          expect(memory).to be_valid
+          expect(memory.errors[:year]).to be_empty
+        end
+
         it "is invalid when a string" do
           memory.year = 'NA'
           expect(memory).to be_invalid
