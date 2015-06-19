@@ -25,7 +25,9 @@ class Memory < ActiveRecord::Base
   has_many :scrapbooks, through: :scrapbook_memories
 
   validates_presence_of :title, :description, :source, :user, :type
-  validates :year, presence: true, numericality: {only_integer: true, greater_than: 0, message: 'is not a valid year'}
+  validates :year, presence: true,
+                   numericality: {only_integer: true, greater_than: 0, message: 'is not a valid year'},
+                   format: { with: /\d{4}/, message: 'must be in the format YYYY' }
   validates_presence_of :categories, message: 'must have at least one'
   validates :type, inclusion: { in: Memory.file_types, message: "must be of type 'photo'", judge: :ignore }
   validate :date_not_in_future
