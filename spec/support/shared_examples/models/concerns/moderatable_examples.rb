@@ -434,6 +434,30 @@ RSpec.shared_examples 'moderatable' do
         expect(moderatable_instance.unmoderated?).to be_truthy
       end
     end
+
+    describe "#blocked?" do
+      it 'is false when not blocked' do
+        moderatable_instance.approve!(moderated_by)
+        expect(moderatable_instance.blocked?).to be_falsy
+      end
+
+      it 'is true when blocked' do
+        moderatable_instance.block!(moderated_by)
+        expect(moderatable_instance.blocked?).to be_truthy
+      end
+    end
+
+    describe "#rejected?" do
+      it 'is false when not rejected' do
+        moderatable_instance.approve!(moderated_by)
+        expect(moderatable_instance.rejected?).to be_falsy
+      end
+
+      it 'is true when rejected' do
+        moderatable_instance.reject!(moderated_by, 'test')
+        expect(moderatable_instance.rejected?).to be_truthy
+      end
+    end
   end
 end
 
