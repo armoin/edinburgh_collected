@@ -17,7 +17,7 @@ describe StateHelper do
     end
   end
 
-  describe '#state_label' do
+  describe '#state_label_text' do
     context 'when there is no reason' do
       before :each do
         allow(memory).to receive(:moderation_state).and_return('unmoderated')
@@ -25,7 +25,7 @@ describe StateHelper do
       end
 
       it 'just provides the moderation state' do
-        expect(helper.state_label(memory)).to eql('unmoderated')
+        expect(helper.state_label_text(memory)).to eql('unmoderated')
       end
     end
 
@@ -36,7 +36,7 @@ describe StateHelper do
       end
 
       it 'just provides the moderation state' do
-        expect(helper.state_label(memory)).to eql('approved')
+        expect(helper.state_label_text(memory)).to eql('approved')
       end
     end
 
@@ -47,7 +47,7 @@ describe StateHelper do
       end
 
       it 'provides the moderation state and the reason' do
-        expect(helper.state_label(memory)).to eql('rejected - unsuitable')
+        expect(helper.state_label_text(memory)).to eql('rejected - unsuitable')
       end
     end
   end

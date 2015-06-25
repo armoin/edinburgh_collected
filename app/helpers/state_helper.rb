@@ -11,17 +11,21 @@ module StateHelper
       link_name += " - #{reason}"
     end
 
-    unless state_label(moderatable) == state
+    unless state_label_text(moderatable) == state
       url = send("#{action}_admin_moderation_#{moderatable_name}_path", moderatable, reason: reason)
       content_tag(:li, link_to(link_name.capitalize, url, class: "btn #{action}", method: :put))
     end
   end
 
-  def state_label(moderatable)
+  def state_label_text(moderatable)
     return moderatable.moderation_state unless moderatable.moderation_state == 'rejected'
 
     label = [moderatable.moderation_state, moderatable.moderation_reason]
     label.compact.join(' - ').strip
+  end
+
+  def state_label(moderatable)
+    state_label_text(moderatable)
   end
 
   def show_state_label?(moderatable)
