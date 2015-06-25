@@ -18,8 +18,9 @@ module StateHelper
   end
 
   def state_label(moderatable)
-    label = [moderatable.moderation_state]
-    label << moderatable.moderation_reason if moderatable.moderation_state == 'rejected'
+    return moderatable.moderation_state unless moderatable.moderation_state == 'rejected'
+
+    label = [moderatable.moderation_state, moderatable.moderation_reason]
     label.compact.join(' - ').strip
   end
 
