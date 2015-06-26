@@ -1,6 +1,15 @@
 <% if show_state_label?(moderatable) %>
   <div class="state <%= moderatable.moderation_state %>">
-    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <%= state_label(moderatable) %>
+    <% if moderatable.rejected? %>
+      <%= link_to t_and_c_path(anchor: 'conduct'), class: 'state-label__text' do %>
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <%= state_label_text(moderatable) %>
+      <% end %>
+    <% else %>
+      <span class="state-label__text">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        <%= state_label_text(moderatable) %>
+      </span>
+    <% end %>
   </div>
 <% end -%>
-

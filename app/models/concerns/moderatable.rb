@@ -103,6 +103,10 @@ module Moderatable
     moderation_state == 'blocked'
   end
 
+  def rejected?
+    moderation_state == 'rejected'
+  end
+
   private
 
   def publicly_visible_state?
