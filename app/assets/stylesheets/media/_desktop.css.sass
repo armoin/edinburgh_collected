@@ -2019,9 +2019,6 @@ table.items, table.users
     position: relative
     top: 0.25em
 
-  &.unmoderated
-    color: $coral
-
   &.approved
     background-color: $approved
 
@@ -2031,6 +2028,15 @@ table.items, table.users
 
   & .state-label__text
     color: white
+
+  &.unmoderated .state-label__text
+    color: $coral
+
+  a
+    text-decoration: underline
+
+    &:hover
+      font-weight: bold
 
 .comment
   background: whitesmoke
