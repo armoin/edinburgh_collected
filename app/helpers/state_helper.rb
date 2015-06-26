@@ -24,10 +24,6 @@ module StateHelper
     label.compact.join(' - ').strip
   end
 
-  def state_label(moderatable)
-    state_label_text(moderatable)
-  end
-
   def show_state_label?(moderatable)
     current_user.try(:can_modify?, moderatable) &&
       show_state? &&
