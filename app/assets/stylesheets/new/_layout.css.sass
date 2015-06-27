@@ -1,0 +1,260 @@
+/* GENERAL */
+
+html, body
+  background-color: $light-grey
+  color: $navy-blue
+  font-family: 'Open Sans', sans-serif
+  font-size: 16px
+  overflow-x: hidden
+
+
+
+/* HEADER */
+
+#main-header
+  margin-top: 1em
+  position: relative
+
+  #theNavBar
+    padding: 0
+
+    ul.menu
+      float: right
+      position: relative
+      margin-top: 0.5em
+
+      li
+        margin: 0 1em
+        display: inline-block
+
+
+        a:not(.button)
+          padding: 0.25em 0
+          +border-radius(0px)
+          border-bottom: 2px solid transparent
+
+          &:hover, &:active
+            color: $navy-blue
+            border-bottom: 2px solid
+            text-decoration: none
+
+        &.signinli
+          margin-right: 0
+
+          a.signin
+            padding: 0.25em 0.5em
+
+        &.profile
+          position: relative
+          margin: 0 !important
+
+          & > span
+            display: inline-block
+            cursor: pointer
+
+          & > a, & > span
+            padding: 0.25em 1em 0.25em 1em !important
+            +border-radius(4px 4px 0 0)
+
+          ul
+            position: absolute
+            right: 0
+            width: 150px
+            text-align: right
+            z-index: 100
+            padding: 0.5em 0 0.5em 0 !important
+            list-style: none
+            display: none
+
+            li
+              margin: 0 !important
+              padding: 0.25em 1em !important
+
+              a, span
+                color: $cream
+                padding: 0 !important
+                border-bottom: none !important
+                &:hover
+                  text-decoration: underline
+                  color: lighten( $green, 10% ) !important
+
+          &:hover
+
+            a, span
+              color: $cream !important
+              border-bottom: none !important
+              background: $navy-blue
+              cursor: pointer
+
+
+            ul
+              display: block
+              background: $navy-blue
+              +border-radius(4px 0 4px 4px)
+
+        ul
+          padding: 0
+          display: none
+
+          li a
+            padding: 10px 15px
+            line-height: 20px
+            display: block
+
+
+  #searchwrapper
+    background: $navy-blue
+    display: table
+    margin: 0
+    padding: 0
+    width: 100%
+
+    button.toggleMenu
+      display: none
+
+    #logo
+      float: left
+      padding-left: 0
+
+      .navbar-brand
+        background: $cream
+        border-right: 5px $cream solid
+        display: block
+        float: none
+        font-size: inherit
+        height: auto
+        line-height: 100%
+        margin-bottom: 0
+        padding: 0
+        position: relative
+
+    .searchForm
+      display: table-cell
+      float: none
+      padding-right: 0
+      vertical-align: middle
+
+      form
+        background: none
+        float: right
+        margin-bottom: 0
+        margin-left: 1em !important
+        margin-right: 1em !important
+
+        input
+          border: none
+          display: inline-block
+          transition: opacity .25s ease-in-out
+          -moz-transition: opacity .25s ease-in-out
+          -webkit-transition: opacity .25s ease-in-out
+
+          &#query
+            float: right
+            width: 100%
+
+        .input-group-btn
+          width: 5%
+
+          &:focus
+            opacity: 1
+            outline: 0
+
+          button
+            border-color: white
+
+
+
+/* BODY */
+
+/* flashes */
+.flashes
+  .alert, .notice, .warn
+    border: 1px solid transparent
+    border-radius: 4px
+    color: white
+    margin: 16px 0 0 0
+    padding: 15px
+
+    a
+      color: inherit
+      text-decoration: underline
+
+    .close
+      color: white
+      margin: -2px 0 5px 10px
+      opacity: 1
+      text-shadow: 0 0 0 white
+
+      &:hover
+        color: rgba(white, 0.5)
+
+  .alert, .warn
+    background: $coral
+
+  .notice
+    background: $green
+
+
+
+/* FOOTER */
+
+/* sticky */
+html
+  position: relative
+  min-height: 100%
+
+body
+  margin: 0 0 $desktop-body-bottom-margin
+  padding-bottom: 25px
+
+footer
+  position: absolute
+  left: 0
+  bottom: 0
+
+
+/* layout */
+footer
+  width: 100%
+  height: $desktop-footer-height
+  background: $navy-blue
+  color: $cream
+  padding: 1em
+
+  .static-pages
+    float: left
+
+    ul
+      margin: 0
+      padding: 0
+
+      li
+        display: inline-block
+
+      a
+        color:  white
+        padding: 1em 1em 1em 0
+        display: inline-block
+
+        &:hover
+          color: white
+          text-decoration: underline
+
+  .logos
+    float: right
+
+    a
+      float: right
+      display: inline-block
+      margin: 1.5em 0 0 1.5em
+
+
+/* MISC */
+
+.container
+  img
+    max-width: 100%
+    height: auto
+
+    &.no-max-width
+      max-width: none

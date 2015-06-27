@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get 'p_and_c' => 'static#p_and_c'
   get 't_and_c' => 'static#t_and_c'
 
+  get 'styleguide' => 'styleguide#index'
+
   namespace :my do
     get '/getting_started' => 'getting_started#index'
     patch '/skip_getting_started' => 'getting_started#skip_getting_started'

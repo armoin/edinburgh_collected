@@ -1,0 +1,60 @@
+/* LINKS */
+
+a
+  color: $navy-blue
+
+a span.accessible-label
+  height: 1px
+  width: 1px
+  position: absolute
+  overflow: hidden
+  top: -10px
+
+
+
+/* BUTTONS */
+
+.button
+  +border-radius(4px)
+  display: inline-block
+  font-size: 1em
+  margin-bottom: 0.2em
+  padding: 0.5em 1em
+  text-decoration: none
+
+  &:hover, &:focus
+    text-decoration: none
+
+  &:active
+    position: relative
+    text-decoration: none
+    top: 1px
+
+  &.float-right
+    margin-left: 0.25em
+
+  &[disabled]
+    opacity: 0.6
+
+
+.button //--navy
+  background-color: $navy-blue
+  border: 1px solid $navy-blue
+  color: white
+  text-shadow: 0px 1px 0px darken( $navy-blue, 10% )
+
+  &:hover, &:focus
+    background-color: lighten($navy-blue, 10)
+
+
+.button.green //--green
+  background-color: darken( $green, 10% )
+  border: 1px solid darken( $green, 20% )
+  color: white
+  text-shadow: 0px 1px 0px darken( $green, 20% )
+
+  &:hover, &:focus
+    background-color: darken( $green, 20% )
+
+    &[disabled]
+      background-color: darken( $green, 10% )

@@ -1,0 +1,7 @@
+<% if show_verification_warning? -%>
+  <div class="warn">
+    <span class="close">&times;</span>
+    Looks like you haven’t verified your account yet. We can’t show other users anything you add until you do so.
+    <%= link_to "Resend verification email", resend_activation_email_users_path %>.
+  </div>
+<% end -%>

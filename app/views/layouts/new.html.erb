@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Styleguide: <%= action_name %></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800|Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'>
+
+    <%= stylesheet_link_tag('application', media: 'all') %>
+
+    <%= javascript_include_tag('application') %>
+
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <header id="main-header" class="container clearfix">
+      <div id="theNavBar" role="navigation" class="col-xs-12 col-sm-12">
+        <nav id="menu">
+          <ul class="menu">
+            <li class="<%= active_if_controller_path('home') %>">
+              <%= link_to 'Home', root_path %>
+            </li>
+            <li>
+              <%= link_to 'Add a memory', new_my_memory_path %>
+            </li>
+            <li class="<%= active_if_controller_path('memories', 'scrapbooks') %>">
+              <%= link_to 'Browse', memories_path %>
+            </li>
+            <% if logged_in? %>
+              <li class="<%= active_if_controller_path('my/memories', 'my/scrapbooks') %>">
+                <%= link_to 'My collection', my_memories_path %>
+              </li>
+              <% if current_user.is_admin? %>
+                <li class="<%= active_if_controller_path('admin/home', 'admin/moderation') %>">
+                  <%= link_to 'Admin', admin_home_path %>
+                </li>
+              <% end %>
+              <li class="profile <%= active_if_controller_path('my/profile') %>">
+                <span>My account</span>
+                <ul>
+                  <li>
+                    <%= link_to 'Getting started'.html_safe, my_getting_started_path %>
+                  </li>
+                  <li>
+                    <%= link_to 'View profile'.html_safe, my_profile_path %>
+                  </li>
+                  <li>
+                    <%= link_to 'Sign out', signout_path, method: :delete %>
+                  </li>
+                </ul>
+              </li>
+            <% else %>
+              <li class="<%= active_if_controller_path('users') %>">
+                <%= link_to 'Sign up', signup_path %>
+              </li>
+              <li class="signinli <%= active_if_controller_path('sessions') %>">
+                <%= link_to 'Sign in', signin_path, class: 'signin button green' %>
+              </li>
+            <% end %>
+          </ul>
+        </nav>
+      </div>
+
+      <div id="searchwrapper" class="dropdowns col-sm-10 col-md-12">
+        <button class="toggleMenu" type="button" role="button" aria-label="Open menu">
+          <span id="menuText">MENU</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <div id="logo" class="">
+          <a class="navbar-brand" href="/" title="<%= APP_NAME %>">
+            <span class="accessible-label">Home</span>
+            <%= image_tag "edinburgh-collected-logo.png", alt: "#{APP_NAME} - Beta" %>
+          </a>
+        </div>
+
+        <div class="searchForm">
+          <%= form_tag search_memories_path, method: :get, role: 'form' do %>
+            <div class="input-group">
+              <%= text_field_tag :query, params[:query], class: 'form-control', title: 'search' %>
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="submit" role="button" aria-label="Search the site"><i class="glyphicon glyphicon-search"></i></button>
+              </span>
+            </div>
+          <% end -%>
+        </div>
+      </div> <!-- end search/browse box -->
+    </header>
+
+    <main>
+      <div class="flashes container">
+        <%= render 'layouts/verification_warning' %>
+        <%= render 'layouts/flashes' %>
+      </div>
+
+      <%= yield %>
+
+      <%= content_for :modals %>
+    </main>
+
+    <footer>
+      <div class="container clearfix">
+        <div class="static-pages">
+          <ul>
+            <li><%= link_to 'About', about_path %></li>
+            <li><%= link_to 'Contact us', contact_path %></li>
+            <li><%= link_to 'Privacy and cookies', p_and_c_path %></li>
+            <li><%= link_to 'Terms and conditions', t_and_c_path %></li>
+          </ul>
+          <p>&copy; The City of Edinburgh Council 2014</p>
+        </div>
+        <div class="logos">
+          <a href="http://www.edinburgh.gov.uk/" id="councilLogo" target="blank">
+            <span class="accessible-label">City of Edinburgh Council website</span>
+            <%= image_tag "edinburgh-council.png", alt: "The City of Edinburgh Council" %>
+          </a>
+          <a href="http://www.nesta.org.uk/" id="nestaLogo" target="blank">
+            <span class="accessible-label">Nesta website</span>
+            <%= image_tag "nesta.png", alt: "Nesta" %>
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        // setup flash behaviour
+        new FlashManager()
+
+        // setup mobile slide menu
+        $("#menu").mmenu(
+          { offCanvas: { zposition: "front" } },
+          { clone: true }
+        );
+
+        $(".toggleMenu").click(function() {
+          $("#mm-menu").trigger("open.mm");
+        });
+      });
+    </script>
+
+    <%= content_for :script_tags %>
+  </body>
+</html>
