@@ -1,0 +1,33 @@
+<% content_for :stylesheets do %>
+  <link rel="stylesheet" type="text/css" href="http://postcards.cechosting.org/css/postcard.css" />
+<% end %>
+
+<% content_for :script_tags do %>
+  <script type="text/javascript" src="http://postcards.cechosting.org/js/postcard.js"></script>
+<% end %>
+
+<script>
+ /**
+  * Digital Postcards module
+  */
+
+  $(document).ready(function () {
+
+    // initialise the postcard module
+    $('#mail_popup').postcard({
+      api_post_url: "http://postcards.cechosting.org/api/1/postcard",
+      tmpl_url: "http://postcards.cechosting.org/js/postcard.tmpl",
+      // placeholder poscard details
+      title: $('.memory .title').html().substring(0, 100),
+      short_desc: $('.memory .subtitle').html().substring(0, 100),
+      long_desc: $('#memory-description').html().substring(0, 250),
+      image: $('#image img').attr("src"),
+      image_attribution: $('#memory-attribution').html(),
+      stamp: "http://localhost:5000/img/postage-stamp.png",
+      redirect_timeout: false
+    });
+
+  });
+</script>
+
+<div id="mail_popup"></div>

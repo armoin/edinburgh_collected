@@ -14,6 +14,7 @@
     <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'>
 
     <%= stylesheet_link_tag('application', media: 'all') %>
+    <%= content_for :stylesheets %>
 
     <!--[if lt IE 9]>
       <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -21,6 +22,7 @@
     <![endif]-->
 
     <%= javascript_include_tag('application') %>
+    <%= content_for :top_scripts %>
 
     <%= csrf_meta_tags %>
   </head>
