@@ -1,0 +1,51 @@
+/* FOOTER */
+
+/* sticky */
+html
+  position: relative
+  min-height: 100%
+
+body
+  margin: 0 0 $desktop-body-bottom-margin
+  padding-bottom: 25px
+
+footer
+  position: absolute
+  left: 0
+  bottom: 0
+
+
+/* layout */
+footer
+  width: 100%
+  height: $desktop-footer-height
+  background: $navy-blue
+  color: $cream
+  padding: 1em
+
+  .static-pages
+    float: left
+
+    ul
+      margin: 0
+      padding: 0
+
+      li
+        display: inline-block
+
+      a
+        color:  white
+        padding: 1em 1em 1em 0
+        display: inline-block
+
+        &:hover
+          color: white
+          text-decoration: underline
+
+  .logos
+    float: right
+
+    a
+      float: right
+      display: inline-block
+      margin: 1.5em 0 0 1.5em

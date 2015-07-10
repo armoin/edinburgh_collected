@@ -1,0 +1,27 @@
+/* flashes */
+.flashes
+  .alert, .notice, .warn
+    border: 1px solid transparent
+    border-radius: 4px
+    color: white
+    margin: 16px 0 0 0
+    padding: 15px
+
+    a
+      color: inherit
+      text-decoration: underline
+
+    .close
+      color: white
+      margin: -2px 0 5px 10px
+      opacity: 1
+      text-shadow: 0 0 0 white
+
+      &:hover
+        color: rgba(white, 0.5)
+
+  .alert, .warn
+    background: $coral
+
+  .notice
+    background: $green
