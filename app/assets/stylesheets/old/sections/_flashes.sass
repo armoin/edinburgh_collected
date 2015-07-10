@@ -1,0 +1,34 @@
+.flashes
+  .alert, .notice, .warn
+    padding: 15px
+    border: 1px solid transparent
+    border-radius: 4px
+    color: white
+    margin: 16px 0 0 0
+
+    .close
+      text-shadow: 0 0 0 white
+      margin: -2px 0 5px 10px
+      opacity: 1
+
+  .alert, .warn
+    background: $coral
+
+    a
+      color: inherit
+      text-decoration: underline
+
+    .close
+      color: white
+
+      &:hover
+        color: rgba(white, 0.5)
+
+  .notice
+    background: $green
+
+    .close
+      color: white
+
+      &:hover
+        color: rgba(white, 0.5)

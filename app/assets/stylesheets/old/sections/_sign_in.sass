@@ -1,0 +1,76 @@
+/* ==================================== SIGN IN / SIGN OUT */
+
+#signIn, #signUp, #password
+
+.formWrapper
+  background:  white
+  margin: 0 0 2em 0
+  position: relative
+  height: 100%
+  overflow: hidden
+
+  #formPanel
+    background: white
+
+  #extraPanel
+    padding: 0em
+    position: absolute
+    right: 0
+    top: 0
+    height: 100%
+    -webkit-background-size: cover
+    -moz-background-size: cover
+    -o-background-size: cover
+    background-size: cover
+
+
+    #signposting
+      position: absolute
+      top: 30px
+      width: 100%
+      text-align: center
+
+      .inner
+        display: inline-block
+        padding: 1em
+
+        h2
+          color: white
+          font-family: 'Open Sans Condensed', sans-serif
+          font-weight: normal
+          font-size: 36px
+
+#signIn
+  #extraPanel
+    background: image-url('photos/edinburgh-collected-funfair.jpg') no-repeat center bottom
+    .inner
+      background: rgba($blue, 0.75)
+
+
+#signUp
+  #extraPanel
+    background: image-url('photos/edinburgh-collected-rubix.jpg') no-repeat center top
+    .inner
+      background: rgba($navy-blue, 0.5)
+      margin: 0 30px
+
+      ul.help-tips
+        margin: 1em 2em
+
+#password
+  #extraPanel
+    background: image-url('photos/edinburgh-collected-crowd.jpg') no-repeat center top
+
+
+
+
+  form
+    label
+      text-align: left!important
+    .actions > *
+      margin-left: 10px
+
+  #user_is_group
+    text-align: left
+
+

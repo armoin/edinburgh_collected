@@ -1,0 +1,241 @@
+/* ==================================== MEMORIES */
+
+// ensure that the featherlight lightbox floats over all other elements
+.featherlight
+  z-index: 1050
+
+.memory.full
+
+  h2.subtitle
+    font-style: italic
+    font-weight: lighter
+    font-size: 1.4em
+    padding-top: 0.6em
+
+  #image
+    background: $navy-blue
+    text-align: center
+    margin: 0
+    padding: 2em
+    display: table
+    width: 100%
+
+    a
+      display: table-cell
+      vertical-align: middle
+      max-height: 100%
+
+      img
+        max-width: 80%
+        max-height: 100%
+
+  #details
+    padding: 0
+
+    header
+      border-bottom: 1px solid $navy-blue
+      padding: 1em 0
+      padding-bottom: 1em
+
+      .float-left
+        padding: 0
+
+      #share-links
+        float: right
+        padding: 1em 0 0 0
+        text-align: right
+
+
+    #metadata
+      padding-left: 0
+      word-break: break-word
+
+      #about
+        overflow: hidden
+
+      #author
+        font-weight: bold
+
+      .filters
+        padding-top: 0.2em
+        padding-bottom: 2em
+
+        #memory-area
+          margin-top: 1em
+          border-top: 1px solid $navy-blue
+          padding-top: 1.4em
+
+          a.button
+            width: 100%
+            text-align: center
+            word-break: normal
+
+    #comments
+      padding-right: 0
+      margin-bottom: 2em
+
+    a.report
+      display: block
+      border-top: 1px solid $navy-blue
+
+
+
+
+.user-profile
+  padding: 0
+
+  a.userAvatar, #user-details
+    display: inline-block
+
+  a.userAvatar
+    vertical-align: top
+    text-decoration: none
+
+    img
+      vertical-align: top
+      width: 50px
+
+  #user-details
+    padding: 0 0.6em
+
+    p
+      margin-bottom: 5px
+
+    .username
+      font-weight: bold
+
+a#add-memory-button
+  width: 150px
+  margin-bottom: 1px
+
+
+a.memory, a.scrapbook
+  text-decoration: none
+
+  &:hover
+    text-decoration: none
+
+.memory, .scrapbook
+  display: block
+
+  button.remove-memory
+    display: inline-block
+
+  &.thumb
+
+    .imageWrapper
+      position: relative
+      height: 100%
+      cursor: pointer
+
+      &:hover
+        .hoverButtons
+          display: block
+
+      .hoverButtons
+        background: rgba( black, 0.5 )
+        position: absolute
+        height: 100%
+        text-align: center
+        width: 100%
+        display: none
+
+        div.buttonsWrapper
+          padding: 1em 10%
+          display: block
+
+          a
+            display: inline-block
+            padding: 0.25em 0.5em
+            font-size: 0.9em
+            margin-bottom: 0.4em
+
+            span
+              margin-right: 0.5em
+
+    div
+      &.img, &.button
+        text-align: center
+        padding: 0.5em
+
+      &.button
+        span.glyphicon.glyphicon-plus
+          font-size: 128px
+          vertical-align: middle
+
+      &.detail
+        margin: 0 0px 0px 0px
+
+        a:hover
+          color: $blue
+
+        h3
+          font-size: 20px
+          margin: 0.5em 0 0 0
+
+        p
+          margin: 10px 0 0 0
+
+  &.add.memory
+    text-align: center
+
+    span
+      padding: 50px
+      background: $blue
+      font-size: 7em
+      width: 100%
+      display: block
+      color: white
+
+      &:hover
+        background: darken( $blue, 5% )
+
+
+
+  &.full
+    img
+      max-width: 100%
+
+  &.deleted
+    display: none !important
+
+  &.moderation
+    text-align: left
+    padding: 0.4em
+    vertical-align: top
+
+    .actions, .details, .info, .media
+      display: inline-block
+      vertical-align: top
+
+    .actions
+      margin-top: 10px
+      background: #aaa
+      padding:  10px
+
+      ul
+        padding-left: 0
+
+      li
+        list-style: none
+        margin-bottom: 5px
+
+      a.btn
+        width: 150px
+
+    .details
+      border: 5px solid #aaa
+      background: white
+      margin-top: 10px
+      margin-left: -3px
+
+    .info
+      width: 500px
+      padding: 0.4em
+
+.no-results
+  text-align: center
+  margin-bottom: 4em
+
+  img
+    margin-bottom: 2em

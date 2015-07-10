@@ -1,0 +1,57 @@
+/* ==================================== BROWSE */
+
+.viewingInfo
+  float: left
+
+#contentHeader
+  padding: 2em 0
+
+  h1, h2
+    margin: 0
+    text-align: center
+    span
+      display: block
+      font-size: 0.8em
+      font-weight: 300
+
+  div.actions
+    margin: 2em 0 0 0
+    padding: 1em 0 0.8em 0
+    border-top: $navy-blue 1px solid
+    border-bottom: $navy-blue 1px solid
+
+    .viewingInfo
+      display: inline-block
+
+      strong
+        padding: 0.5em 1em 0.5em 0
+        float: left
+
+      a.scrapbooks, span.scrapbooks
+        +border-radius(0 3px 3px 0)
+        position: relative
+        float: left
+
+
+      span.memories, a.memories
+        +border-radius(3px 0 0 3px)
+        float: left
+
+
+      a:active, span:active
+        top: 0
+        text-decoration: none
+
+  a.add-memories:hover, a.add-memories.active
+    background-color: $navy-blue
+    border-color: $navy-blue
+    color: white
+    text-decoration: none
+    text-shadow: 0px 1px 0px $navy-blue
+
+.filter
+  #contentHeader
+    div.actions
+      .viewingInfo
+        strong
+          float: none

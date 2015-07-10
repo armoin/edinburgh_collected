@@ -1,0 +1,130 @@
+/* ==================================== ADMIN */
+
+.options
+  margin-top: 3em
+
+#tab-bar
+  padding: 1em 0
+
+  a
+    text-decoration: underline
+
+table.items, table.users
+  background-color: cornsilk
+  text-align: left
+
+  thead
+    background-color: black
+    color: white
+
+  td
+    &.approved, &.rejected
+      color: white
+
+    &.approved
+      background-color: $approved
+
+    &.rejected
+      background-color: $rejected
+
+    a
+      text-decoration: underline
+
+.btn, .button
+  &.unmoderate, &.approve, &.reject
+    color: white
+
+  &.unmoderate
+    background-color: $unmoderated
+    border-color: darken($unmoderated, 5)
+
+    &:hover
+      background-color: darken($unmoderated, 5)
+      border-color: darken($unmoderated, 10)
+
+  &.approve
+    background-color: $approved
+    border-color: darken($approved, 5)
+
+    &:hover
+      background-color: darken($approved, 5)
+      border-color: darken($approved, 10)
+
+  &.reject
+    background-color: $rejected
+    border-color: darken($rejected, 5)
+
+    &:hover
+      background-color: darken($rejected, 5)
+      border-color: darken($rejected, 10)
+
+
+.state
+  text-align: center
+  font-size: 1.2em
+  font-weight: 600
+  font-variant: small-caps
+  position: relative
+  top: -0.5em
+
+  span
+    position: relative
+    top: 0.25em
+
+  &.approved
+    background-color: $approved
+
+  &.rejected, &.reported
+    background-color: $rejected
+    padding: 0.2em
+
+  & .state-label__text
+    color: white
+
+  &.unmoderated .state-label__text
+    color: $coral
+
+  a
+    text-decoration: underline
+
+    &:hover
+      font-weight: bold
+
+.comment
+  background: whitesmoke
+
+  blockquote
+    margin: 0
+    border: 0
+    background: cornsilk
+    font-style: italic
+
+.admin-toolbar
+  margin: 1em 0
+  padding: 0.4em
+  width: 100%
+
+  .state
+    margin-bottom: 0
+    top: 0
+
+    &.unmoderated
+      background: $unmoderated
+      color: white
+
+  ul.moderation-actions
+    list-style: none
+    display: inline-block
+    background: whitesmoke
+    margin: 0
+    padding: 0.4em
+    width: 100%
+
+    li
+      float: left
+      margin-right: 10px
+
+      .btn-disabled
+        border: 1px solid #ccc
+        border-bottom: -1px
+        color: #ccc
