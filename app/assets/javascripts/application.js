@@ -42,4 +42,19 @@
 //= require featherlight.min
 //
 // APP
-//= require_tree .
+// require_tree .
+//
+//= require add_to_scrapbook_controller
+//= require create_scrapbook_controller
+//= require feature_switch
+//= require flash_manager
+//= require image_editor
+//= require image_editor_new
+//= require justified
+//= require polyfills
+//= require scrapbook_editor
+//= require scripts
+//= require temp_image_uploader
+//= require uploaded_image_editor
+//= require utilities
+//= require validation
