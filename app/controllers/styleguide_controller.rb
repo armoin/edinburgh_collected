@@ -1,5 +1,5 @@
 class StyleguideController < ApplicationController
-  layout 'new'
+  # layout 'new'
 
   def index
   end
