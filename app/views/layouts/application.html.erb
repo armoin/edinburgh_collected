@@ -124,13 +124,30 @@
           <p>&copy; The City of Edinburgh Council 2014</p>
         </div>
         <div class="logos">
-          <a href="http://www.edinburgh.gov.uk/" id="councilLogo" target="blank">
-            <span class="accessible-label">City of Edinburgh Council website</span>
-            <%= image_tag "edinburgh-council.png", alt: "The City of Edinburgh Council" %>
+          <div class="partners">
+            <a href="http://www.edinburgh.gov.uk/" id="councilLogo" target="blank">
+              <span class="accessible-label">City of Edinburgh Council website</span>
+              <%= image_tag "edinburgh-council.png", alt: "The City of Edinburgh Council" %>
+            </a>
+            <a href="http://www.nesta.org.uk/" id="nestaLogo" target="blank">
+              <span class="accessible-label">Nesta website</span>
+              <%= image_tag "nesta.png", alt: "Nesta" %>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="container clearfix toolbar">
+        <div class="toolbar__tool">
+          All images licensed under
+          <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="blank">
+            <img alt="Creative Commons Licence" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" />
           </a>
-          <a href="http://www.nesta.org.uk/" id="nestaLogo" target="blank">
-            <span class="accessible-label">Nesta website</span>
-            <%= image_tag "nesta.png", alt: "Nesta" %>
+        </div>
+        <div class="toolbar__tool">
+          Tested with
+          <a href="http://www.browserstack.com/" id="browserstackLogo" target="blank">
+            <span class="accessible-label">Browserstack website</span>
+            <%= image_tag "bs_logo.png", alt: "Browserstack" %>
           </a>
         </div>
       </div>
