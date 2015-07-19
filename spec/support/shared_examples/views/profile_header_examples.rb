@@ -39,7 +39,7 @@ RSpec.shared_examples 'a profile headed page' do
       end
 
       it "displays the requested user's description" do
-        expect(rendered).to have_css('p.sub', text: requested_user.description)
+        expect(rendered).to have_css('.sub', text: requested_user.description)
       end
 
       context "when the user has no links" do
@@ -87,7 +87,7 @@ RSpec.shared_examples 'a profile headed page' do
         end
 
         it "displays the requested user's description" do
-          expect(rendered).to have_css('p.sub', text: requested_user.description)
+          expect(rendered).to have_css('.sub', text: requested_user.description)
         end
 
         context "when the user has no links" do
@@ -129,7 +129,7 @@ RSpec.shared_examples 'a profile headed page' do
         end
 
         it "displays the requested user's description" do
-          expect(rendered).to have_css('p.sub', text: requested_user.description)
+          expect(rendered).to have_css('.sub', text: requested_user.description)
         end
 
         context "when the user has no links" do

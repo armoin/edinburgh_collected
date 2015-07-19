@@ -28,7 +28,7 @@
         </p>
 
         <p><strong>Bio:</strong></p>
-        <p><%= @user.description %></p>
+        <p><%= simple_format(@user.description) %></p>
 
         <%= render partial: 'users/links', locals: {requested_user: @user} %>
       </div>
