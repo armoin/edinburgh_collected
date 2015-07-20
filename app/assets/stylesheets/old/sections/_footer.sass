@@ -1,0 +1,47 @@
+/* ================= STICKY FOOTER */
+
+html, body, #wrapper
+  height: 100%
+
+#wrapper
+  display: table
+  width: 100%
+
+/* ie7 and under*/
+#main-header, footer, #main
+  display: block
+#main-header, footer, #main
+  display: table-row
+
+/* height 1px on the header and footer is the sticky footer technique */
+#main-header, footer
+  height: 1px
+
+footer
+  height: $desktop-footer-height
+  background: $navy-blue
+  color: $cream
+  padding: 1em
+
+  .wrap
+    float: left
+
+  ul
+    margin: 0
+    padding: 0
+    li
+      display: inline-block
+
+      a
+        color:  white
+        padding: 1em 1em 1em 0
+        display: inline-block
+
+        &:hover
+          color: white
+          text-decoration: underline
+
+  #councilLogo, #nestaLogo
+    float: right
+    display: inline-block
+    margin: 1.5em 0 0 1.5em

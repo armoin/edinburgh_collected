@@ -1,0 +1,100 @@
+/* ==================================== MASONRY STUFF */
+
+.masonry-loading-spinner
+  position: relative
+  margin-bottom: 2em
+
+  .spinner
+    height: 100px
+
+.memory-container, .scrapbooks-container
+  display: none
+
+.masonry-grid
+  margin: 0 auto
+
+  .grid-sizer
+    width: 25%
+
+  .masonry
+    width: 25%
+    margin-bottom: 0
+
+    .padding
+      margin: 0.5em 0.5em 1em
+      background: white
+      padding: 1em
+
+      img
+        border: 1px solid #ccc
+        +border-radius(3px)
+        margin-bottom: 0
+        padding: 2px
+
+    .detail
+      margin: 0 10px 10px 10px
+
+    h3.scrapbookTitle
+      margin-top: 0
+
+    .empty
+      display: block
+      text-align: center
+      border: 1px solid #ccc
+      +border-radius(3px)
+      padding: 2em 2px
+
+      img
+        border: none
+      h4
+        margin: 1em 0 0 0
+        font-style: italic
+        color: lighten( $navy-blue, 30% )
+
+
+    .bottom-row
+      padding-top: 1em
+
+      .count
+        width: 24%
+        +border-radius(3px)
+        float: left
+        background: $blue
+        color: white
+        text-align: center
+        padding: 23% 0 0
+        position: relative
+        font-size: 1em
+        margin-right: 2%
+
+        .wrapper
+          position: absolute
+          top: 0
+          left: 0
+          width: 100%
+          top: 25%
+          line-height: 150%
+
+        i
+          font-style: normal
+          font-size: 0.9em
+
+        span
+          display: block
+          font-weight: 700
+          position: relative
+          font-size: 1.5em
+
+      .mini
+        margin-left: 3%
+        width: 24%
+        float: left
+
+        &:nth-child(2)
+          margin-left: 0
+
+        &.empty
+          height: 30px
+          padding: 11.5% 0
+          background: #eee
+          display: inline-block

@@ -1,0 +1,130 @@
+/* HEADER */
+
+#main-header
+  background-color: $navy-blue
+  height: $mobile-header-height
+  margin-top: 0
+  width: 100%
+
+  #theNavBar
+    left: 0
+    height: 50px
+    position: fixed
+    top: 0
+
+    ul.menu
+      display: none
+
+
+  #searchwrapper
+
+    button.toggleMenu
+      background: $navy-blue
+      border: none
+      color: white
+      display: block
+      left: 0
+      margin-right: 0 !important
+      padding: 1em
+      position: fixed
+      top: 0
+      width: 100%
+      z-index: 30
+
+      &:focus
+        outline: none
+
+      #menuText
+        float: left
+        margin-left: 23px
+
+      .icon-bar
+        background-color: white
+        border-radius: 1px
+        display: block
+        height: 3px
+        margin-top: 3px
+        width: 15px
+
+    #logo
+      max-width: 200px
+      margin-right: 0.9em
+      margin-top: 1.4em
+      position: fixed
+      right: 0
+      top: -1em
+      width: 60%
+      z-index: 30
+
+      .navbar-brand
+        border-right: none
+        display: inline-block
+        float: right
+
+        img
+          margin: 0 auto
+
+    .searchForm
+      background: $navy-blue
+      display: block
+      margin-top: 50px
+      padding-top: 0.25em
+
+      form
+        margin-left: 0 !important
+        margin-right: 0 !important
+
+/* mm menu */
+.mm-menu
+  background: lighten($navy-blue, 10)
+
+  &.mm-front
+    z-index: 1050
+
+
+
+/* FOOTER */
+
+/* sticky */
+body
+  margin: 0 0 $mobile-body-bottom-margin
+
+/* layout */
+footer
+  height: $mobile-footer-height
+
+  text-align: center
+
+  .static-pages
+    float: none
+    padding-bottom: 2em
+
+    ul
+      margin-bottom: 2em
+
+      li
+        display: block
+        a
+          padding: 0.5em
+
+  .logos
+    width: 100%
+
+    a
+      float: none
+      margin-left: 0
+      display: inline
+      margin-right: 1em
+
+      img
+        width: 20%
+
+
+
+/* MISC */
+
+// prevent iOS from zooming inputs on selection
+select:focus,
+textarea:focus,
+input:focus
+  font-size: 16px

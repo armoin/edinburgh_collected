@@ -10,9 +10,13 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+// RAILS
 //= require jquery
 //= require jquery_ujs
+//
+// VENDOR
 //= require bootstrap-sprockets
+//= require jquery.mmenu.min
 //= require raphael
 //= require binaryajax
 //= require exif
@@ -32,9 +36,25 @@
 //= require underscore
 //= require json2
 //= require judge
-//= require jquery.mmenu.min
 //= require jquery_nested_form
 //= require jquery-fileupload/basic
 //= require jquery.guillotine.min
 //= require featherlight.min
-//= require_tree .
+//
+// APP
+// require_tree .
+//
+//= require add_to_scrapbook_controller
+//= require create_scrapbook_controller
+//= require feature_switch
+//= require flash_manager
+//= require image_editor
+//= require image_editor_new
+//= require justified
+//= require polyfills
+//= require scrapbook_editor
+//= require scripts
+//= require temp_image_uploader
+//= require uploaded_image_editor
+//= require utilities
+//= require validation

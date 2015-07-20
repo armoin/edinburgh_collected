@@ -1,61 +1,62 @@
 @import "bourbon"
 
-@import 'utilities/colors'
-@import 'utilities/dimensions'
-@import 'utilities/mixins'
+@import '../utilities/colors'
+@import '../utilities/dimensions'
+@import '../utilities/mixins'
+
+@import 'base'
+@import 'old/media/structured_desktop'
 
 
-@import 'media/desktop'
-@import 'media/structured_desktop'
-
+/* MEDIA */
 
 /* iPhone Landscape */
 @media only screen and (max-width: 767px) and (orientation: landscape)
-  @import 'media/iphone_landscape'
+  @import 'old/media/iphone_landscape'
 
 
 /* iPad Portrait */
 @media only screen and (max-device-width: 750px) and (orientation: portrait)
-  @import 'media/structured_iphone_portrait'
+  @import 'old/media/structured_iphone_portrait'
 
 
 /* iPad Portrait */
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait)
-  @import 'media/ipad_portrait_min_768_1'
-  @import 'media/structured_ipad_portrait'
+  @import 'old/media/ipad_portrait_min_768_1'
+  @import 'old/media/structured_ipad_portrait'
 
 
 /* SCREEN SIZE: MOBILES */
 @media screen and (max-width: 768px)
-  @import 'media/mobiles'
-  @import 'media/structured_mobiles'
+  @import 'old/media/mobiles'
+  @import 'old/media/structured_mobiles'
+  @import 'new/media/mobile/base'
 
 
 /* iPad Portrait */
 @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait)
-  @import 'media/ipad_portrait_min_768_2'
+  @import 'old/media/ipad_portrait_min_768_2'
 
 
 /* SCREEN SIZE: SMALL MOBILES */
 @media (max-width: 480px)
-  @import 'media/small_mobiles'
+  @import 'old/media/small_mobiles'
 
 
 /* SCREEN SIZE: TABLETS */
 @media (min-width: 769px)
-  @import 'media/tablets'
+  @import 'old/media/tablets'
 
 
 /* SCREEN SIZE: SMALL LAPTOPS */
 @media (min-width: 992px)
-  @import 'media/small_laptops'
+  @import 'old/media/small_laptops'
 
 
 /* Large devices min-width (1200px) + a .memory margin (50px) * 2 (100px) = 1300px */
 /* SCREEN SIZE: LARGE SCREENS */
 @media (min-width: 1200px)
-  @import 'media/large_screens'
+  @import 'old/media/large_screens'
 
 
-@import 'browser_hacks/ie8'
 @import 'browser_hacks/ie9'

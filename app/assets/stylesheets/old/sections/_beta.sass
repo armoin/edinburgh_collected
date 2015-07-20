@@ -1,0 +1,48 @@
+/* ==================================== BETA */
+
+.beta
+  font-size: smaller
+  margin: 0 3px
+
+.user-card
+  .details
+    background: white
+    padding-bottom: 1em
+
+  .actions
+    a
+      float: right
+      margin: 10px 0
+
+    &:hover
+      background: $teal
+      color: white
+      text-decoration: none
+
+a.feedback
+  display: block
+  background: $coral
+  color: #fff
+  text-decoration: none
+
+  &.desktop
+    @include transform(rotate(90deg))
+    position: fixed
+    left: -33px
+    top: 40%
+    z-index: 1000
+    height: 40px
+    width: 105px
+    padding: 8px 16px
+    border: solid 1px darken( $coral, 20% )
+    border-bottom: 0
+
+    &:hover
+      background: $green
+      border: solid 1px darken( $green, 20% )
+      border-bottom: 0
+
+header .navbar .navbar-collapse ul.nav li a.feedback
+  border-radius: 4px
+  padding-right: 0.6em
+  margin-top: 0.3em

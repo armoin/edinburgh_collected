@@ -1,0 +1,55 @@
+/* ==================================== PAGINATION */
+
+.memories
+  .pagination-container
+    text-align: center
+
+    .pagination
+      span.disabled
+        color: lighten( $blue, 50% )
+        background: #eee
+
+        &:hover
+          color: lighten( $blue, 50% )
+
+      li
+        a
+          color: $blue
+        span.disabled, &:hover
+          color: lighten( $blue, 20% )
+          &:hover
+            color: lighten( $blue, 20% )
+
+        &.active
+          a
+            color: white
+            background: $blue
+            border: 1px solid darken( $blue, 5% )
+
+
+
+.scrapbooks
+  .pagination-container
+    text-align: center
+
+    .pagination
+      span.disabled
+        color: lighten( $teal, 50% )
+        background: #eee
+
+        &:hover
+          color: lighten( $teal, 50% )
+
+      li
+        a
+          color: $teal
+        span.disabled, &:hover
+          color: lighten( $teal, 20% )
+          &:hover
+            color: lighten( $teal, 20% )
+
+        &.active
+          a
+            color: white
+            background: $teal
+            border: 1px solid darken( $teal, 5% )

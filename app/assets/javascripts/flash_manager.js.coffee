@@ -8,7 +8,7 @@ class @FlashManager
     _showFlash('alert', message)
 
   flashCloser: ->
-    $('body').on 'click', '.flashes .close', (e) ->
+    $(document).on 'click touchstart', '.flashes .close', (e) ->
       $(this).parent().hide()
 
   _showFlash = (type, message) ->

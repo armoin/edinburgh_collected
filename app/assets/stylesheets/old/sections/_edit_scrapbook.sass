@@ -1,0 +1,82 @@
+/* ==================================== EDIT SCRAPBOOK */
+
+#pageInfo
+  h2
+    text-align: left
+    margin-top: 1em
+
+#editScrapbook
+
+  h2
+    font-weight: 300
+    font-style: italic
+    text-align: center
+    margin: 10px 0 20px
+
+  .memory
+    display: block
+    width: 100%
+    vertical-align: middle
+    border: $navy-blue 1px solid
+    margin-bottom: 10px
+    background-color: $light-grey
+
+    &.ui-sortable-helper
+      background: $navy-blue !important
+      color: $cream
+      margin-bottom: 10px
+      box-shadow: 0px 5px 0px rgba($navy-blue , 0.5)
+
+    &:hover
+      background: rgba($navy-blue, 0.15)
+      cursor: move
+
+    .padding
+      background: none
+      padding: 1em 0.5em !important
+      margin: 0em
+      display: table
+      width: 100%
+      vertical-align: middle
+
+      span.glyphicon-resize-vertical
+        margin-right: 1em
+        display: table-cell
+        vertical-align: middle
+        width: 5%
+        font-size: 150%
+
+      img
+        display: table-cell
+        max-width: 50px
+        vertical-align: middle
+        margin-right: 1em
+        background: white
+        border: 1px solid $navy-blue
+
+      button
+        font-size: 12px
+
+      h3
+        font-size: 16px
+
+    .detail
+      text-align: left
+      display: table-cell
+      vertical-align: middle
+      width: 70%
+
+    .memory-actions
+      text-align: center
+      display: table-cell
+      vertical-align: middle
+      width: 15%
+
+    img
+      width: 100%
+      float: none
+
+
+#formPanel.editScrapbookForm
+  padding-top: 1em !important
+  float: right
