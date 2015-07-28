@@ -4,7 +4,11 @@
   <div id="memories" class="masonry-grid">
     <div class="grid-sizer"></div>
     <% memories.each do |memory| %>
-      <%= render partial: 'memories/memory_thumb', locals: {memory: memory, path_to_memory: send(base_memory_path, memory)} %>
+      <%
+        path_attrs ||= {}
+        path_attrs[:id] = memory
+      %>
+      <%= render partial: 'memories/memory_thumb', locals: {memory: memory, path_to_memory: send(base_memory_path, path_attrs)} %>
     <% end %>
   </div>
   <%= render partial: 'shared/pagination', locals: {items: memories} %>

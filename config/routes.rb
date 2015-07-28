@@ -41,6 +41,7 @@ Rails.application.routes.draw do
       get 'report' => 'report/scrapbooks#edit'
       put 'report' => 'report/scrapbooks#update'
     end
+    resources :memories, only: :show, module: 'scrapbooks'
   end
 
   namespace :search do
