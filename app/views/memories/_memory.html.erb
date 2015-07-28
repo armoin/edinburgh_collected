@@ -41,7 +41,7 @@
     <div id="metadata" class="col-xs-12 col-md-6">
       <div id="about">
         <h3>About this memory</h3>
-        <p id="memory-description"><%= @memory.description %></p>
+        <div id="memory-description"><%= simple_format(@memory.description) %></div>
 
         <% if @memory.attribution.present? %>
           <p id="memory-attribution">

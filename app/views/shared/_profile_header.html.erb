@@ -21,7 +21,7 @@
 
   <% end -%>
 
-  <p class="sub"><%= requested_user.description %></p>
+  <div class="sub"><%= simple_format(requested_user.description) %></div>
 
   <%= render partial: 'users/links', locals: {requested_user: requested_user} %>
 
