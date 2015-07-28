@@ -18,7 +18,7 @@
         <p>Sorry, but we couldn't find any approved memories for "<%= @results.query %>"</p>
       </div>
     <% else -%>
-      <%= render partial: 'memories/index', locals: {memories: @memories, base_memory_path: :memory_path} %>
+      <%= render partial: 'memories/index', locals: {memories: @memories, base_memory_path: :search_memory_path} %>
     <% end -%>
   </div>
 </div>

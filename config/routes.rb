@@ -44,7 +44,7 @@ Rails.application.routes.draw do
   end
 
   namespace :search do
-    resources :memories, only: [:index]
+    resources :memories, only: [:index, :show]
     resources :scrapbooks, only: [:index]
   end
 

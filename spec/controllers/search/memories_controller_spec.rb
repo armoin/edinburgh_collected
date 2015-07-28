@@ -132,5 +132,73 @@ describe Search::MemoriesController do
       end
     end
   end
+
+  describe 'GET show' do
+    let(:user)        { Fabricate.build(:user) }
+    let(:memory)      { Fabricate.build(:memory) }
+    let(:find_result) { memory }
+    let(:visible)     { false }
+    let(:can_modify)  { false }
+
+    before :each do
+      allow(Memory).to receive(:find) { find_result }
+
+      allow(memory).to receive(:publicly_visible?).and_return(visible)
+      allow(controller).to receive(:current_user).and_return(user)
+      allow(user).to receive(:can_modify?).and_return(can_modify)
+
+      get :show, id: '123', format: format
+    end
+
+    it 'does not set the current memory index path' do
+      expect(session[:current_memory_index_path]).to be_nil
+    end
+
+    it "fetches the requested memory" do
+      expect(Memory).to have_received(:find).with('123')
+    end
+
+    context "when record is found" do
+      let(:find_result) { memory }
+
+      it "assigns fetched memory" do
+        expect(assigns(:memory)).to eql(memory)
+      end
+
+      context 'and memory is visible' do
+        let(:visible) { true }
+
+        it_behaves_like 'a found memory'
+      end
+
+      context 'and the memory is not visible' do
+        let(:visible) { false }
+
+        context 'when there is no current user' do
+          it_behaves_like 'a not found memory'
+        end
+
+        context 'and the current user' do
+          context 'cannot modify the memory' do
+            let(:can_modify) { false }
+
+            it_behaves_like 'a not found memory'
+          end
+
+          context 'can modify the memory' do
+            let(:can_modify) { true }
+
+            it_behaves_like 'a found memory'
+          end
+        end
+      end
+    end
+
+    context "when record is not found" do
+      let(:find_result) { raise ActiveRecord::RecordNotFound }
+
+      it_behaves_like 'a not found memory'
+    end
+  end
 end
 

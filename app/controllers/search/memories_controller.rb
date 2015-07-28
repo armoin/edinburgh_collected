@@ -6,5 +6,15 @@ class Search::MemoriesController < ApplicationController
     @results = SearchResults.new(params[:query])
     @memories = @results.memory_results.page(params[:page])
   end
-end
 
+  def show
+    @memory = Memory.find(params[:id])
+    raise ActiveRecord::RecordNotFound unless viewable?(@memory)
+  end
+
+  private
+
+  def viewable?(memory)
+    memory.publicly_visible? || current_user.try(:can_modify?, memory)
+  end
+end
