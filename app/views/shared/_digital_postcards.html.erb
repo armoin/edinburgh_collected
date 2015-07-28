@@ -1,9 +1,13 @@
 <% content_for :stylesheets do %>
-  <link rel="stylesheet" type="text/css" href="http://postcards.cechosting.org/css/postcard.css" />
+  <link rel="stylesheet" type="text/css" href="//postcards.cechosting.org/css/postcard.css" />
 <% end %>
 
 <% content_for :script_tags do %>
-  <script type="text/javascript" src="http://postcards.cechosting.org/js/postcard.js"></script>
+  <script type="text/javascript" src="//postcards.cechosting.org/js/postcard.js"></script>
+<% end %>
+
+<% content_for :modals do %>
+  <div id="mail_popup"></div>
 <% end %>
 
 <script>
@@ -15,19 +19,25 @@
 
     // initialise the postcard module
     $('#mail_popup').postcard({
-      api_post_url: "http://postcards.cechosting.org/api/1/postcard",
-      tmpl_url: "http://postcards.cechosting.org/js/postcard.tmpl",
+      api_post_url: "//postcards.cechosting.org/api/1/postcard",
+      tmpl_url: "//postcards.cechosting.org/js/postcard.tmpl",
       // placeholder poscard details
-      title: $('.memory .title').html().substring(0, 100),
-      short_desc: $('.memory .subtitle').html().substring(0, 100),
-      long_desc: $('#memory-description').html().substring(0, 250),
+      title: $('.memory .title').text().substring(0, 100),
+      short_desc: $('.memory .subtitle').text().substring(0, 100),
+      long_desc: $('#memory-short-description').text(),
       image: $('#image img').attr("src"),
-      image_attribution: $('#memory-attribution').html(),
-      stamp: "http://localhost:5000/img/postage-stamp.png",
+      image_attribution: $('#memory-attribution').text(),
+      stamp: "//postcards.cechosting.org/img/postage-stamp.png",
       redirect_timeout: false
     });
 
+    $('#postcard-link').on('click', function (e) {
+      e.preventDefault();
+      $('#mail_popup').postcard('open');
+    });
   });
 </script>
 
-<div id="mail_popup"></div>
+<%= link_to "Send postcard", "#", class: "button scrapbooks float-right", id: 'postcard-link' %>
+
+

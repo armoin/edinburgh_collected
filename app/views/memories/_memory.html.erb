@@ -1,4 +1,4 @@
-<div class="memory full">
+<div class="memory full postcard-blur-wrapper">
   <header  id="contentHeader" class="clearfix">
     <h1 class="title"><%= @memory.title %></h1>
     <h2 class="subtitle"><%= @memory.date_string %></h2>
@@ -20,6 +20,8 @@
       <% if logged_in? -%>
         <%= link_to "Add to scrapbook +", '#', class: "button scrapbooks float-right", data: {memory_id: @memory.id, memory_title: @memory.title, toggle: 'modal', target: '#add-to-scrapbook-modal'} %>
       <% end -%>
+
+      <%= render partial: 'shared/digital_postcards' %>
     </div>
     <%= render 'shared/featured_notice', featurable: @memory, featurable_name: 'memory' %>
   </header>
@@ -42,12 +44,12 @@
         <%= render partial: 'shared/profile_link', locals: {user: @memory.user, label: 'Added by', url_segment: 'memories'} %>
       </div>
       <div id="share-links" class="col-xs-12 col-sm-6 col-md-6">
-        <%= render partial: 'shared/digital_postcards' %>
-        <%#= render partial: 'shared/sharing' %>
+        <%= render partial: 'shared/sharing' %>
       </div>
     </header>
     <div id="metadata" class="col-xs-12 col-md-6">
       <div id="about">
+        <div id="memory-short-description" class="hidden"><%= truncate(@memory.description, length: 250, separator: ' ') %></div>
         <% if @memory.photo? %>
           <h3>About this memory</h3>
           <div id="memory-description"><%= simple_format(@memory.description) %></div>
