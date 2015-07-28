@@ -47,7 +47,7 @@
           </div>
         </div>
 
-        <%= render partial: 'memories/index', locals: {memories: @memories} %>
+        <%= render partial: 'memories/index', locals: {memories: @memories, base_memory_path: :memory_path} %>
 
       <% elsif current_user.try(:can_modify?, @scrapbook) -%>
 

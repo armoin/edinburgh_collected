@@ -20,6 +20,6 @@
       </div>
     </header>
 
-    <%= render partial: 'memories/index', locals: {memories: @presenter.paged_memories} %>
+    <%= render partial: 'memories/index', locals: {memories: @presenter.paged_memories, base_memory_path: :memory_path} %>
   </div>
 </div>

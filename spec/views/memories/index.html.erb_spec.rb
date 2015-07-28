@@ -26,4 +26,3 @@ describe 'memories/index.html.erb' do
   let(:moderatable) { memories.first }
   it_behaves_like 'non state labelled content'
 end
-
