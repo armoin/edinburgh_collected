@@ -150,6 +150,7 @@ describe 'my/memories/index.html.erb' do
       let(:memories_count)   { 3 }
 
       let(:base_memory_path) { :my_memory_path }
+      let(:path_attrs)       { {} }
       it_behaves_like 'a memory index'
 
       it_behaves_like 'paginated content'

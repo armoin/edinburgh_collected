@@ -153,7 +153,8 @@ describe 'users/memories/index.html.erb' do
     context 'when there are memories' do
       let(:memories_count)   { 3 }
 
-      let(:base_memory_path) { :memory_path }
+      let(:base_memory_path) { :user_memory_path }
+      let(:path_attrs)       { { user_id: requested_user.id } }
       it_behaves_like 'a memory index'
 
       it_behaves_like 'paginated content'

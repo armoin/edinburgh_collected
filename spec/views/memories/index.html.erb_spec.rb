@@ -21,6 +21,7 @@ describe 'memories/index.html.erb' do
 
 
   let(:base_memory_path) { :memory_path }
+  let(:path_attrs)       { {} }
   it_behaves_like 'a memory index'
 
   it_behaves_like 'paginated content'

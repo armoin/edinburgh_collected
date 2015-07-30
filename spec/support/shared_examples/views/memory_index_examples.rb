@@ -13,7 +13,7 @@ RSpec.shared_examples 'a memory index' do
       end
 
       it 'has a link to view that memory' do
-        path_to_memory = send(base_memory_path, memory)
+        path_to_memory = send(base_memory_path, path_attrs.merge(id: memory))
 
         expect(rendered).to have_css(".memory a.view[href=\"#{path_to_memory}\"]")
       end

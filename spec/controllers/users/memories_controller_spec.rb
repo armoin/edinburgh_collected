@@ -1,28 +1,58 @@
 require 'rails_helper'
 
 describe Users::MemoriesController do
-  let(:requested_user) { Fabricate.build(:active_user, id: 123) }
+  let(:requested_user)   { Fabricate.build(:active_user, id: 123) }
+  let(:user_find_result) { requested_user }
+
+  let(:user)             { nil }
+
+  let(:visible)          { true }
+
+  let(:memories)         { double }
+  let(:visible_memories) { double }
 
   before :each do
-    allow(User).to receive(:find).and_return(requested_user)
+    allow(User).to receive(:find) { user_find_result }
+    allow(requested_user).to receive(:publicly_visible?).and_return(visible)
+
+    allow(controller).to receive(:current_user).and_return(user)
+
+    allow(requested_user).to receive(:memories).and_return(memories)
+    allow(memories).to receive(:publicly_visible).and_return(visible_memories)
   end
 
   describe 'GET index' do
+    let(:page)               { '1' }
+
+    let(:ordered_memories)   { double }
+    let(:paged_memories)     { double }
+
+    let(:scrapbooks)         { double }
+    let(:visible_scrapbooks) { double }
+
+    let(:scrapbooks_count)   { 3 }
+
+    before :each do
+      allow(visible_memories).to receive(:by_last_created).and_return(ordered_memories)
+      allow(ordered_memories).to receive(:page).and_return(paged_memories)
+
+      allow(requested_user).to receive(:scrapbooks).and_return(scrapbooks)
+      allow(scrapbooks).to receive(:publicly_visible).and_return(visible_scrapbooks)
+      allow(visible_scrapbooks).to receive(:count).and_return(scrapbooks_count)
+
+      get :index, user_id: requested_user.to_param, page: page
+    end
+
     it 'sets the current memory index path' do
-      get :index, user_id: requested_user.to_param
-      expect(session[:current_memory_index_path]).to eql(user_memories_path(user_id: requested_user.to_param))
+      expect(session[:current_memory_index_path]).to eql(user_memories_path(user_id: requested_user.to_param, page: page))
     end
 
     it 'finds the requested user' do
-      get :index, user_id: requested_user.to_param
       expect(User).to have_received(:find).with(requested_user.to_param)
     end
 
     context 'when no user is found' do
-      before :each do
-        allow(User).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
-        get :index, user_id: requested_user.to_param
-      end
+      let(:user_find_result) { fail ActiveRecord::RecordNotFound }
 
       it 'returns a 404 error' do
         expect(response).to be_not_found
@@ -30,44 +60,19 @@ describe Users::MemoriesController do
     end
 
     context 'when requested user is found' do
+      let(:user_find_result) { requested_user }
+
       context 'if the requested user is the current user' do
+        let(:user) { requested_user }
+
         it 'redirects to my/memories' do
-          allow(controller).to receive(:current_user).and_return(requested_user)
-          get :index, user_id: requested_user.to_param
           expect(response).to redirect_to(my_memories_path)
         end
       end
 
       context 'if the requested user is not the current user' do
-        let(:other_user)       { Fabricate.build(:active_user, id: 456) }
-        let(:page)             { '1' }
+        let(:user) { nil }
 
-        let(:memories)         { double }
-        let(:visible_memories) { double }
-        let(:ordered_memories) { double }
-        let(:paged_memories)   { double }
-
-        let(:scrapbooks)         { double }
-        let(:visible_scrapbooks) { double }
-
-        let(:scrapbooks_count) { 3 }
-
-        before :each do
-          allow(controller).to receive(:current_user).and_return(other_user)
-
-          allow(requested_user).to receive(:publicly_visible?).and_return(visible)
-
-          allow(requested_user).to receive(:memories).and_return(memories)
-          allow(memories).to receive(:publicly_visible).and_return(visible_memories)
-          allow(visible_memories).to receive(:by_last_created).and_return(ordered_memories)
-          allow(ordered_memories).to receive(:page).and_return(paged_memories)
-
-          allow(requested_user).to receive(:scrapbooks).and_return(scrapbooks)
-          allow(scrapbooks).to receive(:publicly_visible).and_return(visible_scrapbooks)
-          allow(visible_scrapbooks).to receive(:count).and_return(scrapbooks_count)
-
-          get :index, user_id: requested_user.to_param, page: page
-        end
 
         context 'but the requested user is not publicly visible' do
           let(:visible) { false }
@@ -106,6 +111,77 @@ describe Users::MemoriesController do
 
           it 'renders the user index page' do
             expect(response).to render_template('users/memories/index')
+          end
+        end
+      end
+    end
+  end
+
+  describe 'GET show' do
+    let(:user_find_result) { requested_user }
+
+    let(:memory)           { Fabricate.build(:photo_memory, id: 123) }
+    let(:find_result)      { memory }
+
+    before :each do
+      allow(visible_memories).to receive(:find) { find_result }
+
+      get :show, id: '123', user_id: requested_user.to_param
+    end
+
+    it 'does not set the current memory index path' do
+      expect(session[:current_memory_index_path]).to be_nil
+    end
+
+    it 'finds the requested user' do
+      expect(User).to have_received(:find).with(requested_user.to_param)
+    end
+
+    context 'when no user is found' do
+      let(:user_find_result) { fail ActiveRecord::RecordNotFound }
+
+      it 'returns a 404 error' do
+        expect(response).to be_not_found
+      end
+    end
+
+    context 'when requested user is found' do
+      context 'but the requested user is not publicly visible' do
+        let(:visible) { false }
+
+        it 'returns a 404 error' do
+          expect(response).to be_not_found
+        end
+      end
+
+      context 'and the requested user is publicly visible' do
+        let(:visible) { true }
+
+        it "searches for the requested memory in the requested user's visible memories" do
+          expect(visible_memories).to have_received(:find).with('123')
+        end
+
+        context 'when a memory is found' do
+          let(:find_result) { memory }
+
+          it 'assigns the memory' do
+            expect(assigns[:memory]).to eq(memory)
+          end
+
+          it 'renders the show page' do
+            expect(response).to render_template(:show)
+          end
+        end
+
+        context 'when a memory is not found' do
+          let(:find_result) { fail ActiveRecord::RecordNotFound }
+
+          it 'does not assign the memory' do
+            expect(assigns[:memory]).to be_nil
+          end
+
+          it 'returns a 404 error' do
+            expect(response).to be_not_found
           end
         end
       end
