@@ -20,42 +20,52 @@ describe My::MemoriesController do
     end
 
     context 'when logged in' do
-      let(:presenter_stub) { double('presenter') }
-      let(:page)           { nil }
+      let(:current_user)     { Fabricate.build(:approved_user) }
+      let(:memories)         { double }
+      let(:ordered_memories) { double }
+      let(:paged_memories)   { double }
+      let(:page)             { '1' }
+      let(:scrapbooks_count) { 3 }
 
       before :each do
-        allow(UserMemoriesPresenter).to receive(:new).and_return(presenter_stub)
+        allow(controller).to receive(:current_user).and_return(current_user)
+
+        allow(current_user).to receive(:memories).and_return(memories)
+        allow(memories).to receive(:by_last_created).and_return(ordered_memories)
+        allow(ordered_memories).to receive(:page).and_return(paged_memories)
+
+        allow(current_user.scrapbooks).to receive(:count).and_return(scrapbooks_count)
 
         login_user
         get :index, page: page
       end
 
       it 'sets the current memory index path if action is index' do
-        expect(session[:current_memory_index_path]).to eql(base_path)
+        expect(session[:current_memory_index_path]).to eql(my_memories_path(page: page))
       end
 
-      context 'when no page is given' do
-        let(:page) { nil }
-
-        it 'generates a UserMemoriesPresenter with a nil page' do
-          expect(UserMemoriesPresenter).to have_received(:new).with(@user, @user, nil)
-        end
+      it "fetches the current user's memories" do
+        expect(current_user).to have_received(:memories)
       end
 
-      context 'when a page is given' do
-        let(:page) { "1" }
-
-        it 'generates a UserMemoriesPresenter with and the page' do
-          expect(UserMemoriesPresenter).to have_received(:new).with(@user, @user, "1")
-        end
+      it 'orders the memories by their last created date' do
+        expect(memories).to have_received(:by_last_created)
       end
 
-      it 'assigns the presenter' do
-        expect(assigns[:presenter]).to eql(presenter_stub)
+      it 'paginates the ordered memories' do
+        expect(ordered_memories).to have_received(:page).with(page)
+      end
+
+      it 'assigns the paged memories' do
+        expect(assigns[:memories]).to eq(paged_memories)
+      end
+
+      it 'assigns the scrapbook count' do
+        expect(assigns[:scrapbooks_count]).to eql(scrapbooks_count)
       end
 
       it "renders the user index page" do
-        expect(response).to render_template('memories/user_index')
+        expect(response).to render_template('my/memories/index')
       end
     end
   end

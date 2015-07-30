@@ -1,0 +1,23 @@
+<div id="memories" class="container profile memories">
+  <%= render partial: 'shared/profile_header', locals: {requested_user: current_user} %>
+
+  <div id="grid">
+    <header id="contentHeader" class="clearfix">
+      <h2>Your memories</h2>
+      <div class="actions clearfix">
+        <div class="viewingInfo">
+          <strong>Browse</strong>
+          <span class="button memories"><%= pluralize(@memories.total_count, 'memory') %></span>
+
+          <%= link_to my_scrapbooks_path, class: "button scrapbooks inactive counter", id: "view_scrapbooks" do %>
+            <%= pluralize(@scrapbooks_count, 'scrapbook') %>
+          <% end %>
+        </div>
+
+        <%= link_to 'Add a memory', new_my_memory_path, :class => "button float-right memories" %>
+      </div>
+    </header>
+
+    <%= render partial: 'memories/index', locals: {memories: @memories, base_memory_path: :memory_path} %>
+  </div>
+</div>

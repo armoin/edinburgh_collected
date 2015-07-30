@@ -39,14 +39,32 @@ describe Users::MemoriesController do
       end
 
       context 'if the requested user is not the current user' do
-        let(:other_user)             { Fabricate.build(:active_user, id: 456) }
-        let(:presenter_stub)         { double('presenter') }
-        let(:page)                   { nil }
+        let(:other_user)       { Fabricate.build(:active_user, id: 456) }
+        let(:page)             { '1' }
+
+        let(:memories)         { double }
+        let(:visible_memories) { double }
+        let(:ordered_memories) { double }
+        let(:paged_memories)   { double }
+
+        let(:scrapbooks)         { double }
+        let(:visible_scrapbooks) { double }
+
+        let(:scrapbooks_count) { 3 }
 
         before :each do
           allow(controller).to receive(:current_user).and_return(other_user)
-          allow(UserMemoriesPresenter).to receive(:new).and_return(presenter_stub)
+
           allow(requested_user).to receive(:publicly_visible?).and_return(visible)
+
+          allow(requested_user).to receive(:memories).and_return(memories)
+          allow(memories).to receive(:publicly_visible).and_return(visible_memories)
+          allow(visible_memories).to receive(:by_last_created).and_return(ordered_memories)
+          allow(ordered_memories).to receive(:page).and_return(paged_memories)
+
+          allow(requested_user).to receive(:scrapbooks).and_return(scrapbooks)
+          allow(scrapbooks).to receive(:publicly_visible).and_return(visible_scrapbooks)
+          allow(visible_scrapbooks).to receive(:count).and_return(scrapbooks_count)
 
           get :index, user_id: requested_user.to_param, page: page
         end
@@ -62,28 +80,32 @@ describe Users::MemoriesController do
         context 'and the requested user is publicly visible' do
           let(:visible) { true }
 
-          context 'when no page is given' do
-            let(:page) { nil }
-
-            it 'generates an UserMemoriesPresenter with a nil page' do
-              expect(UserMemoriesPresenter).to have_received(:new).with(requested_user, other_user, nil)
-            end
+          it "fetches the requested user's memories" do
+            expect(requested_user).to have_received(:memories)
           end
 
-          context 'when a page is given' do
-            let(:page) { "1" }
-
-            it 'generates an UserMemoriesPresenter with the page' do
-              expect(UserMemoriesPresenter).to have_received(:new).with(requested_user, other_user, "1")
-            end
+          it 'filters out any memories that are not publicly visible' do
+            expect(memories).to have_received(:publicly_visible)
           end
 
-          it 'assigns the presenter' do
-            expect(assigns[:presenter]).to eql(presenter_stub)
+          it 'orders the visible memories by their last created date' do
+            expect(visible_memories).to have_received(:by_last_created)
+          end
+
+          it 'paginates the ordered memories' do
+            expect(ordered_memories).to have_received(:page).with(page)
+          end
+
+          it 'assigns the paged memories' do
+            expect(assigns[:memories]).to eq(paged_memories)
+          end
+
+          it 'assigns the scrapbook count' do
+            expect(assigns[:scrapbooks_count]).to eql(scrapbooks_count)
           end
 
           it 'renders the user index page' do
-            expect(response).to render_template('memories/user_index')
+            expect(response).to render_template('users/memories/index')
           end
         end
       end
