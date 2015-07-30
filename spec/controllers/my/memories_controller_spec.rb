@@ -70,6 +70,63 @@ describe My::MemoriesController do
     end
   end
 
+  describe 'GET show' do
+    describe 'ensure user is logged in' do
+      before :each do
+        get :show, id: 123, format: format
+      end
+
+      it_behaves_like 'requires logged in user'
+    end
+
+    context "when logged in" do
+      before :each do
+        login_user
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it "fetches the requested memory" do
+        get :show, id: 123
+        expect(Memory).to have_received(:find).with('123')
+      end
+
+      it "renders the not found page if memory wasn't found" do
+        allow(Memory).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        get :show, id: 123
+        expect(response).to render_template('exceptions/not_found')
+      end
+
+      context "when the current user can modify the memory" do
+        before :each do
+          allow(@user).to receive(:can_modify?).and_return(true)
+          get :show, id: 123
+        end
+
+        it "assigns fetched memory" do
+          expect(assigns(:memory)).to eql(memory)
+        end
+
+        it "renders the show page" do
+          expect(response).to render_template(:show)
+        end
+      end
+
+      context "when the current_user cannot modify the memory" do
+        before :each do
+          allow(@user).to receive(:can_modify?).and_return(false)
+          get :show, id: 123
+        end
+
+        it "renders the not found page" do
+          expect(response).to render_template('exceptions/not_found')
+        end
+      end
+    end
+  end
+
   describe 'GET new' do
     describe 'ensure user is logged in' do
       before :each do

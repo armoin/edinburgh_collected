@@ -149,7 +149,7 @@ describe 'my/memories/index.html.erb' do
     context 'when there are memories' do
       let(:memories_count)   { 3 }
 
-      let(:base_memory_path) { :memory_path }
+      let(:base_memory_path) { :my_memory_path }
       it_behaves_like 'a memory index'
 
       it_behaves_like 'paginated content'

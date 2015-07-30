@@ -7,6 +7,9 @@ class My::MemoriesController < My::AuthenticatedUserController
     @scrapbooks_count = current_user.scrapbooks.count
   end
 
+  def show
+  end
+
   def new
     @memory = Memory.new
   end
