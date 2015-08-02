@@ -1,7 +1,7 @@
 class Scrapbooks::MemoriesController < ApplicationController
   def show
-    scrapbook = Scrapbook.find(params[:scrapbook_id])
-    @memory = scrapbook.memories.find(params[:id])
+    @scrapbook = Scrapbook.find(params[:scrapbook_id])
+    @memory = @scrapbook.memories.find(params[:id])
     raise ActiveRecord::RecordNotFound unless viewable?
   end
 

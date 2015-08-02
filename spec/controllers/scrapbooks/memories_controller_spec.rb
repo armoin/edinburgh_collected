@@ -26,6 +26,10 @@ describe Scrapbooks::MemoriesController do
       expect(Scrapbook).to have_received(:find).with('456')
     end
 
+    it "assigns the requested scrapbook" do
+      expect(assigns[:scrapbook]).to eq(scrapbook)
+    end
+
     it "fetches the requested memory" do
       expect(scrapbook.memories).to have_received(:find).with('123')
     end
