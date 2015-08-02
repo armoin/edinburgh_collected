@@ -1,19 +1,20 @@
+<% back_path ||= current_memory_index_path %>
+
 <div class="memory full">
   <header  id="contentHeader" class="clearfix">
     <h1 class="title"><%= @memory.title %></h1>
     <h2 class="subtitle"><%= @memory.date_string %></h2>
-    <div class="actions clearfix <%= @memory.user == current_user ? 'currentUser' : '' %>">
+
+    <div class="actions clearfix">
       <div class="viewingInfo">
         <% if current_user.try(:can_modify?, @memory) %>
-          <%= link_to 'Back', current_memory_index_path, class: "button back" %>
+          <%= link_to 'Back', back_path, class: "button back" %>
 
-          <% delete_path ||= my_memory_path(@memory.id) %>
-          <%= link_to "Delete", delete_path, class: "button delete" , method: :delete, data: {confirm: 'Are you sure?'} %>
+          <%= link_to "Delete", my_memory_path(@memory.id), class: "button delete" , method: :delete, data: {confirm: 'Are you sure?'} %>
 
-          <% edit_path ||= edit_my_memory_path(@memory.id) %>
-          <%= link_to "Edit", edit_path, class: "button navy edit" %>
+          <%= link_to "Edit", edit_my_memory_path(@memory.id), class: "button navy edit" %>
         <% else -%>
-          <%= link_to 'Back', current_memory_index_path, class: "button back full-width-mobile" %>
+          <%= link_to 'Back', back_path, class: "button back full-width-mobile" %>
         <% end -%>
       </div>
 

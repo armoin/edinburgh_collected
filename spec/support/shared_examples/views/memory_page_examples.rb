@@ -8,7 +8,6 @@ RSpec.shared_examples 'a memory page' do
 
   let(:edit_path)         { edit_my_memory_path(memory.id) }
   let(:delete_path)       { my_memory_path(memory.id) }
-  let(:memory_index_path) { '/test/memories' }
 
   let(:user)              { nil }
   let(:logged_in)         { false }
@@ -16,7 +15,6 @@ RSpec.shared_examples 'a memory page' do
   before :each do
     allow(view).to receive(:logged_in?).and_return(logged_in)
     allow(view).to receive(:current_user).and_return(user)
-    session[:current_memory_index_path] = memory_index_path
     assign(:memory, memory)
   end
 
@@ -25,16 +23,12 @@ RSpec.shared_examples 'a memory page' do
       render
     end
 
-    context 'when all details are given' do
-      it 'has a title' do
-        expect(rendered).to have_css('.memory .title', text: memory.title)
-      end
+    it 'has a title' do
+      expect(rendered).to have_css('.memory .title', text: memory.title)
+    end
 
-      context 'has a subtitle that' do
-        it "includes the date" do
-          expect(rendered).to have_css('.memory .subtitle', text: '4th May 2014')
-        end
-      end
+    it "includes the date" do
+      expect(rendered).to have_css('.memory .subtitle', text: '4th May 2014')
     end
   end
 
@@ -45,10 +39,6 @@ RSpec.shared_examples 'a memory page' do
 
       before :each do
         render
-      end
-
-      it "has a back button to the current memory index page" do
-        expect(rendered).to have_link('Back', href: memory_index_path)
       end
 
       it "does not show the edit link" do
@@ -76,10 +66,6 @@ RSpec.shared_examples 'a memory page' do
       context "and the user can modify the memory" do
         let(:can_modify) { true }
 
-        it "has a back button to the current memory index page" do
-          expect(rendered).to have_link('Back', href: memory_index_path)
-        end
-
         it "has an edit link" do
           expect(rendered).to have_link('Edit', href: edit_path)
         end
@@ -95,10 +81,6 @@ RSpec.shared_examples 'a memory page' do
 
       context "and the user can't modify the memory" do
         let(:can_modify) { false }
-
-        it "has a back button to the current memory index page" do
-          expect(rendered).to have_link('Back', href: memory_index_path)
-        end
 
         it "does not show the edit link" do
           expect(rendered).not_to have_link('Edit', href: edit_path)
