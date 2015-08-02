@@ -147,7 +147,7 @@ describe Search::MemoriesController do
       allow(controller).to receive(:current_user).and_return(user)
       allow(user).to receive(:can_modify?).and_return(can_modify)
 
-      get :show, id: '123', format: format
+      get :show, id: '123', format: format, query: 'test query'
     end
 
     it 'does not set the current memory index path' do
@@ -168,6 +168,10 @@ describe Search::MemoriesController do
       context 'and memory is visible' do
         let(:visible) { true }
 
+        it 'assigns the current query string' do
+          expect(assigns[:query]).to eql('test query')
+        end
+
         it_behaves_like 'a found memory'
       end
 
@@ -175,6 +179,10 @@ describe Search::MemoriesController do
         let(:visible) { false }
 
         context 'when there is no current user' do
+          it 'does not assign the current query string' do
+            expect(assigns[:query]).to be_nil
+          end
+
           it_behaves_like 'a not found memory'
         end
 
@@ -182,11 +190,19 @@ describe Search::MemoriesController do
           context 'cannot modify the memory' do
             let(:can_modify) { false }
 
+            it 'does not assign the current query string' do
+              expect(assigns[:query]).to be_nil
+            end
+
             it_behaves_like 'a not found memory'
           end
 
           context 'can modify the memory' do
             let(:can_modify) { true }
+
+            it 'assigns the current query string' do
+              expect(assigns[:query]).to eql('test query')
+            end
 
             it_behaves_like 'a found memory'
           end

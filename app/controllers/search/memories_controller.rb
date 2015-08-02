@@ -10,6 +10,8 @@ class Search::MemoriesController < ApplicationController
   def show
     @memory = Memory.find(params[:id])
     raise ActiveRecord::RecordNotFound unless viewable?(@memory)
+
+    @query = params[:query]
   end
 
   private
