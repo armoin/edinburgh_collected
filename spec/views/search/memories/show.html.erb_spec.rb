@@ -4,27 +4,17 @@ describe "search/memories/show.html.erb" do
   describe "action bar" do
     let(:user)   { Fabricate.build(:active_user, id: 123)}
     let(:memory) { Fabricate.build(:photo_memory, id: 456, user: user) }
+    let(:query)  { 'This is a query string' }
+    let(:page) { '2' }
 
-    before :each do
+    it "has a back button to the search memories page including the given query string and page number" do
       assign(:memory, memory)
       assign(:query, query)
+      assign(:page, page)
+
       render
-    end
 
-    context 'when no query is given' do
-      let(:query) { nil }
-
-      it "has a back button to the search memories index page with a nil query string" do
-        expect(rendered).to have_link('Back', href: search_memories_path(query: nil))
-      end
-    end
-
-    context 'when a query is given' do
-      let(:query) { 'This is a query string' }
-
-      it "has a back button to the search memories index page with the given query string" do
-        expect(rendered).to have_link('Back', href: search_memories_path(query: 'This is a query string'))
-      end
+      expect(rendered).to have_link('Back', href: search_memories_path(query: 'This is a query string', page: '2'))
     end
   end
 
