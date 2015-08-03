@@ -3,6 +3,7 @@ class Scrapbooks::MemoriesController < ApplicationController
     @scrapbook = Scrapbook.find(params[:scrapbook_id])
     @memory = @scrapbook.memories.find(params[:id])
     raise ActiveRecord::RecordNotFound unless viewable?
+    @page = params[:page]
   end
 
   private
