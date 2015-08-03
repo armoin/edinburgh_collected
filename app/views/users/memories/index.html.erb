@@ -16,6 +16,6 @@
       </div>
     </header>
 
-    <%= render partial: 'memories/index', locals: {memories: @memories, base_memory_path: :user_memory_path, path_attrs: {user_id: @requested_user.id}} %>
+    <%= render partial: 'memories/index', locals: {memories: @memories, base_memory_path: :user_memory_path, path_attrs: {user_id: @requested_user.id, page: params[:page]}} %>
   </div>
 </div>

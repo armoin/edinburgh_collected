@@ -123,10 +123,12 @@ describe Users::MemoriesController do
     let(:memory)           { Fabricate.build(:photo_memory, id: 123) }
     let(:find_result)      { memory }
 
+    let(:page)             { '2' }
+
     before :each do
       allow(visible_memories).to receive(:find) { find_result }
 
-      get :show, id: '123', user_id: requested_user.to_param
+      get :show, id: '123', user_id: requested_user.to_param, page: page
     end
 
     it 'does not set the current memory index path' do
@@ -168,6 +170,10 @@ describe Users::MemoriesController do
             expect(assigns[:memory]).to eq(memory)
           end
 
+          it 'assigns the page' do
+            expect(assigns[:page]).to eq(page)
+          end
+
           it 'renders the show page' do
             expect(response).to render_template(:show)
           end
@@ -178,6 +184,10 @@ describe Users::MemoriesController do
 
           it 'does not assign the memory' do
             expect(assigns[:memory]).to be_nil
+          end
+
+          it 'does not assign the page' do
+            expect(assigns[:page]).to be_nil
           end
 
           it 'returns a 404 error' do
