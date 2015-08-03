@@ -8,6 +8,7 @@ class My::MemoriesController < My::AuthenticatedUserController
   end
 
   def show
+    @page = params[:page]
   end
 
   def new

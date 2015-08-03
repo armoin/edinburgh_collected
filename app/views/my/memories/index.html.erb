@@ -18,6 +18,6 @@
       </div>
     </header>
 
-    <%= render partial: 'memories/index', locals: {memories: @memories, base_memory_path: :my_memory_path} %>
+    <%= render partial: 'memories/index', locals: {memories: @memories, base_memory_path: :my_memory_path, path_attrs: {page: params[:page]}} %>
   </div>
 </div>
