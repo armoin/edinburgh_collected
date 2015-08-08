@@ -1,5 +1,5 @@
 <div id="scrapbook" class="container">
   <%= render partial: 'admin/moderation/moderation_panel',
               locals: {moderatable: @scrapbook, moderatable_name: 'scrapbook', list_path: current_scrapbook_index_path} %>
-  <%= render 'scrapbooks/scrapbook', back_path: current_scrapbook_index_path %>
+  <%= render 'scrapbooks/scrapbook', back_path: current_scrapbook_index_path, scrapbook: @scrapbook, memories: @memories %>
 </div>

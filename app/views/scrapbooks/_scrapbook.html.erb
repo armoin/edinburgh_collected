@@ -1,19 +1,19 @@
 <div id="grid">
   <header id="contentHeader" class="clearfix">
-    <h1><%= @scrapbook.title %></h1>
+    <h1><%= scrapbook.title %></h1>
     <div class="actions clearfix">
       <div class="viewingInfo">
-        <% if current_user.try(:can_modify?, @scrapbook) %>
+        <% if current_user.try(:can_modify?, scrapbook) %>
           <%= link_to 'Back', back_path, :class => "button back" %>
 
-          <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), :class => "button delete" , method: :delete, data: {confirm: 'Are you sure?'} %>
-          <%= link_to "Edit", edit_my_scrapbook_path(@scrapbook.id), :class => "button navy edit"  %>
+          <%= link_to "Delete", my_scrapbook_path(scrapbook.id), :class => "button delete" , method: :delete, data: {confirm: 'Are you sure?'} %>
+          <%= link_to "Edit", edit_my_scrapbook_path(scrapbook.id), :class => "button navy edit"  %>
         <% else -%>
           <%= link_to 'Back', back_path, :class => "button back full-width-mobile" %>
         <% end %>
       </div>
 
-      <% if current_user.try(:can_modify?, @scrapbook) && @memories.any? -%>
+      <% if current_user.try(:can_modify?, scrapbook) && memories.any? -%>
         <a href="#" class="button add-memories memories float-right" data-toggle="modal" data-target="#add-memories-modal">Add memories</a>
       <% end -%>
     </div>
@@ -25,31 +25,31 @@
       <h2>About this scrapbook</h2>
 
       <div class="scrapbook__info__description">
-        <%= simple_format(@scrapbook.description) %>
+        <%= simple_format(scrapbook.description) %>
       </div>
 
       <div class="scrapbook__info__creator">
-        <%= render partial: 'shared/profile_link', locals: {user: @scrapbook.user, label: 'Created by', url_segment: 'scrapbooks'} %>
+        <%= render partial: 'shared/profile_link', locals: {user: scrapbook.user, label: 'Created by', url_segment: 'scrapbooks'} %>
       </div>
 
       <div id="share-links">
         <%= render partial: 'shared/sharing' %>
       </div>
 
-      <%= render partial: 'shared/reporting', locals: {item: @scrapbook, report_path: report_scrapbook_path(@scrapbook.id)} %>
+      <%= render partial: 'shared/reporting', locals: {item: scrapbook, report_path: report_scrapbook_path(scrapbook.id)} %>
     </div>
 
     <div class="col-sm-8 scrapbook__content">
-      <% if @memories.any? -%>
+      <% if memories.any? -%>
         <div class="scrapbook__hero__container desktop">
           <div class="scrapbook__hero__image">
-            <img src="<%= cache_busted_url(@memories.first) %>" alt="<%= @memories.first.title %>" title="<%= @memories.first.title %>" />
+            <img src="<%= cache_busted_url(memories.first) %>" alt="<%= memories.first.title %>" title="<%= memories.first.title %>" />
           </div>
         </div>
 
-        <%= render partial: 'memories/index', locals: {memories: @memories, base_memory_path: :scrapbook_memory_path, path_attrs: {scrapbook_id: @scrapbook.to_param, page: params[:page]}} %>
+        <%= render partial: 'memories/index', locals: {memories: memories, base_memory_path: :scrapbook_memory_path, path_attrs: {scrapbook_id: scrapbook.to_param, page: params[:page]}} %>
 
-      <% elsif current_user.try(:can_modify?, @scrapbook) -%>
+      <% elsif current_user.try(:can_modify?, scrapbook) -%>
 
         <div class="container scrapbook__instructions">
           <h3>Your scrapbook is empty!</h3>
