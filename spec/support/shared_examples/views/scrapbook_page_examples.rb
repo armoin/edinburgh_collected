@@ -22,10 +22,6 @@ RSpec.shared_examples 'a scrapbook page' do
         render
       end
 
-      it "has a back button to the current scrapbook index page" do
-        expect(rendered).to have_link('Back', href: scrapbook_index_path)
-      end
-
       it "does not have an edit link" do
         expect(rendered).not_to have_link('Edit')
       end
@@ -50,10 +46,6 @@ RSpec.shared_examples 'a scrapbook page' do
       context "when scrapbook doesn't belong to the user" do
         let(:can_modify) { false }
 
-        it "has a back button to the current scrapbook index page" do
-          expect(rendered).to have_link('Back', href: scrapbook_index_path)
-        end
-
         it "does not have an edit link" do
           expect(rendered).not_to have_link('Edit', href: edit_my_scrapbook_path(scrapbook))
         end
@@ -69,10 +61,6 @@ RSpec.shared_examples 'a scrapbook page' do
 
       context "when scrapbook belongs to the user" do
         let(:can_modify) { true }
-
-        it "has a back button to the current scrapbook index page" do
-          expect(rendered).to have_link('Back', href: scrapbook_index_path)
-        end
 
         it "has an edit link" do
           expect(rendered).to have_link('Edit', href: edit_my_scrapbook_path(scrapbook))
