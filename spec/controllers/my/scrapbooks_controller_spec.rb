@@ -162,8 +162,8 @@ describe My::ScrapbooksController do
           expect(assigns[:memories]).to eql(paginated_memories)
         end
 
-        it "renders the scrapbook show page" do
-          expect(response).to render_template('scrapbooks/show')
+        it "renders the show page" do
+          expect(response).to render_template('my/scrapbooks/show')
         end
 
         it 'has a 200 status' do

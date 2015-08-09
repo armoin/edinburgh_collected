@@ -11,7 +11,6 @@ class My::ScrapbooksController < My::AuthenticatedUserController
 
   def show
     @memories = Kaminari.paginate_array(scrapbook_memories).page(params[:page])
-    render 'scrapbooks/show'
   end
 
   # TODO: this is a terrible idea and should never have happened. It's entirely my fault and I'm very sorry.
