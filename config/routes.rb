@@ -102,7 +102,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:new, :create] do
     resources :memories,   only: [:index, :show], module: 'users'
-    resources :scrapbooks, only: [:index], controller: 'users/scrapbooks', action: 'index'
+    resources :scrapbooks, only: [:index, :show], module: 'users'
     member do
       get :activate
       get 'report' => 'report/users#edit'
