@@ -19,6 +19,7 @@ describe 'search/scrapbooks/index.html.erb' do
 
   before :each do
     allow(view).to receive(:current_user).and_return(current_user)
+    allow(view).to receive(:params).and_return({query: query})
 
     assign(:results, results)
 
@@ -108,8 +109,17 @@ describe 'search/scrapbooks/index.html.erb' do
     it_behaves_like 'paginated content'
     it_behaves_like 'a scrapbook index'
 
-    let(:moderatable) { scrapbooks.first }
-    it_behaves_like 'non state labelled content'
+    describe 'an individual scrapbook' do
+      let(:scrapbook)   { scrapbooks.first }
+      let(:moderatable) { scrapbook }
+
+      it 'links to the search scrapbooks show page' do
+        # puts rendered
+        expect(rendered).to have_css("a.scrapbook.thumb[href=\"/search/scrapbooks/#{scrapbook.id}?#{{query: query}.to_param}\"]")
+      end
+
+      it_behaves_like 'non state labelled content'
+    end
   end
 end
 

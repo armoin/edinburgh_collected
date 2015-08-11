@@ -91,5 +91,76 @@ describe Search::ScrapbooksController do
       end
     end
   end
+
+  describe 'GET show' do
+    let(:scrapbook)          { Fabricate.build(:scrapbook, id: 123) }
+    let(:query)              { 'test string' }
+    let(:visible_scrapbooks) { double('visible scrapbooks') }
+    let(:find_result)        { scrapbook }
+    let(:memories)           { double('scrapbook memories') }
+    let(:paginated_memories) { double('paginated memories') }
+
+    before :each do
+      allow(Scrapbook).to receive(:publicly_visible).and_return(visible_scrapbooks)
+      allow(visible_scrapbooks).to receive(:find) { find_result }
+      allow(scrapbook).to receive(:approved_ordered_memories).and_return(memories)
+      allow(Kaminari).to receive(:paginate_array).and_return(paginated_memories)
+      allow(paginated_memories).to receive(:page).and_return(paginated_memories)
+      get :show, id: scrapbook.id, query: query
+    end
+
+    it 'does not store the scrapbook index path' do
+      expect(session[:current_scrapbook_index_path]).to be_nil
+    end
+
+    it 'sets the current memory index path' do
+      expect(session[:current_memory_index_path]).to eql(search_scrapbook_path(scrapbook.id, query: query))
+    end
+
+    it 'fetches the requested scrapbook' do
+      expect(visible_scrapbooks).to have_received(:find).with(scrapbook.to_param)
+    end
+
+    context "when the scrapbook is found" do
+      let(:find_result) { scrapbook }
+
+      it "assigns the scrapbook" do
+        expect(assigns[:scrapbook]).to eql(scrapbook)
+      end
+
+      it "fetches the scrapbook's approved memories in the correct order" do
+        expect(scrapbook).to have_received(:approved_ordered_memories)
+      end
+
+      it "paginates the memories" do
+        expect(Kaminari).to have_received(:paginate_array).with(memories)
+        expect(paginated_memories).to have_received(:page)
+      end
+
+      it "assigns the paginated memories" do
+        expect(assigns[:memories]).to eql(paginated_memories)
+      end
+
+      it 'renders the show page' do
+        expect(response).to render_template(:show)
+      end
+
+      it 'has a 200 status' do
+        expect(response.status).to eql(200)
+      end
+    end
+
+    context "when the scrapbook is not found" do
+      let(:find_result) { fail ActiveRecord::RecordNotFound }
+
+      it 'renders the Not Found page' do
+        expect(response).to render_template('exceptions/not_found')
+      end
+
+      it 'has a 404 status' do
+        expect(response.status).to eql(404)
+      end
+    end
+  end
 end
 

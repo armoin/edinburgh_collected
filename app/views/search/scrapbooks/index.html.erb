@@ -13,7 +13,7 @@
     </header>
 
     <% if @results.scrapbook_count > 0 -%>
-      <%= render partial: 'scrapbooks/index', locals: {presenter: @presenter, show_path: scrapbooks_path} %>
+      <%= render partial: 'scrapbooks/index', locals: {presenter: @presenter, show_path: search_scrapbooks_path(query: params[:query])} %>
     <% else -%>
       <div class="no-results">
         <%= image_tag 'empty-scrapbook.png' %>
