@@ -50,7 +50,7 @@ RSpec.shared_examples 'a memory page' do
       end
 
       it "does not show the 'Add to scrapbook' button" do
-        expect(rendered).not_to have_link('Add to scrapbook +')
+        expect(rendered).not_to have_link('Scrapbook')
       end
     end
 
@@ -75,7 +75,7 @@ RSpec.shared_examples 'a memory page' do
         end
 
         it "shows the 'Add to scrapbook' button" do
-          expect(rendered).to have_link('Add to scrapbook +')
+          expect(rendered).to have_link('Scrapbook')
         end
       end
 
@@ -91,7 +91,7 @@ RSpec.shared_examples 'a memory page' do
         end
 
         it "shows the 'Add to scrapbook' button" do
-          expect(rendered).to have_link('Add to scrapbook +')
+          expect(rendered).to have_link('Scrapbook')
         end
       end
     end

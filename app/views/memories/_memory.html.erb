@@ -7,20 +7,30 @@
 
     <div class="actions clearfix">
       <div class="viewingInfo">
+        <%= link_to 'Back', back_path, class: "button back full-width-mobile" %>
+      </div>
+
+      <div class="user-actions float-right">
         <% if current_user.try(:can_modify?, @memory) %>
-          <%= link_to 'Back', back_path, class: "button back" %>
+
+          <%= link_to "Edit", edit_my_memory_path(@memory.id), class: "button navy edit" %>
 
           <%= link_to "Delete", my_memory_path(@memory.id), class: "button delete" , method: :delete, data: {confirm: 'Are you sure?'} %>
 
-          <%= link_to "Edit", edit_my_memory_path(@memory.id), class: "button navy edit" %>
-        <% else -%>
-          <%= link_to 'Back', back_path, class: "button back full-width-mobile" %>
+          <%= link_to '#', class: "button scrapbooks", data: {memory_id: @memory.id, memory_title: @memory.title, toggle: 'modal', target: '#add-to-scrapbook-modal'} do %>
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            Scrapbook
+          <% end %>
+
+        <% elsif logged_in? -%>
+
+          <%= link_to '#', class: "button scrapbooks full-width-mobile", data: {memory_id: @memory.id, memory_title: @memory.title, toggle: 'modal', target: '#add-to-scrapbook-modal'} do %>
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+            Scrapbook
+          <% end %>
+
         <% end -%>
       </div>
-
-      <% if logged_in? -%>
-        <%= link_to "Add to scrapbook +", '#', class: "button scrapbooks float-right", data: {memory_id: @memory.id, memory_title: @memory.title, toggle: 'modal', target: '#add-to-scrapbook-modal'} %>
-      <% end -%>
     </div>
   </header>
 
