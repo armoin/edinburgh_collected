@@ -9,13 +9,11 @@ describe "scrapbooks/show.html.erb" do
       assign(:scrapbook, scrapbook)
       assign(:memories, memories)
 
-      allow(view).to receive(:current_scrapbook_index_path).and_return(scrapbooks_path)
-
       render
     end
 
-    it "has a back button to the current scrapbook index page" do
-      expect(rendered).to have_link('Back', href: scrapbooks_path)
+    it "has a button to the scrapbook index page" do
+      expect(rendered).to have_link('All scrapbooks', href: scrapbooks_path)
     end
   end
 
