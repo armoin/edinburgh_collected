@@ -25,7 +25,7 @@ describe 'my/scrapbooks/edit.html.erb' do
     end
 
     it "lets the user go back to the scrapbook page" do
-      expect(rendered).to have_link('Back', href: my_scrapbook_path(scrapbook))
+      expect(rendered).to have_link('Cancel', href: my_scrapbook_path(scrapbook))
     end
 
     it "lets the user save the edit" do
