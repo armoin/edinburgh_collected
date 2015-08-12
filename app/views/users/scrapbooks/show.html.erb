@@ -1,3 +1,7 @@
 <div id="scrapbook" class="container">
-  <%= render 'scrapbooks/scrapbook', back_path: user_scrapbooks_path(@requested_user), scrapbook: @scrapbook, memories: @memories %>
+  <%= render 'scrapbooks/scrapbook',
+        scrapbook: @scrapbook,
+        memories: @memories,
+        list_button_name: 'More scrapbooks from this user',
+        list_button_path: user_scrapbooks_path(@requested_user) %>
 </div>

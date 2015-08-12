@@ -8,8 +8,8 @@ describe "users/scrapbooks/show.html.erb" do
   end
 
   describe "back button" do
-    let(:scrapbook)      { Fabricate.build(:scrapbook, id: 456, user: requested_user) }
-    let(:memories)       { double(any?: false) }
+    let(:scrapbook) { Fabricate.build(:scrapbook, id: 456, user: requested_user) }
+    let(:memories)  { double(any?: false) }
 
     before :each do
       assign(:scrapbook, scrapbook)
@@ -18,8 +18,8 @@ describe "users/scrapbooks/show.html.erb" do
       render
     end
 
-    it "has a back button to the users scrapbook index page" do
-      expect(rendered).to have_link('Back', href: user_scrapbooks_path(requested_user))
+    it "has a button to the users scrapbook index page" do
+      expect(rendered).to have_link('More scrapbooks from this user', href: user_scrapbooks_path(requested_user))
     end
   end
 
