@@ -147,7 +147,7 @@ describe Search::MemoriesController do
       allow(controller).to receive(:current_user).and_return(user)
       allow(user).to receive(:can_modify?).and_return(can_modify)
 
-      get :show, id: '123', format: format, query: 'test query', page: '2'
+      get :show, id: '123', format: format, query: 'test query'
     end
 
     it 'does not set the current memory index path' do
@@ -172,10 +172,6 @@ describe Search::MemoriesController do
           expect(assigns[:query]).to eql('test query')
         end
 
-        it 'assigns the current page number' do
-          expect(assigns[:page]).to eql('2')
-        end
-
         it_behaves_like 'a found memory'
       end
 
@@ -185,10 +181,6 @@ describe Search::MemoriesController do
         context 'when there is no current user' do
           it 'does not assign the current query string' do
             expect(assigns[:query]).to be_nil
-          end
-
-          it 'does not assign the current page number' do
-            expect(assigns[:page]).to be_nil
           end
 
           it_behaves_like 'a not found memory'
@@ -202,10 +194,6 @@ describe Search::MemoriesController do
               expect(assigns[:query]).to be_nil
             end
 
-            it 'does not assign the current page number' do
-              expect(assigns[:page]).to be_nil
-            end
-
             it_behaves_like 'a not found memory'
           end
 
@@ -214,10 +202,6 @@ describe Search::MemoriesController do
 
             it 'assigns the current query string' do
               expect(assigns[:query]).to eql('test query')
-            end
-
-            it 'assigns the current page number' do
-              expect(assigns[:page]).to eql('2')
             end
 
             it_behaves_like 'a found memory'

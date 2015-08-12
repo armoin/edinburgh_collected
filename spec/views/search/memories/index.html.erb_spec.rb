@@ -3,7 +3,6 @@ require 'rails_helper'
 describe 'search/memories/index.html.erb' do
   let(:current_user)    { nil }
   let(:query)           { 'test search' }
-  let(:page)            { '2' }
   let(:paged_memories)  { [] }
   let(:memory_count)    { 0 }
   let(:scrapbook_count) { 0 }
@@ -14,7 +13,7 @@ describe 'search/memories/index.html.erb' do
 
   before :each do
     allow(view).to receive(:current_user).and_return(current_user)
-    allow(view).to receive(:params).and_return(query: query, page: page)
+    allow(view).to receive(:params).and_return(query: query)
     assign(:results, results)
     assign(:memories, paged_memories)
     render
@@ -102,7 +101,7 @@ describe 'search/memories/index.html.erb' do
     let(:memory_count) { 3 }
 
     let(:base_memory_path) { :search_memory_path }
-    let(:path_attrs)       { {query: query, page: page} }
+    let(:path_attrs)       { {query: query} }
     it_behaves_like 'a memory index'
 
     it_behaves_like 'paginated content'

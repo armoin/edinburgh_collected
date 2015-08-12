@@ -12,7 +12,6 @@ class Search::MemoriesController < ApplicationController
     raise ActiveRecord::RecordNotFound unless viewable?(@memory)
 
     @query = params[:query]
-    @page  = params[:page]
   end
 
   private
