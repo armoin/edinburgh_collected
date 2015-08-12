@@ -1,3 +1,7 @@
 <div id="scrapbook" class="container">
-  <%= render 'scrapbooks/scrapbook', back_path: search_scrapbooks_path(query: params[:query]), scrapbook: @scrapbook, memories: @memories %>
+  <%= render 'scrapbooks/scrapbook',
+        scrapbook: @scrapbook,
+        memories: @memories,
+        list_button_name: 'Search results',
+        list_button_path: search_scrapbooks_path(query: params[:query]) %>
 </div>

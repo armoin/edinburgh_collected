@@ -15,8 +15,8 @@ describe "search/scrapbooks/show.html.erb" do
       render
     end
 
-    it "has a back button to the current scrapbook index page" do
-      expect(rendered).to have_link('Back', href: search_scrapbooks_path(query: query))
+    it "has a button to the search results page" do
+      expect(rendered).to have_link('Search results', href: search_scrapbooks_path(query: query))
     end
   end
 
