@@ -30,8 +30,8 @@ RSpec.shared_examples 'a scrapbook page' do
         expect(rendered).not_to have_link('Delete')
       end
 
-      it "does not have an 'Add memories' link" do
-        expect(rendered).not_to have_link('Add memories')
+      it "does not have an 'Add more memories' link" do
+        expect(rendered).not_to have_link('Add more memories')
       end
     end
 
@@ -54,8 +54,8 @@ RSpec.shared_examples 'a scrapbook page' do
           expect(rendered).not_to have_link('Delete', href: my_scrapbook_path(scrapbook))
         end
 
-        it "does not have an 'Add memories' link" do
-          expect(rendered).not_to have_link('Add memories')
+        it "does not have an 'Add more memories' link" do
+          expect(rendered).not_to have_link('Add more memories')
         end
       end
 
@@ -73,16 +73,16 @@ RSpec.shared_examples 'a scrapbook page' do
         context "and the scrapbook has no memories" do
           let(:memories) { [] }
 
-          it "does not have an 'Add memories' link" do
-            expect(rendered).not_to have_link('Add memories')
+          it "has an 'Add more memories' link but it is hidden" do
+            expect(rendered).to have_css('.no-memories a', text: 'Add more memories')
           end
         end
 
         context "and the scrapbook has memories" do
           let(:memories) { [Fabricate.build(:memory, id: 123)] }
 
-          it "has an 'Add memories' link" do
-            expect(rendered).to have_link('Add memories')
+          it "has an 'Add more memories' link" do
+            expect(rendered).to have_link('Add more memories')
           end
         end
       end
