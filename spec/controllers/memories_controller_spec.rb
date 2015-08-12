@@ -108,11 +108,7 @@ describe MemoriesController do
         let(:visible) { true }
 
         before :each do
-          get :show, id: '123', format: format, page: '2'
-        end
-
-        it 'assigns the given page number' do
-          expect(assigns[:page]).to eq('2')
+          get :show, id: '123', format: format
         end
 
         it_behaves_like 'a found memory'
@@ -123,11 +119,7 @@ describe MemoriesController do
 
         context 'when there is no current user' do
           before :each do
-            get :show, id: '123', format: format, page: '2'
-          end
-
-          it 'does not assign the given page number' do
-            expect(assigns[:page]).to be_nil
+            get :show, id: '123', format: format
           end
 
           it_behaves_like 'a not found memory'
@@ -137,25 +129,17 @@ describe MemoriesController do
           before :each do
             allow(controller).to receive(:current_user).and_return(user)
             allow(user).to receive(:can_modify?).and_return(can_modify)
-            get :show, id: '123', format: format, page: '2'
+            get :show, id: '123', format: format
           end
 
           context 'cannot modify the memory' do
             let(:can_modify) { false }
-
-            it 'does not assign the given page number' do
-              expect(assigns[:page]).to be_nil
-            end
 
             it_behaves_like 'a not found memory'
           end
 
           context 'can modify the memory' do
             let(:can_modify) { true }
-
-            it 'assigns the given page number' do
-              expect(assigns[:page]).to eq('2')
-            end
 
             it_behaves_like 'a found memory'
           end

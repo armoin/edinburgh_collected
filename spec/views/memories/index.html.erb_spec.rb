@@ -4,11 +4,9 @@ describe 'memories/index.html.erb' do
   let(:current_user)   { nil }
   let(:memories)       { Array.new(3) {|i| Fabricate.build(:memory, id: i+1) } }
   let(:paged_memories) { Kaminari.paginate_array(memories).page(1) }
-  let(:page)           { '2' }
 
   before :each do
     allow(view).to receive(:current_user).and_return(current_user)
-    allow(view).to receive(:params).and_return(page: page)
     assign(:memories, paged_memories)
     render
   end
@@ -23,7 +21,7 @@ describe 'memories/index.html.erb' do
 
 
   let(:base_memory_path) { :memory_path }
-  let(:path_attrs)       { {page: page} }
+  let(:path_attrs)       { {} }
   it_behaves_like 'a memory index'
 
   it_behaves_like 'paginated content'

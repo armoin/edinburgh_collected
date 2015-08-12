@@ -1,13 +1,16 @@
 <% back_path ||= current_memory_index_path %>
 
+<% list_button_name ||= 'Back' %>
+<% list_button_path ||= back_path %>
+
 <div class="memory full">
-  <header  id="contentHeader" class="clearfix">
+  <header id="contentHeader" class="clearfix">
     <h1 class="title"><%= @memory.title %></h1>
     <h2 class="subtitle"><%= @memory.date_string %></h2>
 
     <div class="actions clearfix">
       <div class="viewingInfo">
-        <%= link_to 'Back', back_path, class: "button back full-width-mobile" %>
+        <%= link_to list_button_name, list_button_path, class: "button back full-width-mobile" %>
       </div>
 
       <div class="user-actions float-right">

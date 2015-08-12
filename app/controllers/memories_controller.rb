@@ -12,8 +12,6 @@ class MemoriesController < ApplicationController
     @memory = Memory.find(params[:id])
     raise ActiveRecord::RecordNotFound unless viewable?(@memory)
 
-    @page = params[:page]
-
     respond_with @memory
   end
 
