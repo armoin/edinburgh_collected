@@ -12,8 +12,8 @@ describe "my/scrapbooks/show.html.erb" do
       render
     end
 
-    it "has a back button to the my scrapbook index page" do
-      expect(rendered).to have_link('Back', href: my_scrapbooks_path)
+    it "has a button to the my scrapbook index page" do
+      expect(rendered).to have_link('All my scrapbooks', href: my_scrapbooks_path)
     end
   end
 
