@@ -102,15 +102,11 @@ describe My::MemoriesController do
       context "when the current user can modify the memory" do
         before :each do
           allow(@user).to receive(:can_modify?).and_return(true)
-          get :show, id: 123, page: '2'
+          get :show, id: 123
         end
 
         it "assigns fetched memory" do
           expect(assigns(:memory)).to eql(memory)
-        end
-
-        it "assigns the page number" do
-          expect(assigns(:page)).to eql('2')
         end
 
         it "renders the show page" do
@@ -122,10 +118,6 @@ describe My::MemoriesController do
         before :each do
           allow(@user).to receive(:can_modify?).and_return(false)
           get :show, id: 123
-        end
-
-        it "does not assign the page number" do
-          expect(assigns(:page)).to be_nil
         end
 
         it "renders the not found page" do

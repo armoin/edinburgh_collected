@@ -12,8 +12,8 @@ describe "my/memories/show.html.erb" do
       render
     end
 
-    it "has a back button to my memories including page number" do
-      expect(rendered).to have_link('Back', href: my_memories_path(page: page))
+    it 'has a button to "All my memories"' do
+      expect(rendered).to have_link('All my memories', href: my_memories_path)
     end
   end
 
