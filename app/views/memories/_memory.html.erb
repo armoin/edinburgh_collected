@@ -5,7 +5,7 @@
 
     <div class="actions clearfix">
       <div class="viewingInfo">
-        <%= link_to list_button_name, list_button_path, class: "button back full-width-mobile" %>
+        <%= render 'shared/buttons/list', list_button_name: list_button_name, list_button_path: list_button_path %>
       </div>
 
       <div class="user-actions float-right">
