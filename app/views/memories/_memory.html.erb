@@ -11,21 +11,14 @@
       <div class="user-actions float-right">
         <% if current_user.try(:can_modify?, @memory) %>
 
-          <%= link_to "Edit", edit_my_memory_path(@memory.id), class: "button navy edit" %>
+          <%= render 'shared/buttons/edit', path: edit_my_memory_path(@memory.id) %>
+          <%= render 'shared/buttons/delete', path: my_memory_path(@memory.id) %>
 
-          <%= link_to "Delete", my_memory_path(@memory.id), class: "button delete" , method: :delete, data: {confirm: 'Are you sure?'} %>
+          <%= render 'shared/buttons/add_to_scrapbook', memory: @memory %>
 
-          <%= link_to '#', class: "button scrapbooks", data: {memory_id: @memory.id, memory_title: @memory.title, toggle: 'modal', target: '#add-to-scrapbook-modal'} do %>
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            Scrapbook
-          <% end %>
+        <% elsif logged_in? %>
 
-        <% elsif logged_in? -%>
-
-          <%= link_to '#', class: "button scrapbooks full-width-mobile", data: {memory_id: @memory.id, memory_title: @memory.title, toggle: 'modal', target: '#add-to-scrapbook-modal'} do %>
-            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-            Scrapbook
-          <% end %>
+          <%= render 'shared/buttons/add_to_scrapbook', memory: @memory, classes: 'full-width-mobile' %>
 
         <% end -%>
       </div>

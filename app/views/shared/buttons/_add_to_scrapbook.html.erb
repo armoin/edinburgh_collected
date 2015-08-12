@@ -1,0 +1,6 @@
+<% classes = ["button scrapbooks", classes].join(' ') %>
+
+<%= link_to '#', class: classes, data: {memory_id: memory.id, memory_title: memory.title, toggle: 'modal', target: '#add-to-scrapbook-modal'} do %>
+  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  Scrapbook
+<% end %>
