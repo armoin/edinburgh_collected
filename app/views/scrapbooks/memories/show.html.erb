@@ -1,3 +1,6 @@
 <div class="container">
-  <%= render 'memories/memory', memory: @memory, back_path: scrapbook_path(@scrapbook, page: @page) %>
+  <%= render 'memories/memory',
+        memory: @memory,
+        list_button_name: 'Back to scrapbook',
+        list_button_path: scrapbook_path(@scrapbook) %>
 </div>

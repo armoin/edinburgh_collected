@@ -12,12 +12,11 @@ describe "scrapbooks/memories/show.html.erb" do
 
     before :each do
       assign(:memory, memory)
-      assign(:page, '2')
       render
     end
 
-    it "has a back button to the scrapbook page including the page number" do
-      expect(rendered).to have_link('Back', href: scrapbook_path(scrapbook, page: '2'))
+    it "has a button to the scrapbook page" do
+      expect(rendered).to have_link('Back to scrapbook', href: scrapbook_path(scrapbook))
     end
   end
 
