@@ -11,7 +11,6 @@ class Users::MemoriesController < ApplicationController
 
   def show
     @memory = memories.find(params[:id])
-    @page = params[:page]
   end
 
   private

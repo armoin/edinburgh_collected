@@ -1,3 +1,6 @@
 <div class="container">
-  <%= render 'memories/memory', memory: @memory, back_path: user_memories_path(@memory.user, page: @page) %>
+  <%= render 'memories/memory',
+              memory: @memory,
+              list_button_name: 'More memories from this user',
+              list_button_path: user_memories_path(@memory.user) %>
 </div>

@@ -12,11 +12,8 @@ describe 'users/memories/index.html.erb' do
 
   let(:links) { [] }
 
-  let(:page)  { '2' }
-
   before :each do
     allow(view).to receive(:current_user).and_return(user)
-    allow(view).to receive(:params).and_return(page: page)
 
     requested_user.links << links
 
@@ -157,7 +154,7 @@ describe 'users/memories/index.html.erb' do
       let(:memories_count)   { 3 }
 
       let(:base_memory_path) { :user_memory_path }
-      let(:path_attrs)       { { user_id: requested_user.id, page: page } }
+      let(:path_attrs)       { { user_id: requested_user.id } }
       it_behaves_like 'a memory index'
 
       it_behaves_like 'paginated content'
