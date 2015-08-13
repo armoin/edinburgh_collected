@@ -141,7 +141,7 @@ describe Search::MemoriesController do
     let(:can_modify)  { false }
 
     before :each do
-      allow(Memory).to receive(:find) { find_result }
+      allow(memory_results).to receive(:find) { find_result }
 
       allow(memory).to receive(:publicly_visible?).and_return(visible)
       allow(controller).to receive(:current_user).and_return(user)
@@ -155,7 +155,7 @@ describe Search::MemoriesController do
     end
 
     it "fetches the requested memory" do
-      expect(Memory).to have_received(:find).with('123')
+      expect(memory_results).to have_received(:find).with('123')
     end
 
     context "when record is found" do

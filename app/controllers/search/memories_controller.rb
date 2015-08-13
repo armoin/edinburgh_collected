@@ -3,18 +3,25 @@ class Search::MemoriesController < ApplicationController
 
   def index
     redirect_to memories_path if params[:query].blank?
-    @results = SearchResults.new(params[:query])
-    @memories = @results.memory_results.page(params[:page])
+    @memories = memories.page(params[:page])
   end
 
   def show
-    @memory = Memory.find(params[:id])
+    @memory = memories.find(params[:id])
     raise ActiveRecord::RecordNotFound unless viewable?(@memory)
 
     @query = params[:query]
   end
 
   private
+
+  def search_results
+    @results ||= SearchResults.new(params[:query])
+  end
+
+  def memories
+    search_results.memory_results
+  end
 
   def viewable?(memory)
     memory.publicly_visible? || current_user.try(:can_modify?, memory)
