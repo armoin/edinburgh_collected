@@ -10,34 +10,36 @@
   <div id="mail_popup"></div>
 <% end %>
 
-<script>
- /**
-  * Digital Postcards module
-  */
+<% content_for :script_tags do %>
+  <script>
+   /**
+    * Digital Postcards module
+    */
 
-  $(document).ready(function () {
+    $(document).ready(function () {
 
-    // initialise the postcard module
-    $('#mail_popup').postcard({
-      api_post_url: "//postcards.cechosting.org/api/1/postcard",
-      tmpl_url: "//postcards.cechosting.org/js/postcard.tmpl",
-      // placeholder poscard details
-      title: $('.memory .title').text().substring(0, 100),
-      short_desc: $('.memory .subtitle').text().substring(0, 100),
-      long_desc: $('#memory-short-description').text(),
-      image: $('#image img').attr("src"),
-      image_attribution: $('#memory-attribution').text(),
-      stamp: "//postcards.cechosting.org/img/postage-stamp.png",
-      redirect_timeout: false
+      // initialise the postcard module
+      $('#mail_popup').postcard({
+        api_post_url: "//postcards.cechosting.org/api/1/postcard",
+        tmpl_url: "//postcards.cechosting.org/js/postcard.tmpl",
+        // placeholder poscard details
+        title: $('.memory .title').text().substring(0, 100),
+        short_desc: $('.memory .subtitle').text().substring(0, 100),
+        long_desc: $('#memory-short-description').text(),
+        image: $('#image img').attr("src"),
+        image_attribution: $('#memory-attribution').text(),
+        stamp: "//postcards.cechosting.org/img/postage-stamp.png",
+        redirect_timeout: false
+      });
+
+      $('#postcard-link').on('click', function (e) {
+        e.preventDefault();
+        $('#mail_popup').postcard('open');
+      });
     });
+  </script>
+<% end %>
 
-    $('#postcard-link').on('click', function (e) {
-      e.preventDefault();
-      $('#mail_popup').postcard('open');
-    });
-  });
-</script>
-
-<%= link_to "Send postcard", "#", class: "button scrapbooks float-right", id: 'postcard-link' %>
+<%= link_to "Send postcard", "#", class: "button scrapbooks float-right hide-ie9 hide-mobile", id: 'postcard-link' %>
 
 
