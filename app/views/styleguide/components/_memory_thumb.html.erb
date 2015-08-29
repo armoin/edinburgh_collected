@@ -1,0 +1,39 @@
+<%#
+  1. Does the id memory-123 on the buttonsWrapper need to exist?
+%>
+
+<% memory = Fabricate.build(:memory, id: 123) %>
+
+<div class="memory thumb masonry">
+  <div class="padding">
+
+    <!-- state label -->
+
+    <div class="imageWrapper">
+
+      <div class="hoverButtons">
+        <div id="memory-<%= memory.id %>" class="buttonsWrapper vCenterAlign">
+          <%= link_to '#', class: 'addScrapbook button scrapbooks', data: scrapbook_modal_data(logged_in?, memory),
+                            role: 'button', tabindex: 0 do %>
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Scrapbook
+          <% end %>
+
+          <%= link_to memory_path(memory), class: "view button memories" do %>
+            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> View
+          <% end %>
+        </div>
+      </div><!-- hoverButtons -->
+
+      <%= image_tag 'styleguide/memory-thumb-example_250px.png', alt: "Knife-grinder's cart, Bruntsfield" %>
+
+    </div><!-- imageWrapper -->
+
+    <div class="detail">
+      <%= link_to memory_path(memory), data: {id: memory.id}, title: 'View details', role: 'button' %>
+        <h3 class="title"><%= memory.title %></h3>
+        <p><%= truncate(memory.description, length: 50) %></p>
+      <% end %>
+    </div><!-- .detail -->
+
+  </div><!-- padding -->
+</div><!-- memory thumb -->
