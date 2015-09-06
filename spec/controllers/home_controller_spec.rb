@@ -13,6 +13,10 @@ describe HomeController do
     expect(session[:current_scrapbook_index_path]).to eql(root_path)
   end
 
+  it 'assigns a HomePagePresenter' do
+    expect(assigns[:home_page_presenter]).to be_a(HomePagePresenter)
+  end
+
   it 'renders the home page' do
     expect(response).to render_template(:index)
   end
