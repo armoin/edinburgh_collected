@@ -11,12 +11,19 @@
     </div>
 
     <figure class="tint">
-      <%= image_tag ENV['HOME_HERO_IMG'] %>
+      <%= image_tag @home_page_presenter.hero_image_path %>
     </figure>
 
     <div id="imageInfo">
-      <p>Leith Academy sponsored walk in Queen's Park</p>
-      <p><small><strong>1984</strong> added by <a href="https://edinburghcollected.org/users/57/memories">TheLibrarian</a></small></p>
+      <p><%= @home_page_presenter.featured_memory.title %></p>
+      <p>
+        <small>
+          <strong><%= @home_page_presenter.featured_memory.year %></strong>
+          added by
+          <%= link_to @home_page_presenter.featured_memory.user.name,
+                      @home_page_presenter.user_memories_url %>
+        </small>
+      </p>
     </div>
   </div>
 
@@ -30,32 +37,31 @@
     <div id="images" class="clearfix">
       <div class="spinner"></div>
       <div class="inner clearfix initial">
-        <a class="item" href="//edinburghcollected.org/memories/385" title="View memory details">
-          <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/385/thumb_2a85f362-e418-4bc0-967c-3b96cbb0886c.png", alt="Focus on Guiding Event, 1977" />
-        </a>
+        <% @home_page_presenter.featured_scrapbook_memories.each do |sbm| %>
 
-        <a class="item" href="//edinburghcollected.org/memories/379" title="View memory details">
-          <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/379/0500426f-119a-4356-9848-e4af0e3e86d5.png", alt="The Music Hall at the Assembly Rooms" />
-        </a>
+          <%= link_to @home_page_presenter.memory_url(sbm.id), class: "item", title: "View memory details" do %>
+            <%= image_tag sbm.source_url(:thumb), alt: sbm.title %>
+          <% end %>
 
-        <a class="item" href="//edinburghcollected.org/memories/384" title="View memory details">
-          <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/384/bdbbe0c5-afd8-4c90-8c08-6a58c9cecb00.png", alt="Dinner dances at the Assembly Rooms" />
-        </a>
-
-        <a class="item" href="//edinburghcollected.org/memories/386" title="View memory details">
-          <img src="https://4019eac0904bfa4d1cb5-9a025cf9f86362160bae9a5684264911.ssl.cf3.rackcdn.com//uploads/memory/source/386/8dbd963e-1c6a-44b7-918e-4eac2f5bb694.JPG", alt="May I have this dance?!" />
-        </a>
+        <% end %>
       </div>
     </div>
 
     <footer class="container">
       <div class="col-md-8">
-        <strong>Assembly Rooms Memories</strong><br>
-        A scrapbook by <em><a href="https://www.edinburghcollected.org/users/92/scrapbooks">Assembly Rooms Edinburgh</a></em>
+        <strong><%= @home_page_presenter.featured_scrapbook.title %></strong>
+        <br>
+        A scrapbook by
+        <em>
+          <%= link_to @home_page_presenter.featured_scrapbook.user.name,
+                      @home_page_presenter.user_scrapbooks_url %>
+        </em>
       </div>
 
       <div class="col-md-4">
-        <a href="https://edinburghcollected.org/scrapbooks/<%= ENV['HOME_FEATURED_SCRAPBOOK_ID'] %>" class="button teal view-scrapbook">View scrapbook</a>
+        <%= link_to 'View scrapbook',
+                    @home_page_presenter.scrapbook_url,
+                    class: "button teal view-scrapbook" %>
       </div>
     </footer>
   </div>
