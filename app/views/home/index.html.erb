@@ -20,7 +20,7 @@
         <small>
           <strong><%= @home_page_presenter.featured_memory.year %></strong>
           added by
-          <%= link_to @home_page_presenter.featured_memory.user.name,
+          <%= link_to @home_page_presenter.featured_memory.user.screen_name,
                       @home_page_presenter.user_memories_url %>
         </small>
       </p>
@@ -53,7 +53,7 @@
         <br>
         A scrapbook by
         <em>
-          <%= link_to @home_page_presenter.featured_scrapbook.user.name,
+          <%= link_to @home_page_presenter.featured_scrapbook.user.screen_name,
                       @home_page_presenter.user_scrapbooks_url %>
         </em>
       </div>

@@ -8,7 +8,7 @@ HOMEPAGE_DATA = OpenStruct.new(
     year: 1955,
     user: {
       id: 132,
-      name: 'Dean Village Memories'
+      screen_name: 'Dean Village Memories'
     }
   },
   featured_scrapbook_data: {
@@ -16,7 +16,7 @@ HOMEPAGE_DATA = OpenStruct.new(
     title: 'Venchie Playgrounds',
     user: {
       id: 7,
-      name: 'From There To Here'
+      screen_name: 'From There To Here'
     },
     memory_ids: [503, 500, 505, 504],
     memories: [
