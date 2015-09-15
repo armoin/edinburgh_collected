@@ -1,19 +1,23 @@
 #searchwrapper
   height: 55px
 
-.masonry-grid .masonry .bottom-row
-  .count
-    width: 23% !important
-    padding: 23% 0 0 !important
-    font-size: 1em !important
+.masonry-grid .masonry
+  .padding
+    max-width: 400px
 
-  .mini
-    width: 23% !important
-    &:nth-child(4)
-      display: inline-block !important
+  .bottom-row
+    .count
+      width: 23% !important
+      padding: 23% 0 0 !important
+      font-size: 1em !important
 
-    &.empty
-      padding: 11% 0
+    .mini
+      width: 23% !important
+      &:nth-child(4)
+        display: inline-block !important
+
+      &.empty
+        padding: 11% 0
 
 #grid
   position: relative
