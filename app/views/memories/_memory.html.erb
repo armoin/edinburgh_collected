@@ -9,7 +9,7 @@
       </div>
 
       <div class="user-actions float-right">
-        <% if current_user.try(:can_modify?, @memory) %>
+        <% if current_user.try(:can_modify?, @memory) && modifiable %>
 
           <%= render 'shared/buttons/edit', path: edit_my_memory_path(@memory.id) %>
           <%= render 'shared/buttons/delete', path: my_memory_path(@memory.id) %>

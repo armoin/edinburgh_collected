@@ -1,10 +1,6 @@
 RSpec.shared_examples 'a moderated show page' do
   it_behaves_like 'a page with a state bar'
 
-  it 'has a back button to the moderation list page' do
-    expect(rendered).to have_link('Back to moderation', href: list_path)
-  end
-
   context 'when the current state is "unmoderated"' do
     let(:state) { 'unmoderated'}
 

@@ -2,5 +2,6 @@
   <%= render 'memories/memory',
               memory: @memory,
               list_button_name: 'More memories from this user',
-              list_button_path: user_memories_path(@memory.user) %>
+              list_button_path: user_memories_path(@memory.user),
+              modifiable: false %>
 </div>

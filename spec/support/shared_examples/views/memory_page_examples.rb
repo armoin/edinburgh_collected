@@ -6,15 +6,7 @@ RSpec.shared_examples 'a memory page' do
   let(:attribution)       { 'Bobby Tables' }
   let(:memory)            { Fabricate.build(:photo_memory, id: 123, attribution: attribution, area: area, location: location, tags: tags, user: owner) }
 
-  let(:edit_path)         { edit_my_memory_path(memory.id) }
-  let(:delete_path)       { my_memory_path(memory.id) }
-
-  let(:user)              { nil }
-  let(:logged_in)         { false }
-
   before :each do
-    allow(view).to receive(:logged_in?).and_return(logged_in)
-    allow(view).to receive(:current_user).and_return(user)
     assign(:memory, memory)
   end
 
@@ -32,73 +24,6 @@ RSpec.shared_examples 'a memory page' do
     end
   end
 
-  describe "action bar" do
-    context 'when the user is not logged in' do
-      let(:logged_in) { false }
-      let(:user)      { nil }
-
-      before :each do
-        render
-      end
-
-      it "does not show the edit link" do
-        expect(rendered).not_to have_link('Edit')
-      end
-
-      it "does not show the delete link" do
-        expect(rendered).not_to have_link('Delete')
-      end
-
-      it "does not show the 'Add to scrapbook' button" do
-        expect(rendered).not_to have_link('Scrapbook')
-      end
-    end
-
-    context 'when the user is logged in' do
-      let(:logged_in) { true }
-      let(:user)      { Fabricate.build(:active_user, id: 456) }
-
-      before :each do
-        allow(user).to receive(:can_modify?).and_return(can_modify)
-        render
-      end
-
-      context "and the user can modify the memory" do
-        let(:can_modify) { true }
-
-        it "has an edit link" do
-          expect(rendered).to have_link('Edit', href: edit_path)
-        end
-
-        it "has a delete link" do
-          expect(rendered).to have_link('Delete', href: delete_path)
-        end
-
-        it "shows the 'Add to scrapbook' button" do
-          expect(rendered).to have_link('Scrapbook')
-        end
-      end
-
-      context "and the user can't modify the memory" do
-        let(:can_modify) { false }
-
-        it "does not show the edit link" do
-          expect(rendered).not_to have_link('Edit', href: edit_path)
-        end
-
-        it "does not show the delete link" do
-          expect(rendered).not_to have_link('Delete', href: delete_path)
-        end
-
-        it "shows the 'Add to scrapbook' button" do
-          expect(rendered).to have_link('Scrapbook')
-        end
-      end
-    end
-
-    it_behaves_like 'a reportable page'
-  end
-
   describe "image" do
     before :each do
       render
@@ -114,22 +39,18 @@ RSpec.shared_examples 'a memory page' do
   end
 
   describe "details" do
-    before :each do
-      render
-    end
-
     describe "owner details" do
       let(:user_page_link) { user_memories_path(user_id: owner.id) }
       let(:label)          { 'Added by' }
-
-      before :each do
-        allow(view).to receive(:current_user).and_return(user)
-      end
 
       it_behaves_like 'an owner details page'
     end
 
     describe 'metadata' do
+      before :each do
+        render
+      end
+
       context 'when all details are given' do
         it 'has a description' do
           expect(rendered).to have_css('.memory p', text: "This is a test.", count: 1)
