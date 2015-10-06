@@ -335,8 +335,13 @@ describe My::MemoriesController do
       end
 
       context "when the current user can modify the memory" do
+        let(:owns)     { false }
+        let(:is_admin) { false }
+
         before :each do
           allow(@user).to receive(:can_modify?).and_return(true)
+          allow(@user).to receive(:owns?).and_return(owns)
+          allow(@user).to receive(:is_admin?).and_return(is_admin)
           put :update, given_params
         end
 
@@ -353,8 +358,44 @@ describe My::MemoriesController do
         end
 
         context "update is successful" do
-          it "redirects to the memory page" do
-            expect(response).to redirect_to(memory_path(memory.id))
+          context 'and the user owns the memory' do
+            let(:owns) { true }
+
+            context 'and the user is an admin' do
+              let(:is_admin) { true }
+
+              it "redirects to the my memory page" do
+                expect(response).to redirect_to(my_memory_path(memory.id))
+              end
+            end
+
+            context 'and the user is not an admin' do
+              let(:is_admin) { false }
+
+              it "redirects to the my memory page" do
+                expect(response).to redirect_to(my_memory_path(memory.id))
+              end
+            end
+          end
+
+          context 'and the user does not own the memory' do
+            let(:owns) { false }
+
+            context 'and the user is an admin' do
+              let(:is_admin) { true }
+
+              it "redirects to the moderation memory page" do
+                expect(response).to redirect_to(admin_moderation_memory_path(memory.id))
+              end
+            end
+
+            context 'and the user is not an admin' do
+              let(:is_admin) { false }
+
+              it "redirects to the root path" do
+                expect(response).to redirect_to(root_path)
+              end
+            end
           end
         end
 
@@ -368,12 +409,9 @@ describe My::MemoriesController do
       end
 
       context "when the current_user cannot modify the memory" do
-        before :each do
+        it "renders the not found page" do
           allow(@user).to receive(:can_modify?).and_return(false)
           put :update, given_params
-        end
-
-        it "renders the not found page" do
           expect(response).to render_template('exceptions/not_found')
         end
       end

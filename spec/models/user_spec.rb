@@ -307,6 +307,39 @@ describe User do
     end
   end
 
+  describe '#owns?' do
+    let(:user_id) { nil }
+    let(:thing)   { double('thing', user_id: user_id) }
+
+    subject { Fabricate.build(:user, id: 123) }
+
+    it "is false if no object given" do
+      expect(subject.owns?(nil)).to be_falsy
+    end
+
+    context 'when thing has no user_id' do
+      it "is false" do
+        expect(subject.owns?(thing)).to be_falsy
+      end
+    end
+
+    context 'when thing does not belong to user' do
+      let(:user_id) { 999 }
+
+      it "is false" do
+        expect(subject.owns?(thing)).to be_falsy
+      end
+    end
+
+    context 'when thing belongs to user' do
+      let(:user_id) { 123 }
+
+      it "is true" do
+        expect(subject.owns?(thing)).to be_truthy
+      end
+    end
+  end
+
   describe '#active?' do
     let(:user) { Fabricate.build(:user, activation_state: activation_state) }
 

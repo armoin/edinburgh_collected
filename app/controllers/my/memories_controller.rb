@@ -33,7 +33,7 @@ class My::MemoriesController < My::AuthenticatedUserController
 
   def update
     if @memory.update(memory_params)
-      redirect_to memory_path(@memory.id)
+      redirect_to show_path
     else
       render :edit
     end
@@ -56,6 +56,16 @@ class My::MemoriesController < My::AuthenticatedUserController
 
   def memory_params
     MemoryParamCleaner.clean(params)
+  end
+
+  def show_path
+    if current_user.owns?(@memory)
+      my_memory_path(@memory)
+    elsif current_user.is_admin?
+      admin_moderation_memory_path(@memory)
+    else
+      root_path
+    end
   end
 end
 

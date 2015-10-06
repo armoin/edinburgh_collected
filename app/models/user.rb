@@ -44,7 +44,11 @@ class User < ActiveRecord::Base
 
   def can_modify?(object)
     return false unless object
-    object.try(:user_id) == self.id || self.is_admin?
+    owns?(object) || self.is_admin?
+  end
+
+  def owns?(object)
+    object.try(:user_id) == self.id
   end
 
   def active?
