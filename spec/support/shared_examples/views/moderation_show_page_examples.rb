@@ -1,6 +1,10 @@
 RSpec.shared_examples 'a moderated show page' do
   it_behaves_like 'a page with a state bar'
 
+  it 'has a back button to the moderation list page' do
+    expect(rendered).to have_link('Back to moderation', href: list_path)
+  end
+
   context 'when the current state is "unmoderated"' do
     let(:state) { 'unmoderated'}
 
@@ -18,10 +22,6 @@ RSpec.shared_examples 'a moderated show page' do
 
     it 'has a "reject - offensive"  button' do
       expect(rendered).to have_link('Reject - offensive', href: send("reject_admin_moderation_#{path_segment}_path", moderatable.to_param, reason: 'offensive'))
-    end
-
-    it 'has a "back to list" button' do
-      expect(rendered).to have_link('Back to list', href: list_path)
     end
   end
 
@@ -42,10 +42,6 @@ RSpec.shared_examples 'a moderated show page' do
 
     it 'has a "reject - offensive"  button' do
       expect(rendered).to have_link('Reject - offensive', href: send("reject_admin_moderation_#{path_segment}_path", moderatable.to_param, reason: 'offensive'))
-    end
-
-    it 'has a "back to list" button' do
-      expect(rendered).to have_link('Back to list', href: list_path)
     end
   end
 
@@ -70,10 +66,6 @@ RSpec.shared_examples 'a moderated show page' do
       it 'has a "reject - offensive"  button' do
         expect(rendered).to have_link('Reject - offensive', href: send("reject_admin_moderation_#{path_segment}_path", moderatable.to_param, reason: 'offensive'))
       end
-
-      it 'has a "back to list" button' do
-        expect(rendered).to have_link('Back to list', href: list_path)
-      end
     end
 
     context 'and the reason is "offensive"' do
@@ -93,10 +85,6 @@ RSpec.shared_examples 'a moderated show page' do
 
       it 'does not have a "Reject - offensive"  button' do
         expect(rendered).not_to have_link('Reject - offensive')
-      end
-
-      it 'has a "Back to list" button' do
-        expect(rendered).to have_link('Back to list', href: list_path)
       end
     end
   end
@@ -127,10 +115,6 @@ RSpec.shared_examples 'a moderated show page' do
 
     it 'has a "reject - offensive"  button' do
       expect(rendered).to have_link('Reject - offensive', href: send("reject_admin_moderation_#{path_segment}_path", moderatable.to_param, reason: 'offensive'))
-    end
-
-    it 'has a "back to list" button' do
-      expect(rendered).to have_link('Back to list', href: list_path)
     end
   end
 end

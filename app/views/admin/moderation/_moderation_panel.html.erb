@@ -6,8 +6,5 @@
     <%= button_for_state('approve', 'approved', moderatable, moderatable_name) %>
     <%= button_for_state('reject', 'rejected', moderatable, moderatable_name, 'unsuitable') %>
     <%= button_for_state('reject', 'rejected', moderatable, moderatable_name, 'offensive') %>
-    <li>
-      <%= link_to 'Back to list', list_path, class: 'btn btn-default' %>
-    </li>
   </ul>
 </div>

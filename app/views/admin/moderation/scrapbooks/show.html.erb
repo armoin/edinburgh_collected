@@ -1,9 +1,9 @@
 <div id="scrapbook" class="container">
   <%= render partial: 'admin/moderation/moderation_panel',
-              locals: {moderatable: @scrapbook, moderatable_name: 'scrapbook', list_path: current_scrapbook_index_path} %>
+              locals: {moderatable: @scrapbook, moderatable_name: 'scrapbook'} %>
   <%= render 'scrapbooks/scrapbook',
         scrapbook: @scrapbook,
         memories: @memories,
-        list_button_name: 'More scrapbooks from this user',
-        list_button_path: user_scrapbooks_path(@scrapbook.user) %>
+        list_button_name: 'Back to moderation',
+        list_button_path: current_scrapbook_index_path %>
 </div>
