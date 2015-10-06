@@ -450,10 +450,15 @@ describe My::MemoriesController do
       end
 
       context "when the current user can modify the memory" do
+        let(:owns)     { false }
+        let(:is_admin) { false }
+
         let(:current_memory_index_path) { memories_url }
 
         before :each do
           allow(@user).to receive(:can_modify?).and_return(true)
+          allow(@user).to receive(:owns?).and_return(owns)
+          allow(@user).to receive(:is_admin?).and_return(is_admin)
           session[:current_memory_index_path] = current_memory_index_path
           delete :destroy, id: '123'
         end
@@ -466,17 +471,43 @@ describe My::MemoriesController do
           expect(memory).to have_received('destroy')
         end
 
-        context "when current index path is memories" do
-          it "redirects to the memories page" do
-            expect(response).to redirect_to(memories_url)
+        context 'when the user owns the memory' do
+          let(:owns) { true }
+
+          context 'and the user is an admin' do
+            let(:is_admin) { true }
+
+            it "redirects to the my memories page" do
+              expect(response).to redirect_to(my_memories_path)
+            end
+          end
+
+          context 'and the user is not an admin' do
+            let(:is_admin) { false }
+
+            it "redirects to the my memories page" do
+              expect(response).to redirect_to(my_memories_path)
+            end
           end
         end
 
-        context "when current memory index path is my memories" do
-          let(:current_memory_index_path) { my_memories_url }
+        context 'when the user does not own the memory' do
+          let(:owns) { false }
 
-          it "redirects to the my memories page" do
-            expect(response).to redirect_to(my_memories_url)
+          context 'and the user is an admin' do
+            let(:is_admin) { true }
+
+            it "redirects to the current memory index page" do
+              expect(response).to redirect_to(current_memory_index_path)
+            end
+          end
+
+          context 'and the user is not an admin' do
+            let(:is_admin) { false }
+
+            it "redirects to the current memory index page" do
+              expect(response).to redirect_to(current_memory_index_path)
+            end
           end
         end
 
@@ -496,12 +527,9 @@ describe My::MemoriesController do
       end
 
       context "when the current_user cannot modify the memory" do
-        before :each do
+        it "renders the not found page" do
           allow(@user).to receive(:can_modify?).and_return(false)
           delete :destroy, id: '123'
-        end
-
-        it "renders the not found page" do
           expect(response).to render_template('exceptions/not_found')
         end
       end

@@ -33,7 +33,7 @@ class My::MemoriesController < My::AuthenticatedUserController
 
   def update
     if @memory.update(memory_params)
-      redirect_to show_path
+      redirect_to redirect_show_path
     else
       render :edit
     end
@@ -41,9 +41,9 @@ class My::MemoriesController < My::AuthenticatedUserController
 
   def destroy
     if @memory.destroy
-      redirect_to current_memory_index_path, notice: 'Successfully deleted'
+      redirect_to redirect_index_path, notice: 'Successfully deleted'
     else
-      redirect_to current_memory_index_path, alert: 'Could not delete'
+      redirect_to redirect_index_path, alert: 'Could not delete'
     end
   end
 
@@ -58,7 +58,15 @@ class My::MemoriesController < My::AuthenticatedUserController
     MemoryParamCleaner.clean(params)
   end
 
-  def show_path
+  def redirect_index_path
+    if current_user.owns?(@memory)
+      my_memories_path
+    else
+      current_memory_index_path
+    end
+  end
+
+  def redirect_show_path
     if current_user.owns?(@memory)
       my_memory_path(@memory)
     elsif current_user.is_admin?
