@@ -1,7 +1,16 @@
+<% content_for :action_bar do %>
+  <div class="viewingInfo">
+    <%= render 'shared/buttons/list', list_button_name: 'All my scrapbooks', list_button_path: my_scrapbooks_path %>
+  </div>
+
+  <div class="user-actions <%= @memories.none? ? 'no-memories' : '' %>">
+    <%= render 'shared/buttons/delete', path: my_scrapbook_path(@scrapbook.id) %>
+    <%= render 'shared/buttons/edit', path: edit_my_scrapbook_path(@scrapbook.id) %>
+
+    <%= render 'shared/buttons/add_memories' %>
+  </div>
+<% end %>
+
 <div id="scrapbook" class="container">
-  <%= render 'scrapbooks/scrapbook',
-        scrapbook: @scrapbook,
-        memories: @memories,
-        list_button_name: 'All my scrapbooks',
-        list_button_path: my_scrapbooks_path %>
+  <%= render 'scrapbooks/scrapbook', scrapbook: @scrapbook, memories: @memories %>
 </div>

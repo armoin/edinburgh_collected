@@ -5,88 +5,11 @@ RSpec.shared_examples 'a scrapbook page' do
   let(:can_modify)           { false }
   let(:memories)             { [] }
   let(:paginated_memories)   { Kaminari.paginate_array(memories).page(nil) }
-  let(:scrapbook_index_path) { '/test/scrapbooks' }
 
   before :each do
     allow(view).to receive(:current_user).and_return(user)
-    session[:current_scrapbook_index_path] = scrapbook_index_path
     assign(:scrapbook, scrapbook)
     assign(:memories, paginated_memories)
-  end
-
-  describe "action bar" do
-    context "when the user is not logged in" do
-      let(:user) { nil }
-
-      before :each do
-        render
-      end
-
-      it "does not have an edit link" do
-        expect(rendered).not_to have_link('Edit')
-      end
-
-      it "does not have a delete link" do
-        expect(rendered).not_to have_link('Delete')
-      end
-
-      it "does not have an 'Add more memories' link" do
-        expect(rendered).not_to have_link('Add more memories')
-      end
-    end
-
-    context "when the user is logged in" do
-      let(:user) { Fabricate.build(:active_user, id: 123) }
-
-      before :each do
-        allow(user).to receive(:can_modify?).and_return(can_modify)
-        render
-      end
-
-      context "when scrapbook doesn't belong to the user" do
-        let(:can_modify) { false }
-
-        it "does not have an edit link" do
-          expect(rendered).not_to have_link('Edit', href: edit_my_scrapbook_path(scrapbook))
-        end
-
-        it "does not have a delete link" do
-          expect(rendered).not_to have_link('Delete', href: my_scrapbook_path(scrapbook))
-        end
-
-        it "does not have an 'Add more memories' link" do
-          expect(rendered).not_to have_link('Add more memories')
-        end
-      end
-
-      context "when scrapbook belongs to the user" do
-        let(:can_modify) { true }
-
-        it "has an edit link" do
-          expect(rendered).to have_link('Edit', href: edit_my_scrapbook_path(scrapbook))
-        end
-
-        it "has a delete link" do
-          expect(rendered).to have_link('Delete', href: my_scrapbook_path(scrapbook))
-        end
-
-        context "and the scrapbook has no memories" do
-          let(:memories) { [] }
-
-          it "has an 'Add more memories' link but it is hidden" do
-            expect(rendered).to have_css('.no-memories a', text: 'Add more memories')
-          end
-        end
-
-        context "and the scrapbook has memories" do
-          let(:memories) { [Fabricate.build(:memory, id: 123)] }
-
-          it "has an 'Add more memories' link" do
-            expect(rendered).to have_link('Add more memories')
-          end
-        end
-      end
-    end
   end
 
   describe "memories" do

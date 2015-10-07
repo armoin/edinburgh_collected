@@ -1,7 +1,10 @@
+<% content_for :action_bar do %>
+  <div class="viewingInfo">
+    <%= render 'shared/buttons/list', list_button_name: 'More scrapbooks from this user',
+                                      list_button_path: user_scrapbooks_path(@requested_user) %>
+  </div>
+<% end %>
+
 <div id="scrapbook" class="container">
-  <%= render 'scrapbooks/scrapbook',
-        scrapbook: @scrapbook,
-        memories: @memories,
-        list_button_name: 'More scrapbooks from this user',
-        list_button_path: user_scrapbooks_path(@requested_user) %>
+  <%= render 'scrapbooks/scrapbook', scrapbook: @scrapbook, memories: @memories %>
 </div>

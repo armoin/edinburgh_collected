@@ -1,7 +1,9 @@
+<% content_for :action_bar do %>
+  <div class="viewingInfo">
+    <%= render 'shared/buttons/list', list_button_name: 'Search results', list_button_path: search_scrapbooks_path(query: params[:query]) %>
+  </div>
+<% end %>
+
 <div id="scrapbook" class="container">
-  <%= render 'scrapbooks/scrapbook',
-        scrapbook: @scrapbook,
-        memories: @memories,
-        list_button_name: 'Search results',
-        list_button_path: search_scrapbooks_path(query: params[:query]) %>
+  <%= render 'scrapbooks/scrapbook', scrapbook: @scrapbook, memories: @memories %>
 </div>

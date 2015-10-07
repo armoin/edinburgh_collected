@@ -1,19 +1,9 @@
 <div id="grid">
   <header id="contentHeader" class="clearfix">
     <h1><%= scrapbook.title %></h1>
+
     <div class="actions clearfix">
-      <div class="viewingInfo">
-        <%= render 'shared/buttons/list', list_button_name: list_button_name, list_button_path: list_button_path %>
-      </div>
-
-      <% if current_user.try(:can_modify?, scrapbook) %>
-        <div class="user-actions <%= memories.none? ? 'no-memories' : '' %>">
-          <%= render 'shared/buttons/delete', path: my_scrapbook_path(scrapbook.id) %>
-          <%= render 'shared/buttons/edit', path: edit_my_scrapbook_path(scrapbook.id) %>
-
-          <%= render 'shared/buttons/add_memories' %>
-        </div>
-      <% end %>
+      <%= yield :action_bar %>
     </div>
   </header>
 
