@@ -1,6 +1,17 @@
+<% content_for :action_bar do %>
+  <div class="viewingInfo">
+    <%= render 'shared/buttons/list', list_button_name: 'Back to moderation', list_button_path: current_memory_index_path %>
+  </div>
+
+  <div class="user-actions float-right">
+    <%= render 'shared/buttons/edit', path: edit_my_memory_path(@memory.id) %>
+    <%= render 'shared/buttons/delete', path: my_memory_path(@memory.id) %>
+  </div>
+<% end %>
+
 <div class="container">
   <%= render partial: 'admin/moderation/moderation_panel',
               locals: {moderatable: @memory, moderatable_name: 'memory'} %>
 
-  <%= render 'memories/memory', memory: @memory, list_button_name: 'Back to moderation', list_button_path: current_memory_index_path, modifiable: true %>
+  <%= render 'memories/memory', memory: @memory %>
 </div>

@@ -4,24 +4,7 @@
     <h2 class="subtitle"><%= @memory.date_string %></h2>
 
     <div class="actions clearfix">
-      <div class="viewingInfo">
-        <%= render 'shared/buttons/list', list_button_name: list_button_name, list_button_path: list_button_path %>
-      </div>
-
-      <div class="user-actions float-right">
-        <% if current_user.try(:can_modify?, @memory) && modifiable %>
-
-          <%= render 'shared/buttons/edit', path: edit_my_memory_path(@memory.id) %>
-          <%= render 'shared/buttons/delete', path: my_memory_path(@memory.id) %>
-
-          <%= render 'shared/buttons/add_to_scrapbook', memory: @memory %>
-
-        <% elsif logged_in? %>
-
-          <%= render 'shared/buttons/add_to_scrapbook', memory: @memory, classes: 'full-width-mobile' %>
-
-        <% end -%>
-      </div>
+      <%= yield :action_bar %>
     </div>
   </header>
 

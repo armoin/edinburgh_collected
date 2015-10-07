@@ -1,3 +1,15 @@
+<% content_for :action_bar do %>
+  <div class="viewingInfo">
+    <%= render 'shared/buttons/list', list_button_name: 'All my memories', list_button_path: my_memories_path %>
+  </div>
+
+  <div class="user-actions float-right">
+    <%= render 'shared/buttons/edit', path: edit_my_memory_path(@memory.id) %>
+    <%= render 'shared/buttons/delete', path: my_memory_path(@memory.id) %>
+    <%= render 'shared/buttons/add_to_scrapbook', memory: @memory %>
+  </div>
+<% end %>
+
 <div class="container">
-  <%= render 'memories/memory', memory: @memory, list_button_name: 'All my memories', list_button_path: my_memories_path, modifiable: true %>
+  <%= render 'memories/memory', memory: @memory %>
 </div>

@@ -1,7 +1,15 @@
+<% content_for :action_bar do %>
+  <div class="viewingInfo">
+    <%= render 'shared/buttons/list', list_button_name: 'Back to scrapbook', list_button_path: scrapbook_path(@scrapbook) %>
+  </div>
+
+  <div class="user-actions float-right">
+    <% if logged_in? %>
+      <%= render 'shared/buttons/add_to_scrapbook', memory: @memory, classes: 'full-width-mobile' %>
+    <% end -%>
+  </div>
+<% end %>
+
 <div class="container">
-  <%= render 'memories/memory',
-        memory: @memory,
-        list_button_name: 'Back to scrapbook',
-        list_button_path: scrapbook_path(@scrapbook),
-        modifiable: false %>
+  <%= render 'memories/memory', memory: @memory %>
 </div>

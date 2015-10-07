@@ -39,8 +39,8 @@ describe 'admin/moderation/memories/show.html.erb' do
       expect(rendered).to have_link('Delete', href: my_memory_path(moderatable.id))
     end
 
-    it "shows the 'Add to scrapbook' button" do
-      expect(rendered).to have_link('Scrapbook')
+    it "does not show the 'Add to scrapbook' button" do
+      expect(rendered).not_to have_link('Scrapbook')
     end
 
     it 'does not have a report button' do
