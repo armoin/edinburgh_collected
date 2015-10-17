@@ -1,16 +1,6 @@
-require 'carrierwave/mount'
-
 class Memory < ActiveRecord::Base
-  extend CarrierWave::Mount
-  mount_uploader :source, ImageUploader
-
   include Locatable
   include Taggable
-
-  def self.file_types
-    ["Photo"]
-  end
-
   include Moderatable
 
   SEARCHABLE_FIELDS       = [:title, :description, :year, :location]
@@ -24,7 +14,11 @@ class Memory < ActiveRecord::Base
   has_many :scrapbook_memories, dependent: :destroy
   has_many :scrapbooks, through: :scrapbook_memories
 
-  validates_presence_of :title, :description, :source, :user, :type
+  def self.file_types
+    ["Photo"]
+  end
+
+  validates_presence_of :title, :description, :user, :type
   validates :year, presence: true,
                    numericality: {only_integer: true, greater_than: 0, message: 'is not a valid year'},
                    format: { with: /\d{4}/, message: 'must be in the format YYYY' }
@@ -33,9 +27,6 @@ class Memory < ActiveRecord::Base
   validate :date_not_in_future
   validates_length_of :title, :attribution, maximum: 200
   validates_length_of :description, maximum: 1500
-
-  MAX_FILE_SIZE = 4.megabyte
-  validates :source, file_size: { less_than_or_equal_to: MAX_FILE_SIZE }
 
   scope :by_last_created, -> { order('created_at DESC') }
 
@@ -48,8 +39,6 @@ class Memory < ActiveRecord::Base
     return publicly_visible unless category.present?
     publicly_visible.joins(:categories).where('categories.name' => category)
   end
-
-  attr_accessor :rotation
 
   def date
     Date.new(self.year.to_i, the_month, the_day)

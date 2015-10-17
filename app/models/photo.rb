@@ -1,4 +1,16 @@
+require 'carrierwave/mount'
+
 class Photo < Memory
+  extend CarrierWave::Mount
+  mount_uploader :source, ImageUploader
+
+  MAX_FILE_SIZE = 4.megabyte
+
+  validates :source, presence: true
+  validates :source, file_size: { less_than_or_equal_to: MAX_FILE_SIZE }
+
+  attr_accessor :rotation
+
   def rotation=(degrees_string)
     @rotation = degrees_string.to_i
   end
@@ -23,4 +35,3 @@ class Photo < Memory
     self.save
   end
 end
-

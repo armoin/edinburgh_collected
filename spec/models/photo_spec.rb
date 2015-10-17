@@ -11,6 +11,88 @@ describe Photo do
   it_behaves_like "a memory"
   it_behaves_like "locatable"
 
+  describe 'validation' do
+    describe "source" do
+      it "can't be blank" do
+        memory.source.remove!
+        expect(memory).to be_invalid
+        expect(memory.errors[:source]).to include("You need to choose a file to upload")
+      end
+
+      describe 'must have an allowed file extension' do
+        context "file is a .jpg" do
+          let(:file_name) { 'test.jpg' }
+
+          it "is valid" do
+            expect(memory).to be_valid
+          end
+        end
+
+        context "file is a .jpeg" do
+          let(:file_name) { 'test.jpeg' }
+
+          it "is valid" do
+            expect(memory).to be_valid
+          end
+        end
+
+        context "file is a .png" do
+          let(:file_name) { 'test.png' }
+
+          it "is valid" do
+            expect(memory).to be_valid
+          end
+        end
+
+        context "file is a .gif" do
+          let(:file_name) { 'test.gif' }
+
+          it "is valid" do
+            expect(memory).to be_valid
+          end
+        end
+
+        context "file is a .txt" do
+          let(:file_name) { 'test.txt' }
+
+          it "is invalid" do
+            expect(memory).to be_invalid
+            expect(memory.errors[:source]).to include("You are not allowed to upload \"txt\" files, allowed types: JPG, JPEG, GIF, PNG, jpg, jpeg, gif, png")
+          end
+        end
+      end
+
+      describe "file size" do
+        context "when under max size" do
+          let(:file_name) { 'under.jpg' }
+
+          it "is valid" do
+            expect(memory).to be_valid
+          end
+        end
+
+        context "when equal to max size" do
+          let(:file_name) { 'equal.jpg' }
+
+          it "is valid" do
+            expect(memory).to be_valid
+          end
+        end
+
+        context "when over max size" do
+          let(:file_name) { 'over.jpg' }
+
+          it "is invalid" do
+            expect(memory).to be_invalid
+            expect(memory.errors[:source]).to include("file size must be less than or equal to 4 MB")
+          end
+        end
+      end
+    end
+
+
+  end
+
   describe 'updating' do
     let(:now) { Time.now }
     let(:old) { 2.days.ago }

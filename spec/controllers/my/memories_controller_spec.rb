@@ -71,22 +71,20 @@ describe My::MemoriesController do
 
     context 'when logged in' do
       before :each do
-        allow(@user).to receive(:memories).and_return(stub_memories)
         login_user
         get :new
       end
 
-      it 'does not set the current memory index path if action is not index' do
+      it 'does not set the current memory index path' do
         expect(session[:current_memory_index_path]).to be_nil
       end
 
-      it "assigns a new Memory" do
-        expect(assigns(:memory)).to be_a(Memory)
+      it "assigns a new Photo Memory" do
+        expect(assigns(:memory)).to be_a_new(Photo)
       end
 
       it "is successful" do
         expect(response).to be_success
-        expect(response.status).to eql(200)
       end
 
       it "renders the new page" do
@@ -115,7 +113,6 @@ describe My::MemoriesController do
 
     context 'when logged in' do
       before :each do
-        allow(@user).to receive(:memories).and_return(stub_memories)
         login_user
         allow(MemoryParamCleaner).to receive(:clean).and_return(strong_params)
         allow(Memory).to receive(:new).and_return(memory)
@@ -124,7 +121,7 @@ describe My::MemoriesController do
         post :create, given_params
       end
 
-      it 'does not set the current memory index path if action is not index' do
+      it 'does not set the current memory index path' do
         expect(session[:current_memory_index_path]).to be_nil
       end
 
@@ -188,7 +185,7 @@ describe My::MemoriesController do
         login_user
       end
 
-      it 'does not set the current memory index path if action is not index' do
+      it 'does not set the current memory index path' do
         expect(session[:current_memory_index_path]).to be_nil
       end
 
@@ -258,7 +255,7 @@ describe My::MemoriesController do
         allow(memory).to receive(:update).and_return(true)
       end
 
-      it 'does not set the current memory index path if action is not index' do
+      it 'does not set the current memory index path' do
         expect(session[:current_memory_index_path]).to be_nil
       end
 
@@ -329,7 +326,7 @@ describe My::MemoriesController do
         allow(memory).to receive(:destroy).and_return(true)
       end
 
-      it 'does not set the current memory index path if action is not index' do
+      it 'does not set the current memory index path' do
         expect(session[:current_memory_index_path]).to be_nil
       end
 

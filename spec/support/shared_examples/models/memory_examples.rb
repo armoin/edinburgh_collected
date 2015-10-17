@@ -1,9 +1,6 @@
 # let(:memory)    # must be declared in calling spec
-# let(:file_name) # must be declared in calling spec
 
 RSpec.shared_examples "a memory" do
-  let(:file_path) { File.join(Rails.root, 'spec', 'fixtures', 'files') }
-  let(:source)    { Rack::Test::UploadedFile.new(File.join(file_path, file_name)) }
   let(:test_user) { Fabricate.build(:user) }
   let!(:area)     { Fabricate(:area) }
 
@@ -29,93 +26,6 @@ RSpec.shared_examples "a memory" do
         memory.type = 'doodah'
         expect(memory).to be_invalid
         expect(memory.errors[:type]).to include("must be of type 'photo'")
-      end
-    end
-
-    describe "source" do
-      it "can't be blank" do
-        memory.source.remove!
-        expect(memory).to be_invalid
-        expect(memory.errors[:source]).to include("You need to choose a file to upload")
-      end
-
-      context "when type is image" do
-        context "and file is a .jpg" do
-          let(:file_name) { 'test.jpg' }
-
-          it "is valid" do
-            expect(memory).to be_valid
-          end
-        end
-
-        context "and file is a .jpeg" do
-          let(:file_name) { 'test.jpeg' }
-
-          it "is valid" do
-            expect(memory).to be_valid
-          end
-        end
-
-        context "and file is a .png" do
-          let(:file_name) { 'test.png' }
-
-          it "is valid" do
-            expect(memory).to be_valid
-          end
-        end
-
-        context "and file is a .gif" do
-          let(:file_name) { 'test.gif' }
-
-          it "is valid" do
-            expect(memory).to be_valid
-          end
-        end
-
-        context "and file is a .txt" do
-          let(:file_name) { 'test.txt' }
-
-          it "is invalid" do
-            expect(memory).to be_invalid
-            expect(memory.errors[:source]).to include("You are not allowed to upload \"txt\" files, allowed types: JPG, JPEG, GIF, PNG, jpg, jpeg, gif, png")
-          end
-        end
-
-        # context "and remote_source_url is given instead of file" do
-        #   let(:file_name) { 'test.txt' }
-        #
-        #   it "is ignores validation for just now" do
-        #     memory.remote_source_url = 'test/url'
-        #     expect(memory).to be_valid
-        #   end
-        # end
-      end
-
-      describe "file size" do
-        context "when under max size" do
-          let(:file_name) { 'under.jpg' }
-
-          it "is valid" do
-            expect(memory).to be_valid
-          end
-        end
-
-        context "when equal to max size" do
-          let(:file_name) { 'equal.jpg' }
-
-          it "is valid" do
-            expect(memory).to be_valid
-          end
-        end
-
-        context "when over max size" do
-          let(:file_name) { 'over.jpg' }
-
-          it "is invalid" do
-            expect(memory).to be_invalid
-            expect(memory.errors[:source]).to include("file size must be less than or equal to 4 MB")
-          end
-        end
       end
     end
 

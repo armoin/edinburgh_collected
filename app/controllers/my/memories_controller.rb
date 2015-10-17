@@ -8,7 +8,7 @@ class My::MemoriesController < My::AuthenticatedUserController
   end
 
   def new
-    @memory = Memory.new
+    @memory = Photo.new
   end
 
   def create
