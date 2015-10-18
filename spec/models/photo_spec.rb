@@ -65,36 +65,7 @@ describe Photo do
           end
         end
       end
-
-      describe "file size" do
-        context "when under max size" do
-          let(:file_name) { 'under.jpg' }
-
-          it "is valid" do
-            expect(memory).to be_valid
-          end
-        end
-
-        context "when equal to max size" do
-          let(:file_name) { 'equal.jpg' }
-
-          it "is valid" do
-            expect(memory).to be_valid
-          end
-        end
-
-        context "when over max size" do
-          let(:file_name) { 'over.jpg' }
-
-          it "is invalid" do
-            expect(memory).to be_invalid
-            expect(memory.errors[:source]).to include("file size must be less than or equal to 4 MB")
-          end
-        end
-      end
     end
-
-
   end
 
   describe 'updating' do

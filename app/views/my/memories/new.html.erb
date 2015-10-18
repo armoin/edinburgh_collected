@@ -12,7 +12,7 @@
         <div class="form-group" aria-required="true">
           <div class="formRow">
             <%= form.label :source, class: 'control-label' %>
-            <%= form.file_field :source, data: {max_size: Photo::MAX_FILE_SIZE} %>
+            <%= form.file_field :source %>
             <%= form.hidden_field :source_cache %>
           </div>
           <% @memory.errors[:source].each do |error| %>
@@ -45,10 +45,6 @@
             <li>
               <span class="glyphicon glyphicon-info-sign"></span>
               Photos must be of type .gif, .jpg, .jpeg or .png
-            </li>
-            <li>
-              <span class="glyphicon glyphicon-info-sign"></span>
-              Photos should be 1-2 MB, and no bigger than <%= Photo::MAX_FILE_SIZE / 1024 / 1024 %> MB, in size
             </li>
             <li>
               <span class="glyphicon glyphicon-info-sign"></span>

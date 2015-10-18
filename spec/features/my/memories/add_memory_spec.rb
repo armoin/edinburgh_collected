@@ -29,18 +29,8 @@ feature 'adding a new picture memory', slow: true, js: true do
     expect(page).to have_css('.help-block', text: 'Please select a photo to upload')
   end
 
-  scenario 'attempting to add a photo memory with a photo file that is too large shows an error' do
-    attach_photo(too_large_file)
-    fill_in_title
-    fill_in_description
-    select_a_category
-    fill_in_year
-    click_button 'Save'
-    expect(page).to have_css('.help-block', text: 'File must be less than or equal to 4MB')
-  end
-
   scenario 'attempting to add a photo memory without a title shows an error' do
-    attach_photo(valid_file)
+    attach_photo
     fill_in_description
     select_a_category
     fill_in_year
@@ -49,7 +39,7 @@ feature 'adding a new picture memory', slow: true, js: true do
   end
 
   scenario 'attempting to add a photo memory without a description shows an error' do
-    attach_photo(valid_file)
+    attach_photo
     fill_in_title
     select_a_category
     fill_in_year
@@ -58,7 +48,7 @@ feature 'adding a new picture memory', slow: true, js: true do
   end
 
   scenario 'attempting to add a photo memory without a year shows an error' do
-    attach_photo(valid_file)
+    attach_photo
     fill_in_title
     fill_in_description
     select_a_category
@@ -67,7 +57,7 @@ feature 'adding a new picture memory', slow: true, js: true do
   end
 
   scenario 'attempting to add a photo memory with a year of 0 shows an error' do
-    attach_photo(valid_file)
+    attach_photo
     fill_in_title
     fill_in_description
     select_a_category
@@ -77,7 +67,7 @@ feature 'adding a new picture memory', slow: true, js: true do
   end
 
   scenario 'attempting to add a photo memory with a incorrectly formatted year shows an error' do
-    attach_photo(valid_file)
+    attach_photo
     fill_in_title
     fill_in_description
     select_a_category
@@ -87,7 +77,7 @@ feature 'adding a new picture memory', slow: true, js: true do
   end
 
   scenario 'attempting to add a photo memory without a category shows an error' do
-    attach_photo(valid_file)
+    attach_photo
     fill_in_title
     fill_in_description
     fill_in_year
@@ -97,7 +87,7 @@ feature 'adding a new picture memory', slow: true, js: true do
 end
 
 def fill_in_required_fields
-  attach_photo(valid_file)
+  attach_photo
   fill_in_title
   fill_in_description
   select_a_category
@@ -108,12 +98,8 @@ def valid_file
   File.join(File.dirname(__FILE__), '../../../fixtures/files/test.jpg')
 end
 
-def too_large_file
-  File.join(File.dirname(__FILE__), '../../../fixtures/files/over.jpg')
-end
-
-def attach_photo(file_path)
-  attach_file 'memory[source]', file_path
+def attach_photo
+  attach_file 'memory[source]', valid_file
 end
 
 def fill_in_title
