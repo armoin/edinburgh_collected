@@ -85,10 +85,10 @@ class @FormValidator
 
   validateFileSelector = (formGroup) ->
     if !hasFileAttached(formGroup) && !hasFileCached(formGroup)
-      markInvalid(formGroup, ['Please select a file to upload'])
+      markInvalid(formGroup, ['Please select a photo to upload'])
 
     if hasMaxSize(formGroup) && maxFileSizeExceeded(formGroup)
-      markInvalid(formGroup, ['File must be less than or equal to 2MB'])
+      markInvalid(formGroup, ['File must be less than or equal to 4MB'])
 
   hasFileAttached = (formGroup) ->
     file = $(formGroup).find('input#memory_source').val()

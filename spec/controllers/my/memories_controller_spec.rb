@@ -146,18 +146,8 @@ describe My::MemoriesController do
       end
 
       context "save is successful" do
-        context "when save and add another" do
-          it "redirects to the new page" do
-            post :create, given_params.merge(commit: 'Save And Add Another')
-            expect(response).to redirect_to(new_my_memory_url)
-          end
-        end
-
-        context "when save" do
-          it "redirects to the user's memories page" do
-            post :create, given_params.merge(commit: 'Save')
-            expect(response).to redirect_to(my_memories_url)
-          end
+        it "redirects to the user's memories page" do
+          expect(response).to redirect_to(my_memories_url)
         end
       end
 

@@ -1,17 +1,5 @@
 <div class="container">
-  <header id="formHeader" class="row">
-    <!--
-      <div class="step step1 col-md-4">
-       <span>1</span> Choose the type of file
-      </div>
-      <div class="step step2 col-md-4">
-       <span>2</span> Upload your memory
-      </div>
-      <div class="step step3 col-md-4">
-       <span>3</span> Upload Complete
-      </div>
-     -->
-  </header>
+  <header id="formHeader" class="row"></header>
 
   <div id="newMemoryForm" class="formWrapper row">
     <div id="formPanel" class="col-md-6">
@@ -83,11 +71,7 @@
   </div>
 </div>
 
-<%= render partial: 'save_prompt' %>
-
 <script type="text/javascript">
-  var showPrompt = true;
-
   var setupForm = function (e) {
     window.formValidator = new FormValidator();
     window.formValidator.labelLengthConstraints($('form#add-memory'));
@@ -102,29 +86,18 @@
 
   $(document).ready(setupForm);
 
+  var validated = false;
+
   $('form#add-memory').on('submit', function (e) {
-    if (showPrompt) {
+    var addMemoryForm = this;
+    if (!validated) {
       e.preventDefault();
-      window.formValidator.validateForm(this, {
-        onValid: function () { $('#save-prompt').modal(); }
+      window.formValidator.validateForm(addMemoryForm, {
+        onValid: function () {
+          validated = true;
+          $(addMemoryForm).trigger('submit');
+        }
       });
     }
-  });
-
-  var commitWith = function (commitValue) {
-    showPrompt = false;
-    $('form#add-memory')
-      .append('<input type="hidden" name="commit" value="' + commitValue + '">')
-      .submit();
-  };
-
-  $('#yes').on('click', function (e) {
-    e.preventDefault();
-    commitWith('Save And Add Another');
-  });
-
-  $('#no').on('click', function (e) {
-    e.preventDefault();
-    commitWith('Save');
   });
 </script>
