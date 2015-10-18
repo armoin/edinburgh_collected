@@ -1,22 +1,26 @@
 require 'rails_helper'
 
 describe Photo do
+  let(:test_user) { Fabricate.build(:user) }
   let(:file_path) { File.join(Rails.root, 'spec', 'fixtures', 'files') }
   let(:file_name) { 'test.jpg' }
-  let(:test_user) { Fabricate.build(:user) }
   let(:source)    { Rack::Test::UploadedFile.new(File.join(file_path, file_name)) }
   let!(:area)     { Fabricate(:area) }
   let(:memory)    { Fabricate.build(:photo_memory, user: test_user, source: source, area: area) }
 
   it_behaves_like "a memory"
-  it_behaves_like "locatable"
+
+  it 'is a Memory of type "Photo"' do
+    expect(subject).to be_a(Memory)
+    expect(subject.type).to eql('Photo')
+  end
 
   describe 'validation' do
     describe "source" do
       it "can't be blank" do
         memory.source.remove!
         expect(memory).to be_invalid
-        expect(memory.errors[:source]).to include("You need to choose a file to upload")
+        expect(memory.errors[:source]).to include("You need to choose a photo to upload")
       end
 
       describe 'must have an allowed file extension' do

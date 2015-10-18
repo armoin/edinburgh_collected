@@ -11,7 +11,7 @@ en:
         day:   "How about the day?"
         description: "Tell us about what you have added"
         type: "What type of memory would you like to add?"
-        source: "Please choose a file"
+        source: "Please choose a photo"
         title: "What's the title of your memory?"
         attribution: "Who is the author or artist?"
         tag_list: "Add tags (separate with commas)"
@@ -35,7 +35,7 @@ en:
             year:
               blank: "Please tell us when this dates from"
             source:
-              blank: "You need to choose a file to upload"
+              blank: "You need to choose a photo to upload"
 
   authentication_mailer:
     activation_needed_email:

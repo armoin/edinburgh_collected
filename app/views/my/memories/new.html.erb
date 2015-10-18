@@ -16,18 +16,10 @@
   <div id="newMemoryForm" class="formWrapper row">
     <div id="formPanel" class="col-md-6">
 
-      <h1>Add a memory</h1>
+      <h1>Add a picture memory</h1>
 
       <%= form_for @memory, url: my_memories_path, as: 'memory', builder: Judge::FormBuilder, html: {id: 'add-memory', class: 'form-horizontal', role: 'form'} do |form| %>
-        <div class="form-group" aria-required="true">
-          <div class="formRow">
-            <%= form.label :type, class: 'control-label' %>
-            <%= form.select :type, Memory.file_types, {validate: true}, {class: 'form-control'} %>
-          </div>
-          <% @memory.errors[:type].each do |error| %>
-            <span class="help-block"><%= error %></span>
-        <% end -%>
-        </div>
+        <%= form.hidden_field :type %>
 
         <div class="form-group" aria-required="true">
           <div class="formRow">
@@ -64,15 +56,15 @@
             </li>
             <li>
               <span class="glyphicon glyphicon-info-sign"></span>
-              Files must be of type .gif, .jpg, .jpeg or .png
+              Photos must be of type .gif, .jpg, .jpeg or .png
             </li>
             <li>
               <span class="glyphicon glyphicon-info-sign"></span>
-              Files should be 1-2 MB, and no bigger than <%= Photo::MAX_FILE_SIZE / 1024 / 1024 %> MB, in size
+              Photos should be 1-2 MB, and no bigger than <%= Photo::MAX_FILE_SIZE / 1024 / 1024 %> MB, in size
             </li>
             <li>
               <span class="glyphicon glyphicon-info-sign"></span>
-              Please note that we do not store image files at their original size
+              Please note that we do not store photos at their original size
             </li>
             <li>
               <span class="glyphicon glyphicon-info-sign"></span>
