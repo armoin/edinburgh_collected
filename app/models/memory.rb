@@ -15,7 +15,7 @@ class Memory < ActiveRecord::Base
   has_many :scrapbooks, through: :scrapbook_memories
 
   def self.file_types
-    ["Photo"]
+    %w(Photo Text)
   end
 
   validates_presence_of :title, :description, :user, :type

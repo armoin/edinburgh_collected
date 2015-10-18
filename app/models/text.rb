@@ -1,0 +1,2 @@
+class Text < Memory
+end
