@@ -20,4 +20,17 @@ describe Text do
       end
     end
   end
+
+  describe 'source_url' do
+    it 'returns nil when no version is given' do
+      expect(subject.source_url).to be_nil
+    end
+
+    it 'returns the text memory thumbnail otherwise' do
+      expect(subject.source_url(:thumb)).to eql(Text::THUMBNAIL_IMAGE)
+      expect(subject.source_url(:mini_thumb)).to eql(Text::THUMBNAIL_IMAGE)
+      expect(subject.source_url(:big_thumb)).to eql(Text::THUMBNAIL_IMAGE)
+      expect(subject.source_url(:other)).to eql(Text::THUMBNAIL_IMAGE)
+    end
+  end
 end
