@@ -23,11 +23,13 @@
     </div>
   </header>
 
-  <div id="image">
-    <a href="#">
-      <img src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
-    </a>
-  </div>
+  <% if @memory.photo? %>
+    <div id="image">
+      <a href="#">
+        <img src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
+      </a>
+    </div>
+  <% end %>
 
   <div id="details" class="col-xs-12">
     <header class="col-xs-12">
