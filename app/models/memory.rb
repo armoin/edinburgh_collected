@@ -54,6 +54,10 @@ class Memory < ActiveRecord::Base
     categories.map(&:name).join(', ')
   end
 
+  def photo?
+    self.type == 'Photo'
+  end
+
   private
 
   def date_not_in_future
