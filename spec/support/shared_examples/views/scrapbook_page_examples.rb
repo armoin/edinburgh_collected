@@ -143,15 +143,15 @@ RSpec.shared_examples 'a scrapbook page' do
       end
 
       it "displays the memory's image" do
-        expect(rendered).to match /1\.jpg/
-        expect(rendered).to match /2\.jpg/
-        expect(rendered).to match /3\.jpg/
+        expect(rendered).to have_css('.memory img[alt="Test 1"]')
+        expect(rendered).to have_css('.memory img[alt="Test 2"]')
+        expect(rendered).to have_css('.memory img[alt="Test 3"]')
       end
 
       it "displays the memory's title" do
-        expect(rendered).to match /Test 1/
-        expect(rendered).to match /Test 2/
-        expect(rendered).to match /Test 3/
+        expect(rendered).to have_css('.memory .detail .title', text: 'Test 1')
+        expect(rendered).to have_css('.memory .detail .title', text: 'Test 2')
+        expect(rendered).to have_css('.memory .detail .title', text: 'Test 3')
       end
     end
   end
