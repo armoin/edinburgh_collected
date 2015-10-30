@@ -15,7 +15,7 @@
         </div>
 
         <% if @presenter.can_add_memories? -%>
-          <%= link_to 'Add a memory', new_my_memory_path, :class => "button float-right memories" %>
+          <%= link_to 'Add a memory', add_memory_my_memories_path, :class => "button float-right memories" %>
         <% end -%>
       </div>
     </header>

@@ -60,6 +60,35 @@ describe My::MemoriesController do
     end
   end
 
+  describe 'GET add_memory' do
+    describe 'ensure user is logged in' do
+      before :each do
+        get :add_memory, format: format
+      end
+
+      it_behaves_like 'requires logged in user'
+    end
+
+    context 'when logged in' do
+      before :each do
+        login_user
+        get :add_memory
+      end
+
+      it 'does not set the current memory index path' do
+        expect(session[:current_memory_index_path]).to be_nil
+      end
+
+      it "is successful" do
+        expect(response).to be_success
+      end
+
+      it "renders the add_memory page" do
+        expect(response).to render_template(:add_memory)
+      end
+    end
+  end
+
   describe 'GET new' do
     describe 'ensure user is logged in' do
       before :each do
@@ -72,23 +101,63 @@ describe My::MemoriesController do
     context 'when logged in' do
       before :each do
         login_user
-        get :new
+        get :new, memory_type: memory_type
       end
 
-      it 'does not set the current memory index path' do
-        expect(session[:current_memory_index_path]).to be_nil
+      context 'when the given memory type is "photo"' do
+        let(:memory_type) { "photo" }
+
+        it 'does not set the current memory index path' do
+          expect(session[:current_memory_index_path]).to be_nil
+        end
+
+        it "assigns a new Photo Memory" do
+          expect(assigns(:memory)).to be_a_new(Photo)
+        end
+
+        it "is successful" do
+          expect(response).to be_success
+        end
+
+        it "renders the new page" do
+          expect(response).to render_template(:new)
+        end
       end
 
-      it "assigns a new Photo Memory" do
-        expect(assigns(:memory)).to be_a_new(Photo)
+      context 'when the given memory type is "text"' do
+        let(:memory_type) { "text" }
+
+        it 'does not set the current memory index path' do
+          expect(session[:current_memory_index_path]).to be_nil
+        end
+
+        it "assigns a new Text Memory" do
+          expect(assigns(:memory)).to be_a_new(Text)
+        end
+
+        it "is successful" do
+          expect(response).to be_success
+        end
+
+        it "renders the new page" do
+          expect(response).to render_template(:new)
+        end
       end
 
-      it "is successful" do
-        expect(response).to be_success
-      end
+      context 'when the given memory type is invalid' do
+        let(:memory_type) { "rubbish" }
 
-      it "renders the new page" do
-        expect(response).to render_template(:new)
+        it 'does not set the current memory index path' do
+          expect(session[:current_memory_index_path]).to be_nil
+        end
+
+        it "does not assigns a new Memory" do
+          expect(assigns(:memory)).to be_nil
+        end
+
+        it "redirects to the add_memory page" do
+          expect(response).to redirect_to(:add_memory_my_memories)
+        end
       end
     end
   end

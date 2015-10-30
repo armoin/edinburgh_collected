@@ -9,18 +9,20 @@
       <%= form_for @memory, url: my_memories_path, as: 'memory', builder: Judge::FormBuilder, html: {id: 'add-memory', class: 'form-horizontal', role: 'form'} do |form| %>
         <%= form.hidden_field :type %>
 
-        <div class="form-group" aria-required="true">
-          <div class="formRow">
-            <%= form.label :source, class: 'control-label' %>
-            <%= form.file_field :source %>
-            <%= form.hidden_field :source_cache %>
+        <% if @memory.photo? %>
+          <div class="form-group" aria-required="true">
+            <div class="formRow">
+              <%= form.label :source, class: 'control-label' %>
+              <%= form.file_field :source %>
+              <%= form.hidden_field :source_cache %>
+            </div>
+            <% @memory.errors[:source].each do |error| %>
+              <span class="help-block"><%= error %></span>
+            <% end -%>
           </div>
-          <% @memory.errors[:source].each do |error| %>
-            <span class="help-block"><%= error %></span>
-          <% end -%>
-        </div>
 
-        <%= render partial: 'image_editor', locals: {form: form, uploaded_image_url: @memory.source_url} %>
+          <%= render partial: 'image_editor', locals: {form: form, uploaded_image_url: @memory.source_url} %>
+        <% end %>
 
         <%= render partial: 'details_form', object: @memory, locals: {form: form} %>
 

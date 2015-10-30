@@ -7,8 +7,18 @@ class My::MemoriesController < My::AuthenticatedUserController
     render 'memories/user_index'
   end
 
+  def add_memory
+  end
+
   def new
-    @memory = Photo.new
+    case params[:memory_type]
+    when 'photo'
+      @memory = Photo.new
+    when 'text'
+      @memory = Text.new
+    else
+      redirect_to :add_memory_my_memories
+    end
   end
 
   def create

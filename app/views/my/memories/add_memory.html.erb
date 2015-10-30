@@ -1,0 +1,42 @@
+<div class="container">
+  <header id="formHeader" class="row"></header>
+
+  <div id="newMemoryForm" class="formWrapper row">
+    <div id="formPanel" class="col-md-6">
+      <h1>Add a memory</h1>
+
+      <p>Please select the type of memory that you would like to add.</p>
+
+      <div class="instructionsWrapper" class="row">
+        <div class="col-md-6 col-sm-6">
+          <%= link_to new_my_memory_path(memory_type: :photo), :class => "actionLink" do %>
+            <%= image_tag "camera-light-x2.png", alt: "Picture memory icon", class: "button-icon--camera" %>
+            <span>Picture memory</span>
+          <% end %>
+          <p>Upload a picture to Edinburgh Collected</p>
+        </div>
+
+        <div class="col-md-6 col-sm-6">
+          <%= link_to new_my_memory_path(memory_type: :text), :class => "actionLink" do %>
+            <%= image_tag "speach-bubble-light-x2.png", alt: "Text memory icon", class: "button-icon--speach-bubble" %>
+            <span>Text memory</span>
+          <% end %>
+          <p>If you don't have a picture for the memory you can just create a text memory</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="extraPanel" class="col-md-6">
+      <div id="signposting">
+        <div class="inner">
+          <ul class="help-tips">
+            <li>
+              <span class="glyphicon glyphicon-info-sign"></span>
+              For more information, please see our <%= link_to "terms and conditions", t_and_c_path, class: 'underlined' %>.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

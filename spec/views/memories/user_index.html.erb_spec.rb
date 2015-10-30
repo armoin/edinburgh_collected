@@ -102,7 +102,7 @@ describe 'memories/user_index.html.erb' do
         let(:current_user) { requested_user }
 
         it 'shows the Add a memory button' do
-          expect(rendered).to have_link('Add a memory', href: new_my_memory_path)
+          expect(rendered).to have_link('Add a memory', href: add_memory_my_memories_path)
         end
       end
 
@@ -110,7 +110,7 @@ describe 'memories/user_index.html.erb' do
         let(:current_user) { Fabricate.build(:active_user, id: 456) }
 
         it 'does not show the Add a memory button' do
-          expect(rendered).not_to have_link('Add a memory', href: new_my_memory_path)
+          expect(rendered).not_to have_link('Add a memory', href: add_memory_my_memories_path)
         end
       end
     end
