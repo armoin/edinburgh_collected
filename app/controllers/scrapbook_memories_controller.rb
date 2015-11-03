@@ -1,4 +1,4 @@
-class Scrapbooks::MemoriesController < ApplicationController
+class ScrapbookMemoriesController < ApplicationController
   def show
     @scrapbook = Scrapbook.find(params[:scrapbook_id])
     @memory = @scrapbook.memories.find(params[:id])

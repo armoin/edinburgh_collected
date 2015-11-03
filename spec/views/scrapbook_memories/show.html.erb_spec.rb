@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "scrapbooks/memories/show.html.erb" do
+describe "scrapbook_memories/show.html.erb" do
   let(:scrapbook) { Fabricate.build(:scrapbook, id: 789) }
 
   before :each do

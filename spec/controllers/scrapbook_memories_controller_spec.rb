@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Scrapbooks::MemoriesController do
+describe ScrapbookMemoriesController do
   describe 'GET show' do
     let(:format)                { :html }
     let(:scrapbook)             { Fabricate.build(:scrapbook) }
