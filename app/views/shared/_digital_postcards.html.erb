@@ -1,9 +1,9 @@
 <% content_for :stylesheets do %>
-  <link rel="stylesheet" type="text/css" href="//postcards.cechosting.org/css/postcard.css" />
+  <link rel="stylesheet" type="text/css" href="//edinburghdigitalpostcards.org/css/postcard.css" />
 <% end %>
 
 <% content_for :script_tags do %>
-  <script type="text/javascript" src="//postcards.cechosting.org/js/postcard.js"></script>
+  <script type="text/javascript" src="//edinburghdigitalpostcards.org/js/postcard.js"></script>
 <% end %>
 
 <% content_for :modals do %>
@@ -20,15 +20,15 @@
 
       // initialise the postcard module
       $('#mail_popup').postcard({
-        api_post_url: "//postcards.cechosting.org/api/1/postcard",
-        tmpl_url: "//postcards.cechosting.org/js/postcard.tmpl",
+        api_post_url: "//edinburghdigitalpostcards.org/api/1/postcard",
+        tmpl_url: "//edinburghdigitalpostcards.org/js/postcard.tmpl",
         // placeholder poscard details
         title: $('.memory .title').text().substring(0, 100),
         short_desc: $('.memory .subtitle').text().substring(0, 100),
         long_desc: $('#memory-short-description').text(),
         image: $('#image img').attr("src"),
         image_attribution: $('#memory-attribution').text(),
-        stamp: "//postcards.cechosting.org/img/postage-stamp.png",
+        stamp: "//edinburghdigitalpostcards.org/img/postage-stamp.png",
         redirect_timeout: false
       });
 
