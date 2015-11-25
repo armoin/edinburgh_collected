@@ -12,6 +12,16 @@ describe Text do
     expect(subject.type).to eql('Text')
   end
 
+  it 'has a label of "text"' do
+    expect(subject.label).to eq('text')
+  end
+
+  describe '#info_list' do
+    it 'is empty' do
+      expect(subject.info_list).to be_empty
+    end
+  end
+
   describe 'validation' do
     describe "source" do
       it "can be blank" do

@@ -8,6 +8,18 @@ class Photo < Memory
 
   attr_accessor :rotation
 
+  def label
+    'picture'
+  end
+
+  def info_list
+    [
+      'We currently support files of type .gif, .jpg, .jpeg or .png',
+      'We do not store image files at their original size. Please make sure that you store your own copy.',
+      'Please be aware the uploading files from a mobile device may incur charges from your mobile service provider.'
+    ]
+  end
+
   def rotation=(degrees_string)
     @rotation = degrees_string.to_i
   end

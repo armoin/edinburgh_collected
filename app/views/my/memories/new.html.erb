@@ -4,7 +4,7 @@
   <div id="newMemoryForm" class="formWrapper row">
     <div id="formPanel" class="col-md-6">
 
-      <h1>Add a picture memory</h1>
+      <h1>Add a <%= @memory.label %> memory</h1>
 
       <%= form_for @memory, url: my_memories_path, as: 'memory', builder: Judge::FormBuilder, html: {id: 'add-memory', class: 'form-horizontal', role: 'form'} do |form| %>
         <%= form.hidden_field :type %>
@@ -44,14 +44,12 @@
               <span class="glyphicon glyphicon-info-sign"></span>
               All fields marked with a <span class="required">*</span> are required
             </li>
-            <li>
-              <span class="glyphicon glyphicon-info-sign"></span>
-              Photos must be of type .gif, .jpg, .jpeg or .png
-            </li>
-            <li>
-              <span class="glyphicon glyphicon-info-sign"></span>
-              Please note that we do not store photos at their original size
-            </li>
+            <% @memory.info_list.each do |info_item| %>
+              <li>
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <%= info_item %>
+              </li>
+            <% end %>
             <li>
               <span class="glyphicon glyphicon-info-sign"></span>
               Some text fields have a maximum character limit (as indicated)
