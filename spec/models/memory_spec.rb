@@ -451,7 +451,7 @@ describe Memory do
 
   describe "#photo?" do
     it 'is false when the type is not "Photo"' do
-      memory = Fabricate.build(:text_memory)
+      memory = Fabricate.build(:written_memory)
       expect(memory).not_to be_photo
     end
 

@@ -1,19 +1,19 @@
 require 'rails_helper'
 
-describe Text do
+describe Written do
   let(:test_user) { Fabricate.build(:user) }
   let!(:area)     { Fabricate(:area) }
-  let(:memory)    { Fabricate.build(:text_memory, user: test_user, area: area) }
+  let(:memory)    { Fabricate.build(:written_memory, user: test_user, area: area) }
 
   it_behaves_like "a memory"
 
-  it 'is a Memory of type "Text"' do
+  it 'is a Memory of type "Written"' do
     expect(subject).to be_a(Memory)
-    expect(subject.type).to eql('Text')
+    expect(subject.type).to eql('Written')
   end
 
-  it 'has a label of "text"' do
-    expect(subject.label).to eq('text')
+  it 'has a label of "written"' do
+    expect(subject.label).to eq('written')
   end
 
   describe '#info_list' do
@@ -37,10 +37,10 @@ describe Text do
     end
 
     it 'returns the text memory thumbnail otherwise' do
-      expect(subject.source_url(:thumb)).to eql(Text::THUMBNAIL_IMAGE)
-      expect(subject.source_url(:mini_thumb)).to eql(Text::THUMBNAIL_IMAGE)
-      expect(subject.source_url(:big_thumb)).to eql(Text::THUMBNAIL_IMAGE)
-      expect(subject.source_url(:other)).to eql(Text::THUMBNAIL_IMAGE)
+      expect(subject.source_url(:thumb)).to eql(Written::THUMBNAIL_IMAGE)
+      expect(subject.source_url(:mini_thumb)).to eql(Written::THUMBNAIL_IMAGE)
+      expect(subject.source_url(:big_thumb)).to eql(Written::THUMBNAIL_IMAGE)
+      expect(subject.source_url(:other)).to eql(Written::THUMBNAIL_IMAGE)
     end
   end
 end

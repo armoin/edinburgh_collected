@@ -1,8 +1,8 @@
-class Text < Memory
+class Written < Memory
   THUMBNAIL_IMAGE = 'speach-bubble-large-4.png'
 
   def label
-    'text'
+    'written'
   end
 
   def info_list

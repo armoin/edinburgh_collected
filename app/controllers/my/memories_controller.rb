@@ -14,8 +14,8 @@ class My::MemoriesController < My::AuthenticatedUserController
     case params[:memory_type]
     when 'photo'
       @memory = Photo.new
-    when 'text'
-      @memory = Text.new
+    when 'written'
+      @memory = Written.new
     else
       redirect_to :add_memory_my_memories
     end

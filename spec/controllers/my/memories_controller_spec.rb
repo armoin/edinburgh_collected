@@ -124,15 +124,15 @@ describe My::MemoriesController do
         end
       end
 
-      context 'when the given memory type is "text"' do
-        let(:memory_type) { "text" }
+      context 'when the given memory type is "written"' do
+        let(:memory_type) { "written" }
 
         it 'does not set the current memory index path' do
           expect(session[:current_memory_index_path]).to be_nil
         end
 
-        it "assigns a new Text Memory" do
-          expect(assigns(:memory)).to be_a_new(Text)
+        it "assigns a new Written Memory" do
+          expect(assigns(:memory)).to be_a_new(Written)
         end
 
         it "is successful" do

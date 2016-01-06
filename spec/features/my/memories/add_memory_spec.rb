@@ -90,19 +90,19 @@ feature 'adding a new picture memory', slow: true, js: true do
     end
   end
 
-  feature 'when adding a text memory' do
+  feature 'when adding a written memory' do
     before :each do
-      visit '/my/memories/new?memory_type=text'
+      visit '/my/memories/new?memory_type=written'
     end
 
-    scenario 'adding a new text memory with only the required fields creates it' do
+    scenario 'adding a new written memory with only the required fields creates it' do
       expect do
-        fill_in_required_text_memory_fields
+        fill_in_required_written_memory_fields
         click_button 'Save'
       end.to change { Memory.count }.by(1)
     end
 
-    scenario 'attempting to add a text memory without a title shows an error' do
+    scenario 'attempting to add a written memory without a title shows an error' do
       fill_in_description
       select_a_category
       fill_in_year
@@ -110,7 +110,7 @@ feature 'adding a new picture memory', slow: true, js: true do
       expect(page).to have_css('.help-block', text: 'Please let us know what title you would like to give this')
     end
 
-    scenario 'attempting to add a text memory without a description shows an error' do
+    scenario 'attempting to add a written memory without a description shows an error' do
       fill_in_title
       select_a_category
       fill_in_year
@@ -118,7 +118,7 @@ feature 'adding a new picture memory', slow: true, js: true do
       expect(page).to have_css('.help-block', text: 'Please tell us a little bit about this memory')
     end
 
-    scenario 'attempting to add a text memory without a year shows an error' do
+    scenario 'attempting to add a written memory without a year shows an error' do
       fill_in_title
       fill_in_description
       select_a_category
@@ -126,7 +126,7 @@ feature 'adding a new picture memory', slow: true, js: true do
       expect(page).to have_css('.help-block', text: 'Please tell us when this dates from')
     end
 
-    scenario 'attempting to add a text memory with a year of 0 shows an error' do
+    scenario 'attempting to add a written memory with a year of 0 shows an error' do
       fill_in_title
       fill_in_description
       select_a_category
@@ -135,7 +135,7 @@ feature 'adding a new picture memory', slow: true, js: true do
       expect(page).to have_css('.help-block', text: 'must be greater than 0')
     end
 
-    scenario 'attempting to add a text memory with a incorrectly formatted year shows an error' do
+    scenario 'attempting to add a written memory with a incorrectly formatted year shows an error' do
       fill_in_title
       fill_in_description
       select_a_category
@@ -144,7 +144,7 @@ feature 'adding a new picture memory', slow: true, js: true do
       expect(page).to have_css('.help-block', text: 'must be in the format YYYY')
     end
 
-    scenario 'attempting to add a text memory without a category shows an error' do
+    scenario 'attempting to add a written memory without a category shows an error' do
       fill_in_title
       fill_in_description
       fill_in_year
@@ -154,7 +154,7 @@ feature 'adding a new picture memory', slow: true, js: true do
   end
 end
 
-def fill_in_required_text_memory_fields
+def fill_in_required_written_memory_fields
   fill_in_title
   fill_in_description
   select_a_category
@@ -163,7 +163,7 @@ end
 
 def fill_in_required_photo_memory_fields
   attach_photo
-  fill_in_required_text_memory_fields
+  fill_in_required_written_memory_fields
 end
 
 def valid_file

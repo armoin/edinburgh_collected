@@ -13,15 +13,15 @@
             <%= image_tag "camera-light-x2.png", alt: "Picture memory icon", class: "button-icon--camera" %>
             <span>Picture memory</span>
           <% end %>
-          <p>Upload a picture to Edinburgh Collected</p>
+          <p>Upload a picture.</p>
         </div>
 
         <div class="col-md-6 col-sm-6">
-          <%= link_to new_my_memory_path(memory_type: :text), :class => "actionLink" do %>
-            <%= image_tag "speach-bubble-light-x2.png", alt: "Text memory icon", class: "button-icon--speach-bubble" %>
-            <span>Text memory</span>
+          <%= link_to new_my_memory_path(memory_type: :written), :class => "actionLink" do %>
+            <%= image_tag "speach-bubble-light-x2.png", alt: "Written memory icon", class: "button-icon--speach-bubble" %>
+            <span>Written memory</span>
           <% end %>
-          <p>If you don't have a picture for the memory you can just create a text memory</p>
+          <p>No picture? Add a written memory.</p>
         </div>
       </div>
     </div>
@@ -30,6 +30,10 @@
       <div id="signposting">
         <div class="inner">
           <ul class="help-tips">
+            <li>
+              <span class="glyphicon glyphicon-info-sign"></span>
+              If you have memories to share, but no pictures, use the Written memory option to describe your time growing up, living, working or visiting Edinburgh.
+            </li>
             <li>
               <span class="glyphicon glyphicon-info-sign"></span>
               For more information, please see our <%= link_to "terms and conditions", t_and_c_path, class: 'underlined' %>.

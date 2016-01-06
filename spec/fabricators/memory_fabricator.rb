@@ -1,4 +1,4 @@
-Fabricator(:text_memory, class_name: :text) do
+Fabricator(:written_memory, class_name: :written) do
   user                { Fabricate(:active_user) }
   area
   year                "2014"
