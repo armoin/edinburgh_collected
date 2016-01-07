@@ -84,6 +84,14 @@ describe Photo do
         end
       end
     end
+
+    describe 'year' do
+      it "can't be blank" do
+        memory.year = ""
+        expect(memory).to be_invalid
+        expect(memory.errors[:year]).to include("Please tell us when this dates from")
+      end
+    end
   end
 
   describe 'updating' do

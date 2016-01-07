@@ -29,6 +29,13 @@ describe Written do
         expect(memory).to be_valid
       end
     end
+
+    describe "year" do
+      it "can be blank" do
+        expect(memory.year).to be_nil
+        expect(memory).to be_valid
+      end
+    end
   end
 
   describe 'source_url' do

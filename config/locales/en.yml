@@ -9,13 +9,16 @@ en:
         year:  "What year does this date from?"
         month: "Do you know the month too?"
         day:   "How about the day?"
-        description: "Tell us about what you have added"
         type: "What type of memory would you like to add?"
         source: "Please choose a picture"
         title: "What's the title of your memory?"
         attribution: "Who is the author or artist?"
         tag_list: "Add tags (separate with commas)"
         area_id: "Edinburgh area"
+      photo:
+        description: "Tell us about what you have added"
+      written:
+        description: "Write your memory here"
       user:
         screen_name: 'Username'
         is_group:    'Who is this account for?'

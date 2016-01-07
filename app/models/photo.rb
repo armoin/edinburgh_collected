@@ -5,6 +5,7 @@ class Photo < Memory
   mount_uploader :source, ImageUploader
 
   validates :source, presence: true
+  validates :year, presence: true
 
   attr_accessor :rotation
 

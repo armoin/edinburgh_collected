@@ -1,15 +1,8 @@
 Fabricator(:written_memory, class_name: :written) do
   user                { Fabricate(:active_user) }
-  area
-  year                "2014"
-  month               "5"
-  day                 "4"
   title               "A test"
   description         "This is a test."
-  attribution         "Bobby Tables"
-  location            "Kings Road"
   categories(rand: 3) { |attrs, i| Fabricate(:category) }
-  tags(rand: 3)       { |attrs, i| Fabricate(:tag) }
   moderation_state    ModerationStateMachine::DEFAULT_STATE
 end
 

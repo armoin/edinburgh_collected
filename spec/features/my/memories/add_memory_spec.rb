@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'adding a new picture memory', slow: true, js: true do
+feature 'adding a new memory', slow: true, js: true do
   before :each do
     Fabricate(:active_user, email: 'bobby@example.com', password: 's3cr3t', password_confirmation: 's3cr3t')
     Fabricate.times(2, :category)
@@ -118,12 +118,12 @@ feature 'adding a new picture memory', slow: true, js: true do
       expect(page).to have_css('.help-block', text: 'Please tell us a little bit about this memory')
     end
 
-    scenario 'attempting to add a written memory without a year shows an error' do
+    scenario 'attempting to add a written memory without a year does not show an error' do
       fill_in_title
       fill_in_description
       select_a_category
       click_button 'Save'
-      expect(page).to have_css('.help-block', text: 'Please tell us when this dates from')
+      expect(page).not_to have_css('.help-block', text: 'Please tell us when this dates from')
     end
 
     scenario 'attempting to add a written memory with a year of 0 shows an error' do
@@ -132,7 +132,7 @@ feature 'adding a new picture memory', slow: true, js: true do
       select_a_category
       fill_in 'memory[year]', with: '0'
       click_button 'Save'
-      expect(page).to have_css('.help-block', text: 'must be greater than 0')
+      expect(page).to have_css('.help-block', text: 'is not a valid year')
     end
 
     scenario 'attempting to add a written memory with a incorrectly formatted year shows an error' do
@@ -158,12 +158,12 @@ def fill_in_required_written_memory_fields
   fill_in_title
   fill_in_description
   select_a_category
-  fill_in_year
 end
 
 def fill_in_required_photo_memory_fields
   attach_photo
   fill_in_required_written_memory_fields
+  fill_in_year
 end
 
 def valid_file

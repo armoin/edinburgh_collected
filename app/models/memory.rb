@@ -19,9 +19,13 @@ class Memory < ActiveRecord::Base
   end
 
   validates_presence_of :title, :description, :user, :type
-  validates :year, presence: true,
-                   numericality: {only_integer: true, greater_than: 0, message: 'is not a valid year'},
-                   format: { with: /\d{4}/, message: 'must be in the format YYYY' }
+  validates :year, numericality: {
+                     only_integer: true,
+                     greater_than: 0,
+                     message: 'is not a valid year',
+                     unless: Proc.new { |memory| memory.year.blank? }
+                   },
+                   format: { with: /\d{4}/, message: 'must be in the format YYYY', allow_blank: true }
   validates_presence_of :categories, message: 'must have at least one'
   validates :type, inclusion: { in: Memory.file_types, message: "must be of type 'photo'", judge: :ignore }
   validate :date_not_in_future

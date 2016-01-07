@@ -95,12 +95,6 @@ RSpec.shared_examples "a memory" do
       end
 
       describe "year" do
-        it "can't be blank" do
-          memory.year = ""
-          expect(memory).to be_invalid
-          expect(memory.errors[:year]).to include("Please tell us when this dates from")
-        end
-
         it "is invalid if in the future" do
           memory.year = '2015'
           expect(memory).to be_invalid
