@@ -3,25 +3,25 @@
 
   <div id="newMemoryForm" class="formWrapper row">
     <div id="formPanel" class="col-md-6">
-      <h1>Add a memory</h1>
+      <h1 class="align-center">Add a memory</h1>
 
-      <p>Please select the type of memory that you would like to add.</p>
+      <p class="align-center">Please select the type of memory that you would like to add.</p>
 
-      <div class="instructionsWrapper" class="row">
-        <div class="col-md-6 col-sm-6">
-          <%= link_to new_my_memory_path(memory_type: :photo), :class => "actionLink" do %>
-            <%= image_tag "camera-light-x2.png", alt: "Picture memory icon", class: "button-icon--camera" %>
-            <span>Picture memory</span>
+      <div class="big-buttons row">
+        <div class="big-buttons__button col-md-6 col-sm-6">
+          <%= link_to new_my_memory_path(memory_type: :photo), :class => "big-buttons__button__link" do %>
+            <%= image_tag "camera-light-x2.png", alt: "Picture memory icon", class: "big-buttons__button__icon" %>
+            <span class="big-buttons__button__label">Picture memory</span>
           <% end %>
-          <p>Upload a picture.</p>
+          <p class="big-buttons__button__text">Upload a picture.</p>
         </div>
 
-        <div class="col-md-6 col-sm-6">
-          <%= link_to new_my_memory_path(memory_type: :written), :class => "actionLink" do %>
-            <%= image_tag "speach-bubble-light-x2.png", alt: "Written memory icon", class: "button-icon--speach-bubble" %>
-            <span>Written memory</span>
+        <div class="big-buttons__button col-md-6 col-sm-6">
+          <%= link_to new_my_memory_path(memory_type: :written), :class => "big-buttons__button__link" do %>
+            <%= image_tag "speach-bubble-light-x2.png", alt: "Written memory icon", class: "big-buttons__button__icon" %>
+            <span class="big-buttons__button__label">Written memory</span>
           <% end %>
-          <p>No picture? Add a written memory.</p>
+          <p class="big-buttons__button__text">No picture? Add a written memory.</p>
         </div>
       </div>
     </div>

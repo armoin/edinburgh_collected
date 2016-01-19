@@ -1,18 +1,17 @@
-<div class="instructionsWrapper" class="row">
-
-  <div class="col-md-6 col-sm-6">
-    <%= link_to my_memories_path, :class => "actionLink"  do %>
-      <%= image_tag "your-collection-icon-light.png", alt: "Your collection" %>
-      <span>From your collection</span>
+<div class="big-buttons row">
+  <div class="big-buttons__button col-md-6 col-sm-6">
+    <%= link_to my_memories_path, :class => "big-buttons__button__link"  do %>
+      <%= image_tag "your-collection-icon-light.png", alt: "Your collection", class: 'big-buttons__button__icon' %>
+      <span class="big-buttons__button__label">From your collection</span>
     <% end %>
-    <p>Browse the memories that you have uploaded and add them to a scrapbook</p>
+    <p class="big-buttons__button__text">Browse the memories that you have uploaded and add them to a scrapbook</p>
   </div>
 
-  <div class="col-md-6 col-sm-6">
-    <%= link_to memories_path, :class => "actionLink"  do %>
-      <%= image_tag "whole-collection-icon-light.png", alt: "Whole collection" %>
-      <span>From the entire site</span>
+  <div class="big-buttons__button col-md-6 col-sm-6">
+    <%= link_to memories_path, :class => "big-buttons__button__link"  do %>
+      <%= image_tag "whole-collection-icon-light.png", alt: "Whole collection", class: 'big-buttons__button__icon' %>
+      <span class="big-buttons__button__label">From the entire site</span>
     <% end %>
-    <p>Browse the whole collection of memories and add them to a scrapbook</p>
+    <p class="big-buttons__button__text">Browse the whole collection of memories and add them to a scrapbook</p>
   </div>
 </div>
