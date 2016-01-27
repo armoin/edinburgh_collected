@@ -16,7 +16,11 @@ Rails.application.routes.draw do
     get '/getting_started' => 'getting_started#index'
     patch '/skip_getting_started' => 'getting_started#skip_getting_started'
 
-    resources :memories
+    resources :memories do
+      collection do
+        get 'add_memory'
+      end
+    end
     resources :scrapbooks do
       member do
         get :view

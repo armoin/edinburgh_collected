@@ -29,7 +29,6 @@ gem 'kaminari',                     '~> 0.16.1'
 gem 'pg',                           '~> 0.17.1'
 gem 'pg_search',                    '~> 0.7.8'
 gem 'judge',                        '~> 2.0.5'
-gem 'file_validators',              '~> 1.2.0'
 gem 'possessive',                   '~> 1.0.0'
 gem 'validate_url',                 '~> 1.0.0'
 gem 'nested_form',                  '~> 0.3.2'
@@ -60,7 +59,7 @@ end
 group :test do
   gem 'webmock',                    '~> 1.20.0'
   gem "codeclimate-test-reporter",  require: nil
-  gem "poltergeist",                '~> 1.5.1'
+  gem "poltergeist",                '~> 1.8.1'
   gem 'database_cleaner',           '~> 1.3.0'
 end
 

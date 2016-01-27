@@ -1,46 +1,28 @@
 <div class="container">
-  <header id="formHeader" class="row">
-    <!--
-      <div class="step step1 col-md-4">
-       <span>1</span> Choose the type of file
-      </div>
-      <div class="step step2 col-md-4">
-       <span>2</span> Upload your memory
-      </div>
-      <div class="step step3 col-md-4">
-       <span>3</span> Upload Complete
-      </div>
-     -->
-  </header>
+  <header id="formHeader" class="row"></header>
 
   <div id="newMemoryForm" class="formWrapper row">
     <div id="formPanel" class="col-md-6">
 
-      <h1>Add a memory</h1>
+      <h1>Add a <%= @memory.label %> memory</h1>
 
       <%= form_for @memory, url: my_memories_path, as: 'memory', builder: Judge::FormBuilder, html: {id: 'add-memory', class: 'form-horizontal', role: 'form'} do |form| %>
-        <div class="form-group" aria-required="true">
-          <div class="formRow">
-            <%= form.label :type, class: 'control-label' %>
-            <%= form.select :type, Memory.file_types, {validate: true}, {class: 'form-control'} %>
-          </div>
-          <% @memory.errors[:type].each do |error| %>
-            <span class="help-block"><%= error %></span>
-        <% end -%>
-        </div>
+        <%= form.hidden_field :type %>
 
-        <div class="form-group" aria-required="true">
-          <div class="formRow">
-            <%= form.label :source, class: 'control-label' %>
-            <%= form.file_field :source, data: {max_size: Memory::MAX_FILE_SIZE} %>
-            <%= form.hidden_field :source_cache %>
+        <% if @memory.photo? %>
+          <div class="form-group" aria-required="true">
+            <div class="formRow">
+              <%= form.label :source, class: 'control-label' %>
+              <%= form.file_field :source %>
+              <%= form.hidden_field :source_cache %>
+            </div>
+            <% @memory.errors[:source].each do |error| %>
+              <span class="help-block"><%= error %></span>
+            <% end -%>
           </div>
-          <% @memory.errors[:source].each do |error| %>
-            <span class="help-block"><%= error %></span>
-          <% end -%>
-        </div>
 
-        <%= render partial: 'image_editor', locals: {form: form, uploaded_image_url: @memory.source_url} %>
+          <%= render partial: 'image_editor', locals: {form: form, uploaded_image_url: @memory.source_url} %>
+        <% end %>
 
         <%= render partial: 'details_form', object: @memory, locals: {form: form} %>
 
@@ -62,18 +44,12 @@
               <span class="glyphicon glyphicon-info-sign"></span>
               All fields marked with a <span class="required">*</span> are required
             </li>
-            <li>
-              <span class="glyphicon glyphicon-info-sign"></span>
-              Files must be of type .gif, .jpg, .jpeg or .png
-            </li>
-            <li>
-              <span class="glyphicon glyphicon-info-sign"></span>
-              Files should be 1-2 MB, and no bigger than <%= Memory::MAX_FILE_SIZE / 1024 / 1024 %> MB, in size
-            </li>
-            <li>
-              <span class="glyphicon glyphicon-info-sign"></span>
-              Please note that we do not store image files at their original size
-            </li>
+            <% @memory.info_list.each do |info_item| %>
+              <li>
+                <span class="glyphicon glyphicon-info-sign"></span>
+                <%= info_item %>
+              </li>
+            <% end %>
             <li>
               <span class="glyphicon glyphicon-info-sign"></span>
               Some text fields have a maximum character limit (as indicated)
@@ -91,11 +67,7 @@
   </div>
 </div>
 
-<%= render partial: 'save_prompt' %>
-
 <script type="text/javascript">
-  var showPrompt = true;
-
   var setupForm = function (e) {
     window.formValidator = new FormValidator();
     window.formValidator.labelLengthConstraints($('form#add-memory'));
@@ -110,29 +82,18 @@
 
   $(document).ready(setupForm);
 
+  var validated = false;
+
   $('form#add-memory').on('submit', function (e) {
-    if (showPrompt) {
+    var addMemoryForm = this;
+    if (!validated) {
       e.preventDefault();
-      window.formValidator.validateForm(this, {
-        onValid: function () { $('#save-prompt').modal(); }
+      window.formValidator.validateForm(addMemoryForm, {
+        onValid: function () {
+          validated = true;
+          $(addMemoryForm).trigger('submit');
+        }
       });
     }
-  });
-
-  var commitWith = function (commitValue) {
-    showPrompt = false;
-    $('form#add-memory')
-      .append('<input type="hidden" name="commit" value="' + commitValue + '">')
-      .submit();
-  };
-
-  $('#yes').on('click', function (e) {
-    e.preventDefault();
-    commitWith('Save And Add Another');
-  });
-
-  $('#no').on('click', function (e) {
-    e.preventDefault();
-    commitWith('Save');
   });
 </script>

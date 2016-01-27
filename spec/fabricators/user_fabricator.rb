@@ -1,7 +1,7 @@
 Fabricator(:user) do
   first_name            { Faker::Name.first_name }
   last_name             { Faker::Name.last_name }
-  screen_name           { sequence(:screen_name) {|i| [Faker::Name.first_name, i.to_s].join('_')} }
+  screen_name           { [Faker::Name.first_name, random_num(8)].join('_') }
   email                 { Faker::Internet.email }
   password              { generate_password }
   password_confirmation { |attrs| attrs[:password] }
@@ -48,6 +48,9 @@ Fabricator(:blocked_user, from: :user) do
 end
 
 def generate_password
-  @pass ||= SecureRandom.uuid.first(8)
+  @pass ||= random_num(8)
 end
 
+def random_num(digits)
+  SecureRandom.uuid.first(digits)
+end

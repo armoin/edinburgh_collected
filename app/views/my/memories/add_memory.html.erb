@@ -1,0 +1,46 @@
+<div class="container">
+  <header id="formHeader" class="row"></header>
+
+  <div id="newMemoryForm" class="formWrapper row">
+    <div id="formPanel" class="col-md-6">
+      <h1 class="align-center">Add a memory</h1>
+
+      <p class="align-center">Please select the type of memory that you would like to add.</p>
+
+      <div class="big-buttons row">
+        <div class="big-buttons__button col-md-6 col-sm-6">
+          <%= link_to new_my_memory_path(memory_type: :photo), :class => "big-buttons__button__link" do %>
+            <%= image_tag "camera-light-x2.png", alt: "Picture memory icon", class: "big-buttons__button__icon" %>
+            <span class="big-buttons__button__label">Picture memory</span>
+          <% end %>
+          <p class="big-buttons__button__text">Upload a picture.</p>
+        </div>
+
+        <div class="big-buttons__button col-md-6 col-sm-6">
+          <%= link_to new_my_memory_path(memory_type: :written), :class => "big-buttons__button__link" do %>
+            <%= image_tag "speach-bubble-light-x2.png", alt: "Written memory icon", class: "big-buttons__button__icon" %>
+            <span class="big-buttons__button__label">Written memory</span>
+          <% end %>
+          <p class="big-buttons__button__text">No picture? Add a written memory.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="extraPanel" class="col-md-6">
+      <div id="signposting">
+        <div class="inner">
+          <ul class="help-tips">
+            <li>
+              <span class="glyphicon glyphicon-info-sign"></span>
+              If you have memories to share, but no pictures, use the Written memory option to describe your time growing up, living, working or visiting Edinburgh.
+            </li>
+            <li>
+              <span class="glyphicon glyphicon-info-sign"></span>
+              For more information, please see our <%= link_to "terms and conditions", t_and_c_path, class: 'underlined' %>.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

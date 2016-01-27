@@ -41,11 +41,14 @@
 
     <div class="col-sm-8 scrapbook__content">
       <% if @memories.any? -%>
-        <div class="scrapbook__hero__container desktop">
-          <div class="scrapbook__hero__image">
-            <img src="<%= cache_busted_url(@memories.first) %>" alt="<%= @memories.first.title %>" title="<%= @memories.first.title %>" />
+        <% first_photo_memory = @memories.select(&:photo?).first %>
+        <% if first_photo_memory %>
+          <div class="scrapbook__hero__container desktop">
+            <div class="scrapbook__hero__image">
+              <img src="<%= cache_busted_url(first_photo_memory) %>" alt="<%= first_photo_memory.title %>" title="<%= first_photo_memory.title %>" />
+            </div>
           </div>
-        </div>
+        <% end %>
 
         <%= render partial: 'memories/index', locals: {memories: @memories} %>
 

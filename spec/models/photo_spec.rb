@@ -1,15 +1,98 @@
 require 'rails_helper'
 
 describe Photo do
+  let(:test_user) { Fabricate.build(:user) }
   let(:file_path) { File.join(Rails.root, 'spec', 'fixtures', 'files') }
   let(:file_name) { 'test.jpg' }
-  let(:test_user) { Fabricate.build(:user) }
   let(:source)    { Rack::Test::UploadedFile.new(File.join(file_path, file_name)) }
   let!(:area)     { Fabricate(:area) }
   let(:memory)    { Fabricate.build(:photo_memory, user: test_user, source: source, area: area) }
 
   it_behaves_like "a memory"
-  it_behaves_like "locatable"
+
+  it 'is a Memory of type "Photo"' do
+    expect(subject).to be_a(Memory)
+    expect(subject.type).to eql('Photo')
+  end
+
+  it 'has a label of "picture"' do
+    expect(subject.label).to eq('picture')
+  end
+
+  describe '#info_list' do
+    it 'includes info on acceptable file types' do
+      expect(subject.info_list).to include('We currently support files of type .gif, .jpg, .jpeg or .png')
+    end
+
+    it 'includes info on not storing original size' do
+      expect(subject.info_list).to include('We do not store image files at their original size. Please make sure that you store your own copy.')
+    end
+
+    it 'includes info on uploading from mobile' do
+      expect(subject.info_list).to include('Please be aware the uploading files from a mobile device may incur charges from your mobile service provider.')
+    end
+  end
+
+  describe 'validation' do
+    describe "source" do
+      it "can't be blank" do
+        memory.source.remove!
+        expect(memory).to be_invalid
+        expect(memory.errors[:source]).to include("You need to choose a photo to upload")
+      end
+
+      describe 'must have an allowed file extension' do
+        context "file is a .jpg" do
+          let(:file_name) { 'test.jpg' }
+
+          it "is valid" do
+            expect(memory).to be_valid
+          end
+        end
+
+        context "file is a .jpeg" do
+          let(:file_name) { 'test.jpeg' }
+
+          it "is valid" do
+            expect(memory).to be_valid
+          end
+        end
+
+        context "file is a .png" do
+          let(:file_name) { 'test.png' }
+
+          it "is valid" do
+            expect(memory).to be_valid
+          end
+        end
+
+        context "file is a .gif" do
+          let(:file_name) { 'test.gif' }
+
+          it "is valid" do
+            expect(memory).to be_valid
+          end
+        end
+
+        context "file is a .txt" do
+          let(:file_name) { 'test.txt' }
+
+          it "is invalid" do
+            expect(memory).to be_invalid
+            expect(memory.errors[:source]).to include("You are not allowed to upload \"txt\" files, allowed types: JPG, JPEG, GIF, PNG, jpg, jpeg, gif, png")
+          end
+        end
+      end
+    end
+
+    describe 'year' do
+      it "can't be blank" do
+        memory.year = ""
+        expect(memory).to be_invalid
+        expect(memory.errors[:year]).to include("Please tell us when this dates from")
+      end
+    end
+  end
 
   describe 'updating' do
     let(:now) { Time.now }

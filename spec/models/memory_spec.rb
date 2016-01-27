@@ -448,4 +448,16 @@ describe Memory do
       expect(memory.category_list).to eql('Home, Transport')
     end
   end
+
+  describe "#photo?" do
+    it 'is false when the type is not "Photo"' do
+      memory = Fabricate.build(:written_memory)
+      expect(memory).not_to be_photo
+    end
+
+    it 'is true if the type is "Photo"' do
+      memory = Fabricate.build(:photo_memory)
+      expect(memory).to be_photo
+    end
+  end
 end

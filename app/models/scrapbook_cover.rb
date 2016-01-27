@@ -21,12 +21,16 @@ class ScrapbookCover
   end
 
   def main_memory
-    @memories.first
+    @memories.select(&:photo?).first || @memories.first
   end
 
   def secondary_memories
-    Array.new(NUM_SECONDARY_MEMORIES).map.with_index do |memory, i|
-      @memories[i+1] # skip the first memory as that is the main memory
-    end
+    Array.new(NUM_SECONDARY_MEMORIES) {|i| other_memories[i]}
+  end
+
+  private
+
+  def other_memories
+    @memories - [main_memory]
   end
 end

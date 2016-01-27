@@ -24,9 +24,15 @@
   </header>
 
   <div id="image">
-    <a href="#">
-      <img src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
-    </a>
+    <% if @memory.photo? %>
+      <a href="#">
+        <img src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
+      </a>
+    <% else %>
+      <div id="memory-description">
+        <div class="text"><%= simple_format(@memory.description) %></div>
+      </div>
+    <% end %>
   </div>
 
   <div id="details" class="col-xs-12">
@@ -40,15 +46,17 @@
     </header>
     <div id="metadata" class="col-xs-12 col-md-6">
       <div id="about">
-        <h3>About this memory</h3>
-        <div id="memory-description"><%= simple_format(@memory.description) %></div>
+        <% if @memory.photo? %>
+          <h3>About this memory</h3>
+          <div id="memory-description"><%= simple_format(@memory.description) %></div>
+        <% end %>
 
         <% if @memory.attribution.present? %>
           <p id="memory-attribution">
             <span id="author">Author or artist:</span>
             <%= @memory.attribution %>
           </p>
-        <% end -%>
+        <% end %>
       </div>
 
       <div class="filters">

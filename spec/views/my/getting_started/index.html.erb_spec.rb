@@ -83,7 +83,7 @@ describe 'my/getting_started/index.html.erb' do
       end
 
       it "is a link to the Add memory page" do
-        expect(rendered).to have_link("2. Upload your first memory", href: new_my_memory_path)
+        expect(rendered).to have_link("2. Upload your first memory", href: add_memory_my_memories_path)
       end
 
       it 'shows the "Upload your first memory" instructions' do

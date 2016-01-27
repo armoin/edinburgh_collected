@@ -1,66 +1,191 @@
-# require 'rails_helper'
-#
-# feature 'adding new memories', slow: true, js:true do # REMEMBER: add js:true again if this test is reincluded
-#   before do
-#     Fabricate(:active_user, email: 'bobby@example.com', password: 's3cr3t', password_confirmation: 's3cr3t')
-#     Fabricate(:area)
-#     Fabricate.times(4, :category)
-#   end
-#
-#   let(:memory_attrs) {{
-#     type:        "Photo",
-#     title:       "Arthur's Seat",
-#     year:        "2014",
-#     description: "Arthur's Seat is the plug of a long extinct volcano."
-#   }}
-#
-#   before :each do
-#     login('bobby@example.com', 's3cr3t')
-#     visit '/my/memories/new'
-#   end
-#
-#   scenario "when I attach an image file the image editor is shown" do
-#     attach_file :file, File.join(File.dirname(__FILE__), '../../../fixtures/files/test.jpg')
-#     expect(page).to have_css('#image-editor')
-#   end
-#
-#   scenario 'adding a new memory creates it' do
-#     pre_count = Memory.count
-#     fill_in_form
-#     click_button 'Save'
-#     click_button "That's all for now thanks"
-#     expect(Memory.count).to eql(pre_count + 1)
-#   end
-#
-#   scenario 'clicking Save launches a prompt to advise user' do
-#     expect(page).not_to have_css('.modal#save-prompt')
-#     fill_in_form
-#     click_button 'Save'
-#     expect(page).to have_css('.modal#save-prompt')
-#   end
-#
-#   scenario "clicking Save and then selecting That's all goes to the My Memories page" do
-#     fill_in_form
-#     click_button 'Save'
-#     click_button "That's all for now thanks"
-#     expect(current_path).to eq('/my/memories')
-#   end
-#
-#   scenario 'clicking Save and then Yes please goes to the New page again' do
-#     fill_in_form
-#     click_button 'Save'
-#     click_button "Yes please"
-#     expect(current_path).to eq('/my/memories/new')
-#   end
-# end
-#
-# def fill_in_form
-#   select memory_attrs[:type], from: 'memory[type]'
-#   attach_file :file, File.join(File.dirname(__FILE__), '../../../fixtures/files/test.jpg')
-#   fill_in 'memory[title]', with: memory_attrs[:title]
-#   fill_in 'memory[year]', with: memory_attrs[:year]
-#   fill_in 'memory[description]', with: memory_attrs[:description]
-#   fill_in 'memory[location]', with: '10 Bath Street'
-#   first(:css, "input[name='memory[category_ids][]']").click
-#   select Area.first.name, from: 'memory[area_id]'
-# end
+require 'rails_helper'
+
+feature 'adding a new memory', slow: true, js: true do
+  before :each do
+    Fabricate(:active_user, email: 'bobby@example.com', password: 's3cr3t', password_confirmation: 's3cr3t')
+    Fabricate.times(2, :category)
+    login('bobby@example.com', 's3cr3t')
+  end
+
+  feature 'when adding a photo memory' do
+    before :each do
+      visit '/my/memories/new?memory_type=photo'
+    end
+
+    scenario "when I attach a photo file the image editor is shown" do
+      attach_file 'memory[source]', File.join(File.dirname(__FILE__), '../../../fixtures/files/test.jpg')
+      expect(page).to have_css('#image-editor')
+    end
+
+    scenario 'adding a new photo memory with only the required fields creates it' do
+      expect do
+        fill_in_required_photo_memory_fields
+        click_button 'Save'
+      end.to change { Memory.count }.by(1)
+    end
+
+    scenario 'attempting to add a photo memory without a photo file shows an error' do
+      fill_in_title
+      fill_in_description
+      select_a_category
+      fill_in_year
+      click_button 'Save'
+      expect(page).to have_css('.help-block', text: 'Please select a photo to upload')
+    end
+
+    scenario 'attempting to add a photo memory without a title shows an error' do
+      attach_photo
+      fill_in_description
+      select_a_category
+      fill_in_year
+      click_button 'Save'
+      expect(page).to have_css('.help-block', text: 'Please let us know what title you would like to give this')
+    end
+
+    scenario 'attempting to add a photo memory without a description shows an error' do
+      attach_photo
+      fill_in_title
+      select_a_category
+      fill_in_year
+      click_button 'Save'
+      expect(page).to have_css('.help-block', text: 'Please tell us a little bit about this memory')
+    end
+
+    scenario 'attempting to add a photo memory without a year shows an error' do
+      attach_photo
+      fill_in_title
+      fill_in_description
+      select_a_category
+      click_button 'Save'
+      expect(page).to have_css('.help-block', text: 'Please tell us when this dates from')
+    end
+
+    scenario 'attempting to add a photo memory with a year of 0 shows an error' do
+      attach_photo
+      fill_in_title
+      fill_in_description
+      select_a_category
+      fill_in 'memory[year]', with: '0'
+      click_button 'Save'
+      expect(page).to have_css('.help-block', text: 'must be greater than 0')
+    end
+
+    scenario 'attempting to add a photo memory with a incorrectly formatted year shows an error' do
+      attach_photo
+      fill_in_title
+      fill_in_description
+      select_a_category
+      fill_in 'memory[year]', with: '14'
+      click_button 'Save'
+      expect(page).to have_css('.help-block', text: 'must be in the format YYYY')
+    end
+
+    scenario 'attempting to add a photo memory without a category shows an error' do
+      attach_photo
+      fill_in_title
+      fill_in_description
+      fill_in_year
+      click_button 'Save'
+      expect(page).to have_css('.help-block', text: 'Please select at least one')
+    end
+  end
+
+  feature 'when adding a written memory' do
+    before :each do
+      visit '/my/memories/new?memory_type=written'
+    end
+
+    scenario 'adding a new written memory with only the required fields creates it' do
+      expect do
+        fill_in_required_written_memory_fields
+        click_button 'Save'
+      end.to change { Memory.count }.by(1)
+    end
+
+    scenario 'attempting to add a written memory without a title shows an error' do
+      fill_in_description
+      select_a_category
+      fill_in_year
+      click_button 'Save'
+      expect(page).to have_css('.help-block', text: 'Please let us know what title you would like to give this')
+    end
+
+    scenario 'attempting to add a written memory without a description shows an error' do
+      fill_in_title
+      select_a_category
+      fill_in_year
+      click_button 'Save'
+      expect(page).to have_css('.help-block', text: 'Please tell us a little bit about this memory')
+    end
+
+    scenario 'attempting to add a written memory without a year does not show an error' do
+      fill_in_title
+      fill_in_description
+      select_a_category
+      click_button 'Save'
+      expect(page).not_to have_css('.help-block', text: 'Please tell us when this dates from')
+    end
+
+    scenario 'attempting to add a written memory with a year of 0 shows an error' do
+      fill_in_title
+      fill_in_description
+      select_a_category
+      fill_in 'memory[year]', with: '0'
+      click_button 'Save'
+      expect(page).to have_css('.help-block', text: 'is not a valid year')
+    end
+
+    scenario 'attempting to add a written memory with a incorrectly formatted year shows an error' do
+      fill_in_title
+      fill_in_description
+      select_a_category
+      fill_in 'memory[year]', with: '14'
+      click_button 'Save'
+      expect(page).to have_css('.help-block', text: 'must be in the format YYYY')
+    end
+
+    scenario 'attempting to add a written memory without a category shows an error' do
+      fill_in_title
+      fill_in_description
+      fill_in_year
+      click_button 'Save'
+      expect(page).to have_css('.help-block', text: 'Please select at least one')
+    end
+  end
+end
+
+def fill_in_required_written_memory_fields
+  fill_in_title
+  fill_in_description
+  select_a_category
+end
+
+def fill_in_required_photo_memory_fields
+  attach_photo
+  fill_in_required_written_memory_fields
+  fill_in_year
+end
+
+def valid_file
+  File.join(File.dirname(__FILE__), '../../../fixtures/files/test.jpg')
+end
+
+def attach_photo
+  attach_file 'memory[source]', valid_file
+end
+
+def fill_in_title
+  fill_in 'memory[title]', with: 'A test'
+end
+
+def fill_in_year
+  fill_in 'memory[year]', with: '2014'
+end
+
+def fill_in_description
+  fill_in 'memory[description]', with: 'This is a test'
+end
+
+def select_a_category
+  first(:css, "input[name='memory[category_ids][]']").click
+end

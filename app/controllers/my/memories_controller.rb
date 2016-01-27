@@ -7,19 +7,25 @@ class My::MemoriesController < My::AuthenticatedUserController
     render 'memories/user_index'
   end
 
+  def add_memory
+  end
+
   def new
-    @memory = Memory.new
+    case params[:memory_type]
+    when 'photo'
+      @memory = Photo.new
+    when 'written'
+      @memory = Written.new
+    else
+      redirect_to :add_memory_my_memories
+    end
   end
 
   def create
     @memory = Memory.new(memory_params)
     @memory.user = current_user
     if @memory.save
-      if params[:commit] == 'Save And Add Another'
-        redirect_to new_my_memory_url
-      else
-        redirect_to my_memories_url
-      end
+      redirect_to my_memories_url
     else
       render :new
     end

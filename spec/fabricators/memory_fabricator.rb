@@ -1,3 +1,11 @@
+Fabricator(:written_memory, class_name: :written) do
+  user                { Fabricate(:active_user) }
+  title               "A test"
+  description         "This is a test."
+  categories(rand: 3) { |attrs, i| Fabricate(:category) }
+  moderation_state    ModerationStateMachine::DEFAULT_STATE
+end
+
 Fabricator(:memory, class_name: :photo, aliases: [:photo_memory, :pending_memory]) do
   user                { Fabricate(:active_user) }
   area
@@ -29,11 +37,10 @@ end
 def stub_memories(number=1)
   Array.new(number) do |i|
     n = i+1
-    double('memory',
+    Fabricate.build(:photo_memory,
            id: n,
            title: "Test #{n}",
            description: "This is test #{n}",
-           source_url: "#{n}.jpg",
            updated_at: n.days.ago)
   end
 end

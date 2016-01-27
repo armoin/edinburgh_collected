@@ -6,8 +6,11 @@
       <h1 class="form-title">Edit details</h1>
 
       <%= form_for @memory, url: my_memory_path(@memory), as: 'memory', builder: Judge::FormBuilder, html: {id: 'edit-memory', class: 'form-horizontal', role: 'form'} do |form| %>
-        <img class="hide" id='memory_source' src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
-        <%= render partial: 'image_editor', locals: {form: form, uploaded_image_url: @memory.source_url} %>
+
+        <% if @memory.photo? %>
+          <img class="hide" id='memory_source' src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
+          <%= render partial: 'image_editor', locals: {form: form, uploaded_image_url: @memory.source_url} %>
+        <% end %>
 
         <%= render partial: 'details_form', object: @memory, locals: { form: form } %>
 

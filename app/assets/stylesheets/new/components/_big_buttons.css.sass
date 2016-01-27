@@ -1,0 +1,38 @@
+.big-buttons
+  margin-top: 2em
+  min-height: 150px
+  text-align: center
+
+.big-buttons__button
+  margin-bottom: 2em
+
+.big-buttons__button__link
+  display: block
+  margin: auto
+  margin-bottom: 1em
+  +border-radius(5px)
+  max-width: 250px
+  padding: 2em
+  background: $blue
+  color: $cream
+  text-align: center
+
+  &:hover
+    background: $navy-blue
+
+  &:hover, &:focus
+    color: $cream
+    text-decoration: none
+
+.big-buttons__button__label
+  display: block
+
+.big-buttons__button__icon
+  margin: 0 auto 0.5em auto
+  width: 40px
+  height: 40px
+
+.big-buttons__button__text
+  display: block
+  margin: auto
+  max-width: 250px
