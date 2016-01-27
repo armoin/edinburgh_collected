@@ -6,7 +6,7 @@ describe ImageUploader, slow: true do
 
   let(:memory)       { Fabricate.build(:photo_memory, id: 123) }
   let(:model_name)   { 'memory' }
-  let(:filename)     { 'test.jpg' }
+  let(:filename)     { 'image_upload_test.jpg' }
   let(:path_to_file) { File.join(Rails.root, 'spec', 'fixtures', 'files', filename) }
   let(:uploader)     { ImageUploader.new(memory, :source) }
 
@@ -52,16 +52,20 @@ describe ImageUploader, slow: true do
       ImageUploader.enable_processing = false
     end
 
+    it "should scale down an original image to a max of 1720 pixels wide or 1720 pixels high" do
+      expect(uploader).to be_no_larger_than(1720, 1720)
+    end
+
     it "should scale down a mini thumb image to 90x90 pixels" do
       expect(uploader.mini_thumb).to have_dimensions(90, 90)
     end
 
     it "should scale down a thumb image to a width of 250 pixels" do
-      expect(uploader.thumb).to be_no_larger_than(250, 167)
+      expect(uploader.thumb).to be_no_larger_than(250, 250)
     end
 
     it "should scale down a big thumb image to a width of 350 pixels" do
-      expect(uploader.big_thumb).to be_no_larger_than(350, 233)
+      expect(uploader.big_thumb).to be_no_larger_than(350, 350)
     end
   end
 end
