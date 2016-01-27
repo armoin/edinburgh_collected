@@ -30,6 +30,7 @@ class LmaImporter
 
   private
 
+  # don't include date in title
   def title_for(item)
     content_for 'title', item
   end
@@ -73,6 +74,7 @@ class LmaImporter
     matches[1]
   end
 
+  # don't use this!!
   def author_for(item)
     content_for 'author', item
   end
