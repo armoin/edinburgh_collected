@@ -17,10 +17,6 @@ class Scrapbook < ActiveRecord::Base
   scope :by_last_created, -> { order('created_at DESC') }
   scope :by_last_updated, -> { order('updated_at DESC') }
 
-  def cover
-    @cover ||= ScrapbookCover.new(self)
-  end
-
   def update(params)
     ordering = params.delete(:ordering)
     deleted = params.delete(:deleted)

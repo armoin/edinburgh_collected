@@ -128,14 +128,6 @@ describe Scrapbook do
     end
   end
 
-  describe '#cover' do
-    it 'provides a ScrapbookCover for the scrapbook' do
-      allow(ScrapbookCover).to receive(:new)
-      subject.cover
-      expect(ScrapbookCover).to have_received(:new).with(subject)
-    end
-  end
-
   describe '#update' do
     let(:initial_params) {{ title: 'new title' }}
     let(:params)         { initial_params }
