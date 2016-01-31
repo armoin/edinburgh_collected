@@ -6,7 +6,7 @@
       <div class="actions clearfix">
         <div class="viewingInfo">
           <strong>Found</strong>
-          <span class="button memories teal"><%= pluralize(@results.memory_count, 'memory') %></span>
+          <span class="button memories"><%= pluralize(@results.memory_count, 'memory') %></span>
           <%= link_to pluralize(@results.scrapbook_count, 'scrapbook'), search_scrapbooks_path(query: params[:query]), class: 'button scrapbooks inactive counter', id: 'view_scrapbook_results' %>
         </div>
       </div>

@@ -54,6 +54,16 @@
     background-color: darken( $coral, 20% )
     cursor: pointer
 
+.button.blue, .button.memories
+  background-color: $blue
+  border: 1px solid darken( $blue, 10% )
+  text-shadow: 0px 1px 0px $blue
+  text-decoration: none
+  color: white
+
+  &:hover
+    background-color: darken( $blue, 20% )
+
 .button.scrapbooks
   background-color: $teal
   border: 1px solid darken( $teal, 10% )
@@ -62,13 +72,3 @@
   &:hover, &:focus
     background-color: darken( $teal, 20% )
     cursor: pointer
-
-.button.teal
-  background-color: $teal
-  border: 1px solid darken( $teal, 10% )
-  text-shadow: 0px 1px 0px darken( $teal, 20% )
-  text-decoration: none
-  color: white
-
-  &:hover, &:focus
-    background-color: darken( $teal, 20% )
