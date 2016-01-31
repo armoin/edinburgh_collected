@@ -61,7 +61,7 @@
   text-decoration: none
   color: white
 
-  &:hover
+  &:hover, &:focus
     background-color: darken( $blue, 20% )
 
 .button.scrapbooks
@@ -72,3 +72,21 @@
   &:hover, &:focus
     background-color: darken( $teal, 20% )
     cursor: pointer
+
+.button.inactive
+  border: 1px solid #bcc0c1
+  border: 1px solid rgba($navy-blue, 0.25)
+  background-color: #bcc0c1
+  background-color: rgba($navy-blue, 0.25)
+  color: $navy-blue
+  text-shadow: none
+
+  &.scrapbooks:hover, &.scrapbooks:focus
+    background-color: $teal
+    border: 1px solid $teal
+    color: white
+
+  &.memories:hover, &.memories:focus
+    background-color: $blue
+    border: 1px solid  $blue
+    color: white
