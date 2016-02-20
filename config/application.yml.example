@@ -36,7 +36,7 @@ AWS_SECRET_ACCESS_KEY: <your AWS_SECRET_ACCESS_KEY here>
 # RACKSPACE DETAILS
 # If you use Rackspace to store images in this environment put the details below
 # Please Note: the Test environment uses the local machine by default
-# 
+#
 # RACKSPACE_USERNAME: <your RACKSPACE_USERNAME here>
 # RACKSPACE_API_KEY:  <your RACKSPACE_API_KEY here>
 # RACKSPACE_USE_SSL:  <get SSL urls for uploaded files true|false>
@@ -56,7 +56,7 @@ AWS_SECRET_ACCESS_KEY: <your AWS_SECRET_ACCESS_KEY here>
 # DEFAULT ADMIN USER
 # To generate a default admin user for the application set CREATE_DEFAULT_ADMIN_USER
 # to 'true' and add a DEFAULT_ADMIN_USER_PASSWORD.
-# 
+#
 # PLEASE NOTE: be sure to do this before running `rake db:seed`
 # PLEASE NOTE: it's probably not wise to do this on a production-level server ;)
 #
@@ -80,3 +80,9 @@ DISQUS_SHORTNAME: <your DISQUS_SHORTNAME here>
 #
 NEW_RELIC_LICENSE_KEY: ''
 NEW_RELIC_LOG:         ''
+
+##
+# SENTRY DETAILS
+# The details needed if you want to run Sentry exception reporting for this environment (getsentry.io).
+#
+SENTRY_DSN: ''

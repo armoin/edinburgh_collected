@@ -33,6 +33,7 @@ gem 'possessive',                   '~> 1.0.0'
 gem 'validate_url',                 '~> 1.0.0'
 gem 'nested_form',                  '~> 0.3.2'
 gem 'jquery-fileupload-rails'
+gem 'sentry-raven'
 
 group :doc do
   gem 'sdoc',                       '~> 0.4.0'
