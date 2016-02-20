@@ -64,8 +64,11 @@ group :test do
   gem 'database_cleaner',           '~> 1.3.0'
 end
 
-group :production do
+group :staging do
   gem 'rails_12factor',             '~> 0.0.2'
+end
+
+group :production do
   gem 'newrelic_rpm',               '~> 3.9.9.275'
   gem 'therubyracer',               '~> 0.12.1'
 end

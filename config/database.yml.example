@@ -11,6 +11,10 @@ test:
   <<: *common
   database: <test db name here>
 
+staging:
+  <<: *common
+  database: <staging db name here>
+
 production:
   <<: *common
   database: <production db name here>
