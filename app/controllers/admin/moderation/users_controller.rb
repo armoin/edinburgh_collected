@@ -9,7 +9,7 @@ class Admin::Moderation::UsersController < Admin::AuthenticatedAdminController
   end
 
   def unmoderated
-    @items = User.unmoderated.order('created_at')
+    @items = User.unmoderated.order(created_at: :desc)
     render :index
   end
 
@@ -19,7 +19,7 @@ class Admin::Moderation::UsersController < Admin::AuthenticatedAdminController
   end
 
   def reported
-    @items = User.reported.by_first_moderated
+    @items = User.reported.by_last_reported
     render :index
   end
 

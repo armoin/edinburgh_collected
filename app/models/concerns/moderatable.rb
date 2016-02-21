@@ -58,10 +58,6 @@ module Moderatable
         .and( User.arel_table[:moderation_state].in(ModerationStateMachine::PUBLICLY_VISIBLE) )
     end
 
-    def by_first_moderated
-      order('last_moderated_at')
-    end
-
     def by_last_moderated
       order('last_moderated_at DESC')
     end

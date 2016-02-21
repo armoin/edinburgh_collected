@@ -69,8 +69,8 @@ describe Admin::Moderation::UsersController do
         expect(User).to have_received(:unmoderated)
       end
 
-      it 'sorts the items with first created first' do
-        expect(unmoderated_users).to have_received(:order).with('created_at')
+      it 'sorts the items with last created first' do
+        expect(unmoderated_users).to have_received(:order).with(created_at: :desc)
       end
 
       it 'assigns the ordered items' do
@@ -138,7 +138,7 @@ describe Admin::Moderation::UsersController do
         login_user
 
         allow(User).to receive(:reported).and_return(reported_users)
-        allow(reported_users).to receive(:by_first_moderated).and_return(ordered_users)
+        allow(reported_users).to receive(:by_last_reported).and_return(ordered_users)
 
         get :reported
       end
@@ -147,8 +147,8 @@ describe Admin::Moderation::UsersController do
         expect(User).to have_received(:reported)
       end
 
-      it 'sorts the items with oldest report first' do
-        expect(reported_users).to have_received(:by_first_moderated)
+      it 'sorts the items with last reported first' do
+        expect(reported_users).to have_received(:by_last_reported)
       end
 
       it 'assigns the sorted items' do

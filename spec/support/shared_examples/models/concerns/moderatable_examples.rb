@@ -201,14 +201,6 @@ RSpec.shared_examples 'moderatable' do
     let!(:first_moderated)  { Fabricate(moderatable_factory, last_moderated_at: 3.days.ago) }
     let!(:last_moderated)   { Fabricate(moderatable_factory, last_moderated_at: 1.days.ago) }
 
-    describe '.by_first_moderated' do
-      it 'returns the scoped models in the order that they were moderated' do
-        expect(moderatable_model.by_first_moderated.first).to eql(first_moderated)
-        expect(moderatable_model.by_first_moderated.second).to eql(second_moderated)
-        expect(moderatable_model.by_first_moderated.last).to eql(last_moderated)
-      end
-    end
-
     describe '.by_last_moderated' do
       it 'returns the scoped models in the order that they were moderated' do
         expect(moderatable_model.by_last_moderated.first).to eql(last_moderated)
