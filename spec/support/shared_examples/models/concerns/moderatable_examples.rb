@@ -216,6 +216,14 @@ RSpec.shared_examples 'moderatable' do
         expect(moderatable_model.by_last_moderated.last).to eql(first_moderated)
       end
     end
+
+    describe '.by_last_reported' do
+      it 'returns the scoped models in the order that they were reported' do
+        expect(moderatable_model.by_last_reported.first).to eql(last_moderated)
+        expect(moderatable_model.by_last_reported.second).to eql(second_moderated)
+        expect(moderatable_model.by_last_reported.last).to eql(first_moderated)
+      end
+    end
   end
 
   describe "moderation state" do

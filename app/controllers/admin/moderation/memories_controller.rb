@@ -5,7 +5,7 @@ class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminControlle
   before_action :store_memory_index_path, only: INDEXES
 
   def index
-    @items = Memory.unmoderated.order('created_at')
+    @items = Memory.unmoderated.order(created_at: :desc)
   end
 
   def moderated
@@ -14,7 +14,7 @@ class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminControlle
   end
 
   def reported
-    @items = Memory.reported.by_first_moderated
+    @items = Memory.reported.by_last_reported
     render :index
   end
 

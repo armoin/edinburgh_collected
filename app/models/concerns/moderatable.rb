@@ -65,6 +65,7 @@ module Moderatable
     def by_last_moderated
       order('last_moderated_at DESC')
     end
+    alias_method :by_last_reported, :by_last_moderated
   end
 
   def approve!(approved_by)
