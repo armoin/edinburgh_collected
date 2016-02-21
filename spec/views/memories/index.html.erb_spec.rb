@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'memories/index.html.erb' do
   let(:current_user)   { nil }
-  let(:memories)       { Array.new(3) {|i| Fabricate.build(:memory, id: i+1) } }
+  let(:memories)       { Array.new(3) {|i| Fabricate.build(:photo_memory, id: i+1) } }
   let(:paged_memories) { Kaminari.paginate_array(memories).page(1) }
 
   before :each do

@@ -5,7 +5,7 @@ describe 'memories/user_index.html.erb' do
   let(:current_user)     { nil }
   let(:memories_count)   { 0 }
   let(:scrapbooks_count) { 0 }
-  let(:memories)         { Array.new(memories_count) {|i| Fabricate.build(:memory, id: i+1)} }
+  let(:memories)         { Array.new(memories_count) {|i| Fabricate.build(:photo_memory, id: i+1)} }
   let(:paged_memories)   { Kaminari.paginate_array(memories).page(1) }
 
   let(:presenter) { OpenStruct.new(

@@ -1,11 +1,8 @@
 require 'rails_helper'
 
 describe Memory do
-  let(:file_path) { File.join(Rails.root, 'spec', 'fixtures', 'files') }
-  let(:file_name) { 'test.jpg' }
-  let(:source)    { Rack::Test::UploadedFile.new(File.join(file_path, file_name)) }
   let(:test_user) { Fabricate.build(:user) }
-  let(:memory)    { Fabricate.build(:photo_memory, user: test_user, source: source, area: area) }
+  let(:memory)    { Fabricate.build(:memory, user: test_user, area: area) }
 
   let!(:area) { Fabricate(:area) }
 
@@ -14,7 +11,7 @@ describe Memory do
   it_behaves_like 'taggable'
 
   let(:moderatable_model) { Memory }
-  let(:moderatable_factory) { :photo_memory }
+  let(:moderatable_factory) { :memory }
   it_behaves_like 'moderatable'
 
   describe 'filtering' do
@@ -424,6 +421,7 @@ describe Memory do
     end
 
     it "provides the location and area name if there is an area and location" do
+      memory.location = 'Kings Road'
       expect(memory.address).to eql('Kings Road, Portobello')
     end
   end

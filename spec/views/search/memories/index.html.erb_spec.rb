@@ -8,7 +8,7 @@ describe 'search/memories/index.html.erb' do
   let(:scrapbook_count) { 0 }
   let(:results)         { double('results', query: query, memory_count: memory_count, scrapbook_count: scrapbook_count) }
 
-  let(:memories)        { Array.new(memory_count) {|i| Fabricate.build(:memory, id: i+1) } }
+  let(:memories)        { Array.new(memory_count) {|i| Fabricate.build(:photo_memory, id: i+1) } }
   let(:paged_memories)  { Kaminari.paginate_array(memories).page(1) }
 
   before :each do
