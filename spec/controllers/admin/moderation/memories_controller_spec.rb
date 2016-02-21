@@ -32,8 +32,8 @@ describe Admin::Moderation::MemoriesController do
         expect(Memory).to have_received(:unmoderated)
       end
 
-      it 'sorts the items with first created first' do
-        expect(unmoderated_memories).to have_received(:order).with('created_at')
+      it 'sorts the items with first created last' do
+        expect(unmoderated_memories).to have_received(:order).with(created_at: :desc)
       end
 
       it 'assigns the ordered items' do
@@ -73,7 +73,7 @@ describe Admin::Moderation::MemoriesController do
         expect(Memory).to have_received(:moderated)
       end
 
-      it 'sorts the items with last moderated first' do
+      it 'sorts the items with most recently moderated first' do
         expect(moderated_memories).to have_received(:by_last_moderated)
       end
 
@@ -102,7 +102,7 @@ describe Admin::Moderation::MemoriesController do
         @user = Fabricate(:admin_user)
         login_user
         allow(Memory).to receive(:reported).and_return(reported_memories)
-        allow(reported_memories).to receive(:by_first_moderated).and_return(ordered_memories)
+        allow(reported_memories).to receive(:by_last_reported).and_return(ordered_memories)
         get :reported
       end
 
@@ -114,8 +114,8 @@ describe Admin::Moderation::MemoriesController do
         expect(Memory).to have_received(:reported)
       end
 
-      it 'sorts the items with oldest report first' do
-        expect(reported_memories).to have_received(:by_first_moderated)
+      it 'sorts the items with most recently reported first' do
+        expect(reported_memories).to have_received(:by_last_reported)
       end
 
       it 'assigns the sorted items' do
