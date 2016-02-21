@@ -6,7 +6,8 @@ describe Admin::Moderation::ScrapbooksController do
   end
 
   describe 'GET index' do
-    let(:unmoderated_scrapbooks) { Array.new(2) {|i| Fabricate.build(:scrapbook, id: i+1)} }
+    let(:unmoderated_scrapbooks) { double('unmoderated_scrapbooks') }
+    let(:ordered_scrapbooks)     { double('ordered_scrapbooks') }
 
     context 'user must be an admin' do
       let(:perform_action) { get :index }
@@ -19,6 +20,7 @@ describe Admin::Moderation::ScrapbooksController do
         @user = Fabricate(:admin_user)
         login_user
         allow(Scrapbook).to receive(:unmoderated).and_return(unmoderated_scrapbooks)
+        allow(unmoderated_scrapbooks).to receive(:order).and_return(ordered_scrapbooks)
         get :index
       end
 
@@ -30,8 +32,12 @@ describe Admin::Moderation::ScrapbooksController do
         expect(Scrapbook).to have_received(:unmoderated)
       end
 
+      it 'sorts the items with first created last' do
+        expect(unmoderated_scrapbooks).to have_received(:order).with(created_at: :desc)
+      end
+
       it 'assigns the unmoderated items' do
-        expect(assigns[:items]).to eql(unmoderated_scrapbooks)
+        expect(assigns[:items]).to eql(ordered_scrapbooks)
       end
 
       it 'renders the index view' do
@@ -96,7 +102,7 @@ describe Admin::Moderation::ScrapbooksController do
         @user = Fabricate(:admin_user)
         login_user
         allow(Scrapbook).to receive(:reported).and_return(reported_scrapbooks)
-        allow(reported_scrapbooks).to receive(:by_first_moderated).and_return(ordered_scrapbooks)
+        allow(reported_scrapbooks).to receive(:by_last_reported).and_return(ordered_scrapbooks)
         get :reported
       end
 
@@ -108,8 +114,8 @@ describe Admin::Moderation::ScrapbooksController do
         expect(Scrapbook).to have_received(:reported)
       end
 
-      it 'sorts the items with oldest report first' do
-        expect(reported_scrapbooks).to have_received(:by_first_moderated)
+      it 'sorts the items with newest report first' do
+        expect(reported_scrapbooks).to have_received(:by_last_reported)
       end
 
       it 'assigns the sorted items' do

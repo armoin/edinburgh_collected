@@ -5,7 +5,7 @@ class Admin::Moderation::ScrapbooksController < Admin::AuthenticatedAdminControl
   before_action :assign_scrapbook, except: INDEXES
 
   def index
-    @items = Scrapbook.unmoderated
+    @items = Scrapbook.unmoderated.order(created_at: :desc)
   end
 
   def moderated
@@ -14,7 +14,7 @@ class Admin::Moderation::ScrapbooksController < Admin::AuthenticatedAdminControl
   end
 
   def reported
-    @items = Scrapbook.reported.by_first_moderated
+    @items = Scrapbook.reported.by_last_reported
     render :index
   end
 
