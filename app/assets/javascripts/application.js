@@ -38,6 +38,7 @@
 //= require jquery-fileupload/basic
 //= require jquery.guillotine.min
 //= require featherlight.min
+//= require sorttable.min
 //
 // APP
 // require_tree .

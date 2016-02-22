@@ -3,34 +3,40 @@
 
   <%= render partial: 'admin/moderation/navigation', locals: {path_segment: item_name} %>
 
-  <table class="items table table-striped table-responsive">
+  <table class="items table table-striped table-responsive sortable">
     <thead>
       <tr>
         <th>Title</th>
         <th>Owner</th>
         <th>State</th>
-        <th>Last Moderated</th>
+        <th>Created</th>
+        <th>Updated</th>
+        <% if action_name == 'reported' -%>
+          <th>Reported</th>
+        <% else -%>
+          <th>Moderated</th>
+        <% end -%>
         <% if action_name == 'reported' -%>
           <th>Reported By</th>
         <% else -%>
           <th>Moderated By</th>
         <% end -%>
-        <th></th>
       </tr>
     </thead>
     <tbody>
       <% items.each do |item| %>
         <tr class='item'>
-          <td><%= item.title %></td>
+          <td><%= link_to item.title, send("admin_moderation_#{item_name.singularize}_path", item.id) %></td>
           <td><%= link_to item.user.screen_name, admin_moderation_user_path(item.user) %></td>
           <td class="<%= item.moderation_state %>"><%= item.moderation_state %></td>
+          <td><%= item.created_at.strftime('%d-%b-%Y') %></td>
+          <td><%= item.updated_at.strftime('%d-%b-%Y') %></td>
           <td><%= item.last_moderated_at.try(:strftime, "%d-%b-%Y %H:%M") %></td>
           <td>
             <% if item.moderated_by.present? -%>
               <%= link_to item.moderated_by.try(:screen_name), admin_moderation_user_path(item.moderated_by) %>
             <% end -%>
           </td>
-          <td><%= link_to 'View details', send("admin_moderation_#{item_name.singularize}_path", item.id) %></td>
         </tr>
       <% end %>
     </tbody>
