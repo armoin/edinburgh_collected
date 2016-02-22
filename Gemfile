@@ -34,6 +34,7 @@ gem 'validate_url',                 '~> 1.0.0'
 gem 'nested_form',                  '~> 0.3.2'
 gem 'jquery-fileupload-rails'
 gem 'sentry-raven'
+gem 'bullet'
 
 group :doc do
   gem 'sdoc',                       '~> 0.4.0'
@@ -41,7 +42,6 @@ end
 
 group :development do
   gem 'spring',                     '~> 1.2.0'
-  gem 'meta_request',               '~> 0.3.4'
   gem 'better_errors'
 end
 
