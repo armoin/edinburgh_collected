@@ -1,13 +1,15 @@
 require 'rails_helper'
 
 describe Admin::Moderation::UsersController do
+  let(:users_with_associations) { double('users_with_associations') }
+  let(:ordered_users)           { double('ordered_users') }
+
   it 'requires the user to be authenticated as an administrator' do
     expect(subject).to be_a(Admin::AuthenticatedAdminController)
   end
 
   describe 'GET index' do
-    let(:all_users)     { double('all_users') }
-    let(:ordered_users) { double('ordered_users') }
+    let(:all_users) { double('all_users') }
 
     context 'current user must be an admin' do
       let(:perform_action) { get :index }
@@ -20,14 +22,19 @@ describe Admin::Moderation::UsersController do
         @user = Fabricate(:admin_user)
         login_user
 
-        allow(User).to receive(:all).and_return(all_users)
+        allow(User).to receive(:includes).and_return(users_with_associations)
+        allow(users_with_associations).to receive(:all).and_return(all_users)
         allow(all_users).to receive(:order).and_return(ordered_users)
 
         get :index
       end
 
-      it 'fetches all items' do
-        expect(User).to have_received(:all)
+      it 'fetches users with associations' do
+        expect(User).to have_received(:includes).with(:moderated_by)
+      end
+
+      it 'fetches all users' do
+        expect(users_with_associations).to have_received(:all)
       end
 
       it 'sorts the items with first created first' do
@@ -45,9 +52,6 @@ describe Admin::Moderation::UsersController do
   end
 
   describe 'GET unmoderated' do
-    let(:unmoderated_users) { double('unmoderated_users') }
-    let(:ordered_users)     { double('ordered_users') }
-
     context 'current user must be an admin' do
       let(:perform_action) { get :unmoderated }
 
@@ -55,18 +59,25 @@ describe Admin::Moderation::UsersController do
     end
 
     context 'when logged in as an admin' do
+      let(:unmoderated_users) { double('unmoderated_users') }
+
       before :each do
         @user = Fabricate(:admin_user)
         login_user
 
-        allow(User).to receive(:unmoderated).and_return(unmoderated_users)
+        allow(User).to receive(:includes).and_return(users_with_associations)
+        allow(users_with_associations).to receive(:unmoderated).and_return(unmoderated_users)
         allow(unmoderated_users).to receive(:order).and_return(ordered_users)
 
         get :unmoderated
       end
 
-      it 'fetches all items that need to be moderated' do
-        expect(User).to have_received(:unmoderated)
+      it 'fetches users with associations' do
+        expect(User).to have_received(:includes).with(:moderated_by)
+      end
+
+      it 'fetches users that need to be moderated' do
+        expect(users_with_associations).to have_received(:unmoderated)
       end
 
       it 'sorts the items with last created first' do
@@ -84,9 +95,6 @@ describe Admin::Moderation::UsersController do
   end
 
   describe 'GET blocked' do
-    let(:blocked_users) { double('blocked_users') }
-    let(:ordered_users) { double('ordered_users') }
-
     context 'current user must be an admin' do
       let(:perform_action) { get :blocked }
 
@@ -94,18 +102,25 @@ describe Admin::Moderation::UsersController do
     end
 
     context 'when logged in as an admin' do
+      let(:blocked_users) { double('blocked_users') }
+
       before :each do
         @user = Fabricate(:admin_user)
         login_user
 
-        allow(User).to receive(:blocked).and_return(blocked_users)
+        allow(User).to receive(:includes).and_return(users_with_associations)
+        allow(users_with_associations).to receive(:blocked).and_return(blocked_users)
         allow(blocked_users).to receive(:by_last_moderated).and_return(ordered_users)
 
         get :blocked
       end
 
-      it 'fetches all items that need to be blocked' do
-        expect(User).to have_received(:blocked)
+      it 'fetches users with associations' do
+        expect(User).to have_received(:includes).with(:moderated_by)
+      end
+
+      it 'fetches users that have been blocked' do
+        expect(users_with_associations).to have_received(:blocked)
       end
 
       it 'sorts the items with last moderated first' do
@@ -123,9 +138,6 @@ describe Admin::Moderation::UsersController do
   end
 
   describe 'GET reported' do
-    let(:reported_users) { double('reported_users') }
-    let(:ordered_users)  { double('ordered_users') }
-
     context 'current user must be an admin' do
       let(:perform_action) { get :reported }
 
@@ -133,18 +145,25 @@ describe Admin::Moderation::UsersController do
     end
 
     context 'when logged in as an admin' do
+      let(:reported_users) { double('reported_users') }
+
       before :each do
         @user = Fabricate(:admin_user)
         login_user
 
-        allow(User).to receive(:reported).and_return(reported_users)
+        allow(User).to receive(:includes).and_return(users_with_associations)
+        allow(users_with_associations).to receive(:reported).and_return(reported_users)
         allow(reported_users).to receive(:by_last_reported).and_return(ordered_users)
 
         get :reported
       end
 
-      it 'fetches all items that need to be reported' do
-        expect(User).to have_received(:reported)
+      it 'fetches users with associations' do
+        expect(User).to have_received(:includes).with(:moderated_by)
+      end
+
+      it 'fetches users that have been reported' do
+        expect(users_with_associations).to have_received(:reported)
       end
 
       it 'sorts the items with last reported first' do

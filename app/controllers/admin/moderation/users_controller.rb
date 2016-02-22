@@ -5,21 +5,21 @@ class Admin::Moderation::UsersController < Admin::AuthenticatedAdminController
   before_action :disallow_if_requested_user_is_current_user, only: :block
 
   def index
-    @items = User.all.order('created_at')
+    @items = users.all.order('created_at')
   end
 
   def unmoderated
-    @items = User.unmoderated.order(created_at: :desc)
+    @items = users.unmoderated.order(created_at: :desc)
     render :index
   end
 
   def blocked
-    @items = User.blocked.by_last_moderated
+    @items = users.blocked.by_last_moderated
     render :index
   end
 
   def reported
-    @items = User.reported.by_last_reported
+    @items = users.reported.by_last_reported
     render :index
   end
 
@@ -39,6 +39,10 @@ class Admin::Moderation::UsersController < Admin::AuthenticatedAdminController
   end
 
   private
+
+  def users
+    User.includes(:moderated_by)
+  end
 
   def assign_requested_user
     @user ||= User.find(params[:id])
