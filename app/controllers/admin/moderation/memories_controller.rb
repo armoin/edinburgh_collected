@@ -5,16 +5,16 @@ class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminControlle
   before_action :store_memory_index_path, only: INDEXES
 
   def index
-    @items = Memory.unmoderated.order(created_at: :desc)
+    @items = memories.unmoderated.order(created_at: :desc)
   end
 
   def moderated
-    @items = Memory.moderated.by_last_moderated
+    @items = memories.moderated.by_last_moderated
     render :index
   end
 
   def reported
-    @items = Memory.reported.by_last_reported
+    @items = memories.reported.by_last_reported
     render :index
   end
 
@@ -61,6 +61,10 @@ class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminControlle
 
   def assign_memory
     @memory ||= Memory.find(params[:id])
+  end
+
+  def memories
+    Memory.includes(:user, :moderated_by)
   end
 
   def memory_params

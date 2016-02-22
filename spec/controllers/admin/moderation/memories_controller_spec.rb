@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 describe Admin::Moderation::MemoriesController do
+  let(:memories_with_associations) { double('memories_with_associations') }
+  let(:ordered_memories)           { double('ordered_memories') }
+
   it 'requires the user to be authenticated as an administrator' do
     expect(subject).to be_a(Admin::AuthenticatedAdminController)
   end
 
   describe 'GET index' do
-    let(:unmoderated_memories) { double('unmoderated_memories') }
-    let(:ordered_memories)     { double('ordered_memories') }
-
     context 'user must be an admin' do
       let(:perform_action) { get :index }
 
@@ -16,10 +16,13 @@ describe Admin::Moderation::MemoriesController do
     end
 
     context 'when logged in as an admin' do
+      let(:unmoderated_memories) { double('unmoderated_memories') }
+
       before :each do
         @user = Fabricate(:admin_user)
         login_user
-        allow(Memory).to receive(:unmoderated).and_return(unmoderated_memories)
+        allow(Memory).to receive(:includes).and_return(memories_with_associations)
+        allow(memories_with_associations).to receive(:unmoderated).and_return(unmoderated_memories)
         allow(unmoderated_memories).to receive(:order).and_return(ordered_memories)
         get :index
       end
@@ -28,8 +31,12 @@ describe Admin::Moderation::MemoriesController do
         expect(session[:current_memory_index_path]).to eql(admin_moderation_memories_path)
       end
 
-      it 'fetches all items that need to be moderated' do
-        expect(Memory).to have_received(:unmoderated)
+      it 'fetches all items including users and moderated_by' do
+        expect(Memory).to have_received(:includes).with(:user, :moderated_by)
+      end
+
+      it 'fetches items that need to be moderated' do
+        expect(memories_with_associations).to have_received(:unmoderated)
       end
 
       it 'sorts the items with first created last' do
@@ -47,9 +54,6 @@ describe Admin::Moderation::MemoriesController do
   end
 
   describe 'GET moderated' do
-    let(:moderated_memories) { double('moderated_memories') }
-    let(:ordered_memories)   { double('ordered_memories') }
-
     context 'user must be an admin' do
       let(:perform_action) { get :moderated }
 
@@ -57,10 +61,13 @@ describe Admin::Moderation::MemoriesController do
     end
 
     context 'when logged in as an admin' do
+      let(:moderated_memories) { double('moderated_memories') }
+
       before :each do
         @user = Fabricate(:admin_user)
         login_user
-        allow(Memory).to receive(:moderated).and_return(moderated_memories)
+        allow(Memory).to receive(:includes).and_return(memories_with_associations)
+        allow(memories_with_associations).to receive(:moderated).and_return(moderated_memories)
         allow(moderated_memories).to receive(:by_last_moderated).and_return(ordered_memories)
         get :moderated
       end
@@ -69,8 +76,12 @@ describe Admin::Moderation::MemoriesController do
         expect(session[:current_memory_index_path]).to eql(moderated_admin_moderation_memories_path)
       end
 
-      it 'fetches all items that need to be moderated' do
-        expect(Memory).to have_received(:moderated)
+      it 'fetches all items including users and moderated_by' do
+        expect(Memory).to have_received(:includes).with(:user, :moderated_by)
+      end
+
+      it 'fetches items that have been moderated' do
+        expect(memories_with_associations).to have_received(:moderated)
       end
 
       it 'sorts the items with most recently moderated first' do
@@ -88,9 +99,6 @@ describe Admin::Moderation::MemoriesController do
   end
 
   describe 'GET reported' do
-    let(:reported_memories) { double('reported_memories') }
-    let(:ordered_memories)   { double('ordered_memories') }
-
     context 'user must be an admin' do
       let(:perform_action) { get :reported }
 
@@ -98,10 +106,13 @@ describe Admin::Moderation::MemoriesController do
     end
 
     context 'when logged in as an admin' do
+      let(:reported_memories) { double('reported_memories') }
+
       before :each do
         @user = Fabricate(:admin_user)
         login_user
-        allow(Memory).to receive(:reported).and_return(reported_memories)
+        allow(Memory).to receive(:includes).and_return(memories_with_associations)
+        allow(memories_with_associations).to receive(:reported).and_return(reported_memories)
         allow(reported_memories).to receive(:by_last_reported).and_return(ordered_memories)
         get :reported
       end
@@ -110,8 +121,12 @@ describe Admin::Moderation::MemoriesController do
         expect(session[:current_memory_index_path]).to eql(reported_admin_moderation_memories_path)
       end
 
-      it 'fetches all items that need to be reported' do
-        expect(Memory).to have_received(:reported)
+      it 'fetches all items including users and moderated_by' do
+        expect(Memory).to have_received(:includes).with(:user, :moderated_by)
+      end
+
+      it 'fetches items that have been reported' do
+        expect(memories_with_associations).to have_received(:reported)
       end
 
       it 'sorts the items with most recently reported first' do
