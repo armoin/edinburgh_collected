@@ -1,7 +1,15 @@
 <div class="container <%= action_name %>">
-  <h1><%= item_name.capitalize %></h1>
+  <h1><%= presenter.title %></h1>
 
-  <%= render partial: 'admin/moderation/navigation', locals: {path_segment: item_name} %>
+  <div role="navigation" id="tab-bar">
+    <%= link_to 'Back to Inbox', admin_home_path %>
+    |
+    <%= link_to_unless presenter.unmoderated_page?, 'Unmoderated', send(presenter.unmoderated_path) %>
+    |
+    <%= link_to_unless presenter.reported_page?, 'Reported', send(presenter.reported_path) %>
+    |
+    <%= link_to_unless presenter.moderated_page?, 'Moderated', send(presenter.moderated_path) %>
+  </div>
 
   <table class="items table table-striped table-responsive sortable">
     <thead>
@@ -11,26 +19,24 @@
         <th>State</th>
         <th>Created</th>
         <th>Updated</th>
-        <% if action_name == 'reported' -%>
-          <th>Reported</th>
-        <% else -%>
-          <th>Moderated</th>
-        <% end -%>
-        <% if action_name == 'reported' -%>
-          <th>Reported By</th>
-        <% else -%>
-          <th>Moderated By</th>
-        <% end -%>
+        <% if presenter.show_memories? %>
+          <th>Memories</th>
+        <% end %>
+        <th><%= presenter.moderated_col_name -%></th>
+        <th><%= presenter.moderated_by_col_name -%></th>
       </tr>
     </thead>
     <tbody>
-      <% items.each do |item| %>
+      <% presenter.items.each do |item| %>
         <tr class='item'>
-          <td><%= link_to item.title, send("admin_moderation_#{item_name.singularize}_path", item.id) %></td>
+          <td><%= link_to item.title, send(presenter.show_path, item.id) %></td>
           <td><%= link_to item.user.screen_name, admin_moderation_user_path(item.user) %></td>
           <td class="<%= item.moderation_state %>"><%= item.moderation_state %></td>
           <td><%= item.created_at.strftime('%d-%b-%Y') %></td>
           <td><%= item.updated_at.strftime('%d-%b-%Y') %></td>
+          <% if presenter.show_memories? %>
+            <td><%= item.scrapbook_memories.count %></td>
+          <% end %>
           <td><%= item.last_moderated_at.try(:strftime, "%d-%b-%Y %H:%M") %></td>
           <td>
             <% if item.moderated_by.present? -%>
