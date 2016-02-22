@@ -5,16 +5,16 @@ class Admin::Moderation::ScrapbooksController < Admin::AuthenticatedAdminControl
   before_action :assign_scrapbook, except: INDEXES
 
   def index
-    @items = Scrapbook.unmoderated.order(created_at: :desc)
+    @items = scrapbooks.unmoderated.order(created_at: :desc)
   end
 
   def moderated
-    @items = Scrapbook.moderated.by_last_moderated
+    @items = scrapbooks.moderated.by_last_moderated
     render :index
   end
 
   def reported
-    @items = Scrapbook.reported.by_last_reported
+    @items = scrapbooks.reported.by_last_reported
     render :index
   end
 
@@ -50,6 +50,10 @@ class Admin::Moderation::ScrapbooksController < Admin::AuthenticatedAdminControl
   end
 
   private
+
+  def scrapbooks
+    Scrapbook.includes(:user, :moderated_by)
+  end
 
   def assign_scrapbook
     @scrapbook = Scrapbook.find(params[:id])
