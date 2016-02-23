@@ -13,6 +13,11 @@
 #     let(:path_segment) { 'scrapbooks' }
 #
 RSpec.shared_examples 'a moderation index' do
+  it "allows the moderator to filter the items" do
+    render
+    expect(rendered).to have_css('input.light-table-filter')
+  end
+
   it "shows each of the given items" do
     render
     expect(rendered).to have_css('tr.item', count: 3)

@@ -11,6 +11,8 @@
     <%= link_to_unless presenter.moderated_page?, 'Moderated', send(presenter.moderated_path) %>
   </div>
 
+  <input type="search" class="light-table-filter" data-table="items" placeholder="Filter">
+
   <table class="items table table-striped table-responsive sortable">
     <thead>
       <tr>
