@@ -29,20 +29,24 @@ RSpec.shared_examples 'a moderation index' do
       render
     end
 
-    it 'has a "View Details" link to the item show page' do
-      expect(rendered).to have_link('View details', href: send("admin_moderation_#{path_segment.singularize}_path", item.id))
+    it 'shows the title as a link to the item show page' do
+      expect(rendered).to have_link(item.title, href: send("admin_moderation_#{path_segment.singularize}_path", item.id))
     end
 
-    it 'shows the title' do
-      expect(rendered).to have_css('td', text: item.title)
+    it 'has a link to the owning user' do
+      expect(rendered).to have_link(owner.screen_name, href: admin_moderation_user_path(owner))
     end
 
     it 'shows the state' do
       expect(rendered).to have_css('td', text: 'unmoderated')
     end
 
-    it 'has a link to the owning user' do
-      expect(rendered).to have_link(owner.screen_name, href: admin_moderation_user_path(owner))
+    it 'shows the created at date' do
+      expect(rendered).to have_css('td:nth-child(4)', text: created_at.strftime('%d-%b-%Y'))
+    end
+
+    it 'shows the updated at date' do
+      expect(rendered).to have_css('td:nth-child(5)', text: updated_at.strftime('%d-%b-%Y'))
     end
 
     context 'when not yet moderated' do
@@ -50,11 +54,11 @@ RSpec.shared_examples 'a moderation index' do
       let(:moderated_by)      { nil }
 
       it 'has a blank last moderated date' do
-        expect(rendered).to have_css('td:nth-child(4)', text: '')
+        expect(rendered).to have_css("td:nth-child(#{moderated_date_col})", text: '')
       end
 
       it 'has a blank moderated by' do
-        expect(rendered).to have_css('td:nth-child(5)', text: '')
+        expect(rendered).to have_css("td:nth-child(#{moderated_date_col + 1})", text: '')
       end
     end
 
@@ -63,7 +67,7 @@ RSpec.shared_examples 'a moderation index' do
       let(:moderated_by)      { admin }
 
       it 'shows the last moderated date' do
-        expect(rendered).to have_css('td:nth-child(4)', text: '13-Nov-2014 14:44')
+        expect(rendered).to have_css("td:nth-child(#{moderated_date_col})", text: '13-Nov-2014 14:44')
       end
 
       it 'has a link to the moderating user' do

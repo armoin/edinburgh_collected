@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 describe Admin::Moderation::ScrapbooksController do
+  let(:scrapbooks_with_associations) { double('scrapbooks_with_associations') }
+  let(:ordered_scrapbooks)           { double('ordered_scrapbooks') }
+
   it 'requires the user to be authenticated as an administrator' do
     expect(subject).to be_a(Admin::AuthenticatedAdminController)
   end
 
   describe 'GET index' do
-    let(:unmoderated_scrapbooks) { double('unmoderated_scrapbooks') }
-    let(:ordered_scrapbooks)     { double('ordered_scrapbooks') }
-
     context 'user must be an admin' do
       let(:perform_action) { get :index }
 
@@ -16,10 +16,13 @@ describe Admin::Moderation::ScrapbooksController do
     end
 
     context 'when logged in as an admin' do
+      let(:unmoderated_scrapbooks) { double('unmoderated_scrapbooks') }
+
       before :each do
         @user = Fabricate(:admin_user)
         login_user
-        allow(Scrapbook).to receive(:unmoderated).and_return(unmoderated_scrapbooks)
+        allow(Scrapbook).to receive(:includes).and_return(scrapbooks_with_associations)
+        allow(scrapbooks_with_associations).to receive(:unmoderated).and_return(unmoderated_scrapbooks)
         allow(unmoderated_scrapbooks).to receive(:order).and_return(ordered_scrapbooks)
         get :index
       end
@@ -28,8 +31,12 @@ describe Admin::Moderation::ScrapbooksController do
         expect(session[:current_scrapbook_index_path]).to eql(admin_moderation_scrapbooks_path)
       end
 
-      it 'fetches all items that need to be moderated' do
-        expect(Scrapbook).to have_received(:unmoderated)
+      it 'fetches all items including users and moderated_by' do
+        expect(Scrapbook).to have_received(:includes).with(:user, :moderated_by)
+      end
+
+      it 'fetches items that need to be moderated' do
+        expect(scrapbooks_with_associations).to have_received(:unmoderated)
       end
 
       it 'sorts the items with first created last' do
@@ -47,8 +54,6 @@ describe Admin::Moderation::ScrapbooksController do
   end
 
   describe 'GET moderated' do
-    let(:moderated_scrapbooks) { double('moderated_scrapbooks') }
-    let(:ordered_scrapbooks)   { double('ordered_scrapbooks') }
 
     context 'user must be an admin' do
       let(:perform_action) { get :moderated }
@@ -57,10 +62,13 @@ describe Admin::Moderation::ScrapbooksController do
     end
 
     context 'when logged in as an admin' do
+      let(:moderated_scrapbooks) { double('moderated_scrapbooks') }
+
       before :each do
         @user = Fabricate(:admin_user)
         login_user
-        allow(Scrapbook).to receive(:moderated).and_return(moderated_scrapbooks)
+        allow(Scrapbook).to receive(:includes).and_return(scrapbooks_with_associations)
+        allow(scrapbooks_with_associations).to receive(:moderated).and_return(moderated_scrapbooks)
         allow(moderated_scrapbooks).to receive(:by_last_moderated).and_return(ordered_scrapbooks)
         get :moderated
       end
@@ -69,8 +77,12 @@ describe Admin::Moderation::ScrapbooksController do
         expect(session[:current_scrapbook_index_path]).to eql(moderated_admin_moderation_scrapbooks_path)
       end
 
-      it 'fetches all items that need to be moderated' do
-        expect(Scrapbook).to have_received(:moderated)
+      it 'fetches all items including users and moderated_by' do
+        expect(Scrapbook).to have_received(:includes).with(:user, :moderated_by)
+      end
+
+      it 'fetches items that have been moderated' do
+        expect(scrapbooks_with_associations).to have_received(:moderated)
       end
 
       it 'sorts the items with newest first' do
@@ -88,9 +100,6 @@ describe Admin::Moderation::ScrapbooksController do
   end
 
   describe 'GET reported' do
-    let(:reported_scrapbooks) { double('reported_scrapbooks') }
-    let(:ordered_scrapbooks)  { double('ordered_scrapbooks') }
-
     context 'user must be an admin' do
       let(:perform_action) { get :reported }
 
@@ -98,10 +107,13 @@ describe Admin::Moderation::ScrapbooksController do
     end
 
     context 'when logged in as an admin' do
+      let(:reported_scrapbooks) { double('reported_scrapbooks') }
+
       before :each do
         @user = Fabricate(:admin_user)
         login_user
-        allow(Scrapbook).to receive(:reported).and_return(reported_scrapbooks)
+        allow(Scrapbook).to receive(:includes).and_return(scrapbooks_with_associations)
+        allow(scrapbooks_with_associations).to receive(:reported).and_return(reported_scrapbooks)
         allow(reported_scrapbooks).to receive(:by_last_reported).and_return(ordered_scrapbooks)
         get :reported
       end
@@ -110,8 +122,12 @@ describe Admin::Moderation::ScrapbooksController do
         expect(session[:current_scrapbook_index_path]).to eql(reported_admin_moderation_scrapbooks_path)
       end
 
-      it 'fetches all items that need to be reported' do
-        expect(Scrapbook).to have_received(:reported)
+      it 'fetches all items including users and moderated_by' do
+        expect(Scrapbook).to have_received(:includes).with(:user, :moderated_by)
+      end
+
+      it 'fetches items that have been reported' do
+        expect(scrapbooks_with_associations).to have_received(:reported)
       end
 
       it 'sorts the items with newest report first' do

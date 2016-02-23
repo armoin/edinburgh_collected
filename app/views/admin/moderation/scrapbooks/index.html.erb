@@ -1,1 +1,1 @@
-<%= render partial: 'admin/moderation/index', locals: {items: @items, item_name: 'scrapbooks'} %>
+<%= render 'admin/moderation/index', presenter: ModerationListPresenter.new(@items, 'scrapbooks', action_name) %>
