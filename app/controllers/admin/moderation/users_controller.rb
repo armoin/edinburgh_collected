@@ -5,7 +5,7 @@ class Admin::Moderation::UsersController < Admin::AuthenticatedAdminController
   before_action :disallow_if_requested_user_is_current_user, only: :block
 
   def index
-    @items = users.all.order('created_at')
+    @items = users.all.order(:created_at)
   end
 
   def unmoderated

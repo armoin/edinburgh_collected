@@ -40,7 +40,7 @@ describe Admin::Moderation::MemoriesController do
       end
 
       it 'sorts the items with first created last' do
-        expect(unmoderated_memories).to have_received(:order).with(created_at: :desc)
+        expect(unmoderated_memories).to have_received(:order).with(:created_at)
       end
 
       it 'assigns the ordered items' do

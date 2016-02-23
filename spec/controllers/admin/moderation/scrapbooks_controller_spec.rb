@@ -40,7 +40,7 @@ describe Admin::Moderation::ScrapbooksController do
       end
 
       it 'sorts the items with first created last' do
-        expect(unmoderated_scrapbooks).to have_received(:order).with(created_at: :desc)
+        expect(unmoderated_scrapbooks).to have_received(:order).with(:created_at)
       end
 
       it 'assigns the unmoderated items' do

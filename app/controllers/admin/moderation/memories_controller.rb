@@ -5,7 +5,7 @@ class Admin::Moderation::MemoriesController < Admin::AuthenticatedAdminControlle
   before_action :store_memory_index_path, only: INDEXES
 
   def index
-    @items = memories.unmoderated.order(created_at: :desc)
+    @items = memories.unmoderated.order(:created_at)
   end
 
   def moderated

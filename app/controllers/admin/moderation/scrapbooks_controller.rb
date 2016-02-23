@@ -5,7 +5,7 @@ class Admin::Moderation::ScrapbooksController < Admin::AuthenticatedAdminControl
   before_action :assign_scrapbook, except: INDEXES
 
   def index
-    @items = scrapbooks.unmoderated.order(created_at: :desc)
+    @items = scrapbooks.unmoderated.order(:created_at)
   end
 
   def moderated

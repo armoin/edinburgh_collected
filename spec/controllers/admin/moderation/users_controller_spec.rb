@@ -38,7 +38,7 @@ describe Admin::Moderation::UsersController do
       end
 
       it 'sorts the items with first created first' do
-        expect(all_users).to have_received(:order).with('created_at')
+        expect(all_users).to have_received(:order).with(:created_at)
       end
 
       it 'assigns the ordered items' do
