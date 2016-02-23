@@ -39,6 +39,7 @@
 //= require jquery.guillotine.min
 //= require featherlight.min
 //= require sorttable.min
+//= require lighttablefilter.min
 //
 // APP
 // require_tree .
