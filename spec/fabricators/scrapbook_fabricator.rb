@@ -1,4 +1,4 @@
-Fabricator(:scrapbook) do
+Fabricator(:scrapbook, aliases: :pending_scrapbook) do
   id               { sequence(:id, 1) }
   user             { Fabricate(:active_user) }
   title            { Faker::Product.product_name }
