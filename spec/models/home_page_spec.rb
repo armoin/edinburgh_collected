@@ -29,15 +29,25 @@ RSpec.describe HomePage do
         let(:featured_memory) { Fabricate(:pending_memory) }
 
         it 'is invalid' do
-          expect(subject.errors[:featured_memory]).to include("must be publicly visible")
+          expect(subject.errors[:featured_memory]).to include('must be publicly visible')
         end
       end
 
       context 'when publicly visible' do
-        let(:featured_memory) { Fabricate(:approved_memory) }
+        context 'and not a picture memory' do
+          let(:featured_memory) { Fabricate(:approved_written_memory) }
 
-        it 'is valid' do
-          expect(subject.errors[:featured_memory]).to be_empty
+          it 'is invalid' do
+            expect(subject.errors[:featured_memory]).to include('must be a photo memory')
+          end
+        end
+
+        context 'and is a picture memory' do
+          let(:featured_memory) { Fabricate(:approved_photo_memory) }
+
+          it 'is valid' do
+            expect(subject.errors[:featured_memory]).to be_empty
+          end
         end
       end
     end

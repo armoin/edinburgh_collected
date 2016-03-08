@@ -5,7 +5,7 @@ class HomePage < ActiveRecord::Base
   belongs_to :featured_scrapbook, class: Scrapbook
 
   validates :featured_memory, presence: true
-  validate :featured_memory_is_visible, if: 'featured_memory_id.present?'
+  validate :has_valid_featured_memory?, if: 'featured_memory_id.present?'
 
   validates :featured_scrapbook, presence: true
   validate :featured_scrapbook_is_visible, if: 'featured_scrapbook_id.present?'
@@ -18,8 +18,13 @@ class HomePage < ActiveRecord::Base
 
   private
 
-  def featured_memory_is_visible
+  def featured_memory_is_visible?
     is_visible?(featured_memory, :featured_memory)
+  end
+
+  def featured_memory_is_photo?
+    return true if featured_memory.photo?
+    errors.add(:featured_memory, 'must be a photo memory')
   end
 
   def featured_scrapbook_is_visible
@@ -30,6 +35,10 @@ class HomePage < ActiveRecord::Base
     return true if attribute.publicly_visible?
     errors.add(column_name, 'must be publicly visible')
     false
+  end
+
+  def has_valid_featured_memory?
+    featured_memory_is_visible? && featured_memory_is_photo?
   end
 
   def has_valid_featured_scrapbook_memory_ids?
