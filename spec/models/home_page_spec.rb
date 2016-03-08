@@ -120,6 +120,12 @@ RSpec.describe HomePage do
   end
 
   describe '.current' do
+    before :all do
+      @featured_memory               = Fabricate(:approved_photo_memory)
+      @featured_scrapbook            = Fabricate(:approved_scrapbook)
+      @featured_scrapbook_memory_ids = Fabricate.times(4, :approved_photo_memory).map(&:id).join(',')
+    end
+
     context 'when there are no home pages' do
       it 'returns nil' do
         expect(HomePage.current).to be_nil
@@ -128,7 +134,14 @@ RSpec.describe HomePage do
 
     context 'when there is one home page' do
       context 'and it is not published' do
-        let!(:home_page) { Fabricate(:unpublished_home_page) }
+        let!(:home_page) {
+          Fabricate(:unpublished_home_page,
+            featured_memory: @featured_memory,
+            featured_scrapbook: @featured_scrapbook,
+            featured_scrapbook_memory_ids: @featured_scrapbook_memory_ids,
+            published: false
+          )
+        }
 
         it 'returns nil' do
           expect(HomePage.current).to be_nil
@@ -136,7 +149,14 @@ RSpec.describe HomePage do
       end
 
       context 'and it is published' do
-        let!(:home_page) { Fabricate(:published_home_page) }
+        let!(:home_page) {
+          Fabricate(:unpublished_home_page,
+            featured_memory: @featured_memory,
+            featured_scrapbook: @featured_scrapbook,
+            featured_scrapbook_memory_ids: @featured_scrapbook_memory_ids,
+            published: true
+          )
+        }
 
         it 'returns the published home page' do
           expect(HomePage.current).to eq(home_page)
@@ -145,9 +165,30 @@ RSpec.describe HomePage do
     end
 
     context 'when there is more than one home page' do
-      let!(:unpublished_home_page)     { Fabricate(:unpublished_home_page) }
-      let!(:published_home_page_first) { Fabricate(:published_home_page) }
-      let!(:published_home_page_last)  { Fabricate(:published_home_page) }
+      let!(:unpublished_home_page) {
+        Fabricate(:unpublished_home_page,
+          featured_memory: @featured_memory,
+          featured_scrapbook: @featured_scrapbook,
+          featured_scrapbook_memory_ids: @featured_scrapbook_memory_ids,
+          published: false
+        )
+      }
+      let!(:published_home_page_first) {
+        Fabricate(:published_home_page,
+            featured_memory: @featured_memory,
+            featured_scrapbook: @featured_scrapbook,
+            featured_scrapbook_memory_ids: @featured_scrapbook_memory_ids,
+            published: true
+        )
+      }
+      let!(:published_home_page_last) {
+        Fabricate(:published_home_page,
+            featured_memory: @featured_memory,
+            featured_scrapbook: @featured_scrapbook,
+            featured_scrapbook_memory_ids: @featured_scrapbook_memory_ids,
+            published: true
+        )
+      }
 
       it 'returns the last published home page' do
         expect(HomePage.current).to eq(published_home_page_last)
