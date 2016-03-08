@@ -1,7 +1,12 @@
 require 'rails_helper'
 
 describe HomeController do
+  let(:home_page)           { double('home page') }
+  let(:home_page_presenter) { double('home page presenter') }
+
   before :each do
+    allow(HomePage).to receive(:current).and_return(home_page)
+    allow(HomePagePresenter).to receive(:new).and_return(home_page_presenter)
     get :index
   end
 
@@ -14,7 +19,8 @@ describe HomeController do
   end
 
   it 'assigns a HomePagePresenter' do
-    expect(assigns[:home_page_presenter]).to be_a(HomePagePresenter)
+    expect(HomePagePresenter).to have_received(:new).with(home_page)
+    expect(assigns[:home_page_presenter]).to eq(home_page_presenter)
   end
 
   it 'renders the home page' do

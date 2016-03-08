@@ -12,6 +12,10 @@ class HomePage < ActiveRecord::Base
 
   validate :has_valid_featured_scrapbook_memory_ids?
 
+  def self.current
+    where(published: true).last
+  end
+
   private
 
   def featured_memory_is_visible

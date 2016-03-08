@@ -118,4 +118,40 @@ RSpec.describe HomePage do
       end
     end
   end
+
+  describe '.current' do
+    context 'when there are no home pages' do
+      it 'returns nil' do
+        expect(HomePage.current).to be_nil
+      end
+    end
+
+    context 'when there is one home page' do
+      context 'and it is not published' do
+        let!(:home_page) { Fabricate(:unpublished_home_page) }
+
+        it 'returns nil' do
+          expect(HomePage.current).to be_nil
+        end
+      end
+
+      context 'and it is published' do
+        let!(:home_page) { Fabricate(:published_home_page) }
+
+        it 'returns the published home page' do
+          expect(HomePage.current).to eq(home_page)
+        end
+      end
+    end
+
+    context 'when there is more than one home page' do
+      let!(:unpublished_home_page)     { Fabricate(:unpublished_home_page) }
+      let!(:published_home_page_first) { Fabricate(:published_home_page) }
+      let!(:published_home_page_last)  { Fabricate(:published_home_page) }
+
+      it 'returns the last published home page' do
+        expect(HomePage.current).to eq(published_home_page_last)
+      end
+    end
+  end
 end
