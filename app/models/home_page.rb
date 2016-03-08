@@ -1,16 +1,19 @@
 class HomePage < ActiveRecord::Base
-  NUM_SCRAPBOOK_MEMORIES = 4
+  REQUIRED_SCRAPBOOK_MEMORIES = 4
 
   belongs_to :featured_memory, class: Memory
   belongs_to :featured_scrapbook, class: Scrapbook
 
   validates :featured_memory, presence: true
-  validate :has_valid_featured_memory?, if: 'featured_memory_id.present?'
+  validate :featured_memory_is_visible?, if: 'featured_memory_id.present?'
+  validate :featured_memory_is_photo?, if: 'featured_memory_id.present?'
 
   validates :featured_scrapbook, presence: true
-  validate :has_valid_featured_scrapbook?, if: 'featured_scrapbook_id.present?'
+  validate :featured_scrapbook_is_visible?, if: 'featured_scrapbook_id.present?'
+  validate :featured_scrapbook_has_enough_picture_memories?, if: 'featured_scrapbook_id.present?'
 
-  validate :has_valid_featured_scrapbook_memory_ids?
+  validate :has_required_number_of_scrapbook_memories?
+  validate :all_belong_to_featured_scrapbook?, if: 'featured_scrapbook_id.present?'
 
   def self.current
     where(published: true).last
@@ -25,6 +28,7 @@ class HomePage < ActiveRecord::Base
   def featured_memory_is_photo?
     return true if featured_memory.photo?
     errors.add(:featured_memory, 'must be a photo memory')
+    false
   end
 
   def featured_scrapbook_is_visible?
@@ -32,8 +36,22 @@ class HomePage < ActiveRecord::Base
   end
 
   def featured_scrapbook_has_enough_picture_memories?
-    return true if has_enough_picture_memories?
-    errors.add(:featured_scrapbook, "must have at least #{NUM_SCRAPBOOK_MEMORIES} picture memories")
+    return true if picture_memories.size >= REQUIRED_SCRAPBOOK_MEMORIES
+
+    errors.add(:featured_scrapbook, "must have at least #{REQUIRED_SCRAPBOOK_MEMORIES} picture memories")
+    false
+  end
+
+  def has_required_number_of_scrapbook_memories?
+    return true if featured_ids.size == REQUIRED_SCRAPBOOK_MEMORIES
+    errors.add(:base, "Must have #{REQUIRED_SCRAPBOOK_MEMORIES} scrapbook memories picked.")
+    false
+  end
+
+  def all_belong_to_featured_scrapbook?
+    return true if featured_ids.all?{ |id| scrapbook_memory_ids.include?(id) }
+    errors.add(:base, 'All scrapbook memories must belong to the featured scrapbook.')
+    false
   end
 
   def is_visible?(attribute, column_name)
@@ -42,26 +60,16 @@ class HomePage < ActiveRecord::Base
     false
   end
 
-  def has_valid_featured_memory?
-    featured_memory_is_visible? && featured_memory_is_photo?
+  def featured_ids
+    return [] if featured_scrapbook_memory_ids.blank?
+    featured_scrapbook_memory_ids.split(',').map(&:to_i)
   end
 
-  def has_valid_featured_scrapbook?
-    featured_scrapbook_is_visible? && featured_scrapbook_has_enough_picture_memories?
+  def scrapbook_memory_ids
+    featured_scrapbook.scrapbook_memories.map(&:id)
   end
 
-  def has_valid_featured_scrapbook_memory_ids?
-    return true if has_enough_scrapbook_memories?
-    errors.add(:base, 'Must have four scrapbook memories picked.')
-    false
-  end
-
-  def has_enough_picture_memories?
-    featured_scrapbook.memories.where(type: 'Photo').size >= NUM_SCRAPBOOK_MEMORIES
-  end
-
-  def has_enough_scrapbook_memories?
-    featured_scrapbook_memory_ids &&
-      featured_scrapbook_memory_ids.split(',').size == NUM_SCRAPBOOK_MEMORIES
+  def picture_memories
+    featured_scrapbook.memories.where(type: 'Photo')
   end
 end
