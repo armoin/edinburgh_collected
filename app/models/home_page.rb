@@ -8,7 +8,7 @@ class HomePage < ActiveRecord::Base
   validate :has_valid_featured_memory?, if: 'featured_memory_id.present?'
 
   validates :featured_scrapbook, presence: true
-  validate :featured_scrapbook_is_visible, if: 'featured_scrapbook_id.present?'
+  validate :has_valid_featured_scrapbook?, if: 'featured_scrapbook_id.present?'
 
   validate :has_valid_featured_scrapbook_memory_ids?
 
@@ -27,8 +27,13 @@ class HomePage < ActiveRecord::Base
     errors.add(:featured_memory, 'must be a photo memory')
   end
 
-  def featured_scrapbook_is_visible
+  def featured_scrapbook_is_visible?
     is_visible?(featured_scrapbook, :featured_scrapbook)
+  end
+
+  def featured_scrapbook_has_enough_picture_memories?
+    return true if has_enough_picture_memories?
+    errors.add(:featured_scrapbook, "must have at least #{NUM_SCRAPBOOK_MEMORIES} picture memories")
   end
 
   def is_visible?(attribute, column_name)
@@ -41,10 +46,18 @@ class HomePage < ActiveRecord::Base
     featured_memory_is_visible? && featured_memory_is_photo?
   end
 
+  def has_valid_featured_scrapbook?
+    featured_scrapbook_is_visible? && featured_scrapbook_has_enough_picture_memories?
+  end
+
   def has_valid_featured_scrapbook_memory_ids?
     return true if has_enough_scrapbook_memories?
     errors.add(:base, 'Must have four scrapbook memories picked.')
     false
+  end
+
+  def has_enough_picture_memories?
+    featured_scrapbook.memories.where(type: 'Photo').size >= NUM_SCRAPBOOK_MEMORIES
   end
 
   def has_enough_scrapbook_memories?

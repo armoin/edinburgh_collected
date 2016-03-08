@@ -65,15 +65,29 @@ RSpec.describe HomePage do
         let(:featured_scrapbook) { Fabricate(:pending_scrapbook) }
 
         it 'is invalid' do
-          expect(subject.errors[:featured_scrapbook]).to include("must be publicly visible")
+          expect(subject.errors[:featured_scrapbook]).to include('must be publicly visible')
         end
       end
 
       context 'when publicly visible' do
-        let(:featured_scrapbook) { Fabricate(:approved_scrapbook) }
+        context 'but does not have enough picture memories' do
+          let(:featured_scrapbook) { Fabricate(:approved_scrapbook) }
 
-        it 'is valid' do
-          expect(subject.errors[:featured_scrapbook]).to be_empty
+          it 'is invalid' do
+            expect(subject.errors[:featured_scrapbook]).to include('must have at least 4 picture memories')
+          end
+        end
+
+        context 'and has enough picture memories' do
+          let(:featured_scrapbook) {
+            scrapbook = Fabricate(:approved_scrapbook)
+            Fabricate.times(4, :scrapbook_photo_memory, scrapbook: scrapbook)
+            scrapbook
+          }
+
+          it 'is valid' do
+            expect(subject.errors[:featured_scrapbook]).to be_empty
+          end
         end
       end
     end
@@ -131,9 +145,13 @@ RSpec.describe HomePage do
 
   describe '.current' do
     before :all do
-      @featured_memory               = Fabricate(:approved_photo_memory)
-      @featured_scrapbook            = Fabricate(:approved_scrapbook)
-      @featured_scrapbook_memory_ids = Fabricate.times(4, :approved_photo_memory).map(&:id).join(',')
+      @featured_memory = Fabricate(:approved_photo_memory)
+      @featured_scrapbook = Fabricate(:approved_scrapbook)
+      @featured_scrapbook_memory_ids = Fabricate.times(
+                                         4,
+                                         :scrapbook_photo_memory,
+                                         scrapbook: @featured_scrapbook
+                                       ).map(&:id).join(',')
     end
 
     context 'when there are no home pages' do
