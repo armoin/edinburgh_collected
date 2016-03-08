@@ -1,4 +1,6 @@
 class HomePage < ActiveRecord::Base
+  NUM_SCRAPBOOK_MEMORIES = 4
+
   belongs_to :featured_memory, class: Memory
   belongs_to :featured_scrapbook, class: Scrapbook
 
@@ -8,7 +10,7 @@ class HomePage < ActiveRecord::Base
   validates :featured_scrapbook, presence: true
   validate :featured_scrapbook_is_visible, if: 'featured_scrapbook_id.present?'
 
-  validates :featured_scrapbook_memory_ids, presence: true
+  validate :has_valid_featured_scrapbook_memory_ids?
 
   private
 
@@ -24,5 +26,16 @@ class HomePage < ActiveRecord::Base
     return true if attribute.publicly_visible?
     errors.add(column_name, 'must be publicly visible')
     false
+  end
+
+  def has_valid_featured_scrapbook_memory_ids?
+    return true if has_enough_scrapbook_memories?
+    errors.add(:base, 'Must have four scrapbook memories picked.')
+    false
+  end
+
+  def has_enough_scrapbook_memories?
+    featured_scrapbook_memory_ids &&
+      featured_scrapbook_memory_ids.split(',').size == NUM_SCRAPBOOK_MEMORIES
   end
 end

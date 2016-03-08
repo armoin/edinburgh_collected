@@ -1,5 +1,5 @@
 Fabricator(:memory, class_name: :written, aliases: [:written_memory, :pending_memory]) do
-  user                { Fabricate(:active_user) }
+  user                { Fabricate(:approved_user) }
   title               "A test"
   description         "This is a test."
   categories(rand: 3) { |attrs, i| Fabricate(:category) }
@@ -18,6 +18,10 @@ Fabricator(:photo_memory, class_name: :photo, from: :memory) do
 end
 
 Fabricator(:approved_memory, from: :memory) do
+  after_create {|memory, transients| memory.approve!(memory.user) }
+end
+
+Fabricator(:approved_photo_memory, from: :photo_memory) do
   after_create {|memory, transients| memory.approve!(memory.user) }
 end
 

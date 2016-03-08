@@ -85,7 +85,7 @@ feature 'As a user who wants to add content to the site' do
 
       visit '/'
 
-      click_link 'View profile' #user.screen_name
+      click_link 'View profile'
 
       expect(current_path).to eql(my_profile_path)
       expect(page).to have_content("First name: #{user.first_name}")

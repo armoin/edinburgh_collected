@@ -2,48 +2,119 @@ require 'rails_helper'
 
 RSpec.describe HomePage do
   describe 'validation' do
+    let(:featured_memory)               { nil }
+    let(:featured_scrapbook)            { nil }
+    let(:featured_scrapbook_memory_ids) { nil }
+
+    subject {
+      Fabricate.build(:home_page,
+        featured_memory: featured_memory,
+        featured_scrapbook: featured_scrapbook,
+        featured_scrapbook_memory_ids: featured_scrapbook_memory_ids
+      )
+    }
+
+    before { subject.valid? }
+
     describe 'featured memory' do
-      it 'is invalid when blank' do
-        subject.valid?
-        expect(subject.errors[:featured_memory]).to include("can't be blank")
+      context 'when nil' do
+        let(:featured_memory) { nil }
+
+        it 'is invalid' do
+          expect(subject.errors[:featured_memory]).to include("can't be blank")
+        end
       end
 
-      it 'is invalid when not publicly visible' do
-        subject.featured_memory = Fabricate(:pending_memory)
-        subject.valid?
-        expect(subject.errors[:featured_memory]).to include("must be publicly visible")
+      context 'when not publicly visible' do
+        let(:featured_memory) { Fabricate(:pending_memory) }
+
+        it 'is invalid' do
+          expect(subject.errors[:featured_memory]).to include("must be publicly visible")
+        end
       end
 
-      it 'is valid when publicly visible' do
-        subject.featured_memory = Fabricate(:approved_memory)
-        subject.valid?
-        expect(subject.errors[:featured_memory]).to be_empty
+      context 'when publicly visible' do
+        let(:featured_memory) { Fabricate(:approved_memory) }
+
+        it 'is valid' do
+          expect(subject.errors[:featured_memory]).to be_empty
+        end
       end
     end
 
     describe 'featured scrapbook' do
-      it 'is invalid when blank' do
-        expect(subject).to be_invalid
-        expect(subject.errors[:featured_scrapbook]).to include("can't be blank")
+      context 'when nil' do
+        let(:featured_scrapbook) { nil }
+
+        it 'is invalid' do
+          expect(subject.errors[:featured_scrapbook]).to include("can't be blank")
+        end
       end
 
-      it 'is invalid when not publicly visible' do
-        subject.featured_scrapbook = Fabricate(:pending_scrapbook)
-        expect(subject).to be_invalid
-        expect(subject.errors[:featured_scrapbook]).to include("must be publicly visible")
+      context 'when not publicly visible' do
+        let(:featured_scrapbook) { Fabricate(:pending_scrapbook) }
+
+        it 'is invalid' do
+          expect(subject.errors[:featured_scrapbook]).to include("must be publicly visible")
+        end
       end
 
-      it 'is valid when publicly visible' do
-        subject.featured_scrapbook = Fabricate(:approved_scrapbook)
-        subject.valid?
-        expect(subject.errors[:featured_scrapbook]).to be_empty
+      context 'when publicly visible' do
+        let(:featured_scrapbook) { Fabricate(:approved_scrapbook) }
+
+        it 'is valid' do
+          expect(subject.errors[:featured_scrapbook]).to be_empty
+        end
       end
     end
 
-    describe 'featured scrapbook memory_ids' do
-      it 'is invalid unless there are scrapbook memory ids' do
-        subject.valid?
-        expect(subject.errors[:featured_scrapbook_memory_ids]).to include("can't be blank")
+    describe 'featured scrapbook memories' do
+      context 'when there are no scrapbook memories' do
+        let(:featured_scrapbook_memory_ids) { nil }
+
+        it 'is invalid' do
+          expect(subject.errors[:base]).to include('Must have four scrapbook memories picked.')
+        end
+      end
+
+      context 'when there is one scrapbook memory' do
+        let(:featured_scrapbook_memory_ids) { '1' }
+
+        it 'is invalid' do
+          expect(subject.errors[:base]).to include('Must have four scrapbook memories picked.')
+        end
+      end
+
+      context 'when there are two scrapbook memories' do
+        let(:featured_scrapbook_memory_ids) { '1,2' }
+
+        it 'is invalid' do
+          expect(subject.errors[:base]).to include('Must have four scrapbook memories picked.')
+        end
+      end
+
+      context 'when there are three scrapbook memories' do
+        let(:featured_scrapbook_memory_ids) { '1,2,3' }
+
+        it 'is invalid' do
+          expect(subject.errors[:base]).to include('Must have four scrapbook memories picked.')
+        end
+      end
+
+      context 'when there are four scrapbook memories' do
+        let(:featured_scrapbook_memory_ids) { '1,2,3,4' }
+
+        it 'is valid' do
+          expect(subject.errors[:base]).not_to include('Must have four scrapbook memories picked.')
+        end
+      end
+
+      context 'when there are five scrapbook memories' do
+        let(:featured_scrapbook_memory_ids) { '1,2,3,4,5' }
+
+        it 'is invalid' do
+          expect(subject.errors[:base]).to include('Must have four scrapbook memories picked.')
+        end
       end
     end
   end
