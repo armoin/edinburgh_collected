@@ -16,11 +16,14 @@ RSpec.describe 'admin/cms/home_pages/show.html.erb' do
 
   let(:home_page) do
     HomePage.new(
+      id: 123,
       featured_memory: @memory,
       featured_scrapbook: @scrapbook,
-      featured_scrapbook_memory_ids: @scrapbook_memories.map(&:id).join(',')
+      featured_scrapbook_memory_ids: @scrapbook_memories.map(&:id).join(','),
+      published: published
     )
   end
+  let(:published) { false }
 
   before :each do
     assign(:home_page_presenter, HomePagePresenter.new(home_page))
@@ -33,6 +36,32 @@ RSpec.describe 'admin/cms/home_pages/show.html.erb' do
 
   it 'has a link back to the index page' do
     expect(rendered).to have_link('Back to list', href: admin_cms_home_pages_path)
+  end
+
+  context 'when the page is not published' do
+    let(:published) { false }
+
+    it 'shows the state as draft' do
+      expect(rendered).to have_css('.state.draft', text: 'draft')
+    end
+
+    it 'has an edit button' do
+      expect(rendered).to have_link('Edit', href: edit_admin_cms_home_page_path(home_page))
+      expect(rendered).not_to have_css('span.btn.btn-disabled', text: 'Edit')
+    end
+  end
+
+  context 'when the page is published' do
+    let(:published) { true }
+
+    it 'shows the state as live' do
+      expect(rendered).to have_css('.state.live', text: 'live')
+    end
+
+    it 'has a disabled edit button' do
+      expect(rendered).not_to have_link('Edit', href: edit_admin_cms_home_page_path(home_page))
+      expect(rendered).to have_css('span.btn.btn-disabled', text: 'Edit')
+    end
   end
 
   describe 'preview' do

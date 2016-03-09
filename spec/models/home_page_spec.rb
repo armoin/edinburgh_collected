@@ -253,4 +253,14 @@ RSpec.describe HomePage do
       end
     end
   end
+
+  describe '#state' do
+    it 'returns "draft" when not published' do
+      expect(HomePage.new(published: false).state).to eq('draft')
+    end
+
+    it 'returns "live" when published' do
+      expect(HomePage.new(published: true).state).to eq('live')
+    end
+  end
 end

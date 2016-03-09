@@ -24,6 +24,10 @@ class HomePage < ActiveRecord::Base
       .map(&:memory)
   end
 
+  def state
+    self.published? ? 'live' : 'draft'
+  end
+
   private
 
   def featured_memory_is_visible?
