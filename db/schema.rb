@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160229212041) do
+ActiveRecord::Schema.define(version: 20160309171818) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20160229212041) do
   create_table "home_pages", force: true do |t|
     t.integer  "featured_memory_id",                            null: false
     t.integer  "featured_scrapbook_id",                         null: false
-    t.string   "featured_scrapbook_memory_ids",                 null: false
+    t.string   "featured_scrapbook_memory_ids"
     t.boolean  "published",                     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
