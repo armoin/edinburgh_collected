@@ -4,13 +4,13 @@ class HomePage < ActiveRecord::Base
   belongs_to :featured_memory, class: Memory
   belongs_to :featured_scrapbook, class: Scrapbook
 
-  validates :featured_memory, presence: true
-  validate :featured_memory_is_visible?, if: 'featured_memory_id.present?'
-  validate :featured_memory_is_photo?, if: 'featured_memory_id.present?'
+  validates :featured_memory, presence: { message: "must be a valid memory ID" }
+  validate :featured_memory_is_visible?, if: 'featured_memory.present?'
+  validate :featured_memory_is_photo?, if: 'featured_memory.present?'
 
-  validates :featured_scrapbook, presence: true
-  validate :featured_scrapbook_is_visible?, if: 'featured_scrapbook_id.present?'
-  validate :featured_scrapbook_has_enough_picture_memories?, if: 'featured_scrapbook_id.present?'
+  validates :featured_scrapbook, presence: { message: "must be a valid scrapbook ID" }
+  validate :featured_scrapbook_is_visible?, if: 'featured_scrapbook.present?'
+  validate :featured_scrapbook_has_enough_picture_memories?, if: 'featured_scrapbook.present?'
 
   def self.current
     where(published: true).last

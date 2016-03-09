@@ -35,8 +35,12 @@ RSpec.describe HomePage do
         let(:featured_memory) { nil }
 
         it 'is invalid' do
-          expect(subject.errors[:featured_memory]).to include("can't be blank")
+          expect(subject.errors[:featured_memory]).to include('must be a valid memory ID')
         end
+      end
+
+      context 'given featured_memory_id does not belong to an existing memory' do
+
       end
 
       context 'when not publicly visible' do
@@ -71,7 +75,7 @@ RSpec.describe HomePage do
         let(:featured_scrapbook) { nil }
 
         it 'is invalid' do
-          expect(subject.errors[:featured_scrapbook]).to include("can't be blank")
+          expect(subject.errors[:featured_scrapbook]).to include('must be a valid scrapbook ID')
         end
       end
 
