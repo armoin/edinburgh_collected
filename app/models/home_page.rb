@@ -19,6 +19,14 @@ class HomePage < ActiveRecord::Base
     where(published: true).last
   end
 
+  def featured_scrapbook_memories
+    featured_scrapbook
+      .scrapbook_memories
+      .includes(:memory)
+      .where(id: featured_ids)
+      .map(&:memory)
+  end
+
   private
 
   def featured_memory_is_visible?

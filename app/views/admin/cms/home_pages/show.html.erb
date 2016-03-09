@@ -1,0 +1,9 @@
+<div class="container">
+  <h1>Preview</h1>
+
+  <div role="navigation" id="tab-bar">
+    <%= link_to 'Back to list', admin_cms_home_pages_path %>
+  </div>
+</div>
+
+<%= render 'home/index', home_page_presenter: @home_page_presenter %>
