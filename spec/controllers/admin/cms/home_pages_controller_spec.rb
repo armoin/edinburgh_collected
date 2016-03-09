@@ -81,4 +81,126 @@ RSpec.describe Admin::Cms::HomePagesController do
       end
     end
   end
+
+  describe 'GET new' do
+    context 'user must be an admin' do
+      let(:perform_action) { get :new }
+
+      it_behaves_like 'an admin only controller'
+    end
+
+    context 'when logged in as an admin' do
+      let(:home_page) { double('home_page') }
+
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+
+        get :new
+      end
+
+      it 'assigns a new blank home_page' do
+        expect(assigns[:home_page]).to be_a_new(HomePage)
+      end
+
+      it 'renders the new page' do
+        expect(response).to render_template(:new)
+      end
+    end
+  end
+
+  describe 'POST create' do
+    context 'user must be an admin' do
+      let(:perform_action) { post :create }
+
+      it_behaves_like 'an admin only controller'
+    end
+
+    context 'when logged in as an admin' do
+      let(:home_page_params) do
+        {
+          featured_memory_id: '1',
+          featured_scrapbook_id: '2'
+        }
+      end
+      let(:home_page)   { double(id: 123) }
+      let(:save_result) { true }
+
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+
+        allow(HomePage).to receive(:new).and_return(home_page)
+        allow(home_page).to receive(:save).and_return(save_result)
+
+        post :create, home_page: home_page_params
+      end
+
+      it 'builds a new home_page with the given params' do
+        expect(HomePage).to have_received(:new).with(home_page_params)
+      end
+
+      it 'assigns the built home page' do
+        expect(assigns(:home_page)).to eq(home_page)
+      end
+
+      it 'attempts to save the home page' do
+        expect(home_page).to have_received(:save)
+      end
+
+      context 'when save is successful' do
+        let(:save_result) { true }
+
+        it 'displays a flash notice' do
+          expect(flash[:notice]).to eq('Home page created.')
+        end
+
+        it 'redirects to the edit page' do
+          expect(response).to redirect_to(edit_admin_cms_home_page_path(home_page))
+        end
+      end
+
+      context 'when save is not successful' do
+        let(:save_result) { false }
+
+        it 'displays a flash alert' do
+          expect(flash[:alert]).to eq('Unable to save this home page. Please see errors below.')
+        end
+
+        it 'renders the new page' do
+          expect(response).to render_template(:new)
+        end
+      end
+    end
+  end
+
+  describe 'GET edit' do
+    context 'user must be an admin' do
+      let(:perform_action) { get :edit, id: '123' }
+
+      it_behaves_like 'an admin only controller'
+    end
+
+    context 'when logged in as an admin' do
+      let(:home_page) { double('home_page') }
+
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+
+        allow(HomePage).to receive(:find).and_return(home_page)
+
+        get :edit, id: '123'
+      end
+
+      it 'fetches and assigns the requested home_page' do
+        expect(HomePage).to have_received(:find).with('123')
+        expect(assigns[:home_page]).to eq(home_page)
+      end
+
+      it 'renders the edit page' do
+        expect(response).to render_template(:edit)
+      end
+    end
+  end
 end

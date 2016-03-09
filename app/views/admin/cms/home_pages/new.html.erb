@@ -1,0 +1,41 @@
+<div class="container">
+  <header id="formHeader" class="row">
+  </header>
+
+  <div id="newHomePageForm" class="formWrapper row">
+    <div id="formPanel" class="col-md-6">
+      <h1 class="form-title">New home page</h1>
+
+      <%= form_for [:admin, :cms, @home_page] do |form| %>
+        <div class="form-group" aria-required="true">
+          <div class="formRow">
+            <%= form.label :featured_memory_id, class: 'control-label' %>
+            <%= form.text_field :featured_memory_id, class: 'form-control' %>
+            <% @home_page.errors[:featured_memory].each do |error| %>
+              <span class="help-block"><%= error %></span>
+            <% end -%>
+          </div>
+        </div>
+
+        <div class="form-group" aria-required="true">
+          <div class="formRow">
+            <%= form.label :featured_scrapbook_id, class: 'control-label' %>
+            <%= form.text_field :featured_scrapbook_id, class: 'form-control' %>
+            <% @home_page.errors[:featured_scrapbook].each do |error| %>
+              <span class="help-block"><%= error %></span>
+            <% end -%>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="actions col-xs-sm-12">
+            <%= form.submit "Create home page", class: "button green" %>
+            <%= link_to "Cancel", admin_cms_home_pages_path, class: "button cancel" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div id="infoPanel" class="col-md-6">
+    </div>
+  </div>
+</div>
