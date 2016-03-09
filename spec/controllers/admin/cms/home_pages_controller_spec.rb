@@ -20,12 +20,17 @@ RSpec.describe Admin::Cms::HomePagesController do
         login_user
 
         allow(HomePage).to receive(:order).and_return(home_pages)
+        allow(home_pages).to receive(:includes).and_return(home_pages)
 
         get :index
       end
 
       it 'orders the home_pages by updated_at' do
         expect(HomePage).to have_received(:order).with(:updated_at)
+      end
+
+      it 'includes the featured memory' do
+        expect(home_pages).to have_received(:includes).with(:featured_memory)
       end
 
       it 'assigns all home_page records' do

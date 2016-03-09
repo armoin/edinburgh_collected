@@ -1,6 +1,6 @@
 class Admin::Cms::HomePagesController < Admin::AuthenticatedAdminController
   def index
-    @home_pages = HomePage.order(:updated_at)
+    @home_pages = HomePage.order(:updated_at).includes(:featured_memory)
   end
 
   def show
