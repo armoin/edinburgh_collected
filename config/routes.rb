@@ -61,6 +61,10 @@ Rails.application.routes.draw do
   namespace :admin do
     get '/home' => 'home#index'
 
+    namespace :cms do
+      resources :home_pages, only: [:index, :show]
+    end
+
     namespace :moderation do
       resources :memories, only: [:index, :show] do
         collection do

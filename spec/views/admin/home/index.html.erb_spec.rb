@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 describe "admin/home/index.html.erb" do
+  describe 'CMS' do
+    it 'has a link to the Home Pages CMS' do
+      render
+      expect(rendered).to have_link('Home Page', href: admin_cms_home_pages_path)
+    end
+  end
+
   describe 'Moderation Inbox' do
     describe 'memories' do
       describe 'has an Unmoderated memories link' do

@@ -1,0 +1,34 @@
+<div class="container">
+  <h1>Home Pages</h1>
+
+  <div role="navigation" id="tab-bar">
+    <%= link_to 'Back to admin', admin_home_path %>
+  </div>
+
+  <table class="table table-striped table-responsive home-pages items">
+    <thead>
+      <th>Featured memory title</th>
+      <th>Created at</th>
+      <th>Last updated at</th>
+      <th>Actions</th>
+    </thead>
+    <tbody>
+      <% @home_pages.each do |home_page| %>
+        <tr class="home-page">
+          <td class="t-title">
+            <%= link_to home_page.featured_memory.title, admin_cms_home_page_path(home_page) %>
+          </td>
+          <td class="t-created-at"><%= formatted_date(home_page.created_at, '%d-%b-%Y %H:%M') %></td>
+          <td class="t-updated-at"><%= formatted_date(home_page.updated_at, '%d-%b-%Y %H:%M') %></td>
+          <td class="t-actions">
+            <% if home_page.published? %>
+              <span class="home-page_status--live">LIVE</span>
+            <% else %>
+              <%= link_to 'Publish', '/', class: 'button green small' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
