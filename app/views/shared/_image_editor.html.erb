@@ -1,4 +1,4 @@
-<div id="image-editor" class="thumb new" data-show="<%= image_url.present? %>">
+<div id="image-editor" class="<%= display_class %> new" data-show="<%= image_url.present? %>">
   <section id="image-area">
     <div class="progress"><div class="bar"></div></div>
     <p class="errors"></p>
@@ -24,12 +24,12 @@
         <span class="accessible-label">Rotate clockwise</span>
         <span class="glyphicon glyphicon-repeat"></span>
       </a>
-      <%= form.hidden_field :image_angle %>
-      <%= form.hidden_field :image_scale %>
-      <%= form.hidden_field :image_w %>
-      <%= form.hidden_field :image_h %>
-      <%= form.hidden_field :image_x %>
-      <%= form.hidden_field :image_y %>
+      <%= form.hidden_field :image_angle, data: {attr: 'angle'} %>
+      <%= form.hidden_field :image_scale, data: {attr: 'scale'} %>
+      <%= form.hidden_field :image_w, data: {attr: 'w'} %>
+      <%= form.hidden_field :image_h, data: {attr: 'h'} %>
+      <%= form.hidden_field :image_x, data: {attr: 'x'} %>
+      <%= form.hidden_field :image_y, data: {attr: 'y'} %>
     </div>
   </footer>
 </div>

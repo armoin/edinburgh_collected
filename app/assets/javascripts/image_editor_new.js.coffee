@@ -10,12 +10,12 @@ $ ->
   $remote_url.on 'imageFileAdded', imageAttached
 
   logData = (data) ->
-    $('#user_image_angle').val(data.angle)
-    $('#user_image_scale').val(data.scale)
-    $('#user_image_w').val(data.w)
-    $('#user_image_h').val(data.h)
-    $('#user_image_x').val(data.x)
-    $('#user_image_y').val(data.y)
+    $('[data-attr="angle"]').val(data.angle)
+    $('[data-attr="scale"]').val(data.scale)
+    $('[data-attr="w"]').val(data.w)
+    $('[data-attr="h"]').val(data.h)
+    $('[data-attr="x"]').val(data.x)
+    $('[data-attr="y"]').val(data.y)
 
   $('[data-action]').on 'click', (e) ->
     e.preventDefault()
