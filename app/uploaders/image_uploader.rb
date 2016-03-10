@@ -47,7 +47,6 @@ class ImageUploader < CarrierWave::Uploader::Base
     process :resize_to_fit => [350, nil]
   end
 
-
   def extension_white_list
     if !WHITE_LIST.include?(file.extension) && WHITE_LIST.include?(filetype)
       [file.extension]

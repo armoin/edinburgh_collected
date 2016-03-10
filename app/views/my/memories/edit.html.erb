@@ -9,7 +9,7 @@
 
         <% if @memory.photo? %>
           <img class="hide" id='memory_source' src="<%= cache_busted_url(@memory) %>" alt="<%= @memory.title %>" title="<%= @memory.title %>" />
-          <%= render partial: 'image_editor', locals: {form: form, uploaded_image_url: @memory.source_url} %>
+          <%= render 'image_editor', form: form, uploaded_image_url: @memory.source_url %>
         <% end %>
 
         <%= render partial: 'details_form', object: @memory, locals: { form: form } %>
