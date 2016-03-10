@@ -19,7 +19,7 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   def manual_rotation
     manipulate! do |img|
-      img.rotate(model.rotation)
+      img.rotate(model.image_angle)
       img = yield(img) if block_given?
       img
     end

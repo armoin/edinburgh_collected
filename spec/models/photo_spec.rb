@@ -9,6 +9,7 @@ describe Photo do
   let(:memory)    { Fabricate.build(:photo_memory, user: test_user, source: source, area: area) }
 
   it_behaves_like "a memory"
+  # it_behaves_like 'an image manipulator'
 
   it 'is a Memory of type "Photo"' do
     expect(subject).to be_a(Memory)
@@ -107,7 +108,7 @@ describe Photo do
     context 'when photo has been rotated' do
       before :each do
         Timecop.freeze(now) do
-          memory.update(rotation: '90')
+          memory.update(image_angle: '90')
         end
       end
 
@@ -121,10 +122,10 @@ describe Photo do
     end
 
     context 'when image has not been rotated' do
-      context 'when rotation is nil' do
+      context 'when image_angle is nil' do
         before :each do
           Timecop.freeze(now) do
-            memory.update(rotation: nil)
+            memory.update(image_angle: nil)
           end
         end
 
@@ -137,10 +138,10 @@ describe Photo do
         end
       end
 
-      context 'when rotation is 0' do
+      context 'when image_angle is 0' do
         before :each do
           Timecop.freeze(now) do
-            memory.update(rotation: '0')
+            memory.update(image_angle: '0')
           end
         end
 
@@ -155,51 +156,51 @@ describe Photo do
     end
   end
 
-  describe "rotation" do
+  describe "image_angle" do
     describe "when setting" do
       it "provides an integer when given a string" do
-        subject.rotation = "90"
-        expect(subject.rotation).to eql(90)
+        subject.image_angle = "90"
+        expect(subject.image_angle).to eql(90)
       end
 
       it "provides an integer when given an integer" do
-        subject.rotation = 90
-        expect(subject.rotation).to eql(90)
+        subject.image_angle = 90
+        expect(subject.image_angle).to eql(90)
       end
 
       it "provides an integer when given a float" do
-        subject.rotation = "90.2"
-        expect(subject.rotation).to eql(90)
+        subject.image_angle = "90.2"
+        expect(subject.image_angle).to eql(90)
       end
 
       it "provides 0 when given nil" do
-        subject.rotation = nil
-        expect(subject.rotation).to eql(0)
+        subject.image_angle = nil
+        expect(subject.image_angle).to eql(0)
       end
 
       it "provides nil when not set" do
-        expect(subject.rotation).to be_nil
+        expect(subject.image_angle).to be_nil
       end
     end
 
     describe "when checking" do
-      it "is false when image has no rotation" do
-        memory.rotation = nil
+      it "is false when image has no image_angle" do
+        memory.image_angle = nil
         expect(memory.rotated?).to be_falsy
       end
 
-      it "is false when image has rotation of 0" do
-        memory.rotation = "0"
+      it "is false when image has image_angle of 0" do
+        memory.image_angle = "0"
         expect(memory.rotated?).to be_falsy
       end
 
       it "is true when image is rotated by > 0" do
-        memory.rotation = "90"
+        memory.image_angle = "90"
         expect(memory.rotated?).to be_truthy
       end
 
       it "is true when image is rotated by < 0" do
-        memory.rotation = "-90"
+        memory.image_angle = "-90"
         expect(memory.rotated?).to be_truthy
       end
     end

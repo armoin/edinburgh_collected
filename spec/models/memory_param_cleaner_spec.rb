@@ -4,7 +4,7 @@ def memory_allowed_params
   {
     title:              'A test',
     type:               'Photo',
-    rotation:           '90',
+    image_angle:        '90',
     source:             'test.jpg',
     description:        'This is a test description',
     year:               '2014',
