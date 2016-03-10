@@ -25,18 +25,26 @@ module ImageManipulator
     return true unless image_modified?
 
     self.updated_at = Time.now
-    self.avatar.recreate_versions! unless no_image? || new_image_uploaded?
+    uploader.recreate_versions! unless no_image? || new_image_uploaded?
     self.save
   end
 
   private
 
+  def uploader_name
+    self.class.uploaders.keys.first
+  end
+
+  def uploader
+    self.send(uploader_name)
+  end
+
   def no_image?
-    self.avatar.blank?
+    uploader.blank?
   end
 
   def new_image_uploaded?
-    self.previous_changes.has_key?(:avatar)
+    self.previous_changes.has_key?(uploader_name)
   end
 
   def present_and_positive?(value)
