@@ -52,8 +52,22 @@ describe ImageUploader, slow: true do
       ImageUploader.enable_processing = false
     end
 
-    it "should scale down an original image to a max of 1720 pixels wide or 1720 pixels high" do
-      expect(uploader).to be_no_larger_than(1720, 1720)
+    describe 'original' do
+      context 'when original is larger than 1720 x 1720' do
+        let(:filename) { 'image_upload_test.jpg' }
+
+        it "should scale down an original image to a width of 1720 pixels" do
+          expect(uploader).to have_dimensions(1720, 1290)
+        end
+      end
+
+      context 'when original is smaller than 1720 x 1720' do
+        let(:filename) { 'test_small.jpg' }
+
+        it "doesn't scale the image at all" do
+          expect(uploader).to have_dimensions(1000, 667)
+        end
+      end
     end
 
     it "should scale down a mini thumb image to 90x90 pixels" do
