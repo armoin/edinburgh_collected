@@ -1,5 +1,5 @@
 $ ->
-  $image      = $('.new #image-rotation-box img')
+  $image      = $('.guillotine #image-rotation-box img')
   $remote_url = $('input[type="hidden"].image_url')
 
   imageAttached = ->
