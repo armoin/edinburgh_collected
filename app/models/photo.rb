@@ -21,25 +21,19 @@ class Photo < Memory
     ]
   end
 
-  def image_angle=(degrees_string)
-    @image_angle = degrees_string.to_i
-  end
-
   def rotated?
-    self.image_angle.present? && self.image_angle != 0
+    self.image_angle.present? && self.image_angle.to_f != 0
   end
 
   def update(params)
-    update_successful = super(params)
-    if rotated? && update_successful
-      update_successful = update_successful && process_image
-    end
-    update_successful
+    super(params) && process_image
   end
 
   private
 
   def process_image
+    return true unless rotated?
+
     self.updated_at = Time.now
     self.source.recreate_versions!
     self.save

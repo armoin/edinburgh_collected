@@ -17,6 +17,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
     "fallback/" + [version_name, "default_avatar.png"].compact.join('_')
   end
 
+  ## PROCESSING
   def rotate
     manipulate! do |img|
       img.tap {|i| i.rotate angle }

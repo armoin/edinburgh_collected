@@ -156,53 +156,25 @@ describe Photo do
     end
   end
 
-  describe "image_angle" do
-    describe "when setting" do
-      it "provides an integer when given a string" do
-        subject.image_angle = "90"
-        expect(subject.image_angle).to eql(90)
-      end
-
-      it "provides an integer when given an integer" do
-        subject.image_angle = 90
-        expect(subject.image_angle).to eql(90)
-      end
-
-      it "provides an integer when given a float" do
-        subject.image_angle = "90.2"
-        expect(subject.image_angle).to eql(90)
-      end
-
-      it "provides 0 when given nil" do
-        subject.image_angle = nil
-        expect(subject.image_angle).to eql(0)
-      end
-
-      it "provides nil when not set" do
-        expect(subject.image_angle).to be_nil
-      end
+  describe '#rotated?' do
+    it "is false when image has no image_angle" do
+      memory.image_angle = nil
+      expect(memory.rotated?).to be_falsy
     end
 
-    describe "when checking" do
-      it "is false when image has no image_angle" do
-        memory.image_angle = nil
-        expect(memory.rotated?).to be_falsy
-      end
+    it "is false when image has image_angle of 0" do
+      memory.image_angle = "0"
+      expect(memory.rotated?).to be_falsy
+    end
 
-      it "is false when image has image_angle of 0" do
-        memory.image_angle = "0"
-        expect(memory.rotated?).to be_falsy
-      end
+    it "is true when image is rotated by > 0" do
+      memory.image_angle = "90"
+      expect(memory.rotated?).to be_truthy
+    end
 
-      it "is true when image is rotated by > 0" do
-        memory.image_angle = "90"
-        expect(memory.rotated?).to be_truthy
-      end
-
-      it "is true when image is rotated by < 0" do
-        memory.image_angle = "-90"
-        expect(memory.rotated?).to be_truthy
-      end
+    it "is true when image is rotated by < 0" do
+      memory.image_angle = "-90"
+      expect(memory.rotated?).to be_truthy
     end
   end
 end
