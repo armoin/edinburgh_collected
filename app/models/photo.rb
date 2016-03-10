@@ -4,10 +4,10 @@ class Photo < Memory
   extend CarrierWave::Mount
   mount_uploader :source, ImageUploader
 
+  include ImageManipulator
+
   validates :source, presence: true
   validates :year, presence: true
-
-  attr_accessor :image_angle
 
   def label
     'picture'
@@ -21,21 +21,7 @@ class Photo < Memory
     ]
   end
 
-  def rotated?
-    self.image_angle.present? && self.image_angle.to_f != 0
-  end
-
   def update(params)
     super(params) && process_image
-  end
-
-  private
-
-  def process_image
-    return true unless rotated?
-
-    self.updated_at = Time.now
-    self.source.recreate_versions!
-    self.save
   end
 end

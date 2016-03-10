@@ -9,7 +9,7 @@ describe Photo do
   let(:memory)    { Fabricate.build(:photo_memory, user: test_user, source: source, area: area) }
 
   it_behaves_like "a memory"
-  # it_behaves_like 'an image manipulator'
+  it_behaves_like 'an image manipulator'
 
   it 'is a Memory of type "Photo"' do
     expect(subject).to be_a(Memory)
