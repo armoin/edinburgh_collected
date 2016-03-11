@@ -60,10 +60,22 @@
         &.rotate-270
           @include transform(rotate(-270deg))
 
+  &.thumb, &.hero
+    border: 1px solid $navy-blue
+
+  &.hero
+    #image-rotation-box
+      width: 100%
+
+    footer
+      height: auto
+
+    .controls .rotate
+      display: none
+
   &.thumb
     width: 182px
     height: 217px
-    border: 1px solid $navy-blue
 
     #image-area
       height: 180px

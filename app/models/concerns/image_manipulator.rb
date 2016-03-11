@@ -14,7 +14,7 @@ module ImageManipulator
   end
 
   def scaled?
-    present_and_positive?(self.image_scale)
+    present_and_positive?(self.image_scale) && self.image_scale.to_f != 1.000
   end
 
   def cropped?

@@ -1,5 +1,12 @@
 class HomePage < ActiveRecord::Base
+  extend CarrierWave::Mount
+  mount_uploader :hero_image, HeroImageUploader
+
+  include ImageManipulator
+
   REQUIRED_SCRAPBOOK_MEMORIES = 4
+
+  before_validation :attach_hero_image
 
   belongs_to :featured_memory, class: Memory
   belongs_to :featured_scrapbook, class: Scrapbook
@@ -64,5 +71,9 @@ class HomePage < ActiveRecord::Base
 
   def picture_memories
     featured_scrapbook.memories.where(type: 'Photo')
+  end
+
+  def attach_hero_image
+    self.remote_hero_image_url = self.featured_memory.try(:source_url) if self.featured_memory_id_changed?
   end
 end

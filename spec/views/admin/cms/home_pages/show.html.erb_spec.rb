@@ -1,25 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe 'admin/cms/home_pages/show.html.erb' do
-  before :all do
-    @memory = Fabricate(:approved_photo_memory)
-    @scrapbook = Fabricate(:approved_scrapbook)
-    @scrapbook_memories = Fabricate.times(4, :scrapbook_photo_memory, scrapbook: @scrapbook)
-  end
-
-  after :all do
-    @memory.destroy
-    @scrapbook.destroy
-    @scrapbook_memories.each(&:destroy)
-    User.destroy_all
-  end
+  include_context 'home_page'
 
   let(:home_page) do
     HomePage.new(
       id: 123,
-      featured_memory: @memory,
-      featured_scrapbook: @scrapbook,
-      featured_scrapbook_memory_ids: @scrapbook_memories.map(&:id).join(','),
+      featured_memory: @featured_memory,
+      featured_scrapbook: @featured_scrapbook,
+      featured_scrapbook_memory_ids: @featured_scrapbook_memories.map(&:id).join(','),
       published: published
     )
   end
@@ -67,33 +56,33 @@ RSpec.describe 'admin/cms/home_pages/show.html.erb' do
   describe 'preview' do
     describe 'featured memory' do
       it 'displays the image' do
-        expect(rendered).to have_css("img[src=\"#{@memory.source_url}\"]")
+        expect(rendered).to have_css("img[src=\"#{home_page.hero_image_url}\"]")
       end
 
       it 'displays the title' do
-        expect(rendered).to have_css('#imageInfo p', text: @memory.title)
+        expect(rendered).to have_css('#imageInfo p', text: @featured_memory.title)
       end
 
       it 'displays the year' do
-        expect(rendered).to have_css('#imageInfo p', text: @memory.year)
+        expect(rendered).to have_css('#imageInfo p', text: @featured_memory.year)
       end
 
       it "displays a link to the owner's other memories" do
-        expect(rendered).to have_link(@memory.user.screen_name, href: user_memories_url(@memory.user))
+        expect(rendered).to have_link(@featured_memory.user.screen_name, href: user_memories_url(@featured_memory.user))
       end
     end
 
     describe 'featured scrapbook' do
       it 'displays the title' do
-        expect(rendered).to have_css('#featuredScrapbook footer', text: @scrapbook.title)
+        expect(rendered).to have_css('#featuredScrapbook footer', text: @featured_scrapbook.title)
       end
 
       it "displays a link to the owner's other scrapbooks" do
-        expect(rendered).to have_link(@scrapbook.user.screen_name, href: user_scrapbooks_path(@scrapbook.user))
+        expect(rendered).to have_link(@featured_scrapbook.user.screen_name, href: user_scrapbooks_path(@featured_scrapbook.user))
       end
 
       it "displays a link to view the scrapbook" do
-        expect(rendered).to have_link('View scrapbook', href: scrapbook_url(@scrapbook))
+        expect(rendered).to have_link('View scrapbook', href: scrapbook_url(@featured_scrapbook))
       end
     end
 
@@ -103,7 +92,7 @@ RSpec.describe 'admin/cms/home_pages/show.html.erb' do
       end
 
       describe 'each memory' do
-        let(:scrapbook_memory) { @scrapbook_memories.first }
+        let(:scrapbook_memory) { @featured_scrapbook_memories.first }
 
         it 'has a link to the memory page for that memory' do
           expect(rendered).to have_css("a.item[href='#{memory_path(scrapbook_memory.memory.id)}']")

@@ -1,30 +1,20 @@
 require 'rails_helper'
 
 RSpec.describe HomePage do
-  before :all do
-    @featured_memory               = Fabricate(:approved_photo_memory)
-    @featured_scrapbook            = Fabricate(:approved_scrapbook)
-    @featured_scrapbook_memories   = Fabricate.times(4, :scrapbook_photo_memory, scrapbook: @featured_scrapbook)
-    @featured_scrapbook_memory_ids = @featured_scrapbook_memories.map(&:id).join(',')
-  end
-
-  after :all do
-    @featured_memory.destroy
-    @featured_scrapbook.destroy
-    @featured_scrapbook_memories.each(&:destroy)
-    User.destroy_all
-  end
+  include_context 'home_page'
 
   describe 'validation' do
     let(:featured_memory)               { nil }
     let(:featured_scrapbook)            { nil }
     let(:featured_scrapbook_memory_ids) { nil }
+    let(:hero_image)                    { nil }
 
     subject {
       Fabricate.build(:home_page,
         featured_memory: featured_memory,
         featured_scrapbook: featured_scrapbook,
-        featured_scrapbook_memory_ids: featured_scrapbook_memory_ids
+        featured_scrapbook_memory_ids: featured_scrapbook_memory_ids,
+        hero_image: hero_image
       )
     }
 
@@ -102,7 +92,7 @@ RSpec.describe HomePage do
             Fabricate.times(4, :scrapbook_photo_memory, scrapbook: scrapbook)
             scrapbook
           }
-
+          1
           it 'is valid' do
             expect(subject.errors[:featured_scrapbook]).to be_empty
           end
@@ -252,6 +242,14 @@ RSpec.describe HomePage do
         end
       end
     end
+  end
+
+  describe 'hero image' do
+    it 'has an uploader for the hero image' do
+      expect(described_class.uploaders).to have_key(:hero_image)
+    end
+
+    it_behaves_like 'an image manipulator'
   end
 
   describe '#state' do
