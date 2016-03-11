@@ -353,10 +353,10 @@ describe Memory do
 
       context 'area' do
         before :each do
-          foo_area = Fabricate.build(:area, name: 'foo', id: 1)
+          foo_area = Fabricate(:area, name: 'foo')
           @term_in_area = Fabricate(:approved_memory, area: foo_area)
 
-          bar_area = Fabricate.build(:area, name: 'bar', id: 2)
+          bar_area = Fabricate(:area, name: 'bar')
           @term_not_in_area = Fabricate(:approved_memory, area: bar_area)
         end
 
