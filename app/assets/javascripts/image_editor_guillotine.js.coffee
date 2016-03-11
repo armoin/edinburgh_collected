@@ -25,7 +25,11 @@ $ ->
 
   $image.on 'load', ->
     $image.guillotine 'remove'
-    $image.guillotine { width: 180, height: 180, eventOnChange: 'imageDidChange' }
+    $image.guillotine {
+      width: $image.data('width'),
+      height: $image.data('height'),
+      eventOnChange: 'imageDidChange'
+    }
     $image.guillotine 'fit'
 
     logData $image.guillotine('getData')

@@ -3,7 +3,9 @@
     <div class="progress"><div class="bar"></div></div>
     <p class="errors"></p>
     <div id="image-rotation-box">
-      <%= image_tag image_url, class: "no-max-width", alt: "uploaded image" %>
+      <%= image_tag image_url, class: "no-max-width",
+                               alt: "uploaded image",
+                               data: { width: width, height: height } %>
     </div>
   </section>
   <footer>
