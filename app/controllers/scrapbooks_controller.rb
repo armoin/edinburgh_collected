@@ -2,6 +2,8 @@ class ScrapbooksController < ApplicationController
   before_action :store_scrapbook_index_path, only: :index
   before_action :store_memory_index_path, only: :show
 
+  respond_to :html, :json
+
   def index
     scrapbooks = Scrapbook.publicly_visible.by_last_created
     memory_fetcher = ApprovedScrapbookMemoryFetcher.new(scrapbooks)
@@ -11,6 +13,7 @@ class ScrapbooksController < ApplicationController
   def show
     @scrapbook = Scrapbook.publicly_visible.find(params[:id])
     @memories = Kaminari.paginate_array(scrapbook_memories).page(params[:page])
+    respond_with @scrapbook
   end
 
   private
