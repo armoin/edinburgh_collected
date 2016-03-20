@@ -8,6 +8,7 @@ $ ->
     $('#image-editor').trigger('imageDidShow')
 
   $remote_url.on 'imageFileAdded', imageAttached
+  $remote_url.on 'change', imageAttached
 
   logData = (data) ->
     $('[data-attr="angle"]').val(data.angle)
@@ -36,9 +37,9 @@ $ ->
 
     $('#image-editor .progress').hide()
     $image.closest('#image-rotation-box').show()
+    $("#image-editor").show()
 
   if $remote_url.val() && $remote_url.val().length
     $remote_url.trigger('imageFileAdded')
   else if $("#image-editor").data('show')
     $image.trigger('load')
-    $("#image-editor").show()
