@@ -51,6 +51,12 @@ class Admin::Cms::HomePagesController < Admin::AuthenticatedAdminController
     end
   end
 
+  def destroy
+    home_page = HomePage.find(params[:id])
+    home_page.destroy
+    redirect_to admin_cms_home_pages_path
+  end
+
   private
 
   def home_page_params

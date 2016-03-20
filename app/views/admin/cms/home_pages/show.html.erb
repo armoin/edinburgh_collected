@@ -16,6 +16,7 @@
         <% else %>
           <%= link_to 'Edit', edit_admin_cms_home_page_path(@home_page_presenter), class: 'btn approve' %>
           <%= link_to 'Publish', publish_admin_cms_home_page_path(@home_page_presenter), method: :patch, class: 'btn approve' %>
+          <%= link_to 'Delete', admin_cms_home_page_path(@home_page_presenter), method: :delete, class: 'btn reject', data: {confirm: 'Are you sure?'} %>
         <% end %>
       </li>
     </ul>

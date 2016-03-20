@@ -42,6 +42,10 @@ RSpec.describe 'admin/cms/home_pages/show.html.erb' do
       expect(rendered).to have_link('Publish', href: publish_admin_cms_home_page_path(home_page))
     end
 
+    it 'has a delete button' do
+      expect(rendered).to have_link('Delete', href: admin_cms_home_page_path(home_page))
+    end
+
     it 'does not have a message saying that it can not be modified' do
       expect(rendered).not_to have_css('span', text: 'Cannot modify whilst live')
     end
@@ -60,6 +64,10 @@ RSpec.describe 'admin/cms/home_pages/show.html.erb' do
 
     it 'does not have a publish button' do
       expect(rendered).not_to have_link('Publish', href: publish_admin_cms_home_page_path(home_page))
+    end
+
+    it 'does not have a delete button' do
+      expect(rendered).not_to have_link('Delete', href: admin_cms_home_page_path(home_page))
     end
 
     it 'has a message saying that it can not be modified' do

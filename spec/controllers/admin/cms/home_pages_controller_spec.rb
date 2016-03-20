@@ -332,4 +332,38 @@ RSpec.describe Admin::Cms::HomePagesController do
       end
     end
   end
+
+  describe 'DELETE destroy' do
+    context 'user must be an admin' do
+      let(:perform_action) { delete :destroy, id: '123' }
+
+      it_behaves_like 'an admin only controller'
+    end
+
+    context 'when logged in as an admin' do
+      let(:home_page) { double(id: 123) }
+
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+
+        allow(HomePage).to receive(:find).and_return(home_page)
+        allow(home_page).to receive(:destroy)
+
+        delete :destroy, id: '123'
+      end
+
+      it 'fetches the requested home_page' do
+        expect(HomePage).to have_received(:find).with('123')
+      end
+
+      it 'destroys it' do
+        expect(home_page).to have_received(:destroy)
+      end
+
+      it 'redirects to the index page' do
+        expect(response).to redirect_to(admin_cms_home_pages_path)
+      end
+    end
+  end
 end
