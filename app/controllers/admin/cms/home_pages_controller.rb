@@ -18,7 +18,7 @@ class Admin::Cms::HomePagesController < Admin::AuthenticatedAdminController
     @home_page = HomePage.new(home_page_params)
     if @home_page.save
       flash[:notice] = 'Home page created.'
-      redirect_to edit_admin_cms_home_page_path(@home_page)
+      redirect_to admin_cms_home_page_path(@home_page)
     else
       flash[:alert] = 'Unable to save this home page. Please see errors below.'
       render :new

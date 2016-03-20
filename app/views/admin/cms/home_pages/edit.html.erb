@@ -7,11 +7,7 @@
       <h1 class="form-title">Edit home page</h1>
 
       <%= form_for [:admin, :cms, @home_page] do |form| %>
-        <%= render 'shared/image_editor', form: form,
-                                          image_url: @home_page.hero_image_url,
-                                          display_class: 'hero',
-                                          width: 1140,
-                                          height: 525 %>
+        <%= render 'form', form: form, home_page: @home_page %>
 
         <div class="form-group">
           <div class="actions col-xs-sm-12">

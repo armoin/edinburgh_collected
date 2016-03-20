@@ -155,8 +155,8 @@ RSpec.describe Admin::Cms::HomePagesController do
           expect(flash[:notice]).to eq('Home page created.')
         end
 
-        it 'redirects to the edit page' do
-          expect(response).to redirect_to(edit_admin_cms_home_page_path(home_page))
+        it 'redirects to the show page' do
+          expect(response).to redirect_to(admin_cms_home_page_path(home_page))
         end
       end
 

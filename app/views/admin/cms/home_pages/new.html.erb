@@ -2,38 +2,12 @@
   <header id="formHeader" class="row">
   </header>
 
-  <div id="newHomePageForm" class="formWrapper row home-page__new_form">
+  <div class="formWrapper row home-page__new_form">
     <div id="formPanel" class="col-xs-12">
       <h1 class="form-title">New home page</h1>
 
       <%= form_for [:admin, :cms, @home_page] do |form| %>
-        <div class="form-group" aria-required="true">
-          <div class="formRow">
-            <%= form.label :featured_memory_id, class: 'control-label' %>
-            <%= form.text_field :featured_memory_id, class: 'form-control' %>
-            <% @home_page.errors[:featured_memory].each do |error| %>
-              <span class="help-block"><%= error %></span>
-            <% end -%>
-          </div>
-        </div>
-
-        <%= form.hidden_field :remote_hero_image_url, data: {remote_url: true}, class: 'image_url' %>
-
-        <%= render 'shared/image_editor', form: form,
-                                        image_url: @home_page.hero_image_url,
-                                        display_class: 'hero',
-                                        width: 1140,
-                                        height: 525 %>
-
-        <div class="form-group" aria-required="true">
-          <div class="formRow">
-            <%= form.label :featured_scrapbook_id, class: 'control-label' %>
-            <%= form.text_field :featured_scrapbook_id, class: 'form-control' %>
-            <% @home_page.errors[:featured_scrapbook].each do |error| %>
-              <span class="help-block"><%= error %></span>
-            <% end -%>
-          </div>
-        </div>
+        <%= render 'form', form: form, home_page: @home_page %>
 
         <div class="form-group">
           <div class="actions col-xs-sm-12">
@@ -45,67 +19,3 @@
     </div>
   </div>
 </div>
-
-<%= content_for :script_tags  do %>
-  <script>
-    var $remote_url = $('[data-remote-url]'),
-        $featured_memory_id = $('input#home_page_featured_memory_id');
-
-    var clearErrorsOn = function (element) {
-      var formGroup = element.closest('.form-group');
-
-      formGroup.removeClass('field_with_errors');
-      formGroup.find('.formRow .help-block').remove();
-    }
-
-    var showError = function (errorMessage, element) {
-      var formGroup = element.closest('.form-group');
-
-      $(formGroup).addClass('field_with_errors');
-      $(formGroup).find('.formRow').append('<span class="help-block">' + errorMessage + '</span>');
-    };
-
-    var didSuccessfullyFetch = function (data) {
-      var id = $($featured_memory_id).val(),
-          errorMessage;
-
-      if (data.type === 'Written') {
-        errorMessage = 'Memory with ID ' + id + ' is a Written memory. You must select a Picture memory.';
-      } else if (data.file === null) {
-        errorMessage = 'Memory with ID ' + id + ' does not have a picture attached.';
-      }
-
-      if (errorMessage) {
-        showError(errorMessage, $featured_memory_id);
-      } else {
-        $remote_url.val(data.file.url).trigger('change');
-      }
-    };
-
-    var didErrorOnFetch = function (error) {
-      var id = $($featured_memory_id).val(),
-          errorMessage;
-
-      if (error.status === 404) {
-        errorMessage = 'Could not find a publicly visible memory with ID "' + id + '"';
-      } else {
-        errorMessage = 'An error occurred. Please try refreshing the page and try again.'
-      }
-      $("#image-editor").hide();
-      showError(errorMessage, $featured_memory_id);
-    }
-
-    $featured_memory_id.on('change', function (e, data) {
-      var url = '/memories/' + $featured_memory_id.val();
-
-      clearErrorsOn($featured_memory_id);
-
-      $.ajax({
-        url: url,
-        method:'GET',
-        dataType: 'json'
-      }).done(didSuccessfullyFetch)
-        .error(didErrorOnFetch);
-    });
-  </script>
-<% end %>
