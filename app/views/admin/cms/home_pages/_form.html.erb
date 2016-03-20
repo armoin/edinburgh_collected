@@ -19,7 +19,7 @@
 <div class="form-group" aria-required="true">
   <div class="formRow">
     <%= form.label :featured_scrapbook_id, class: 'control-label' %>
-    <%= form.text_field :featured_scrapbook_id, class: 'form-control' %>
+    <%= form.text_field :featured_scrapbook_id, class: 'form-control', data: {featured_scrapbook_id: true} %>
     <% home_page.errors[:featured_scrapbook].each do |error| %>
       <span class="help-block"><%= error %></span>
     <% end -%>
@@ -28,8 +28,9 @@
 
 <%= content_for :script_tags  do %>
   <script>
-    var $remote_url = $('[data-remote-url]'),
-        $featured_memory_id = $('[data-featured-memory-id]');
+    var $remote_url = $('[data-remote-url]')
+      , $featured_memory_id = $('[data-featured-memory-id]')
+      , $featured_scrapbook_id = $('[data-featured-scrapbook-id]');
 
     var clearErrorsOn = function (element) {
       var formGroup = element.closest('.form-group');
@@ -45,34 +46,62 @@
       $(formGroup).find('.formRow').append('<span class="help-block">' + errorMessage + '</span>');
     };
 
-    var didSuccessfullyFetch = function (data) {
+    var didSuccessfullyFetchMemory = function (data) {
       var id = $($featured_memory_id).val(),
           errorMessage;
 
       if (data.type === 'Written') {
-        errorMessage = 'Memory with ID ' + id + ' is a Written memory. You must select a Picture memory.';
+        errorMessage = 'This memory is a Written memory. You must select a Picture memory.';
       } else if (data.file === null) {
-        errorMessage = 'Memory with ID ' + id + ' does not have a picture attached.';
+        errorMessage = 'This memory does not have a picture attached.';
       }
 
       if (errorMessage) {
+        $("#image-editor").hide();
         showError(errorMessage, $featured_memory_id);
       } else {
         $remote_url.val(data.file.url).trigger('change');
       }
     };
 
-    var didErrorOnFetch = function (error) {
-      var id = $($featured_memory_id).val(),
-          errorMessage;
+    var didSuccessfullyFetchScrapbook = function (data) {
+      var id = $($featured_scrapbook_id).val()
+        , requiredNumMemories = <%= HomePage::REQUIRED_SCRAPBOOK_MEMORIES %>
+        , errorMessage;
+
+      if (data.memories === null || data.memories.length < requiredNumMemories) {
+        errorMessage = 'Featured scrapbook must contain at least ' + requiredNumMemories + ' memories.';
+      }
+
+      if (errorMessage) {
+        showError(errorMessage, $featured_scrapbook_id);
+      }
+    };
+
+    var didErrorOnFetchMemory = function (error) {
+      var errorMessage = checkForErrors(error, $featured_memory_id.val(), 'memory');
+      if (errorMessage) {
+        $("#image-editor").hide();
+        showError(errorMessage, $featured_memory_id);
+      }
+    }
+
+    var didErrorOnFetchScrapbook = function (error) {
+      var errorMessage = checkForErrors(error, $featured_scrapbook_id.val(), 'scrapbook');
+      if (errorMessage) {
+        showError(errorMessage, $featured_scrapbook_id);
+      }
+    };
+
+    var checkForErrors = function (error, id, itemName) {
+      var errorMessage;
 
       if (error.status === 404) {
-        errorMessage = 'Could not find a publicly visible memory with ID "' + id + '"';
+        errorMessage = 'Could not find a publicly visible ' + itemName + ' with ID "' + id + '"';
       } else {
         errorMessage = 'An error occurred. Please try refreshing the page and try again.'
       }
-      $("#image-editor").hide();
-      showError(errorMessage, $featured_memory_id);
+      return errorMessage;
     }
 
     $featured_memory_id.on('change', function (e, data) {
@@ -84,8 +113,21 @@
         url: url,
         method:'GET',
         dataType: 'json'
-      }).done(didSuccessfullyFetch)
-        .error(didErrorOnFetch);
+      }).done(didSuccessfullyFetchMemory)
+        .error(didErrorOnFetchMemory);
+    });
+
+    $featured_scrapbook_id.on('change', function (e, data) {
+      var url = '/scrapbooks/' + $featured_scrapbook_id.val();
+
+      clearErrorsOn($featured_scrapbook_id);
+
+      $.ajax({
+        url: url,
+        method:'GET',
+        dataType: 'json'
+      }).done(didSuccessfullyFetchScrapbook)
+        .error(didErrorOnFetchScrapbook);
     });
   </script>
 <% end %>
