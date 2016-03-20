@@ -26,11 +26,37 @@
   </div>
 </div>
 
+<%= form.hidden_field :featured_scrapbook_memory_ids %>
+
+<div id="grid">
+  <div class="masonry-loading-spinner"><div class="spinner"></div></div>
+  <div class="memory-container">
+    <div id="memories" class="masonry-grid">
+      <div class="grid-sizer"></div>
+    </div>
+  </div>
+</div>
+
 <%= content_for :script_tags  do %>
+  <script type="text/template" id="memory-template">
+    <div class="memory thumb masonry">
+      <div class="padding">
+        <div class="imageWrapper">
+          <a class="featured-scrapbook-memory" data-id="{{ scrapbook_memory_id }}" data-featured-scrapbook-memory>
+            <img src="{{ thumbnail_url }}">
+            <span class="glyphicon glyphicon-ok"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </script>
+
   <script>
     var $remote_url = $('[data-remote-url]')
       , $featured_memory_id = $('[data-featured-memory-id]')
-      , $featured_scrapbook_id = $('[data-featured-scrapbook-id]');
+      , $featured_scrapbook_id = $('[data-featured-scrapbook-id]')
+      , $featured_scrapbook_memory = $('[data-featured-scrapbook-memory]')
+      , requiredNumMemories = <%= HomePage::REQUIRED_SCRAPBOOK_MEMORIES %>;
 
     var clearErrorsOn = function (element) {
       var formGroup = element.closest('.form-group');
@@ -66,7 +92,6 @@
 
     var didSuccessfullyFetchScrapbook = function (data) {
       var id = $($featured_scrapbook_id).val()
-        , requiredNumMemories = <%= HomePage::REQUIRED_SCRAPBOOK_MEMORIES %>
         , errorMessage;
 
       if (data.memories === null || data.memories.length < requiredNumMemories) {
@@ -75,6 +100,20 @@
 
       if (errorMessage) {
         showError(errorMessage, $featured_scrapbook_id);
+      } else {
+        $('.masonry-loading-spinner .spinner').spin();
+        $('.masonry-loading-spinner').show();
+
+        $.each(data.memories, function (i, memory) {
+          _.templateSettings = {
+            interpolate: /\{\{(.+?)\}\}/g
+          };
+          var template = _.template($('#memory-template').html(), {thumbnail_url: memory.thumbnail, scrapbook_memory_id: memory.id});
+          $('#memories').append(template);
+        });
+
+        $('.masonry-grid').packery('destroy');
+        runMasonry();
       }
     };
 
@@ -128,6 +167,39 @@
         dataType: 'json'
       }).done(didSuccessfullyFetchScrapbook)
         .error(didErrorOnFetchScrapbook);
+    });
+
+    var present = function (value) {
+      return value !== undefined && value !== null && value !== '';
+    };
+
+    var wasSelected = function (element) {
+      return element.hasClass('selected');
+    };
+
+    $('#memories').on('click', $featured_scrapbook_memory, function (e) {
+      e.preventDefault();
+
+      var $scrapbook_memory_ids = $('input#home_page_featured_scrapbook_memory_ids')
+        , $clicked = $(e.target).closest('a')
+        , id = $clicked.data('id')
+        , clickedSoFar = $scrapbook_memory_ids.val().split(',').filter(present);
+
+      clickedSoFar = clickedSoFar.filter(function (memId) {
+        return memId != id;
+      });
+
+      if (wasSelected($clicked)) {
+        $clicked.removeClass('selected');
+      } else if (clickedSoFar.length < requiredNumMemories) {
+        $clicked.addClass('selected');
+        clickedSoFar.push(id);
+      } else {
+        alert('You can only select 4 memories at a time. Please unselect a memory before selecting this one.');
+      }
+
+      $scrapbook_memory_ids.val(clickedSoFar.join(','));
+      console.log('scrapbook_memory_ids', $scrapbook_memory_ids.val());
     });
   </script>
 <% end %>

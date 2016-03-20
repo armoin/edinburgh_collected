@@ -120,7 +120,8 @@ RSpec.describe Admin::Cms::HomePagesController do
       let(:home_page_params) do
         {
           featured_memory_id: '1',
-          featured_scrapbook_id: '2'
+          featured_scrapbook_id: '2',
+          featured_scrapbook_memory_ids: '3,4,5,6'
         }
       end
       let(:home_page)   { double(id: 123) }

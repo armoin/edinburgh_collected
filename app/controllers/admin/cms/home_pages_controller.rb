@@ -46,6 +46,7 @@ class Admin::Cms::HomePagesController < Admin::AuthenticatedAdminController
     params.require(:home_page).permit(
       :featured_memory_id,
       :featured_scrapbook_id,
+      :featured_scrapbook_memory_ids,
       :image_rotate,
       :image_scale,
       :image_w,
