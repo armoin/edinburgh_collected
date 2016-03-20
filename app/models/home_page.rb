@@ -19,8 +19,12 @@ class HomePage < ActiveRecord::Base
   validate :featured_scrapbook_is_visible?, if: 'featured_scrapbook.present?'
   validate :featured_scrapbook_has_enough_picture_memories?, if: 'featured_scrapbook.present?'
 
+  def self.published
+    where(published: true)
+  end
+
   def self.current
-    where(published: true).last
+    published.last
   end
 
   def featured_scrapbook_memories
@@ -33,6 +37,12 @@ class HomePage < ActiveRecord::Base
 
   def state
     self.published? ? 'live' : 'draft'
+  end
+
+  def publish
+    return false unless persisted? && featured_ids.size == REQUIRED_SCRAPBOOK_MEMORIES
+    HomePage.published.each {|home_page| home_page.update_column(:published, false) }
+    self.update_column(:published, true)
   end
 
   private

@@ -40,6 +40,17 @@ class Admin::Cms::HomePagesController < Admin::AuthenticatedAdminController
     end
   end
 
+  def publish
+    @home_page = HomePage.find(params[:id])
+    if @home_page.publish
+      flash[:notice] = 'Home page published.'
+      redirect_to admin_cms_home_pages_path
+    else
+      flash[:alert] = "You need to select #{HomePage::REQUIRED_SCRAPBOOK_MEMORIES} scrapbook memories before you can publish this home page."
+      render :edit
+    end
+  end
+
   private
 
   def home_page_params

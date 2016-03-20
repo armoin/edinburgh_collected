@@ -26,7 +26,7 @@
             <% if home_page.published? %>
               <span class="home-page_status--live">LIVE</span>
             <% else %>
-              <%= link_to 'Publish', '/', class: 'button green small' %>
+              <%= link_to 'Publish', publish_admin_cms_home_page_path(home_page), method: :patch, class: 'button green small' %>
             <% end %>
           </td>
         </tr>

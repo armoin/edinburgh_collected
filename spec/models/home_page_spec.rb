@@ -101,6 +101,81 @@ RSpec.describe HomePage do
     end
   end
 
+  describe '.published' do
+    context 'when there are no home pages' do
+      it 'is empty' do
+        expect(HomePage.published).to be_empty
+      end
+    end
+
+    context 'when there is one home page' do
+      context 'and it is not published' do
+        let!(:home_page) {
+          Fabricate(:unpublished_home_page,
+            featured_memory: @featured_memory,
+            featured_scrapbook: @featured_scrapbook,
+            featured_scrapbook_memory_ids: @featured_scrapbook_memory_ids,
+            published: false
+          )
+        }
+
+        it 'is empty' do
+          expect(HomePage.published).to be_empty
+        end
+      end
+
+      context 'and it is published' do
+        let!(:home_page) {
+          Fabricate(:unpublished_home_page,
+            featured_memory: @featured_memory,
+            featured_scrapbook: @featured_scrapbook,
+            featured_scrapbook_memory_ids: @featured_scrapbook_memory_ids,
+            published: true
+          )
+        }
+
+        it 'returns the published home page' do
+          expect(HomePage.published.count).to eql(1)
+          expect(HomePage.published).to include(home_page)
+        end
+      end
+    end
+
+    context 'when there is more than one home page' do
+      let!(:unpublished_home_page) {
+        Fabricate(:unpublished_home_page,
+          featured_memory: @featured_memory,
+          featured_scrapbook: @featured_scrapbook,
+          featured_scrapbook_memory_ids: @featured_scrapbook_memory_ids,
+          published: false
+        )
+      }
+      let!(:published_home_page_first) {
+        Fabricate(:published_home_page,
+            featured_memory: @featured_memory,
+            featured_scrapbook: @featured_scrapbook,
+            featured_scrapbook_memory_ids: @featured_scrapbook_memory_ids,
+            published: true
+        )
+      }
+      let!(:published_home_page_last) {
+        Fabricate(:published_home_page,
+            featured_memory: @featured_memory,
+            featured_scrapbook: @featured_scrapbook,
+            featured_scrapbook_memory_ids: @featured_scrapbook_memory_ids,
+            published: true
+        )
+      }
+
+      it 'returns the all published home pages' do
+        expect(HomePage.published.count).to eql(2)
+        expect(HomePage.published).to include(published_home_page_first)
+        expect(HomePage.published).to include(published_home_page_last)
+        expect(HomePage.published).not_to include(unpublished_home_page)
+      end
+    end
+  end
+
   describe '.current' do
     context 'when there are no home pages' do
       it 'returns nil' do
@@ -259,6 +334,78 @@ RSpec.describe HomePage do
 
     it 'returns "live" when published' do
       expect(HomePage.new(published: true).state).to eq('live')
+    end
+  end
+
+  describe '#publish' do
+    let(:published_home_page) { double(update_column: true) }
+
+    before :each do
+      allow(HomePage).to receive(:published).and_return([published_home_page])
+    end
+
+    context 'when the home_page is not persisted' do
+      it 'returns false' do
+        expect(subject.publish).to be_falsy
+      end
+
+      it 'does not unpublish any existing published home_pages' do
+        subject.publish
+        expect(published_home_page).not_to have_received(:update_column).with(:published, false)
+      end
+
+      it 'is not published' do
+        subject.publish
+        expect(subject).not_to be_published
+      end
+    end
+
+    context 'when the home_page is persisted' do
+      let(:featured_scrapbook_memory_ids) { @featured_scrapbook_memory_ids }
+
+      subject do
+        Fabricate(:home_page,
+          featured_memory: @featured_memory,
+          featured_scrapbook: @featured_scrapbook,
+          featured_scrapbook_memory_ids: featured_scrapbook_memory_ids
+        )
+      end
+
+      context 'but it does not have enough scrapbook memories selected' do
+        let(:featured_scrapbook_memory_ids) { '' }
+
+        it 'returns false' do
+          expect(subject.publish).to be_falsy
+        end
+
+        it 'does not unpublish any existing published home_pages' do
+          subject.publish
+          expect(published_home_page).not_to have_received(:update_column).with(:published, false)
+        end
+
+        it 'is not published' do
+          subject.publish
+          expect(subject).not_to be_published
+        end
+      end
+
+      context 'and it has enough scrapbook memories selected' do
+        let(:featured_scrapbook_memory_ids) { @featured_scrapbook_memory_ids }
+
+        it 'returns true' do
+          expect(subject.publish).to be_truthy
+        end
+
+        it 'unpublishes any existing published home_pages' do
+          subject.publish
+          expect(published_home_page).to have_received(:update_column).with(:published, false)
+        end
+
+        it 'is published' do
+          subject.publish
+          expect(subject).to be_published
+        end
+      end
     end
   end
 end

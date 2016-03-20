@@ -62,7 +62,11 @@ Rails.application.routes.draw do
     get '/home' => 'home#index'
 
     namespace :cms do
-      resources :home_pages
+      resources :home_pages do
+        member do
+          patch :publish
+        end
+      end
     end
 
     namespace :moderation do

@@ -12,9 +12,10 @@
       </li>
       <li>
         <% if @home_page_presenter.published? %>
-          <span class='btn btn-disabled' title="Cannot edit whilst live">Edit</span>
+          <span>Cannot modify whilst live</span>
         <% else %>
           <%= link_to 'Edit', edit_admin_cms_home_page_path(@home_page_presenter), class: 'btn approve' %>
+          <%= link_to 'Publish', publish_admin_cms_home_page_path(@home_page_presenter), method: :patch, class: 'btn approve' %>
         <% end %>
       </li>
     </ul>

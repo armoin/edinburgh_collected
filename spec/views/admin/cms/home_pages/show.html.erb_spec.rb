@@ -36,7 +36,14 @@ RSpec.describe 'admin/cms/home_pages/show.html.erb' do
 
     it 'has an edit button' do
       expect(rendered).to have_link('Edit', href: edit_admin_cms_home_page_path(home_page))
-      expect(rendered).not_to have_css('span.btn.btn-disabled', text: 'Edit')
+    end
+
+    it 'has a publish button' do
+      expect(rendered).to have_link('Publish', href: publish_admin_cms_home_page_path(home_page))
+    end
+
+    it 'does not have a message saying that it can not be modified' do
+      expect(rendered).not_to have_css('span', text: 'Cannot modify whilst live')
     end
   end
 
@@ -47,9 +54,16 @@ RSpec.describe 'admin/cms/home_pages/show.html.erb' do
       expect(rendered).to have_css('.state.live', text: 'live')
     end
 
-    it 'has a disabled edit button' do
+    it 'does not have an edit button' do
       expect(rendered).not_to have_link('Edit', href: edit_admin_cms_home_page_path(home_page))
-      expect(rendered).to have_css('span.btn.btn-disabled', text: 'Edit')
+    end
+
+    it 'does not have a publish button' do
+      expect(rendered).not_to have_link('Publish', href: publish_admin_cms_home_page_path(home_page))
+    end
+
+    it 'has a message saying that it can not be modified' do
+      expect(rendered).to have_css('span', text: 'Cannot modify whilst live')
     end
   end
 

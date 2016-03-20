@@ -273,4 +273,63 @@ RSpec.describe Admin::Cms::HomePagesController do
       end
     end
   end
+
+  describe 'PATCH publish' do
+    context 'user must be an admin' do
+      let(:perform_action) { patch :publish, id: '123' }
+
+      it_behaves_like 'an admin only controller'
+    end
+
+    context 'when logged in as an admin' do
+      let(:home_page)     { double(id: 123) }
+      let(:publish_result) { true }
+
+      before :each do
+        @user = Fabricate(:admin_user)
+        login_user
+
+        allow(HomePage).to receive(:find).and_return(home_page)
+        allow(home_page).to receive(:publish).and_return(publish_result)
+
+        patch :publish, id: '123'
+      end
+
+      it 'fetches the requested home_page' do
+        expect(HomePage).to have_received(:find).with('123')
+      end
+
+      it 'assigns the requested home_page' do
+        expect(assigns[:home_page]).to eq(home_page)
+      end
+
+      it 'tries to publish the home page' do
+        expect(home_page).to have_received(:publish)
+      end
+
+      context 'when publish is successful' do
+        let(:publish_result) { true }
+
+        it 'displays a flash notice' do
+          expect(flash[:notice]).to eq('Home page published.')
+        end
+
+        it 'redirects to the index page' do
+          expect(response).to redirect_to(admin_cms_home_pages_path)
+        end
+      end
+
+      context 'when publish is not successful' do
+        let(:publish_result) { false }
+
+        it 'displays a flash alert' do
+          expect(flash[:alert]).to eq("You need to select #{HomePage::REQUIRED_SCRAPBOOK_MEMORIES} scrapbook memories before you can publish this home page.")
+        end
+
+        it 'renders the edit page' do
+          expect(response).to render_template(:edit)
+        end
+      end
+    end
+  end
 end
