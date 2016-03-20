@@ -42,7 +42,7 @@
     <div class="memory thumb masonry">
       <div class="padding">
         <div class="imageWrapper">
-          <a class="featured-scrapbook-memory" data-id="{{ scrapbook_memory_id }}" data-featured-scrapbook-memory>
+          <a class="featured-scrapbook-memory {{ classes }}" data-id="{{ scrapbook_memory_id }}" data-featured-scrapbook-memory>
             <img src="{{ thumbnail_url }}">
             <span class="glyphicon glyphicon-ok"></span>
           </a>
@@ -90,6 +90,14 @@
       }
     };
 
+    var classFor = function (id) {
+      var selectedIds = $('input#home_page_featured_scrapbook_memory_ids')
+                          .val()
+                          .split(',')
+                          .map(function (id) { return parseInt(id); });
+      return selectedIds.indexOf(id) > -1 ? 'selected' : '';
+    };
+
     var didSuccessfullyFetchScrapbook = function (data) {
       var id = $($featured_scrapbook_id).val()
         , errorMessage;
@@ -108,7 +116,11 @@
           _.templateSettings = {
             interpolate: /\{\{(.+?)\}\}/g
           };
-          var template = _.template($('#memory-template').html(), {thumbnail_url: memory.thumbnail, scrapbook_memory_id: memory.id});
+          var template = _.template($('#memory-template').html(), {
+            thumbnail_url: memory.thumbnail,
+            scrapbook_memory_id: memory.id,
+            classes: classFor(memory.id)
+          });
           $('#memories').append(template);
         });
 
@@ -200,6 +212,12 @@
 
       $scrapbook_memory_ids.val(clickedSoFar.join(','));
       console.log('scrapbook_memory_ids', $scrapbook_memory_ids.val());
+    });
+
+    $(document).ready(function () {
+      if ($featured_scrapbook_id.val()) {
+        $featured_scrapbook_id.trigger('change');
+      }
     });
   </script>
 <% end %>
