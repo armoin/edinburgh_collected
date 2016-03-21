@@ -105,7 +105,7 @@ RSpec.describe HomePage do
         let(:featured_scrapbook_memory_ids) { nil }
 
         it 'is invalid' do
-          expect(subject.errors[:base]).to include('Must have 4 scrapbook memories picked.')
+          expect(subject.errors[:featured_scrapbook_memory_ids]).to include('Must have 4 scrapbook memories picked.')
         end
       end
 
@@ -113,7 +113,7 @@ RSpec.describe HomePage do
         let(:featured_scrapbook_memory_ids) { '1' }
 
         it 'is invalid' do
-          expect(subject.errors[:base]).to include('Must have 4 scrapbook memories picked.')
+          expect(subject.errors[:featured_scrapbook_memory_ids]).to include('Must have 4 scrapbook memories picked.')
         end
       end
 
@@ -121,7 +121,7 @@ RSpec.describe HomePage do
         let(:featured_scrapbook_memory_ids) { '1,2' }
 
         it 'is invalid' do
-          expect(subject.errors[:base]).to include('Must have 4 scrapbook memories picked.')
+          expect(subject.errors[:featured_scrapbook_memory_ids]).to include('Must have 4 scrapbook memories picked.')
         end
       end
 
@@ -129,7 +129,7 @@ RSpec.describe HomePage do
         let(:featured_scrapbook_memory_ids) { '1,2,3' }
 
         it 'is invalid' do
-          expect(subject.errors[:base]).to include('Must have 4 scrapbook memories picked.')
+          expect(subject.errors[:featured_scrapbook_memory_ids]).to include('Must have 4 scrapbook memories picked.')
         end
       end
 
@@ -144,7 +144,7 @@ RSpec.describe HomePage do
           }
 
           it 'is invalid' do
-            expect(subject.errors[:base]).to include('All scrapbook memories must belong to the featured scrapbook.')
+            expect(subject.errors[:featured_scrapbook_memory_ids]).to include('All scrapbook memories must belong to the featured scrapbook.')
           end
         end
 
@@ -154,7 +154,7 @@ RSpec.describe HomePage do
           }
 
           it 'is valid' do
-            expect(subject.errors[:base]).to be_empty
+            expect(subject.errors[:featured_scrapbook_memory_ids]).to be_empty
           end
         end
       end
@@ -163,7 +163,7 @@ RSpec.describe HomePage do
         let(:featured_scrapbook_memory_ids) { '1,2,3,4,5' }
 
         it 'is invalid' do
-          expect(subject.errors[:base]).to include('Must have 4 scrapbook memories picked.')
+          expect(subject.errors[:featured_scrapbook_memory_ids]).to include('Must have 4 scrapbook memories picked.')
         end
       end
     end

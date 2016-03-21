@@ -73,13 +73,13 @@ class HomePage < ActiveRecord::Base
 
   def has_required_number_of_scrapbook_memories?
     return true if featured_ids.size == REQUIRED_SCRAPBOOK_MEMORIES
-    errors.add(:base, "Must have #{REQUIRED_SCRAPBOOK_MEMORIES} scrapbook memories picked.")
+    errors.add(:featured_scrapbook_memory_ids, "Must have #{REQUIRED_SCRAPBOOK_MEMORIES} scrapbook memories picked.")
     false
   end
 
   def all_belong_to_featured_scrapbook?
     return true if featured_ids.all?{ |id| scrapbook_memory_ids.include?(id) }
-    errors.add(:base, 'All scrapbook memories must belong to the featured scrapbook.')
+    errors.add(:featured_scrapbook_memory_ids, 'All scrapbook memories must belong to the featured scrapbook.')
     false
   end
 
