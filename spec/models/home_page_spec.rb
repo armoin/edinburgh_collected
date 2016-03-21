@@ -99,6 +99,74 @@ RSpec.describe HomePage do
         end
       end
     end
+
+    describe 'featured scrapbook memories' do
+      context 'when there are no scrapbook memories' do
+        let(:featured_scrapbook_memory_ids) { nil }
+
+        it 'is invalid' do
+          expect(subject.errors[:base]).to include('Must have 4 scrapbook memories picked.')
+        end
+      end
+
+      context 'when there is one scrapbook memory' do
+        let(:featured_scrapbook_memory_ids) { '1' }
+
+        it 'is invalid' do
+          expect(subject.errors[:base]).to include('Must have 4 scrapbook memories picked.')
+        end
+      end
+
+      context 'when there are two scrapbook memories' do
+        let(:featured_scrapbook_memory_ids) { '1,2' }
+
+        it 'is invalid' do
+          expect(subject.errors[:base]).to include('Must have 4 scrapbook memories picked.')
+        end
+      end
+
+      context 'when there are three scrapbook memories' do
+        let(:featured_scrapbook_memory_ids) { '1,2,3' }
+
+        it 'is invalid' do
+          expect(subject.errors[:base]).to include('Must have 4 scrapbook memories picked.')
+        end
+      end
+
+      context 'when there are four scrapbook memories' do
+        let(:featured_scrapbook) { Fabricate(:approved_scrapbook) }
+
+        context 'but not all belong to the featured scrapbook' do
+          let(:featured_scrapbook_memory_ids) {
+            scrapbook_memories =  Fabricate.times(3, :scrapbook_photo_memory, scrapbook: featured_scrapbook)
+            scrapbook_memories += Fabricate.times(1, :scrapbook_photo_memory)
+            scrapbook_memories.map(&:id).join(',')
+          }
+
+          it 'is invalid' do
+            expect(subject.errors[:base]).to include('All scrapbook memories must belong to the featured scrapbook.')
+          end
+        end
+
+        context 'and they all belong to the featured scrapbook' do
+          let(:featured_scrapbook_memory_ids) {
+            Fabricate.times(4, :scrapbook_photo_memory, scrapbook: featured_scrapbook).map(&:id).join(',')
+          }
+
+          it 'is valid' do
+            expect(subject.errors[:base]).to be_empty
+          end
+        end
+      end
+
+      context 'when there are five scrapbook memories' do
+        let(:featured_scrapbook_memory_ids) { '1,2,3,4,5' }
+
+        it 'is invalid' do
+          expect(subject.errors[:base]).to include('Must have 4 scrapbook memories picked.')
+        end
+      end
+    end
   end
 
   describe '.published' do

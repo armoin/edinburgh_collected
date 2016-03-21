@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20160311113344) do
   create_table "home_pages", force: true do |t|
     t.integer  "featured_memory_id",                            null: false
     t.integer  "featured_scrapbook_id",                         null: false
-    t.string   "featured_scrapbook_memory_ids"
+    t.string   "featured_scrapbook_memory_ids",                 null: false
     t.boolean  "published",                     default: false
     t.datetime "created_at"
     t.datetime "updated_at"
