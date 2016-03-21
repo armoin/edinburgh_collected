@@ -18,9 +18,11 @@ describe HeroImageUploader, slow: true do
 
   before :each do
     allow(uploader).to receive(:manipulate!).and_yield(image_stub)
+    allow(image_stub).to receive(:combine_options).and_yield(image_stub)
 
     allow(image_stub).to receive(:resize)
     allow(image_stub).to receive(:crop)
+    allow(image_stub).to receive(:repage).and_return(double('+' => true))
   end
 
   after do

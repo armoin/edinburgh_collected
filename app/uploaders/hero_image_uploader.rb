@@ -22,7 +22,12 @@ class HeroImageUploader < CarrierWave::Uploader::Base
 
   def crop
     manipulate! do |img|
-      img.tap {|i| i.crop crop_geometry }
+      img.combine_options do |c|
+        c.repage.+
+        c.crop crop_geometry
+        c.repage.+
+      end
+      img
     end
   end
 

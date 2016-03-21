@@ -32,7 +32,12 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   def crop
     manipulate! do |img|
-      img.tap {|i| i.crop crop_geometry }
+      img.combine_options do |c|
+        c.repage.+
+        c.crop crop_geometry
+        c.repage.+
+      end
+      img
     end
   end
 
@@ -89,8 +94,8 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   def crop_geometry
     dimensions  = "#{model.image_w}x#{model.image_h}"
-    coordinates = "+#{coord(model.image_x)}+#{coord(model.image_y)}"
-    "#{dimensions}#{coordinates}"
+    coordinates = "#{coord(model.image_x)}+#{coord(model.image_y)}"
+    "#{dimensions}+#{coordinates}"
   end
 
   def coord(value)
