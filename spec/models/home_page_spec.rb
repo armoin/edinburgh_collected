@@ -429,50 +429,26 @@ RSpec.describe HomePage do
     end
 
     context 'when the home_page is persisted' do
-      let(:featured_scrapbook_memory_ids) { @featured_scrapbook_memory_ids }
-
       subject do
         Fabricate(:home_page,
           featured_memory: @featured_memory,
           featured_scrapbook: @featured_scrapbook,
-          featured_scrapbook_memory_ids: featured_scrapbook_memory_ids
+          featured_scrapbook_memory_ids: @featured_scrapbook_memory_ids
         )
       end
 
-      context 'but it does not have enough scrapbook memories selected' do
-        let(:featured_scrapbook_memory_ids) { '' }
-
-        it 'returns false' do
-          expect(subject.publish).to be_falsy
-        end
-
-        it 'does not unpublish any existing published home_pages' do
-          subject.publish
-          expect(published_home_page).not_to have_received(:update_column).with(:published, false)
-        end
-
-        it 'is not published' do
-          subject.publish
-          expect(subject).not_to be_published
-        end
+      it 'returns true' do
+        expect(subject.publish).to be_truthy
       end
 
-      context 'and it has enough scrapbook memories selected' do
-        let(:featured_scrapbook_memory_ids) { @featured_scrapbook_memory_ids }
+      it 'unpublishes any existing published home_pages' do
+        subject.publish
+        expect(published_home_page).to have_received(:update_column).with(:published, false)
+      end
 
-        it 'returns true' do
-          expect(subject.publish).to be_truthy
-        end
-
-        it 'unpublishes any existing published home_pages' do
-          subject.publish
-          expect(published_home_page).to have_received(:update_column).with(:published, false)
-        end
-
-        it 'is published' do
-          subject.publish
-          expect(subject).to be_published
-        end
+      it 'is published' do
+        subject.publish
+        expect(subject).to be_published
       end
     end
   end

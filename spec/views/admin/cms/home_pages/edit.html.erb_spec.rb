@@ -5,8 +5,9 @@ RSpec.describe 'admin/cms/home_pages/edit.html.erb' do
 
   let(:home_page) do
     HomePage.create!(
-      featured_memory:    @featured_memory,
-      featured_scrapbook: @featured_scrapbook
+      featured_memory:               @featured_memory,
+      featured_scrapbook:            @featured_scrapbook,
+      featured_scrapbook_memory_ids: @featured_scrapbook_memory_ids
     )
   end
 
