@@ -101,9 +101,9 @@
           errorMessage;
 
       if (data.type === 'Written') {
-        errorMessage = 'This memory is a Written memory. You must select a Picture memory.';
+        errorMessage = 'must be a photo memory';
       } else if (data.file === null) {
-        errorMessage = 'This memory does not have a picture attached.';
+        errorMessage = 'this memory does not have a picture attached.';
       }
 
       if (errorMessage) {
@@ -127,7 +127,7 @@
         , errorMessage;
 
       if (data.memories === null || data.memories.length < requiredNumMemories) {
-        errorMessage = 'Featured scrapbook must contain at least ' + requiredNumMemories + ' memories.';
+        errorMessage = 'must have at least ' + requiredNumMemories + ' picture memories.';
       }
 
       if (errorMessage) {
@@ -201,7 +201,6 @@
       $('.select-scrapbook-message').show();
       $('.memory-container').hide();
       $('.memory-container .memory').remove();
-      $featured_scrapbook_memory_ids.val('');
 
       if (!present($featured_scrapbook_id.val())) return;
 
