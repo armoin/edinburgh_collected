@@ -1,9 +1,9 @@
 <div class="form-group" aria-required="true">
   <div class="formRow">
-    <%= form.label :featured_memory_id, class: 'control-label' %>
+    <%= form.label :featured_memory_id, 'Featured memory', class: 'control-label' %>
     <%= form.text_field :featured_memory_id, class: 'form-control', data: {featured_memory_id: true} %>
-    <%= link_to 'Fetch memory picture', '#', class: 'button navy select', data: {featured_memory_select: true} %>
-    <% home_page.errors[:featured_memory].each do |error| %>
+    <%= link_to 'Go', '#', class: 'button navy select', data: {featured_memory_select: true} %>
+    <% home_page.errors[:featured_memory_id].each do |error| %>
       <span class="help-block"><%= error %></span>
     <% end -%>
   </div>
@@ -19,29 +19,37 @@
 
 <div class="form-group" aria-required="true">
   <div class="formRow">
-    <%= form.label :featured_scrapbook_id, class: 'control-label' %>
+    <%= form.label :featured_scrapbook_id, 'Featured scrapbook', class: 'control-label' %>
     <%= form.text_field :featured_scrapbook_id, class: 'form-control', data: {featured_scrapbook_id: true} %>
-    <%= link_to 'Fetch scrapbook memories', '#', class: 'button navy select', data: {featured_scrapbook_select: true} %>
-    <% home_page.errors[:featured_scrapbook].each do |error| %>
+    <%= link_to 'Go', '#', class: 'button navy select', data: {featured_scrapbook_select: true} %>
+    <% home_page.errors[:featured_scrapbook_id].each do |error| %>
       <span class="help-block"><%= error %></span>
     <% end -%>
   </div>
 </div>
 
-<%= form.hidden_field :featured_scrapbook_memory_ids %>
+<div class="form-group" aria-required="true">
+  <div class="formRow">
+    <%= form.label :featured_scrapbook_memory_ids, 'Featured scrapbook memories', class: 'control-label' %>
+    <%= form.hidden_field :featured_scrapbook_memory_ids %>
+    <span>Please select a scrapbook first.</span>
+    <% home_page.errors[:featured_scrapbook_memory_ids].each do |error| %>
+      <span class="help-block"><%= error %></span>
+    <% end -%>
 
-<% home_page.errors[:featured_scrapbook_memory_ids].each do |error| %>
-  <span class="help-block"><%= error %></span>
-<% end -%>
 
-<div id="grid">
-  <div class="masonry-loading-spinner"><div class="spinner"></div></div>
-  <div class="memory-container">
-    <div id="memories" class="masonry-grid">
-      <div class="grid-sizer"></div>
+    <div id="grid">
+      <div class="masonry-loading-spinner"><div class="spinner"></div></div>
+      <div class="memory-container">
+        <div id="memories" class="masonry-grid">
+          <div class="grid-sizer"></div>
+        </div>
+      </div>
     </div>
+
   </div>
 </div>
+
 
 <%= content_for :script_tags  do %>
   <script type="text/template" id="memory-template">
@@ -67,14 +75,23 @@
     var clearErrorsOn = function (element) {
       var formGroup = element.closest('.form-group');
 
-      formGroup.removeClass('field_with_errors');
+      formGroup.find('.field_with_errors .control-label').unwrap();
+      formGroup.find('.field_with_errors .form-control').unwrap();
       formGroup.find('.formRow .help-block').remove();
-    }
+    };
+
+    var wrapFieldWithErrors = function (formGroup, element) {
+      var elementToWrap = $(formGroup).find(element);
+      if (!elementToWrap.parent().hasClass('field_with_errors')) {
+        elementToWrap.wrap('<div class="field_with_errors"></div>');
+      }
+    };
 
     var showError = function (errorMessage, element) {
       var formGroup = element.closest('.form-group');
 
-      $(formGroup).addClass('field_with_errors');
+      wrapFieldWithErrors(formGroup, '.control-label');
+      wrapFieldWithErrors(formGroup, '.form-control');
       $(formGroup).find('.formRow').append('<span class="help-block">' + errorMessage + '</span>');
     };
 
@@ -154,9 +171,7 @@
       var errorMessage;
 
       if (error.status === 404) {
-        errorMessage = 'Could not find a publicly visible ' + itemName + ' with ID "' + id + '"';
-      } else {
-        errorMessage = 'An error occurred. Please try refreshing the page and try again.'
+        errorMessage = 'must exist and be publicly visible';
       }
       return errorMessage;
     }
@@ -186,6 +201,7 @@
       var url = '/scrapbooks/' + $featured_scrapbook_id.val();
 
       clearErrorsOn($featured_scrapbook_id);
+      // clearErrorsOn($featured_scrapbook_memory_ids);
 
       $.ajax({
         url: url,

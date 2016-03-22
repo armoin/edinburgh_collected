@@ -4,57 +4,48 @@ RSpec.describe HomePage do
   include_context 'home_page'
 
   describe 'validation' do
-    let(:featured_memory)               { nil }
-    let(:featured_scrapbook)            { nil }
-    let(:featured_scrapbook_memory_ids) { nil }
-    let(:hero_image)                    { nil }
-
-    subject {
-      Fabricate.build(:home_page,
-        featured_memory: featured_memory,
-        featured_scrapbook: featured_scrapbook,
-        featured_scrapbook_memory_ids: featured_scrapbook_memory_ids,
-        hero_image: hero_image
-      )
-    }
-
-    before { subject.valid? }
-
     describe 'featured memory' do
       context 'when nil' do
-        let(:featured_memory) { nil }
-
         it 'is invalid' do
-          expect(subject.errors[:featured_memory]).to include('must be a valid memory ID')
+          home_page = HomePage.new(featured_memory_id: nil)
+          home_page.valid?
+          expect(home_page.errors[:featured_memory_id]).to include('must be a valid memory ID')
         end
       end
 
-      context 'given featured_memory_id does not belong to an existing memory' do
-
+      context 'when not a valid id' do
+        it 'is invalid' do
+          home_page = HomePage.new(featured_memory_id: '999')
+          home_page.valid?
+          expect(home_page.errors[:featured_memory_id]).to include('must exist and be publicly visible')
+        end
       end
 
       context 'when not publicly visible' do
-        let(:featured_memory) { Fabricate(:pending_memory) }
-
         it 'is invalid' do
-          expect(subject.errors[:featured_memory]).to include('must be publicly visible')
+          memory = Fabricate(:pending_memory)
+          home_page = HomePage.new(featured_memory_id: memory.id)
+          home_page.valid?
+          expect(home_page.errors[:featured_memory_id]).to include('must exist and be publicly visible')
         end
       end
 
       context 'when publicly visible' do
         context 'and not a picture memory' do
-          let(:featured_memory) { Fabricate(:approved_written_memory) }
-
           it 'is invalid' do
-            expect(subject.errors[:featured_memory]).to include('must be a photo memory')
+            memory = Fabricate(:approved_written_memory)
+            home_page = HomePage.new(featured_memory_id: memory.id)
+            home_page.valid?
+            expect(home_page.errors[:featured_memory_id]).to include('must be a photo memory')
           end
         end
 
         context 'and is a picture memory' do
-          let(:featured_memory) { Fabricate(:approved_photo_memory) }
-
           it 'is valid' do
-            expect(subject.errors[:featured_memory]).to be_empty
+            memory = Fabricate(:approved_photo_memory)
+            home_page = HomePage.new(featured_memory_id: memory.id)
+            home_page.valid?
+            expect(home_page.errors[:featured_memory_id]).to be_empty
           end
         end
       end
@@ -62,39 +53,47 @@ RSpec.describe HomePage do
 
     describe 'featured scrapbook' do
       context 'when nil' do
-        let(:featured_scrapbook) { nil }
-
         it 'is invalid' do
-          expect(subject.errors[:featured_scrapbook]).to include('must be a valid scrapbook ID')
+          home_page = HomePage.new(featured_scrapbook_id: nil)
+          home_page.valid?
+          expect(home_page.errors[:featured_scrapbook_id]).to include('must be a valid scrapbook ID')
+        end
+      end
+
+      context 'when not a valid id' do
+        it 'is invalid' do
+          home_page = HomePage.new(featured_scrapbook_id: '999')
+          home_page.valid?
+          expect(home_page.errors[:featured_scrapbook_id]).to include('must exist and be publicly visible')
         end
       end
 
       context 'when not publicly visible' do
-        let(:featured_scrapbook) { Fabricate(:pending_scrapbook) }
-
         it 'is invalid' do
-          expect(subject.errors[:featured_scrapbook]).to include('must be publicly visible')
+          scrapbook = Fabricate(:pending_scrapbook)
+          home_page = HomePage.new(featured_scrapbook_id: scrapbook.id)
+          home_page.valid?
+          expect(home_page.errors[:featured_scrapbook_id]).to include('must exist and be publicly visible')
         end
       end
 
       context 'when publicly visible' do
         context 'but does not have enough picture memories' do
-          let(:featured_scrapbook) { Fabricate(:approved_scrapbook) }
-
           it 'is invalid' do
-            expect(subject.errors[:featured_scrapbook]).to include('must have at least 4 picture memories')
+            scrapbook = Fabricate(:approved_scrapbook)
+            home_page = HomePage.new(featured_scrapbook_id: scrapbook.id)
+            home_page.valid?
+            expect(home_page.errors[:featured_scrapbook_id]).to include('must have at least 4 picture memories')
           end
         end
 
         context 'and has enough picture memories' do
-          let(:featured_scrapbook) {
+          it 'is valid' do
             scrapbook = Fabricate(:approved_scrapbook)
             Fabricate.times(4, :scrapbook_photo_memory, scrapbook: scrapbook)
-            scrapbook
-          }
-          1
-          it 'is valid' do
-            expect(subject.errors[:featured_scrapbook]).to be_empty
+            home_page = HomePage.new(featured_scrapbook_id: scrapbook.id)
+            home_page.valid?
+            expect(home_page.errors[:featured_scrapbook_id]).to be_empty
           end
         end
       end
@@ -102,68 +101,71 @@ RSpec.describe HomePage do
 
     describe 'featured scrapbook memories' do
       context 'when there are no scrapbook memories' do
-        let(:featured_scrapbook_memory_ids) { nil }
-
         it 'is invalid' do
-          expect(subject.errors[:featured_scrapbook_memory_ids]).to include('Must have 4 scrapbook memories picked.')
+          home_page = HomePage.new(featured_scrapbook_memory_ids: nil)
+          home_page.valid?
+          expect(home_page.errors[:featured_scrapbook_memory_ids]).to include('Must have 4 scrapbook memories picked.')
         end
       end
 
       context 'when there is one scrapbook memory' do
-        let(:featured_scrapbook_memory_ids) { '1' }
-
         it 'is invalid' do
-          expect(subject.errors[:featured_scrapbook_memory_ids]).to include('Must have 4 scrapbook memories picked.')
+          home_page = HomePage.new(featured_scrapbook_memory_ids: '1')
+          home_page.valid?
+          expect(home_page.errors[:featured_scrapbook_memory_ids]).to include('Must have 4 scrapbook memories picked.')
         end
       end
 
       context 'when there are two scrapbook memories' do
-        let(:featured_scrapbook_memory_ids) { '1,2' }
-
         it 'is invalid' do
-          expect(subject.errors[:featured_scrapbook_memory_ids]).to include('Must have 4 scrapbook memories picked.')
+          home_page = HomePage.new(featured_scrapbook_memory_ids: '1,2')
+          home_page.valid?
+          expect(home_page.errors[:featured_scrapbook_memory_ids]).to include('Must have 4 scrapbook memories picked.')
         end
       end
 
       context 'when there are three scrapbook memories' do
-        let(:featured_scrapbook_memory_ids) { '1,2,3' }
-
         it 'is invalid' do
-          expect(subject.errors[:featured_scrapbook_memory_ids]).to include('Must have 4 scrapbook memories picked.')
+          home_page = HomePage.new(featured_scrapbook_memory_ids: '1,2,3')
+          home_page.valid?
+          expect(home_page.errors[:featured_scrapbook_memory_ids]).to include('Must have 4 scrapbook memories picked.')
         end
       end
 
       context 'when there are four scrapbook memories' do
-        let(:featured_scrapbook) { Fabricate(:approved_scrapbook) }
-
         context 'but not all belong to the featured scrapbook' do
-          let(:featured_scrapbook_memory_ids) {
-            scrapbook_memories =  Fabricate.times(3, :scrapbook_photo_memory, scrapbook: featured_scrapbook)
-            scrapbook_memories += Fabricate.times(1, :scrapbook_photo_memory)
-            scrapbook_memories.map(&:id).join(',')
-          }
-
           it 'is invalid' do
-            expect(subject.errors[:featured_scrapbook_memory_ids]).to include('All scrapbook memories must belong to the featured scrapbook.')
+            scrapbook = Fabricate(:approved_scrapbook)
+            scrapbook_memories =  Fabricate.times(3, :scrapbook_photo_memory, scrapbook: scrapbook)
+            scrapbook_memories += Fabricate.times(1, :scrapbook_photo_memory)
+            home_page = HomePage.new(
+              featured_scrapbook_id: scrapbook.id,
+              featured_scrapbook_memory_ids: scrapbook_memories.map(&:id).join(',')
+            )
+            home_page.valid?
+            expect(home_page.errors[:featured_scrapbook_memory_ids]).to include('All scrapbook memories must belong to the featured scrapbook.')
           end
         end
 
         context 'and they all belong to the featured scrapbook' do
-          let(:featured_scrapbook_memory_ids) {
-            Fabricate.times(4, :scrapbook_photo_memory, scrapbook: featured_scrapbook).map(&:id).join(',')
-          }
-
           it 'is valid' do
-            expect(subject.errors[:featured_scrapbook_memory_ids]).to be_empty
+            scrapbook = Fabricate(:approved_scrapbook)
+            scrapbook_memories = Fabricate.times(4, :scrapbook_photo_memory, scrapbook: scrapbook)
+            home_page = HomePage.new(
+              featured_scrapbook_id: scrapbook.id,
+              featured_scrapbook_memory_ids: scrapbook_memories.map(&:id).join(',')
+            )
+            home_page.valid?
+            expect(home_page.errors[:featured_scrapbook_memory_ids]).to be_empty
           end
         end
       end
 
       context 'when there are five scrapbook memories' do
-        let(:featured_scrapbook_memory_ids) { '1,2,3,4,5' }
-
         it 'is invalid' do
-          expect(subject.errors[:featured_scrapbook_memory_ids]).to include('Must have 4 scrapbook memories picked.')
+          home_page = HomePage.new(featured_scrapbook_memory_ids: '1,2,3,4,5')
+          home_page.valid?
+          expect(home_page.errors[:featured_scrapbook_memory_ids]).to include('Must have 4 scrapbook memories picked.')
         end
       end
     end
