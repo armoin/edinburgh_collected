@@ -31,8 +31,8 @@
 <div class="form-group" aria-required="true">
   <div class="formRow">
     <%= form.label :featured_scrapbook_memory_ids, 'Featured scrapbook memories', class: 'control-label' %>
-    <%= form.hidden_field :featured_scrapbook_memory_ids %>
-    <span>Please select a scrapbook first.</span>
+    <%= form.hidden_field :featured_scrapbook_memory_ids, data: {featured_scrapbook_memory_ids: true} %>
+    <span class="select-scrapbook-message">Please select a scrapbook first.</span>
     <% home_page.errors[:featured_scrapbook_memory_ids].each do |error| %>
       <span class="help-block"><%= error %></span>
     <% end -%>
@@ -69,6 +69,7 @@
     var $remote_url = $('[data-remote-url]')
       , $featured_memory_id = $('[data-featured-memory-id]')
       , $featured_scrapbook_id = $('[data-featured-scrapbook-id]')
+      , $featured_scrapbook_memory_ids = $('[data-featured-scrapbook-memory-ids]')
       , $featured_scrapbook_memory = $('[data-featured-scrapbook-memory]')
       , requiredNumMemories = <%= HomePage::REQUIRED_SCRAPBOOK_MEMORIES %>;
 
@@ -114,7 +115,7 @@
     };
 
     var classFor = function (id) {
-      var selectedIds = $('input#home_page_featured_scrapbook_memory_ids')
+      var selectedIds = $featured_scrapbook_memory_ids
                           .val()
                           .split(',')
                           .map(function (id) { return parseInt(id); });
@@ -132,6 +133,7 @@
       if (errorMessage) {
         showError(errorMessage, $featured_scrapbook_id);
       } else {
+        $('.select-scrapbook-message').hide()
         $('.masonry-loading-spinner .spinner').spin();
         $('.masonry-loading-spinner').show();
 
@@ -196,12 +198,17 @@
     $('[data-featured-scrapbook-select]').on('click', function (e) {
       e.preventDefault();
 
+      $('.select-scrapbook-message').show();
+      $('.memory-container').hide();
+      $('.memory-container .memory').remove();
+      $featured_scrapbook_memory_ids.val('');
+
       if (!present($featured_scrapbook_id.val())) return;
 
       var url = '/scrapbooks/' + $featured_scrapbook_id.val();
 
       clearErrorsOn($featured_scrapbook_id);
-      // clearErrorsOn($featured_scrapbook_memory_ids);
+      clearErrorsOn($featured_scrapbook_memory_ids);
 
       $.ajax({
         url: url,
@@ -222,10 +229,9 @@
     $('#memories').on('click', $featured_scrapbook_memory, function (e) {
       e.preventDefault();
 
-      var $scrapbook_memory_ids = $('input#home_page_featured_scrapbook_memory_ids')
-        , $clicked = $(e.target).closest('a')
+      var $clicked = $(e.target).closest('a')
         , id = $clicked.data('id')
-        , clickedSoFar = $scrapbook_memory_ids.val().split(',').filter(present);
+        , clickedSoFar = $featured_scrapbook_memory_ids.val().split(',').filter(present);
 
       clickedSoFar = clickedSoFar.filter(function (memId) {
         return memId != id;
@@ -240,8 +246,8 @@
         alert('You can only select 4 memories at a time. Please unselect a memory before selecting this one.');
       }
 
-      $scrapbook_memory_ids.val(clickedSoFar.join(','));
-      console.log('scrapbook_memory_ids', $scrapbook_memory_ids.val());
+      $featured_scrapbook_memory_ids.val(clickedSoFar.join(','));
+      console.log('scrapbook_memory_ids', $featured_scrapbook_memory_ids.val());
     });
 
     $(document).ready(function () {
