@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'admin/cms/home_pages/new.html.erb' do
+  it_behaves_like 'a tabbed admin page' do
+    let(:active_tab) { 'CMS' }
+  end
+
   before :each do
     assign(:home_page, HomePage.new)
     render

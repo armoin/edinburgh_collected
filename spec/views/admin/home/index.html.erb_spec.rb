@@ -1,11 +1,8 @@
 require 'rails_helper'
 
 describe "admin/home/index.html.erb" do
-  describe 'CMS' do
-    it 'has a link to the Home Pages CMS' do
-      render
-      expect(rendered).to have_link('Home Page', href: admin_cms_home_pages_path)
-    end
+  it_behaves_like 'a tabbed admin page' do
+    let(:active_tab) { 'Moderation' }
   end
 
   describe 'Moderation Inbox' do

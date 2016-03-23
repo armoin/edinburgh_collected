@@ -1,7 +1,5 @@
 <div class="container">
-  <h1>CMS</h1>
-
-  <%= link_to 'Home Page', admin_cms_home_pages_path %>
+  <%= render 'admin/shared/tabs', active_tab: :moderation %>
 
   <h1>Moderation Inbox</h1>
 

@@ -93,4 +93,14 @@ RSpec.describe AdminHelper do
       end
     end
   end
+
+  describe '#class_for_tab' do
+    it 'returns "active" if the current_tab matches the active_tab' do
+      expect(helper.class_for_tab(:cms, :cms)).to eql('active')
+    end
+
+    it 'returns nil if the current_tab does not match the active_tab' do
+      expect(helper.class_for_tab(:cms, :not_cms)).to be_nil
+    end
+  end
 end

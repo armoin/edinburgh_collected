@@ -1,52 +1,50 @@
-<div class="container <%= action_name %>">
-  <h1><%= presenter.title %></h1>
+<h1><%= presenter.title %></h1>
 
-  <div role="navigation" id="tab-bar">
-    <%= link_to 'Back to Inbox', admin_home_path %>
-    |
-    <%= link_to_unless presenter.unmoderated_page?, 'Unmoderated', send(presenter.unmoderated_path) %>
-    |
-    <%= link_to_unless presenter.reported_page?, 'Reported', send(presenter.reported_path) %>
-    |
-    <%= link_to_unless presenter.moderated_page?, 'Moderated', send(presenter.moderated_path) %>
-  </div>
-
-  <input type="search" class="light-table-filter" data-table="items" placeholder="Filter">
-
-  <table class="items table table-striped table-responsive sortable">
-    <thead>
-      <tr>
-        <th>Title</th>
-        <th>Owner</th>
-        <th>State</th>
-        <th>Created</th>
-        <th>Updated</th>
-        <% if presenter.show_memories? %>
-          <th>Memories</th>
-        <% end %>
-        <th><%= presenter.moderated_col_name -%></th>
-        <th><%= presenter.moderated_by_col_name -%></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% presenter.items.each do |item| %>
-        <tr class='item'>
-          <td><%= link_to item.title, send(presenter.show_path, item.id) %></td>
-          <td><%= link_to item.user.screen_name, admin_moderation_user_path(item.user) %></td>
-          <td class="<%= item.moderation_state %>"><%= item.moderation_state %></td>
-          <%= date_sortable_cell(item.created_at) %>
-          <%= date_sortable_cell(item.updated_at) %>
-          <% if presenter.show_memories? %>
-            <td><%= item.scrapbook_memories.count %></td>
-          <% end %>
-          <%= date_sortable_cell(item.last_moderated_at, '%d-%b-%Y %H:%M') %>
-          <td>
-            <% if item.moderated_by.present? -%>
-              <%= link_to item.moderated_by.try(:screen_name), admin_moderation_user_path(item.moderated_by) %>
-            <% end -%>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+<div role="navigation" id="tab-bar">
+  <%= link_to 'Back to Inbox', admin_home_path %>
+  |
+  <%= link_to_unless presenter.unmoderated_page?, 'Unmoderated', send(presenter.unmoderated_path) %>
+  |
+  <%= link_to_unless presenter.reported_page?, 'Reported', send(presenter.reported_path) %>
+  |
+  <%= link_to_unless presenter.moderated_page?, 'Moderated', send(presenter.moderated_path) %>
 </div>
+
+<input type="search" class="light-table-filter" data-table="items" placeholder="Filter">
+
+<table class="items table table-striped table-responsive sortable">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Owner</th>
+      <th>State</th>
+      <th>Created</th>
+      <th>Updated</th>
+      <% if presenter.show_memories? %>
+        <th>Memories</th>
+      <% end %>
+      <th><%= presenter.moderated_col_name -%></th>
+      <th><%= presenter.moderated_by_col_name -%></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% presenter.items.each do |item| %>
+      <tr class='item'>
+        <td><%= link_to item.title, send(presenter.show_path, item.id) %></td>
+        <td><%= link_to item.user.screen_name, admin_moderation_user_path(item.user) %></td>
+        <td class="<%= item.moderation_state %>"><%= item.moderation_state %></td>
+        <%= date_sortable_cell(item.created_at) %>
+        <%= date_sortable_cell(item.updated_at) %>
+        <% if presenter.show_memories? %>
+          <td><%= item.scrapbook_memories.count %></td>
+        <% end %>
+        <%= date_sortable_cell(item.last_moderated_at, '%d-%b-%Y %H:%M') %>
+        <td>
+          <% if item.moderated_by.present? -%>
+            <%= link_to item.moderated_by.try(:screen_name), admin_moderation_user_path(item.moderated_by) %>
+          <% end -%>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

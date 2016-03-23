@@ -1,1 +1,4 @@
-<%= render 'admin/moderation/index', presenter: ModerationListPresenter.new(@items, 'scrapbooks', action_name) %>
+<div class="container <%= action_name %>">
+  <%= render 'admin/shared/tabs', active_tab: :moderation %>
+  <%= render 'admin/moderation/index', presenter: ModerationListPresenter.new(@items, 'scrapbooks', action_name) %>
+</div>

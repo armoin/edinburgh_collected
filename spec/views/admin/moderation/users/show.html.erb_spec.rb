@@ -13,6 +13,10 @@ describe 'admin/moderation/users/show.html.erb' do
       render
     end
 
+    it_behaves_like 'a tabbed admin page' do
+      let(:active_tab) { 'Moderation' }
+    end
+
     it_behaves_like 'a page with a state bar'
 
     describe 'actions' do

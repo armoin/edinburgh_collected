@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe "admin/cms/home_pages/index.html.erb" do
+  it_behaves_like 'a tabbed admin page' do
+    let(:active_tab) { 'CMS' }
+  end
+
   let(:published) { false }
   let(:home_pages) do
     Array.new(3) do |i|

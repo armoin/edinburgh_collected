@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'admin/cms/home_pages/edit.html.erb' do
+  it_behaves_like 'a tabbed admin page' do
+    let(:active_tab) { 'CMS' }
+  end
+
   include_context 'home_page'
 
   let(:home_page) do

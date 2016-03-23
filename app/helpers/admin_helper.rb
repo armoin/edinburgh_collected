@@ -11,4 +11,8 @@ module AdminHelper
     format ||= DEFAULT_DATE_FORMAT
     date.try(:strftime, format)
   end
+
+  def class_for_tab(current_tab, active_tab)
+    current_tab == active_tab ? 'active' : nil
+  end
 end
