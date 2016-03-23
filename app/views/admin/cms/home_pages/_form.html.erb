@@ -71,7 +71,8 @@
       , $featured_scrapbook_id = $('[data-featured-scrapbook-id]')
       , $featured_scrapbook_memory_ids = $('[data-featured-scrapbook-memory-ids]')
       , $featured_scrapbook_memory = $('[data-featured-scrapbook-memory]')
-      , requiredNumMemories = <%= HomePage::REQUIRED_SCRAPBOOK_MEMORIES %>;
+      , requiredNumMemories = <%= HomePage::REQUIRED_SCRAPBOOK_MEMORIES %>
+      , initialPageLoad = true;
 
     var clearErrorsOn = function (element) {
       var formGroup = element.closest('.form-group');
@@ -207,7 +208,11 @@
       var url = '/scrapbooks/' + $featured_scrapbook_id.val();
 
       clearErrorsOn($featured_scrapbook_id);
-      clearErrorsOn($featured_scrapbook_memory_ids);
+      if (initialPageLoad) {
+        initialPageLoad = false;
+      } else {
+        clearErrorsOn($featured_scrapbook_memory_ids);
+      }
 
       $.ajax({
         url: url,
