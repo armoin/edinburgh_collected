@@ -23,10 +23,6 @@ describe "admin/cms/home_pages/index.html.erb" do
     render
   end
 
-  it 'has a link back to the main admin page' do
-    expect(rendered).to have_link('Back to admin', admin_home_path)
-  end
-
   it 'has a button to add a new home_page' do
     expect(rendered).to have_link('Add a new home page', new_admin_cms_home_page_path)
   end
