@@ -10,6 +10,10 @@ class ImageUploader < CarrierWave::Uploader::Base
     "uploads/memory/#{mounted_as}/#{model.id}"
   end
 
+  def filename
+    "#{secure_token}.#{ext}" if original_filename.present?
+  end
+
   ## PROCESSING
   def fix_exif_rotation
     manipulate! do |img|
@@ -17,9 +21,9 @@ class ImageUploader < CarrierWave::Uploader::Base
     end
   end
 
-  def manual_rotation
+  def rotate
     manipulate! do |img|
-      img.rotate(model.rotation)
+      img.rotate(model.image_angle)
       img = yield(img) if block_given?
       img
     end
@@ -31,7 +35,7 @@ class ImageUploader < CarrierWave::Uploader::Base
 
   process :fix_exif_rotation
   process :set_content_type
-  process :manual_rotation, if: :is_rotated?
+  process :rotate, if: :is_rotated?
   process :resize_to_limit => [1720, 1720]
   version :mini_thumb do
     process :resize_to_fill => [90, 90]
@@ -41,10 +45,6 @@ class ImageUploader < CarrierWave::Uploader::Base
   end
   version :big_thumb do
     process :resize_to_fit => [350, nil]
-  end
-
-  def filename
-    "#{secure_token}.#{ext}" if original_filename.present?
   end
 
   def extension_white_list

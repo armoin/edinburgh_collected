@@ -16,7 +16,7 @@ gem 'jbuilder',                     '~> 2.2.0'
 
 gem 'faraday',                      '~> 0.9.0'
 gem 'carrierwave',                  '~> 0.10.0', github: "carrierwaveuploader/carrierwave"
-gem 'mini_magick',                  '~> 4.0.1'
+gem 'mini_magick',                  '~> 4.5.0'
 gem 'fog',                          '~> 1.25.0'
 gem 'figaro',                       '~> 1.0.0'
 gem 'sorcery',                      '~> 0.9.0'

@@ -1,4 +1,5 @@
 <div id="scrapbook" class="container">
+  <%= render 'admin/shared/tabs', active_tab: :moderation %>
   <%= render partial: 'admin/moderation/moderation_panel',
               locals: {moderatable: @scrapbook, moderatable_name: 'scrapbook', list_path: current_scrapbook_index_path} %>
   <%= render partial: 'scrapbooks/scrapbook' %>

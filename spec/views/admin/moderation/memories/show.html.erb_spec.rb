@@ -16,6 +16,11 @@ describe 'admin/moderation/memories/show.html.erb' do
       render
     end
 
+    it_behaves_like 'a tabbed admin page' do
+      let(:active_tab) { 'Moderation' }
+      let(:state)      { 'unmoderated'}
+    end
+
     it_behaves_like 'a moderated show page'
   end
 end

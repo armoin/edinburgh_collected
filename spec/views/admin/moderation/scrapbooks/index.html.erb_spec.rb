@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe "admin/moderation/scrapbooks/index.html.erb" do
+  it_behaves_like 'a tabbed admin page' do
+    let(:active_tab) { 'Moderation' }
+  end
+
   let(:owner)              { Fabricate.build(:user, id: 123) }
   let(:admin)              { Fabricate.build(:admin_user, id: 456) }
   let(:created_at)         { 2.days.ago }

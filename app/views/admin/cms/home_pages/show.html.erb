@@ -1,0 +1,28 @@
+<div class="container">
+  <%= render 'admin/shared/tabs', active_tab: :cms %>
+
+  <h1>Preview</h1>
+
+  <div class="admin-toolbar">
+    <div class="state <%= @home_page_presenter.state.downcase %>">
+      <%= @home_page_presenter.state %>
+    </div>
+
+    <ul class="moderation-actions">
+      <li>
+        <%= link_to 'Back to list', admin_cms_home_pages_path, class: 'btn btn-default' %>
+      </li>
+      <li>
+        <% if @home_page_presenter.published? %>
+          <span>Cannot modify whilst live</span>
+        <% else %>
+          <%= link_to 'Edit', edit_admin_cms_home_page_path(@home_page_presenter), class: 'btn approve' %>
+          <%= link_to 'Publish', publish_admin_cms_home_page_path(@home_page_presenter), method: :patch, class: 'btn approve' %>
+          <%= link_to 'Delete', admin_cms_home_page_path(@home_page_presenter), method: :delete, class: 'btn reject', data: {confirm: 'Are you sure?'} %>
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<%= render 'home/index', home_page_presenter: @home_page_presenter %>

@@ -49,7 +49,7 @@
 //= require feature_switch
 //= require flash_manager
 //= require image_editor
-//= require image_editor_new
+//= require image_editor_guillotine
 //= require justified
 //= require polyfills
 //= require scrapbook_editor

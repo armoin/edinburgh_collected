@@ -49,6 +49,7 @@ describe ScrapbooksController do
     let(:visible_scrapbooks) { double('visible scrapbooks') }
     let(:memories)           { double('scrapbook memories') }
     let(:paginated_memories) { double('paginated memories') }
+    let(:format)             { :html }
 
     before :each do
       allow(Scrapbook).to receive(:publicly_visible).and_return(visible_scrapbooks)
@@ -56,7 +57,7 @@ describe ScrapbooksController do
       allow(scrapbook).to receive(:approved_ordered_memories).and_return(memories)
       allow(Kaminari).to receive(:paginate_array).and_return(paginated_memories)
       allow(paginated_memories).to receive(:page).and_return(paginated_memories)
-      get :show, id: scrapbook.id
+      get :show, id: scrapbook.id, format: format
     end
 
     it 'does not store the scrapbook index path' do
@@ -64,7 +65,7 @@ describe ScrapbooksController do
     end
 
     it 'sets the current memory index path' do
-      expect(session[:current_memory_index_path]).to eql(scrapbook_path(scrapbook.id))
+      expect(session[:current_memory_index_path]).to eql(scrapbook_path(scrapbook.id, format: format))
     end
 
     it 'fetches the requested scrapbook' do
@@ -89,8 +90,23 @@ describe ScrapbooksController do
         expect(assigns[:memories]).to eql(paginated_memories)
       end
 
-      it 'renders the show page' do
-        expect(response).to render_template(:show)
+      context "when requesting HTML" do
+        let(:format) { :html }
+
+        it 'renders the show page' do
+          expect(response).to render_template(:show)
+        end
+      end
+
+      context "when requesting JSON" do
+        let(:format) { :json }
+
+        render_views
+
+        it "provides JSON" do
+          expect(response.content_type).to eql('application/json')
+          expect(JSON.parse(response.body)['id']).to eql(scrapbook.id)
+        end
       end
 
       it 'has a 200 status' do

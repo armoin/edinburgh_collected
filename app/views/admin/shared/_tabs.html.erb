@@ -1,0 +1,8 @@
+<ul class="nav nav-tabs">
+  <li role="presentation" class="<%= class_for_tab(:moderation, active_tab) %>">
+    <%= link_to 'Moderation', admin_home_path %>
+  </li>
+  <li role="presentation" class="<%= class_for_tab(:cms, active_tab) %>">
+    <%= link_to 'CMS', admin_cms_home_pages_path %>
+  </li>
+</ul>

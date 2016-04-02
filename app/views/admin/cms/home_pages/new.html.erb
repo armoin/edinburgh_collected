@@ -1,0 +1,23 @@
+<div class="container">
+  <%= render 'admin/shared/tabs', active_tab: :cms %>
+
+  <header id="formHeader" class="row">
+  </header>
+
+  <div class="formWrapper row home-page__new_form">
+    <div id="formPanel" class="col-xs-12">
+      <h1 class="form-title">New home page</h1>
+
+      <%= form_for [:admin, :cms, @home_page] do |form| %>
+        <%= render 'form', form: form, home_page: @home_page %>
+
+        <div class="form-group">
+          <div class="actions col-xs-sm-12">
+            <%= form.submit "Create home page", class: "button green" %>
+            <%= link_to "Cancel", admin_cms_home_pages_path, class: "button cancel" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

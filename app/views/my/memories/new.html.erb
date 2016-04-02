@@ -21,7 +21,7 @@
             <% end -%>
           </div>
 
-          <%= render partial: 'image_editor', locals: {form: form, uploaded_image_url: @memory.source_url} %>
+          <%= render 'image_editor', form: form, uploaded_image_url: @memory.source_url %>
         <% end %>
 
         <%= render partial: 'details_form', object: @memory, locals: {form: form} %>
@@ -75,7 +75,7 @@
     fileInputEl = $('#memory_source')[0]
 
     editorEl    = $('#image-editor')[0]
-    rotationEl  = $('#memory_rotation')[0]
+    rotationEl  = $('#memory_image_angle')[0]
     window.iec = new ImageEditorController(editorEl, rotationEl);
     new UploadedImageEditor(fileInputEl, window.iec);
   };

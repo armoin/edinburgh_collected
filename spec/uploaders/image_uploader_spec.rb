@@ -26,17 +26,17 @@ describe ImageUploader, slow: true do
       end
 
       it "is false when image has no rotation" do
-        model.rotation = nil
+        model.image_angle = nil
         expect(uploader.is_rotated?(file)).to be_falsy
       end
 
       it "is false when image has rotation of 0" do
-        model.rotation = "0"
+        model.image_angle = "0"
         expect(uploader.is_rotated?(file)).to be_falsy
       end
 
       it "is true when image is rotated by > 0" do
-        model.rotation = "90"
+        model.image_angle = "90"
         expect(uploader.is_rotated?(file)).to be_truthy
       end
     end

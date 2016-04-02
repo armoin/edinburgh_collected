@@ -51,4 +51,56 @@ RSpec.describe AdminHelper do
       end
     end
   end
+
+  describe '#formatted_date' do
+    let(:format) { nil }
+
+    subject { helper.formatted_date(date, format) }
+
+    context 'when given a nil date' do
+      let(:date) { nil }
+
+      it 'returns nil' do
+        expect(subject).to be_nil
+      end
+    end
+
+    context 'when given an invalid date' do
+      let(:date) { 'invalid' }
+
+      it 'returns nil' do
+        expect(subject).to be_nil
+      end
+    end
+
+    context 'when given a valid date' do
+      let(:date) { Time.zone.parse('4-5-2016 08:00') }
+
+      context 'and no custom format' do
+        let(:format) { nil }
+
+        it 'provides a date formatted using the default date format' do
+          expect(subject).to eq('04-May-2016')
+        end
+      end
+
+      context 'and a custom format' do
+        let(:format) { '%d-%b-%Y %H:%M' }
+
+        it 'provides a date formatted using the default date format' do
+          expect(subject).to eq('04-May-2016 08:00')
+        end
+      end
+    end
+  end
+
+  describe '#class_for_tab' do
+    it 'returns "active" if the current_tab matches the active_tab' do
+      expect(helper.class_for_tab(:cms, :cms)).to eql('active')
+    end
+
+    it 'returns nil if the current_tab does not match the active_tab' do
+      expect(helper.class_for_tab(:cms, :not_cms)).to be_nil
+    end
+  end
 end

@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe "admin/home/index.html.erb" do
+  it_behaves_like 'a tabbed admin page' do
+    let(:active_tab) { 'Moderation' }
+  end
+
   describe 'Moderation Inbox' do
     describe 'memories' do
       describe 'has an Unmoderated memories link' do

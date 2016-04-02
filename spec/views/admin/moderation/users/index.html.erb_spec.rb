@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe "admin/moderation/users/index.html.erb" do
+  it_behaves_like 'a tabbed admin page' do
+    let(:active_tab) { 'Moderation' }
+  end
+
   let(:users) { Array.new(3) {|i| Fabricate.build(:user, id: i+1) } }
 
   before :each do
