@@ -1,6 +1,6 @@
-Fabricator(:scrapbook) do
+Fabricator(:scrapbook, aliases: :pending_scrapbook) do
   id               { sequence(:id, 1) }
-  user             { Fabricate(:active_user) }
+  user             { Fabricate(:approved_user) }
   title            { Faker::Product.product_name }
   description      { Faker::Lorem.words(rand(50)).join(' ') }
   updated_at       { rand(10).to_i.days.ago }
