@@ -58,7 +58,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'codeclimate-test-reporter',  '~> 0.4.1', require: nil
+  gem 'codeclimate-test-reporter',  '~> 0.5.0', require: nil
   gem 'database_cleaner',           '~> 1.3.0'
   gem 'poltergeist',                '~> 1.8.1'
   gem 'webmock',                    '~> 1.20.4'
