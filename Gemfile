@@ -54,7 +54,7 @@ group :development, :test do
   gem 'pry-byebug',                 '~> 1.3.2'
   gem 'rspec-rails',                '~> 3.4.2'
   gem 'shoulda-matchers',           '~> 2.8.0', require: false
-  gem 'timecop',                    '~> 0.7.1'
+  gem 'timecop',                    '~> 0.8.1'
 end
 
 group :test do
