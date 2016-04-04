@@ -69,7 +69,7 @@ end
 
 group :production do
   gem 'newrelic_rpm',               '~> 3.9.9.275'
-  gem 'passenger',                  '4.0.60'
+  gem 'passenger',                  '5.0.26'
   gem 'therubyracer',               '~> 0.12.1'
 end
 
