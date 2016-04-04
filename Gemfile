@@ -32,7 +32,7 @@ gem 'responders',                   '~> 2.1.2'
 gem 'sass-rails',                   '~> 4.0.4'
 gem 'sentry-raven',                 '~> 0.15.4'
 gem 'sorcery',                      '~> 0.9.0'
-gem 'uglifier',                     '~> 2.5.3'
+gem 'uglifier',                     '~> 3.0.0'
 gem 'validate_url',                 '~> 1.0.0'
 
 group :doc do
