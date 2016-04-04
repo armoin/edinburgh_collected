@@ -42,26 +42,25 @@ end
 group :development do
   gem 'better_errors',              '~> 2.1.1'
   gem 'bullet',                     '~> 5.0.0'
-  gem 'spring',                     '~> 1.2.0'
+  gem 'spring',                     '~> 1.6.4'
 end
 
 group :development, :test do
-  gem 'capybara',                   '~> 2.4.4'
+  gem 'capybara',                   '~> 2.6.2'
   gem 'capybara-rails',             '~> 0.0.2'
   gem 'jasminerice',                '~> 0.1.0', git: 'https://github.com/bradphelan/jasminerice.git'
-  gem 'jazz_hands',                 '~> 0.5.2', github: 'nixme/jazz_hands', branch: 'bring-your-own-debugger'
   gem 'launchy',                    '~> 2.4.3'
-  gem 'pry-byebug',                 '~> 1.3.2'
-  gem 'rspec-rails',                '~> 3.1.0'
-  gem 'shoulda-matchers',           '~> 2.8.0', require: false
-  gem 'timecop',                    '~> 0.7.1'
+  gem 'pry-byebug',                 '~> 3.3.0'
+  gem 'rspec-rails',                '~> 3.4.2'
+  gem 'shoulda-matchers',           '~> 3.1.1'
+  gem 'timecop',                    '~> 0.8.1'
 end
 
 group :test do
-  gem 'codeclimate-test-reporter',  '~> 0.4.1', require: nil
-  gem 'database_cleaner',           '~> 1.3.0'
-  gem 'poltergeist',                '~> 1.8.1'
-  gem 'webmock',                    '~> 1.20.4'
+  gem 'codeclimate-test-reporter',  '~> 0.5.0', require: nil
+  gem 'database_cleaner',           '~> 1.5.1'
+  gem 'poltergeist',                '~> 1.9.0'
+  gem 'webmock',                    '~> 1.24.2'
 end
 
 group :staging do
