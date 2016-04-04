@@ -101,6 +101,7 @@ GEM
     coffee-script-source (1.8.0)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
+    daemon_controller (1.2.0)
     database_cleaner (1.5.1)
     diff-lcs (1.2.5)
     docile (1.1.5)
@@ -238,6 +239,10 @@ GEM
       json
       nokogiri
       rbvmomi
+    passenger (4.0.60)
+      daemon_controller (>= 1.2.0)
+      rack
+      rake (>= 0.8.1)
     pg (0.17.1)
     pg_search (0.7.8)
       activerecord (>= 3.1)
@@ -409,6 +414,7 @@ DEPENDENCIES
   mini_magick (~> 4.5.0)
   nested_form (~> 0.3.2)
   newrelic_rpm (~> 3.9.9.275)
+  passenger (= 4.0.60)
   pg (~> 0.17.1)
   pg_search (~> 0.7.8)
   poltergeist (~> 1.9.0)
