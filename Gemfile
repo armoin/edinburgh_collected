@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.0'
 
-gem 'rails', '~> 4.1.7'
+gem 'rails', '4.2.6'
 
 gem 'bootstrap-sass',               '~> 3.3.0'
 gem 'sass-rails',                   '~> 4.0.4'
@@ -36,6 +36,7 @@ gem 'jquery-fileupload-rails'
 gem 'sentry-raven'
 gem 'bullet'
 gem 'json', '~> 1.8.3'
+gem 'responders', '~> 2.0'
 
 group :doc do
   gem 'sdoc',                       '~> 0.4.0'

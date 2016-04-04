@@ -2,7 +2,7 @@ module Moderatable
   extend ActiveSupport::Concern
 
   included do
-    belongs_to :moderated_by, class: User
+    belongs_to :moderated_by, class_name: User
     has_many :moderation_logs, as: :moderatable, dependent: :destroy
 
     before_create :set_moderation_fields

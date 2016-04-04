@@ -8,8 +8,8 @@ class HomePage < ActiveRecord::Base
 
   before_validation :attach_hero_image
 
-  belongs_to :featured_memory, class: Memory
-  belongs_to :featured_scrapbook, class: Scrapbook
+  belongs_to :featured_memory, class_name: Memory
+  belongs_to :featured_scrapbook, class_name: Scrapbook
 
   validates :featured_memory_id, presence: { message: "must be a valid memory ID" }
   validate :featured_memory_is_visible?, if: 'featured_memory_id.present?'
