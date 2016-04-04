@@ -2,7 +2,7 @@ sudo: false
 language: ruby
 cache: bundler
 rvm:
-- 2.1.5
+- 2.3.0
 addons:
   code_climate:
     repo_token: a91b99dadb8cb17d6c50336d2933d040ef436fb92c03d4f04a8d2958c143194a

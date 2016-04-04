@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.5'
+ruby '2.3.0'
 
 gem 'rails', '~> 4.1.7'
 
@@ -35,6 +35,7 @@ gem 'nested_form',                  '~> 0.3.2'
 gem 'jquery-fileupload-rails'
 gem 'sentry-raven'
 gem 'bullet'
+gem 'json', '~> 1.8.3'
 
 group :doc do
   gem 'sdoc',                       '~> 0.4.0'
