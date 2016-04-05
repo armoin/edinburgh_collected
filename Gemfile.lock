@@ -99,6 +99,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.8.0)
+    colorize (0.7.7)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     database_cleaner (1.5.2)
@@ -203,6 +204,14 @@ GEM
     kaminari (0.16.1)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
+    konacha (4.0.0)
+      actionpack (>= 4.1, < 5)
+      capybara
+      colorize
+      railties (>= 4.1, < 5)
+      sprockets (>= 2, < 4)
+      sprockets-rails (>= 2, < 4)
+      tilt
     launchy (2.4.3)
       addressable (~> 2.3)
     libv8 (3.16.14.7)
@@ -408,6 +417,7 @@ DEPENDENCIES
   json (~> 1.8.3)
   judge (~> 2.0.5)
   kaminari (~> 0.16.1)
+  konacha (= 4.0.0)
   launchy (~> 2.4.3)
   mini_magick (~> 4.5.0)
   nested_form (~> 0.3.2)

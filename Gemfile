@@ -49,6 +49,7 @@ group :development, :test do
   gem 'capybara',                   '~> 2.7.0'
   gem 'capybara-rails',             '~> 0.0.2'
   gem 'jasminerice',                '~> 0.1.0', git: 'https://github.com/bradphelan/jasminerice.git'
+  gem 'konacha',                    '4.0.0'
   gem 'launchy',                    '~> 2.4.3'
   gem 'pry-byebug',                 '~> 3.3.0'
   gem 'rspec-rails',                '~> 3.4.2'
