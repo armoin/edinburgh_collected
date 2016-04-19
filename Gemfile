@@ -46,7 +46,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'capybara',                   '~> 2.6.2'
+  gem 'capybara',                   '~> 2.7.0'
   gem 'capybara-rails',             '~> 0.0.2'
   gem 'jasminerice',                '~> 0.1.0', git: 'https://github.com/bradphelan/jasminerice.git'
   gem 'launchy',                    '~> 2.4.3'
