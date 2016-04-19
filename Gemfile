@@ -42,7 +42,7 @@ end
 group :development do
   gem 'better_errors',              '~> 2.1.1'
   gem 'bullet',                     '~> 5.0.0'
-  gem 'spring',                     '~> 1.6.4'
+  gem 'spring',                     '~> 1.7.1'
 end
 
 group :development, :test do
