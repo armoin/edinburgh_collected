@@ -10,7 +10,7 @@ gem 'bourbon',                      '~> 3.2.3'
 gem 'carrierwave',                  '~> 0.10.0', github: "carrierwaveuploader/carrierwave"
 gem 'coffee-rails',                 '~> 4.1.0'
 gem 'email_validator',              '~> 1.6.0'
-gem 'fabrication',                  '~> 2.11.3'
+gem 'fabrication',                  '~> 2.15.0'
 gem 'faraday',                      '~> 0.9.1'
 gem 'fastimage',                    '~> 1.6.4'
 gem 'ffaker',                       '~> 1.25.0'
