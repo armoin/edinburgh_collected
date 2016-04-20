@@ -1,8 +1,8 @@
 Fabricator(:scrapbook, aliases: :pending_scrapbook) do
   id               { sequence(:id, 1) }
   user             { Fabricate(:approved_user) }
-  title            { Faker::Product.product_name }
-  description      { Faker::Lorem.words(rand(50)).join(' ') }
+  title            { FFaker::Product.product_name }
+  description      { FFaker::Lorem.words(rand(50)).join(' ') }
   updated_at       { rand(10).to_i.days.ago }
   moderation_state ModerationStateMachine::DEFAULT_STATE
 end

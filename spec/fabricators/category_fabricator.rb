@@ -1,3 +1,3 @@
 Fabricator(:category) do
-  name Faker::Product.product_name
+  name FFaker::Product.product_name
 end

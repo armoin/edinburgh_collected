@@ -1,8 +1,8 @@
 Fabricator(:user) do
-  first_name            { Faker::Name.first_name }
-  last_name             { Faker::Name.last_name }
-  screen_name           { [Faker::Name.first_name, random_num(8)].join('_') }
-  email                 { Faker::Internet.email }
+  first_name            { FFaker::Name.first_name }
+  last_name             { FFaker::Name.last_name }
+  screen_name           { [FFaker::Name.first_name, random_num(8)].join('_') }
+  email                 { FFaker::Internet.email }
   password              { generate_password }
   password_confirmation { |attrs| attrs[:password] }
   accepted_t_and_c      true
