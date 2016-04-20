@@ -9,7 +9,7 @@ gem 'bootstrap-sass',               '~> 3.3.1.0'
 gem 'bourbon',                      '~> 3.2.3'
 gem 'carrierwave',                  '~> 0.10.0', github: "carrierwaveuploader/carrierwave"
 gem 'coffee-rails',                 '~> 4.1.0'
-gem 'email_validator',              '~> 1.4.0'
+gem 'email_validator',              '~> 1.6.0'
 gem 'fabrication',                  '~> 2.11.3'
 gem 'faraday',                      '~> 0.9.1'
 gem 'fastimage',                    '~> 1.6.4'
