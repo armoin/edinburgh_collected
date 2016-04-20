@@ -55,20 +55,20 @@ describe Link do
       expect(subject).to be_valid
     end
 
-    # These tests are here to show that we know about this behaviour but are
-    # igorning for now as all links are currently moderated
-    it "prepends HTTP if the url has no protocol or host and is a relative url" do
+    it "prepends but does not permit local relative url" do
       subject.url = 'my/local/path'
       expect(subject.url).to eql('http://my/local/path')
-      expect(subject).to be_valid
+      expect(subject).to be_invalid
     end
 
-    it "prepends HTTP if the url has no protocol or host and is an absolute url" do
+    it "prepends but does not permit local absolute url" do
       subject.url = '/my/local/path'
       expect(subject.url).to eql('http://my/local/path')
-      expect(subject).to be_valid
+      expect(subject).to be_invalid
     end
 
+    # These tests are here to show that we know about this behaviour but are
+    # igorning for now as all links are currently moderated
     it 'permits nonsense URLs' do
       subject.url = '1,2.3'
       expect(subject.url).to eql('http://1,2.3')

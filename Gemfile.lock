@@ -431,7 +431,7 @@ DEPENDENCIES
   therubyracer (~> 0.12.1)
   timecop (~> 0.8.1)
   uglifier (~> 3.0.0)
-  validate_url (~> 1.0.0)
+  validate_url (~> 1.0.2)
   webmock (~> 1.24.3)
 
 BUNDLED WITH
