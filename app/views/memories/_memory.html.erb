@@ -21,14 +21,7 @@
         <%= link_to "Add to scrapbook +", '#', class: "button scrapbooks float-right", data: {memory_id: @memory.id, memory_title: @memory.title, toggle: 'modal', target: '#add-to-scrapbook-modal'} %>
       <% end -%>
     </div>
-    <% if current_user.try(:can_modify?, @memory) && @memory.featured? %>
-      <div class="featured-notice">
-        Your memory is currently being featured on our
-        <%= link_to 'home page', root_path %>.
-        In the meantime, if you would like to make any changes, please
-        <%= link_to 'contact us', "mailto:#{CONTACT_EMAIL}", class: 'link--highlighted' %>.
-      </div>
-    <% end %>
+    <%= render 'shared/featured_notice', featurable: @memory, featurable_name: 'memory' %>
   </header>
 
   <div id="image">
