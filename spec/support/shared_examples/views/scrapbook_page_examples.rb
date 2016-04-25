@@ -139,6 +139,57 @@ RSpec.shared_examples 'a scrapbook page' do
     end
   end
 
+  describe 'featured notice' do
+    context 'when the user is not logged in' do
+      let(:logged_in) { false }
+      let(:user)      { nil }
+
+      it 'does not display the featured notice' do
+        expect(rendered).not_to have_css('.featured-notice')
+      end
+    end
+
+    context 'when the user is logged in' do
+      let(:logged_in) { true }
+      let(:user)      { Fabricate.build(:active_user, id: 456) }
+      let(:featured)  { false }
+
+      before :each do
+        allow(user).to receive(:can_modify?).and_return(can_modify)
+        allow(scrapbook).to receive(:featured?).and_return(featured)
+        render
+      end
+
+      context "and the user can not modify the scrapbook" do
+        let(:can_modify) { false }
+
+        it 'does not display the featured notice' do
+          expect(rendered).not_to have_css('.featured-notice')
+        end
+      end
+
+      context "and the user can modify the scrapbook" do
+        let(:can_modify) { true }
+
+        context "and the scrapbook is not featured" do
+          let(:featured) { false }
+
+          it 'does not display the featured notice' do
+            expect(rendered).not_to have_css('.featured-notice')
+          end
+        end
+
+        context 'and the scrapbook is featured' do
+          let(:featured) { true }
+
+          it 'displays the featured notice' do
+            expect(rendered).to have_css('.featured-notice')
+          end
+        end
+      end
+    end
+  end
+
   describe "memories" do
     context 'when there are no memories' do
       let(:memories) { [] }

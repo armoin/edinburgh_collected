@@ -17,6 +17,14 @@
         <a href="#" class="button add-memories memories float-right" data-toggle="modal" data-target="#add-memories-modal">Add memories</a>
       <% end -%>
     </div>
+    <% if current_user.try(:can_modify?, @scrapbook) && @scrapbook.featured? %>
+      <div class="featured-notice">
+        Your scrapbook is currently being featured on our
+        <%= link_to 'home page', root_path %>.
+        In the meantime, if you would like to make any changes, please
+        <%= link_to 'contact us', "mailto:#{CONTACT_EMAIL}", class: 'link--highlighted' %>.
+      </div>
+    <% end %>
   </header>
 
   <div class="row">
