@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Scrapbook do
-
   let(:moderatable_model)   { Scrapbook }
   let(:moderatable_factory) { :scrapbook }
   it_behaves_like 'moderatable'
@@ -300,6 +299,28 @@ describe Scrapbook do
         expect(ScrapbookMemory).to have_received(:find_by_sql).with(approved_query_double.to_sql)
         expect(result).to eql(approved_sb_memories_double)
       end
+    end
+  end
+
+  describe '#featured?' do
+    include_context 'home_page'
+
+    let(:home_page) {
+      Fabricate(:published_home_page,
+        featured_memory: @featured_memory,
+        featured_scrapbook: @featured_scrapbook,
+        featured_scrapbook_memory_ids: @featured_scrapbook_memory_ids
+      )
+    }
+
+    it 'is false when not a featured scrapbook' do
+      scrapbook = Fabricate(:approved_scrapbook)
+      expect(scrapbook).not_to be_featured
+    end
+
+    it 'is true when a featured scrapbook' do
+      scrapbook = home_page.featured_scrapbook
+      expect(scrapbook).to be_featured
     end
   end
 end

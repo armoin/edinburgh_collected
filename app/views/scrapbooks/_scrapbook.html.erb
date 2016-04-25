@@ -3,7 +3,7 @@
     <h1><%= @scrapbook.title %></h1>
     <div class="actions clearfix">
       <div class="viewingInfo">
-        <% if current_user.try(:can_modify?, @scrapbook) %>
+        <% if current_user.try(:can_modify?, @scrapbook) && !@scrapbook.featured? %>
           <%= link_to 'Back', current_scrapbook_index_path, :class => "button back" %>
 
           <%= link_to "Delete", my_scrapbook_path(@scrapbook.id), :class => "button delete" , method: :delete, data: {confirm: 'Are you sure?'} %>

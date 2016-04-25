@@ -40,10 +40,12 @@ RSpec.shared_examples 'a scrapbook page' do
     end
 
     context "when the user is logged in" do
-      let(:user) { Fabricate.build(:active_user, id: 123) }
+      let(:user)     { Fabricate.build(:active_user, id: 123) }
+      let(:featured) { false }
 
       before :each do
         allow(user).to receive(:can_modify?).and_return(can_modify)
+        allow(scrapbook).to receive(:featured?).and_return(featured)
         render
       end
 
@@ -70,31 +72,67 @@ RSpec.shared_examples 'a scrapbook page' do
       context "when scrapbook belongs to the user" do
         let(:can_modify) { true }
 
-        it "has a back button to the current scrapbook index page" do
-          expect(rendered).to have_link('Back', href: scrapbook_index_path)
-        end
+        context "and the memory is not featured" do
+          let(:featured) { false }
 
-        it "has an edit link" do
-          expect(rendered).to have_link('Edit', href: edit_my_scrapbook_path(scrapbook))
-        end
+          it "has a back button to the current scrapbook index page" do
+            expect(rendered).to have_link('Back', href: scrapbook_index_path)
+          end
 
-        it "has a delete link" do
-          expect(rendered).to have_link('Delete', href: my_scrapbook_path(scrapbook))
-        end
+          it "has an edit link" do
+            expect(rendered).to have_link('Edit', href: edit_my_scrapbook_path(scrapbook))
+          end
 
-        context "and the scrapbook has no memories" do
-          let(:memories) { [] }
+          it "has a delete link" do
+            expect(rendered).to have_link('Delete', href: my_scrapbook_path(scrapbook))
+          end
 
-          it "does not have an 'Add memories' link" do
-            expect(rendered).not_to have_link('Add memories')
+          context "and the scrapbook has no memories" do
+            let(:memories) { [] }
+
+            it "does not have an 'Add memories' link" do
+              expect(rendered).not_to have_link('Add memories')
+            end
+          end
+
+          context "and the scrapbook has memories" do
+            let(:memories) { [Fabricate.build(:memory, id: 123)] }
+
+            it "has an 'Add memories' link" do
+              expect(rendered).to have_link('Add memories')
+            end
           end
         end
 
-        context "and the scrapbook has memories" do
-          let(:memories) { [Fabricate.build(:memory, id: 123)] }
+        context "and the memory is featured" do
+          let(:featured) { true }
 
-          it "has an 'Add memories' link" do
-            expect(rendered).to have_link('Add memories')
+          it "has a back button to the current scrapbook index page" do
+            expect(rendered).to have_link('Back', href: scrapbook_index_path)
+          end
+
+          it "does not have an edit link" do
+            expect(rendered).not_to have_link('Edit', href: edit_my_scrapbook_path(scrapbook))
+          end
+
+          it "does not have a delete link" do
+            expect(rendered).not_to have_link('Delete', href: my_scrapbook_path(scrapbook))
+          end
+
+          context "and the scrapbook has no memories" do
+            let(:memories) { [] }
+
+            it "does not have an 'Add memories' link" do
+              expect(rendered).not_to have_link('Add memories')
+            end
+          end
+
+          context "and the scrapbook has memories" do
+            let(:memories) { [Fabricate.build(:memory, id: 123)] }
+
+            it "has an 'Add memories' link" do
+              expect(rendered).to have_link('Add memories')
+            end
           end
         end
       end
