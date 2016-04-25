@@ -4,7 +4,7 @@
     <h2 class="subtitle"><%= @memory.date_string %></h2>
     <div class="actions clearfix <%= @memory.user == current_user ? 'currentUser' : '' %>">
       <div class="viewingInfo">
-        <% if current_user.try(:can_modify?, @memory) %>
+        <% if current_user.try(:can_modify?, @memory) && !@memory.featured? %>
           <%= link_to 'Back', current_memory_index_path, class: "button back" %>
 
           <% delete_path ||= my_memory_path(@memory.id) %>

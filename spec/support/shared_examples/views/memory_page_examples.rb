@@ -67,29 +67,55 @@ RSpec.shared_examples 'a memory page' do
     context 'when the user is logged in' do
       let(:logged_in) { true }
       let(:user)      { Fabricate.build(:active_user, id: 456) }
+      let(:featured)  { false }
 
       before :each do
         allow(user).to receive(:can_modify?).and_return(can_modify)
+        allow(memory).to receive(:featured?).and_return(featured)
         render
       end
 
       context "and the user can modify the memory" do
         let(:can_modify) { true }
 
-        it "has a back button to the current memory index page" do
-          expect(rendered).to have_link('Back', href: memory_index_path)
+        context "and the memory is not featured" do
+          let(:featured) { false }
+
+          it "has a back button to the current memory index page" do
+            expect(rendered).to have_link('Back', href: memory_index_path)
+          end
+
+          it "has an edit link" do
+            expect(rendered).to have_link('Edit', href: edit_path)
+          end
+
+          it "has a delete link" do
+            expect(rendered).to have_link('Delete', href: delete_path)
+          end
+
+          it "shows the 'Add to scrapbook' button" do
+            expect(rendered).to have_link('Add to scrapbook +')
+          end
         end
 
-        it "has an edit link" do
-          expect(rendered).to have_link('Edit', href: edit_path)
-        end
+        context "and the memory is featured" do
+          let(:featured) { true }
 
-        it "has a delete link" do
-          expect(rendered).to have_link('Delete', href: delete_path)
-        end
+          it "has a back button to the current memory index page" do
+            expect(rendered).to have_link('Back', href: memory_index_path)
+          end
 
-        it "shows the 'Add to scrapbook' button" do
-          expect(rendered).to have_link('Add to scrapbook +')
+          it "does not have an edit link" do
+            expect(rendered).not_to have_link('Edit', href: edit_path)
+          end
+
+          it "does not have a delete link" do
+            expect(rendered).not_to have_link('Delete', href: delete_path)
+          end
+
+          it "shows the 'Add to scrapbook' button" do
+            expect(rendered).to have_link('Add to scrapbook +')
+          end
         end
       end
 
