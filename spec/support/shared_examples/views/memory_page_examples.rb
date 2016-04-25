@@ -143,6 +143,57 @@ RSpec.shared_examples 'a memory page' do
     it_behaves_like 'a reportable page'
   end
 
+  describe 'featured notice' do
+    context 'when the user is not logged in' do
+      let(:logged_in) { false }
+      let(:user)      { nil }
+
+      it 'does not display the featured notice' do
+        expect(rendered).not_to have_css('.featured-notice')
+      end
+    end
+
+    context 'when the user is logged in' do
+      let(:logged_in) { true }
+      let(:user)      { Fabricate.build(:active_user, id: 456) }
+      let(:featured)  { false }
+
+      before :each do
+        allow(user).to receive(:can_modify?).and_return(can_modify)
+        allow(memory).to receive(:featured?).and_return(featured)
+        render
+      end
+
+      context "and the user can not modify the memory" do
+        let(:can_modify) { false }
+
+        it 'does not display the featured notice' do
+          expect(rendered).not_to have_css('.featured-notice')
+        end
+      end
+
+      context "and the user can modify the memory" do
+        let(:can_modify) { true }
+
+        context "and the memory is not featured" do
+          let(:featured) { false }
+
+          it 'does not display the featured notice' do
+            expect(rendered).not_to have_css('.featured-notice')
+          end
+        end
+
+        context 'and the memory is featured' do
+          let(:featured) { true }
+
+          it 'displays the featured notice' do
+            expect(rendered).to have_css('.featured-notice')
+          end
+        end
+      end
+    end
+  end
+
   describe "image" do
     before :each do
       render
