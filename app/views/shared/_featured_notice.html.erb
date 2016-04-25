@@ -1,8 +1,8 @@
 <% if current_user.try(:can_modify?, featurable) && featurable.featured? %>
-  <div class="featured-notice">
+  <div class="featured-notice highlight-links">
     Your <%= featurable_name %> is currently being featured on our
     <%= link_to 'home page', root_path %>.
     In the meantime, if you would like to make any changes, please
-    <%= link_to 'contact us', "mailto:#{CONTACT_EMAIL}", class: 'link--highlighted' %>.
+    <%= link_to 'contact us', "mailto:#{CONTACT_EMAIL}" %>.
   </div>
 <% end %>
