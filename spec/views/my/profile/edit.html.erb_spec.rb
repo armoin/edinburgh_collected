@@ -25,12 +25,6 @@ describe 'my/profile/edit.html.erb' do
 
     it_behaves_like 'a user detail form'
 
-    describe 'remote_avatar_url' do
-      it 'has a hidden field for storing the remote_avatar_url' do
-        expect(rendered).to have_css('input[type="hidden"]#user_remote_avatar_url')
-      end
-    end
-
     describe 'last_name' do
       context 'when the user is not a group' do
         let(:is_group) { false }
@@ -102,7 +96,6 @@ describe 'my/profile/edit.html.erb' do
 
         it 'allows the user to delete existing links' do
           links.each.with_index do |link, i|
-            expect(rendered).to have_css("input#user_links_attributes_#{i}__destroy[type=\"hidden\"]")
             expect(rendered).to have_css('a.remove_nested_fields')
           end
         end
@@ -132,7 +125,7 @@ describe 'my/profile/edit.html.erb' do
 
   describe "form actions" do
     it "cancels back to the user's profile page" do
-      expect(rendered).to have_link('Cancel', my_profile_path)
+      expect(rendered).to have_link('Cancel', href: my_profile_path)
     end
 
     describe "submitting" do

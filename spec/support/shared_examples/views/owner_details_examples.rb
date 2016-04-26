@@ -7,7 +7,7 @@ RSpec.shared_examples 'an owner details page' do
     let(:user) { nil }
 
     it "displays a link to the user page for the owner" do
-      expect(rendered).to have_link("#{label} #{owner.screen_name}", user_page_link)
+      expect(rendered).to have_link("#{label} #{owner.screen_name}", href: user_page_link)
     end
   end
 
@@ -16,7 +16,7 @@ RSpec.shared_examples 'an owner details page' do
       let(:user) { Fabricate.build(:active_user, id: 789) }
 
       it "displays a link to the user page for the owner" do
-        expect(rendered).to have_link("#{label} #{owner.screen_name}", user_page_link)
+        expect(rendered).to have_link("#{label} #{owner.screen_name}", href: user_page_link)
       end
     end
 
@@ -24,7 +24,7 @@ RSpec.shared_examples 'an owner details page' do
       let(:user) { owner }
 
       it "displays a link to the user page for the owner" do
-        expect(rendered).to have_link("#{label} You", user_page_link)
+        expect(rendered).to have_link("#{label} You", href: user_page_link)
       end
     end
   end
