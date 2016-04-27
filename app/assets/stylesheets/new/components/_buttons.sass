@@ -1,0 +1,83 @@
+.button--new
+  border-radius: 4px
+  border-style: solid
+  border-width: 1px
+  display: inline-block
+  font-size: 1em
+  margin-bottom: 0.2em
+  padding: 0.5em 1em
+  text-decoration: none
+
+  &:hover, &:focus
+    cursor: pointer
+    text-decoration: none
+
+  &:active
+    position: relative
+    text-decoration: none
+    top: 1px
+
+.button--small
+  font-size: 0.75em
+  padding: 0.25em 0.5em
+
+.button--medium
+  font-size: 0.875em
+  padding: 0.375em 0.75em
+
+.button--fill
+  text-align: center
+  width: 100%
+
+.button--default
+  background-color: white
+  color: $navy-blue
+  border-color: #ccc
+
+  &:hover, &:focus
+    color: #333333
+    background-color: #e6e6e6
+    border-color: #adadad
+
+.button--primary
+  background-color: $navy-blue
+  border-color: $navy-blue
+  color: white
+  text-shadow: 0px 1px 0px darken( $navy-blue, 10% )
+
+  &:hover, &:focus
+    background-color: darken( $navy-blue, 20% )
+    color: white
+
+.button--danger
+  background-color: $coral
+  border-color: darken( $coral, 10% )
+  color: white
+  text-shadow: 0px 1px 0px darken( $coral, 20% )
+
+  &:hover, &:focus
+    background-color: darken( $coral, 20% )
+    color: white
+
+.button--unmoderate
+  background-color: $unmoderated
+  border-color: darken($unmoderated, 5)
+  color: white
+
+  &:hover
+    background-color: darken($unmoderated, 5)
+    border-color: darken($unmoderated, 10)
+    color: white
+
+.button--approve
+  background-color: darken( $green, 10% )
+  border-color: darken( $green, 20% )
+  color: white
+  text-shadow: 0px 1px 0px darken( $green, 20% )
+
+  &:hover, &:focus
+    background-color: darken( $green, 20% )
+    color: white
+
+    &[disabled]
+      background-color: darken( $green, 10% )
