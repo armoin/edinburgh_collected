@@ -458,4 +458,31 @@ describe Memory do
       expect(memory).to be_photo
     end
   end
+
+  describe '#featured?' do
+    include_context 'home_page'
+
+    let(:home_page) {
+      Fabricate(:published_home_page,
+        featured_memory: @featured_memory,
+        featured_scrapbook: @featured_scrapbook,
+        featured_scrapbook_memory_ids: @featured_scrapbook_memory_ids
+      )
+    }
+
+    it 'is false when not a featured memory or featured scrapbook memory' do
+      memory = Fabricate(:approved_photo_memory)
+      expect(memory).not_to be_featured
+    end
+
+    it 'is true when a featured memory' do
+      memory = home_page.featured_memory
+      expect(memory).to be_featured
+    end
+
+    it 'is true when a featured scrapbook memory' do
+      memory = home_page.featured_scrapbook_memories.first
+      expect(memory).to be_featured
+    end
+  end
 end

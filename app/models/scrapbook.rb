@@ -44,6 +44,12 @@ class Scrapbook < ActiveRecord::Base
     ScrapbookMemory.find_by_sql( approved_or_same_owner_query(scrapbook_memory_query_builder).to_sql )
   end
 
+  def featured?
+    home_page = HomePage.published.first
+    return false unless home_page
+    home_page.featured_scrapbook == self
+  end
+
   private
 
   def approved_or_same_owner_query(query_builder)

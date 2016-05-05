@@ -62,6 +62,12 @@ class Memory < ActiveRecord::Base
     self.type == 'Photo'
   end
 
+  def featured?
+    home_page = HomePage.published.first
+    return false unless home_page
+    home_page.featured_memory == self || home_page.featured_scrapbook_memories.include?(self)
+  end
+
   private
 
   def date_not_in_future
