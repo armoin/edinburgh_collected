@@ -1,7 +1,7 @@
 [![Code Climate](https://codeclimate.com/github/urfolomeus/edinburgh_collected.png)](https://codeclimate.com/github/urfolomeus/edinburgh_collected)
 [![Test Coverage](https://codeclimate.com/github/urfolomeus/edinburgh_collected/badges/coverage.svg)](https://codeclimate.com/github/urfolomeus/edinburgh_collected)
 [![Build Status](https://travis-ci.org/armoin/edinburgh_collected.svg?branch=master)](https://travis-ci.org/armoin/edinburgh_collected)
-[![Dependency Status](https://gemnasium.com/urfolomeus/edinburgh_collected.svg)](https://gemnasium.com/urfolomeus/edinburgh_collected)
+[![Dependency Status](https://gemnasium.com/armoin/edinburgh_collected.svg)](https://gemnasium.com/armoin/edinburgh_collected)
 
 
 # Edinburgh Collected
@@ -15,7 +15,7 @@ This is a city-wide shared memory app developed for City of Edinburgh Council Li
 
 ### Ruby
 
-We are currently using **2.1.5**. If you don't want to upgrade your whole system to this version you can install RVM (Ruby Version Manager). This makes it easy to install and run different Ruby versions.
+We are currently using **2.3.0**. If you don't want to upgrade your whole system to this version you can install RVM (Ruby Version Manager). This makes it easy to install and run different Ruby versions.
 
 ```bash
 # install rvm and correct version of ruby
