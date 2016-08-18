@@ -62,6 +62,10 @@ RSpec.shared_examples 'a memory page' do
       it "does not show the 'Add to scrapbook' button" do
         expect(rendered).not_to have_link('Add to scrapbook +')
       end
+
+      it 'shows the "Send postcard" button' do
+        expect(rendered).to have_link('Send postcard')
+      end
     end
 
     context 'when the user is logged in' do
@@ -117,6 +121,10 @@ RSpec.shared_examples 'a memory page' do
             expect(rendered).to have_link('Add to scrapbook +')
           end
         end
+
+        it 'shows the "Send postcard" button' do
+          expect(rendered).to have_link('Send postcard')
+        end
       end
 
       context "and the user can't modify the memory" do
@@ -136,6 +144,10 @@ RSpec.shared_examples 'a memory page' do
 
         it "shows the 'Add to scrapbook' button" do
           expect(rendered).to have_link('Add to scrapbook +')
+        end
+
+        it 'shows the "Send postcard" button' do
+          expect(rendered).to have_link('Send postcard')
         end
       end
     end
@@ -259,7 +271,7 @@ RSpec.shared_examples 'a memory page' do
         let(:attribution) { nil }
 
         it 'does not have an attribution' do
-          expect(rendered).not_to have_css('.memory p#memory-attribution')
+          expect(rendered).not_to have_css('.memory p#memory-attribution', text: 'Author or artist:')
         end
       end
 

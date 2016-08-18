@@ -6,6 +6,7 @@
       <p class="username">
         <%= user == current_user ? 'You' : user.screen_name %>
       </p>
+      <p class="user-profile__screen-name hidden"><%= user.screen_name %></p>
     </div>
   <% end -%>
 </div>

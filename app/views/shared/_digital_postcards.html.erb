@@ -1,0 +1,43 @@
+<% content_for :stylesheets do %>
+  <link rel="stylesheet" type="text/css" href="//edinburghdigitalpostcards.org/css/postcard.css" />
+<% end %>
+
+<% content_for :script_tags do %>
+  <script type="text/javascript" src="//edinburghdigitalpostcards.org/js/postcard.js"></script>
+<% end %>
+
+<% content_for :modals do %>
+  <div id="mail_popup"></div>
+<% end %>
+
+<% content_for :script_tags do %>
+  <script>
+   /**
+    * Digital Postcards module
+    */
+
+    $(document).ready(function () {
+
+      // initialise the postcard module
+      $('#mail_popup').postcard({
+        api_post_url: "//edinburghdigitalpostcards.org/api/1/postcard",
+        tmpl_url: "//edinburghdigitalpostcards.org/js/postcard.tmpl",
+        // placeholder poscard details
+        title: $('.memory .title').text().substring(0, 100),
+        short_desc: $('.memory .subtitle').text().substring(0, 100),
+        long_desc: $('#memory-short-description').text(),
+        image: $('#image img').attr("src"),
+        image_attribution: 'Image by ' + $('.user-profile__screen-name').text(),
+        stamp: "<%= image_url('ec-stamp.png') %>",
+        redirect_timeout: false
+      });
+
+      $('#postcard-link').on('click', function (e) {
+        e.preventDefault();
+        $('#mail_popup').postcard('open');
+      });
+    });
+  </script>
+<% end %>
+
+<%= link_to "Send postcard", "#", class: "button scrapbooks float-right hide-ie9 hide-mobile", id: 'postcard-link' %>
