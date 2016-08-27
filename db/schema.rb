@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20160311113344) do
   enable_extension "plpgsql"
   enable_extension "unaccent"
 
-  create_table "areas", force: true do |t|
+  create_table "areas", force: :cascade do |t|
     t.string   "name",       null: false
     t.float    "latitude",   null: false
     t.float    "longitude",  null: false
@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20160311113344) do
 
   add_index "areas", ["name"], name: "index_areas_on_name", using: :btree
 
-  create_table "categories", force: true do |t|
+  create_table "categories", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -37,12 +37,12 @@ ActiveRecord::Schema.define(version: 20160311113344) do
 
   add_index "categories", ["name"], name: "index_categories_on_name", using: :btree
 
-  create_table "categories_memories", force: true do |t|
+  create_table "categories_memories", force: :cascade do |t|
     t.integer "category_id"
     t.integer "memory_id"
   end
 
-  create_table "home_pages", force: true do |t|
+  create_table "home_pages", force: :cascade do |t|
     t.integer  "featured_memory_id",                            null: false
     t.integer  "featured_scrapbook_id",                         null: false
     t.string   "featured_scrapbook_memory_ids",                 null: false
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 20160311113344) do
     t.string   "hero_image"
   end
 
-  create_table "links", force: true do |t|
+  create_table "links", force: :cascade do |t|
     t.string   "name"
     t.string   "url"
     t.integer  "user_id"
@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20160311113344) do
     t.datetime "updated_at"
   end
 
-  create_table "memories", force: true do |t|
+  create_table "memories", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "title"
     t.string   "type"
@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 20160311113344) do
     t.integer  "moderated_by_id"
   end
 
-  create_table "moderation_logs", force: true do |t|
+  create_table "moderation_logs", force: :cascade do |t|
     t.integer  "moderatable_id",   null: false
     t.string   "moderatable_type", null: false
     t.string   "from_state",       null: false
@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(version: 20160311113344) do
     t.integer  "moderated_by_id"
   end
 
-  create_table "scrapbook_memories", force: true do |t|
+  create_table "scrapbook_memories", force: :cascade do |t|
     t.integer  "scrapbook_id"
     t.integer  "memory_id"
     t.datetime "created_at"
@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 20160311113344) do
   add_index "scrapbook_memories", ["memory_id"], name: "index_scrapbook_memories_on_memory_id", using: :btree
   add_index "scrapbook_memories", ["scrapbook_id"], name: "index_scrapbook_memories_on_scrapbook_id", using: :btree
 
-  create_table "scrapbooks", force: true do |t|
+  create_table "scrapbooks", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "title",             null: false
     t.text     "description"
@@ -118,7 +118,7 @@ ActiveRecord::Schema.define(version: 20160311113344) do
 
   add_index "scrapbooks", ["user_id"], name: "index_scrapbooks_on_user_id", using: :btree
 
-  create_table "taggings", force: true do |t|
+  create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
     t.integer  "memory_id"
     t.datetime "created_at"
@@ -128,7 +128,7 @@ ActiveRecord::Schema.define(version: 20160311113344) do
   add_index "taggings", ["memory_id"], name: "index_taggings_on_memory_id", using: :btree
   add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
 
-  create_table "tags", force: true do |t|
+  create_table "tags", force: :cascade do |t|
     t.string   "name",       null: false
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -136,13 +136,13 @@ ActiveRecord::Schema.define(version: 20160311113344) do
 
   add_index "tags", ["name"], name: "index_tags_on_name", using: :btree
 
-  create_table "temp_images", force: true do |t|
+  create_table "temp_images", force: :cascade do |t|
     t.string   "file"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "first_name",                                      null: false
     t.string   "last_name"
     t.string   "email",                                           null: false
