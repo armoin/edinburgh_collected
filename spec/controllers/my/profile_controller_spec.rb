@@ -153,5 +153,40 @@ describe My::ProfileController do
       end
     end
   end
+
+  describe 'DELETE destroy' do
+    describe 'ensure user is logged in' do
+      before :each do
+        delete :destroy, format: format
+      end
+
+      it_behaves_like 'requires logged in user'
+    end
+
+    context 'when logged in' do
+      before :each do
+        @user = Fabricate.build(:user, id: 123)
+        login_user
+        allow(@user).to receive(:mark_deleted!)
+        delete :destroy
+      end
+
+      it 'assigns the current user' do
+        expect(assigns[:user]).to eql(@user)
+      end
+
+      it 'marks the current user as deleted' do
+        expect(@user).to have_received(:mark_deleted!).with(@user)
+      end
+
+      it 'redirects to the root page' do
+        expect(response).to redirect_to(:root)
+      end
+
+      it 'displays a flash message' do
+        expect(flash[:notice]).to eql('Your account has now been deleted.')
+      end
+    end
+  end
 end
 

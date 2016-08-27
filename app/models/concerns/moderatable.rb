@@ -43,6 +43,10 @@ module Moderatable
       in_state('blocked')
     end
 
+    def deleted
+      in_state('deleted')
+    end
+
     def publicly_visible
       if name == 'User'
         where(publicly_visible_sql)
@@ -76,6 +80,10 @@ module Moderatable
     update_state!('blocked', blocked_by)
   end
 
+  def mark_deleted!(deleted_by)
+    update_state!('deleted', deleted_by)
+  end
+
   def report!(reported_by, comment='')
     update_state!('reported', reported_by, comment)
   end
@@ -98,6 +106,10 @@ module Moderatable
 
   def blocked?
     moderation_state == 'blocked'
+  end
+
+  def deleted?
+    moderation_state == 'deleted'
   end
 
   def rejected?

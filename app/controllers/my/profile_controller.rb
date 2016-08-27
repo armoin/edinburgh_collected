@@ -19,6 +19,11 @@ class My::ProfileController < My::AuthenticatedUserController
     end
   end
 
+  def destroy
+    current_user.mark_deleted!(current_user)
+    redirect_to :root, notice: 'Your account has now been deleted.'
+  end
+
   private
 
   def assign_current_user

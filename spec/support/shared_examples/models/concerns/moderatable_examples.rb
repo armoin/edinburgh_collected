@@ -72,6 +72,7 @@ RSpec.shared_examples 'moderatable' do
       @reported       = Fabricate(moderatable_factory, user: owner, moderation_state: 'reported', moderation_reason: 'test')
 
       @blocked  = Fabricate(moderatable_factory, moderation_state: 'blocked')
+      @deleted  = Fabricate(moderatable_factory, moderation_state: 'deleted')
       @rejected = Fabricate(moderatable_factory, moderation_state: 'rejected', moderation_reason: 'test')
     end
 
@@ -82,6 +83,7 @@ RSpec.shared_examples 'moderatable' do
         expect(moderatable_model.in_state('rejected').count).to eql(1)
         expect(moderatable_model.in_state('reported').count).to eql(1)
         expect(moderatable_model.in_state('blocked').count).to eql(1)
+        expect(moderatable_model.in_state('deleted').count).to eql(1)
       end
 
       it 'returns no records if there are none in the given state' do
@@ -92,12 +94,13 @@ RSpec.shared_examples 'moderatable' do
     describe '.moderated' do
       it 'returns all records that are not unmoderated' do
         moderated_records = moderatable_model.moderated
-        expect(moderated_records.count).to eql(5)
+        expect(moderated_records.count).to eql(6)
         expect(moderated_records).to include(@approved_owner)
         expect(moderated_records).to include(@approved_other)
         expect(moderated_records).to include(@rejected)
         expect(moderated_records).to include(@reported)
         expect(moderated_records).to include(@blocked)
+        expect(moderated_records).to include(@deleted)
       end
     end
 
@@ -134,6 +137,14 @@ RSpec.shared_examples 'moderatable' do
       end
     end
 
+    describe '.deleted' do
+      it 'returns just the deleted record' do
+        deleted_records = moderatable_model.deleted
+        expect(deleted_records.count).to eql(1)
+        expect(deleted_records).to include(@deleted)
+      end
+    end
+
     describe '.publicly_visible' do
       context 'when owner is pending' do
         let(:owner) { Fabricate(:pending_user) }
@@ -160,6 +171,17 @@ RSpec.shared_examples 'moderatable' do
 
         context 'but blocked' do
           let(:owner) { Fabricate(:blocked_user) }
+
+          it 'returns no records for owner' do
+            publicly_visible_records = moderatable_model.publicly_visible
+            expect(publicly_visible_records.count).to eql(1)
+            expect(publicly_visible_records).to include(@approved_other)
+            expect(publicly_visible_records).not_to include(@approved_owner)
+          end
+        end
+
+        context 'but deleted' do
+          let(:owner) { Fabricate(:deleted_user) }
 
           it 'returns no records for owner' do
             publicly_visible_records = moderatable_model.publicly_visible
@@ -368,6 +390,13 @@ RSpec.shared_examples 'moderatable' do
           end
         end
 
+        context 'and moderatable is deleted' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'deleted'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+
         context 'and moderatable is rejected' do
           it 'is not publicly visible' do
             moderatable_instance.moderation_state = 'rejected'
@@ -403,6 +432,13 @@ RSpec.shared_examples 'moderatable' do
         context 'and moderatable is blocked' do
           it 'is not publicly visible' do
             moderatable_instance.moderation_state = 'blocked'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+
+        context 'and moderatable is deleted' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'deleted'
             expect(moderatable_instance.publicly_visible?).to be_falsy
           end
         end
@@ -444,6 +480,18 @@ RSpec.shared_examples 'moderatable' do
       it 'is true when blocked' do
         moderatable_instance.block!(moderated_by)
         expect(moderatable_instance.blocked?).to be_truthy
+      end
+    end
+
+    describe "#deleted?" do
+      it 'is false when not deleted' do
+        moderatable_instance.approve!(moderated_by)
+        expect(moderatable_instance.deleted?).to be_falsy
+      end
+
+      it 'is true when deleted' do
+        moderatable_instance.mark_deleted!(moderated_by)
+        expect(moderatable_instance.deleted?).to be_truthy
       end
     end
 

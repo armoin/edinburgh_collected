@@ -70,6 +70,7 @@ RSpec.shared_examples 'a moderatable user' do
       @reported      = Fabricate(moderatable_factory, moderation_state: 'reported', moderation_reason: 'test')
 
       @blocked       = Fabricate(moderatable_factory, moderation_state: 'blocked')
+      @deleted       = Fabricate(moderatable_factory, moderation_state: 'deleted')
       @rejected      = Fabricate(moderatable_factory, moderation_state: 'rejected', moderation_reason: 'test')
     end
 
@@ -80,6 +81,7 @@ RSpec.shared_examples 'a moderatable user' do
         expect(moderatable_model.in_state('rejected').count).to eql(1)
         expect(moderatable_model.in_state('reported').count).to eql(1)
         expect(moderatable_model.in_state('blocked').count).to eql(1)
+        expect(moderatable_model.in_state('deleted').count).to eql(1)
       end
 
       it 'returns no records if there are none in the given state' do
@@ -90,11 +92,12 @@ RSpec.shared_examples 'a moderatable user' do
     describe '.moderated' do
       it 'returns all records that are not unmoderated' do
         moderated_records = moderatable_model.moderated
-        expect(moderated_records.count).to eql(4)
+        expect(moderated_records.count).to eql(5)
         expect(moderated_records).to include(@approved)
         expect(moderated_records).to include(@rejected)
         expect(moderated_records).to include(@reported)
         expect(moderated_records).to include(@blocked)
+        expect(moderated_records).to include(@deleted)
       end
     end
 
@@ -131,6 +134,14 @@ RSpec.shared_examples 'a moderatable user' do
       end
     end
 
+    describe '.deleted' do
+      it 'only returns deleted records' do
+        deleted_records = moderatable_model.deleted
+        expect(deleted_records.count).to eql(1)
+        expect(deleted_records).to include(@deleted)
+      end
+    end
+
     describe '.publicly_visible' do
       context 'when user is unmoderated' do
         it 'does not return inactive users' do
@@ -155,6 +166,20 @@ RSpec.shared_examples 'a moderatable user' do
 
         it 'does not return active users' do
           @blocked.update_attribute(:activation_state, 'active')
+          publicly_visible_records = moderatable_model.publicly_visible
+          expect(publicly_visible_records.count).to eql(0)
+        end
+      end
+
+      context 'when user is deleted' do
+        it 'does not return inactive users' do
+          @deleted.update_attribute(:activation_state, 'pending')
+          publicly_visible_records = moderatable_model.publicly_visible
+          expect(publicly_visible_records.count).to eql(0)
+        end
+
+        it 'does not return active users' do
+          @deleted.update_attribute(:activation_state, 'active')
           publicly_visible_records = moderatable_model.publicly_visible
           expect(publicly_visible_records.count).to eql(0)
         end
@@ -255,6 +280,30 @@ RSpec.shared_examples 'a moderatable user' do
       end
     end
 
+    describe "#mark_deleted!" do
+      it "changes the moderation state to 'deleted'" do
+        moderatable_instance.mark_deleted!(moderated_by)
+        expect(moderatable_instance.moderation_state).to eql('deleted')
+      end
+
+      it "adds the given user as the moderated by user" do
+        moderatable_instance.mark_deleted!(moderated_by)
+        expect(moderatable_instance.moderated_by).to eql(moderated_by)
+      end
+
+      it "adds a last_moderated_at date" do
+        expect{
+          moderatable_instance.mark_deleted!(moderated_by)
+        }.to change{ moderatable_instance.last_moderated_at }
+      end
+
+      it "adds a moderation record to track the moderation" do
+        expect {
+          moderatable_instance.mark_deleted!(moderated_by)
+        }.to change{moderatable_instance.moderation_logs.count}.by(1)
+      end
+    end
+
     describe "#report!" do
       it "changes the moderation state to 'reported'" do
         moderatable_instance.report!(moderated_by, 'I am offended!')
@@ -351,6 +400,13 @@ RSpec.shared_examples 'a moderatable user' do
           end
         end
 
+        context 'and deleted' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'deleted'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+
         context 'and reported' do
           it 'is not publicly visible' do
             moderatable_instance.moderation_state = 'reported'
@@ -390,6 +446,13 @@ RSpec.shared_examples 'a moderatable user' do
           end
         end
 
+        context 'and deleted' do
+          it 'is not publicly visible' do
+            moderatable_instance.moderation_state = 'deleted'
+            expect(moderatable_instance.publicly_visible?).to be_falsy
+          end
+        end
+
         context 'and reported' do
           it 'is publicly visible' do
             moderatable_instance.moderation_state = 'reported'
@@ -420,6 +483,18 @@ RSpec.shared_examples 'a moderatable user' do
       it 'is true when blocked' do
         moderatable_instance.block!(moderated_by)
         expect(moderatable_instance.blocked?).to be_truthy
+      end
+    end
+
+    describe "#deleted?" do
+      it 'is false when not deleted' do
+        moderatable_instance.approve!(moderated_by)
+        expect(moderatable_instance.deleted?).to be_falsy
+      end
+
+      it 'is true when deleted' do
+        moderatable_instance.mark_deleted!(moderated_by)
+        expect(moderatable_instance.deleted?).to be_truthy
       end
     end
   end
