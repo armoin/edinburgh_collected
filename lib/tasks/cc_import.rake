@@ -1,3 +1,4 @@
+# IDs = [4257]
 IDs = [
   7504, 4984, 7501, 11134, 1168, 1477, 29112, 24301, 22814, 22819, 21926, 21285,
   21280, 20922, 20850, 20831, 20757, 17236, 17226, 17180, 1167, 12399, 2433, 3071,
@@ -31,7 +32,7 @@ class CCAsset
   private
 
   def conn
-    c = Faraday.new(:url => "http://www.capitalcollections.org.uk") do |faraday|
+    c = Faraday.new(:url => "https://www.capitalcollections.org.uk") do |faraday|
       faraday.request  :url_encoded
       faraday.adapter  Faraday.default_adapter
     end
