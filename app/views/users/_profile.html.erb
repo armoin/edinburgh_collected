@@ -1,15 +1,15 @@
-<div class="profile">
-  <div class="profile__container col-sm-6">
-    <div class="profile__panel">
-      <div class="profile__avatar">
+<div class="user-profile">
+  <div class="user-profile__container col-sm-6">
+    <div class="user-profile__panel">
+      <div class="user-profile__avatar">
         <%= image_tag user.avatar_url %>
       </div>
-      <div class="profile__header">
-        <h1 class="profile__username">
+      <div class="user-profile__header">
+        <h1 class="user-profile__username">
           <%= user.screen_name %>
         </h1>
         <% if show_actions %>
-          <div class="profile__actions">
+          <div class="user-profile__actions">
             <%= link_to 'Edit profile',
                         my_profile_edit_path,
                         class: 'button--new button--small button--primary' %>
@@ -24,40 +24,40 @@
         <% end %>
       </div>
     </div>
-    <div class="profile__panel">
-      <div class="profile__details highlight_links">
-        <ul class="profile__details-list">
-          <li class="profile__details-list__item">
-            <div class="profile__details-list__item--title"><%= user_name_label(user) %>:</div>
-            <div class="profile__details-list__item--value"><%= user.first_name %></div>
+    <div class="user-profile__panel">
+      <div class="user-profile__details highlight_links">
+        <ul class="user-profile__details-list">
+          <li class="user-profile__details-list__item">
+            <div class="user-profile__details-list__item--title"><%= user_name_label(user) %>:</div>
+            <div class="user-profile__details-list__item--value"><%= user.first_name %></div>
           </li>
 
           <% unless user.is_group? %>
-            <li class="profile__details-list__item">
-              <div class="profile__details-list__item--title">Last name:</div>
-              <div class="profile__details-list__item--value"><%= user.last_name %></div>
+            <li class="user-profile__details-list__item">
+              <div class="user-profile__details-list__item--title">Last name:</div>
+              <div class="user-profile__details-list__item--value"><%= user.last_name %></div>
             </li>
           <% end %>
 
-          <li class="profile__details-list__item">
-            <div class="profile__details-list__item--title">Email:</div>
-            <div class="profile__details-list__item--value"><%= user.email %></div>
+          <li class="user-profile__details-list__item">
+            <div class="user-profile__details-list__item--title">Email:</div>
+            <div class="user-profile__details-list__item--value"><%= user.email %></div>
           </li>
 
-          <li class="profile__details-list__item">
-            <div class="profile__details-list__item--title">Bio:</div>
-            <div class="profile__details-list__item--value"><%= user.description %></div>
+          <li class="user-profile__details-list__item">
+            <div class="user-profile__details-list__item--title">Bio:</div>
+            <div class="user-profile__details-list__item--value"><%= user.description %></div>
           </li>
 
-          <li class="profile__details-list__item">
-            <div class="profile__details-list__item--title">Links:</div>
+          <li class="user-profile__details-list__item">
+            <div class="user-profile__details-list__item--title">Links:</div>
             <%= render partial: 'users/links', locals: {requested_user: user} %>
           </li>
         </ul>
       </div>
     </div>
   </div>
-  <div class="profile__info col-sm-6">
+  <div class="user-profile__info col-sm-6">
     <!-- left intentionally blank -->
   </div>
 </div>
