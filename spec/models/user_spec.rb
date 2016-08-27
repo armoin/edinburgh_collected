@@ -629,7 +629,7 @@ describe User do
   describe '#access_denied?' do
     subject { Fabricate.build(:active_user, moderation_state: moderation_state) }
 
-    context 'when user is not blocked' do
+    context 'when user is not blocked or deleted' do
       let(:moderation_state) { 'approved' }
 
       it 'is false' do
@@ -644,12 +644,35 @@ describe User do
         expect(subject.access_denied?).to be_truthy
       end
     end
+
+    context 'when the user is deleted' do
+      let(:moderation_state) { 'deleted' }
+
+      it 'is true' do
+        expect(subject.access_denied?).to be_truthy
+      end
+    end
   end
 
   describe '#access_denied_reason' do
-    it 'provides the access denied reason' do
-      expected = 'Your account has been blocked. Please contact us if you would like more information.'
-      expect(subject.access_denied_reason).to eql(expected)
+    subject { Fabricate.build(:active_user, moderation_state: moderation_state) }
+
+    context 'when the user has been blocked' do
+      let(:moderation_state) { 'blocked' }
+
+      it 'provides the access denied reason' do
+        expected = 'Your account has been blocked. Please contact us if you would like more information.'
+        expect(subject.access_denied_reason).to eql(expected)
+      end
+    end
+
+    context 'when the user has been deleted' do
+      let(:moderation_state) { 'deleted' }
+
+      it 'provides the access denied reason' do
+        expected = 'Your account has been deleted. Please contact us if this is an error.'
+        expect(subject.access_denied_reason).to eql(expected)
+      end
     end
   end
 end

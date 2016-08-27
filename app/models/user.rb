@@ -76,11 +76,16 @@ class User < ActiveRecord::Base
   end
 
   def access_denied?
-    blocked?
+    blocked? || deleted?
   end
 
   def access_denied_reason
-    'Your account has been blocked. Please contact us if you would like more information.'
+    case moderation_state
+    when 'blocked'
+      'Your account has been blocked. Please contact us if you would like more information.'
+    when 'deleted'
+      'Your account has been deleted. Please contact us if this is an error.'
+    end
   end
 
   private
