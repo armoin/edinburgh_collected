@@ -164,10 +164,13 @@ describe My::ProfileController do
     end
 
     context 'when logged in' do
+      let(:featured) { false }
+
       before :each do
         @user = Fabricate.build(:user, id: 123)
         login_user
         allow(@user).to receive(:mark_deleted!)
+        allow(@user).to receive(:featured?).and_return(featured)
         delete :destroy
       end
 
@@ -175,16 +178,32 @@ describe My::ProfileController do
         expect(assigns[:user]).to eql(@user)
       end
 
-      it 'marks the current user as deleted' do
-        expect(@user).to have_received(:mark_deleted!).with(@user)
+      context 'when the current user is not featured' do
+        let(:featured) { false }
+
+        it 'marks the current user as deleted' do
+          expect(@user).to have_received(:mark_deleted!).with(@user)
+        end
+
+        it 'redirects to the root page' do
+          expect(response).to redirect_to(:root)
+        end
       end
 
-      it 'redirects to the root page' do
-        expect(response).to redirect_to(:root)
-      end
+      context 'when the current user is featured' do
+        let(:featured) { true }
 
-      it 'displays a flash message' do
-        expect(flash[:notice]).to eql('Your account has now been deleted.')
+        it 'does not mark the current user as deleted' do
+          expect(@user).not_to have_received(:mark_deleted!)
+        end
+
+        it 're-renders the profile page' do
+          expect(response).to render_template(:show)
+        end
+
+        it 'displays a flash message' do
+          expect(flash[:alert]).to eql('Sorry but an item you own is currently being featured on the home page. Please contact us if you wish to delete your account.')
+        end
       end
     end
   end

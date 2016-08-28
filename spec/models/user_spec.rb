@@ -675,4 +675,63 @@ describe User do
       end
     end
   end
+
+  describe '#featured?' do
+    subject { Fabricate.build(:user, id: 123) }
+
+    before do
+      allow(HomePage).to receive(:published).and_return(published_home_pages)
+    end
+
+    context 'when there is no home_page' do
+      let(:published_home_pages) { [] }
+
+      it 'is false' do
+        expect(subject.featured?).to be false
+      end
+    end
+
+    context 'when there is a home_page' do
+      let(:home_page) { Fabricate.build(:home_page) }
+      let(:published_home_pages) { [home_page] }
+
+      let(:user_memory) { Fabricate.build(:photo_memory, user: subject) }
+      let(:user_scrapbook) { Fabricate.build(:scrapbook, user: subject) }
+
+      context 'and the user has no featured items' do
+        it 'is false' do
+          expect(subject.featured?).to be false
+        end
+      end
+
+      context 'and the user has a featured memory' do
+        before do
+          allow(home_page).to receive(:featured_memory).and_return(user_memory)
+        end
+
+        it 'is true' do
+          expect(subject.featured?).to be true
+        end
+      end
+
+      context 'and the user has a featured scrapbook' do
+        before do
+          allow(home_page).to receive(:featured_scrapbook).and_return(user_scrapbook)
+        end
+
+        it 'is true' do
+          expect(subject.featured?).to be true
+        end
+      end
+
+      context 'and the user has a memory in the featured scrapbook' do
+        it 'is true' do
+          user_sbm = Fabricate(:scrapbook_memory, memory: user_memory)
+          other_sbms = Fabricate.times(3, :scrapbook_memory)
+          home_page.featured_scrapbook_memory_ids = [user_sbm.id, other_sbms.map(&:id)].flatten.join(',')
+          expect(subject.featured?).to be true
+        end
+      end
+    end
+  end
 end
