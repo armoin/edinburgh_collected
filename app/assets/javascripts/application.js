@@ -58,3 +58,9 @@
 //= require uploaded_image_editor
 //= require utilities
 //= require validation
+
+$(document).ready(function () {
+  $('body').on('click', '.flashes .close', function (e) {
+    FlashManager.close(e.currentTarget);
+  })
+})
