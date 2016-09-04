@@ -54,6 +54,8 @@ group :development, :test do
   gem 'rspec-rails',                '~> 3.4.2'
   gem 'shoulda-matchers',           '~> 3.1.1'
   gem 'timecop',                    '~> 0.8.1'
+  gem 'konacha',                    '~> 4.0.0'
+  gem 'konacha-chai-matchers',      '~> 1.0.1'
 end
 
 group :test do
