@@ -21,9 +21,10 @@
         <%= link_to "Add to scrapbook +", '#', class: "button scrapbooks float-right", data: {memory_id: @memory.id, memory_title: @memory.title, toggle: 'modal', target: '#add-to-scrapbook-modal'} %>
       <% end -%>
 
-      <% if @memory.photo? %>
-        <%= render partial: 'shared/digital_postcards' %>
-      <% end %>
+      <%# don't show Digital Postcards until further notice %>
+      <%# if @memory.photo? %>
+        <%#= render partial: 'shared/digital_postcards' %>
+      <%# end %>
     </div>
     <%= render 'shared/featured_notice', featurable: @memory, featurable_name: 'memory' %>
   </header>

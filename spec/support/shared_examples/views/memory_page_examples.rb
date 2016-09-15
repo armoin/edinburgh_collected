@@ -63,8 +63,9 @@ RSpec.shared_examples 'a memory page' do
         expect(rendered).not_to have_link('Add to scrapbook +')
       end
 
-      it 'shows the "Send postcard" button' do
-        expect(rendered).to have_link('Send postcard')
+      # temporarily turn off digital postcards
+      it 'does not show the "Send postcard" button' do
+        expect(rendered).not_to have_link('Send postcard')
       end
     end
 
@@ -122,8 +123,9 @@ RSpec.shared_examples 'a memory page' do
           end
         end
 
-        it 'shows the "Send postcard" button' do
-          expect(rendered).to have_link('Send postcard')
+        # temporarily turn off digital postcards
+        it 'does not show the "Send postcard" button' do
+          expect(rendered).not_to have_link('Send postcard')
         end
       end
 
@@ -146,8 +148,9 @@ RSpec.shared_examples 'a memory page' do
           expect(rendered).to have_link('Add to scrapbook +')
         end
 
-        it 'shows the "Send postcard" button' do
-          expect(rendered).to have_link('Send postcard')
+        # temporarily turn off digital postcards
+        it 'does not show the "Send postcard" button' do
+          expect(rendered).not_to have_link('Send postcard')
         end
       end
     end
