@@ -18,6 +18,10 @@ describe('flash_manager', function () {
     expect($('.notice.second')).to.be.visible
   })
 
+  afterEach(function () {
+    $('body').html('')
+  })
+
   describe('when the close button is clicked', function () {
     beforeEach(function () {
       $('.first .close').trigger('click')
