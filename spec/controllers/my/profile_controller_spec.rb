@@ -171,38 +171,55 @@ describe My::ProfileController do
         login_user
         allow(@user).to receive(:mark_deleted!)
         allow(@user).to receive(:featured?).and_return(featured)
-        delete :destroy
+        delete :destroy, user: user_params
       end
 
-      it 'assigns the current user' do
-        expect(assigns[:user]).to eql(@user)
-      end
+      context 'when user has not ticked the understood option' do
+        let(:user_params) { { account_will_be_deleted: '' } }
 
-      context 'when the current user is not featured' do
-        let(:featured) { false }
-
-        it 'marks the current user as deleted' do
-          expect(@user).to have_received(:mark_deleted!).with(@user)
-        end
-
-        it 'redirects to the root page' do
-          expect(response).to redirect_to(:root)
-        end
-      end
-
-      context 'when the current user is featured' do
-        let(:featured) { true }
-
-        it 'does not mark the current user as deleted' do
-          expect(@user).not_to have_received(:mark_deleted!)
-        end
-
-        it 're-renders the profile page' do
+        it 'renders the profile page again' do
           expect(response).to render_template(:show)
         end
 
-        it 'displays a flash message' do
-          expect(flash[:alert]).to eql('Sorry but an item you own is currently being featured on the home page. Please contact us if you wish to delete your account.')
+        it 'shows an alert explaining to the user that the need to click the understood box' do
+          expected_message = "We couldn't delete your account because you didn't click the understood box"
+          expect(flash[:alert]).to eql(expected_message)
+        end
+      end
+
+      context 'when user has ticked the understood option' do
+        let(:user_params) { { account_will_be_deleted: 'understood' } }
+
+        it 'assigns the current user' do
+          expect(assigns[:user]).to eql(@user)
+        end
+
+        context 'when the current user is not featured' do
+          let(:featured) { false }
+
+          it 'marks the current user as deleted' do
+            expect(@user).to have_received(:mark_deleted!).with(@user)
+          end
+
+          it 'redirects to the root page' do
+            expect(response).to redirect_to(:root)
+          end
+        end
+
+        context 'when the current user is featured' do
+          let(:featured) { true }
+
+          it 'does not mark the current user as deleted' do
+            expect(@user).not_to have_received(:mark_deleted!)
+          end
+
+          it 're-renders the profile page' do
+            expect(response).to render_template(:show)
+          end
+
+          it 'displays a flash message' do
+            expect(flash[:alert]).to eql('Sorry but an item you own is currently being featured on the home page. Please contact us if you wish to delete your account.')
+          end
         end
       end
     end

@@ -12,6 +12,9 @@
     cursor: pointer
     text-decoration: none
 
+  &:focus
+    outline: none
+
   &:active
     position: relative
     text-decoration: none
@@ -81,3 +84,15 @@
 
     &[disabled]
       background-color: darken( $green, 10% )
+
+.button--pull-left
+  float: left
+
+.button--pull-right
+  float: right
+  margin-left: 0.25em
+
+@media screen and (max-width: 420px)
+  .button--full-width-mobile
+    width: 100%
+    text-align: center

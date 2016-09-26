@@ -16,7 +16,7 @@ describe 'my/profile/show.html.erb' do
     end
 
     it 'has a Delete link' do
-      expect(rendered).to have_link('Delete account', href: my_profile_path)
+      expect(rendered).to have_link('Delete account')
     end
 
     describe 'admin actions' do

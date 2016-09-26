@@ -14,12 +14,12 @@
                         my_profile_edit_path,
                         class: 'button--new button--small button--primary' %>
             <%= link_to 'Delete account',
-                        my_profile_path,
+                        '#',
                         class: 'button--new button--small button--danger',
-                        method: :delete,
-                        data: {
-                          confirm: 'This will delete your account and all its associated content. Are you sure?'
-                        } %>
+                        data: { toggle: 'modal', target: '#delete-account-modal' } %>
+            <% content_for :modals do %>
+              <%= render partial: 'my/profile/delete_account' %>
+            <% end %>
           </div>
         <% end %>
       </div>
