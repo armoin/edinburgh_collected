@@ -13,9 +13,9 @@
           <%= form_tag my_profile_path, method: :delete, data: { delete_account_form: true } do %>
             <div class="delete-account__check">
               <%= hidden_field_tag 'user[account_will_be_deleted]', '' %>
+              <%= check_box_tag 'user[account_will_be_deleted]', 'understood', false, class: 'delete-account__check-box' %>
               <%= label_tag 'user[account_will_be_deleted]', class: 'delete-account__check-label' do %>
-                <%= check_box_tag 'user[account_will_be_deleted]', 'understood', false, class: 'delete-account__check-box' %>
-                Please tick to show that you understand the repercussions of deleting your account.
+                I understand the repercussions of deleting my account.
               <% end %>
             </div>
             <%= submit_tag 'Delete account',
