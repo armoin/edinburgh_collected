@@ -10,7 +10,7 @@
       </div>
       <div class="modal-footer">
         <div class="actions">
-          <%= form_tag my_profile_path, method: :delete do %>
+          <%= form_tag my_profile_path, method: :delete, data: { delete_account_form: true } do %>
             <div class="delete-account__check">
               <%= hidden_field_tag 'user[account_will_be_deleted]', '' %>
               <%= label_tag 'user[account_will_be_deleted]', class: 'delete-account__check-label' do %>

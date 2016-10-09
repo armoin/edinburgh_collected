@@ -46,6 +46,7 @@
 //
 //= require add_to_scrapbook_controller
 //= require create_scrapbook_controller
+//= require delete_user
 //= require feature_switch
 //= require flash_manager
 //= require image_editor
