@@ -25,9 +25,17 @@ class My::ProfileController < My::AuthenticatedUserController
         flash[:alert] = "We couldn't delete your account because you didn't click the understood box"
         render :show and return
       when current_user.featured?
-        alert_message = 'Sorry but an item you own is currently being featured on the home page.'
-        alert_message << ' Please contact us if you wish to delete your account.'
-        flash[:alert] = alert_message
+
+        alert_message = %Q[
+          Sorry, but one of your memories or scrapbooks is currently featured
+          on the #{APP_NAME} home page.
+          <br />
+          <br />
+          Please contact us at
+          #{view_context.mail_to(CONTACT_EMAIL)}
+          to delete your account.
+        ]
+        flash[:alert] = alert_message.html_safe
         render :show and return
       else
         current_user.mark_deleted!(current_user)

@@ -5,8 +5,8 @@
         <h4 class="modal-title">Are you sure?</h4>
       </div>
       <div class="modal-body">
-        <p>Deleting your account is a permanent action and cannot be recovered from.</p>
-        <p>If you choose to delete your account all memories and scrapbooks that you have created will also be deleted.</p>
+        <p>Deleting your account is a permanent action and cannot be reversed.</p>
+        <p>If you delete your account all the memories you’ve added and any scrapbooks you’ve created will also be deleted.</p>
       </div>
       <div class="modal-footer">
         <div class="actions">
@@ -15,7 +15,7 @@
               <%= hidden_field_tag 'user[account_will_be_deleted]', '' %>
               <%= check_box_tag 'user[account_will_be_deleted]', 'understood', false, class: 'delete-account__check-box' %>
               <%= label_tag 'user[account_will_be_deleted]', class: 'delete-account__check-label' do %>
-                I understand the repercussions of deleting my account.
+                I understand the consequences of deleting my account.
               <% end %>
             </div>
             <%= submit_tag 'Delete account',

@@ -218,7 +218,15 @@ describe My::ProfileController do
           end
 
           it 'displays a flash message' do
-            expect(flash[:alert]).to eql('Sorry but an item you own is currently being featured on the home page. Please contact us if you wish to delete your account.')
+            expect(flash[:alert]).to eql(%Q[
+          Sorry, but one of your memories or scrapbooks is currently featured
+          on the #{APP_NAME} home page.
+          <br />
+          <br />
+          Please contact us at
+          <a href="mailto:#{CONTACT_EMAIL}">#{CONTACT_EMAIL}</a>
+          to delete your account.
+        ])
           end
         end
       end
