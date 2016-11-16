@@ -15,6 +15,10 @@ describe 'my/profile/show.html.erb' do
       expect(rendered).to have_link('Edit', href: my_profile_edit_path)
     end
 
+    it 'has a Delete link' do
+      expect(rendered).to have_link('Delete account')
+    end
+
     describe 'admin actions' do
       context 'when the user is not blocked' do
         let(:requested_user) { Fabricate.build(:active_user, id: 123) }

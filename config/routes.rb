@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     get '/profile' => 'profile#show'
     get '/profile/edit' => 'profile#edit'
     patch '/profile' => 'profile#update'
+    delete '/profile' => 'profile#destroy'
   end
 
   resources :memories do

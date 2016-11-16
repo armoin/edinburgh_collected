@@ -9,26 +9,28 @@ RSpec.shared_examples 'a user profile' do
   end
 
   it 'shows the avatar' do
-    expect(rendered).to have_css('.userAvatar img')
+    expect(rendered).to have_css('.user-profile__avatar img')
   end
 
   it 'shows the username' do
-    expect(rendered).to have_css('h1.title', text: user.screen_name)
+    expect(rendered).to have_css('.user-profile__username', text: user.screen_name)
   end
 
   context 'when the user is an individual' do
     let(:is_group) { false }
 
     it 'shows the first name' do
-      expect(rendered).to have_css('p', text: "First name: #{user.first_name}")
+      expect(rendered).to have_css('.user-profile__details-list__item--title', text: 'First name:')
+      expect(rendered).to have_css('.user-profile__details-list__item--value', text: user.first_name)
     end
 
     it 'shows the last name' do
-      expect(rendered).to have_css('p', text: "Last name: #{user.last_name}")
+      expect(rendered).to have_css('.user-profile__details-list__item--title', text: 'Last name:')
+      expect(rendered).to have_css('.user-profile__details-list__item--value', text: user.last_name)
     end
 
     it 'does not show the group name' do
-      expect(rendered).not_to have_css('p', text: "Group name: #{user.first_name}")
+      expect(rendered).not_to have_css('.user-profile__details-list__item--title', text: 'Group name:')
     end
   end
 
@@ -36,25 +38,27 @@ RSpec.shared_examples 'a user profile' do
     let(:is_group) { true }
 
     it 'does not show the first name' do
-      expect(rendered).not_to have_css('p', text: "First name: #{user.first_name}")
+      expect(rendered).not_to have_css('.user-profile__details-list__item--title', text: 'First name:')
     end
 
     it 'does not show the last name' do
-      expect(rendered).not_to have_css('p', text: "Last name: #{user.last_name}")
+      expect(rendered).not_to have_css('.user-profile__details-list__item--title', text: 'Last name:')
     end
 
     it 'shows the group name' do
-      expect(rendered).to have_css('p', text: "Group name: #{user.first_name}")
+      expect(rendered).to have_css('.user-profile__details-list__item--title', text: 'Group name:')
+      expect(rendered).to have_css('.user-profile__details-list__item--value', text: user.first_name)
     end
   end
 
   it 'shows the description' do
-    expect(rendered).to have_css('p', text: "Bio:")
-    expect(rendered).to have_css('p', text: user.description)
+    expect(rendered).to have_css('.user-profile__details-list__item--title', text: 'Bio:')
+    expect(rendered).to have_css('.user-profile__details-list__item--value', text: user.description)
   end
 
   it 'shows the email' do
-    expect(rendered).to have_css('p', text: "Email: #{user.email}")
+    expect(rendered).to have_css('.user-profile__details-list__item--title', text: 'Email:')
+    expect(rendered).to have_css('.user-profile__details-list__item--value', text: user.email)
   end
 
   context "when the user has no links" do

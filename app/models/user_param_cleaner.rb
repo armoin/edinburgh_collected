@@ -19,6 +19,7 @@ class UserParamCleaner
       :remote_avatar_url,
       :moderation_reason,
       :hide_getting_started,
+      :account_will_be_deleted,
       links_attributes: [:id, :name, :url, :_destroy]
     )
   end

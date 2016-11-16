@@ -1,0 +1,63 @@
+<div class="user-profile">
+  <div class="user-profile__container col-sm-6">
+    <div class="user-profile__panel">
+      <div class="user-profile__avatar">
+        <%= image_tag user.avatar_url %>
+      </div>
+      <div class="user-profile__header">
+        <h1 class="user-profile__username">
+          <%= user.screen_name %>
+        </h1>
+        <% if show_actions %>
+          <div class="user-profile__actions">
+            <%= link_to 'Edit profile',
+                        my_profile_edit_path,
+                        class: 'button--new button--small button--primary' %>
+            <%= link_to 'Delete account',
+                        '#',
+                        class: 'button--new button--small button--danger',
+                        data: { toggle: 'modal', target: '#delete-account-modal' } %>
+            <% content_for :modals do %>
+              <%= render partial: 'my/profile/delete_account' %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <div class="user-profile__panel">
+      <div class="user-profile__details highlight_links">
+        <ul class="user-profile__details-list">
+          <li class="user-profile__details-list__item">
+            <div class="user-profile__details-list__item--title"><%= user_name_label(user) %>:</div>
+            <div class="user-profile__details-list__item--value"><%= user.first_name %></div>
+          </li>
+
+          <% unless user.is_group? %>
+            <li class="user-profile__details-list__item">
+              <div class="user-profile__details-list__item--title">Last name:</div>
+              <div class="user-profile__details-list__item--value"><%= user.last_name %></div>
+            </li>
+          <% end %>
+
+          <li class="user-profile__details-list__item">
+            <div class="user-profile__details-list__item--title">Email:</div>
+            <div class="user-profile__details-list__item--value"><%= user.email %></div>
+          </li>
+
+          <li class="user-profile__details-list__item">
+            <div class="user-profile__details-list__item--title">Bio:</div>
+            <div class="user-profile__details-list__item--value"><%= user.description %></div>
+          </li>
+
+          <li class="user-profile__details-list__item">
+            <div class="user-profile__details-list__item--title">Links:</div>
+            <%= render partial: 'users/links', locals: {requested_user: user} %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="user-profile__info col-sm-6">
+    <!-- left intentionally blank -->
+  </div>
+</div>

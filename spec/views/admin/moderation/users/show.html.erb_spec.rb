@@ -24,6 +24,10 @@ describe 'admin/moderation/users/show.html.erb' do
         expect(rendered).not_to have_link('Edit')
       end
 
+      it 'does not have a Delete link' do
+        expect(rendered).not_to have_link('Delete')
+      end
+
       describe 'admin actions' do
         context 'when the user is unmoderated' do
           let(:requested_user) { Fabricate.build(:unmoderated_user, id: 123) }

@@ -47,6 +47,10 @@ Fabricator(:blocked_user, from: :user) do
   moderation_state 'blocked'
 end
 
+Fabricator(:deleted_user, from: :user) do
+  moderation_state 'deleted'
+end
+
 def generate_password
   @pass ||= random_num(8)
 end

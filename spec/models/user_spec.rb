@@ -629,7 +629,7 @@ describe User do
   describe '#access_denied?' do
     subject { Fabricate.build(:active_user, moderation_state: moderation_state) }
 
-    context 'when user is not blocked' do
+    context 'when user is not blocked or deleted' do
       let(:moderation_state) { 'approved' }
 
       it 'is false' do
@@ -644,12 +644,94 @@ describe User do
         expect(subject.access_denied?).to be_truthy
       end
     end
+
+    context 'when the user is deleted' do
+      let(:moderation_state) { 'deleted' }
+
+      it 'is true' do
+        expect(subject.access_denied?).to be_truthy
+      end
+    end
   end
 
   describe '#access_denied_reason' do
-    it 'provides the access denied reason' do
-      expected = 'Your account has been blocked. Please contact us if you would like more information.'
-      expect(subject.access_denied_reason).to eql(expected)
+    subject { Fabricate.build(:active_user, moderation_state: moderation_state) }
+
+    context 'when the user has been blocked' do
+      let(:moderation_state) { 'blocked' }
+
+      it 'provides the access denied reason' do
+        expected = 'Your account has been blocked. Please contact us if you would like more information.'
+        expect(subject.access_denied_reason).to eql(expected)
+      end
+    end
+
+    context 'when the user has been deleted' do
+      let(:moderation_state) { 'deleted' }
+
+      it 'provides the access denied reason' do
+        expected = 'Your account has been deleted. Please contact us if this is an error.'
+        expect(subject.access_denied_reason).to eql(expected)
+      end
+    end
+  end
+
+  describe '#featured?' do
+    subject { Fabricate.build(:user, id: 123) }
+
+    before do
+      allow(HomePage).to receive(:published).and_return(published_home_pages)
+    end
+
+    context 'when there is no home_page' do
+      let(:published_home_pages) { [] }
+
+      it 'is false' do
+        expect(subject.featured?).to be false
+      end
+    end
+
+    context 'when there is a home_page' do
+      let(:home_page) { Fabricate.build(:home_page) }
+      let(:published_home_pages) { [home_page] }
+
+      let(:user_memory) { Fabricate.build(:photo_memory, user: subject) }
+      let(:user_scrapbook) { Fabricate.build(:scrapbook, user: subject) }
+
+      context 'and the user has no featured items' do
+        it 'is false' do
+          expect(subject.featured?).to be false
+        end
+      end
+
+      context 'and the user has a featured memory' do
+        before do
+          allow(home_page).to receive(:featured_memory).and_return(user_memory)
+        end
+
+        it 'is true' do
+          expect(subject.featured?).to be true
+        end
+      end
+
+      context 'and the user has a featured scrapbook' do
+        before do
+          allow(home_page).to receive(:featured_scrapbook).and_return(user_scrapbook)
+        end
+
+        it 'is true' do
+          expect(subject.featured?).to be true
+        end
+      end
+
+      context 'and the user has a memory in the featured scrapbook' do
+        it 'is true' do
+          user_sbm = Fabricate(:scrapbook_memory, memory: user_memory)
+          other_sbms = Fabricate.times(3, :scrapbook_memory)
+          home_page.featured_scrapbook_memory_ids = [user_sbm.id, other_sbms.map(&:id)].flatten.join(',')
+          expect(subject.featured?).to be true
+        end
+      end
     end
   end
 end

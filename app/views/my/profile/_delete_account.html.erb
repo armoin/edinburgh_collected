@@ -1,0 +1,34 @@
+<div class="modal fade" id="delete-account-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        <p>Deleting your account is a permanent action and cannot be reversed.</p>
+        <p>If you delete your account all the memories you’ve added and any scrapbooks you’ve created will also be deleted.</p>
+      </div>
+      <div class="modal-footer">
+        <div class="actions">
+          <%= form_tag my_profile_path, method: :delete, data: { delete_account_form: true } do %>
+            <div class="delete-account__check">
+              <%= hidden_field_tag 'user[account_will_be_deleted]', '' %>
+              <%= check_box_tag 'user[account_will_be_deleted]', 'understood', false, class: 'delete-account__check-box' %>
+              <%= label_tag 'user[account_will_be_deleted]', class: 'delete-account__check-label' do %>
+                I understand the consequences of deleting my account.
+              <% end %>
+            </div>
+            <%= submit_tag 'Delete account',
+               class: "button--new button--danger button--pull-right button--full-width-mobile"%>
+            <button
+               class="button--new button--default button--pull-left button--full-width-mobile"
+               data-dismiss="modal">
+              Cancel
+            </button>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

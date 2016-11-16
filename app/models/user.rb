@@ -76,11 +76,24 @@ class User < ActiveRecord::Base
   end
 
   def access_denied?
-    blocked?
+    blocked? || deleted?
   end
 
   def access_denied_reason
-    'Your account has been blocked. Please contact us if you would like more information.'
+    case moderation_state
+    when 'blocked'
+      'Your account has been blocked. Please contact us if you would like more information.'
+    when 'deleted'
+      'Your account has been deleted. Please contact us if this is an error.'
+    end
+  end
+
+  def featured?
+    home_page = HomePage.published.first
+    return false unless home_page
+    has_featured_memory_in?(home_page) ||
+      has_featured_scrapbook_in?(home_page) ||
+      has_memory_in_featured_scrapbook_of?(home_page)
   end
 
   private
@@ -97,5 +110,19 @@ class User < ActiveRecord::Base
   def send_activation
     send(:setup_activation)
     send(:send_activation_needed_email!)
+  end
+
+  def has_featured_memory_in?(home_page)
+    home_page.featured_memory.user_id == self.id
+  end
+
+  def has_featured_scrapbook_in?(home_page)
+    home_page.featured_scrapbook.user_id == self.id
+  end
+
+  def has_memory_in_featured_scrapbook_of?(home_page)
+    featured_scrapbook_memory_ids = home_page.featured_scrapbook_memory_ids.split(',')
+    featured_scrapbook_memories = ScrapbookMemory.where(id: featured_scrapbook_memory_ids)
+    featured_scrapbook_memories.any?{|sbm| sbm.memory.user_id == self.id}
   end
 end

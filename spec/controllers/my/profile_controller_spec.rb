@@ -153,5 +153,84 @@ describe My::ProfileController do
       end
     end
   end
+
+  describe 'DELETE destroy' do
+    describe 'ensure user is logged in' do
+      before :each do
+        delete :destroy, format: format
+      end
+
+      it_behaves_like 'requires logged in user'
+    end
+
+    context 'when logged in' do
+      let(:featured) { false }
+
+      before :each do
+        @user = Fabricate.build(:user, id: 123)
+        login_user
+        allow(@user).to receive(:mark_deleted!)
+        allow(@user).to receive(:featured?).and_return(featured)
+        delete :destroy, user: user_params
+      end
+
+      context 'when user has not ticked the understood option' do
+        let(:user_params) { { account_will_be_deleted: '' } }
+
+        it 'renders the profile page again' do
+          expect(response).to render_template(:show)
+        end
+
+        it 'shows an alert explaining to the user that the need to click the understood box' do
+          expected_message = "We couldn't delete your account because you didn't click the understood box"
+          expect(flash[:alert]).to eql(expected_message)
+        end
+      end
+
+      context 'when user has ticked the understood option' do
+        let(:user_params) { { account_will_be_deleted: 'understood' } }
+
+        it 'assigns the current user' do
+          expect(assigns[:user]).to eql(@user)
+        end
+
+        context 'when the current user is not featured' do
+          let(:featured) { false }
+
+          it 'marks the current user as deleted' do
+            expect(@user).to have_received(:mark_deleted!).with(@user)
+          end
+
+          it 'redirects to the root page' do
+            expect(response).to redirect_to(:root)
+          end
+        end
+
+        context 'when the current user is featured' do
+          let(:featured) { true }
+
+          it 'does not mark the current user as deleted' do
+            expect(@user).not_to have_received(:mark_deleted!)
+          end
+
+          it 're-renders the profile page' do
+            expect(response).to render_template(:show)
+          end
+
+          it 'displays a flash message' do
+            expect(flash[:alert]).to eql(%Q[
+          Sorry, but one of your memories or scrapbooks is currently featured
+          on the #{APP_NAME} home page.
+          <br />
+          <br />
+          Please contact us at
+          <a href="mailto:#{CONTACT_EMAIL}">#{CONTACT_EMAIL}</a>
+          to delete your account.
+        ])
+          end
+        end
+      end
+    end
+  end
 end
 

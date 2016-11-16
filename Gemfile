@@ -34,6 +34,7 @@ gem 'sentry-raven',                 '~> 0.15.4'
 gem 'sorcery',                      '~> 0.9.0'
 gem 'uglifier',                     '~> 3.0.0'
 gem 'validate_url',                 '~> 1.0.2'
+gem 'whenever',                     '~> 0.9.7', require: false
 
 group :doc do
   gem 'sdoc',                       '~> 0.4.1'
