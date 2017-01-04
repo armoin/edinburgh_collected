@@ -135,7 +135,11 @@ Now run the seeds as mentioned below.
 
 ### Changing the application to run in a different location
 
-Whilst this application is called Edinburgh Collected, it should be possible to run it as `<YOUR CITY>` Collected. You can change the majority of the application by altering the details in `config/initializers/app_settings.rb`. If you have any questions or issues around this, please raise an issue on this main repository.
+Whilst this application is called Edinburgh Collected, it should be possible to run it as `<YOUR CITY>` Collected. You can change the majority of the application by altering the details in `config/initializers/app_settings.rb`.
+
+You will also need to supply your own versions of the various static pages kept in `app/views/static`.
+
+If you have any questions or issues around this, please raise an issue on this main repository.
 
 
 ### Mailcatcher
