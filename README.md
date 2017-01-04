@@ -19,13 +19,13 @@ We are currently using **2.3.0**. If you don't want to upgrade your whole system
 
 ```bash
 # install rvm and correct version of ruby
-sudo curl -L https://get.rvm.io | bash -s stable --ruby=2.1.5
+sudo curl -L https://get.rvm.io | bash -s stable --ruby=2.3.0
 
 # start rvm in any open shells (will happen automatically in any new shells from now on)
 sudo source ~/.rvm/scripts/rvm
 
 # [OPTIONAL] set the installed version to be the system default
-rvm use 2.1.5 --default
+rvm use 2.3.0 --default
 ```
 
 ### ImageMagick
@@ -135,7 +135,7 @@ Now run the seeds as mentioned below.
 
 ### Changing the application to run in a different location
 
-Whilst this application is called Edinburgh Collected, it should be possible to run it as <YOUR CITY> Collected. You can change the majority of the application by altering the details in `config/initializers/app_settings.rb`. If you have any questions or issues around this, please raise an issue on this main repository.
+Whilst this application is called Edinburgh Collected, it should be possible to run it as `<YOUR CITY>` Collected. You can change the majority of the application by altering the details in `config/initializers/app_settings.rb`. If you have any questions or issues around this, please raise an issue on this main repository.
 
 
 ### Mailcatcher
@@ -154,6 +154,17 @@ mailcatcher --smtp-port 1035
 open http://localhost:1080
 ```
 
+### PhantomJS
+
+In order to run feature tests that rely on JavaScript being enabled you'll need to install PhantomJS. You should be able to get this from your operating system's package manager.
+
+```
+# using homebrew
+brew install phantomjs
+```
+
+Failing that, check the [PhantomJS download page](http://phantomjs.org/download.html).
+
 
 ## Running
 
@@ -168,4 +179,3 @@ rails s
 ```
 
 Once a server is running you can point your favourite browser to [http://localhost:3000](http://localhost:3000).
-
