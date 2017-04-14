@@ -30,7 +30,6 @@ gem 'pg_search',                    '~> 0.7.8'
 gem 'possessive',                   '~> 1.0.1'
 gem 'responders',                   '~> 2.1.2'
 gem 'sass-rails',                   '~> 4.0.4'
-gem 'sentry-raven',                 '~> 0.15.4'
 gem 'sorcery',                      '~> 0.9.0'
 gem 'uglifier',                     '~> 3.0.0'
 gem 'validate_url',                 '~> 1.0.2'
@@ -73,4 +72,3 @@ group :production do
   gem 'passenger',                  '5.0.26'
   gem 'therubyracer',               '~> 0.12.1'
 end
-

@@ -80,9 +80,3 @@ DISQUS_SHORTNAME: <your DISQUS_SHORTNAME here>
 #
 NEW_RELIC_LICENSE_KEY: ''
 NEW_RELIC_LOG:         ''
-
-##
-# SENTRY DETAILS
-# The details needed if you want to run Sentry exception reporting for this environment (getsentry.io).
-#
-SENTRY_DSN: ''
